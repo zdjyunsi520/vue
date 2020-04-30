@@ -65,6 +65,19 @@ export const constantRoutes = [{
             meta: { title: "首页", icon: "dashboard", noCache: true, affix: true }
         }]
     }
+    ,
+    {
+        path: "",
+        component: Layout,
+        redirect: "index",
+        children: [{
+            path: "index1",
+            component: () =>
+                import ("@/views/system/user/index"),
+            name: "用户管理",
+            meta: { title: "用户管理", icon: "dashboard", noCache: true, affix: true }
+        }]
+    }
 ];
 const createRouter = () => {
     const router = new Router({
