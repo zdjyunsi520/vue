@@ -86,4 +86,26 @@ service.interceptors.response.use(
   }
 );
 
+export function get(url, params) {
+  return service({ url, method: "get", params });
+}
+
+export function post(url, params) {
+  return service({ url, method: "post", params });
+}
+export function postJSON(url, data) {
+  return service({ url, method: "post", data });
+}
+
+export function put(url, params) {
+  return service({ url, method: "put", params });
+}
+export function putJSON(url, data) {
+  return service({ url, method: "put", data });
+}
+
+export function deleted(url, params) {
+  return service({ url, method: "delete", params });
+}
+
 export default service;
