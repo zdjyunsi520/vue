@@ -51,8 +51,8 @@ export default {
             codeUrl: "",
             cookiePassword: "",
             loginForm: {
-                username: "",
-                password: "",
+                username: "admin",
+                password: "admin123456",
                 rememberMe: false,
                 code: "",
                 uuid: ""
