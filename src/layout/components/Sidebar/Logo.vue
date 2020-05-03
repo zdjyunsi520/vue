@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-     // title: '运营管理系统'
+     // title: '智能运维云平台操作后台'
       // logo: 'https://img-taojingtao.oss-cn-shenzhen.aliyuncs.com/'
     };
   },
@@ -39,7 +39,7 @@ export default {
       return this.path + (this.user.deptLogo||'mer/task/1576839114202.2456.png');
     },
     title(){
-      return this.user.deptName || '运营管理系统'
+      return this.user.deptName || '智能运维云平台操作后台'
     }
   }
 };
