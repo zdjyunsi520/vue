@@ -65,40 +65,23 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: "",
-    component: Layout,
-    redirect: "index",
-    children: [
-      {
-        path: "index1",
-        component: () => import("@/views/system/user/index"),
-        name: "用户管理",
-        meta: {
-          title: "用户管理",
-          icon: "dashboard",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
+
   {
     path: "commonManager",
     component: Layout,
     meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: true },
     children: [
-      {
-        path: "/module",
-        component: () => import("@/views/commonManager/module/index"),
-        name: "模块管理",
-        meta: {
-          title: "模块管理",
-          icon: "dashboard",
-          noCache: true,
-          affix: true
-        }
-      },
+      // {
+      //   path: "/module",
+      //   component: () => import("@/views/commonManager/module/index"),
+      //   name: "模块管理",
+      //   meta: {
+      //     title: "模块管理",
+      //     icon: "dashboard",
+      //     noCache: true,
+      //     affix: true
+      //   }
+      // },
       {
         path: "/role",
         component: () => import("@/views/commonManager/role/index"),
