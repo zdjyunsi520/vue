@@ -25,75 +25,120 @@ import Layout from "@/layout";
  */
 
 // 公共路由
-export const constantRoutes = [{
-        path: "/redirect",
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: "/redirect/:path*",
-            component: () =>
-                import ("@/views/redirect")
-        }]
-    },
-    {
-        path: "/login",
-        component: () =>
-            import ("@/views/login"),
-        hidden: true
-    },
-    {
-        path: "/404",
-        component: () =>
-            import ("@/views/error/404"),
-        hidden: true
-    },
-    {
-        path: "/401",
-        component: () =>
-            import ("@/views/error/401"),
-        hidden: true
-    },
-    {
-        path: "",
-        component: Layout,
-        redirect: "index",
-        children: [{
-            path: "index",
-            component: () =>
-                import ("@/views/index"),
-            name: "首页",
-            meta: { title: "首页", icon: "dashboard", noCache: true, affix: true }
-        }]
-    }
-    ,
-    {
-        path: "",
-        component: Layout,
-        redirect: "index",
-        children: [{
-            path: "index1",
-            component: () =>
-                import ("@/views/system/user/index"),
-            name: "用户管理",
-            meta: { title: "用户管理", icon: "dashboard", noCache: true, affix: true }
-        }]
-    }
+export const constantRoutes = [
+  {
+    path: "/redirect",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "/redirect/:path*",
+        component: () => import("@/views/redirect")
+      }
+    ]
+  },
+  {
+    path: "/login",
+    component: () => import("@/views/login"),
+    hidden: true
+  },
+  {
+    path: "/404",
+    component: () => import("@/views/error/404"),
+    hidden: true
+  },
+  {
+    path: "/401",
+    component: () => import("@/views/error/401"),
+    hidden: true
+  },
+  {
+    path: "",
+    component: Layout,
+    redirect: "index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/index"),
+        name: "首页",
+        meta: { title: "首页", icon: "dashboard", noCache: true, affix: true }
+      }
+    ]
+  },
+  {
+    path: "",
+    component: Layout,
+    redirect: "index",
+    children: [
+      {
+        path: "index1",
+        component: () => import("@/views/system/user/index"),
+        name: "用户管理",
+        meta: {
+          title: "用户管理",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "commonManager",
+    component: Layout,
+    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: true },
+    children: [
+      {
+        path: "/module",
+        component: () => import("@/views/commonManager/module/index"),
+        name: "模块管理",
+        meta: {
+          title: "模块管理",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: "/role",
+        component: () => import("@/views/commonManager/role/index"),
+        name: "角色管理",
+        meta: {
+          title: "角色管理",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: "/user",
+        component: () => import("@/views/commonManager/user/index"),
+        name: "用户信息",
+        meta: {
+          title: "用户信息",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  }
 ];
 const createRouter = () => {
-    const router = new Router({
-        scrollBehavior: () => ({ y: 0 }),
-        routes: constantRoutes
-    });
-    router.onError(error => {
-        const pattern = /Loading .* chunk .* failed/g
-        const isChunkLoadFailed = error.message.match(pattern);
-        const targetPath = router.history.pending.fullPath;
-        if (isChunkLoadFailed) {
-            router.replace(targetPath);
-        }
-    })
-    return router;
-}
+  const router = new Router({
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  });
+  router.onError(error => {
+    const pattern = /Loading .* chunk .* failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
+    const targetPath = router.history.pending.fullPath;
+    if (isChunkLoadFailed) {
+      router.replace(targetPath);
+    }
+  });
+  return router;
+};
 const router = createRouter();
 
 export default router;
