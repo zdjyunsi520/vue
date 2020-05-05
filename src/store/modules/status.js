@@ -14,6 +14,14 @@ const state = {
   Identity_audit_refuse_remarksType: null,
   sys_bank_nameType: null,
   sys_bank_nameKV: null,
+  equipmentType: [
+    { key: 0, value: "通讯主机" },
+    { key: 1, value: "电力表计" },
+    { key: 2, value: "温控" },
+    { key: 3, value: "烟感" },
+    { key: 4, value: "摄像头" }
+  ],
+  equipmentKV: null,
   rechargeType: [
     { key: 0, value: "待审核" },
     { key: 1, value: "初审通过" },
@@ -48,15 +56,9 @@ const state = {
     { key: 4, value: "已撤回" }
   ],
   simpleRechargeKV: null,
-  moneyType: [
-    { key: 1, value: "本金" },
-    { key: 2, value: "佣金" }
-  ],
+  moneyType: [{ key: 1, value: "本金" }, { key: 2, value: "佣金" }],
   moneyKV: null,
-  disableType: [
-    { key: 0, value: "正常" },
-    { key: 1, value: "禁用" }
-  ],
+  disableType: [{ key: 0, value: "正常" }, { key: 1, value: "禁用" }],
   disableKV: null,
   accountType: [
     { key: 0, value: "待审核" },
@@ -364,6 +366,11 @@ const getters = {
     state.addEvaluationKV ||
       (state.addEvaluationKV = reduceKV(state.addEvaluationType));
     return state.addEvaluationKV;
+  },
+  equipmentType: state => state.equipmentType,
+  equipmentKV: state => {
+    state.equipmentKV || (state.equipmentKV = reduceKV(state.equipmentType));
+    return state.equipmentKV;
   }
 };
 
