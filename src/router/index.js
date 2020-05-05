@@ -61,7 +61,7 @@ export const constantRoutes = [
         path: "index",
         component: () => import("@/views/index"),
         name: "首页",
-        meta: { title: "首页", icon: "dashboard", noCache: true, affix: true }
+        meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
       }
     ]
   },
@@ -69,7 +69,7 @@ export const constantRoutes = [
   {
     path: "commonManager",
     component: Layout,
-    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: true },
+    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       // {
       //   path: "/module",
@@ -90,7 +90,7 @@ export const constantRoutes = [
           title: "角色管理",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -101,7 +101,7 @@ export const constantRoutes = [
           title: "用户信息",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -112,7 +112,7 @@ export const constantRoutes = [
           title: "设备资产",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -123,7 +123,7 @@ export const constantRoutes = [
           title: "地区管理",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       }
     ]
