@@ -2,12 +2,14 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">{{ title }} </h1>
+        <!-- <img v-if="logo" :src="logo" class="sidebar-logo">
+        <h1 v-else class="sidebar-title">{{ title }} </h1> -->
+        <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">{{ title }} </h1>
+        <!-- <img v-if="logo" :src="logo" class="sidebar-logo">
+        <h1 v-else class="sidebar-title">{{ title }} </h1> -->
+        <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
     </transition>
   </div>
@@ -26,21 +28,21 @@ export default {
   },
   data() {
     return {
-     // title: '智能运维云平台操作后台'
+      title: '迅腾电力'
       // logo: 'https://img-taojingtao.oss-cn-shenzhen.aliyuncs.com/'
     };
   },
   computed: {
     ...mapGetters({ path: 'imgOSS/path' }),
     ...mapState(['user']),
-    logo() {
-       const path = this.user.deptLogo?(this.path+this.user.deptLogo):''
-      return path
-      return this.path + (this.user.deptLogo||'mer/task/1576839114202.2456.png');
-    },
-    title(){
-      return this.user.deptName || '智能运维云平台操作后台'
-    }
+    // logo() {
+    //    const path = this.user.deptLogo?(this.path+this.user.deptLogo):''
+    //   return path
+    //   return this.path + (this.user.deptLogo||'mer/task/1576839114202.2456.png');
+    // },
+    // title(){
+    //   return this.user.deptName || '迅腾电力'
+    // }
   }
 };
 </script>
