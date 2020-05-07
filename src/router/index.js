@@ -61,15 +61,118 @@ export const constantRoutes = [
         path: "index",
         component: () => import("@/views/index"),
         name: "首页",
-        meta: { title: "首页", icon: "dashboard", noCache: true, affix: true }
+        meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
       }
     ]
   },
-
+  
+  {
+    path: "generalSituation",
+    component: Layout,
+    meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
+    children: [
+      {
+        path: "/baseData",
+        component: () => import("@/views/generalSituation/base/index"),
+        name: "基本概况",
+        meta: {
+          title: "基本概况",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/largeData",
+        component: () => import("@/views/generalSituation/large/index"),
+        name: "大屏展示",
+        meta: {
+          title: "大屏展示",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/userLargeData",
+        component: () => import("@/views/generalSituation/userLarge/index"),
+        name: "用户大屏",
+        meta: {
+          title: "用户大屏",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+    ]
+  },
+  // PatrolJob
+  {
+    path: "patrol",
+    component: Layout,
+    meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
+    children: [
+      {
+        path: "/PatrolCycle",
+        component: () => import("@/views/patrol/PatrolCycle/index"),
+        name: "巡视周期设置",
+        meta: {
+          title: "巡视周期设置",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/PatrolJob",
+        component: () => import("@/views/patrol/PatrolJob/index"),
+        name: "巡视任务单",
+        meta: {
+          title: "巡视任务单",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/PatrolReport",
+        component: () => import("@/views/patrol/PatrolReport/index"),
+        name: "巡视报告",
+        meta: {
+          title: "巡视报告",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/PatrolPersonnel",
+        component: () => import("@/views/patrol/PatrolPersonnel/index"),
+        name: "人员巡视统计",
+        meta: {
+          title: "人员巡视统计",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/PatrolUnit",
+        component: () => import("@/views/patrol/PatrolUnit/index"),
+        name: "单位巡视统计",
+        meta: {
+          title: "单位巡视统计",
+          icon: "dashboard",
+          noCache: true,
+          affix: false
+        }
+      },
+    ]
+  },
   {
     path: "commonManager",
     component: Layout,
-    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: true },
+    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       // {
       //   path: "/module",
@@ -90,7 +193,7 @@ export const constantRoutes = [
           title: "角色管理",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -101,7 +204,7 @@ export const constantRoutes = [
           title: "用户信息",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -112,7 +215,7 @@ export const constantRoutes = [
           title: "设备资产",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
@@ -123,7 +226,7 @@ export const constantRoutes = [
           title: "地区管理",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       }
     ]
