@@ -4,15 +4,15 @@ const commonUrl = "common";
 export function fetchList(data) {
   return post("/Role/Gets", data, commonUrl);
 }
-// 添加用户
+// 获取用户权限
 export function getInfo(data) {
   return post("/Role/Get", data, commonUrl);
 }
-// 修改用户
+// 修改角色
 export function update(data) {
   return post("/Role/Modify", data, commonUrl);
 }
-// 修改用户
-export function password(data) {
-  return post("/User/ModifyForPassword", data, commonUrl);
+// 新增角色
+export function add(data) {
+  return post("/Role/Create", data, commonUrl);
 }

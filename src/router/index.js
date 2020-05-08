@@ -103,50 +103,50 @@ export const constantRoutes = [
           noCache: true,
           affix: false
         }
-      },
-      {
-        path: "/equipment",
-        component: () => import("@/views/commonManager/equipment/index"),
-        name: "设备资产",
-        meta: {
-          title: "设备资产",
-          icon: "dashboard",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/area123",
-        component: () => import("@/views/commonManager/area/index"),
-        name: "地区管理",
-        meta: {
-          title: "地区管理",
-          icon: "dashboard",
-          noCache: true,
-          affix: false
-        }
       }
-    ]
-  },
-
-  {
-    path: "systemManager",
-    component: Layout,
-    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/module",
-        component: () => import("@/views/systemManager/organization/index"),
-        name: "组织机构",
-        meta: {
-          title: "组织机构",
-          icon: "dashboard",
-          noCache: true,
-          affix: true
-        }
-      }
+      // {
+      //   path: "/equipment",
+      //   component: () => import("@/views/commonManager/equipment/index"),
+      //   name: "设备资产",
+      //   meta: {
+      //     title: "设备资产",
+      //     icon: "dashboard",
+      //     noCache: true,
+      //     affix: false
+      //   }
+      // },
+      // {
+      //   path: "/area123",
+      //   component: () => import("@/views/commonManager/area/index"),
+      //   name: "地区管理",
+      //   meta: {
+      //     title: "地区管理",
+      //     icon: "dashboard",
+      //     noCache: true,
+      //     affix: false
+      //   }
+      // }
     ]
   }
+
+  // {
+  //   path: "systemManager",
+  //   component: Layout,
+  //   meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+  //   children: [
+  //     {
+  //       path: "/module",
+  //       component: () => import("@/views/systemManager/organization/index"),
+  //       name: "组织机构",
+  //       meta: {
+  //         title: "组织机构",
+  //         icon: "dashboard",
+  //         noCache: true,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // }
 ];
 const createRouter = () => {
   const router = new Router({

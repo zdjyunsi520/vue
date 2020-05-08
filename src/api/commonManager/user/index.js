@@ -20,7 +20,7 @@ export function password(data) {
 export function getRole(data) {
   return post("/User/GetPower", data, commonUrl);
 }
-//获取权限
+//设置权限
 export function updateRole(data) {
   return post("/User/SetPower", data, commonUrl);
 }
