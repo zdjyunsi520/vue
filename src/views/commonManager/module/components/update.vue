@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title+typeText" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
@@ -13,17 +13,17 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" :disabled="true" />
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="权限标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入姓名" auto-complete="off" />
+            <el-input v-model="form.key" placeholder="请输入姓名" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="url" prop="url">
-            <el-input v-model="form.url" placeholder="请输入手机号" maxlength="11" />
+            <el-input v-model="form.url" placeholder="请输入手机号" />
           </el-form-item>
         </el-col>
         <el-form-item label="排序号" prop="sortindex">
@@ -99,22 +99,40 @@ export default {
     };
   },
   created() {},
+  computed: {
+    typeText() {
+      return this.form.type == 1
+        ? "分类"
+        : this.form.type == 2
+        ? "应用"
+        : this.form.type == 3
+        ? "权限"
+        : "";
+    }
+  },
   methods: {
     getInfo(data) {
       this.loading = true;
-      const id = data.id;
-      if (id)
-        getInfo({ id })
-          .then(res => {
-            console.log(res.data);
-            const o = {};
-            for (let key in res.data) {
-              o[key.toLowerCase()] = res.data[key];
-            }
-            this.reset(o);
-          })
-          .finally(v => (this.loading = false));
-      else {
+      if (data) {
+        const id = data.id;
+        const parentId = data.parentId;
+        if (id) {
+          getInfo({ id })
+            .then(res => {
+              const o = {};
+              for (let key in res.data) {
+                o[key.toLowerCase()] = res.data[key];
+              }
+              o.parentId = res.data.ParentId;
+              this.reset(o);
+            })
+            .finally(v => (this.loading = false));
+        } else if (parentId) {
+          this.loading = false;
+          data.parentId = parentId;
+          this.reset(data);
+        }
+      } else {
         this.loading = false;
         this.reset(data);
       }
