@@ -1,6 +1,6 @@
 
 <template>
-  <div class="app-container">
+  <div class="app-container ">
     <el-row :gutter="10">
         <div>头部</div>
     </el-row>

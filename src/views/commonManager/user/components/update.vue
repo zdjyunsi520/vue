@@ -80,7 +80,9 @@ export default {
       }
       //表单重置
       this.reset(data);
-      this.$refs.form.clearValidate();
+      this.$nextTick(()=>{
+          this.$refs.form.clearValidate();
+      })
     },
     /** 提交按钮 */
     handleSubmit: function() {

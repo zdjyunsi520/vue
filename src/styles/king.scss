@@ -24,9 +24,10 @@
  .app-container {
      height: 100%;
      background: #f5f5f5;
-     >.el-row {
-         height: 100%;
-     }
+ }
+ 
+ .wrapperbox>.el-row {
+     height: 100%;
  }
  
  .treebox {

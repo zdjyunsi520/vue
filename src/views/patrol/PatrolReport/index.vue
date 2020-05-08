@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-form :inline="true"  size="mini" style="padding:20px 20px 0">
+  <div class="app-container">
+    <el-form :inline="true"  size="mini" >
       <el-form-item label="巡视单位">
         <el-select v-model="searchForm.tenantId" placeholder="请选择" style="max-width:200px" >
           <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.text" :value="item.id"></el-option>
@@ -31,7 +31,7 @@
         <el-table-column label="巡视人员"  min-width="140"sortable align='center' prop="PatrolUserName"></el-table-column>
         <el-table-column label="确认人" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
         <el-table-column label="报告时间"  min-width="140" sortable align='center' prop=""></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180" align="center">
+        <el-table-column  label="操作" width="180" align="center">
           <template slot-scope="scope">
             <div> 
                 <el-button type="primary" plain size="mini" @click="toShowReport(scope.row)" >查看报告</el-button>

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
         <el-tab-pane label="按巡视性质统计" name="1"></el-tab-pane>
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
     </el-tabs>
     
-    <el-form :inline="true"  size="mini" style="padding:20px 20px 0">
+    <el-form :inline="true"  size="mini" >
       <el-form-item label="巡视单位">
         <el-select v-model="searchForm.tenantId" placeholder="请选择" style="max-width:200px" >
           <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.name" :value="item.id"></el-option>

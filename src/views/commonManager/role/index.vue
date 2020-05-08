@@ -1,11 +1,12 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+     <el-form :inline="true">
+      <el-form-item>
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-      </el-col>
-    </el-row>
-    <el-table v-loading="listLoading" :data="dataList" border>
+       </el-form-item>
+    </el-form>
+
+    <el-table v-loading="listLoading" :data="dataList" border class="commtable">
       <el-table-column label="角色名称" align="center" prop="Name" :show-overflow-tooltip="true" />
       <el-table-column label="权限字符" align="center" prop="Key" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -84,3 +85,6 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.commtable .el-table__header th{padding:8px 0 !important;}
+</style>

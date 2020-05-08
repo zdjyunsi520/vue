@@ -9,7 +9,27 @@
         <!-- <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button> -->
       </el-form-item>
     </el-form>
-    <div class="xl-left">
+
+    <el-row :gutter="10">
+      <el-col :xs="{span: 24}" :span="6" class="treebox">
+        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="18">
+          <div class="bg-white comheight ">
+              <div v-show="data&&data.Id" class="infobox">
+                <p>类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
+                <p>名称：{{data.Name}}</p>
+                <p>权限标识：{{data.Key}}</p>
+                <p>URL：{{data.Url}}</p>
+                <p>排序号：{{data.SortIndex}}</p>
+                <p v-if="data.IconUrl">图标：
+                  <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
+                </p>
+              </div>
+          </div>
+      </el-col>
+    </el-row>
+    <!-- <div class="xl-left">
       <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
     </div>
     <div class="xl-right">
@@ -23,7 +43,7 @@
           <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
         </el-col>
       </el-row>
-    </div>
+    </div> -->
     <update ref="update" @getList="getList123"></update>
     <add ref="add" @getList="getList123"></add>
   </div>
@@ -37,7 +57,7 @@ import { fetchList, getInfo } from "@/api/commonManager/module";
 import update from "./components/update";
 import add from "./components/add";
 export default {
-  name: "菜单管理",
+  name: "components",
   components: { update, add },
   data() {
     return {
@@ -171,5 +191,9 @@ export default {
 .xl-right {
   width: 100%;
   margin-left: 300px;
+}
+.comheight{height:calc(100vh - 184px)}
+.infobox{line-height: 1.5;padding: 15px 20px;
+  p{text-align: left;font-size: 14px;color: #333;}
 }
 </style>

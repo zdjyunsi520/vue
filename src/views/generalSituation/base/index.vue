@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container wrapperbox">
     <el-row :gutter="10">
       <el-col :xs="{span: 24}" :span="4" class="treebox">
         <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
