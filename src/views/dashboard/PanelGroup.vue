@@ -13,7 +13,7 @@
         </div>
       </div>
     </el-col>
-      <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/buyer/account/all')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
@@ -26,7 +26,7 @@
         </div>
       </div>
     </el-col>
-      <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/buyer/info/review')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
@@ -39,7 +39,7 @@
         </div>
       </div>
     </el-col>
-        <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/m/recharge')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -52,7 +52,7 @@
         </div>
       </div>
     </el-col>
-        <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/w/cashOut/seller')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -65,7 +65,7 @@
         </div>
       </div>
     </el-col>
-        <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/w/cashOut/buyer')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -91,7 +91,7 @@
         </div>
       </div>
     </el-col>
-      <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/complain/buyer')">
         <div class="card-panel-icon-wrapper icon-message">
           <svg-icon icon-class="message" class-name="card-panel-icon" />
@@ -104,7 +104,7 @@
         </div>
       </div>
     </el-col>
-      <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/f/index')">
         <div class="card-panel-icon-wrapper icon-message">
           <svg-icon icon-class="message" class-name="card-panel-icon" />
@@ -117,7 +117,7 @@
         </div>
       </div>
     </el-col>
-   <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/w/cashOut/popular')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -130,7 +130,7 @@
         </div>
       </div>
     </el-col>
-       <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('/w/cashOut/station')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -144,57 +144,52 @@
       </div>
     </el-col>
 
-
-
-
-
-
   </el-row>
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
-import {fetchTotalCount} from '@/api/common'
-import {mapState,mapActions} from 'vuex'
+import CountTo from "vue-count-to";
+import { fetchTotalCount } from "@/api/common";
+import { mapState, mapActions } from "vuex";
 export default {
-  data(){
-    return {
-
-    }
+  data() {
+    return {};
   },
   components: {
     CountTo
   },
-  created(){
-    this.handleRefresh()
+  created() {
+    //this.handleRefresh()
   },
-    computed:{
-            ...mapState(['common']),
-            bBuyerAccountInfo(){
-                return this.common.count.bBindPddAccountInfo+this.common.count.bBindTbAccountInfo+this.common.count.bBindJdAccountInfo
-            }
-        },
+  computed: {
+    ...mapState(["common"]),
+    bBuyerAccountInfo() {
+      return (
+        this.common.count.bBindPddAccountInfo +
+        this.common.count.bBindTbAccountInfo +
+        this.common.count.bBindJdAccountInfo
+      );
+    }
+  },
   methods: {
-    ...mapActions({reflash:'common/refresh'}),
-            handleRefresh(){
-                this.reflash()
-            },
+    ...mapActions({ reflash: "common/refresh" }),
+    handleRefresh() {
+      this.reflash();
+    },
     handleSetLineChartData(type) {
-      if(type=='/buyer/account/all'){
-                     if(this.common.count.bBindTbAccountInfo>0){
-                        type='/buyer/account/tb'
-                    }
-                    else if(this.common.count.bBindJdAccountInfo>0){
-                        type='/buyer/account/jd'
-                    }
-                    else if(this.common.count.bBindPddAccountInfo>0){
-                        type='/buyer/account/pdd'
-                    }
-                }
-      this.$router.push({path:type,params:{dt:Math.random()}})
+      if (type == "/buyer/account/all") {
+        if (this.common.count.bBindTbAccountInfo > 0) {
+          type = "/buyer/account/tb";
+        } else if (this.common.count.bBindJdAccountInfo > 0) {
+          type = "/buyer/account/jd";
+        } else if (this.common.count.bBindPddAccountInfo > 0) {
+          type = "/buyer/account/pdd";
+        }
+      }
+      this.$router.push({ path: type, params: { dt: Math.random() } });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -213,8 +208,8 @@ export default {
     overflow: hidden;
     color: #666;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
 
     &:hover {
       .card-panel-icon-wrapper {
@@ -234,7 +229,7 @@ export default {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #34bfa3;
       }
     }
 
@@ -251,7 +246,7 @@ export default {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
@@ -287,7 +282,7 @@ export default {
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }
