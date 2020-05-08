@@ -12,6 +12,7 @@ const whiteList = ["/login", "/auth-redirect", "/bind", "/register"];
 router.beforeEach((to, from, next) => {
   NProgress.start();
   // document.title = getPageTitle(to.meta.title, store.getters.title);
+  console.log(getToken());
   if (getToken()) {
     /* has token*/
     if (to.path === "/login") {
@@ -26,6 +27,7 @@ router.beforeEach((to, from, next) => {
             //拉取user_info
             console.log("permissionRes", res);
             const roles = res.roles;
+            res.data = [];
             store.dispatch("GenerateRoutes", res).then(accessRoutes => {
               // 测试 默认静态页面
               //   store

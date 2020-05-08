@@ -39,10 +39,6 @@ import {
   updateRole as update,
   getRole as getInfo
 } from "@/api/commonManager/user";
-import {
-  treeselect as menuTreeselect,
-  roleMenuTreeselect
-} from "@/api/system/menu";
 export default {
   data() {
     const rules = {
@@ -90,9 +86,7 @@ export default {
       moduleList: []
     };
   },
-  created() {
-    this.getMenuTreeselect();
-  },
+  created() {},
   methods: {
     getInfo(data) {
       this.loading = true;
@@ -119,12 +113,6 @@ export default {
         this.loading = false;
       }
       this.reset(data);
-    },
-    /** 查询菜单树结构 */
-    getMenuTreeselect() {
-      menuTreeselect().then(response => {
-        this.menuOptions = response.data;
-      });
     },
     // 表单重置
     reset(data) {

@@ -6,8 +6,7 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
           <div class="bg-white">
-asss
-
+              
           </div>
       </el-col>
     </el-row>
