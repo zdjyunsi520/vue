@@ -517,11 +517,6 @@ export default {
   background: #f5f5f5;
   font-size: 14px;
 }
-.bg-white {
-  background: #fff;
-  border-radius: 3px;
-  margin-bottom: 10px;
-}
 .el-tree {
   border-radius: 3px;
   margin-bottom: 10px;

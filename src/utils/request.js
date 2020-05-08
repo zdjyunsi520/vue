@@ -36,10 +36,12 @@ const service = axios.create({
 });
 // request拦截器
 service.interceptors.request.use(
-    config => {
-        if (getToken()) {
-            config.headers["Authorization"] = "Bearer " + getToken(); // 让每个请求携带自定义token
-        }
+  config => {
+    if (getToken()) {
+      //config.headers["Token"] = getToken(); // 让每个请求携带自定义token
+      // config.headers["version"] = "1.0";
+      // config.headers["fromurl"] = "system";
+    }
 
         return config;
     },
@@ -91,11 +93,24 @@ export function get(url, params) {
     return service({ url, method: "get", params });
 }
 
-export function post(url, params) {
-    return service({ url, method: "post", params });
+export function post(url, params, baseUrl) {
+  if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
+  const token = getToken();
+  if (token) {
+    params.Token = token;
+  }
+  return service({ url, method: "post", params });
 }
-export function postJSON(url, data) {
-    return service({ url, method: "post", data });
+export function post1(url, data, baseUrl) {
+  if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
+  const token = getToken();
+  if (token) {
+    data.Token = token;
+    data.version = "1.0";
+    data.fromurl = "system";
+  }
+
+  return service({ url, method: "post", data });
 }
 
 export function put(url, params) {

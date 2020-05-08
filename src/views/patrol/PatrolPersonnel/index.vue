@@ -8,28 +8,30 @@
     
     <el-form :inline="true"  size="mini" style="padding:20px 20px 0">
       <el-form-item label="巡视单位">
-        <el-select v-model="searchForm.tenantid" placeholder="请选择" style="max-width:200px" >
-          <el-option v-for="(item,index) in tenantids" :key="index" :label="item.name" :value="item.id"></el-option>
+        <el-select v-model="searchForm.tenantId" placeholder="请选择" style="max-width:200px" >
+          <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="巡视人员">
-        <el-input v-model="searchForm.patrolusername"  style="max-width:240px" ></el-input>
-      </el-form-item>
-      <el-form-item label="年度">
+      <el-form-item label="年度" v-show="activeName=='0'">
           <el-date-picker v-model="searchForm.patrolYear" type="year" placeholder="请选择年" value-format="timestamp"> </el-date-picker>
       </el-form-item>
-      <el-form-item label="巡视性质">
+      <el-form-item label="巡视日期" v-show="activeName!='0'">
+            <el-date-picker v-model="searchForm.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+            至
+            <el-date-picker v-model="searchForm.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+      </el-form-item>
+      <el-form-item label="巡视性质"  v-show="activeName!='1'">
         <el-select v-model="searchForm.ptrolnature" placeholder="请选择" style="max-width:200px" >
           <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.name"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="状态">
+      <el-form-item label="状态"  v-show="activeName!='2'">
         <el-select v-model="searchForm.isexecute" placeholder="请选择" style="max-width:200px" >
           <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="toSearch">查询</el-button>
+        <el-button type="primary" @click="getTableList">查询</el-button>
         <el-button type="primary" @click="handleExport">导出</el-button>
       </el-form-item>
     </el-form>
@@ -41,14 +43,17 @@
         <el-table-column label="巡视人员"  align='center' prop="PatrolUserName"></el-table-column>
         <el-table-column v-for="item in months" :key="item" :prop="item"  :label="item" ></el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"  :hide-on-single-page="true"> </el-pagination>
+     
     </div>
     
   </div>
 </template>
 
 <script>
+
+import { userReportByYear,userReportByNature,userReportByExecute } from "@/api/patrol";
 import BarChart from "./components/BarChart";
+import { getGetHierarchicalDtos} from "@/api/org";
 export default {
 components: {
     BarChart
@@ -56,19 +61,18 @@ components: {
   data() {
     return {
       searchForm:{
-        tenantid:"",
-        patrolusername:"",
+        tenantId:"",
+        patroltimebegin:"",
+        patroltimeend:"",
         patrolYear:"",
         ptrolnature:"",
         isexecute:"",
       },
+      TenantIds:[],
       activeName:'0',
       nowDoc:{},
       tableData: [],
       listLoading:true,
-      currentPage: 1,
-      pageSize:10,
-      total: 0,
       ptrolnatures:[
           {name:'全部'},
           {name:'定期巡视'},
@@ -84,15 +88,62 @@ components: {
   },
 
   created() {
-      this.listLoading=false;
-    //   this.getTableList();
-    //   this.getDepts();
+    this.getTableList(this.activeName);
+    this.getTenants();
   },
   methods: {
     handleClick(tab, event) {
-        console.log(tab, event);
+        this.getTableList(this.activeName);
     },
-    toShowReport(){},
+    
+    // 巡视单位列表
+    getTenants(){
+      getGetHierarchicalDtos().then(response => {
+         this.TenantIds=response.data;
+      }).catch(error => {
+        console.log(error); 
+      });
+    },
+    getTableList(activeName){
+      const data={
+        "type":1,
+        "tenantId":this.searchForm.tenantId,
+        "patroltimebegin":this.searchForm.patroltimebegin,
+        "patroltimeend":this.searchForm.patroltimeend,
+      };
+      switch (activeName) {
+        case '0':
+          data.ptrolnature=this.searchForm.ptrolnature;
+          data.isexecute=this.searchForm.isexecute;
+          userReportByYear(data).then(response => {
+            this.listLoading=false;
+            this.tableData = response.data;
+          }).catch(error => {
+            console.log(error); 
+          });
+          break;
+        case '1':
+          data.isexecute=this.searchForm.isexecute;
+          userReportByNature(data).then(response => {
+            this.listLoading=false;
+            this.tableData = response.data;
+          }).catch(error => {
+            console.log(error); 
+          });
+          break;
+        case '2':
+          data.ptrolnature=this.searchForm.ptrolnature;
+          userReportByExecute(data).then(response => {
+            this.listLoading=false;
+            this.tableData = response.data;
+          }).catch(error => {
+            console.log(error); 
+          });
+          break;
+        default:
+          break;
+      }
+    },
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm("是否确认导出所有用户数据项?", "警告", {
@@ -105,15 +156,7 @@ components: {
         })
         .catch(function() {});
     },
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.currentPage = 1;
-      this.getTableList();
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getTableList();
-    },
+ 
   }
 }
 </script>

@@ -1,0 +1,43 @@
+ /**
+ * 通用css样式布局处理
+ */
+ 
+ .el-pagination {
+     padding: 10px 15px!important;
+     text-align: right;
+ }
+ 
+ .el-table th {
+     color: #565656!important;
+     padding: 2px 0!important;
+     background-color: #f8f8f9!important
+ }
+ 
+ .el-table .caret-wrapper {
+     width: 14px!important;
+ }
+ 
+ .el-table .sort-caret {
+     left: 2px!important;
+ }
+ 
+ .app-container {
+     height: 100%;
+     background: #f5f5f5;
+     >.el-row {
+         height: 100%;
+     }
+ }
+ 
+ .treebox {
+     //  background: #fff;
+     //  height: 100%;
+     padding: 0 10px;
+     box-sizing: border-box;
+ }
+ 
+ .bg-white {
+     background: #fff;
+     border-radius: 3px;
+     margin-bottom: 10px;
+ }

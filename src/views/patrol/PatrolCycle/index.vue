@@ -2,31 +2,40 @@
   <div>
     <el-form :inline="true"  size="mini" style="padding:20px 20px 0">
       <el-form-item label="巡视单位">
-        <el-select v-model="searchForm.tenantid" placeholder="请选择" style="max-width:200px" >
-          <el-option v-for="(item,index) in tenantids" :key="index" :label="item.name" :value="item.id"></el-option>
+        <el-select v-model="searchForm.tenantId" placeholder="请选择" style="width:200px" >
+          <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.text" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="巡视人员">
-        <el-input v-model="searchForm.patrolusername"  style="max-width:240px" ></el-input>
+        <el-input v-model="searchForm.patrolusername"  style="width:150px" ></el-input>
       </el-form-item>
       <el-form-item label="巡视周期">
-        <el-input v-model="searchForm.cycleday"  style="max-width:240px" ></el-input>
+        <el-input v-model="searchForm.cycleday"  style="width:80px"></el-input>&nbsp;天
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="toSearch">查询</el-button>
+        <el-button type="primary" @click="getTableList">查询</el-button>
         <el-button type="primary" @click="toReSet">重置</el-button>
         <el-button type="primary" @click="toAdd">新增</el-button>
       </el-form-item>
     </el-form>
     <div class="tb-contain">
       <el-table v-loading="listLoading" :data="tableData" element-loading-text="Loading" border fit highlight-current-row >
-        <el-table-column label="巡视单位" sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视内容" prop="PatrolScope"></el-table-column>
-        <el-table-column label="巡视人员" sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="巡视成员" align='center' prop="PatrolMemberName"></el-table-column>
-        <el-table-column label="巡视周期" sortable align='center' prop="CycleDay"></el-table-column>
-        <el-table-column label="开始时间" sortable align='center' prop="StartTime"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="220" align="center">
+        <el-table-column label="巡视单位" min-width="250"  sortable align='center'  prop="TenantName"></el-table-column>
+        <el-table-column label="巡视内容" min-width="250" align='center' prop="PatrolScope"></el-table-column>
+        <el-table-column label="巡视人员"  min-width="150" sortable align='center' prop="PatrolUserName"></el-table-column>
+        <el-table-column label="巡视成员" width="250" align='center' prop="PatrolMemberNames"></el-table-column>
+        <el-table-column label="巡视周期" width="120" sortable align='center' prop="CycleDay">
+          <template slot-scope="scope">
+            {{scope.row.CycleDay}}天
+          </template>
+        </el-table-column>
+        <el-table-column label="开始时间" width="200"  sortable align='center' prop="StartTime">
+          <template slot-scope="scope">
+            {{scope.row.StartTime.substring(0,10)}}
+          </template>
+        </el-table-column>
+        </el-table-column>
+        <el-table-column label="操作" width="220" align="center">
           <template slot-scope="scope">
             <div> 
                 <el-button type="primary" plain size="mini" @click="toEdit(scope.row)" >编辑</el-button>
@@ -35,115 +44,75 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"  :hide-on-single-page="true"> </el-pagination>
+      <el-pagination @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total" > </el-pagination>
     </div>
+    <p style="color:red">注： 1、巡视人员接口，巡视单位接口 未知<br/>2、新增/修改保存，返回 ‘用电单位信息错误’</p>
     
     <!-- 新增 编辑 -->
-     <el-dialog :title="!isEdit?'新增巡视信息':'修改巡视信息'" :visible.sync="dialogVisible" width="500px" center top="10vh">
-      <el-form :model="infoForm" ref="docForm" :rules="rules" label-width="110px" size="medium" style="padding-right:5%">
-        <el-form-item label="巡视单位" prop="Tenantid">
-            <el-select v-model="infoForm.Tenantid" placeholder="请选择巡视单位" style='width:100%' >
-                <el-option v-for="(item,index) in Tenantids" :key="index" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-        </el-form-item>
-         <el-form-item label="巡视周期(天)" prop="Cycleday">
-            <el-input v-model="infoForm.Cycleday"  placeholder="请输入天数" ></el-input>
-        </el-form-item>
-         <el-form-item label="开始时间" prop="StartTime">
-            <el-date-picker v-model="infoForm.StartTime" type="date" placeholder="请选择日期" style='width:100%'  value-format="timestamp"  format="yyyy-MM-dd"> </el-date-picker>
-        </el-form-item> 
-         <el-form-item label="巡视人员" prop="patroluserid">
-            <el-input v-model="infoForm.patroluserid" ></el-input>
-        </el-form-item>
-         <el-form-item label="巡视成员" prop="PatrolMemberName">
-            <el-input placeholder="请选择巡视成员" v-model="infoForm.PatrolMemberName" ></el-input>
-        </el-form-item>
-         <el-form-item label="巡视内容" prop="PatrolScope">
-            <el-input type="textarea" :rows='4' placeholder="请输入巡视内容" v-model="infoForm.PatrolScope" ></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit">保存</el-button>
-            <el-button type="primary" plain @click="dialogVisible=false">取消</el-button>
-        </el-form-item>
-      </el-form>
-     </el-dialog>
+    <addEndEdit ref="addEndEdit"  @getList="getTableList"></addEndEdit>
 
   </div>
 </template>
 
 <script>
-// import tableInfo from "../../components/tableInfo.vue";
-// import {getDepartment,getDocTableList,showDocDetail,getSignInfo} from "../../api/table";
+import { getPatrolCycle,deletePatrolCycle} from "@/api/patrol";
+import { getGetHierarchicalDtos} from "@/api/org";
+import addEndEdit from "./components/addEndEdit";
 export default {
 components: {
-    // tableInfo
+    addEndEdit,
   },
   data() {
     return {
       searchForm:{
         patrolusername:"",
         cycleday:"",
-        tenantid:"",
+        tenantId:"",
       },
-      infoForm:{
-          Tenantid:'',
-          Cycleday:'',
-          StartTime:'',
-          patroluserid:'',
-          PatrolMemberName:'',
-          PatrolScope:'',
-      },
-      tenantids:[],
-      isEdit:false,
+      TenantIds:[],
       nowDoc:{},
       tableData: [],
       listLoading:true,
       currentPage: 1,
       pageSize:10,
       total: 0,
-      dialogVisible:false,
-      rules: {
-          Tenantid: [
-            { required: true, message: '请选择巡视单位', trigger: 'change' },
-          ],
-          Cycleday: [
-            { required: true, message: '请输入天数', trigger: 'blur' }
-          ],
-          StartTime: [
-            { type: 'date', required: true, message: '请选择开始时间', trigger: 'change' }
-          ],
-          PatrolUserName: [
-            { required: true, message: '请选择巡视人员', trigger: 'change' }
-          ],
-      }
     }
   },
 
   created() {
-      this.listLoading=false;
-    //   this.getTableList();
-    //   this.getDepts();
+    this.getTableList();
+    this.getTenants();
   },
   methods: {
     toAdd(){
-        this.dialogVisible=true;
-        this.isEdit=false;
+        const target = this.$refs.addEndEdit;
+        target.handleOpen();
+        target.title = "新增巡视信息";
     },
-    toEdit(){
-        this.isEdit=true;
-        this.dialogVisible=true;
-
+    toEdit(row){
+        const target = this.$refs.addEndEdit;
+        target.handleOpen(row);
+        target.title = "修改巡视信息";
     },
-    toDelete(){
+    toDelete(row){
         this.$confirm('确认删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          const data={
+            'id':row.Id,
+          };
+          deletePatrolCycle(data).then(response => {
+            this.getTableList();
+            this.$message({
+              type: 'success',
+              message: '成功删除!'
+            });
+          }).finally(v =>{
+            this.listLoading=false;
           });
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -151,55 +120,35 @@ components: {
           });          
         });
     },
-    onSubmit(){
-
-    },
-
     getTableList(){
-        //列表接口 http://apibizt.xtioe.com/PatrolCycle/Gets
-      getTableData(this.currentPage-1,this.pageSize,2).then(response => {
-        console.log(response)
-        this.listLoading=false;
-        this.tableData = response.data.rows;
-        this.total = response.data.total;
+        const data={
+            'pageno':this.currentPage,
+            'pagesize':this.pageSize,
+            'patrolusername':this.searchForm.patrolusername,
+            'tenantid':this.searchForm.tenantId,
+            'cycleday':this.searchForm.cycleday,
+        };
+        getPatrolCycle(data).then(response => {
+          this.tableData = response.data;
+          this.total = response.total;
+        }).finally(v =>{
+          this.listLoading=false;
+        });
+    },
+    // 巡视单位列表
+    getTenants(){
+      getGetHierarchicalDtos().then(response => {
+         this.TenantIds=response.data;
+         this.$refs.addEndEdit.TenantIds = response.data;
       }).catch(error => {
         console.log(error); 
-      });
-    },
-    getDepts(){
-      getDepartment().then(response => {
-        console.log(response)
-         this.departmentIds=response.data;
-      }).catch(error => {
-        console.log(error); 
-      });
-    },
-     // 查看公文
-    showDoc(row){
-      this.dialogShowVisible=true;
-      showDocDetail(row.id).then(response => {
-        console.log("查看",response)
-        this.nowDoc = response.data;
-      }).catch(error => {
-        console.log(error); //请求失败返回的数据
       });
     },
     
-    // 查询
-    toSearch(){
-      getDocTableList(this.currentPage,this.pageSize,2,this.searchForm.keyWord,this.searchForm.departmentId,this.searchForm.emergencyLevel,this.searchForm.startTime,this.searchForm.endTime).then(response => {
-        console.log("查询",response)
-        this.listLoading=false;
-        this.tableData = response.data.rows;
-        this.total = response.data.total;
-      }).catch(error => {
-        console.log(error); 
-      });
-    },
     toReSet(){
       this.searchForm.patrolusername='';
       this.searchForm.cycleday='',
-      this.searchForm.tenantid='',
+      this.searchForm.tenantId='',
       this.getTableList();
     },
     handleSizeChange(val) {

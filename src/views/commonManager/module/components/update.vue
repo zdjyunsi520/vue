@@ -1,34 +1,34 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title+typeText" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="form.username" placeholder="请输入用户名" />
+          <el-form-item label="父级分类" prop="parentId">
+            <el-select v-model="form.parentId" clearable size="small">
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in []" />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="确认密码" prop="confirmpassword">
-            <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          <el-form-item label="权限标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入姓名" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="form.name" placeholder="请输入姓名" auto-complete="off" />
+          <el-form-item label="url" prop="url">
+            <el-input v-model="form.url" placeholder="请输入手机号" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="预留手机号" prop="mobilephone">
-            <el-input v-model="form.mobilephone" placeholder="请输入手机号" maxlength="11" />
-          </el-form-item>
-        </el-col>
+        <el-form-item label="排序号" prop="sortindex">
+          <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+        </el-form-item>
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -40,42 +40,46 @@
 </template>
 
 <script>
-import { add } from "@/api/commonManager/user";
+import { getInfo } from "@/api/commonManager/module";
 export default {
   data() {
     const rules = {
-      username: [
+      userName: [
         {
           required: true,
           message: "用户名不能为空",
           trigger: "blur"
         }
       ],
+      nickName: [
+        {
+          required: true,
+          message: "用户昵称不能为空",
+          trigger: "blur"
+        }
+      ],
+      deptId: [
+        {
+          required: true,
+          message: "归属分站不能为空",
+          trigger: "blur"
+        }
+      ],
       password: [
         {
           required: true,
-          pattern: /.{10,}$/,
-          message: "密码输入有误",
+          message: "用户密码不能为空",
           trigger: "blur"
         }
       ],
-      confirmpassword: [
+      email: [
         {
-          required: true,
-          pattern: /.{10,}$/,
-          message: "确认密码输入有误",
-          trigger: "blur"
+          type: "email",
+          message: "'请输入正确的邮箱地址",
+          trigger: ["blur", "change"]
         }
       ],
-
-      name: [
-        {
-          required: true,
-          message: "'请输入正确的姓名",
-          trigger: "blur"
-        }
-      ],
-      mobilephone: [
+      phonenumber: [
         {
           pattern: /^1\d{10}$/,
           message: "请输入正确的手机号码",
@@ -95,16 +99,57 @@ export default {
     };
   },
   created() {},
+  computed: {
+    typeText() {
+      return this.form.type == 1
+        ? "分类"
+        : this.form.type == 2
+        ? "应用"
+        : this.form.type == 3
+        ? "权限"
+        : "";
+    }
+  },
   methods: {
+    getInfo(data) {
+      this.loading = true;
+      if (data) {
+        const id = data.id;
+        const parentId = data.parentId;
+        if (id) {
+          getInfo({ id })
+            .then(res => {
+              const o = {};
+              for (let key in res.data) {
+                o[key.toLowerCase()] = res.data[key];
+              }
+              o.parentId = res.data.ParentId;
+              this.reset(o);
+            })
+            .finally(v => (this.loading = false));
+        } else if (parentId) {
+          this.loading = false;
+          data.parentId = parentId;
+          this.reset(data);
+        }
+      } else {
+        this.loading = false;
+        this.reset(data);
+      }
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          username: "",
+          Id: "",
+          parentId: null,
+          path: "",
           name: "",
-          password: "",
-          confirmpassword: "",
-          mobilephone: ""
+          key: "",
+          type: "",
+          IconUrl: "",
+          sortindex: 1,
+          url: ""
         },
         data
       );
@@ -117,8 +162,7 @@ export default {
         this.loading = false;
       }
       //表单重置
-      this.reset(data);
-      this.$refs.form.clearValidate();
+      this.getInfo(data);
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -127,7 +171,7 @@ export default {
           //按钮转圈圈
           this.loading = true;
           //添加用户
-          add(this.form)
+          update(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
