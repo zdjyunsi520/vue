@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container wrapperbox">
     <el-row :gutter="10">
       <el-col :xs="{span: 24}" :span="4" class="treebox">
         <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
@@ -516,11 +516,6 @@ export default {
 .app-container {
   background: #f5f5f5;
   font-size: 14px;
-}
-.bg-white {
-  background: #fff;
-  border-radius: 3px;
-  margin-bottom: 10px;
 }
 .el-tree {
   border-radius: 3px;

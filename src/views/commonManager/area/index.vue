@@ -255,7 +255,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "@/assets/styles/three-part-structure.scss";
 .xl-query {
   /deep/.el-form-item {
     margin-bottom: 0;

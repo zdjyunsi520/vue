@@ -1,273 +1,165 @@
 <template>
   <div class="app-container">
     <el-form :inline="true">
-      <el-form-item label="菜单名称">
-        <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable size="small" @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="queryParams.visible" placeholder="菜单状态" clearable size="small">
-          <el-option v-for="dict in visibleOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
-        </el-select>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:menu:add']">新增</el-button>
+        <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
+        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+        <!-- <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button> -->
       </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="menuList" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" default-expand-all>
-      <el-table-column prop="text" label="菜单名称" :show-overflow-tooltip="true" width="130px"></el-table-column>
-      <el-table-column prop="key" label="图标" width="180px"></el-table-column>
-      <el-table-column prop="path" label="组件路径" width="180px"></el-table-column>
-      <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
-        <template slot-scope="scope" v-if="scope.row.lvl">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)">新增</el-button>
-          <el-button v-if="scope.row.parentId != 0" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:menu:remove']">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <!-- 添加或修改菜单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" :close-on-click-modal="false">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-          <el-col :span="24" v-if="form.parentId !== 0">
-            <el-form-item label="上级菜单">
-              <treeselect v-model="form.parentId" :options="menuOptions" :show-count="true" placeholder="选择上级菜单" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="菜单类型" prop="menuType">
-              <el-radio-group v-model="form.menuType">
-                <el-radio label="M">目录</el-radio>
-                <el-radio label="C">菜单</el-radio>
-                <el-radio label="F">按钮</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item v-if="form.menuType != 'F'" label="菜单图标">
-              <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
-                <IconSelect ref="iconSelect" @selected="selected" />
-                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-                  <svg-icon v-if="form.icon" slot="prefix" :icon-class="form.icon" class="el-input__icon" style="height: 32px;width: 16px;" />
-                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-                </el-input>
-              </el-popover>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="菜单名称" prop="menuName">
-              <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
-              <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.menuType != 'F'" label="是否外链">
-              <el-radio-group v-model="form.isFrame">
-                <el-radio label="0">是</el-radio>
-                <el-radio label="1">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.menuType != 'F'" label="路由地址" prop="path">
-              <el-input v-model="form.path" placeholder="请输入路由地址" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" v-if="form.menuType == 'C'">
-            <el-form-item label="组件路径" prop="component">
-              <el-input v-model="form.component" placeholder="请输入组件路径" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.menuType != 'M'" label="权限标识">
-              <el-input v-model="form.perms" placeholder="请权限标识" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item v-if="form.menuType != 'F'" label="菜单状态">
-              <el-radio-group v-model="form.visible">
-                <el-radio v-for="dict in visibleOptions" :key="dict.dictValue" :label="dict.dictValue">{{dict.dictLabel}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
-    <update ref="update" @getList="getList"></update>
+    <el-row :gutter="10">
+      <el-col :xs="{span: 24}" :span="6" class="treebox">
+        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="18">
+          <div class="bg-white comheight ">
+              <div v-show="data&&data.Id" class="infobox">
+                <p>类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
+                <p>名称：{{data.Name}}</p>
+                <p>权限标识：{{data.Key}}</p>
+                <p>URL：{{data.Url}}</p>
+                <p>排序号：{{data.SortIndex}}</p>
+                <p v-if="data.IconUrl">图标：
+                  <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
+                </p>
+              </div>
+          </div>
+      </el-col>
+    </el-row>
+    <!-- <div class="xl-left">
+      <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+    </div>
+    <div class="xl-right">
+      <el-row v-show="data&&data.Id">
+        <el-col :span="24">类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</el-col>
+        <el-col :span="24">名称：{{data.Name}}</el-col>
+        <el-col :span="24">权限标识：{{data.Key}}</el-col>
+        <el-col :span="24">URL：{{data.Url}}</el-col>
+        <el-col :span="24">排序号：{{data.SortIndex}}</el-col>
+        <el-col :span="24" v-if="data.IconUrl">图标：
+          <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
+        </el-col>
+      </el-row>
+    </div> -->
+    <update ref="update" @getList="getList123"></update>
+    <add ref="add" @getList="getList123"></add>
   </div>
 </template>
 
 <script>
-import {
-  listMenu,
-  getMenu,
-  treeselect,
-  delMenu,
-  addMenu,
-  updateMenu
-} from "@/api/system/menu";
-import { fetchList, details } from "@/api/commonManager/module";
+import { fetchList, getInfo } from "@/api/commonManager/module";
 // import Treeselect from "@riophae/vue-treeselect";
 // import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 // import IconSelect from "@/components/IconSelect";
 import update from "./components/update";
+import add from "./components/add";
 export default {
-  name: "菜单管理",
-  components: { update },
+  name: "components",
+  components: { update, add },
   data() {
     return {
       // 遮罩层
       loading: true,
-      // 菜单表格树数据
-      menuList: [],
-      // 菜单树选项
-      menuOptions: undefined,
-      // 弹出层标题
-      title: "",
-      // 是否显示弹出层
-      open: false,
-      // 菜单状态数据字典
-      visibleOptions: [],
+      dataList: [],
       // 查询参数
       queryParams: {
         menuName: undefined,
         visible: undefined
       },
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules: {
-        menuName: [
-          {
-            required: true,
-            message: "菜单名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        orderNum: [
-          {
-            required: true,
-            message: "菜单顺序不能为空",
-            trigger: "blur"
-          }
-        ]
-      }
+      defaultProps: {
+        children: "childs",
+        label: "text"
+      },
+      addClass: true,
+      addId: "",
+      operateId: "",
+      data: {}
     };
   },
   created() {
     this.getList();
-    this.getDicts("sys_show_hide").then(response => {
-      this.visibleOptions = response.data;
-    });
   },
 
   methods: {
-    // 选择图标
-    selected(name) {
-      this.form.icon = name;
-    },
     /** 查询菜单列表 */
     getList() {
       this.loading = true;
-      fetchList(this.queryParams).then(response => {
-        this.menuList = response.data.map(v => {
-          v.children = v.childs;
-          v.lvl = true;
-          return v;
-        });
-        console.log(this.menuList);
-        this.loading = false;
+      fetchList(this.queryParams)
+        .then(response => {
+          this.dataList = response.data.map(v => {
+            // v.children = v.childs;
+            v.lvl = true;
+            return v;
+          });
+          this.dataList = response.data;
+          this.loading = false;
+        })
+        .finally(v => (this.loading = false));
+    },
+    getInfo() {
+      const id = this.operateId;
+      getInfo({ id }).then(r => {
+        this.data = Object.assign({}, r.data);
       });
     },
-    /** 查询菜单下拉树结构 */
-    getTreeselect() {
-      treeselect().then(response => {
-        this.menuOptions = response.data;
-      });
+    getList123() {
+      this.getList();
+      this.getInfo();
     },
-    // 菜单显示状态字典翻译
-    visibleFormat(row, column) {
-      if (row.menuType == "F") {
-        return "";
+    handleNodeClick({ id, lvl }) {
+      if (lvl) {
+        this.addId = id;
+      } else {
+        this.addId = "";
       }
-      return this.selectDictLabel(this.visibleOptions, row.visible);
-    },
-    // 取消按钮
-    cancel() {
-      console.log("cancel");
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        menuId: undefined,
-        parentId: 0,
-        menuName: undefined,
-        icon: undefined,
-        menuType: "M",
-        orderNum: undefined,
-        isFrame: "1",
-        visible: "0"
-      };
-      this.resetForm("form");
+      this.operateId = id;
+      this.getInfo();
     },
     /** 搜索按钮操作 */
     handleQuery() {
       this.getList();
     },
     /** 新增按钮操作 */
-    handleAdd(row) {
-      const target = this.$refs.update;
+    handleAdd() {
+      const target = this.$refs.add;
+      target.dataList = this.dataList;
       target.handleOpen();
       target.title = "添加";
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      console.log(row);
+    handleAddClass() {
       const target = this.$refs.update;
-      target.handleOpen(row);
+      const parentId = this.addId;
+      target.handleOpen({ parentId });
+      target.title = "添加";
+    },
+    /** 修改按钮操作 */
+    handleUpdate() {
+      let target;
+      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      name = this.data.Name;
+      key = this.data.Key;
+      type = this.data.Type;
+      id = this.data.Id;
+      url = this.data.Url;
+      sortindex = this.data.SortIndex;
+      if (this.addId) {
+        target = this.$refs.add;
+        iconurl = this.data.IconUrl;
+        data = { id, url, name, key, type, iconurl, sortindex };
+      } else {
+        target = this.$refs.update;
+        target.dataList = this.dataList;
+
+        parentId = this.data.ParentId;
+        data = { id, url, name, key, type, parentId, sortindex };
+      }
+      target.handleOpen(data);
       target.title = "修改";
     },
-    /** 提交按钮 */
-    submitForm: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.menuId != undefined) {
-            updateMenu(this.form).then(response => {
-              if (response.code === 0) {
-                this.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
-            });
-          } else {
-            addMenu(this.form).then(response => {
-              if (response.code === 0) {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
-            });
-          }
-        }
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       this.$confirm(
@@ -291,3 +183,17 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.xl-left {
+  width: 300px;
+  float: left;
+}
+.xl-right {
+  width: 100%;
+  margin-left: 300px;
+}
+.comheight{height:calc(100vh - 184px)}
+.infobox{line-height: 1.5;padding: 15px 20px;
+  p{text-align: left;font-size: 14px;color: #333;}
+}
+</style>

@@ -25,7 +25,7 @@ const permission = {
     //       resolve(accessedRoutes);
     //     });
     //   });
-    // },
+    // }
     GenerateRoutes({ commit }, res) {
       return new Promise(resolve => {
         // 向后端请求路由数据

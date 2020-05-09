@@ -65,7 +65,6 @@ export const constantRoutes = [{
             meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
         }]
     },
-
     {
         path: "generalSituation",
         component: Layout,
@@ -108,7 +107,46 @@ export const constantRoutes = [{
             },
         ]
     },
-    // PatrolJob
+
+    {
+        path: "equipmentAccount",
+        component: Layout,
+        meta: { title: "设备台账", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+            path: "/curriculumVitae",
+            component: () =>
+                import ("@/views/equipmentAccount/curriculumVitae/index"),
+            name: "设备履历",
+            meta: {
+                title: "设备履历",
+                icon: "dashboard",
+                noCache: true,
+                affix: false
+            }
+        }, {
+            path: "/maintain",
+            component: () =>
+                import ("@/views/equipmentAccount/maintain/index"),
+            name: "设备维护",
+            meta: {
+                title: "设备维护",
+                icon: "dashboard",
+                noCache: true,
+                affix: false
+            }
+        }, {
+            path: "/monitor",
+            component: () =>
+                import ("@/views/equipmentAccount/monitor/index"),
+            name: "监控信息",
+            meta: {
+                title: "监控信息",
+                icon: "dashboard",
+                noCache: true,
+                affix: false
+            }
+        }]
+    },
     {
         path: "patrol",
         component: Layout,
@@ -214,51 +252,50 @@ export const constantRoutes = [{
                     noCache: true,
                     affix: false
                 }
-            },
-            {
-                path: "/equipment",
-                component: () =>
-                    import ("@/views/commonManager/equipment/index"),
-                name: "设备资产",
-                meta: {
-                    title: "设备资产",
-                    icon: "dashboard",
-                    noCache: true,
-                    affix: false
-                }
-            },
-            {
-                path: "/area123",
-                component: () =>
-                    import ("@/views/commonManager/area/index"),
-                name: "地区管理",
-                meta: {
-                    title: "地区管理",
-                    icon: "dashboard",
-                    noCache: true,
-                    affix: false
-                }
             }
+            // {
+            //   path: "/equipment",
+            //   component: () => import("@/views/commonManager/equipment/index"),
+            //   name: "设备资产",
+            //   meta: {
+            //     title: "设备资产",
+            //     icon: "dashboard",
+            //     noCache: true,
+            //     affix: false
+            //   }
+            // },
+            // {
+            //   path: "/area123",
+            //   component: () => import("@/views/commonManager/area/index"),
+            //   name: "地区管理",
+            //   meta: {
+            //     title: "地区管理",
+            //     icon: "dashboard",
+            //     noCache: true,
+            //     affix: false
+            //   }
+            // }
         ]
-    },
-
-    {
-        path: "systemManager",
-        component: Layout,
-        meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
-        children: [{
-            path: "/module",
-            component: () =>
-                import ("@/views/systemManager/organization/index"),
-            name: "组织机构",
-            meta: {
-                title: "组织机构",
-                icon: "dashboard",
-                noCache: true,
-                affix: true
-            }
-        }]
     }
+
+    // {
+    //   path: "systemManager",
+    //   component: Layout,
+    //   meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+    //   children: [
+    //     {
+    //       path: "/module",
+    //       component: () => import("@/views/systemManager/organization/index"),
+    //       name: "组织机构",
+    //       meta: {
+    //         title: "组织机构",
+    //         icon: "dashboard",
+    //         noCache: true,
+    //         affix: true
+    //       }
+    //     }
+    //   ]
+    // }
 ];
 const createRouter = () => {
     const router = new Router({
