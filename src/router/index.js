@@ -109,6 +109,34 @@ export const constantRoutes = [{
     },
 
     {
+        path: "defect",
+        component: Layout,
+        meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+            path: "/orderList",
+            component: () =>
+                import ("@/views/defect/orderList/index"),
+            name: "缺陷工单",
+            meta: {
+                title: "缺陷工单",
+                icon: "dashboard",
+                noCache: true,
+                affix: false
+            }
+        }, {
+            path: "/statistics",
+            component: () =>
+                import ("@/views/defect/statistics/index"),
+            name: "缺陷统计",
+            meta: {
+                title: "缺陷统计",
+                icon: "dashboard",
+                noCache: true,
+                affix: false
+            }
+        }]
+    },
+    {
         path: "equipmentAccount",
         component: Layout,
         meta: { title: "设备台账", icon: "dashboard", noCache: true, affix: false },

@@ -16,6 +16,11 @@ import store from "./store";
 import router from "./router";
 import permission from "./directive/permission";
 
+import * as filters from './filters' // global filters
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+  })
+  
 import "./assets/icons"; // icon
 import "./permission"; // permission control
 //字典配置
