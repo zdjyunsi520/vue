@@ -514,7 +514,6 @@ export default {
 </script>
 <style lang="scss">
 .app-container {
-  background: #f5f5f5;
   font-size: 14px;
 }
 .el-tree {

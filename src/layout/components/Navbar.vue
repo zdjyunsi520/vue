@@ -5,41 +5,55 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-breadcrumb separator="|">
+      <!-- <el-breadcrumb separator="|">
         <el-breadcrumb-item>欢迎您：{{name}}</el-breadcrumb-item>
         <el-breadcrumb-item><span class="link-type" @click="logout">登出</span></el-breadcrumb-item>
-        <!-- <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">修改密码</span></el-breadcrumb-item> -->
+        <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">修改密码</span></el-breadcrumb-item>
       <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">修改密码</span></el-breadcrumb-item>
-      </el-breadcrumb>
-      <update-pwd ref="updatePwd"></update-pwd>
-      <!-- <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
+      </el-breadcrumb> -->
+      <!-- <update-pwd ref="updatePwd"></update-pwd> -->
+      <template v-if="device!=='mobile'">
+        <!-- <search id="header-search" class="right-menu-item" /> -->
+
+        <div class="right-menu-item hover-effect" >
+          <span style="position:relative">
+          <el-badge is-dot class="item" style="display: inline;">
+            <svg-icon icon-class="news" style="font-size: 29px;vertical-align: -0.35em;"/>
+            <!-- <el-button class="share-button" icon="el-icon-share" type="primary"></el-button> -->
+          </el-badge>
+          </span>
+        </div>
+        
+        <div class="right-menu-item hover-effect" >
+          <svg-icon icon-class="nav_colour" style="font-size: 22px;vertical-align: middle;"/>
+        </div>
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+        <!-- <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
+        </el-tooltip> -->
 
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
+          <img :src="avatar" v-if="avatar" class="user-avatar">
+          <span>超级管理员 {{name}}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/user/profile">
+          <!-- <router-link to="/user/profile">
             <el-dropdown-item>个人中心</el-dropdown-item>
           </router-link>
           <el-dropdown-item>
             <span @click="setting = true">布局设置</span>
-          </el-dropdown-item>
-          <el-dropdown-item divided>
+          </el-dropdown-item> -->
+          <el-dropdown-item >
             <span @click="logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown> -->
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -105,7 +119,7 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
@@ -146,7 +160,7 @@ export default {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
-      font-size: 18px;
+      font-size: 14px;
       color: #5a5e66;
       vertical-align: text-bottom;
 
@@ -161,25 +175,21 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
+      margin-right: 12px;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
 
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
         }
 
         .el-icon-caret-bottom {
           cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
+          font-size: 16px;
         }
       }
     }
