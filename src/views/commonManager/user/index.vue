@@ -24,20 +24,24 @@
                         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button> -->
           </el-form-item>
         </el-form>
-        <!-- <el-row> -->
-          <!-- <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleAdd" :disabled="multiple">锁定</el-button>
-          <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleAdd" :disabled="multiple">解除</el-button> -->
-        <!-- </el-row> -->
+        <el-row>
+          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
+          <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleLock(null,true)" :disabled="multiple">解除</el-button>
+        </el-row>
         <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border @sort-change="handleSortChange">
           <el-table-column type="selection" width="55" align="center" />
           <el-table-column label="用户名" align="center" width="200" prop="UserName" />
-          <el-table-column label="姓名" align="center" width="160"  prop="Name" />
-          <el-table-column label="预留手机号" width="150"  align="center" prop="MobilePhone" />
+          <el-table-column label="姓名" align="center" width="160" prop="Name" />
+          <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
           <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom" />
           <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom" />
-          <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom" />
-          <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" />
-          <el-table-column label="操作" align="center" min-width="300" >
+          <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
+            <template slot-scope="{row}">
+              <el-button :type="row.IsLock?'warning':'primary'" size="mini" @click="handleLock(row,row.IsLock)">{{row.IsLock?'解锁':'锁定'}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" :formatter="filterCancel" />
+          <el-table-column label="操作" align="center" min-width="300">
             <template slot-scope="scope">
               <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改信息</el-button>
               <el-button size="mini" type="text" icon="el-icon-key" @click="handleResetPwd(scope.row)">修改密码</el-button>
@@ -57,7 +61,7 @@
 </template>
 
 <script>
-import { fetchList } from "@/api/commonManager/user";
+import { fetchList, locklock } from "@/api/commonManager/user";
 
 import update from "./components/update";
 import add from "./components/add";
@@ -97,6 +101,9 @@ export default {
     this.getList();
   },
   methods: {
+    filterCancel(row) {
+      return row.IsLock ? "已注销" : "正常";
+    },
     handleSortChange(row) {
       this.queryParams.orderby = `${row.prop} ${
         row.order == "ascending" ? "asc" : "desc"
@@ -127,7 +134,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.userId);
+      this.ids = selection;
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
@@ -184,6 +191,20 @@ export default {
           this.msgSuccess("操作失败");
         });
     },
+    handleLock(row, lock) {
+      let ids = row
+        ? (ids = [row.Id])
+        : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
+      if (ids.length) {
+        const islock = !lock;
+        ids = ids.join(",");
+        locklock({ ids, islock }).then(r => {
+          this.$message.success(r.msg);
+          this.getList();
+        });
+      }
+    },
+
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;

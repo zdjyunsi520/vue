@@ -15,11 +15,11 @@ const state = {
   sys_bank_nameType: null,
   sys_bank_nameKV: null,
   equipmentType: [
-    { key: 0, value: "通讯主机" },
-    { key: 1, value: "电力表计" },
-    { key: 2, value: "温控" },
-    { key: 3, value: "烟感" },
-    { key: 4, value: "摄像头" }
+    { key: 1, value: "通讯主机" },
+    { key: 2, value: "电力表计" },
+    { key: 3, value: "温控" },
+    { key: 4, value: "烟感" },
+    { key: 5, value: "摄像头" }
   ],
   equipmentKV: null,
   rechargeType: [

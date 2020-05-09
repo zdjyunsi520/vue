@@ -1,222 +1,151 @@
 <template>
   <div class="app-container">
-    <el-row class="three-header">
-      <el-col>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-        <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改</el-button>
-        <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
+    <el-form :inline="true">
+      <el-form-item>
+        <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
+        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+        <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10">
+      <el-col :xs="{span: 24}" :span="6" class="treebox">
+        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="18">
+        <div class="bg-white comheight ">
+          <div v-show="data&&data.Id" class="infobox">
+            <p>代码：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
+            <p>名称：{{data.Name}}</p>
+            <p>邮编：{{data.Key}}</p>
+            <p>路径：{{data.Url}}</p>
+          </div>
+        </div>
       </el-col>
     </el-row>
-    <el-row class="three-left app-container" :xs="24">
-      <el-col :span="6">
-        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-      </el-col>
-      <el-col :span="17" :offset="1">
-        <el-row :gutter="20" class="xl-query">
-
-          <!--用户数据-->
-          <el-col :span="24" :xs="24">
-            代码：
-          </el-col>
-          <el-col :span="24" :xs="24">
-            名称：
-          </el-col>
-          <el-col :span="24" :xs="24">
-            邮编：
-          </el-col>
-          <el-col :span="24" :xs="24">
-            路径：
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-
-    <update ref="update" @getList="getList"></update>
+    <update ref="update" @getList="getList123"></update>
+    <add ref="add" @getList="getList123"></add>
   </div>
 </template>
 
 <script>
-import { listUser as fetchList } from "@/api/system/user";
-
+import { fetchList, getInfo } from "@/api/commonManager/area";
+// import Treeselect from "@riophae/vue-treeselect";
+// import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+// import IconSelect from "@/components/IconSelect";
 import update from "./components/update";
-
+import add from "./components/add";
 export default {
-  name: "运营用户管理",
-  components: { update },
+  name: "components",
+  components: { update, add },
   data() {
     return {
-      deptType: null,
       // 遮罩层
-      listLoading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 总条数
-      total: 0,
-      // 用户表格数据
-      dataList: null,
-
-      // 表单参数
-      form: {
-        userId: undefined,
-        deptId: "",
-        userName: undefined,
-        nickName: undefined,
-        password: undefined,
-        phonenumber: undefined,
-        email: undefined,
-        sex: "2",
-        status: "0",
-        remark: undefined,
-        postIds: [],
-        roleIds: []
-      },
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
+      loading: true,
+      dataList: [],
       // 查询参数
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        userName: undefined,
-        phone: undefined,
-        status: undefined,
-        deptId: undefined
+        menuName: undefined,
+        visible: undefined
       },
-      data: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       defaultProps: {
-        children: "children",
-        label: "label"
-      }
+        children: "childs",
+        label: "text"
+      },
+      addClass: true,
+      addId: "",
+      operateId: "",
+      data: {}
     };
-  },
-  watch: {
-    // 根据名称筛选分站树
-    deptName(val) {
-      this.$refs.tree.filter(val);
-    }
   },
   created() {
     this.getList();
   },
+
   methods: {
-    /** 查询用户列表 */
+    /** 查询菜单列表 */
     getList() {
-      this.listLoading = true;
+      this.loading = true;
       fetchList(this.queryParams)
         .then(response => {
-          this.dataList = response.data.list;
-          this.total = response.data.total;
+          this.dataList = response.data.map(v => {
+            // v.children = v.childs;
+            v.lvl = true;
+            return v;
+          });
+          this.dataList = response.data;
+          this.loading = false;
         })
-        .finally(r => {
-          this.listLoading = false;
-        });
+        .finally(v => (this.loading = false));
     },
-    /** 查询角色列表 */
-    getRoles() {
-      listRole().then(response => {
-        this.roleOptions = response.data.filter(v => v.status == 0);
+    getInfo() {
+      const id = this.operateId;
+      getInfo({ id }).then(r => {
+        this.data = Object.assign({}, r.data);
       });
+    },
+    getList123() {
+      this.getList();
+      this.getInfo();
+    },
+    handleNodeClick({ id, lvl }) {
+      if (lvl) {
+        this.addId = id;
+      } else {
+        this.addId = "";
+      }
+      this.operateId = id;
+      this.getInfo();
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      this.queryParams.page = 1;
       this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.userId);
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.update;
+      const target = this.$refs.add;
+      target.dataList = this.dataList;
       target.handleOpen();
       target.title = "添加";
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleAddClass() {
       const target = this.$refs.update;
-      target.handleOpen(row);
-      target.title = "修改信息";
+      const parentId = this.addId;
+      target.handleOpen({ parentId });
+      target.dataList = this.dataList;
+      target.title = "添加";
     },
-    /** 重置密码按钮操作 */
-    handleResetPwd(row) {
-      const target = this.$refs.password;
-      target.handleOpen(row);
-      target.title = "修改密码";
+    /** 修改按钮操作 */
+    handleUpdate() {
+      let target;
+      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      name = this.data.Name;
+      key = this.data.Key;
+      type = this.data.Type;
+      id = this.data.Id;
+      url = this.data.Url;
+      sortindex = this.data.SortIndex;
+      if (this.addId) {
+        target = this.$refs.add;
+        iconurl = this.data.IconUrl;
+        data = { id, url, name, key, type, iconurl, sortindex };
+      } else {
+        target = this.$refs.update;
+        target.dataList = this.dataList;
+
+        parentId = this.data.ParentId;
+        data = { id, url, name, key, type, parentId, sortindex };
+      }
+      target.handleOpen(data);
+      target.title = "修改";
     },
+
     /** 删除按钮操作 */
     handleDelete(row) {
-      const userIds = row.userId || this.ids;
       this.$confirm(
-        '是否确认删除用户编号为"' + userIds + '"的数据项?',
+        '是否确认删除名称为"' + row.menuName + '"的数据项?',
         "警告",
         {
           confirmButtonText: "确定",
@@ -225,52 +154,36 @@ export default {
         }
       )
         .then(function() {
-          return delUser(userIds);
+          return delMenu(row.menuId);
         })
         .then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
-        .catch(function() {
-          this.msgSuccess("操作失败");
-        });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
         })
         .catch(function() {});
     }
   }
 };
 </script>
-<style lang="scss">
-.xl-query {
-  /deep/.el-form-item {
-    margin-bottom: 0;
-  }
-  /deep/ .el-input__inner {
-    width: 130px;
-  }
-  /deep/.el-date-editor.el-input {
-    width: 200px;
-
-    .el-input__inner {
-      width: 200px;
-    }
-  }
+<style lang="scss" scoped>
+.xl-left {
+  width: 300px;
+  float: left;
 }
-.header {
-  background: #f00;
+.xl-right {
+  width: 100%;
+  margin-left: 300px;
+}
+.comheight {
+  height: calc(100vh - 184px);
+}
+.infobox {
+  line-height: 1.5;
+  padding: 15px 20px;
+  p {
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+  }
 }
 </style>

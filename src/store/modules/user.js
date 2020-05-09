@@ -82,10 +82,11 @@ const user = {
           })
           .catch(error => {
             reject(error);
-            // commit("SET_ROLES", ["ROLE_DEFAULT"]);
-            // var res = {};
-            // res.data = [];
-            // resolve(res);
+            return;
+            commit("SET_ROLES", ["ROLE_DEFAULT"]);
+            var res = {};
+            res.data = [];
+            resolve(res);
           });
       });
     },

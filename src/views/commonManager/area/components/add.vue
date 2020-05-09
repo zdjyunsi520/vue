@@ -1,33 +1,47 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title+'分类'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
-        <el-col :span="24">
-          <el-form-item label="设备类型" prop="type">
-            <el-select v-model="form.type" clearable size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+        <!-- <el-col :span="24">
+          <el-form-item label="父级分类" prop="parentId">
+            <el-select v-model="form.parentId" clearable size="small">
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in []" />
             </el-select>
           </el-form-item>
-        </el-col>
-
+        </el-col> -->
         <el-col :span="24">
-          <el-form-item label="设备编码" prop="serialcode">
-            <el-input v-model="form.serialcode" placeholder="请输入设备编码" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-form-item label="权限标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入姓名" />
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="24">
-                    <el-form-item label="设备校验码" prop="remark">
-                        <el-input v-model="form.remark" placeholder="请输入手机号" />
-                    </el-form-item>
-                </el-col> -->
+        <el-col :span="24">
+          <el-form-item label="url" prop="url">
+            <el-input v-model="form.url" placeholder="请输入url" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="应用图标">
+            <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
+              <IconSelect ref="iconSelect" @selected="selected" />
+              <el-input slot="reference" v-model="form.iconurl" placeholder="点击选择图标" readonly>
+                <svg-icon v-if="form.iconurl" slot="prefix" :icon-class="form.iconurl" class="el-input__icon" style="height: 32px;width: 16px;" />
+                <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+              </el-input>
+            </el-popover>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -39,40 +53,34 @@
 </template>
 
 <script>
-import { add } from "@/api/commonManager/equipment";
-import { mapGetters } from "vuex";
+import { add, update } from "@/api/commonManager/module";
+import IconSelect from "@/components/IconSelect";
 export default {
+  components: { IconSelect },
   data() {
     const rules = {
-      type: [
+      userName: [
         {
           required: true,
-          message: "此处不能为空",
+          message: "用户名不能为空",
           trigger: "blur"
         }
       ],
-      serialcode: [
+      nickName: [
         {
           required: true,
-          message: "此处不能为空",
+          message: "用户昵称不能为空",
           trigger: "blur"
         }
       ],
-      remark123: [
+      deptId: [
         {
           required: true,
-          message: "此处不能为空",
+          message: "归属分站不能为空",
           trigger: "blur"
         }
       ],
       password: [
-        {
-          required: true,
-          message: "用户密码不能为空",
-          trigger: "blur"
-        }
-      ],
-      password1: [
         {
           required: true,
           message: "用户密码不能为空",
@@ -106,17 +114,22 @@ export default {
     };
   },
   created() {},
-  computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
-  },
+  computed: {},
   methods: {
+    selected(name) {
+      this.form.iconurl = name;
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          type: "",
-          serialcode: "",
-          remark: ""
+          id: "",
+          url: "",
+          name: "",
+          key: "",
+          type: 1,
+          iconurl: "",
+          sortindex: 1
         },
         data
       );
@@ -137,13 +150,16 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          //添加用户
-          add(this.form)
+          let fn;
+          if (this.form.id) fn = update;
+          else fn = add;
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
               //刷新列表
               this.$emit("getList");
+              this.$emit("getInfo");
               //关闭窗口
               this.handleOpen();
             })
