@@ -1,8 +1,8 @@
 import { post } from "@/utils/request";
 const commonUrl = "common";
-// 获取用户列表
+// 获取地区列表
 export function fetchList(data) {
-  return post("/User/Gets", data, commonUrl);
+  return post("/Area/GetTree", data, commonUrl);
 }
 // 添加用户
 export function add(data) {
