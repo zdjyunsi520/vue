@@ -85,6 +85,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .commtable .el-table__header th{padding:8px 0 !important;}
 </style>
