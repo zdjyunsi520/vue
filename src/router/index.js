@@ -68,7 +68,7 @@ export const constantRoutes = [
   {
     path: "generalSituation",
     component: Layout,
-    // hidden: true,
+    hidden: true,
     meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -106,6 +106,7 @@ export const constantRoutes = [
   {
     path: "defect",
     component: Layout,
+    hidden: true,
     meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -133,7 +134,7 @@ export const constantRoutes = [
   {
     path: "equipmentAccount",
     component: Layout,
-    // hidden: true,
+    hidden: true,
     meta: { title: "设备台账", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -172,7 +173,7 @@ export const constantRoutes = [
   {
     path: "patrol",
     component: Layout,
-    // hidden: true,
+    hidden: true,
     meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
     children: [
       {

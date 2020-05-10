@@ -77,7 +77,7 @@ import add from "./components/add";
 import role from "./components/role";
 import create from "./components/create";
 export default {
-  name: "运营用户管理",
+  name: "",
   components: { add, role, create },
   data() {
     return {

@@ -2,28 +2,21 @@ import { post } from "@/utils/request";
 const commonUrl = "common";
 // 获取地区列表
 export function fetchList(data) {
-  return post("/Area/GetTree", data, commonUrl);
+    return post("/Area/GetTree", data, commonUrl);
 }
-// 添加用户
+// 获取地区信息详情
+export function getInfo(data) {
+    return post("/Area/Get", data, commonUrl);
+}
+// 添加地区信息
 export function add(data) {
-  return post("/User/Create", data, commonUrl);
+    return post("/Area/Create", data, commonUrl);
 }
-// 修改用户
+// 修改地区信息
 export function update(data) {
-  return post("/User/Modify", data, commonUrl);
+    return post("/Area/Modify", data, commonUrl);
 }
-// 修改用户
-export function password(data) {
-  return post("/User/ModifyForPassword", data, commonUrl);
-}
-//获取权限
-export function getRole(data) {
-  return post("/User/GetPower", data, commonUrl);
-}
-//设置权限
-export function updateRole(data) {
-  return post("/User/SetPower", data, commonUrl);
-}
-export function locklock(data) {
-  return post("/User/SetLock", data, commonUrl);
+// 删除地区信息
+export function deleted(data) {
+    return post("/Area/Remove", data, commonUrl);
 }

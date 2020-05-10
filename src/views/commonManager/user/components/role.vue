@@ -107,6 +107,7 @@ export default {
                     });
                 });
             });
+            this.form.moduleids = [...new Set(this.form.moduleids)];
           })
           .finally(v => (this.loading = false));
       } else {

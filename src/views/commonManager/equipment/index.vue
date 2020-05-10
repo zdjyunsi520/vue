@@ -1,41 +1,40 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20" class="xl-query">
+        <div class="search-box">
+          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+            <el-form-item>
+              <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="queryParams.type" clearable size="small">
+                <el-option label="设备类型" value="" />
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
 
-      <!--用户数据-->
-      <el-col :span="24" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-          <el-form-item>
-            <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-select v-model="queryParams.type" clearable size="small">
-              <el-option label="设备类型" value="" />
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-
-            <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
-                        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
-          </el-form-item>
-        </el-form>
+              <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
+              <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
+            </el-form-item>
+          </el-form>
+        </div>
+      <div class="tb-contain">
         <el-row>
-          <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-          <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
-          <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
+              <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
+              <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
+              <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
+              <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
         </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
-          <el-table-column type="selection" width="55" align="center" />
-          <el-table-column label="设备编码" align="center" prop="SerialCode" />
+        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" class="commtable" border>
+          <el-table-column type="selection" width="55" align="center" fixed="left" />
+          <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="设备类型" align="center" prop="Type" />
-          <el-table-column label="添加人员" align="center" prop="CreateUser" />
-          <el-table-column label="添加时间" align="center" prop="CreateTime" />
-          <el-table-column label="同步平台" align="center">
+          <el-table-column label="设备类型" sortable min-width="100" align="center" prop="Type" />
+          <el-table-column label="添加人员" min-width="100" align="center" prop="CreateUser" />
+          <el-table-column label="添加时间" sortable min-width="155" align="center" prop="CreateTime" />
+          <el-table-column label="同步平台" min-width="100" align="center">
             <template slot-scope="{row}">
               <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
                 <el-switch v-model="row.active" @change="handleSync(row)" />
@@ -45,13 +44,11 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column label="同步结果" align="center" prop="result" />
-          <el-table-column label="备注" align="center" prop="Remark" />
+          <el-table-column label="同步结果" min-width="120" align="center" prop="result" />
+          <el-table-column label="备注" min-width="200" fixed="right"  align="center" prop="Remark" />
         </el-table>
-      </el-col>
-    </el-row>
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-
+        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
     <add ref="add" @getList="getList"></add>
   </div>
 </template>
@@ -68,7 +65,7 @@ import {
 import add from "./components/add";
 
 export default {
-  name: "运营用户管理",
+  name: "equipment",
   components: { add },
   data() {
     return {
@@ -241,19 +238,19 @@ export default {
 };
 </script>
 <style lang="scss">
-.xl-query {
-  /deep/.el-form-item {
-    margin-bottom: 0;
-  }
-  /deep/ .el-input__inner {
-    width: 130px;
-  }
-  /deep/.el-date-editor.el-input {
-    width: 200px;
+// .xl-query {
+//   /deep/.el-form-item {
+//     margin-bottom: 0;
+//   }
+//   /deep/ .el-input__inner {
+//     width: 130px;
+//   }
+//   /deep/.el-date-editor.el-input {
+//     width: 200px;
 
-    .el-input__inner {
-      width: 200px;
-    }
-  }
-}
+//     .el-input__inner {
+//       width: 200px;
+//     }
+//   }
+// }
 </style>

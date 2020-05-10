@@ -3,7 +3,7 @@
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-dropdown @command="handleCommand">
+        <el-dropdown @command="handleCommand" placement='bottom-start'>
           <el-button type="primary" size="mini">
             新增<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -21,15 +21,15 @@
 
     <el-row :gutter="10">
       <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='true' :expand-on-click-node="false"></el-tree>
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <div class="bg-white comheight ">
           <div v-show="data&&data.Key" class="infobox">
             <p>代码：{{data.Key}}</p>
             <p>名称：{{data.Name}}</p>
-            <p>排序：{{}}没有排序字段</p>
-            <p>父级：{{data.ParentKey}}</p>
+            <p>排序：{{data.SortIndex}}</p>
+            <p v-if="data.ParentKey">父级：{{data.ParentKey}}</p>
           </div>
         </div>
       </el-col>
@@ -47,7 +47,7 @@ import { fetchList, getInfo, deleted } from "@/api/commonManager/profession";
 import update from "./components/update";
 import add from "./components/add";
 export default {
-  name: "components",
+  name: "profession",
   components: { update, add },
   data() {
     return {
@@ -124,14 +124,15 @@ export default {
     handleAdd() {
       const target = this.$refs.add;
       target.dataList = this.dataList;
-      const id = "";
-      target.handleOpen({ id });
+      target.handleOpen();
+      target.hasParentKey=false;
       target.title = "添加";
     },
     handleAddClass() {
-      const target = this.$refs.update;
-      const parentkey = this.addId;
-      target.handleOpen({ parentkey, id: "" });
+      const target = this.$refs.add;
+      const parentKey = this.addId;
+      target.hasParentKey=true;
+      target.handleOpen({ parentKey });
       target.dataList = this.dataList;
       target.title = "添加";
     },
@@ -139,28 +140,21 @@ export default {
     handleUpdate() {
       let target;
       let data,
-        id = 1,
-        url,
         name,
         key,
         type,
-        iconurl,
         sortindex,
-        parentId;
+        parentKey;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
       sortindex = this.data.SortIndex;
-      if (this.addId) {
-        target = this.$refs.add;
-        data = { id, url, name, key, type, sortindex };
-      } else {
-        target = this.$refs.update;
-        target.dataList = this.dataList;
+      parentKey = this.data.ParentKey;
 
-        parentId = this.data.ParentKey;
-        data = { id, url, name, key, type, sortindex };
-      }
+      target = this.$refs.update;
+      target.dataList = this.dataList;
+      data = {  name, key, type, sortindex ,parentKey};
+
       target.handleOpen(data);
       target.title = "修改";
     },
