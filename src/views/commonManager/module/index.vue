@@ -3,9 +3,9 @@
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
-        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline"  size="mini" @click="handleAdd">新增分类</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
+        <el-button type="primary" icon="el-icon-edit-outline" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
         <!-- <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button> -->
       </el-form-item>
     </el-form>
