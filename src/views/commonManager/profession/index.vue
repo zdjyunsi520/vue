@@ -3,8 +3,17 @@
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增子类</el-button>
+        <el-dropdown @command="handleCommand">
+          <el-button type="primary" size="mini">
+            新增<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="a">新增类别</el-dropdown-item>
+            <el-dropdown-item command="b">新增分类</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增子类</el-button> -->
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
         <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
       </el-form-item>
@@ -65,6 +74,13 @@ export default {
   },
 
   methods: {
+    handleCommand(commond) {
+      if (commond == "a") {
+        this.handleAdd();
+      } else if (commond == "b") {
+        this.handleAddClass();
+      }
+    },
     /** 查询菜单列表 */
     getList() {
       this.loading = true;

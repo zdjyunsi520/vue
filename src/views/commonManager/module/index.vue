@@ -3,10 +3,26 @@
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+<<<<<<< HEAD
+        <el-dropdown @command="handleCommand">
+          <el-button type="primary" size="mini">
+            新增<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="a">新增类别</el-dropdown-item>
+            <el-dropdown-item command="b">新增分类</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button> -->
+        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+        <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+=======
         <el-button type="primary" icon="el-icon-circle-plus-outline"  size="mini" @click="handleAdd">新增分类</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
         <el-button type="primary" icon="el-icon-edit-outline" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
          <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+>>>>>>> 98b78846bfb670c4ff1bf86b33faac516d3edd15
       </el-form-item>
     </el-form>
 
@@ -84,6 +100,13 @@ export default {
   },
 
   methods: {
+    handleCommand(commond) {
+      if (commond == "a") {
+        this.handleAdd();
+      } else if (commond == "b") {
+        this.handleAddClass();
+      }
+    },
     /** 查询菜单列表 */
     getList() {
       this.loading = true;
@@ -101,9 +124,10 @@ export default {
     },
     getInfo() {
       const id = this.operateId;
-      getInfo({ id }).then(r => {
-        this.data = Object.assign({}, r.data);
-      });
+      id &&
+        getInfo({ id }).then(r => {
+          this.data = Object.assign({}, r.data);
+        });
     },
     getList123() {
       this.getList();

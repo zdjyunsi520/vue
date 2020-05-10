@@ -6,14 +6,20 @@
       <el-col :span="24" :xs="24">
         <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
           <el-form-item>
-            <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
           </el-form-item>
           <el-form-item>
+            <el-input v-model="queryParams.contactperson" placeholder="联系人" clearable size="small" @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="queryParams.mobilephone" placeholder="联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <!-- <el-form-item>
             <el-select v-model="queryParams.type" clearable size="small">
               <el-option label="设备类型" value="" />
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item>
             <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -30,15 +36,15 @@
         </el-row>
         <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
           <el-table-column type="selection" width="55" align="center" />
-          <el-table-column label="名称" align="center" prop="SerialCode" />
+          <el-table-column label="名称" align="center" prop="Name" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="附加属性" align="center" prop="Type" />
-          <el-table-column label="行业类别" align="center" prop="CreateUser" />
-          <el-table-column label="行业分类" align="center" prop="CreateTime" />
-          <el-table-column label="联系人" align="center" />
-          <el-table-column label="联系人手机" align="center" />
-          <el-table-column label="联系电话" align="center" prop="result" />
-          <el-table-column label="状态" align="center" prop="Remark" />
+          <el-table-column label="附加属性" align="center" prop="" />
+          <el-table-column label="行业类别" align="center" prop="" />
+          <el-table-column label="行业分类" align="center" prop="" />
+          <el-table-column label="联系人" align="center" prop="ContactPerson" />
+          <el-table-column label="联系人手机" align="center" prop="MobilePhone" />
+          <el-table-column label="联系电话" align="center" prop="PhoneNo" />
+          <el-table-column label="状态" align="center" prop="Status" />
 
         </el-table>
       </el-col>
