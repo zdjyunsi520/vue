@@ -38,7 +38,7 @@ import { fetchList, getInfo, deleted } from "@/api/commonManager/profession";
 import update from "./components/update";
 import add from "./components/add";
 export default {
-  name: "components",
+  name: "profession",
   components: { update, add },
   data() {
     return {

@@ -68,7 +68,7 @@ import {
 import add from "./components/add";
 
 export default {
-  name: "运营用户管理",
+  name: "equipment",
   components: { add },
   data() {
     return {
