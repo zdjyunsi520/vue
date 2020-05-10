@@ -1,38 +1,31 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title+'分类'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="设备类型" prop="type">
-            <el-select v-model="form.type" clearable size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
-            </el-select>
+          <el-form-item label="代码" prop="key">
+            <el-input v-model="form.key" placeholder="请输入代码" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
 
         <el-col :span="24">
-          <el-form-item label="设备编码" prop="serialcode">
-            <el-input v-model="form.serialcode" placeholder="请输入设备编码" />
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
           </el-form-item>
         </el-col>
+
         <el-col :span="24">
-          <el-form-item label="设备校验码" prop="checkcode">
-            <el-input v-model="form.checkcode" placeholder="烟感、摄像头必填" />
+          <el-form-item label="路径" prop="url">
+            <el-input v-model="form.url" placeholder="请输入路径" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="form.remark" placeholder="" />
-          </el-form-item>
-        </el-col>
-        <!-- <el-col :span="24">
-                    <el-form-item label="设备校验码" prop="remark">
-                        <el-input v-model="form.remark" placeholder="请输入手机号" />
-                    </el-form-item>
-                </el-col> -->
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -44,19 +37,32 @@
 </template>
 
 <script>
-import { add } from "@/api/commonManager/equipment";
-import { mapGetters } from "vuex";
+import { add, update } from "@/api/commonManager/profession";
 export default {
   data() {
     const rules = {
-      type: [
+      key: [
         {
           required: true,
           message: "此处不能为空",
           trigger: "blur"
         }
       ],
-      serialcode: [
+      name: [
+        {
+          required: true,
+          message: "此处不能为空",
+          trigger: "blur"
+        }
+      ],
+      deptId: [
+        {
+          required: true,
+          message: "此处不能为空",
+          trigger: "blur"
+        }
+      ],
+      password: [
         {
           required: true,
           message: "此处不能为空",
@@ -76,17 +82,21 @@ export default {
     };
   },
   created() {},
-  computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
-  },
+  computed: {},
   methods: {
+    selected(name) {
+      this.form.iconurl = name;
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          type: "",
-          serialcode: "",
-          remark: ""
+          id: "",
+          key: "",
+          name: "",
+          key: "",
+          type: 1,
+          sortindex: 1
         },
         data
       );
@@ -105,16 +115,12 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.type == 4 || this.form.type == 5) {
-            if (this.form.checkcode == "") {
-              this.$message.error("请输入设备校验码");
-              return;
-            }
-          }
           //按钮转圈圈
           this.loading = true;
-          //添加用户
-          add(this.form)
+          let fn;
+          if (this.form.id) fn = update;
+          else fn = add;
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);

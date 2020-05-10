@@ -4,7 +4,7 @@
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增子类</el-button>
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
         <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
       </el-form-item>
@@ -12,45 +12,26 @@
 
     <el-row :gutter="10">
       <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <div class="bg-white comheight ">
-          <div v-show="data&&data.Id" class="infobox">
-            <p>类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
+          <div v-show="data&&data.Key" class="infobox">
+            <p>代码：{{data.Key}}</p>
             <p>名称：{{data.Name}}</p>
-            <p>权限标识：{{data.Key}}</p>
-            <p>URL：{{data.Url}}</p>
-            <p>排序号：{{data.SortIndex}}</p>
-            <p v-if="data.IconUrl">图标：
-              <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
-            </p>
+            <p>排序：{{}}没有排序字段</p>
+            <p>父级：{{data.ParentKey}}</p>
           </div>
         </div>
       </el-col>
     </el-row>
-    <!-- <div class="xl-left">
-      <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
-    </div>
-    <div class="xl-right">
-      <el-row v-show="data&&data.Id">
-        <el-col :span="24">类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</el-col>
-        <el-col :span="24">名称：{{data.Name}}</el-col>
-        <el-col :span="24">权限标识：{{data.Key}}</el-col>
-        <el-col :span="24">URL：{{data.Url}}</el-col>
-        <el-col :span="24">排序号：{{data.SortIndex}}</el-col>
-        <el-col :span="24" v-if="data.IconUrl">图标：
-          <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
-        </el-col>
-      </el-row>
-    </div> -->
     <update ref="update" @getList="getList123"></update>
     <add ref="add" @getList="getList123"></add>
   </div>
 </template>
 
 <script>
-import { fetchList, getInfo, deleted } from "@/api/commonManager/module";
+import { fetchList, getInfo, deleted } from "@/api/commonManager/profession";
 // import Treeselect from "@riophae/vue-treeselect";
 // import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 // import IconSelect from "@/components/IconSelect";
@@ -100,22 +81,23 @@ export default {
         .finally(v => (this.loading = false));
     },
     getInfo() {
-      const id = this.operateId;
-      getInfo({ id }).then(r => {
-        this.data = Object.assign({}, r.data);
-      });
+      const key = this.operateId;
+      key &&
+        getInfo({ key }).then(r => {
+          this.data = Object.assign({}, r.data);
+        });
     },
     getList123() {
       this.getList();
       this.getInfo();
     },
-    handleNodeClick({ id, lvl }) {
+    handleNodeClick({ key, lvl }) {
       if (lvl) {
-        this.addId = id;
+        this.addId = key;
       } else {
         this.addId = "";
       }
-      this.operateId = id;
+      this.operateId = key;
       this.getInfo();
     },
     /** 搜索按钮操作 */
@@ -126,36 +108,42 @@ export default {
     handleAdd() {
       const target = this.$refs.add;
       target.dataList = this.dataList;
-      target.handleOpen();
+      const id = "";
+      target.handleOpen({ id });
       target.title = "添加";
     },
     handleAddClass() {
       const target = this.$refs.update;
-      const parentId = this.addId;
-      target.handleOpen({ parentId });
+      const parentkey = this.addId;
+      target.handleOpen({ parentkey, id: "" });
       target.dataList = this.dataList;
       target.title = "添加";
     },
     /** 修改按钮操作 */
     handleUpdate() {
       let target;
-      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      let data,
+        id = 1,
+        url,
+        name,
+        key,
+        type,
+        iconurl,
+        sortindex,
+        parentId;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
-      id = this.data.Id;
-      url = this.data.Url;
       sortindex = this.data.SortIndex;
       if (this.addId) {
         target = this.$refs.add;
-        iconurl = this.data.IconUrl;
-        data = { id, url, name, key, type, iconurl, sortindex };
+        data = { id, url, name, key, type, sortindex };
       } else {
         target = this.$refs.update;
         target.dataList = this.dataList;
 
-        parentId = this.data.ParentId;
-        data = { id, url, name, key, type, parentId, sortindex };
+        parentId = this.data.ParentKey;
+        data = { id, url, name, key, type, sortindex };
       }
       target.handleOpen(data);
       target.title = "修改";
@@ -168,8 +156,8 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(v => {
-        const id = this.operateId;
-        deleted({ id }).then(r => {
+        const key = this.operateId;
+        deleted({ key }).then(r => {
           this.$message.success(r.msg);
           this.getList();
         });
