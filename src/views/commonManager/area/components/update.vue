@@ -1,14 +1,26 @@
 <template>
-  <el-dialog width="500px" :title="title+'应用'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title+'地区信息'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
-        <el-col :span="24">
-          <el-form-item label="父级分类" prop="parentId">
-            <el-select v-model="form.parentId" clearable size="small">
-              <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
+        <el-col :span="24" v-if="form.type==2||form.type==3">
+          <el-form-item label="省份" prop="p_parentKey">
+            <el-select v-model="form.p_parentKey" clearable size="small" @change="changeCitys">
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24" v-if="form.type==3">
+          <el-form-item label="城市" prop="parentKey"  >
+            <el-select v-model="form.parentKey" clearable size="small" :disabled="isdisabled">
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in citydataList" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="代码" prop="key">
+            <el-input v-model="form.key" placeholder="请输入代码" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -17,13 +29,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="权限标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入姓名" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="url" prop="url">
-            <el-input v-model="form.url" placeholder="请输入url" />
+          <el-form-item label="邮编">
+            <el-input v-model="form.zipCode" placeholder="请输入邮编" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -31,6 +38,7 @@
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0"  style="width:100px"/>
           </el-form-item>
         </el-col>
+        
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -42,52 +50,32 @@
 </template>
 
 <script>
-import { add, update } from "@/api/commonManager/module";
+import { update } from "@/api/commonManager/area";
 export default {
   data() {
     const rules = {
-      userName: [
+      key: [
         {
           required: true,
-          message: "用户名不能为空",
+          message: "代码不能为空",
           trigger: "blur"
         }
       ],
-      nickName: [
+      name: [
         {
           required: true,
-          message: "用户昵称不能为空",
+          message: "名称不能为空",
           trigger: "blur"
         }
       ],
-      deptId: [
+      zipCode: [
         {
           required: true,
-          message: "归属分站不能为空",
+          message: "邮编不能为空",
           trigger: "blur"
         }
       ],
-      password: [
-        {
-          required: true,
-          message: "用户密码不能为空",
-          trigger: "blur"
-        }
-      ],
-      email: [
-        {
-          type: "email",
-          message: "'请输入正确的邮箱地址",
-          trigger: ["blur", "change"]
-        }
-      ],
-      phonenumber: [
-        {
-          pattern: /^1\d{10}$/,
-          message: "请输入正确的手机号码",
-          trigger: "blur"
-        }
-      ]
+      
     };
     return {
       form: {},
@@ -98,7 +86,9 @@ export default {
       // 角色选项
       roleOptions: [],
       deptType: "",
-      dataList: []
+      dataList: [],
+      citydataList:[],
+      isdisabled:false,
     };
   },
   created() {},
@@ -108,17 +98,34 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
-          url: "",
-          name: "",
           key: "",
-          type: 2,
-          iconurl: "",
-          sortindex: 1,
-          parentId: ""
+          name: "",
+          zipCode: "",
+          parentKey: "",
+          p_parentKey: "",
+          type: '',
+          sortindex: 1
         },
         data
       );
+    },
+    //省市级联
+    changeCitys(key){
+      console.log(key);
+      for (let j = 0; j < this.dataList.length; j++) {
+        const ele = this.dataList[j];
+        if (ele.key == key) {
+          if (ele.childs) {
+            this.citydataList = ele.childs;
+            this.form.parentKey = '';
+            this.isdisabled=false;
+          }else{
+            this.isdisabled=true;
+
+          }
+          break;
+        }
+      }
     },
     handleOpen(data) {
       //改变窗口状态
@@ -129,6 +136,9 @@ export default {
       }
       //表单重置
       this.reset(data);
+      this.$nextTick(()=>{
+          this.$refs.form.clearValidate();
+      })
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -136,10 +146,7 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          let fn;
-          if (this.form.id) fn = update;
-          else fn = add;
-          fn(this.form)
+          update(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);

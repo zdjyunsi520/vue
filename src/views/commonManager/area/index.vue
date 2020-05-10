@@ -3,8 +3,16 @@
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button>
+         <el-dropdown @command="handleCommand" >
+          <el-button type="primary" size="mini"  icon=" el-icon-circle-plus-outline">
+            新增<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="a">省份</el-dropdown-item>
+            <el-dropdown-item command="b">城市</el-dropdown-item>
+            <el-dropdown-item command="c">区域/县</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
         <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
       </el-form-item>
@@ -16,11 +24,13 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <div class="bg-white comheight ">
-          <div v-show="data&&data.Id" class="infobox">
-            <p>代码：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
+          <div v-show="data&&data.Key" class="infobox">
+            <p>代码：{{data.Key}}</p>
+            <p v-if="data.ParentKey">父级地区代码：{{data.ParentKey}}</p>
             <p>名称：{{data.Name}}</p>
-            <p>邮编：{{data.Key}}</p>
-            <p>路径：{{data.Url}}</p>
+            <p>类型：{{data.Type==1?'省级':data.Type==2?'市级':'区/县'}}</p>
+            <p>邮编：{{data.ZipCode}}</p>
+            <p>路径：{{data.Location}}</p>
           </div>
         </div>
       </el-col>
@@ -31,10 +41,7 @@
 </template>
 
 <script>
-import { fetchList, getInfo } from "@/api/commonManager/area";
-// import Treeselect from "@riophae/vue-treeselect";
-// import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-// import IconSelect from "@/components/IconSelect";
+import { fetchList, getInfo,deleted } from "@/api/commonManager/area";
 import update from "./components/update";
 import add from "./components/add";
 export default {
@@ -57,7 +64,8 @@ export default {
       addClass: true,
       addId: "",
       operateId: "",
-      data: {}
+      data: {},
+      level:'',
     };
   },
   created() {
@@ -65,6 +73,14 @@ export default {
   },
 
   methods: {
+     handleCommand(commond) {
+      if (commond == "a") {
+        this.handleAdd();
+      } else{
+        this.handleAddClass(commond);
+     
+      }
+    },
     /** 查询菜单列表 */
     getList() {
       this.loading = true;
@@ -82,7 +98,7 @@ export default {
     },
     getInfo() {
       const id = this.operateId;
-      getInfo({ id }).then(r => {
+      getInfo({ key:id }).then(r => {
         this.data = Object.assign({}, r.data);
       });
     },
@@ -90,13 +106,10 @@ export default {
       this.getList();
       this.getInfo();
     },
-    handleNodeClick({ id, lvl }) {
-      if (lvl) {
-        this.addId = id;
-      } else {
-        this.addId = "";
-      }
-      this.operateId = id;
+    handleNodeClick(obj,node,obj2) {
+      console.log(333,obj,node,obj2)
+      this.operateId = obj.key;
+      this.level = node.level;
       this.getInfo();
     },
     /** 搜索按钮操作 */
@@ -107,60 +120,98 @@ export default {
     handleAdd() {
       const target = this.$refs.add;
       target.dataList = this.dataList;
+      target.hascity=false;
+      target.hasprovince=false;
       target.handleOpen();
       target.title = "添加";
     },
-    handleAddClass() {
-      const target = this.$refs.update;
-      const parentId = this.addId;
-      target.handleOpen({ parentId });
+    handleAddClass(num) {
+      const target = this.$refs.add;
+      if (num =='b') {
+        target.hasprovince=true;
+        target.hascity=false;
+        if(this.level==1){
+          const p_parentKey = this.operateId;
+          target.handleOpen({ p_parentKey });
+        }else{
+          target.handleOpen();
+        }
+      }else{
+        const parentKey = this.operateId;
+        let p_parentKey='';
+        target.hascity=true;
+        target.hasprovince=true;
+        for (let j = 0; j < this.dataList.length; j++) {
+            const ele = this.dataList[j];
+            if (ele.childs) {
+              for (let i = 0; i < ele.childs.length; i++) {
+                const ele_i = ele.childs[i];
+                if (ele_i.key == this.operateId) {
+                  p_parentKey = ele.key;
+                  target.citydataList = ele.childs;
+                }
+              }
+            }
+          }
+        if(this.level==2){
+          target.handleOpen({ parentKey , p_parentKey });
+        }else{
+          target.handleOpen();
+        }
+      }
       target.dataList = this.dataList;
       target.title = "添加";
     },
     /** 修改按钮操作 */
     handleUpdate() {
       let target;
-      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      let data, url, name, key, type, sortindex, parentKey,p_parentKey,zipCode;
       name = this.data.Name;
-      key = this.data.Key;
       type = this.data.Type;
-      id = this.data.Id;
-      url = this.data.Url;
-      sortindex = this.data.SortIndex;
-      if (this.addId) {
-        target = this.$refs.add;
-        iconurl = this.data.IconUrl;
-        data = { id, url, name, key, type, iconurl, sortindex };
-      } else {
-        target = this.$refs.update;
-        target.dataList = this.dataList;
+      url = this.data.Location;
+      key = this.data.Key;
+      zipCode = this.data.ZipCode;
+      sortindex = '';
 
-        parentId = this.data.ParentId;
-        data = { id, url, name, key, type, parentId, sortindex };
+      target = this.$refs.update;
+      if (type==2) {
+        p_parentKey = this.data.ParentKey;
+      }else if (type==3) {
+          for (let j = 0; j < this.dataList.length; j++) {
+            const ele = this.dataList[j];
+            if (ele.childs) {
+              for (let i = 0; i < ele.childs.length; i++) {
+                const ele_i = ele.childs[i];
+                if (ele_i.key == this.data.ParentKey) {
+                  p_parentKey = ele.key;
+                  parentKey = this.data.ParentKey;
+                  target.citydataList = ele.childs;
+                }
+              }
+            }
+          }
       }
+
+      data = {url, key,name,type, parentKey, p_parentKey,zipCode,sortindex };
+      target.dataList = this.dataList;
+      console.log(data)
       target.handleOpen(data);
       target.title = "修改";
     },
 
     /** 删除按钮操作 */
-    handleDelete(row) {
-      this.$confirm(
-        '是否确认删除名称为"' + row.menuName + '"的数据项?',
-        "警告",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      )
-        .then(function() {
-          return delMenu(row.menuId);
-        })
-        .then(() => {
+    handleDelete() {
+      this.$confirm('是否确认删除名称为"' + this.operateId + '"的数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(v => {
+        const key = this.operateId;
+        deleted({ key }).then(r => {
+          this.$message.success(r.msg);
           this.getList();
-          this.msgSuccess("删除成功");
         })
-        .catch(function() {});
+      })
     }
   }
 };

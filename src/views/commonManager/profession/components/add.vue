@@ -4,6 +4,13 @@
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
+        <el-col :span="24" v-if="hasParentKey" >
+          <el-form-item label="父级分类" prop="parentKey">
+            <el-select v-model="form.parentKey" clearable size="small">
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
+            </el-select>
+          </el-form-item>
+        </el-col>
         <el-col :span="24">
           <el-form-item label="代码" prop="key">
             <el-input v-model="form.key" placeholder="请输入代码" />
@@ -21,11 +28,6 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="24">
-          <el-form-item label="路径" prop="url">
-            <el-input v-model="form.url" placeholder="请输入路径" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -55,20 +57,7 @@ export default {
           trigger: "blur"
         }
       ],
-      deptId: [
-        {
-          required: true,
-          message: "此处不能为空",
-          trigger: "blur"
-        }
-      ],
-      password: [
-        {
-          required: true,
-          message: "此处不能为空",
-          trigger: "blur"
-        }
-      ]
+     
     };
     return {
       form: {},
@@ -78,7 +67,9 @@ export default {
       title: "",
       // 角色选项
       roleOptions: [],
-      deptType: ""
+      deptType: "",
+      dataList: [],
+      hasParentKey:true
     };
   },
   created() {},
@@ -91,11 +82,10 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
           key: "",
           name: "",
-          key: "",
           type: 1,
+          parentKey:'',
           sortindex: 1
         },
         data
@@ -110,17 +100,19 @@ export default {
       }
       //表单重置
       this.reset(data);
+      this.$nextTick(()=>{
+          this.$refs.form.clearValidate();
+      })
     },
     /** 提交按钮 */
     handleSubmit: function() {
+      // this.form.parentKey = this.form.parentKey==''?undefined:this.form.parentKey;
+      this.form.type = (this.form.parentKey&&this.form.parentKey!='')?2:1;
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          let fn;
-          if (this.form.id) fn = update;
-          else fn = add;
-          fn(this.form)
+          add(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);

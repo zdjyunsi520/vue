@@ -84,7 +84,7 @@ import { fetchDept } from "@/api/common";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import update from "./components/update";
 export default {
-    name: "运营用户管理",
+    name: "",
     components: { Treeselect,update },
     data() {
         return {
