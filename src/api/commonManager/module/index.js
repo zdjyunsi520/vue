@@ -16,3 +16,7 @@ export function add(data) {
 export function update(data) {
   return post("/Module/Modify", data, commonUrl);
 }
+// 修改模块信息
+export function deleted(data) {
+  return post("/Module/Remove", data, commonUrl);
+}

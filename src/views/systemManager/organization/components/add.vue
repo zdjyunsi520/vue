@@ -1,34 +1,38 @@
 <template>
-  <el-dialog width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="用户名" prop="nickName">
-            <el-input v-model="form.nickName" placeholder="请输入用户名" />
+          <el-form-item label="设备类型" prop="type">
+            <el-select v-model="form.type" clearable size="small">
+              <el-option label="请选择" value=""></el-option>
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="24">
+          <el-form-item label="设备编码" prop="serialcode">
+            <el-input v-model="form.serialcode" placeholder="请输入设备编码" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          <el-form-item label="设备校验码" prop="checkcode">
+            <el-input v-model="form.checkcode" placeholder="烟感、摄像头必填" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="确认密码" prop="password1">
-            <el-input v-model="form.password1" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="form.remark" placeholder="" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="姓名" prop="userName">
-            <el-input v-model="form.userName" placeholder="请输入姓名" auto-complete="off" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="预留手机号" prop="phonenumber">
-            <el-input v-model="form.phonenumber" placeholder="请输入手机号" maxlength="11" />
-          </el-form-item>
-        </el-col>
+        <!-- <el-col :span="24">
+                    <el-form-item label="设备校验码" prop="remark">
+                        <el-input v-model="form.remark" placeholder="请输入手机号" />
+                    </el-form-item>
+                </el-col> -->
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -40,56 +44,22 @@
 </template>
 
 <script>
-import { addUser as add } from "@/api/system/user";
+import { add } from "@/api/commonManager/equipment";
+import { mapGetters } from "vuex";
 export default {
   data() {
     const rules = {
-      userName: [
+      type: [
         {
           required: true,
-          message: "用户名不能为空",
+          message: "此处不能为空",
           trigger: "blur"
         }
       ],
-      nickName: [
+      serialcode: [
         {
           required: true,
-          message: "用户昵称不能为空",
-          trigger: "blur"
-        }
-      ],
-      deptId: [
-        {
-          required: true,
-          message: "归属分站不能为空",
-          trigger: "blur"
-        }
-      ],
-      password: [
-        {
-          required: true,
-          message: "用户密码不能为空",
-          trigger: "blur"
-        }
-      ],
-      password1: [
-        {
-          required: true,
-          message: "用户密码不能为空",
-          trigger: "blur"
-        }
-      ],
-      email: [
-        {
-          type: "email",
-          message: "'请输入正确的邮箱地址",
-          trigger: ["blur", "change"]
-        }
-      ],
-      phonenumber: [
-        {
-          pattern: /^1\d{10}$/,
-          message: "请输入正确的手机号码",
+          message: "此处不能为空",
           trigger: "blur"
         }
       ]
@@ -106,23 +76,17 @@ export default {
     };
   },
   created() {},
+  computed: {
+    ...mapGetters({ equipmentType: "status/equipmentType" })
+  },
   methods: {
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          userId: undefined,
-          deptId: "",
-          userName: undefined,
-          nickName: undefined,
-          password: undefined,
-          phonenumber: undefined,
-          email: undefined,
-          sex: "2",
-          status: "0",
-          remark: undefined,
-          postIds: [],
-          roleIds: []
+          type: "",
+          serialcode: "",
+          remark: ""
         },
         data
       );
@@ -141,6 +105,12 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          if (this.form.type == 4 || this.form.type == 5) {
+            if (this.form.checkcode == "") {
+              this.$message.error("请输入设备校验码");
+              return;
+            }
+          }
           //按钮转圈圈
           this.loading = true;
           //添加用户
