@@ -2,7 +2,7 @@
   <div class="app-container">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
        </el-form-item>
     </el-form>
 

@@ -182,3 +182,23 @@ aside {
 .multiselect--active {
     z-index: 1000 !important;
 }
+
+.search-box {
+    background: #fff;
+    padding: 20px 20px 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ebeef5;
+    .el-form {
+        .el-form-item {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.el-form {
+    padding-right: 5%;
+}
+
+.el-form-item__label {
+    font-weight: normal;
+}
