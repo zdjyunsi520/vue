@@ -30,28 +30,37 @@
         </el-form>
         <el-row>
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-          <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
-          <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
+          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
+          <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
         </el-row>
         <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
           <el-table-column type="selection" width="55" align="center" />
           <el-table-column label="名称" align="center" prop="Name" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="附加属性" align="center" prop="" />
-          <el-table-column label="行业类别" align="center" prop="" />
-          <el-table-column label="行业分类" align="center" prop="" />
+          <el-table-column label="附加属性" align="center" prop="Attribute" />
+          <el-table-column label="行业类别" align="center" prop="Industry" />
+          <el-table-column label="行业分类" align="center" prop="PrincipleActivity" />
           <el-table-column label="联系人" align="center" prop="ContactPerson" />
           <el-table-column label="联系人手机" align="center" prop="MobilePhone" />
           <el-table-column label="联系电话" align="center" prop="PhoneNo" />
-          <el-table-column label="状态" align="center" prop="Status" />
-
+          <el-table-column label="状态" align="center" prop="IsEnable" :formatter="filterEnable" />
+          <el-table-column label="操作" align="center" min-width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+              <el-button size="mini" type="text" @click="handleDisabled(scope.row)">{{showEnable(scope.row)}}</el-button>
+              <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
+              <el-button size="mini" type="text" @click="handleCreateUser(scope.row)">创建账号</el-button>
+              <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-col>
     </el-row>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
     <add ref="add" @getList="getList"></add>
+    <role ref="role" @getList="getList"></role>
+    <create ref="create" @getList="getList"></create>
   </div>
 </template>
 
@@ -65,10 +74,11 @@ import {
 } from "@/api/systemManager/organization";
 
 import add from "./components/add";
-
+import role from "./components/role";
+import create from "./components/create";
 export default {
   name: "运营用户管理",
-  components: { add },
+  components: { add, role, create },
   data() {
     return {
       deptType: null,
@@ -84,32 +94,13 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-
-      // 表单参数
-      form: {
-        userId: undefined,
-        deptId: "",
-        userName: undefined,
-        nickName: undefined,
-        password: undefined,
-        phonenumber: undefined,
-        email: undefined,
-        sex: "2",
-        status: "0",
-        remark: undefined,
-        postIds: [],
-        roleIds: []
-      },
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
       // 查询参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        type: "",
-        serialcode: ""
+        contactperson: "",
+        mobilephone: "",
+        name: ""
       }
     };
   },
@@ -124,6 +115,12 @@ export default {
     this.getList();
   },
   methods: {
+    filterEnable(row) {
+      return row.IsEnable ? "禁用" : "正常";
+    },
+    showEnable(row) {
+      return row.IsEnable ? "启用" : "禁用";
+    },
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;
@@ -155,6 +152,19 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+    handleDisabled(row, lock) {
+      let ids = row
+        ? (ids = [row.Id])
+        : this.ids.filter(v => v.IsEnable == lock).map(v => v.Id);
+      if (ids.length) {
+        const islock = !lock;
+        ids = ids.join(",");
+        locklock({ ids, islock }).then(r => {
+          this.$message.success(r.msg);
+          this.getList();
+        });
+      }
+    },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection;
@@ -167,10 +177,73 @@ export default {
       target.handleOpen();
       target.title = "添加";
     },
+    handleCreateUser() {
+      const target = this.$refs.create;
+      target.handleOpen();
+      target.title = "创建账号";
+    },
+    handleUpdateRole(row) {
+      const target = this.$refs.role;
+      const id = row.Id;
+      target.getInfo({ id });
+      target.handleOpen();
+      target.title = "权限编辑";
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      const target = this.$refs.update;
-      target.handleOpen(row);
+      const id = row.Id,
+        parentId = row.ParentId,
+        name = row.Name,
+        artificialperson = row.ArtificialPerson,
+        creditcode = row.CreditCode,
+        phoneno = row.PhoneNo,
+        contactperson = row.ContactPerson,
+        mobilephone = row.MobilePhone,
+        industry = row.Industry,
+        principleactivity = row.PrincipleActivity,
+        province = row.Province,
+        city = row.City,
+        area = row.Area,
+        address = row.Address,
+        isenable = row.IsEnable,
+        longitude = row.Longitude,
+        latitude = row.Latitude,
+        attribute = row.Attribute,
+        starttime = "",
+        maintype = "",
+        subtype = "",
+        contractcapacity = "",
+        voltlevel = "",
+        operatingcapacity = "";
+
+      const target = this.$refs.add;
+
+      target.handleOpen({
+        id,
+        parentId,
+        name,
+        artificialperson,
+        creditcode,
+        phoneno,
+        contactperson,
+        mobilephone,
+        industry,
+        principleactivity,
+        province,
+        city,
+        area,
+        address,
+        isenable,
+        longitude,
+        latitude,
+        attribute,
+        starttime,
+        maintype,
+        subtype,
+        contractcapacity,
+        voltlevel,
+        operatingcapacity
+      });
       target.title = "修改信息";
     },
     /** 重置密码按钮操作 */

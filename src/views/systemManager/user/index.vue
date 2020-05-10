@@ -1,0 +1,245 @@
+<template>
+  <div class="app-container">
+
+    <el-row :gutter="10">
+      <el-col :xs="{span: 24}" :span="6" class="treebox">
+        <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="18">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+          <el-form-item>
+            <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable size="small" @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable size="small" @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable size="small" @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <el-form-item>
+            <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-form>
+        <el-row>
+          <el-button type="primary" icon="el-icon-add" size="mini" @click="handleAdd">新增</el-button>
+          <el-dropdown @command="handleCommand">
+            <el-button type="primary" size="mini">
+              在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">在职</el-dropdown-item>
+              <el-dropdown-item command="b">离职</el-dropdown-item>
+              <el-dropdown-item command="c">休假</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-table v-loading="listLoading" :data="dataList" border>
+            <!-- <el-table-column type="selection" width="55" align="center" /> -->
+            <el-table-column label="姓名" align="center" prop="Name" />
+            <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
+            <el-table-column label="用户名" align="center" prop="UserName" />
+            <el-table-column label="添加时间" align="center" prop="CreateTime" />
+            <el-table-column label="岗位状态" align="center" prop="Status" :formatter="filterStatus" />
+            <el-table-column label="账号" align="center" prop="IsOpenAccount" :formatter="filterAccount" />
+            <el-table-column label="操作" align="center" min-width="150">
+              <template slot-scope="scope">
+                <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+                <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
+                <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>开通账号</el-button>
+                <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-row>
+      </el-col>
+    </el-row>
+
+    <password ref="password" @getList="getList"></password>
+    <add ref="add" @getList="getList"></add>
+    <role ref="role" @getList="getList"></role>
+  </div>
+</template>
+
+<script>
+import { fetchList, getInfo, deleted } from "@/api/systemManager/user";
+import { fetchTree } from "@/api/systemManager/organization";
+import password from "./components/password";
+import add from "./components/add";
+import role from "../../commonManager/user/components/role";
+export default {
+  name: "components",
+  components: { password, add, role },
+  data() {
+    return {
+      // 遮罩层
+      loading: true,
+      dataList: [],
+      // 查询参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+        mobilephone: "",
+        username: "",
+        name: "",
+        tenantId: "",
+        text: ""
+      },
+      defaultProps: {
+        children: "childs",
+        label: "text"
+      },
+      addClass: true,
+      addId: "",
+      operateId: "",
+      data: {},
+      treeData: [],
+      listLoading: true
+    };
+  },
+  created() {
+    this.getTree();
+  },
+
+  methods: {
+    filterStatus(row) {
+      return row.Status == 1
+        ? "在职"
+        : row.Status == 2
+        ? "休假"
+        : row.Status == 3
+        ? "离职"
+        : row.Status == 99
+        ? "删除"
+        : "";
+    },
+    filterAccount(row) {
+      return row.IsOpenAccount ? "已开通" : "未开通";
+    },
+    handleCommand(commond) {
+      if (commond == "a") {
+      } else if (commond == "b") {
+      }
+    },
+    getTree() {
+      fetchTree({}).then(r => {
+        this.treeData = r.data;
+        if (r.data.length) this.handleNodeClick(r.data[0]);
+      });
+    },
+    /** 查询菜单列表 */
+    getList() {
+      this.listLoading = true;
+      fetchList(this.queryParams)
+        .then(response => {
+          this.dataList = response.data.map(v => {
+            // v.children = v.childs;
+            v.lvl = true;
+            return v;
+          });
+          this.dataList = response.data;
+          this.listLoading = false;
+        })
+        .finally(v => (this.listLoading = false));
+    },
+    handleNodeClick(data) {
+      this.queryParams.tenantId = data.id;
+      this.queryParams.text = data.text;
+      this.getList();
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.page = 1;
+      this.getList();
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      const target = this.$refs.add;
+      const tenantId = this.queryParams.tenantId;
+      const text = this.queryParams.text;
+      target.handleOpen({ tenantId, text });
+      target.title = "添加";
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    /** 修改按钮操作 */
+    handleUpdate(data) {
+      let target = this.$refs.add;
+      let mobilephone, id, name;
+      name = data.Name;
+      mobilephone = data.MobilePhone;
+      id = data.Id;
+      target.handleOpen({ id, name, mobilephone });
+      target.title = "修改";
+    },
+    handlePassword(data, first) {
+      let target = this.$refs.password;
+      let id = data.Id;
+      const oldpassword = first ? "" : "123";
+      target.handleOpen({ id, first, oldpassword });
+      target.title = "修改";
+    },
+    handleUpdateRole(row) {
+      const target = this.$refs.role;
+      const id = row.Id;
+      target.handleOpen({ id });
+      target.title = "修改权限";
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      this.$confirm("是否确认删除选中的数据项?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(v => {
+        const id = this.operateId;
+        deleted({ id }).then(r => {
+          this.$message.success(r.msg);
+          this.getList();
+        });
+      });
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.xl-left {
+  width: 300px;
+  float: left;
+}
+.xl-right {
+  width: 100%;
+  margin-left: 300px;
+}
+.comheight {
+  height: calc(100vh - 184px);
+}
+.infobox {
+  line-height: 1.5;
+  padding: 15px 20px;
+  p {
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+  }
+}
+</style>
+<style lang="scss">
+.xl-query {
+  /deep/.el-form-item {
+    margin-bottom: 0;
+  }
+  /deep/ .el-input__inner {
+    width: 140px;
+  }
+  /deep/.el-date-editor.el-input {
+    width: 200px;
+
+    .el-input__inner {
+      width: 200px;
+    }
+  }
+}
+</style>

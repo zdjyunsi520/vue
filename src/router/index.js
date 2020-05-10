@@ -309,6 +309,17 @@ export const constantRoutes = [
           noCache: true,
           affix: true
         }
+      },
+      {
+        path: "/systemManager/user",
+        component: () => import("@/views/systemManager/user/index"),
+        name: "人员信息",
+        meta: {
+          title: "人员信息",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
       }
     ]
   }
