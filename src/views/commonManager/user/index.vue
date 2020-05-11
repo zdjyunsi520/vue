@@ -1,58 +1,143 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20" class="xl-query">
+    <div class="search-box">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="queryParams.userName"
+            placeholder="用户名"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="姓名" prop="name">
+          <el-input
+            v-model="queryParams.userName"
+            placeholder="姓名"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="预留手机号" prop="phone">
+          <el-input
+            v-model="queryParams.mobilephone"
+            placeholder="预留手机号"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+        <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
+        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
+      </el-form>
+    </div>
+    <div class="bg-white containerbox">
+      <el-row class="table-btns">
+        <el-button
+          type="primary"
+          icon="el-icon-circle-plus-outline"
+          size="mini"
+          @click="handleAdd"
+        >新增</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-lock"
+          size="mini"
+          @click="handleLock(null,false)"
+          :disabled="multiple"
+        >锁定</el-button>
+        <el-button
+          type="info"
+          plain
+          icon="el-icon-unlock"
+          size="mini"
+          @click="handleLock(null,true)"
+          :disabled="multiple"
+        >解锁</el-button>
+      </el-row>
+      <el-table
+        v-loading="listLoading"
+        :data="dataList"
+        @selection-change="handleSelectionChange"
+        border
+        @sort-change="handleSortChange"
+      >
+        <el-table-column type="selection" fixed="left" width="55" align="center" />
+        <el-table-column label="用户名" align="center" width="200" prop="UserName" />
+        <el-table-column label="姓名" align="center" width="160" prop="Name" />
+        <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
+        <el-table-column
+          label="添加时间"
+          min-width="180"
+          align="center"
+          prop="CreateTime"
+          sortable="custom"
+        />
+        <el-table-column
+          label="最后登录时间"
+          min-width="180"
+          align="center"
+          prop="LoginTime"
+          sortable="custom"
+        />
+        <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
+          <template slot-scope="{row}">
+            <el-button
+              :type="row.IsLock?'warning':'primary'"
+              size="mini"
+              @click="handleLock(row,row.IsLock)"
+            >{{row.IsLock?'解锁':'锁定'}}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="注销状态"
+          width="100"
+          align="center"
+          prop="IsCancel"
+          :formatter="filterCancel"
+        />
+        <el-table-column label="操作" align="center" min-width="300">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
+            >修改信息</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-key"
+              @click="handleResetPwd(scope.row)"
+            >修改密码</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-setting"
+              @click="handleUpdateRole(scope.row)"
+            >设置权限</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-      <!--用户数据-->
-      <el-col :span="24" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-          <el-form-item prop="username">
-            <el-input v-model="queryParams.userName" placeholder="用户名" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item prop="name">
-            <el-input v-model="queryParams.userName" placeholder="姓名" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item prop="phone">
-            <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-
-            <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-                        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button> -->
-          </el-form-item>
-        </el-form>
-        <el-row>
-          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
-          <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleLock(null,true)" :disabled="multiple">解除</el-button>
-        </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border @sort-change="handleSortChange">
-          <el-table-column type="selection" width="55" align="center" />
-          <el-table-column label="用户名" align="center" width="200" prop="UserName" />
-          <el-table-column label="姓名" align="center" width="160" prop="Name" />
-          <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-          <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom" />
-          <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom" />
-          <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
-            <template slot-scope="{row}">
-              <el-button :type="row.IsLock?'warning':'primary'" size="mini" @click="handleLock(row,row.IsLock)">{{row.IsLock?'解锁':'锁定'}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" :formatter="filterCancel" />
-          <el-table-column label="操作" align="center" min-width="300">
-            <template slot-scope="scope">
-              <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改信息</el-button>
-              <el-button size="mini" type="text" icon="el-icon-key" @click="handleResetPwd(scope.row)">修改密码</el-button>
-              <el-button size="mini" type="text" icon="el-icon-setting" @click="handleUpdateRole(scope.row)">设置权限</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-      </el-col>
-    </el-row>
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="queryParams.pageno"
+        :limit.sync="queryParams.pagesize"
+        @pagination="getList"
+      />
+    </div>
     <update ref="update" @getList="getList"></update>
     <add ref="add" @getList="getList"></add>
     <password ref="password" @getList="getList"></password>
@@ -225,19 +310,4 @@ export default {
 };
 </script>
 <style lang="scss">
-// .xl-query {
-//   /deep/.el-form-item {
-//     margin-bottom: 0;
-//   }
-//   /deep/ .el-input__inner {
-//     width: 130px;
-//   }
-//   /deep/.el-date-editor.el-input {
-//     width: 200px;
-
-//     .el-input__inner {
-//       width: 200px;
-//     }
-//   }
-// }
 </style>

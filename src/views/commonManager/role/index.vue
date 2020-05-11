@@ -1,24 +1,39 @@
 <template>
   <div class="app-container">
-     <el-form :inline="true">
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-       </el-form-item>
-    </el-form>
+    <div class="bg-white containerbox">
+      <el-row class="table-btns">
+        <el-button
+          type="primary"
+          icon="el-icon-circle-plus-outline"
+          size="mini"
+          @click="handleAdd"
+        >新增</el-button>
+      </el-row>
+      <el-table v-loading="listLoading" :data="dataList" border class="commtable">
+        <el-table-column label="角色名称" align="center" prop="Name" :show-overflow-tooltip="true" />
+        <el-table-column label="权限字符" align="center" prop="Key" :show-overflow-tooltip="true" />
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
+            >修改</el-button>
+            <!-- <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:role:remove']">删除</el-button> -->
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <el-table v-loading="listLoading" :data="dataList" border class="commtable">
-      <el-table-column label="角色名称" align="center" prop="Name" :show-overflow-tooltip="true" />
-      <el-table-column label="权限字符" align="center" prop="Key" :show-overflow-tooltip="true" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <!-- <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:role:remove']">删除</el-button> -->
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    <update ref="update" @getList="getList"></update>
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="queryParams.pageno"
+        :limit.sync="queryParams.pagesize"
+        @pagination="getList"
+      />
+      <update ref="update" @getList="getList"></update>
+    </div>
   </div>
 </template>
 
@@ -86,5 +101,7 @@ export default {
 };
 </script>
 <style lang="scss" >
-.commtable .el-table__header th{padding:8px 0 !important;}
+.commtable .el-table__header th {
+  padding: 8px 0 !important;
+}
 </style>

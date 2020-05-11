@@ -1,58 +1,91 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item>
-        <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-dropdown @command="handleCommand">
-          <el-button type="primary" size="mini">
-            新增<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a">新增分类</el-dropdown-item>
-            <el-dropdown-item command="b">新增应用</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增应用</el-button> -->
-        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="search-box">
+      <el-form :inline="true">
+        <el-form-item>
+          <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+          <el-dropdown @command="handleCommand">
+            <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+              新增
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">新增分类</el-dropdown-item>
+              <el-dropdown-item command="b">新增应用</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            plain
+            @click="handleUpdate"
+            :disabled="operateId==''"
+          >修改</el-button>
+          <el-button
+            type="info"
+            icon="el-icon-delete"
+            size="mini"
+            plain
+            @click="handleDelete"
+            :disabled="operateId==''"
+          >删除</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+    <el-row :gutter="20" class="containerbox">
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree
+            :data="dataList"
+            :props="defaultProps"
+            :highlight-current="true"
+            @node-click="handleNodeClick"
+            default-expand-all
+            :expand-on-click-node="false"
+          ></el-tree>
+        </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight ">
-          <div v-show="data&&data.Id" class="infobox">
-            <p>类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</p>
-            <p>名称：{{data.Name}}</p>
-            <p>权限标识：{{data.Key}}</p>
-            <p>URL：{{data.Url}}</p>
-            <p>排序号：{{data.SortIndex}}</p>
-            <p v-if="data.IconUrl">图标：
-              <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
-            </p>
+      <el-col :xs="{span: 24}" :span="10"  class="comheight">
+        <div class="bg-white  infobox" >
+          <el-form label-position="top" :model="smform" v-if="data&&data.Id">
+            <el-form-item>
+              <el-form-item label="类型">
+                <el-input v-model="smform.Type" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="权限标识">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="URL">
+                <el-input v-model="smform.Url" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="排序号">
+                <el-input v-model="smform.SortIndex" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item label="图标" v-if="smform.IconUrl">
+              <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
+            </el-form-item>
+          </el-form>
+          <div v-else class="tips">
+            暂无数据
           </div>
         </div>
       </el-col>
     </el-row>
-    <!-- <div class="xl-left">
-      <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
-    </div>
-    <div class="xl-right">
-      <el-row v-show="data&&data.Id">
-        <el-col :span="24">类型：{{data.Type==1?'分类':data.Type==2?'应用':'权限'}}</el-col>
-        <el-col :span="24">名称：{{data.Name}}</el-col>
-        <el-col :span="24">权限标识：{{data.Key}}</el-col>
-        <el-col :span="24">URL：{{data.Url}}</el-col>
-        <el-col :span="24">排序号：{{data.SortIndex}}</el-col>
-        <el-col :span="24" v-if="data.IconUrl">图标：
-          <svg-icon :icon-class="data.IconUrl?data.IconUrl:''" />
-        </el-col>
-      </el-row>
-    </div> -->
+
     <update ref="update" @getList="getList123"></update>
     <add ref="add" @getList="getList123"></add>
   </div>
@@ -60,9 +93,6 @@
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/module";
-// import Treeselect from "@riophae/vue-treeselect";
-// import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-// import IconSelect from "@/components/IconSelect";
 import update from "./components/update";
 import add from "./components/add";
 export default {
@@ -85,7 +115,8 @@ export default {
       addClass: true,
       addId: "",
       operateId: "",
-      data: {}
+      data: {},
+      smform: {}
     };
   },
   created() {
@@ -120,6 +151,13 @@ export default {
       id &&
         getInfo({ id }).then(r => {
           this.data = Object.assign({}, r.data);
+          this.smform = Object.assign({}, r.data);
+          this.smform.Type =
+            this.smform.Type == 1
+              ? "分类"
+              : this.smform.Type == 2
+              ? "应用"
+              : "权限";
         });
     },
     getList123() {
@@ -144,14 +182,14 @@ export default {
       const target = this.$refs.add;
       target.dataList = this.dataList;
       target.handleOpen();
-      target.title = "添加";
+      target.title = "分类";
     },
     handleAddClass() {
       const target = this.$refs.update;
       const parentId = this.addId;
       target.handleOpen({ parentId });
       target.dataList = this.dataList;
-      target.title = "添加";
+      target.title = "应用";
     },
     /** 修改按钮操作 */
     handleUpdate() {
@@ -175,7 +213,7 @@ export default {
         data = { id, url, name, key, type, parentId, sortindex };
       }
       target.handleOpen(data);
-      target.title = "修改";
+      target.title = "修改信息";
     },
 
     /** 删除按钮操作 */
@@ -196,24 +234,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.xl-left {
-  width: 300px;
-  float: left;
-}
-.xl-right {
-  width: 100%;
-  margin-left: 300px;
-}
-.comheight {
-  height: calc(100vh - 184px);
-}
-.infobox {
-  line-height: 1.5;
-  padding: 15px 20px;
-  p {
-    text-align: left;
-    font-size: 14px;
-    color: #333;
-  }
-}
 </style>

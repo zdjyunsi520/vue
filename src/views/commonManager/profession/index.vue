@@ -1,35 +1,74 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item>
-        <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-        <el-dropdown @command="handleCommand" placement='bottom-start'>
-          <el-button type="primary" size="mini">
-            新增<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a">新增类别</el-dropdown-item>
-            <el-dropdown-item command="b">新增分类</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增分类</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddClass" :disabled="addId==''">新增子类</el-button> -->
-        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="search-box">
+      <el-form :inline="true">
+        <el-form-item>
+          <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+          <el-dropdown @command="handleCommand" placement="bottom-start">
+            <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+              新增
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">新增类别</el-dropdown-item>
+              <el-dropdown-item command="b">新增分类</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            @click="handleUpdate"
+            :disabled="operateId==''"
+          >修改</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="mini"
+            @click="handleDelete"
+            :disabled="operateId==''"
+          >删除</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='true' :expand-on-click-node="false"></el-tree>
+    <el-row :gutter="20" class="containerbox">
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree
+            :data="dataList"
+            :props="defaultProps"
+            :highlight-current="true"
+            @node-click="handleNodeClick"
+            :default-expand-all="true"
+            :expand-on-click-node="false"
+          ></el-tree>
+        </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight ">
-          <div v-show="data&&data.Key" class="infobox">
-            <p>代码：{{data.Key}}</p>
-            <p>名称：{{data.Name}}</p>
-            <p>排序：{{data.SortIndex}}</p>
-            <p v-if="data.ParentKey">父级：{{data.ParentKey}}</p>
+      <el-col :xs="{span: 24}" :span="10" class="comheight">
+        <div class="bg-white infobox" >
+          <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+            <el-form-item>
+              <el-form-item label="代码">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="排序">
+                <el-input v-model="smform.SortIndex" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item label="父级" v-if="smform.ParentKey">
+                <el-input v-model="smform.ParentKey" disabled></el-input>
+            </el-form-item>
+          </el-form>
+          <div v-else class="tips">
+            暂无数据
           </div>
         </div>
       </el-col>
@@ -66,6 +105,7 @@ export default {
       addClass: true,
       addId: "",
       operateId: "",
+      smform: {},
       data: {}
     };
   },
@@ -101,6 +141,7 @@ export default {
       key &&
         getInfo({ key }).then(r => {
           this.data = Object.assign({}, r.data);
+          this.smform = Object.assign({}, r.data);
         });
     },
     getList123() {
@@ -125,26 +166,21 @@ export default {
       const target = this.$refs.add;
       target.dataList = this.dataList;
       target.handleOpen();
-      target.hasParentKey=false;
-      target.title = "添加";
+      target.hasParentKey = false;
+      target.title = "类别";
     },
     handleAddClass() {
       const target = this.$refs.add;
       const parentKey = this.addId;
-      target.hasParentKey=true;
+      target.hasParentKey = true;
       target.handleOpen({ parentKey });
       target.dataList = this.dataList;
-      target.title = "添加";
+      target.title = "分类";
     },
     /** 修改按钮操作 */
     handleUpdate() {
       let target;
-      let data,
-        name,
-        key,
-        type,
-        sortindex,
-        parentKey;
+      let data, name, key, type, sortindex, parentKey;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
@@ -153,10 +189,10 @@ export default {
 
       target = this.$refs.update;
       target.dataList = this.dataList;
-      data = {  name, key, type, sortindex ,parentKey};
+      data = { name, key, type, sortindex, parentKey };
 
       target.handleOpen(data);
-      target.title = "修改";
+      target.title = "修改信息";
     },
 
     /** 删除按钮操作 */
@@ -177,24 +213,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.xl-left {
-  width: 300px;
-  float: left;
-}
-.xl-right {
-  width: 100%;
-  margin-left: 300px;
-}
-.comheight {
-  height: calc(100vh - 184px);
-}
-.infobox {
-  line-height: 1.5;
-  padding: 15px 20px;
-  p {
-    text-align: left;
-    font-size: 14px;
-    color: #333;
-  }
-}
+
 </style>
