@@ -117,7 +117,6 @@
         </el-col>
         <el-col :span="24">
           <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
-            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
           </baidu-map>
         </el-col>
         <el-col :span="24">附加属性 <el-checkbox v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
@@ -244,6 +243,8 @@ export default {
     this.getProfession();
     this.getTree();
     this.getAreaList();
+    const data = this.$route.query.data;
+    this.reset(data);
   },
   computed: {
     ...mapGetters({ equipmentType: "status/equipmentType" }),

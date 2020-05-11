@@ -57,7 +57,6 @@
     </el-row>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
-    <add ref="add" @getList="getList"></add>
     <role ref="role" @getList="getList"></role>
     <create ref="create" @getList="getList"></create>
   </div>
@@ -70,12 +69,11 @@ import {
   disabled as locklock
 } from "@/api/systemManager/organization";
 
-import add from "./components/add";
 import role from "./components/role";
 import create from "./components/create";
 export default {
   name: "",
-  components: { add, role, create },
+  components: { role, create },
   data() {
     return {
       deptType: null,
@@ -214,6 +212,38 @@ export default {
         voltlevel = "",
         operatingcapacity = "";
 
+      this.$router.push({
+        path: "/organization/add",
+        query: {
+          data: {
+            id,
+            parentId,
+            name,
+            artificialperson,
+            creditcode,
+            phoneno,
+            contactperson,
+            mobilephone,
+            industry,
+            principleactivity,
+            province,
+            city,
+            area,
+            address,
+            isenable,
+            longitude,
+            latitude,
+            attribute,
+            starttime,
+            maintype,
+            subtype,
+            contractcapacity,
+            voltlevel,
+            operatingcapacity
+          }
+        }
+      });
+      return;
       const target = this.$refs.add;
 
       target.handleOpen({
