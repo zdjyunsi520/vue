@@ -137,6 +137,19 @@
     }
 }
 .table-btns{padding: 20px 0;}
+.smtitle{    font-size: 14px;
+    color: #333333;
+    font-weight: bold;
+    &::before{    content: "";
+        width: 4px;
+        height: 16px;
+        background-color: #a4c2fb;
+        margin-right: 7px;
+        display: inline-block;
+        vertical-align: text-top;}
+}
+.form-footer{text-align: center;}
+
 @media screen and (max-width:768px){
     .comheight {
         height: auto!important;

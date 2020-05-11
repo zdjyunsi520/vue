@@ -1,18 +1,15 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20" class="xl-query">
-
-      <!--用户数据-->
-      <el-col :span="24" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-          <el-form-item>
+        <div class="search-box">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" >
+          <el-form-item label="名称">
             <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
           </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryParams.contactperson" placeholder="联系人" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-form-item label="联系人">
+            <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable size="small" @keyup.enter.native="handleQuery" />
           </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryParams.mobilephone" placeholder="联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-form-item label="手机号">
+            <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
           </el-form-item>
           <!-- <el-form-item>
             <el-select v-model="queryParams.type" clearable size="small">
@@ -21,29 +18,30 @@
             </el-select>
           </el-form-item> -->
           <el-form-item>
-            <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-search" size="mini"  type="primary" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-
             <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
                         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
           </el-form-item>
         </el-form>
-        <el-row>
+        </div>
+      <div class="bg-white containerbox">
+        <el-row class="table-btns">
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
           <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
+          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
         </el-row>
         <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
-          <el-table-column type="selection" width="55" align="center" />
-          <el-table-column label="名称" align="center" prop="Name" />
+          <el-table-column type="selection" width="55" align="center" fixed="left" />
+          <el-table-column label="名称" align="center"  min-width="155"  prop="Name" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="附加属性" align="center" prop="Attribute" />
-          <el-table-column label="行业类别" align="center" prop="IndustryName" />
-          <el-table-column label="行业分类" align="center" prop="PrincipleActivityName" />
-          <el-table-column label="联系人" align="center" prop="ContactPerson" />
-          <el-table-column label="联系人手机" align="center" prop="MobilePhone" />
-          <el-table-column label="联系电话" align="center" prop="PhoneNo" />
-          <el-table-column label="状态" align="center" prop="IsEnable" :formatter="filterEnable" />
+          <el-table-column label="附加属性" sortable min-width="100" align="center" prop="Attribute" />
+          <el-table-column label="行业类别" sortable min-width="80" align="center" prop="IndustryName" />
+          <el-table-column label="行业分类" sortable min-width="80"  align="center" prop="PrincipleActivityName" />
+          <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
+          <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
+          <el-table-column label="联系电话" align="center" min-width="110"  prop="PhoneNo" />
+          <el-table-column label="状态" sortable align="center" min-width="70"  prop="IsEnable" :formatter="filterEnable" />
           <el-table-column label="操作" align="center" min-width="150">
             <template slot-scope="scope">
               <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -53,9 +51,8 @@
             </template>
           </el-table-column>
         </el-table>
-      </el-col>
-    </el-row>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
 
     <role ref="role" @getList="getList"></role>
     <create ref="create" @getList="getList"></create>
@@ -341,19 +338,4 @@ export default {
 };
 </script>
 <style lang="scss">
-.xl-query {
-  /deep/.el-form-item {
-    margin-bottom: 0;
-  }
-  /deep/ .el-input__inner {
-    width: 130px;
-  }
-  /deep/.el-date-editor.el-input {
-    width: 200px;
-
-    .el-input__inner {
-      width: 200px;
-    }
-  }
-}
 </style>
