@@ -14,39 +14,20 @@
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            @click="handleUpdate"
-            :disabled="operateId==''"
-          >修改</el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-delete"
-            size="mini"
-            @click="handleDelete"
-            :disabled="operateId==''"
-          >删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
     <el-row :gutter="20" class="containerbox">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
-        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree
-            :data="dataList"
-            :props="defaultProps"
-            :highlight-current="true"
-            @node-click="handleNodeClick"
-            :default-expand-all="true"
-            :expand-on-click-node="false"
-          ></el-tree>
+        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
-        <div class="bg-white infobox" >
+        <div class="bg-white infobox">
           <el-form label-position="top" :model="smform" v-if="data&&data.Key">
             <el-form-item>
               <el-form-item label="代码">
@@ -64,7 +45,7 @@
               </el-form-item>
             </el-form-item>
             <el-form-item label="父级" v-if="smform.ParentKey">
-                <el-input v-model="smform.ParentKey" disabled></el-input>
+              <el-input v-model="smform.ParentKey" disabled></el-input>
             </el-form-item>
           </el-form>
           <div v-else class="tips">
@@ -148,7 +129,7 @@ export default {
       this.getList();
       this.getInfo();
     },
-    handleNodeClick({ key, lvl }) {
+    handleNodeClick({ key, lvl, ParentKey }) {
       if (lvl) {
         this.addId = key;
       } else {
@@ -174,7 +155,9 @@ export default {
       const parentKey = this.addId;
       target.hasParentKey = true;
       target.handleOpen({ parentKey });
-      target.dataList = this.dataList;
+      // target.dataList = this.dataList.findIndex(v => {
+      //   const list = v.childs;
+      // });
       target.title = "分类";
     },
     /** 修改按钮操作 */
@@ -213,5 +196,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 </style>

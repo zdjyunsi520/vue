@@ -28,3 +28,8 @@ export function setRole(data) {
 export function update(data) {
   return post("/Tenant/Modify", data, commonUrl);
 }
+
+//禁用/启用
+export function disabled(data) {
+  return post("/Tenant/SetEnable", data, commonUrl);
+}

@@ -38,8 +38,8 @@
           <el-table-column label="名称" align="center" prop="Name" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
           <el-table-column label="附加属性" align="center" prop="Attribute" />
-          <el-table-column label="行业类别" align="center" prop="Industry" />
-          <el-table-column label="行业分类" align="center" prop="PrincipleActivity" />
+          <el-table-column label="行业类别" align="center" prop="IndustryName" />
+          <el-table-column label="行业分类" align="center" prop="PrincipleActivityName" />
           <el-table-column label="联系人" align="center" prop="ContactPerson" />
           <el-table-column label="联系人手机" align="center" prop="MobilePhone" />
           <el-table-column label="联系电话" align="center" prop="PhoneNo" />
@@ -67,9 +67,7 @@
 import { mapGetters } from "vuex";
 import {
   fetchList,
-  deleted,
-  syncCamera,
-  syncSmoke
+  disabled as locklock
 } from "@/api/systemManager/organization";
 
 import add from "./components/add";

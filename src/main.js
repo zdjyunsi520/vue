@@ -6,21 +6,21 @@ import "normalize.css/normalize.css"; // a modern alternative to CSS resets
 
 import Element from "element-ui";
 
-import './styles/element-variables.scss'
+import "./styles/element-variables.scss";
 
-import '@/styles/index.scss' // global css
-import '@/styles/king.scss' // common css
+import "@/styles/index.scss"; // global css
+import "@/styles/king.scss"; // common css
 
 import App from "./App";
 import store from "./store";
 import router from "./router";
 import permission from "./directive/permission";
 
-import * as filters from './filters' // global filters
+import * as filters from "./filters"; // global filters
 Object.keys(filters).forEach(key => {
-    Vue.filter(key, filters[key])
-  })
-  
+  Vue.filter(key, filters[key]);
+});
+
 import "./assets/icons"; // icon
 import "./permission"; // permission control
 //字典配置
@@ -29,11 +29,11 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 //工具类
 import {
-    parseTime,
-    resetForm,
-    addDateRange,
-    selectDictLabel,
-    download
+  parseTime,
+  resetForm,
+  addDateRange,
+  selectDictLabel,
+  download
 } from "@/utils/king";
 import Pagination from "@/components/Pagination";
 
@@ -47,15 +47,15 @@ Vue.prototype.selectDictLabel = selectDictLabel;
 Vue.prototype.download = download;
 
 Vue.prototype.msgSuccess = function(msg) {
-    this.$message({ showClose: true, message: msg, type: "success" });
+  this.$message({ showClose: true, message: msg, type: "success" });
 };
 
 Vue.prototype.msgError = function(msg) {
-    this.$message({ showClose: true, message: msg, type: "error" });
+  this.$message({ showClose: true, message: msg, type: "error" });
 };
 
 Vue.prototype.msgInfo = function(msg) {
-    this.$message.info(msg);
+  this.$message.info(msg);
 };
 
 // 全局组件挂载
@@ -73,14 +73,14 @@ Vue.use(permission);
  */
 
 Vue.use(Element, {
-    size: Cookies.get("size") || "medium" // set element-ui default size
+  size: Cookies.get("size") || "medium" // set element-ui default size
 });
 
 Vue.config.productionTip = false;
 
 new Vue({
-    el: "#app",
-    router,
-    store,
-    render: h => h(App)
+  el: "#app",
+  router,
+  store,
+  render: h => h(App)
 });

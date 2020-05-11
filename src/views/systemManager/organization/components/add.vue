@@ -94,7 +94,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          地图定位
+          地图位置
         </el-col>
         <el-col :span="12">
           <el-form-item label="经度" prop="longitude">
@@ -115,7 +115,9 @@
           <el-button type="primary" @click="handleMap">搜索</el-button>
         </el-col>
         <el-col :span="24">
-          地图
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
+            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+          </baidu-map>
         </el-col>
         <el-col :span="24">附加属性 <el-checkbox v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
         </el-col>
@@ -172,6 +174,7 @@ import { add, fetchTree, update } from "@/api/systemManager/organization";
 import { fetchList } from "@/api/commonManager/area";
 import { mapGetters } from "vuex";
 import { fetchList as fetchProfession } from "@/api/commonManager/profession";
+import BaiduMap from "vue-baidu-map/components/map/Map.vue";
 const electronType = [
   { key: "高压", value: "高压" },
   { key: "高压非居民", value: "高压非居民" },
@@ -192,6 +195,7 @@ const electronLvl = [
   { key: "110KV", value: "110KV" }
 ];
 export default {
+  components: { BaiduMap },
   data() {
     const rule = [
       {
@@ -219,6 +223,8 @@ export default {
       latitude: rule
     };
     return {
+      center: { lng: 0, lat: 0 },
+      zoom: 3,
       form: {},
       rules,
       dialogVisible: false,
@@ -260,6 +266,12 @@ export default {
     }
   },
   methods: {
+    handler({ BMap, map }) {
+      console.log(BMap, map);
+      this.center.lng = 116.404;
+      this.center.lat = 39.915;
+      this.zoom = 15;
+    },
     getAreaList() {
       this.loading = true;
       fetchList({})
@@ -271,6 +283,10 @@ export default {
           });
           this.dataList = response.data;
           this.loading = false;
+
+          var map = new BMapGL.Map("container");
+          var point = new BMapGL.Point(116.404, 39.915);
+          map.centerAndZoom(point, 15);
         })
         .finally(v => (this.loading = false));
     },
@@ -367,5 +383,9 @@ export default {
 <style lang="scss" scoped>
 /deep/.el-select {
   width: 100%;
+}
+.bm-view {
+  width: 100%;
+  height: 300px;
 }
 </style>
