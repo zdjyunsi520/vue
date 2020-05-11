@@ -42,7 +42,7 @@
           <el-form-item label="省份" prop="province">
             <el-select v-model="form.province" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -55,7 +55,7 @@
           <el-form-item label="城市" prop="city">
             <el-select v-model="form.city" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -68,7 +68,7 @@
           <el-form-item label="区域/县" prop="area">
             <el-select v-model="form.area" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -168,7 +168,8 @@
 </template>
 
 <script>
-import { add, fetchTree } from "@/api/systemManager/organization";
+import { add, fetchTree, update } from "@/api/systemManager/organization";
+import { fetchList } from "@/api/commonManager/area";
 import { mapGetters } from "vuex";
 import { fetchList as fetchProfession } from "@/api/commonManager/profession";
 const electronType = [
@@ -223,33 +224,56 @@ export default {
       dialogVisible: false,
       loading: false,
       title: "",
-      professionList: "",
+      professionList: [],
       electronType,
       electronType1,
       electronLvl,
-      treeData: []
+      treeData: [],
+      areaList: []
     };
   },
   created() {
     this.getProfession();
     this.getTree();
+    this.getAreaList();
   },
   computed: {
     ...mapGetters({ equipmentType: "status/equipmentType" }),
     professionChildList() {
-      if (this.professionList && this.form.industry) {
-        const obj = this.professionList.filter(
-          v => v.key == this.form.industry
-        );
-        if (obj.length) return obj[0].childs;
-        else return [];
+      const obj = this.professionList.filter(v => v.key == this.form.industry);
+      if (obj.length) {
+        return obj[0].childs;
       } else return [];
     },
     disabled() {
-      return this.form.attribute == "";
+      return this.form.attribute ? false : true;
+    },
+    cityList() {
+      const list = this.areaList.filter(v => v.key == this.form.province);
+      if (list.length) return list[0].childs;
+      return [];
+    },
+    distractList() {
+      const list = this.cityList.filter(v => v.key == this.form.city);
+      if (list.length) return list[0].childs;
+      return [];
     }
   },
   methods: {
+    getAreaList() {
+      this.loading = true;
+      fetchList({})
+        .then(response => {
+          this.areaList = response.data.map(v => {
+            // v.children = v.childs;
+            v.lvl = true;
+            return v;
+          });
+          this.dataList = response.data;
+          this.loading = false;
+        })
+        .finally(v => (this.loading = false));
+    },
     getTree() {
       fetchTree({}).then(r => {
         this.treeData = r.data;
@@ -288,7 +312,9 @@ export default {
           subtype: "",
           contractcapacity: "",
           voltlevel: "",
-          operatingcapacity: ""
+          operatingcapacity: "",
+          industryname: "",
+          principleactivityname: ""
         },
         data
       );
@@ -308,10 +334,17 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.industryname = this.professionList.filter(
+            v => v.key == this.form.industry
+          )[0].text;
+          this.form.principleactivityname = this.professionChildList.filter(
+            v => v.key == this.form.principleactivity
+          )[0].text;
           //按钮转圈圈
           this.loading = true;
+          const fn = this.form.id ? update : add;
           //添加用户
-          add(this.form)
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);

@@ -1,29 +1,34 @@
 <template>
-  <el-dialog width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="80%" top="20px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-form-item>
-        <el-checkbox-group v-model="form.moduleids">
-          <el-table :data="moduleList">
-            <el-table-column prop="date" label="角色" width="180">
-              <template slot-scope="{row}">
-                <el-checkbox :label="row.RoleId">{{row.RoleName}}</el-checkbox>
-              </template>
-            </el-table-column>
-            <el-table-column prop="name" label="模块配置">
-              <template slot-scope="{row}">
-                <el-row v-for="item in row.ModuleData" :key="item.ModuleId">
-                  <el-col :span="24">
-                    <el-checkbox :label="item.ModuleId">{{item.ModuleName}}</el-checkbox>
-                  </el-col>
-                  <el-col :span="6" v-for="chekcbox in item.Childs" :key="chekcbox.ModuleId">
-                    <el-checkbox :label="chekcbox.ModuleId">{{chekcbox.ModuleName}}</el-checkbox>
-                  </el-col>
-                </el-row>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-checkbox-group>
+        <!-- <el-checkbox-group v-model="form.moduleids"> -->
+        <el-table :data="moduleList">
+          <el-table-column prop="date" label="角色" width="180">
+            <template slot="header">
+              <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
+            </template>
+            <template slot-scope="{row}">
+              <el-checkbox @change="handleChange(row)" v-model="row.IsSelect">{{row.RoleName}}</el-checkbox>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="name" label="模块配置">
+            <template slot-scope="{row}">
+
+              <el-row v-for="item in row.ModuleData" :key="item.ModuleId">
+                <el-col :span="24" class="xl-checkbox">
+                  <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
+                </el-col>
+                <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
+                  <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
+                </el-col>
+              </el-row>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- </el-checkbox-group> -->
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -72,6 +77,7 @@ export default {
         moduleids: [],
         sortindex: 1
       },
+      farther: false,
       rules,
       dialogVisible: false,
       loading: false,
@@ -83,11 +89,28 @@ export default {
         children: "children",
         label: "label"
       },
-      moduleList: []
+      moduleList: [],
+      list: []
     };
   },
   created() {},
   methods: {
+    handleChangeFarther(isSelect) {
+      this.moduleList.map(v => {
+        v.IsSelect = isSelect;
+        this.handleChange(v);
+        return v;
+      });
+    },
+    handleChange(data) {
+      const isSelect = data.IsSelect;
+      const childs = data.Childs || data.ModuleData;
+      if (childs)
+        childs.forEach(v => {
+          v.IsSelect = isSelect;
+          this.handleChange(v);
+        });
+    },
     getInfo(data) {
       this.loading = true;
       if (data && data.id) {
@@ -95,19 +118,6 @@ export default {
         getInfo({ id })
           .then(({ data }) => {
             this.moduleList = data;
-            this.form.moduleids = [];
-            this.moduleList.forEach(v => {
-              if (v.IsSelect) this.form.moduleids.push(v.RoleId);
-              if (v.ModuleData)
-                v.ModuleData.forEach(v => {
-                  if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-                  if (v.Childs)
-                    v.Childs.forEach(v => {
-                      if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-                    });
-                });
-            });
-            this.form.moduleids = [...new Set(this.form.moduleids)];
           })
           .finally(v => (this.loading = false));
       } else {
@@ -144,6 +154,19 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
+          this.form.moduleids = [];
+          this.moduleList.forEach((v, i) => {
+            if (v.IsSelect) this.form.moduleids.push(v.RoleId);
+            if (v.ModuleData)
+              v.ModuleData.forEach(v => {
+                if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+                if (v.Childs)
+                  v.Childs.forEach(v => {
+                    if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+                  });
+              });
+          });
+          //this.form.moduleids = [...new Set(this.form.moduleids)];
           this.form.moduleids = this.form.moduleids.join(",");
           if (this.form.id) {
             //保存修改
@@ -184,4 +207,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.xl-checkbox {
+  .el-checkbox__label {
+    font-weight: bold;
+    color: #f00;
+  }
+  .el-checkbox__inner {
+    border-color: #f00;
+  }
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #f00;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #f00;
+    border-color: #f00;
+  }
+  .el-checkbox__input.is-focus .el-checkbox__inner {
+    border-color: #f00;
+  }
+}
 </style>

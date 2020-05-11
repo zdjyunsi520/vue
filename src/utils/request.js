@@ -53,7 +53,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(res => {
   const code = res.data.code;
-  if (code > 10000 && code < 1007) {
+  if (code > 10000 && code < 10007) {
     // MessageBox.confirm(
     //     '长时间未操作，请重新登录',
     //     '系统提示', {
@@ -65,6 +65,7 @@ service.interceptors.response.use(res => {
     //         location.reload() // 为了重新实例化vue-router对象 避免bug
     //     })
     // })
+    Notification.error({ title: res.data.msg });
     store.dispatch("LogOut").then(() => {
       location.reload(); // 为了重新实例化vue-router对象 避免bug
     });

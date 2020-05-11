@@ -49,7 +49,6 @@
               <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
               <el-button size="mini" type="text" @click="handleDisabled(scope.row)">{{showEnable(scope.row)}}</el-button>
               <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
-              <el-button size="mini" type="text" @click="handleCreateUser(scope.row)">创建账号</el-button>
               <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button>
             </template>
           </el-table-column>
