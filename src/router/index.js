@@ -301,9 +301,10 @@ export const constantRoutes = [
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
+        name: "组织机构",
+
         path: "/organization",
         component: () => import("@/views/systemManager/organization/index"),
-        name: "组织机构",
         meta: {
           title: "组织机构",
           icon: "dashboard",
@@ -317,6 +318,25 @@ export const constantRoutes = [
         name: "人员信息",
         meta: {
           title: "人员信息",
+          icon: "dashboard",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "systemManager",
+    component: Layout,
+    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+    hidden: true,
+    children: [
+      {
+        path: "/organization/add",
+        component: () =>
+          import("@/views/systemManager/organization/components/add"),
+        meta: {
+          title: "组织机构",
           icon: "dashboard",
           noCache: true,
           affix: true

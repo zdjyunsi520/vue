@@ -1,5 +1,6 @@
 <template>
-  <el-dialog top="20px" width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <div>
+    <!-- <el-dialog top="20px" width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center> -->
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
@@ -166,7 +167,8 @@
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
     <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+    <!-- </el-dialog> -->
+  </div>
 </template>
 
 <script>
@@ -336,14 +338,14 @@ export default {
       );
     },
     handleOpen(data) {
+      this.$router.push({ path: "/organization" });
       //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
+      // this.dialogVisible = !this.dialogVisible;
+      // if (!this.dialogVisible) {
+      //   //关闭窗口时取消按钮转圈圈
+      //   this.loading = false;
+      // }
       //表单重置
-      this.reset(data);
     },
     handleMap() {},
     /** 提交按钮 */
@@ -365,7 +367,7 @@ export default {
               //消息提示
               this.$message.success(response.msg);
               //刷新列表
-              this.$emit("getList");
+              //this.$emit("getList");
               //关闭窗口
               this.handleOpen();
             })

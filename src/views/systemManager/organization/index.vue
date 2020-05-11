@@ -170,9 +170,10 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
-      target.handleOpen();
-      target.title = "添加";
+      this.$router.push({ path: "/organization/add", params: {} });
+      // const target = this.$refs.add;
+      // target.handleOpen();
+      // target.title = "添加";
     },
     handleCreateUser() {
       const target = this.$refs.create;
