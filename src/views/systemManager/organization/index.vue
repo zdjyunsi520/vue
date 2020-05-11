@@ -25,13 +25,14 @@
           </el-form-item>
         </el-form>
         </div>
-      <div class="bg-white containerbox">
+      <div class="bg-white containerbox" ref="containerbox">
         <el-row class="table-btns">
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="success" icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
-          <el-button type="danger" icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
+          <el-button type="primary" plain icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
+          <el-button type="info" plain icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
         </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
+        
+        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
           <el-table-column type="selection" width="55" align="center" fixed="left" />
           <el-table-column label="名称" align="center"  min-width="155"  prop="Name" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -86,6 +87,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
+      tableHeight:'',
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -103,8 +105,14 @@ export default {
       equipmentType: "status/equipmentType"
     })
   },
+  watch:{
+
+  },
   created() {
     this.getList();
+  },
+  mounted(){
+    this.tableHeight = this.$refs.containerbox.offsetHeight-120;
   },
   methods: {
     filterEnable(row) {

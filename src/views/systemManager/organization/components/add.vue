@@ -3,179 +3,181 @@
     <!-- <el-dialog top="20px" width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center> -->
 
     <!-- 添加或修改参数配置对话框 -->
-    <div class="search-box">
-    <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <p class="smtitle"> 基础信息 </p>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="上级单位" prop="parentId">
-            <el-select v-model="form.parentId" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="行业类别" prop="industry">
-            <el-select v-model="form.industry" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10":push="1" :xs='24'>
-          <el-form-item label="行业分类" prop="principleactivity">
-            <el-select v-model="form.principleactivity" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in professionChildList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="法人代表" prop="artificialperson">
-            <el-input v-model="form.artificialperson" placeholder="请输入法人代表" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="省份" prop="province">
-            <el-select v-model="form.province" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="统一信用代码" prop="creditcode">
-            <el-input v-model="form.creditcode" placeholder="请输入统一信用代码" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="城市" prop="city">
-            <el-select v-model="form.city" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="联系电话" prop="phoneno">
-            <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="区域/县" prop="area">
-            <el-select v-model="form.area" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="联系人" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入联系人" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="详细地址" prop="address">
-            <el-input v-model="form.address" placeholder="请输入详细地址" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="联系人手机" prop="mobilephone">
-            <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="是否启用" prop="isenable">
-            <el-switch v-model="form.isenable" :inactive-value="0" :active-value="1" active-color="#13ce66" inactive-color="#ff4949">
-            </el-switch>&nbsp;&nbsp;{{form.isenable?'启用':'禁用'}}
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" :xs='24'>
-          <p class="smtitle"> 地图定位 </p>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="经度" prop="longitude">
-            <el-input v-model="form.longitude" placeholder="输入或通过地图点击获取" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="纬度" prop="latitude">
-            <el-input v-model="form.latitude" placeholder="输入或通过地图点击获取" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="23" :push="1" :xs='24'>
-          <el-form-item label="地图搜索" prop="remark">
-                <el-input v-model="form.remark" placeholder="请输入内容进行搜索"  style="width:70%;margin-right:20px"/>
-                <el-button type="primary" @click="handleMap">搜索</el-button>
-          </el-form-item>
-        </el-col>
-        <el-col :span="21" :push="1" :xs='24'>
-          <el-form-item >
-            <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu"></baidu-map>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" :xs='24'>
-          <p class="smtitle"> 附加属性 </p>
-        </el-col>
-        <el-col :span="23"  :push="1" :xs='24'>
-          <el-form-item>
-            <el-checkbox v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="立户日期" prop="starttime">
-            <el-date-picker v-model="form.starttime" type="date" placeholder="选择日期" :disabled="disabled">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="电压等级" prop="voltlevel">
-            <el-select v-model="form.voltlevel" size="small" :disabled="disabled">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="用电分类" prop="maintype">
-            <el-select v-model="form.maintype" size="small" :disabled="disabled">
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="用电小类" prop="subtype">
-            <el-select v-model="form.subtype" size="small" :disabled="disabled">
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType1" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="合同容量(kVA)" prop="contractcapacity">
-            <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :push="1" :xs='24'>
-          <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
-            <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" :xs='24'>
+    <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
+        <el-scrollbar>
+          <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+            <el-row :gutter="20">
+              <el-col :span="24">
+                <p class="smtitle"> 基础信息 </p>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="上级单位" prop="parentId">
+                  <el-select v-model="form.parentId" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="行业类别" prop="industry">
+                  <el-select v-model="form.industry" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="名称" prop="name">
+                  <el-input v-model="form.name" placeholder="请输入名称" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10":push="1" :xs='24'>
+                <el-form-item label="行业分类" prop="principleactivity">
+                  <el-select v-model="form.principleactivity" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in professionChildList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="法人代表" prop="artificialperson">
+                  <el-input v-model="form.artificialperson" placeholder="请输入法人代表" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="省份" prop="province">
+                  <el-select v-model="form.province" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="统一信用代码" prop="creditcode">
+                  <el-input v-model="form.creditcode" placeholder="请输入统一信用代码" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="城市" prop="city">
+                  <el-select v-model="form.city" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="联系电话" prop="phoneno">
+                  <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="区域/县" prop="area">
+                  <el-select v-model="form.area" size="small">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="联系人" prop="contactperson">
+                  <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="详细地址" prop="address">
+                  <el-input v-model="form.address" placeholder="请输入详细地址" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="联系人手机" prop="mobilephone">
+                  <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="是否启用" prop="isenable">
+                  <el-switch v-model="form.isenable" :inactive-value="0" :active-value="1" active-color="#13ce66" inactive-color="#ff4949">
+                  </el-switch>&nbsp;&nbsp;{{form.isenable?'启用':'禁用'}}
+                </el-form-item>
+              </el-col>
+              <el-col :span="24" :xs='24'>
+                <p class="smtitle"> 地图定位 </p>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="经度" prop="longitude">
+                  <el-input v-model="form.longitude" placeholder="输入或通过地图点击获取" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="纬度" prop="latitude">
+                  <el-input v-model="form.latitude" placeholder="输入或通过地图点击获取" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="23" :push="1" :xs='24'>
+                <el-form-item label="地图搜索" prop="remark">
+                      <el-input v-model="form.remark" placeholder="请输入内容进行搜索"  style="width:70%;margin-right:20px"/>
+                      <el-button type="primary" size="medium" icon="el-icon-search" @click="handleMap">搜索</el-button>
+                </el-form-item>
+              </el-col>
+              <el-col :span="20" :push="1" :xs='24'>
+                <el-form-item >
+                  <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu"></baidu-map>
+                </el-form-item>
+              </el-col>
+              <el-col :span="24" :xs='24'>
+                <p class="smtitle"> 附加属性 </p>
+              </el-col>
+              <el-col :span="23"  :push="1" :xs='24'>
+                <el-form-item>
+                  <el-checkbox v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="立户日期" prop="starttime">
+                  <el-date-picker v-model="form.starttime" type="date" placeholder="选择日期" :disabled="disabled">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="电压等级" prop="voltlevel">
+                  <el-select v-model="form.voltlevel" size="small" :disabled="disabled">
+                    <el-option label="请选择" value=""></el-option>
+                    <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="用电分类" prop="maintype">
+                  <el-select v-model="form.maintype" size="small" :disabled="disabled">
+                    <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="用电小类" prop="subtype">
+                  <el-select v-model="form.subtype" size="small" :disabled="disabled">
+                    <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType1" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="合同容量(kVA)" prop="contractcapacity">
+                  <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" :push="1" :xs='24'>
+                <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
+                  <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-scrollbar>
+        <el-col :span="24" :xs='24' class="absolute-bottom">
           <div class="form-footer">
-            <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
             <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
           </div>
         </el-col>
-      </el-row>
-    </el-form>
     </div>
     <!-- 添加或修改参数配置对话框 end -->
     <!-- </el-dialog> -->
@@ -288,7 +290,6 @@ export default {
       this.zoom = 15;
     },
     getAreaList() {
-      this.loading = true;
       fetchList({})
         .then(response => {
           this.areaList = response.data.map(v => {
@@ -297,13 +298,11 @@ export default {
             return v;
           });
           this.dataList = response.data;
-          this.loading = false;
 
           var map = new BMapGL.Map("container");
           var point = new BMapGL.Point(116.404, 39.915);
           map.centerAndZoom(point, 15);
         })
-        .finally(v => (this.loading = false));
     },
     getTree() {
       fetchTree({}).then(r => {

@@ -11,14 +11,21 @@
      padding: 2px 0!important;
      background-color: #f7f8fe!important
  }
- .el-table--border th, .el-table--border td{
-    border-right: 1px solid #ebeef5!important;
+ 
+ .el-table--border th,
+ .el-table--border td {
+     border-right: 1px solid #ebeef5!important;
  }
- .el-table--group, .el-table--border {
-    border: 1px solid #ebeef5!important;;
-}
+ 
+ .el-table--group,
+ .el-table--border {
+     border: 1px solid #ebeef5!important;
+     ;
+ }
+ 
  .el-table .caret-wrapper {
-     width: 14px!important;margin-left: 5px;
+     width: 14px!important;
+     margin-left: 5px;
  }
  
  .el-table .sort-caret {
@@ -30,9 +37,9 @@
  }
  
  .treebox {
-     .el-tree{
-        padding: 10px;
-        box-sizing: border-box;
+     .el-tree {
+         padding: 10px;
+         box-sizing: border-box;
      }
  }
  
@@ -40,18 +47,20 @@
      background: #fff;
      border-radius: 3px;
      margin-bottom: 10px;
-    
  }
- .comheight{
-    margin-bottom: 0;
-    height: 100%
-}
-.infobox {
-    line-height: 1.5;
-    padding: 15px 20px;
-    height: 100%;
-    overflow: auto;
-}
+ 
+ .comheight {
+     margin-bottom: 0;
+     height: 100%
+ }
+ 
+ .infobox {
+     line-height: 1.5;
+     padding: 15px 20px;
+     height: 100%;
+     overflow: auto;
+ }
+ 
  .equipInfobox {
      text-align: left;
      padding: 0 20px;
@@ -78,6 +87,7 @@
          }
      }
  }
+ 
  .search-box {
      background: #fff;
      padding: 20px 20px 10px;
@@ -98,64 +108,103 @@
  .el-form-item__label {
      font-weight: normal;
  }
- .search-box{
-     .el-dropdown{margin-right: 10px;}
+ 
+ .search-box {
+     .el-dropdown {
+         margin-right: 10px;
+     }
  }
+ 
  .el-scrollbar__wrap {
      overflow: auto;
  }
+ 
  .el-tree {
-    color: #666666!important;
-    
-}
-.treebox{
-    .el-scrollbar{
-        background: #fff;
-    }
-}
-.tips{text-align: center;padding-top: 20%;font-size: 14px;color: #999;}
-.el-loading-spinner{
-     i,.el-loading-text{
-        color: #999!important;
-    }
-}
-.app-container{
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    align-items: stretch;
-    height: 100%;
-    box-sizing: border-box;
-    .containerbox{
-        flex: 1;
-        display: block;
-        height: 72%;
-        padding: 0 20px;
-        &.el-row{
-            padding: 0;;
-        }
-    }
-}
-.table-btns{padding: 20px 0;}
-.smtitle{    font-size: 14px;
-    color: #333333;
-    font-weight: bold;
-    &::before{    content: "";
-        width: 4px;
-        height: 16px;
-        background-color: #a4c2fb;
-        margin-right: 7px;
-        display: inline-block;
-        vertical-align: text-top;}
-}
-.form-footer{text-align: center;}
-
-@media screen and (max-width:768px){
-    .comheight {
-        height: auto!important;
-        margin-bottom: 10px;
-      }
-      .treebox .el-tree{
-          padding-bottom: 30px;
-      }
-}
+     color: #666666!important;
+ }
+ 
+ .el-scrollbar {
+     height: 100%;
+ }
+ 
+ .treebox {
+     .el-scrollbar {
+         background: #fff;
+     }
+ }
+ 
+ .tips {
+     text-align: center;
+     padding-top: 20%;
+     font-size: 14px;
+     color: #999;
+ }
+ 
+ .el-loading-spinner {
+     i,
+     .el-loading-text {
+         color: #999!important;
+     }
+ }
+ 
+ .app-container {
+     display: flex;
+     flex-direction: column;
+     align-content: stretch;
+     align-items: stretch;
+     height: 100%;
+     box-sizing: border-box;
+     .containerbox {
+         flex: 1;
+         display: block;
+         height: 72%;
+         padding: 0 20px;
+         &.el-row {
+             padding: 0;
+             ;
+         }
+     }
+ }
+ 
+ .table-btns {
+     padding: 20px 0;
+ }
+ 
+ .smtitle {
+     font-size: 14px;
+     color: #333333;
+     font-weight: bold;
+     &::before {
+         content: "";
+         width: 4px;
+         height: 16px;
+         background-color: #a4c2fb;
+         margin-right: 7px;
+         display: inline-block;
+         vertical-align: text-top;
+     }
+ }
+ 
+ .form-footer {
+     text-align: center;
+ }
+ 
+ .absolute-bottom {
+     position: absolute;
+     bottom: 0;
+     padding: 20px;
+     background: #fff;
+     left: 0;
+     right: 0;
+     border-top: 1px solid #ebeef5;
+ }
+ 
+ @media screen and (max-width:768px) {
+     .comheight {
+         height: auto!important;
+         margin-bottom: 10px;
+     }
+     .treebox .el-tree {
+         padding-bottom: 30px;
+     }
+ }
