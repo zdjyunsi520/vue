@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <div class="search-box">
     <el-form :inline="true">
       <el-form-item>
         <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
@@ -17,20 +18,48 @@
         <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
       </el-form-item>
     </el-form>
+    </div>
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-tree :data="dataList" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+    <el-row :gutter="20" class="containerbox">
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree :data="dataList" :props="defaultProps"  :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+        </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight ">
-          <div v-show="data&&data.Key" class="infobox">
-            <p>代码：{{data.Key}}</p>
-            <p v-if="data.ParentKey">父级地区代码：{{data.ParentKey}}</p>
-            <p>名称：{{data.Name}}</p>
-            <p>类型：{{data.Type==1?'省级':data.Type==2?'市级':'区/县'}}</p>
-            <p>邮编：{{data.ZipCode}}</p>
-            <p>路径：{{data.Location}}</p>
+      <el-col :xs="{span: 24}" :span="10" class="comheight">
+        <div class="bg-white  infobox">
+          <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+            <el-form-item>
+              <el-form-item label="代码">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item label="父级地区代码" v-if="smform.ParentKey">
+              <el-input v-model="smform.ParentKey" disabled></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
+              <el-form-item label="类型">
+                <el-input v-model="smform.Type" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item >
+              <el-form-item label="邮编">
+                <el-input v-model="smform.ParentKey" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item >
+              <el-form-item label="路径">
+                <el-input v-model="smform.ParentKey" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+          </el-form>
+          <div v-else class="tips">
+            暂无数据
           </div>
         </div>
       </el-col>
@@ -66,6 +95,7 @@ export default {
       operateId: "",
       data: {},
       level:'',
+      smform: {}
     };
   },
   created() {
@@ -92,7 +122,6 @@ export default {
             return v;
           });
           this.dataList = response.data;
-          this.loading = false;
         })
         .finally(v => (this.loading = false));
     },
@@ -100,6 +129,13 @@ export default {
       const id = this.operateId;
       getInfo({ key:id }).then(r => {
         this.data = Object.assign({}, r.data);
+          this.smform = Object.assign({}, r.data);
+          this.smform.Type =
+            this.smform.Type == 1
+              ? "省级"
+              : this.smform.Type == 2
+              ? "市级"
+              : "区/县";
       });
     },
     getList123() {
@@ -123,7 +159,7 @@ export default {
       target.hascity=false;
       target.hasprovince=false;
       target.handleOpen();
-      target.title = "添加";
+      target.title = "省份";
     },
     handleAddClass(num) {
       const target = this.$refs.add;
@@ -136,31 +172,32 @@ export default {
         }else{
           target.handleOpen();
         }
+        target.title = "城市";
       }else{
         const parentKey = this.operateId;
         let p_parentKey='';
         target.hascity=true;
         target.hasprovince=true;
         for (let j = 0; j < this.dataList.length; j++) {
-            const ele = this.dataList[j];
-            if (ele.childs) {
-              for (let i = 0; i < ele.childs.length; i++) {
-                const ele_i = ele.childs[i];
-                if (ele_i.key == this.operateId) {
-                  p_parentKey = ele.key;
-                  target.citydataList = ele.childs;
-                }
+          const ele = this.dataList[j];
+          if (ele.childs) {
+            for (let i = 0; i < ele.childs.length; i++) {
+              const ele_i = ele.childs[i];
+              if (ele_i.key == this.operateId) {
+                p_parentKey = ele.key;
+                target.citydataList = ele.childs;
               }
             }
           }
+        }
         if(this.level==2){
           target.handleOpen({ parentKey , p_parentKey });
         }else{
           target.handleOpen();
         }
+        target.title = "区域/县";
       }
       target.dataList = this.dataList;
-      target.title = "添加";
     },
     /** 修改按钮操作 */
     handleUpdate() {
@@ -196,7 +233,7 @@ export default {
       target.dataList = this.dataList;
       console.log(data)
       target.handleOpen(data);
-      target.title = "修改";
+      target.title = "修改地区信息";
     },
 
     /** 删除按钮操作 */
@@ -217,24 +254,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.xl-left {
-  width: 300px;
-  float: left;
-}
-.xl-right {
-  width: 100%;
-  margin-left: 300px;
-}
-.comheight {
-  height: calc(100vh - 184px);
-}
-.infobox {
-  line-height: 1.5;
-  padding: 15px 20px;
-  p {
-    text-align: left;
-    font-size: 14px;
-    color: #333;
-  }
-}
 </style>

@@ -2,12 +2,11 @@
   <div class="app-container">
         <div class="search-box">
           <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-            <el-form-item>
+            <el-form-item label="设备编号">
               <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item>
+            <el-form-item label="设备类型">
               <el-select v-model="queryParams.type" clearable size="small">
-                <el-option label="设备类型" value="" />
                 <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
               </el-select>
             </el-form-item>
@@ -20,14 +19,14 @@
             </el-form-item>
           </el-form>
         </div>
-      <div class="tb-contain">
-        <el-row>
+      <div class="bg-white containerbox">
+        <el-row class="table-btns">
               <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
               <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
               <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
         </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" class="commtable" border>
+        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
           <el-table-column type="selection" width="55" align="center" fixed="left" />
           <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -238,19 +237,4 @@ export default {
 };
 </script>
 <style lang="scss">
-// .xl-query {
-//   /deep/.el-form-item {
-//     margin-bottom: 0;
-//   }
-//   /deep/ .el-input__inner {
-//     width: 130px;
-//   }
-//   /deep/.el-date-editor.el-input {
-//     width: 200px;
-
-//     .el-input__inner {
-//       width: 200px;
-//     }
-//   }
-// }
 </style>
