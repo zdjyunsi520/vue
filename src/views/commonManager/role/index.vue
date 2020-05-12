@@ -1,18 +1,17 @@
 <template>
   <div class="app-container">
-    <div class="bg-white containerbox">
+    <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button
           type="primary"
           icon="el-icon-circle-plus-outline"
-          size="mini"
           @click="handleAdd"
         >新增</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" border class="commtable">
-        <el-table-column label="角色名称" align="center" prop="Name" :show-overflow-tooltip="true" />
-        <el-table-column label="权限字符" align="center" prop="Key" :show-overflow-tooltip="true" />
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="tableHeight">
+        <el-table-column label="名称"  prop="Name" :show-overflow-tooltip="true" />
+        <el-table-column label="角色标识"  prop="Key" :show-overflow-tooltip="true" />
+        <el-table-column label="操作"  >
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -25,7 +24,8 @@
         </el-table-column>
       </el-table>
 
-      <pagination
+
+      <pagination 
         v-show="total > 0"
         :total="total"
         :page.sync="queryParams.pageno"
@@ -53,19 +53,34 @@ export default {
         pageno: 1,
         pagesize: 9999
       },
+      tableHeight: "",
       dataList: null
     };
   },
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+    },
     /** 查询角色列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
           this.dataList = response.data;
+          this.total = response.total;
+          this.setTableHeight();
         })
         .finally(r => (this.listLoading = false));
     },

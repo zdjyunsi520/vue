@@ -3,9 +3,9 @@
     <div class="search-box">
     <el-form :inline="true">
       <el-form-item>
-        <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+        <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
          <el-dropdown @command="handleCommand" >
-          <el-button type="primary" size="mini"  icon=" el-icon-circle-plus-outline">
+          <el-button type="primary"   icon=" el-icon-circle-plus-outline">
             新增<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -14,8 +14,8 @@
             <el-dropdown-item command="c">区域/县</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+        <el-button type="primary" icon="el-icon-edit"  @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+        <el-button type="primary" icon="el-icon-delete"  @click="handleDelete" :disabled="operateId==''">删除</el-button>
       </el-form-item>
     </el-form>
     </div>

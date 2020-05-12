@@ -3,33 +3,33 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-form-item label="名称">
-          <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.name" placeholder="请输入名称" clearable  @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="联系人">
-          <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable  @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable  @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item>
-            <el-select v-model="queryParams.type" clearable size="small">
+            <el-select v-model="queryParams.type" clearable >
               <el-option label="设备类型" value="" />
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
             </el-select>
           </el-form-item> -->
         <el-form-item>
-          <el-button icon="el-icon-search" size="mini" type="primary" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-          <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
-                        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
+          <el-button icon="el-icon-search"  type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit"  :disabled="single" @click="handleUpdate"">修改</el-button>
+                        <el-button type="warning" icon="el-icon-download"  @click="handleExport"">导出</el-button> -->
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
-        <el-button type="info" plain icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline"  @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-unlock"  @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
+        <el-button type="info" plain icon="el-icon-lock"  @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
       </el-row>
 
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">

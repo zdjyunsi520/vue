@@ -7,7 +7,7 @@ export function login(data) {
 
 // 获取用户详细信息
 export function getInfo1() {
-  return post("/User/GerUser", {}, commonUrl);
+  return post("/User/GetUser", {}, commonUrl);
 }
 // 获取用户详细信息
 export function getInfo() {

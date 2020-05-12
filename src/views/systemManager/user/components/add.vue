@@ -22,7 +22,7 @@
         <el-col :span="24" v-if="!form.id">
           <el-form-item label="是否开通账号" prop="isopenaccount">
             <el-switch v-model="form.isopenaccount" active-color="#13ce66" inactive-color="#ff4949">
-            </el-switch>{{form.isopenaccount?'开通':'不开通'}}
+            </el-switch>&nbsp;{{form.isopenaccount?'开通':'不开通'}}
           </el-form-item>
         </el-col>
       </el-row>

@@ -7,7 +7,6 @@
             v-model="queryParams.userName"
             placeholder="用户名"
             clearable
-            size="small"
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
@@ -16,7 +15,6 @@
             v-model="queryParams.userName"
             placeholder="姓名"
             clearable
-            size="small"
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
@@ -25,15 +23,14 @@
             v-model="queryParams.mobilephone"
             placeholder="预留手机号"
             clearable
-            size="small"
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
@@ -45,14 +42,12 @@
         <el-button
           type="primary"
           icon="el-icon-circle-plus-outline"
-          size="mini"
           @click="handleAdd"
         >新增</el-button>
         <el-button
           type="primary"
           plain
           icon="el-icon-lock"
-          size="mini"
           @click="handleLock(null,false)"
           :disabled="multiple"
         >锁定</el-button>
@@ -60,7 +55,6 @@
           type="info"
           plain
           icon="el-icon-unlock"
-          size="mini"
           @click="handleLock(null,true)"
           :disabled="multiple"
         >解锁</el-button>
@@ -76,27 +70,26 @@
         <el-table-column label="用户名" align="center" width="200" prop="UserName" />
         <el-table-column label="姓名" align="center" width="160" prop="Name" />
         <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-        <el-table-column
-          label="添加时间"
-          min-width="180"
-          align="center"
-          prop="CreateTime"
-          sortable="custom"
-        />
-        <el-table-column
-          label="最后登录时间"
-          min-width="180"
-          align="center"
-          prop="LoginTime"
-          sortable="custom"
-        />
-        <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
+        <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom">
+           <template slot-scope="{row}">
+             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
+          </template>
+        </el-table-column>
+        <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom" >
+           <template slot-scope="{row}">
+             <i v-if="row.LoginTime" class="el-icon-time"></i>&nbsp;{{row.LoginTime}}
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="是否锁定" width="140" align="center" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
-            <el-button
+            <!-- active-text="是"  inactive-text="否" -->
+            <el-switch v-model="row.IsLock"  active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleLock(row,row.IsLock)"> </el-switch>
+            <!-- <el-button
               :type="row.IsLock?'warning':'primary'"
               size="mini"
               @click="handleLock(row,row.IsLock)"
-            >{{row.IsLock?'解锁':'锁定'}}</el-button>
+            >{{row.IsLock?'解锁':'锁定'}}</el-button> -->
           </template>
         </el-table-column>
         <el-table-column

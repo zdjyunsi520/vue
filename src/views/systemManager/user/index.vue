@@ -11,25 +11,25 @@
         <div class="search-box">
             <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
               <el-form-item label="姓名">
-                <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
               </el-form-item>
               <el-form-item label="用户名">
-                <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
               </el-form-item>
               <el-form-item label="手机号码">
-                <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable @keyup.enter.native="handleQuery" />
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-search"  type="primary"size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh"  size="mini" @click="resetQuery">重置</el-button>
+                <el-button icon="el-icon-search"  type="primary" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh"   @click="resetQuery">重置</el-button>
               </el-form-item>
             </el-form>
         </div>
         <div class="containerbox" ref="containerbox" style="background:#fff" >
           <el-row class="table-btns">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline"  @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
-              <el-button type="primary" size="mini">
+              <el-button type="primary" >
                 在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
@@ -44,7 +44,7 @@
             <el-table-column label="姓名" align="center" prop="Name" />
             <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
             <el-table-column label="用户名" align="center" prop="UserName" />
-            <el-table-column label="添加时间" sortable align="center" prop="CreateTime" />
+            <el-table-column label="添加时间" sortable align="center" min-width="180" prop="CreateTime" />
             <el-table-column label="岗位状态" sortable align="center" prop="Status" :formatter="filterStatus" />
             <el-table-column label="账号" align="center" prop="IsOpenAccount" :formatter="filterAccount" />
             <el-table-column label="操作" align="center" min-width="150">
@@ -260,4 +260,18 @@ export default {
     }
   }
 }
+.dot{
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  &.red{
+	  background-color: #67c23a;
+  }
+  &.green{
+	  background-color: #f56c6c;
+    
+  }
+
+}
+
 </style>

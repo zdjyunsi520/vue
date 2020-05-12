@@ -1,17 +1,21 @@
  /**
  * 通用css样式布局处理
  */
- 
+ .el-tree-node{ margin: 10px 5px;}
  .el-pagination {
      padding: 10px 15px!important;
  }
  
  .el-table th {
      color: #565656!important;
-     padding: 2px 0!important;
-     background-color: #f7f8fe!important
+    //  padding: 18px 0!important;
+     height: 60px;
+     background-color: #f7f8fe!important;
  }
  
+ .el-table td {
+     height:54px;
+}
  .el-table--border th,
  .el-table--border td {
      border-right: 1px solid #ebeef5!important;
@@ -20,7 +24,7 @@
  .el-table--group,
  .el-table--border {
      border: 1px solid #ebeef5!important;
-     ;
+     border-bottom: none!important;
  }
  
  .el-table .caret-wrapper {
@@ -31,7 +35,8 @@
  .el-table .sort-caret {
      left: 2px!important;
  }
- 
+ .el-table--border th:first-child .cell, .el-table--border td:first-child .cell{padding-left: 20px;;}
+ .el-table .cell{padding-left: 20px;padding-right: 20px;;}
  .wrapperbox>.el-row {
      height: 100%;
  }
