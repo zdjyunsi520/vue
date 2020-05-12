@@ -47,7 +47,7 @@
         <el-table-column label="是否锁定" width="140" align="center" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
             <!-- active-text="是"  inactive-text="否" -->
-            <el-switch v-model="row.IsLock" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleLock(row,row.IsLock)"> </el-switch>
+            <el-switch v-model="row.IsLock" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleLock(row,!row.IsLock)"> </el-switch>
             <!-- <el-button
               :type="row.IsLock?'warning':'primary'"
               size="mini"

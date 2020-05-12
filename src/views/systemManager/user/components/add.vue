@@ -1,38 +1,42 @@
 <template>
-  <el-dialog width="500px" :title="title+'人员信息'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
+    <el-row>
+      <el-col :span="8">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
 
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-      <el-row>
-        <el-col :span="24" v-if="!form.id">
-          <el-form-item label="所属单位" prop="text">
+          <el-form-item label="所属单位" prop="text" v-if="!form.id">
             <el-input v-model="form.text" placeholder="" :disabled="true" />
           </el-form-item>
-        </el-col>
-        <el-col :span="24">
+
           <el-form-item label="姓名" prop="name">
             <el-input v-model="form.name" placeholder="请输入人员姓名" />
           </el-form-item>
-        </el-col>
-        <el-col :span="24">
+
           <el-form-item label="预留手机号" prop="url">
             <el-input v-model="form.mobilephone" placeholder="请输入人员手机号" />
           </el-form-item>
-        </el-col>
-        <el-col :span="24" v-if="!form.id">
-          <el-form-item label="是否开通账号" prop="isopenaccount">
+
+          <el-form-item label="是否开通账号" prop="isopenaccount" v-if="!form.id">
             <el-switch v-model="form.isopenaccount" active-color="#13ce66" inactive-color="#ff4949">
             </el-switch>&nbsp;{{form.isopenaccount?'开通':'不开通'}}
           </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+          <el-form-item label="用户名" prop="username" v-if="form.isopenaccount">
+            <el-input v-model="form.username" placeholder="请输入4-18位数字或字母" />
+          </el-form-item>
+          <el-form-item label="密码" prop="password" v-if="form.isopenaccount">
+            <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="confirmpassword" v-if="form.isopenaccount">
+            <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          </el-form-item>
+        </el-form>
+        <div class="form-footer">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -40,17 +44,17 @@ import { add, update } from "@/api/systemManager/user";
 export default {
   data() {
     const rules = {
-      userName: [
+      name: [
         {
           required: true,
-          message: "用户名不能为空",
+          message: "姓名不能为空",
           trigger: "blur"
         }
       ],
-      nickName: [
+      username: [
         {
           required: true,
-          message: "用户昵称不能为空",
+          message: "用户名不能为空",
           trigger: "blur"
         }
       ],
@@ -64,18 +68,20 @@ export default {
       password: [
         {
           required: true,
-          message: "用户密码不能为空",
+          pattern: /.{10,}$/,
+          message: "密码输入有误",
           trigger: "blur"
         }
       ],
-      email: [
+      confirmpassword: [
         {
-          type: "email",
-          message: "'请输入正确的邮箱地址",
-          trigger: ["blur", "change"]
+          required: true,
+          pattern: /.{10,}$/,
+          message: "确认密码输入有误",
+          trigger: "blur"
         }
       ],
-      phonenumber: [
+      mobilephone: [
         {
           pattern: /^1\d{10}$/,
           message: "请输入正确的手机号码",
@@ -94,7 +100,10 @@ export default {
       deptType: ""
     };
   },
-  created() {},
+  created() {
+    const data = this.$route.params.data;
+    this.reset(data);
+  },
   computed: {},
   methods: {
     selected(name) {
@@ -109,20 +118,19 @@ export default {
           name: "",
           mobilephone: "",
           isopenaccount: false,
-          id: ""
+          id: "",
+          username: "",
+          password: "",
+          confirmpassword: ""
         },
         data
       );
     },
     handleOpen(data) {
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
-      //表单重置
-      this.reset(data);
+      this.$router.push({
+        name: "/systemManager/user/index",
+        params: {}
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -155,6 +163,12 @@ export default {
 
 <style lang="scss" scoped>
 /deep/.el-select {
+  width: 100%;
+}
+/deep/.el-form-item__error--inline {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
   width: 100%;
 }
 </style>

@@ -448,11 +448,46 @@ export const constantRoutes = [
         }
       },
       {
-        name: "123213",
-        path: "123123",
-        component: () => import("@/views/commonManager/equipment/index"),
+        name: "/systemManager/organization/components/role",
+        path: "/systemManager/organization/components/role",
+        component: () =>
+          import("@/views/systemManager/organization/components/role"),
         meta: {
-          title: "行业管理",
+          title: "组织结构",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/systemManager/user/components/add",
+        path: "/systemManager/user/components/add",
+        component: () => import("@/views/systemManager/user/components/add"),
+        meta: {
+          title: "人员信息",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/systemManager/user/components/password",
+        path: "/systemManager/user/components/password",
+        component: () =>
+          import("@/views/systemManager/user/components/password"),
+        meta: {
+          title: "人员信息",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "123213",
+        path: "/123123",
+        component: () => import("@/views/systemManager/user/index"),
+        meta: {
+          title: "人员信息",
           icon: "dashboard",
           noCache: true,
           breadcrumb: false
