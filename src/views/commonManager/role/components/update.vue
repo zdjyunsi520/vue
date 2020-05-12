@@ -1,26 +1,49 @@
 <template>
-  <el-dialog width="800px" top="20px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog
+    width="800px"
+    top="5vh"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :modal-append-to-body="false"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :show-close="false"
+    center
+  >
     <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入角色名称" />
-      </el-form-item>
-      <el-form-item label="权限字符" prop="key">
-        <el-input v-model="form.key" placeholder="请输入权限字符" />
-      </el-form-item>
-      <el-form-item label="角色顺序" prop="sortindex">
-        <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
-      </el-form-item>
-      <el-form-item label="菜单权限">
-        <el-row v-for="item in moduleList" :key="item.ModuleId">
-          <el-col :span="24" class="xl-checkbox">
-            <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
-          </el-col>
-          <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-            <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
-          </el-col>
-        </el-row>
-      </el-form-item>
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px" >
+      <div style="height:65vh;overflow:auto;">
+        <el-scrollbar>
+          <el-form-item label="角色名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入角色名称" style="width:90%" />
+          </el-form-item>
+          <el-form-item label="权限字符" prop="key">
+            <el-input v-model="form.key" placeholder="请输入权限字符" style="width:90%"  />
+          </el-form-item>
+          <el-form-item label="角色顺序" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+          </el-form-item>
+          <el-form-item label="菜单权限">
+            <el-row v-for="item in moduleList" :key="item.ModuleId">
+              <el-col :span="24">
+                <el-checkbox
+                  @change="handleChange(item)"
+                  v-model="item.IsSelect"
+                >{{item.ModuleName}}</el-checkbox>
+              </el-col>
+              <el-row>
+                <el-col :span="23" :push="1">
+                  <el-row>
+                    <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
+                      <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+            </el-row>
+          </el-form-item>
+        </el-scrollbar>
+      </div>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
@@ -105,6 +128,20 @@ export default {
         .finally(v => (this.loading = false));
       this.reset(data);
     },
+    // getInfo(data) {
+    //   this.loading = true;
+    //   if (data && data.id) {
+    //     const id = data.id;
+    //     getInfo({ id })
+    //       .then(({ data }) => {
+    //         this.moduleList = data.ModuleData;
+    //       })
+    //       .finally(v => (this.loading = false));
+    //   } else {
+    //     this.loading = false;
+    //   }
+    //   this.reset(data);
+    // },
     // 表单重置
     reset(data) {
       this.form = Object.assign(

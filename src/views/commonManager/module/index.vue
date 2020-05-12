@@ -50,6 +50,11 @@
               </el-form-item>
             </el-form-item>
             <el-form-item>
+              <el-form-item label="Component">
+                <el-input v-model="smform.Component" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
               <el-form-item label="排序号">
                 <el-input v-model="smform.SortIndex" disabled></el-input>
               </el-form-item>
@@ -164,7 +169,7 @@ export default {
       target.title = "分类";
     },
     handleAddClass() {
-      const target = this.$refs.update;
+      const target = this.$refs.add;
       const parentId = this.addId;
       target.handleOpen({ parentId });
       target.dataList = this.dataList;
