@@ -1,54 +1,53 @@
 <template>
   <div class="app-container">
-        <div class="search-box">
-          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-            <el-form-item label="设备编号">
-              <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item label="设备类型">
-              <el-select v-model="queryParams.type" clearable size="small">
-                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button icon="el-icon-search" size="mini" type="primary" @click="handleQuery">搜索</el-button>
-              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+    <div class="search-box">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+        <el-form-item label="设备编号">
+          <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="设备类型">
+          <el-select v-model="queryParams.type" clearable size="small">
+            <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-search" size="mini" type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
 
-              <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
               <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
-            </el-form-item>
-          </el-form>
-        </div>
-      <div class="bg-white containerbox">
-        <el-row class="table-btns">
-              <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-              <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-              <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
-              <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
-        </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
-          <el-table-column type="selection" width="55" align="center" fixed="left" />
-          <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
-          <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="设备类型" sortable min-width="100" align="center" prop="Type" />
-          <el-table-column label="添加人员" min-width="100" align="center" prop="CreateUser" />
-          <el-table-column label="添加时间" sortable min-width="155" align="center" prop="CreateTime" />
-          <el-table-column label="同步平台" min-width="100" align="center">
-            <template slot-scope="{row}">
-              <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
-                <el-switch v-model="row.active" @change="handleSync(row)" />
-              </el-row>
-              <el-row v-else>
-                ----
-              </el-row>
-            </template>
-          </el-table-column>
-          <el-table-column label="同步结果" min-width="120" align="center" prop="result" />
-          <el-table-column label="备注" min-width="200" fixed="right"  align="center" prop="Remark" />
-        </el-table>
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+        </el-form-item>
+      </el-form>
     </div>
-    <add ref="add" @getList="getList"></add>
+    <div class="bg-white containerbox">
+      <el-row class="table-btns">
+        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
+        <!-- <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
+        <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
+      </el-row>
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
+        <el-table-column type="selection" width="55" align="center" fixed="left" />
+        <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
+        <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
+        <el-table-column label="设备类型" sortable min-width="100" align="center" prop="Type" />
+        <el-table-column label="添加人员" min-width="100" align="center" prop="CreateUser" />
+        <el-table-column label="添加时间" sortable min-width="155" align="center" prop="CreateTime" />
+        <el-table-column label="同步平台" min-width="100" align="center">
+          <template slot-scope="{row}">
+            <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
+              <el-switch v-model="row.active" @change="handleSync(row)" />
+            </el-row>
+            <el-row v-else>
+              ----
+            </el-row>
+          </template>
+        </el-table-column>
+        <el-table-column label="同步结果" min-width="120" align="center" prop="result" />
+        <el-table-column label="备注" min-width="200" fixed="right" align="center" prop="Remark" />
+      </el-table>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
   </div>
 </template>
 
@@ -61,11 +60,8 @@ import {
   syncSmoke
 } from "@/api/commonManager/equipment";
 
-import add from "./components/add";
-
 export default {
-  name: "equipment",
-  components: { add },
+  name: "",
   data() {
     return {
       deptType: null,
@@ -82,25 +78,6 @@ export default {
       // 用户表格数据
       dataList: null,
 
-      // 表单参数
-      form: {
-        userId: undefined,
-        deptId: "",
-        userName: undefined,
-        nickName: undefined,
-        password: undefined,
-        phonenumber: undefined,
-        email: undefined,
-        sex: "2",
-        status: "0",
-        remark: undefined,
-        postIds: [],
-        roleIds: []
-      },
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -136,12 +113,7 @@ export default {
           this.listLoading = false;
         });
     },
-    /** 查询角色列表 */
-    getRoles() {
-      listRole().then(response => {
-        this.roleOptions = response.data.filter(v => v.status == 0);
-      });
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.page = 1;
@@ -160,15 +132,20 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
-      target.handleOpen();
-      target.title = "添加";
+      const title = "添加";
+      this.$router.push({
+        name: "/commonManager/equipment/components/add",
+        params: { data: {}, title }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      const target = this.$refs.update;
-      target.handleOpen(row);
-      target.title = "修改信息";
+      const title = "修改信息";
+      const data = row;
+      this.$router.push({
+        name: "/commonManager/equipment/components/add",
+        params: { data, title }
+      });
     },
     /** 重置密码按钮操作 */
     handleSync(row) {

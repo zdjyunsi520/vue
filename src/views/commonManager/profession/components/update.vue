@@ -1,41 +1,36 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
+    <el-row>
+      <el-col :span="8">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
 
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-      <el-row>
-        <el-col :span="24" v-if="form.parentKey">
           <el-form-item label="父级分类" prop="parentKey">
             <el-select v-model="form.parentKey" clearable size="small">
               <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
             </el-select>
           </el-form-item>
-        </el-col>
-        <el-col :span="24">
+
           <el-form-item label="代码" prop="key">
             <el-input v-model="form.key" placeholder="请输入代码" />
           </el-form-item>
-        </el-col>
-        <el-col :span="24">
+
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
-        </el-col>
 
-        <el-col :span="24">
           <el-form-item label="排序号" prop="sortindex">
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
           </el-form-item>
-        </el-col>
-       
-      </el-row>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+      </el-col>
+
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -56,8 +51,7 @@ export default {
           message: "此处不能为空",
           trigger: "blur"
         }
-      ],
-   
+      ]
     };
     return {
       form: {},
@@ -71,7 +65,10 @@ export default {
       dataList: []
     };
   },
-  created() {},
+  created() {
+    const data = this.$route.params.data;
+    this.reset(data);
+  },
   computed: {},
   methods: {
     // 表单重置
@@ -80,39 +77,30 @@ export default {
         {
           key: "",
           name: "",
-          type: 1,
+          type: 2,
           sortindex: 1,
-          parentKey: undefined
+          parentKey: ""
         },
         data
       );
     },
     handleOpen(data) {
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
-      //表单重置
-      this.reset(data);
-      this.$nextTick(()=>{
-          this.$refs.form.clearValidate();
-      })
+      this.$router.push({
+        name: "/commonManager/profession/index",
+        params: {}
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
-      this.form.parentKey = this.form.parentKey==''?undefined:this.form.parentKey;
-      this.form.type = this.form.parentKey?2:1;
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          update(this.form).then(response => {
+          update(this.form)
+            .then(response => {
               //消息提示
               this.$message.success(response.msg);
-              //刷新列表
-              this.$emit("getList");
+
               //关闭窗口
               this.handleOpen();
             })
@@ -129,6 +117,13 @@ export default {
 
 <style lang="scss" scoped>
 /deep/.el-select {
+  width: 100%;
+}
+
+/deep/.el-form-item__error--inline {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
   width: 100%;
 }
 </style>

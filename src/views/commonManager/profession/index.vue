@@ -54,21 +54,14 @@
         </div>
       </el-col>
     </el-row>
-    <update ref="update" @getList="getList123"></update>
-    <add ref="add" @getList="getList123"></add>
   </div>
 </template>
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/profession";
-// import Treeselect from "@riophae/vue-treeselect";
-// import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-// import IconSelect from "@/components/IconSelect";
-import update from "./components/update";
-import add from "./components/add";
+
 export default {
   name: "profession",
-  components: { update, add },
   data() {
     return {
       // 遮罩层
@@ -125,10 +118,7 @@ export default {
           this.smform = Object.assign({}, r.data);
         });
     },
-    getList123() {
-      this.getList();
-      this.getInfo();
-    },
+
     handleNodeClick({ key, lvl, ParentKey }) {
       if (lvl) {
         this.addId = key;
@@ -144,21 +134,25 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
-      target.dataList = this.dataList;
-      target.handleOpen();
-      target.hasParentKey = false;
-      target.title = "类别";
+      const hasParentKey = false;
+      const type = 1;
+      const data = { type };
+      const title = "新增类别";
+      this.$router.push({
+        name: "/commonManager/profession/components/add",
+        params: { data, title }
+      });
     },
     handleAddClass() {
-      const target = this.$refs.add;
       const parentKey = this.addId;
-      target.hasParentKey = true;
-      target.handleOpen({ parentKey });
-      // target.dataList = this.dataList.findIndex(v => {
-      //   const list = v.childs;
-      // });
-      target.title = "分类";
+      const type = 2;
+      const data = { parentKey, type };
+      const title = "新增分类";
+      const dataList = this.dataList;
+      this.$router.push({
+        name: "/commonManager/profession/components/add",
+        params: { data, title, dataList }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate() {
@@ -169,13 +163,13 @@ export default {
       type = this.data.Type;
       sortindex = this.data.SortIndex;
       parentKey = this.data.ParentKey;
-
-      target = this.$refs.update;
-      target.dataList = this.dataList;
+      const title = "修改信息";
+      const dataList = this.dataList;
       data = { name, key, type, sortindex, parentKey };
-
-      target.handleOpen(data);
-      target.title = "修改信息";
+      this.$router.push({
+        name: "/commonManager/profession/components/add",
+        params: { data, dataList, title }
+      });
     },
 
     /** 删除按钮操作 */

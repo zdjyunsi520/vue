@@ -1,24 +1,14 @@
 <template>
-  <el-dialog
-    width="800px"
-    top="5vh"
-    :title="title"
-    :visible.sync="dialogVisible"
-    :modal-append-to-body="false"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    :show-close="false"
-    center
-  >
+  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
     <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="100px" >
-      <div style="height:65vh;overflow:auto;">
-        <el-scrollbar>
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px" inline-message="true">
+      <el-row>
+        <el-col :span="8">
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入角色名称" style="width:90%" />
           </el-form-item>
           <el-form-item label="权限字符" prop="key">
-            <el-input v-model="form.key" placeholder="请输入权限字符" style="width:90%"  />
+            <el-input v-model="form.key" placeholder="请输入权限字符" style="width:90%" />
           </el-form-item>
           <el-form-item label="角色顺序" prop="sortindex">
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
@@ -26,10 +16,7 @@
           <el-form-item label="菜单权限">
             <el-row v-for="item in moduleList" :key="item.ModuleId">
               <el-col :span="24">
-                <el-checkbox
-                  @change="handleChange(item)"
-                  v-model="item.IsSelect"
-                >{{item.ModuleName}}</el-checkbox>
+                <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
               </el-col>
               <el-row>
                 <el-col :span="23" :push="1">
@@ -42,15 +29,18 @@
               </el-row>
             </el-row>
           </el-form-item>
-        </el-scrollbar>
-      </div>
+          <el-col :span="24" :xs='24'>
+            <div class="form-footer">
+              <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+              <el-button @click="handleOpen(null)">取 消</el-button>
+            </div>
+          </el-col>
+        </el-col>
+
+      </el-row>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+
+  </div>
 </template>
 
 <script>
@@ -59,21 +49,21 @@ import { update, getInfo, add } from "@/api/commonManager/role";
 export default {
   data() {
     const rules = {
-      roleName: [
+      name: [
         {
           required: true,
           message: "角色名称不能为空",
           trigger: "blur"
         }
       ],
-      roleKey: [
+      key: [
         {
           required: true,
           message: "权限字符不能为空",
           trigger: "blur"
         }
       ],
-      roleSort: [
+      sortindex: [
         {
           required: true,
           message: "角色顺序不能为空",
@@ -103,7 +93,10 @@ export default {
       moduleList: []
     };
   },
-  created() {},
+  created() {
+    const data = this.$route.params.data;
+    this.reset(data);
+  },
   methods: {
     handleChange(data) {
       const isSelect = data.IsSelect;
@@ -156,6 +149,11 @@ export default {
       );
     },
     handleOpen(data) {
+      this.$router.push({
+        name: "/commonManager/role/index",
+        params: {}
+      });
+      return;
       //改变窗口状态
       this.dialogVisible = !this.dialogVisible;
       if (!this.dialogVisible) {
@@ -238,5 +236,15 @@ export default {
   .el-checkbox__input.is-focus .el-checkbox__inner {
     border-color: #f00;
   }
+}
+/deep/.el-select {
+  width: 100%;
+}
+
+/deep/.el-form-item__error--inline {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  width: 100%;
 }
 </style>

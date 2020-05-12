@@ -6,28 +6,25 @@
       <el-row>
         <el-col :span="8">
           <el-col :span="24">
-            <el-form-item label="用户名" prop="username">
-              <el-input v-model="form.username" placeholder="请输入用户名" />
+            <el-form-item label="父级分类" prop="parentId">
+              <el-select v-model="form.parentId" clearable size="small">
+                <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="form.name" placeholder="请输入名称" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="确认密码" prop="confirmpassword">
-              <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+            <el-form-item label="权限标识" prop="key">
+              <el-input v-model="form.key" placeholder="请输入姓名" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model="form.name" placeholder="请输入姓名" auto-complete="off" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="预留手机号" prop="mobilephone">
-              <el-input v-model="form.mobilephone" placeholder="请输入手机号" maxlength="11" />
+            <el-form-item label="排序号" prop="sortindex">
+              <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
             </el-form-item>
           </el-col>
           <el-col :span="24" :xs='24'>
@@ -39,49 +36,48 @@
         </el-col>
       </el-row>
     </el-form>
+
   </div>
 </template>
 
 <script>
-import { add } from "@/api/commonManager/user";
+import { add, update } from "@/api/commonManager/module";
 export default {
   data() {
     const rules = {
-      username: [
+      parentId: [
         {
           required: true,
-          message: "用户名不能为空",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      password: [
+      name: [
         {
           required: true,
-          pattern: /.{10,}$/,
-          message: "密码输入有误",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      confirmpassword: [
+      key: [
         {
           required: true,
-          pattern: /.{10,}$/,
-          message: "确认密码输入有误",
+          message: "输入有误",
+          trigger: "blur"
+        }
+      ],
+      url: [
+        {
+          required: true,
+          message: "输入有误",
           trigger: "blur"
         }
       ],
 
-      name: [
+      sortindex: [
         {
           required: true,
-          message: "'请输入正确的姓名",
-          trigger: "blur"
-        }
-      ],
-      mobilephone: [
-        {
-          pattern: /^1\d{10}$/,
-          message: "请输入正确的手机号码",
+          message: "'输入有误",
           trigger: "blur"
         }
       ]
@@ -94,30 +90,37 @@ export default {
       title: "",
       // 角色选项
       roleOptions: [],
-      deptType: ""
+      deptType: "",
+      dataList: []
     };
   },
   created() {
-    const data = this.$route.params.data;
+    let { data, dataList, title } = this.$route.params;
     this.reset(data);
+    this.dataList = dataList;
   },
+  computed: {},
   methods: {
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          username: "",
+          id: "",
+          url: "",
           name: "",
-          password: "",
-          confirmpassword: "",
-          mobilephone: ""
+          key: "",
+          type: 3,
+          iconurl: "",
+          component: "",
+          sortindex: 1,
+          parentId: ""
         },
         data
       );
     },
     handleOpen(data) {
       this.$router.push({
-        name: "/commonManager/user/index",
+        name: "/commonManager/module/index",
         params: {}
       });
       return;
@@ -129,9 +132,6 @@ export default {
       }
       //表单重置
       this.reset(data);
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate();
-      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -139,8 +139,10 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          //添加用户
-          add(this.form)
+          let fn;
+          if (this.form.id) fn = update;
+          else fn = add;
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
@@ -161,10 +163,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/.el-select {
-  width: 100%;
-}
-
 /deep/.el-form-item__error--inline {
   position: absolute;
   top: 50%;

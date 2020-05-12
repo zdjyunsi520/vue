@@ -1,6 +1,6 @@
 <template>
-  <el-dialog width="80%" top="20px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
-    <!-- 添加或修改参数配置对话框 -->
+  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
+
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-form-item>
         <!-- <el-checkbox-group v-model="form.moduleids"> -->
@@ -31,12 +31,12 @@
         <!-- </el-checkbox-group> -->
       </el-form-item>
     </el-form>
-    <div slot="footer" class="dialog-footer">
+    <div class="form-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+
+  </div>
 </template>
 
 <script>
@@ -93,7 +93,10 @@ export default {
       list: []
     };
   },
-  created() {},
+  created() {
+    const data = this.$route.params.data;
+    this.getInfo(data);
+  },
   methods: {
     handleChangeFarther(isSelect) {
       this.moduleList.map(v => {
@@ -139,14 +142,10 @@ export default {
       );
     },
     handleOpen(data) {
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
-      //表单重置
-      this.getInfo(data);
+      this.$router.push({
+        name: "/commonManager/user/index",
+        params: {}
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {

@@ -3,31 +3,13 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
         <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="queryParams.userName"
-            placeholder="用户名"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
+          <el-input v-model="queryParams.userName" placeholder="用户名" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input
-            v-model="queryParams.userName"
-            placeholder="姓名"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
+          <el-input v-model="queryParams.userName" placeholder="姓名" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="预留手机号" prop="phone">
-          <el-input
-            v-model="queryParams.mobilephone"
-            placeholder="预留手机号"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
+          <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -42,119 +24,43 @@
     </div>
     <div class="bg-white containerbox">
       <el-row class="table-btns">
-        <el-button
-          type="primary"
-          icon="el-icon-circle-plus-outline"
-          size="mini"
-          @click="handleAdd"
-        >新增</el-button>
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-lock"
-          size="mini"
-          @click="handleLock(null,false)"
-          :disabled="multiple"
-        >锁定</el-button>
-        <el-button
-          type="info"
-          plain
-          icon="el-icon-unlock"
-          size="mini"
-          @click="handleLock(null,true)"
-          :disabled="multiple"
-        >解锁</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-lock" size="mini" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
+        <el-button type="info" plain icon="el-icon-unlock" size="mini" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
       </el-row>
-      <el-table
-        v-loading="listLoading"
-        :data="dataList"
-        @selection-change="handleSelectionChange"
-        border
-        @sort-change="handleSortChange"
-      >
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border @sort-change="handleSortChange">
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="用户名" align="center" width="200" prop="UserName" />
         <el-table-column label="姓名" align="center" width="160" prop="Name" />
         <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-        <el-table-column
-          label="添加时间"
-          min-width="180"
-          align="center"
-          prop="CreateTime"
-          sortable="custom"
-        />
-        <el-table-column
-          label="最后登录时间"
-          min-width="180"
-          align="center"
-          prop="LoginTime"
-          sortable="custom"
-        />
+        <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom" />
+        <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom" />
         <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
-            <el-button
-              :type="row.IsLock?'warning':'primary'"
-              size="mini"
-              @click="handleLock(row,row.IsLock)"
-            >{{row.IsLock?'解锁':'锁定'}}</el-button>
+            <el-button :type="row.IsLock?'warning':'primary'" size="mini" @click="handleLock(row,row.IsLock)">{{row.IsLock?'解锁':'锁定'}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column
-          label="注销状态"
-          width="100"
-          align="center"
-          prop="IsCancel"
-          :formatter="filterCancel"
-        />
+        <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" :formatter="filterCancel" />
         <el-table-column label="操作" align="center" min-width="300">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
-            >修改信息</el-button>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-key"
-              @click="handleResetPwd(scope.row)"
-            >修改密码</el-button>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-setting"
-              @click="handleUpdateRole(scope.row)"
-            >设置权限</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改信息</el-button>
+            <el-button size="mini" type="text" icon="el-icon-key" @click="handleResetPwd(scope.row)">修改密码</el-button>
+            <el-button size="mini" type="text" icon="el-icon-setting" @click="handleUpdateRole(scope.row)">设置权限</el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <pagination
-        v-show="total > 0"
-        :total="total"
-        :page.sync="queryParams.pageno"
-        :limit.sync="queryParams.pagesize"
-        @pagination="getList"
-      />
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
-    <update ref="update" @getList="getList"></update>
-    <add ref="add" @getList="getList"></add>
-    <password ref="password" @getList="getList"></password>
-    <role ref="role" @getList="getList"></role>
+
   </div>
 </template>
 
 <script>
 import { fetchList, locklock } from "@/api/commonManager/user";
 
-import update from "./components/update";
-import add from "./components/add";
-import password from "./components/password";
-import role from "./components/role";
 export default {
   name: "user",
-  components: { update, add, password, role },
   data() {
     return {
       // 遮罩层
@@ -225,33 +131,44 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
-      target.handleOpen();
-      target.title = "添加";
+      const title = "添加";
+      this.$router.push({
+        name: "/commonManager/user/components/add",
+        params: { data: {}, title }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      const target = this.$refs.update;
       const id = row.Id;
       const username = row.UserName;
       const name = row.Name;
       const mobilephone = row.MobilePhone;
-      target.handleOpen({ id, username, name, mobilephone });
-      target.title = "修改信息";
+      const data = { id, username, name, mobilephone };
+      const title = "修改信息";
+      this.$router.push({
+        name: "/commonManager/user/components/update",
+        params: { data, title }
+      });
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
-      const target = this.$refs.password;
       const id = row.Id;
       const username = row.UserName;
-      target.handleOpen({ id, username });
-      target.title = "修改密码";
+      const data = { id, username };
+      const title = "修改密码";
+      this.$router.push({
+        name: "/commonManager/user/components/password",
+        params: { data, title }
+      });
     },
     handleUpdateRole(row) {
-      const target = this.$refs.role;
       const id = row.Id;
-      target.handleOpen({ id });
-      target.title = "修改权限";
+      const data = { id };
+      const title = "修改权限";
+      this.$router.push({
+        name: "/commonManager/user/components/role",
+        params: { data, title }
+      });
     },
     /** 删除按钮操作 */
     handleDelete(row) {

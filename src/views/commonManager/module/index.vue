@@ -12,6 +12,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="a">新增分类</el-dropdown-item>
               <el-dropdown-item command="b">新增应用</el-dropdown-item>
+              <el-dropdown-item command="c">新增权限</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-button type="primary" icon="el-icon-edit" size="mini" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
@@ -70,18 +71,18 @@
       </el-col>
     </el-row>
 
-    <update ref="update" @getList="getList123"></update>
-    <add ref="add" @getList="getList123"></add>
+    <!-- <update ref="update" @getList="getList123"></update>
+    <add ref="add" @getList="getList123"></add> -->
   </div>
 </template>
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/module";
-import update from "./components/update";
-import add from "./components/add";
+// import update from "./components/update";
+// import add from "./components/add";
 export default {
   name: "components",
-  components: { update, add },
+  // components: { update, add },
   data() {
     return {
       // 遮罩层
@@ -113,6 +114,8 @@ export default {
         this.handleAdd();
       } else if (commond == "b") {
         this.handleAddClass();
+      } else if (commond == "c") {
+        this.handleAddRole();
       }
     },
     /** 查询菜单列表 */
@@ -163,17 +166,36 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
-      target.dataList = this.dataList;
-      target.handleOpen();
-      target.title = "分类";
+      const title = "类别";
+      this.$router.push({
+        name: "/commonManager/module/components/add",
+        params: { data: {}, title }
+      });
     },
     handleAddClass() {
-      const target = this.$refs.add;
+      const dataList = this.dataList;
+      const title = "应用";
       const parentId = this.addId;
-      target.handleOpen({ parentId });
-      target.dataList = this.dataList;
-      target.title = "应用";
+      const data = { parentId };
+      this.$router.push({
+        name: "/commonManager/module/components/update",
+        params: { data, dataList, title }
+      });
+      // const target = this.$refs.add;
+
+      // target.handleOpen({ parentId });
+      // target.dataList = this.dataList;
+      // target.title = "应用";
+    },
+    handleAddRole() {
+      const dataList = this.dataList;
+      const title = "权限";
+      const parentId = this.addId;
+      const data = { parentId };
+      this.$router.push({
+        name: "/commonManager/module/components/role",
+        params: { data, dataList, title }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate() {
@@ -187,7 +209,9 @@ export default {
         iconurl,
         sortindex,
         parentId,
-        component;
+        component,
+        dataList,
+        title;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
@@ -195,19 +219,25 @@ export default {
       url = this.data.Url;
       component = this.data.Component;
       sortindex = this.data.SortIndex;
+      title = "修改信息";
+
       if (this.addId) {
-        target = this.$refs.add;
         iconurl = this.data.IconUrl;
         data = { id, url, name, key, type, iconurl, sortindex };
+        this.$router.push({
+          name: "/commonManager/module/components/add",
+          params: { data, title }
+        });
       } else {
-        target = this.$refs.update;
-        target.dataList = this.dataList;
-
+        const dataList = this.dataList;
         parentId = this.data.ParentId;
         data = { id, url, name, key, type, parentId, sortindex, component };
+        const pathurl = type == 2 ? "update" : "role";
+        this.$router.push({
+          name: "/commonManager/module/components/" + pathurl,
+          params: { data, dataList, title }
+        });
       }
-      target.handleOpen(data);
-      target.title = "修改信息";
     },
 
     /** 删除按钮操作 */

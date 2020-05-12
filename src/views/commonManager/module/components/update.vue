@@ -1,49 +1,53 @@
 <template>
-  <el-dialog width="500px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="110px" inline-message="true">
       <el-row>
-        <el-col :span="24">
-          <el-form-item label="父级分类" prop="parentId">
-            <el-select v-model="form.parentId" clearable size="small">
-              <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="权限标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入姓名" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="Url" prop="url">
-            <el-input v-model="form.url" placeholder="请输入url" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="component" prop="url">
-            <el-input v-model="form.component" placeholder="请输入组件" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
-          </el-form-item>
+        <el-col :span="8">
+          <el-col :span="24">
+            <el-form-item label="父级分类" prop="parentId">
+              <el-select v-model="form.parentId" clearable size="small">
+                <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="form.name" placeholder="请输入名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="权限标识" prop="key">
+              <el-input v-model="form.key" placeholder="请输入姓名" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Url" prop="url">
+              <el-input v-model="form.url" placeholder="请输入url" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Component" prop="component">
+              <el-input v-model="form.component" placeholder="请输入组件" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="排序号" prop="sortindex">
+              <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" :xs='24'>
+            <div class="form-footer">
+              <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+              <el-button @click="handleOpen(null)">取 消</el-button>
+            </div>
+          </el-col>
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+
+  </div>
 </template>
 
 <script>
@@ -51,45 +55,39 @@ import { add, update } from "@/api/commonManager/module";
 export default {
   data() {
     const rules = {
-      userName: [
+      parentId: [
         {
           required: true,
-          message: "用户名不能为空",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      nickName: [
+      name: [
         {
           required: true,
-          message: "用户昵称不能为空",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      deptId: [
+      key: [
         {
           required: true,
-          message: "归属分站不能为空",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      password: [
+      url: [
         {
           required: true,
-          message: "用户密码不能为空",
+          message: "输入有误",
           trigger: "blur"
         }
       ],
-      email: [
+
+      sortindex: [
         {
-          type: "email",
-          message: "'请输入正确的邮箱地址",
-          trigger: ["blur", "change"]
-        }
-      ],
-      phonenumber: [
-        {
-          pattern: /^1\d{10}$/,
-          message: "请输入正确的手机号码",
+          required: true,
+          message: "'输入有误",
           trigger: "blur"
         }
       ]
@@ -106,7 +104,11 @@ export default {
       dataList: []
     };
   },
-  created() {},
+  created() {
+    let { data, dataList, title } = this.$route.params;
+    this.reset(data);
+    this.dataList = dataList;
+  },
   computed: {},
   methods: {
     // 表单重置
@@ -127,6 +129,11 @@ export default {
       );
     },
     handleOpen(data) {
+      this.$router.push({
+        name: "/commonManager/module/index",
+        params: {}
+      });
+      return;
       //改变窗口状态
       this.dialogVisible = !this.dialogVisible;
       if (!this.dialogVisible) {
@@ -167,6 +174,12 @@ export default {
 
 <style lang="scss" scoped>
 /deep/.el-select {
+  width: 100%;
+}
+/deep/.el-form-item__error--inline {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
   width: 100%;
 }
 </style>

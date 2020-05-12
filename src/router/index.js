@@ -302,6 +302,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
+        name: "",
         path: "/organization/add",
         component: () =>
           import("@/views/systemManager/organization/components/add"),
@@ -310,6 +311,140 @@ export const constantRoutes = [
           icon: "dashboard",
           noCache: true,
           affix: true
+        }
+      }
+    ]
+  },
+
+  {
+    path: "systemManager",
+    component: Layout,
+    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+    children: [
+      {
+        name: "/commonManager/module/components/add",
+        path: "/commonManager/module/components/add",
+        component: () => import("@/views/commonManager/module/components/add"),
+        meta: {
+          title: "模块管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/module/components/update",
+        path: "/commonManager/module/components/update",
+        component: () =>
+          import("@/views/commonManager/module/components/update"),
+        meta: {
+          title: "模块管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/module/components/role",
+        path: "/commonManager/module/components/role",
+        component: () => import("@/views/commonManager/module/components/role"),
+        meta: {
+          title: "模块管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/role/components/update",
+        path: "/commonManager/role/components/update",
+        component: () => import("@/views/commonManager/role/components/update"),
+        meta: {
+          title: "角色管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/user/components/add",
+        path: "/commonManager/user/components/add",
+        component: () => import("@/views/commonManager/user/components/add"),
+        meta: {
+          title: "用户管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/user/components/update",
+        path: "/commonManager/user/components/update",
+        component: () => import("@/views/commonManager/user/components/update"),
+        meta: {
+          title: "用户管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/user/components/role",
+        path: "/commonManager/user/components/role",
+        component: () => import("@/views/commonManager/user/components/role"),
+        meta: {
+          title: "用户管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/user/components/password",
+        path: "/commonManager/user/components/password",
+        component: () =>
+          import("@/views/commonManager/user/components/password"),
+        meta: {
+          title: "用户管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/equipment/components/add",
+        path: "/commonManager/equipment/components/add",
+        component: () =>
+          import("@/views/commonManager/equipment/components/add"),
+        meta: {
+          title: "设备管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/profession/components/add",
+        path: "/commonManager/profession/components/add",
+        component: () =>
+          import("@/views/commonManager/profession/components/add"),
+        meta: {
+          title: "行业管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/profession/components/update",
+        path: "/commonManager/profession/components/update",
+        component: () =>
+          import("@/views/commonManager/profession/components/update"),
+        meta: {
+          title: "行业管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
         }
       }
     ]
