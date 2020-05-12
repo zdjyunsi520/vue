@@ -3,9 +3,9 @@
     <div class="search-box">
       <el-form :inline="true">
         <el-form-item>
-          <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+          <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
           <el-dropdown @command="handleCommand">
-            <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+            <el-button type="primary" icon=" el-icon-circle-plus-outline">
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -15,58 +15,60 @@
               <el-dropdown-item command="c">新增权限</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" size="mini" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-          <el-button type="info" icon="el-icon-delete" size="mini" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
     <el-row :gutter="20" class="containerbox">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
-        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+        <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
           <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
         <div class="bg-white  infobox">
-          <el-form label-position="top" :model="smform" v-if="data&&data.Id">
-            <el-form-item>
-              <el-form-item label="类型">
-                <el-input v-model="smform.Type" disabled></el-input>
+          <el-scrollbar>
+            <el-form label-position="top" :model="smform" v-if="data&&data.Id">
+              <el-form-item>
+                <el-form-item label="类型">
+                  <el-input v-model="smform.Type" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="名称">
-                <el-input v-model="smform.Name" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="名称">
+                  <el-input v-model="smform.Name" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="权限标识">
-                <el-input v-model="smform.Key" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="权限标识">
+                  <el-input v-model="smform.Key" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="URL">
-                <el-input v-model="smform.Url" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="URL">
+                  <el-input v-model="smform.Url" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="Component">
-                <el-input v-model="smform.Component" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="Component">
+                  <el-input v-model="smform.Component" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="排序号">
-                <el-input v-model="smform.SortIndex" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="排序号">
+                  <el-input v-model="smform.SortIndex" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item label="图标" v-if="smform.IconUrl">
-              <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
-            </el-form-item>
-          </el-form>
-          <div v-else class="tips">
-            暂无数据
-          </div>
+              <el-form-item label="图标" v-if="smform.IconUrl">
+                <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
+              </el-form-item>
+            </el-form>
+            <div v-else class="tips">
+              暂无数据
+            </div>
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>

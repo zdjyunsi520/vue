@@ -17,13 +17,19 @@
           <el-table-column prop="name" label="模块配置">
             <template slot-scope="{row}">
 
-              <el-row v-for="item in row.ModuleData" :key="item.ModuleId">
-                <el-col :span="24" class="xl-checkbox">
+              <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
+                <el-col :span="24">
                   <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
                 </el-col>
-                <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-                  <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
-                </el-col>
+                <el-row>
+                  <el-col :span="23" :push="1">
+                    <el-row class="el-row-box">
+                      <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
+                        <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
+                      </el-col>
+                    </el-row>
+                  </el-col>
+                </el-row>
               </el-row>
             </template>
           </el-table-column>
@@ -31,7 +37,8 @@
         <!-- </el-checkbox-group> -->
       </el-form-item>
     </el-form>
-    <div class="form-footer">
+
+    <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
@@ -70,6 +77,7 @@ export default {
       ]
     };
     return {
+      tableHeight: "",
       form: {
         id: "",
         name: "",
@@ -98,6 +106,9 @@ export default {
     this.getInfo(data);
   },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight;
+    },
     handleChangeFarther(isSelect) {
       this.moduleList.map(v => {
         v.IsSelect = isSelect;
@@ -121,6 +132,7 @@ export default {
         getInfo({ id })
           .then(({ data }) => {
             this.moduleList = data;
+            this.setTableHeight();
           })
           .finally(v => (this.loading = false));
       } else {

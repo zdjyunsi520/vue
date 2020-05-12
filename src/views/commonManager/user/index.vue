@@ -3,41 +3,56 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="queryParams.userName" placeholder="用户名" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.userName" placeholder="用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="queryParams.userName" placeholder="姓名" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.userName" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="预留手机号" prop="phone">
-          <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox">
+    <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-lock" size="mini" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
-        <el-button type="info" plain icon="el-icon-unlock" size="mini" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
+        <el-button type="info" plain icon="el-icon-unlock" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border @sort-change="handleSortChange">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange">
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="用户名" align="center" width="200" prop="UserName" />
         <el-table-column label="姓名" align="center" width="160" prop="Name" />
         <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-        <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom" />
-        <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom" />
-        <el-table-column label="是否锁定" width="100" align="center" prop="IsLock" sortable="custom">
+        <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom">
           <template slot-scope="{row}">
-            <el-button :type="row.IsLock?'warning':'primary'" size="mini" @click="handleLock(row,row.IsLock)">{{row.IsLock?'解锁':'锁定'}}</el-button>
+            <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
+          </template>
+        </el-table-column>
+        <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom">
+          <template slot-scope="{row}">
+            <i v-if="row.LoginTime" class="el-icon-time"></i>&nbsp;{{row.LoginTime}}
+          </template>
+        </el-table-column>
+
+        <el-table-column label="是否锁定" width="140" align="center" prop="IsLock" sortable="custom">
+          <template slot-scope="{row}">
+            <!-- active-text="是"  inactive-text="否" -->
+            <el-switch v-model="row.IsLock" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleLock(row,row.IsLock)"> </el-switch>
+            <!-- <el-button
+              :type="row.IsLock?'warning':'primary'"
+              size="mini"
+              @click="handleLock(row,row.IsLock)"
+            >{{row.IsLock?'解锁':'锁定'}}</el-button> -->
           </template>
         </el-table-column>
         <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" :formatter="filterCancel" />
@@ -75,6 +90,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
+      tableHeight: "",
 
       // 查询参数
       queryParams: {
@@ -91,7 +107,19 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+    },
     filterCancel(row) {
       return row.IsLock ? "已注销" : "正常";
     },
@@ -111,6 +139,7 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
+          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */

@@ -3,9 +3,9 @@
     <div class="search-box">
       <el-form :inline="true">
         <el-form-item>
-          <!-- <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
+          <!-- <el-button type="primary" icon="el-icon-search" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
           <el-dropdown @command="handleCommand" placement="bottom-start">
-            <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+            <el-button type="primary" icon=" el-icon-circle-plus-outline">
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -14,8 +14,8 @@
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="mini" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" icon="el-icon-delete" @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -28,29 +28,31 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
         <div class="bg-white infobox">
-          <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-            <el-form-item>
-              <el-form-item label="代码">
-                <el-input v-model="smform.Key" disabled></el-input>
+          <el-scrollbar >
+            <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+              <el-form-item>
+                <el-form-item label="代码">
+                  <el-input v-model="smform.Key" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="名称">
-                <el-input v-model="smform.Name" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="名称">
+                  <el-input v-model="smform.Name" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="排序">
-                <el-input v-model="smform.SortIndex" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="排序">
+                  <el-input v-model="smform.SortIndex" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item label="父级" v-if="smform.ParentKey">
-              <el-input v-model="smform.ParentKey" disabled></el-input>
-            </el-form-item>
-          </el-form>
-          <div v-else class="tips">
-            暂无数据
-          </div>
+              <el-form-item label="父级" v-if="smform.ParentKey">
+                <el-input v-model="smform.ParentKey" disabled></el-input>
+              </el-form-item>
+            </el-form>
+            <div v-else class="tips">
+              暂无数据
+            </div>
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>

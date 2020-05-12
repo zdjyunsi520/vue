@@ -120,7 +120,13 @@
             </el-col>
             <el-col :span="20" :push="1" :xs='24'>
               <el-form-item>
-                <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu"></baidu-map>
+                <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
+                  <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+                  <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
+                  <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
+                  <bm-city-list anchor="BMAP_ANCHOR_TOP_LEFT"></bm-city-list>
+                  <bm-local-search :keyword="form.remark" :auto-viewport="true" :location="location" @markersset='markersset'></bm-local-search>
+                </baidu-map>
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
@@ -190,6 +196,12 @@ import { fetchList } from "@/api/commonManager/area";
 import { mapGetters } from "vuex";
 import { fetchList as fetchProfession } from "@/api/commonManager/profession";
 import BaiduMap from "vue-baidu-map/components/map/Map.vue";
+import BmNavigation from "vue-baidu-map/components/controls/Navigation.vue";
+import BmGeolocation from "vue-baidu-map/components/controls/Geolocation.vue";
+import BmCityList from "vue-baidu-map/components/controls/CityList.vue";
+import BmMarker from "vue-baidu-map/components/overlays/Marker.vue";
+import BmLocalSearch from "vue-baidu-map/components/search/LocalSearch.vue";
+
 const electronType = [
   { key: "高压", value: "高压" },
   { key: "高压非居民", value: "高压非居民" },
@@ -210,7 +222,14 @@ const electronLvl = [
   { key: "110KV", value: "110KV" }
 ];
 export default {
-  components: { BaiduMap },
+  components: {
+    BaiduMap,
+    BmNavigation,
+    BmGeolocation,
+    BmMarker,
+    BmCityList,
+    BmLocalSearch
+  },
   data() {
     const rule = [
       {
@@ -250,7 +269,10 @@ export default {
       electronType1,
       electronLvl,
       treeData: [],
-      areaList: []
+      areaList: [],
+      map: "",
+      location: "北京",
+      keyword: "百度"
     };
   },
   created() {
@@ -259,6 +281,12 @@ export default {
     this.getAreaList();
     const data = this.$route.query.data;
     this.reset(data);
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.initMaps(); //调用初始化函数
+      this.locate();
+    });
   },
   computed: {
     ...mapGetters({ equipmentType: "status/equipmentType" }),
@@ -283,6 +311,27 @@ export default {
     }
   },
   methods: {
+    initMaps() {
+      this.map = new BMap.Map("container");
+      let mPoint = new BMap.Point(116.404, 39.915); //天安门
+      this.map.centerAndZoom(mPoint, 15);
+    },
+    locationSuccess(e) {
+      //百度地图定位完成后
+      console.log("定位", e);
+      this.center.lng = e.point.lng;
+      this.center.lat = e.point.lat;
+      this.form.longitude = e.point.lng;
+      this.form.latitude = e.point.lat;
+    },
+
+    dragging(e) {
+      this.form.longitude = e.point.lng;
+      this.form.latitude = e.point.lat;
+    },
+    markersset(e) {
+      console.log("搜索", e);
+    },
     handler({ BMap, map }) {
       console.log(BMap, map);
       this.center.lng = 116.404;
@@ -297,10 +346,11 @@ export default {
           return v;
         });
         this.dataList = response.data;
+        this.initMaps();
 
-        var map = new BMapGL.Map("container");
-        var point = new BMapGL.Point(116.404, 39.915);
-        map.centerAndZoom(point, 15);
+        // var map = new BMapGL.Map("container");
+        // var point = new BMapGL.Point(116.404, 39.915);
+        // map.centerAndZoom(point, 15);
       });
     },
     getTree() {
@@ -349,7 +399,7 @@ export default {
       );
     },
     handleOpen(data) {
-      this.$router.push({ path: "/organization" });
+      this.$router.go(-1);
       //改变窗口状态
       // this.dialogVisible = !this.dialogVisible;
       // if (!this.dialogVisible) {
@@ -405,9 +455,12 @@ export default {
 .bm-view {
   width: 100%;
   height: 350px;
+  overflow: hidden;
 }
-　 /deep/.anchorBL {
-  //隐藏左下角百度地图logo
+</style>
+
+<style >
+.anchorBL {
   display: none;
 }
 </style>

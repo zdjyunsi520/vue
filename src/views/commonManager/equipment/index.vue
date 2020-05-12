@@ -3,30 +3,30 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
         <el-form-item label="设备编号">
-          <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="设备类型">
-          <el-select v-model="queryParams.type" clearable size="small">
+          <el-select v-model="queryParams.type" clearable>
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search" size="mini" type="primary" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
 
-          <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
-              <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
+          <!-- <el-button type="success" icon="el-icon-edit" :disabled="single" @click="handleUpdate"">修改</el-button>
+              <el-button type="warning" icon="el-icon-download" @click="handleExport"">导出</el-button> -->
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox">
+    <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-        <!-- <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
-        <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-delete" :disabled="multiple" @click="handleDelete">删除</el-button>
+        <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
+              <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
+      <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
         <el-table-column type="selection" width="55" align="center" fixed="left" />
         <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -36,7 +36,7 @@
         <el-table-column label="同步平台" min-width="100" align="center">
           <template slot-scope="{row}">
             <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
-              <el-switch v-model="row.active" @change="handleSync(row)" />
+              <el-switch v-model="row.active" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleSync(row)" />
             </el-row>
             <el-row v-else>
               ----
@@ -78,6 +78,7 @@ export default {
       // 用户表格数据
       dataList: null,
 
+      tableHeight: "",
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -97,7 +98,19 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+    },
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;
@@ -108,6 +121,7 @@ export default {
             return v;
           });
           this.total = response.total;
+          this.setTableHeight();
         })
         .finally(r => {
           this.listLoading = false;
