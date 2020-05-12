@@ -26,9 +26,10 @@
             <el-input v-model="form.url" placeholder="请输入url" />
           </el-form-item>
         </el-col>
+
         <el-col :span="24">
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px"/>
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -129,7 +130,8 @@ export default {
           key: "",
           type: 1,
           iconurl: "",
-          sortindex: 1
+          sortindex: 1,
+          component: ""
         },
         data
       );

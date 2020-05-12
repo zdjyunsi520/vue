@@ -1,38 +1,44 @@
 <template>
   <div class="app-container">
 
-    <el-row :gutter="10">
+    <el-row :gutter="20">
       <el-col :xs="{span: 24}" :span="6" class="treebox">
+        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
         <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+        </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-          <el-form-item>
-            <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-button icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-          </el-form-item>
-        </el-form>
-        <el-row>
-          <el-button type="primary" icon="el-icon-add" size="mini" @click="handleAdd">新增</el-button>
-          <el-dropdown @command="handleCommand">
-            <el-button type="primary" size="mini">
-              在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">在职</el-dropdown-item>
-              <el-dropdown-item command="b">离职</el-dropdown-item>
-              <el-dropdown-item command="c">休假</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <el-col :xs="{span: 24}" :span="18" class="app-container">
+        <div class="search-box">
+            <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+              <el-form-item label="姓名">
+                <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable size="small" @keyup.enter.native="handleQuery" />
+              </el-form-item>
+              <el-form-item label="用户名">
+                <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable size="small" @keyup.enter.native="handleQuery" />
+              </el-form-item>
+              <el-form-item label="手机号码">
+                <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable size="small" @keyup.enter.native="handleQuery" />
+              </el-form-item>
+              <el-form-item>
+                <el-button icon="el-icon-search"  type="primary"size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh"  size="mini" @click="resetQuery">重置</el-button>
+              </el-form-item>
+            </el-form>
+        </div>
+        <div class="bg-white containerbox" ref="containerbox">
+          <el-row class="table-btns">
+            <el-button type="primary" icon="el-icon-add" size="mini" @click="handleAdd">新增</el-button>
+            <el-dropdown @command="handleCommand">
+              <el-button type="primary" size="mini">
+                在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">在职</el-dropdown-item>
+                <el-dropdown-item command="b">离职</el-dropdown-item>
+                <el-dropdown-item command="c">休假</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-row>
           <el-table v-loading="listLoading" :data="dataList" border>
             <!-- <el-table-column type="selection" width="55" align="center" /> -->
             <el-table-column label="姓名" align="center" prop="Name" />
@@ -50,7 +56,7 @@
               </template>
             </el-table-column>
           </el-table>
-        </el-row>
+        </div>
       </el-col>
     </el-row>
 
@@ -128,6 +134,7 @@ export default {
     },
     /** 查询菜单列表 */
     getList() {
+      this.loading = true;
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
@@ -137,9 +144,13 @@ export default {
             return v;
           });
           this.dataList = response.data;
+            this.loading = false;
           this.listLoading = false;
         })
-        .finally(v => (this.listLoading = false));
+        .finally(v => {
+            this.listLoading = false
+            this.loading = false;
+          });
     },
     handleNodeClick(data) {
       this.queryParams.tenantId = data.id;

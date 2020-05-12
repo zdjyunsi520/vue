@@ -14,41 +14,20 @@
               <el-dropdown-item command="b">新增应用</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            plain
-            @click="handleUpdate"
-            :disabled="operateId==''"
-          >修改</el-button>
-          <el-button
-            type="info"
-            icon="el-icon-delete"
-            size="mini"
-            plain
-            @click="handleDelete"
-            :disabled="operateId==''"
-          >删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="info" icon="el-icon-delete" size="mini" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
     <el-row :gutter="20" class="containerbox">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
-        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree
-            :data="dataList"
-            :props="defaultProps"
-            :highlight-current="true"
-            @node-click="handleNodeClick"
-            default-expand-all
-            :expand-on-click-node="false"
-          ></el-tree>
+        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="10"  class="comheight">
-        <div class="bg-white  infobox" >
+      <el-col :xs="{span: 24}" :span="10" class="comheight">
+        <div class="bg-white  infobox">
           <el-form label-position="top" :model="smform" v-if="data&&data.Id">
             <el-form-item>
               <el-form-item label="类型">
@@ -194,12 +173,22 @@ export default {
     /** 修改按钮操作 */
     handleUpdate() {
       let target;
-      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      let data,
+        id,
+        url,
+        name,
+        key,
+        type,
+        iconurl,
+        sortindex,
+        parentId,
+        component;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
       id = this.data.Id;
       url = this.data.Url;
+      component = this.data.Component;
       sortindex = this.data.SortIndex;
       if (this.addId) {
         target = this.$refs.add;
@@ -210,7 +199,7 @@ export default {
         target.dataList = this.dataList;
 
         parentId = this.data.ParentId;
-        data = { id, url, name, key, type, parentId, sortindex };
+        data = { id, url, name, key, type, parentId, sortindex, component };
       }
       target.handleOpen(data);
       target.title = "修改信息";

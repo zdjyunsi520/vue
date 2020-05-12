@@ -19,8 +19,7 @@ const permission = {
     //   return new Promise(resolve => {
     //     // 向后端请求路由数据
     //     getRouters().then(res => {
-    //       // const accessedRoutes = filterAsyncRouter(res.data);
-    //       const accessedRoutes = [];
+    //       const accessedRoutes = filterAsyncRouter(res.data);
     //       commit("SET_ROUTES", accessedRoutes);
     //       resolve(accessedRoutes);
     //     });
@@ -30,7 +29,6 @@ const permission = {
       return new Promise(resolve => {
         // 向后端请求路由数据
         const data = [];
-        console.log(res);
         mapRouter(data, res.data);
         const accessedRoutes = filterAsyncRouter(data);
         console.log(accessedRoutes);
@@ -43,9 +41,8 @@ const permission = {
 function mapRouter(parent, data) {
   data.forEach(v => {
     const node = {
-      name: v.Url,
-      component: v.Url,
-      //   alwaysShow: true,
+      name: v.Component,
+      component: v.Component ? v.Component : "",
       path: v.Url,
       meta: {
         title: v.Name,

@@ -134,6 +134,7 @@ export const constantRoutes = [
   {
     path: "equipmentAccount",
     component: Layout,
+    hidden: true,
     meta: { title: "设备台账", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -293,103 +294,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: "commonManager",
-    component: Layout,
-    meta: { title: "通用管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/module",
-        component: () => import("@/views/commonManager/module/index"),
-        name: "模块管理",
-        meta: {
-          title: "模块管理",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/role",
-        component: () => import("@/views/commonManager/role/index"),
-        name: "角色管理",
-        meta: {
-          title: "角色管理",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/user",
-        component: () => import("@/views/commonManager/user/index"),
-        name: "用户信息",
-        meta: {
-          title: "用户信息",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/equipment",
-        component: () => import("@/views/commonManager/equipment/index"),
-        name: "设备资产",
-        meta: {
-          title: "设备资产",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/area",
-        component: () => import("@/views/commonManager/area/index"),
-        name: "地区管理",
-        meta: {
-          title: "地区管理",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/profession",
-        component: () => import("@/views/commonManager/profession/index"),
-        name: "行业管理",
-        meta: {
-          title: "行业管理",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
-  {
-    path: "systemManager",
-    component: Layout,
-    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        name: "组织机构",
 
-        path: "/organization",
-        component: () => import("@/views/systemManager/organization/index"),
-        meta: {
-          title: "组织机构",
-          icon: "dashboard",
-          noCache: true,
-          affix: true
-        }
-      },
-      {
-        path: "/systemManager/user",
-        component: () => import("@/views/systemManager/user/index"),
-        name: "人员信息",
-        meta: {
-          title: "人员信息",
-          icon: "dashboard",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
   {
     path: "systemManager",
     component: Layout,
