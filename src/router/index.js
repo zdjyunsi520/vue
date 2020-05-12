@@ -134,7 +134,6 @@ export const constantRoutes = [
   {
     path: "equipmentAccount",
     component: Layout,
-    hidden: true,
     meta: { title: "设备台账", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -164,6 +163,72 @@ export const constantRoutes = [
         name: "监控信息",
         meta: {
           title: "监控信息",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/power",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/powerRoom/index"),
+        name: "变电室",
+        meta: {
+          title: "变电室",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/power-update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/powerRoom/components/update"),
+        name: "变电室修改",
+        meta: {
+          title: "变电室修改",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/equipmentAccount/maintain/panelCabinet/index",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/panelCabinet/index"),
+        name: "",
+        meta: {
+          title: "屏柜",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/equipmentAccount/maintain/panelCabinet/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/panelCabinet/components/update"),
+        name: "",
+        meta: {
+          title: "xinzeng屏柜",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/equipmentAccount/maintain/interval/index",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/interval/index"),
+        name: "",
+        meta: {
+          title: "间隔",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
+        path: "/equipmentAccount/maintain/interval/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/interval/components/update"),
+        name: "",
+        meta: {
+          title: "xinzeng间隔",
           noCache: true,
           affix: false
         }

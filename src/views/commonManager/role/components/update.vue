@@ -92,17 +92,17 @@ export default {
         });
     },
     getInfo(data) {
+      this.moduleList = [];
       this.loading = true;
+      let id = "";
       if (data && data.id) {
-        const id = data.id;
-        getInfo({ id })
-          .then(({ data }) => {
-            this.moduleList = data.ModuleData;
-          })
-          .finally(v => (this.loading = false));
-      } else {
-        this.loading = false;
+        id = data.id;
       }
+      getInfo({ id })
+        .then(({ data }) => {
+          this.moduleList = data.ModuleData;
+        })
+        .finally(v => (this.loading = false));
       this.reset(data);
     },
     // 表单重置
