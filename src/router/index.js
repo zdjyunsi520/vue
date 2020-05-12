@@ -302,8 +302,8 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        name: "",
-        path: "/organization/add",
+        name: "/systemManager/organization/components/add",
+        path: "/systemManager/organization/components/add",
         component: () =>
           import("@/views/systemManager/organization/components/add"),
         meta: {
@@ -319,6 +319,7 @@ export const constantRoutes = [
   {
     path: "systemManager",
     component: Layout,
+    hidden: true,
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -485,7 +486,7 @@ export const constantRoutes = [
       {
         name: "123213",
         path: "/123123",
-        component: () => import("@/views/systemManager/user/index"),
+        component: () => import("@/views/commonManager/user/index"),
         meta: {
           title: "人员信息",
           icon: "dashboard",

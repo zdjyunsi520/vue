@@ -180,7 +180,10 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.$router.push({ path: "/organization/add", params: {} });
+      this.$router.push({
+        name: "/systemManager/organization/components/add",
+        params: {}
+      });
       // const target = this.$refs.add;
       // target.handleOpen();
       // target.title = "添加";
@@ -227,8 +230,8 @@ export default {
         operatingcapacity = "";
 
       this.$router.push({
-        path: "/organization/add",
-        query: {
+        name: "/systemManager/organization/components/add",
+        params: {
           data: {
             id,
             parentId,

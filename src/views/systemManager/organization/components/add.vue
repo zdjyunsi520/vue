@@ -191,7 +191,12 @@
 </template>
 
 <script>
-import { add, fetchTree, update } from "@/api/systemManager/organization";
+import {
+  add,
+  fetchTree,
+  update,
+  getInfo
+} from "@/api/systemManager/organization";
 import { fetchList } from "@/api/commonManager/area";
 import { mapGetters } from "vuex";
 import { fetchList as fetchProfession } from "@/api/commonManager/profession";
@@ -279,8 +284,12 @@ export default {
     this.getProfession();
     this.getTree();
     this.getAreaList();
-    const data = this.$route.query.data;
-    this.reset(data);
+    const data = this.$route.params.data;
+    if (data.id) {
+      this.getInfo(data);
+    } else {
+      this.reset(data);
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -311,6 +320,39 @@ export default {
     }
   },
   methods: {
+    getInfo(data) {
+      const id = data.id;
+      getInfo({ id }).then(r => {
+        let row = r.data;
+        let attribute = row.Attribute;
+        let isenable = row.IsEnable;
+        let province = row.Province;
+        let city = row.City;
+        let area = row.Area;
+        let address = row.Address;
+        let contactperson = row.ContactPerson;
+        let mobilephone = row.MobilePhone;
+
+        let phoneno = row.PhoneNo;
+
+        let contractcapacity = row.ContractCapacity;
+        let voltlevel = row.OperatingCapacity;
+        data = Object.assign(data, {
+          attribute,
+          isenable,
+          province,
+          city,
+          area,
+          address,
+          contactperson,
+          mobilephone,
+          phoneno,
+          contractcapacity,
+          voltlevel
+        });
+        this.reset(data);
+      });
+    },
     initMaps() {
       this.map = new BMap.Map("container");
       let mPoint = new BMap.Point(116.404, 39.915); //天安门

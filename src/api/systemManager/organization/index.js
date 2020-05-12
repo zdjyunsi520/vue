@@ -33,3 +33,6 @@ export function update(data) {
 export function disabled(data) {
   return post("/Tenant/SetEnable", data, commonUrl);
 }
+export function getInfo(data) {
+  return post("/Tenant/Get", data, commonUrl);
+}
