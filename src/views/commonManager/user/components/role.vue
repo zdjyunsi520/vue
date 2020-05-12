@@ -248,4 +248,7 @@ export default {
     border-color: #f00;
   }
 }
+ .onlyform-box {
+   padding-bottom: 150px
+ }
 </style>
