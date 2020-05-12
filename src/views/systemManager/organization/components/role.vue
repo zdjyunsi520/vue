@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div style="height:60vh;overflow:hidden;" ref="containerbox">
+  <div class="app-container">
+  <div class="search-box onlyform-box" ref="containerbox">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item>
           <!-- <el-checkbox-group v-model="form.powers"> -->
@@ -38,9 +38,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
+      <el-col :span="24" :xs='24' class="absolute-bottom">
+        <div class="form-footer">
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+        </div>
+      </el-col>
     </div>
   </div>
 </template>

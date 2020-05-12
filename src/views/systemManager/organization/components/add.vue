@@ -3,7 +3,7 @@
     <!-- <el-dialog top="20px" width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center> -->
 
     <!-- 添加或修改参数配置对话框 -->
-    <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
+    <div class="search-box onlyform-box">
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
           <el-row :gutter="20">

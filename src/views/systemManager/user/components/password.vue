@@ -1,8 +1,10 @@
 <template>
-  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
-    <el-row>
-      <el-col :span="8">
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
+   <div class="app-container">
+  <div class="search-box onlyform-box">
+      <p class="form-smtitle">{{title}} </p>
+    
+      <el-scrollbar>
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="用户名" prop="username" v-if="!form.first">
             <el-input v-model="form.username" placeholder="请输入4-18位数字或字母" />
@@ -11,22 +13,21 @@
           <el-form-item label="原密码" prop="oldpassword" v-else>
             <el-input v-model="form.oldpassword" placeholder="请输入原密码" type="password" />
           </el-form-item>
-
           <el-form-item label="密码" prop="password">
             <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
-
           <el-form-item label="确认密码" prop="confirmpassword">
             <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
-
         </el-form>
+      </el-scrollbar>
+      <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button @click="handleOpen(null)">取 消</el-button>
         </div>
       </el-col>
-    </el-row>
+  </div>
   </div>
 </template>
 
@@ -78,7 +79,8 @@ export default {
     };
   },
   created() {
-    const data = this.$route.params.data;
+    let { data , title } = this.$route.params;
+    this.title = title;
     this.reset(data);
   },
   computed: {},

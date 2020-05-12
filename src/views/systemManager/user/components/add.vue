@@ -1,8 +1,10 @@
 <template>
-  <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
-    <el-row>
-      <el-col :span="8">
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
+   <div class="app-container">
+  <div class="search-box onlyform-box">
+      <p class="form-smtitle">{{title}} </p>
+    
+      <el-scrollbar>
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="所属单位" prop="text" v-if="!form.id">
             <el-input v-model="form.text" placeholder="" :disabled="true" />
@@ -30,12 +32,14 @@
             <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
         </el-form>
+      </el-scrollbar>
+      <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button @click="handleOpen(null)">取 消</el-button>
         </div>
       </el-col>
-    </el-row>
+  </div>
   </div>
 </template>
 
@@ -101,7 +105,8 @@ export default {
     };
   },
   created() {
-    const data = this.$route.params.data;
+    let { data , title } = this.$route.params;
+    this.title = title;
     this.reset(data);
   },
   computed: {},
