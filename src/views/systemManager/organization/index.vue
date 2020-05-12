@@ -109,23 +109,18 @@ export default {
   created() {
     this.getList();
   },
-<<<<<<< HEAD
   mounted() {
-    this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
-=======
-  mounted(){
     let _this = this;
-    window.onresize = ()=>{
+    window.onresize = () => {
       _this.setTableHeight();
-    }
+    };
   },
-  destroyed(){
+  destroyed() {
     window.onresize = null;
->>>>>>> a9e032c5db44669079099c08e96ca3e3d30343d2
   },
   methods: {
-    setTableHeight(){
-      this.tableHeight = this.$refs.containerbox.offsetHeight-120;
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
     filterEnable(row) {
       return row.IsEnable ? "正常" : "禁用";

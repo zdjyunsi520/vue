@@ -27,13 +27,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-<<<<<<< HEAD
           <el-form-item label="component" prop="url">
             <el-input v-model="form.component" placeholder="请输入组件" />
-=======
-          <el-form-item label="Component" prop="component">
-            <el-input v-model="form.component" placeholder="请输入component" />
->>>>>>> a9e032c5db44669079099c08e96ca3e3d30343d2
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -124,7 +119,7 @@ export default {
           key: "",
           type: 2,
           iconurl: "",
-          component:'',
+          component: "",
           sortindex: 1,
           parentId: ""
         },
