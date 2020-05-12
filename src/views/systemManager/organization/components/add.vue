@@ -404,4 +404,8 @@ export default {
   width: 100%;
   height: 350px;
 }
+　
+/deep/.anchorBL {//隐藏左下角百度地图logo
+  display: none;
+}
 </style>
