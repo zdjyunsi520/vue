@@ -71,6 +71,11 @@
               </el-form-item>
             </el-form-item>
             <el-form-item>
+              <el-form-item label="Component">
+                <el-input v-model="smform.Component" disabled></el-input>
+              </el-form-item>
+            </el-form-item>
+            <el-form-item>
               <el-form-item label="排序号">
                 <el-input v-model="smform.SortIndex" disabled></el-input>
               </el-form-item>
@@ -185,7 +190,7 @@ export default {
       target.title = "分类";
     },
     handleAddClass() {
-      const target = this.$refs.update;
+      const target = this.$refs.add;
       const parentId = this.addId;
       target.handleOpen({ parentId });
       target.dataList = this.dataList;
@@ -194,24 +199,25 @@ export default {
     /** 修改按钮操作 */
     handleUpdate() {
       let target;
-      let data, id, url, name, key, type, iconurl, sortindex, parentId;
+      let data, id, url, name, key, type, iconurl, sortindex, parentId,component;
       name = this.data.Name;
       key = this.data.Key;
       type = this.data.Type;
       id = this.data.Id;
       url = this.data.Url;
-      sortindex = this.data.SortIndex;
-      if (this.addId) {
-        target = this.$refs.add;
-        iconurl = this.data.IconUrl;
-        data = { id, url, name, key, type, iconurl, sortindex };
-      } else {
+      component = this.data.Component;
+      // sortindex = this.data.SortIndex;
+      // if (this.addId) {
+      //   target = this.$refs.add;
+      //   iconurl = this.data.IconUrl;
+      //   data = { id, url, name, key, type, iconurl, sortindex,component };
+      // } else {
         target = this.$refs.update;
         target.dataList = this.dataList;
 
         parentId = this.data.ParentId;
-        data = { id, url, name, key, type, parentId, sortindex };
-      }
+        data = { id, url, name, key, type, parentId, sortindex,component };
+      // }
       target.handleOpen(data);
       target.title = "修改信息";
     },

@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
 
-    <el-row :gutter="20">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <el-scrollbar style="height:100%"   v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-        <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+    <el-row :gutter="20"  class="comheight" >
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18" class="app-container">
+      <el-col :xs="{span: 24}" :span="18" class="app-container" style="padding-top:0;padding-bottom:0">
         <div class="search-box">
             <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
               <el-form-item label="姓名">
@@ -25,7 +25,7 @@
               </el-form-item>
             </el-form>
         </div>
-        <div class="bg-white containerbox" ref="containerbox">
+        <div class="containerbox" ref="containerbox" style="background:#fff" >
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-add" size="mini" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
@@ -39,7 +39,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" border>
+          <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight">
             <!-- <el-table-column type="selection" width="55" align="center" /> -->
             <el-table-column label="姓名" align="center" prop="Name" />
             <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
@@ -99,13 +99,22 @@ export default {
       operateId: "",
       data: {},
       treeData: [],
-      listLoading: true
+      listLoading: true,
+      tableHeight:'',
     };
   },
   created() {
     this.getTree();
   },
-
+  mounted(){
+    let _this = this;
+    window.onresize = ()=>{
+      _this.setTableHeight();
+    }
+  },
+  destroyed(){
+    window.onresize = null;
+  },
   methods: {
     filterStatus(row) {
       return row.Status == 1
@@ -144,8 +153,9 @@ export default {
             return v;
           });
           this.dataList = response.data;
-            this.loading = false;
+          this.loading = false;
           this.listLoading = false;
+          this.setTableHeight();
         })
         .finally(v => {
             this.listLoading = false
@@ -223,9 +233,6 @@ export default {
 .xl-right {
   width: 100%;
   margin-left: 300px;
-}
-.comheight {
-  height: calc(100vh - 184px);
 }
 .infobox {
   line-height: 1.5;

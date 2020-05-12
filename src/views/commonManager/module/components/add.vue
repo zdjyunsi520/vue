@@ -1,8 +1,11 @@
 <template>
-  <el-dialog width="500px" :title="'新增'+title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+    
+  <el-dialog width="500" top="5vh" :title="'新增'+title"  :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+       <div style="height:50vh;overflow:auto;">
+        <el-scrollbar>
       <el-row>
         <!-- <el-col :span="24">
           <el-form-item label="父级分类" prop="parentId">
@@ -27,13 +30,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
+          <el-form-item label="Component" prop="component">
+            <el-input v-model="form.component" placeholder="请输入component" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
           <el-form-item label="排序号" prop="sortindex">
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px"/>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="应用图标">
-            <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
+            <el-popover placement="bottom-start" width="500" trigger="click" @show="$refs['iconSelect'].reset()">
               <IconSelect ref="iconSelect" @selected="selected" />
               <el-input slot="reference" v-model="form.iconurl" placeholder="点击选择图标" readonly>
                 <svg-icon v-if="form.iconurl" slot="prefix" :icon-class="form.iconurl" class="el-input__icon" style="height: 32px;width: 16px;" />
@@ -43,6 +51,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+        </el-scrollbar>
+       </div>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
@@ -128,6 +138,7 @@ export default {
           name: "",
           key: "",
           type: 1,
+          component:'',
           iconurl: "",
           sortindex: 1
         },
@@ -177,5 +188,9 @@ export default {
 <style lang="scss" scoped>
 /deep/.el-select {
   width: 100%;
+}
+
+.el-form{
+  .el-input{width: 90%;}
 }
 </style>

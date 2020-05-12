@@ -112,9 +112,18 @@ export default {
     this.getList();
   },
   mounted(){
-    this.tableHeight = this.$refs.containerbox.offsetHeight-120;
+    let _this = this;
+    window.onresize = ()=>{
+      _this.setTableHeight();
+    }
+  },
+  destroyed(){
+    window.onresize = null;
   },
   methods: {
+    setTableHeight(){
+      this.tableHeight = this.$refs.containerbox.offsetHeight-120;
+    },
     filterEnable(row) {
       return row.IsEnable ? "禁用" : "正常";
     },
@@ -134,6 +143,7 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
+          this.setTableHeight();
         });
     },
     /** 查询角色列表 */

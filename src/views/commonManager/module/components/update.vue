@@ -22,8 +22,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="url" prop="url">
+          <el-form-item label="Url" prop="url">
             <el-input v-model="form.url" placeholder="请输入url" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="Component" prop="component">
+            <el-input v-model="form.component" placeholder="请输入component" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -114,6 +119,7 @@ export default {
           key: "",
           type: 2,
           iconurl: "",
+          component:'',
           sortindex: 1,
           parentId: ""
         },
