@@ -154,8 +154,11 @@ export default {
       );
     },
     handleOpen(data) {
+      let name = this.form.fromUrl
+        ? this.form.fromUrl
+        : "/commonManager/user/index";
       this.$router.push({
-        name: "/commonManager/user/index",
+        name: name,
         params: {}
       });
     },

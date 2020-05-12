@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-row :gutter="20"  class="comheight" >
+    <el-row :gutter="20" class="comheight">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
         <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
           <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
@@ -9,27 +9,27 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="18" class="app-container" style="padding-top:0;padding-bottom:0">
         <div class="search-box">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-              <el-form-item label="姓名">
-                <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
-              </el-form-item>
-              <el-form-item label="用户名">
-                <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
-              </el-form-item>
-              <el-form-item label="手机号码">
-                <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable @keyup.enter.native="handleQuery" />
-              </el-form-item>
-              <el-form-item>
-                <el-button icon="el-icon-search"  type="primary" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh"   @click="resetQuery">重置</el-button>
-              </el-form-item>
-            </el-form>
+          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+            <el-form-item label="姓名">
+              <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
+            </el-form-item>
+            <el-form-item label="用户名">
+              <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
+            </el-form-item>
+            <el-form-item label="手机号码">
+              <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable @keyup.enter.native="handleQuery" />
+            </el-form-item>
+            <el-form-item>
+              <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
+              <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+            </el-form-item>
+          </el-form>
         </div>
-        <div class="containerbox" ref="containerbox" style="background:#fff" >
+        <div class="containerbox" ref="containerbox" style="background:#fff">
           <el-row class="table-btns">
-            <el-button type="primary" icon="el-icon-circle-plus-outline"  @click="handleAdd">新增</el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
-              <el-button type="primary" >
+              <el-button type="primary">
                 在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
@@ -60,21 +60,15 @@
       </el-col>
     </el-row>
 
-    <password ref="password" @getList="getList"></password>
-    <add ref="add" @getList="getList"></add>
-    <role ref="role" @getList="getList"></role>
   </div>
 </template>
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/systemManager/user";
 import { fetchTree } from "@/api/systemManager/organization";
-import password from "./components/password";
-import add from "./components/add";
-import role from "../../commonManager/user/components/role";
+
 export default {
   name: "components",
-  components: { password, add, role },
   data() {
     return {
       // 遮罩层
@@ -100,19 +94,19 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight:'',
+      tableHeight: ""
     };
   },
   created() {
     this.getTree();
   },
-  mounted(){
+  mounted() {
     let _this = this;
-    window.onresize = ()=>{
+    window.onresize = () => {
       _this.setTableHeight();
-    }
+    };
   },
-  destroyed(){
+  destroyed() {
     window.onresize = null;
   },
   methods: {
@@ -158,9 +152,9 @@ export default {
           this.setTableHeight();
         })
         .finally(v => {
-            this.listLoading = false
-            this.loading = false;
-          });
+          this.listLoading = false;
+          this.loading = false;
+        });
     },
     handleNodeClick(data) {
       this.queryParams.tenantId = data.id;
@@ -174,11 +168,18 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const target = this.$refs.add;
       const tenantId = this.queryParams.tenantId;
+      if (!tenantId) {
+        this.$message.error("请先选择一个单位");
+        return;
+      }
       const text = this.queryParams.text;
-      target.handleOpen({ tenantId, text });
-      target.title = "添加";
+      const title = "添加人员信息";
+      const data = { tenantId, text };
+      this.$router.push({
+        name: "/systemManager/user/components/add",
+        params: { data, title }
+      });
     },
     /** 重置按钮操作 */
     resetQuery() {
@@ -187,26 +188,36 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(data) {
-      let target = this.$refs.add;
       let mobilephone, id, name;
       name = data.Name;
       mobilephone = data.MobilePhone;
       id = data.Id;
-      target.handleOpen({ id, name, mobilephone });
-      target.title = "修改";
+      data = { id, name, mobilephone };
+      const title = "修改人员信息";
+      this.$router.push({
+        name: "/systemManager/user/components/add",
+        params: { data, title }
+      });
     },
     handlePassword(data, first) {
-      let target = this.$refs.password;
       let id = data.Id;
       const oldpassword = first ? "" : "123";
-      target.handleOpen({ id, first, oldpassword });
-      target.title = "修改";
+      const title = "修改密码";
+      data = { id, first, oldpassword };
+      this.$router.push({
+        name: "/systemManager/user/components/password",
+        params: { data, title }
+      });
     },
+
     handleUpdateRole(row) {
-      const target = this.$refs.role;
       const id = row.Id;
-      target.handleOpen({ id });
-      target.title = "修改权限";
+      const data = { id, fromUrl: "/systemManager/user/index" };
+      const title = "修改权限";
+      this.$router.push({
+        name: "/commonManager/user/components/role",
+        params: { data, title }
+      });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -260,18 +271,15 @@ export default {
     }
   }
 }
-.dot{
+.dot {
   width: 5px;
   height: 5px;
   display: inline-block;
-  &.red{
-	  background-color: #67c23a;
+  &.red {
+    background-color: #67c23a;
   }
-  &.green{
-	  background-color: #f56c6c;
-    
+  &.green {
+    background-color: #f56c6c;
   }
-
 }
-
 </style>

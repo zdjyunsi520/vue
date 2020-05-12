@@ -1,50 +1,48 @@
 <template>
-  <el-dialog width="80%" top="6vh" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
-    <!-- 添加或修改参数配置对话框 -->
-    <div style="height:60vh;overflow:hidden;"  ref="containerbox">
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item>
-        <!-- <el-checkbox-group v-model="form.powers"> -->
-        <el-table :data="moduleList" border  :height="tableHeight">
-          <el-table-column prop="date" label="角色" width="180">
-            <template slot="header">
-              <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
-            </template>
-            <template slot-scope="{row}">
-              <el-checkbox @change="handleChange(row)" v-model="row.IsSelect">{{row.RoleName}}</el-checkbox>
-            </template>
-          </el-table-column>
+  <div>
+    <div style="height:60vh;overflow:hidden;" ref="containerbox">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item>
+          <!-- <el-checkbox-group v-model="form.powers"> -->
+          <el-table :data="moduleList" border :height="tableHeight">
+            <el-table-column prop="date" label="角色" width="180">
+              <template slot="header">
+                <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
+              </template>
+              <template slot-scope="{row}">
+                <el-checkbox @change="handleChange(row)" v-model="row.IsSelect">{{row.RoleName}}</el-checkbox>
+              </template>
+            </el-table-column>
 
-          <el-table-column prop="name" label="模块配置">
-            <template slot-scope="{row}">
+            <el-table-column prop="name" label="模块配置">
+              <template slot-scope="{row}">
 
-              <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
-                <el-col :span="24">
-                  <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
-                </el-col> 
-                <el-row>
+                <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
+                  <el-col :span="24">
+                    <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
+                  </el-col>
+                  <el-row>
                     <el-col :span="23" :push="1">
                       <el-row class="el-row-box">
-                <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-                  <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
-                </el-col>
+                        <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
+                          <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
+                        </el-col>
                       </el-row>
                     </el-col>
                   </el-row>
-              </el-row>
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- </el-checkbox-group> -->
-      </el-form-item>
-    </el-form>
+                </el-row>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!-- </el-checkbox-group> -->
+        </el-form-item>
+      </el-form>
     </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -102,7 +100,10 @@ export default {
       list: []
     };
   },
-  created() {},
+  created() {
+    const data = this.$route.params.data;
+    this.getInfo(data);
+  },
   mounted() {
     let _this = this;
     window.onresize = () => {
@@ -133,13 +134,11 @@ export default {
         });
     },
     getInfo(data) {
-      console.log(data);
       this.loading = true;
-
       getInfo(data)
         .then(({ data }) => {
           this.moduleList = data;
-            this.setTableHeight();
+          this.setTableHeight();
         })
         .finally(v => (this.loading = false));
 
@@ -159,14 +158,11 @@ export default {
       );
     },
     handleOpen(data) {
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
-      //表单重置
-      this.getInfo(data);
+      let name = "/systemManager/organization/index";
+      this.$router.push({
+        name: name,
+        params: {}
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -175,27 +171,27 @@ export default {
           //按钮转圈圈
           this.loading = true;
           this.form.powers = [];
-          this.moduleList.forEach(v => {
-            if (v.IsSelect) {
-              const RoleId = v.RoleId;
-              this.form.powers.push({ RoleId });
-            }
-          });
-          // this.moduleList.forEach((v, i) => {
-          //   if (v.IsSelect) this.form.powers.push(v.RoleId);
-          //   if (v.ModuleData)
-          //     v.ModuleData.forEach(v => {
-          //      if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //       if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //       if (v.Childs)
-          //         v.Childs.forEach(v => {
-          //           if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //         });
-          //     });
+          // this.moduleList.forEach(v => {
+          //   if (v.IsSelect) {
+          //     const RoleId = v.RoleId;
+          //     this.form.powers.push({ RoleId });
+          //   }
           // });
-          //this.form.powers = [...new Set(this.form.powers)];
-          //this.form.powers = this.form.powers.join(",");
-
+          this.moduleList.forEach((v, i) => {
+            if (v.IsSelect) this.form.powers.push(v.RoleId);
+            if (v.ModuleData)
+              v.ModuleData.forEach(v => {
+                if (v.IsSelect) this.form.powers.push(v.ModuleId);
+                if (v.IsSelect) this.form.powers.push(v.ModuleId);
+                if (v.Childs)
+                  v.Childs.forEach(v => {
+                    if (v.IsSelect) this.form.powers.push(v.ModuleId);
+                  });
+              });
+          });
+          // this.form.powers = [...new Set(this.form.powers)];
+          this.form.moduleids = this.form.powers.join(",");
+          this.form.powers = "";
           //保存修改
           update(this.form)
             .then(response => {
