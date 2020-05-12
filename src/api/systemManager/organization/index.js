@@ -18,11 +18,11 @@ export function add(data) {
 }
 // 获取权限
 export function getRole(data) {
-  return post("/unitRoleModule/GetPower", data, commonUrl);
+  return post("/unitRoleModule/GetPower", data, "common");
 }
 // 设置权限
 export function setRole(data) {
-  return post("/unitRoleModule/SetPower", data, commonUrl);
+  return post("/unitRoleModule/SetPower", data, "common");
 }
 // 修改模块信息
 export function update(data) {

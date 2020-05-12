@@ -27,7 +27,6 @@ router.beforeEach((to, from, next) => {
             //拉取user_info
             console.log("permissionRes", res);
             const roles = res.roles;
-            res.data = [];
             store.dispatch("GenerateRoutes", res).then(accessRoutes => {
               // 测试 默认静态页面
               //   store

@@ -1,58 +1,58 @@
 <template>
   <div class="app-container">
-        <div class="search-box">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" >
-          <el-form-item label="名称">
-            <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item label="联系人">
-            <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <el-form-item label="手机号">
-            <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
-          </el-form-item>
-          <!-- <el-form-item>
+    <div class="search-box">
+      <el-form :model="queryParams" ref="queryForm" :inline="true">
+        <el-form-item label="名称">
+          <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="联系人">
+          <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <!-- <el-form-item>
             <el-select v-model="queryParams.type" clearable size="small">
               <el-option label="设备类型" value="" />
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
             </el-select>
           </el-form-item> -->
-          <el-form-item>
-            <el-button icon="el-icon-search" size="mini"  type="primary" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
+        <el-form-item>
+          <el-button icon="el-icon-search" size="mini" type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"">修改</el-button>
                         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport"">导出</el-button> -->
-          </el-form-item>
-        </el-form>
-        </div>
-      <div class="bg-white containerbox" ref="containerbox">
-        <el-row class="table-btns">
-          <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="primary" plain icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
-          <el-button type="info" plain icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
-        </el-row>
-        
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
-          <el-table-column type="selection" width="55" align="center" fixed="left" />
-          <el-table-column label="名称" align="center"  min-width="155"  prop="Name" />
-          <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-          <el-table-column label="附加属性" sortable min-width="100" align="center" prop="Attribute" />
-          <el-table-column label="行业类别" sortable min-width="80" align="center" prop="IndustryName" />
-          <el-table-column label="行业分类" sortable min-width="80"  align="center" prop="PrincipleActivityName" />
-          <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
-          <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
-          <el-table-column label="联系电话" align="center" min-width="110"  prop="PhoneNo" />
-          <el-table-column label="状态" sortable align="center" min-width="70"  prop="IsEnable" :formatter="filterEnable" />
-          <el-table-column label="操作" align="center" min-width="150">
-            <template slot-scope="scope">
-              <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-              <el-button size="mini" type="text" @click="handleDisabled(scope.row)">{{showEnable(scope.row)}}</el-button>
-              <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
-              <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="bg-white containerbox" ref="containerbox">
+      <el-row class="table-btns">
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
+        <el-button type="info" plain icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
+      </el-row>
+
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+        <el-table-column type="selection" width="55" align="center" fixed="left" />
+        <el-table-column label="名称" align="center" min-width="155" prop="Name" />
+        <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
+        <el-table-column label="附加属性" sortable min-width="100" align="center" prop="Attribute" />
+        <el-table-column label="行业类别" sortable min-width="80" align="center" prop="IndustryName" />
+        <el-table-column label="行业分类" sortable min-width="80" align="center" prop="PrincipleActivityName" />
+        <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
+        <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
+        <el-table-column label="联系电话" align="center" min-width="110" prop="PhoneNo" />
+        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable" :formatter="filterEnable" />
+        <el-table-column label="操作" align="center" min-width="150">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button size="mini" type="text" @click="handleDisabled(scope.row,scope.row.IsEnable)">{{showEnable(scope.row)}}</el-button>
+            <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
+            <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
     <role ref="role" @getList="getList"></role>
@@ -87,7 +87,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight:'',
+      tableHeight: "",
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -105,12 +105,14 @@ export default {
       equipmentType: "status/equipmentType"
     })
   },
-  watch:{
-
-  },
+  watch: {},
   created() {
     this.getList();
   },
+<<<<<<< HEAD
+  mounted() {
+    this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+=======
   mounted(){
     let _this = this;
     window.onresize = ()=>{
@@ -119,16 +121,17 @@ export default {
   },
   destroyed(){
     window.onresize = null;
+>>>>>>> a9e032c5db44669079099c08e96ca3e3d30343d2
   },
   methods: {
     setTableHeight(){
       this.tableHeight = this.$refs.containerbox.offsetHeight-120;
     },
     filterEnable(row) {
-      return row.IsEnable ? "禁用" : "正常";
+      return row.IsEnable ? "正常" : "禁用";
     },
     showEnable(row) {
-      return row.IsEnable ? "启用" : "禁用";
+      return row.IsEnable ? "禁用" : "启用";
     },
     /** 查询用户列表 */
     getList() {
@@ -163,13 +166,14 @@ export default {
       this.handleQuery();
     },
     handleDisabled(row, lock) {
-      let ids = row
-        ? (ids = [row.Id])
-        : this.ids.filter(v => v.IsEnable == lock).map(v => v.Id);
-      if (ids.length) {
-        const islock = !lock;
-        ids = ids.join(",");
-        locklock({ ids, islock }).then(r => {
+      console.log(lock);
+      let Ids = row
+        ? (Ids = [row.Id])
+        : this.Ids.filter(v => v.IsEnable == lock).map(v => v.Id);
+      if (Ids.length) {
+        const isenable = !lock;
+        Ids = Ids.join(",");
+        locklock({ Ids, isenable }).then(r => {
           this.$message.success(r.msg);
           this.getList();
         });
@@ -195,8 +199,8 @@ export default {
     },
     handleUpdateRole(row) {
       const target = this.$refs.role;
-      const id = row.Id;
-      target.getInfo({ id });
+      const tenantId = row.Id;
+      target.getInfo({ tenantId });
       target.handleOpen();
       target.title = "权限编辑";
     },

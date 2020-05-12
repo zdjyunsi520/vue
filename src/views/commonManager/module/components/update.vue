@@ -27,13 +27,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
+<<<<<<< HEAD
+          <el-form-item label="component" prop="url">
+            <el-input v-model="form.component" placeholder="请输入组件" />
+=======
           <el-form-item label="Component" prop="component">
             <el-input v-model="form.component" placeholder="请输入component" />
+>>>>>>> a9e032c5db44669079099c08e96ca3e3d30343d2
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"  style="width:100px"/>
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
           </el-form-item>
         </el-col>
       </el-row>

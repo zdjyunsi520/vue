@@ -18,60 +18,47 @@
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in []" />
             </el-select>
           </el-form-item>
-            </el-col>-->
-            <el-col :span="24">
-              <el-form-item label="名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入名称" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="权限标识" prop="key">
-                <el-input v-model="form.key" placeholder="请输入姓名" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="url" prop="url">
-                <el-input v-model="form.url" placeholder="请输入url" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="Component" prop="component">
-                <el-input v-model="form.component" placeholder="请输入component" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="排序号" prop="sortindex">
-                <el-input-number
-                  v-model="form.sortindex"
-                  controls-position="right"
-                  :min="0"
-                  style="width:100px"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="应用图标">
-                <el-popover
-                  placement="bottom-start"
-                  width="500"
-                  trigger="click"
-                  @show="$refs['iconSelect'].reset()"
-                >
-                  <IconSelect ref="iconSelect" @selected="selected" />
-                  <el-input slot="reference" v-model="form.iconurl" placeholder="点击选择图标" readonly>
-                    <svg-icon
-                      v-if="form.iconurl"
-                      slot="prefix"
-                      :icon-class="form.iconurl"
-                      class="el-input__icon"
-                      style="height: 32px;width: 16px;"
-                    />
-                    <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-                  </el-input>
-                </el-popover>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </el-col> -->
+        <el-col :span="24">
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="权限标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入姓名" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="url" prop="url">
+            <el-input v-model="form.url" placeholder="请输入url" />
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="24">
+          <el-form-item label="Component" prop="component">
+            <el-input v-model="form.component" placeholder="请输入component" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="应用图标">
+            <el-popover placement="bottom-start" width="500" trigger="click" @show="$refs['iconSelect'].reset()">
+              <IconSelect ref="iconSelect" @selected="selected" />
+              <el-input slot="reference" v-model="form.iconurl" placeholder="点击选择图标" readonly>
+                <svg-icon v-if="form.iconurl" slot="prefix" :icon-class="form.iconurl" class="el-input__icon" style="height: 32px;width: 16px;" />
+                <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+              </el-input>
+            </el-popover>
+          </el-form-item>
+        </el-col>
+      </el-row>
+        </el-scrollbar>
+       </div>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
@@ -159,7 +146,8 @@ export default {
           type: 1,
           component: "",
           iconurl: "",
-          sortindex: 1
+          sortindex: 1,
+          component: ""
         },
         data
       );

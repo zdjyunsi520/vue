@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from "@/api/login";
+import { login, logout, getInfo, getInfo1 } from "@/api/login";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const user = {
@@ -56,8 +56,12 @@ const user = {
     GetInfo({ commit, state }) {
       //实例化一个异步请求对象
       return new Promise((resolve, reject) => {
+        getInfo1().then(r => {
+          console.log;
+        });
         getInfo()
           .then(res => {
+            console.log(res);
             // const user = res.data.user;
             // const avatar =
             //   user.avatar == ""
