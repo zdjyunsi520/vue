@@ -40,7 +40,7 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox">
+    <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button
           type="primary"
@@ -69,7 +69,7 @@
         v-loading="listLoading"
         :data="dataList"
         @selection-change="handleSelectionChange"
-        border
+        border  :height="tableHeight"
         @sort-change="handleSortChange"
       >
         <el-table-column type="selection" fixed="left" width="55" align="center" />
@@ -169,6 +169,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
+      tableHeight: "",
 
       // 查询参数
       queryParams: {
@@ -185,7 +186,19 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+    },
     filterCancel(row) {
       return row.IsLock ? "已注销" : "正常";
     },
@@ -205,6 +218,7 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
+          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */

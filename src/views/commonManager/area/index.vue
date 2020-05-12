@@ -28,6 +28,7 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
         <div class="bg-white  infobox">
+          <el-scrollbar >
           <el-form label-position="top" :model="smform" v-if="data&&data.Key">
             <el-form-item>
               <el-form-item label="代码">
@@ -61,6 +62,7 @@
           <div v-else class="tips">
             暂无数据
           </div>
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>

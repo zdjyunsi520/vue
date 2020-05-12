@@ -1,10 +1,11 @@
 <template>
-  <el-dialog width="80%" top="20px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
+  <el-dialog width="80%" top="6vh" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
     <!-- 添加或修改参数配置对话框 -->
+    <div style="height:60vh;overflow:hidden;"  ref="containerbox">
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-form-item>
         <!-- <el-checkbox-group v-model="form.powers"> -->
-        <el-table :data="moduleList">
+        <el-table :data="moduleList" border  :height="tableHeight">
           <el-table-column prop="date" label="角色" width="180">
             <template slot="header">
               <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
@@ -17,13 +18,19 @@
           <el-table-column prop="name" label="模块配置">
             <template slot-scope="{row}">
 
-              <el-row v-for="item in row.ModuleData" :key="item.ModuleId">
-                <el-col :span="24" class="xl-checkbox">
+              <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
+                <el-col :span="24">
                   <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
-                </el-col>
+                </el-col> 
+                <el-row>
+                    <el-col :span="23" :push="1">
+                      <el-row class="el-row-box">
                 <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
                   <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
                 </el-col>
+                      </el-row>
+                    </el-col>
+                  </el-row>
               </el-row>
             </template>
           </el-table-column>
@@ -31,6 +38,7 @@
         <!-- </el-checkbox-group> -->
       </el-form-item>
     </el-form>
+    </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
@@ -70,6 +78,7 @@ export default {
       ]
     };
     return {
+      tableHeight: "",
       form: {
         id: "",
         name: "",
@@ -81,7 +90,7 @@ export default {
       rules,
       dialogVisible: false,
       loading: false,
-      title: "",
+      title: "权限编辑",
       // 角色选项
       roleOptions: [],
       deptType: "",
@@ -94,7 +103,19 @@ export default {
     };
   },
   created() {},
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight;
+    },
     handleChangeFarther(isSelect) {
       this.moduleList.map(v => {
         v.IsSelect = isSelect;
@@ -118,6 +139,7 @@ export default {
       getInfo(data)
         .then(({ data }) => {
           this.moduleList = data;
+            this.setTableHeight();
         })
         .finally(v => (this.loading = false));
 

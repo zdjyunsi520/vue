@@ -27,7 +27,7 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
         <el-button type="primary" plain icon="el-icon-unlock" size="mini" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
         <el-button type="info" plain icon="el-icon-lock" size="mini" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
       </el-row>

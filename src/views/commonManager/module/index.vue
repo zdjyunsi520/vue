@@ -22,50 +22,52 @@
 
     <el-row :gutter="20" class="containerbox">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
-        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+        <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
           <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
         <div class="bg-white  infobox">
-          <el-form label-position="top" :model="smform" v-if="data&&data.Id">
-            <el-form-item>
-              <el-form-item label="类型">
-                <el-input v-model="smform.Type" disabled></el-input>
+          <el-scrollbar >
+            <el-form label-position="top" :model="smform" v-if="data&&data.Id">
+              <el-form-item>
+                <el-form-item label="类型">
+                  <el-input v-model="smform.Type" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="名称">
-                <el-input v-model="smform.Name" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="名称">
+                  <el-input v-model="smform.Name" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="权限标识">
-                <el-input v-model="smform.Key" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="权限标识">
+                  <el-input v-model="smform.Key" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="URL">
-                <el-input v-model="smform.Url" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="URL">
+                  <el-input v-model="smform.Url" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="Component">
-                <el-input v-model="smform.Component" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="Component">
+                  <el-input v-model="smform.Component" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="排序号">
-                <el-input v-model="smform.SortIndex" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="排序号">
+                  <el-input v-model="smform.SortIndex" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item label="图标" v-if="smform.IconUrl">
-              <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
-            </el-form-item>
-          </el-form>
+              <el-form-item label="图标" v-if="smform.IconUrl">
+                <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
+              </el-form-item>
+            </el-form>
           <div v-else class="tips">
             暂无数据
           </div>
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>
@@ -169,7 +171,7 @@ export default {
       target.title = "分类";
     },
     handleAddClass() {
-      const target = this.$refs.add;
+      const target = this.$refs.update;
       const parentId = this.addId;
       target.handleOpen({ parentId });
       target.dataList = this.dataList;

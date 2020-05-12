@@ -27,7 +27,7 @@
         </div>
         <div class="containerbox" ref="containerbox" style="background:#fff" >
           <el-row class="table-btns">
-            <el-button type="primary" icon="el-icon-add" size="mini" @click="handleAdd">新增</el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
               <el-button type="primary" size="mini">
                 在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
@@ -44,8 +44,8 @@
             <el-table-column label="姓名" align="center" prop="Name" />
             <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
             <el-table-column label="用户名" align="center" prop="UserName" />
-            <el-table-column label="添加时间" align="center" prop="CreateTime" />
-            <el-table-column label="岗位状态" align="center" prop="Status" :formatter="filterStatus" />
+            <el-table-column label="添加时间" sortable align="center" prop="CreateTime" />
+            <el-table-column label="岗位状态" sortable align="center" prop="Status" :formatter="filterStatus" />
             <el-table-column label="账号" align="center" prop="IsOpenAccount" :formatter="filterAccount" />
             <el-table-column label="操作" align="center" min-width="150">
               <template slot-scope="scope">

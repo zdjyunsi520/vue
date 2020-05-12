@@ -350,7 +350,7 @@ export default {
       );
     },
     handleOpen(data) {
-      this.$router.push({ path: "/organization" });
+      this.$router.go(-1);
       //改变窗口状态
       // this.dialogVisible = !this.dialogVisible;
       // if (!this.dialogVisible) {

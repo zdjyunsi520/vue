@@ -199,6 +199,13 @@
      border-top: 1px solid #ebeef5;
  }
  
+.el-row-box{
+    padding: 15px 10px 5px;
+  
+  }
+  .el-submenu__icon-arrow{
+      right: 30px!important;
+  }
  @media screen and (max-width:768px) {
      .comheight {
          height: auto!important;

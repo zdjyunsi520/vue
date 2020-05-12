@@ -28,29 +28,31 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
         <div class="bg-white infobox">
-          <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-            <el-form-item>
-              <el-form-item label="代码">
-                <el-input v-model="smform.Key" disabled></el-input>
+          <el-scrollbar >
+            <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+              <el-form-item>
+                <el-form-item label="代码">
+                  <el-input v-model="smform.Key" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="名称">
-                <el-input v-model="smform.Name" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="名称">
+                  <el-input v-model="smform.Name" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item>
-              <el-form-item label="排序">
-                <el-input v-model="smform.SortIndex" disabled></el-input>
+              <el-form-item>
+                <el-form-item label="排序">
+                  <el-input v-model="smform.SortIndex" disabled></el-input>
+                </el-form-item>
               </el-form-item>
-            </el-form-item>
-            <el-form-item label="父级" v-if="smform.ParentKey">
-              <el-input v-model="smform.ParentKey" disabled></el-input>
-            </el-form-item>
-          </el-form>
-          <div v-else class="tips">
-            暂无数据
-          </div>
+              <el-form-item label="父级" v-if="smform.ParentKey">
+                <el-input v-model="smform.ParentKey" disabled></el-input>
+              </el-form-item>
+            </el-form>
+            <div v-else class="tips">
+              暂无数据
+            </div>
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>

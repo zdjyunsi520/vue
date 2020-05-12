@@ -17,7 +17,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="权限标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入姓名" />
+            <el-input v-model="form.key" placeholder="请输入权限标识" />
           </el-form-item>
         </el-col>
         <el-col :span="24">

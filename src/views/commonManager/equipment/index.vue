@@ -19,14 +19,14 @@
             </el-form-item>
           </el-form>
         </div>
-      <div class="bg-white containerbox">
+      <div class="bg-white containerbox" ref="containerbox">
         <el-row class="table-btns">
               <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="handleAdd">新增</el-button>
               <el-button type="primary" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
               <el-button type="primary" icon="el-icon-lock" size="mini" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" size="mini" @click="handleSync(null)" :disabled="multiple">取消同步</el-button>
         </el-row>
-        <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border>
+        <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
           <el-table-column type="selection" width="55" align="center" fixed="left" />
           <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
           <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -101,6 +101,7 @@ export default {
         children: "children",
         label: "label"
       },
+      tableHeight: "",
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -120,7 +121,19 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+    },
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;
@@ -131,6 +144,7 @@ export default {
             return v;
           });
           this.total = response.total;
+          this.setTableHeight();
         })
         .finally(r => {
           this.listLoading = false;
