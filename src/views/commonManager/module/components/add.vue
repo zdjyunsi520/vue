@@ -1,18 +1,9 @@
 <template>
-  <el-dialog
-    width="500px"
-    :title="'新增'+title"
-    :visible.sync="dialogVisible"
-    :modal-append-to-body="false"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    :show-close="false"
-    center
-  >
+  <el-dialog width="500px" :title="'新增'+title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-          <el-row>
-            <!-- <el-col :span="24">
+      <el-row>
+        <!-- <el-col :span="24">
           <el-form-item label="父级分类" prop="parentId">
             <el-select v-model="form.parentId" clearable size="small">
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in []" />
@@ -57,8 +48,8 @@
           </el-form-item>
         </el-col>
       </el-row>
-        </el-scrollbar>
-       </div>
+      </el-scrollbar>
+      </div>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
@@ -146,8 +137,7 @@ export default {
           type: 1,
           component: "",
           iconurl: "",
-          sortindex: 1,
-          component: ""
+          sortindex: 1
         },
         data
       );

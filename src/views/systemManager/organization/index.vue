@@ -109,18 +109,18 @@ export default {
   created() {
     this.getList();
   },
-  mounted(){
+  mounted() {
     let _this = this;
-    window.onresize = ()=>{
+    window.onresize = () => {
       _this.setTableHeight();
-    }
+    };
   },
-  destroyed(){
+  destroyed() {
     window.onresize = null;
   },
   methods: {
-    setTableHeight(){
-      this.tableHeight = this.$refs.containerbox.offsetHeight-120;
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
     filterEnable(row) {
       return row.IsEnable ? "正常" : "禁用";
