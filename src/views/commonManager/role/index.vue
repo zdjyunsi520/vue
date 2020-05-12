@@ -79,7 +79,7 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "新增";
+      const title = "新增角色";
       this.$router.push({
         name: "/commonManager/role/components/update",
         params: { data: {}, title }
@@ -93,7 +93,7 @@ export default {
       const sortindex = row.SortIndex;
       const name = row.Name;
       const data = { id, key, sortindex, name };
-      const title = "修改";
+      const title = "修改角色";
       this.$router.push({
         name: "/commonManager/role/components/update",
         params: { data, title }

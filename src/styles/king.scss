@@ -1,21 +1,26 @@
  /**
  * 通用css样式布局处理
  */
- .el-tree-node{ margin: 10px 5px;}
+ 
+ .el-tree-node {
+     margin: 10px 5px;
+ }
+ 
  .el-pagination {
      padding: 10px 15px!important;
  }
  
  .el-table th {
      color: #565656!important;
-    //  padding: 18px 0!important;
+     //  padding: 18px 0!important;
      height: 60px;
      background-color: #f7f8fe!important;
  }
  
  .el-table td {
-     height:54px;
-}
+     height: 54px;
+ }
+ 
  .el-table--border th,
  .el-table--border td {
      border-right: 1px solid #ebeef5!important;
@@ -35,8 +40,19 @@
  .el-table .sort-caret {
      left: 2px!important;
  }
- .el-table--border th:first-child .cell, .el-table--border td:first-child .cell{padding-left: 20px;;}
- .el-table .cell{padding-left: 20px;padding-right: 20px;;}
+ 
+ .el-table--border th:first-child .cell,
+ .el-table--border td:first-child .cell {
+     padding-left: 20px;
+     ;
+ }
+ 
+ .el-table .cell {
+     padding-left: 20px;
+     padding-right: 20px;
+     ;
+ }
+ 
  .wrapperbox>.el-row {
      height: 100%;
  }
@@ -103,6 +119,15 @@
          .el-form-item {
              margin-bottom: 10px;
          }
+     }
+ }
+ 
+ .onlyform-box {
+     height: 100%;
+     position: relative;
+     padding-bottom: 90px;
+     .el-form .el-form-item {
+         margin-bottom: 22px;
      }
  }
  
@@ -175,7 +200,8 @@
      padding: 20px 0;
  }
  
- .smtitle {
+ .smtitle,
+ .form-smtitle {
      font-size: 14px;
      color: #333333;
      font-weight: bold;
@@ -187,6 +213,18 @@
          margin-right: 7px;
          display: inline-block;
          vertical-align: text-top;
+     }
+ }
+ 
+ .form-smtitle {
+     font-size: 18px;
+     margin-bottom: 40px;
+     margin-top: 10px;
+     margin-left: 10px;
+     &::before {
+         background-color: #4473f2;
+         margin-right: 10px;
+         height: 18px;
      }
  }
  
@@ -204,13 +242,14 @@
      border-top: 1px solid #ebeef5;
  }
  
-.el-row-box{
-    padding: 15px 10px 5px;
-  
-  }
-  .el-submenu__icon-arrow{
-      right: 30px!important;
-  }
+ .el-row-box {
+     padding: 15px 10px 5px;
+ }
+ 
+ .el-submenu__icon-arrow {
+     right: 30px!important;
+ }
+ 
  @media screen and (max-width:768px) {
      .comheight {
          height: auto!important;

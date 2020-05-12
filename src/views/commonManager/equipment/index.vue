@@ -147,7 +147,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "添加";
+      const title = "新增设备";
       this.$router.push({
         name: "/commonManager/equipment/components/add",
         params: { data: {}, title }
@@ -155,7 +155,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      const title = "修改信息";
+      const title = "修改设备";
       const data = row;
       this.$router.push({
         name: "/commonManager/equipment/components/add",

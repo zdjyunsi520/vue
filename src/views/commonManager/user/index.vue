@@ -160,7 +160,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "添加";
+      const title = "添加用户";
       this.$router.push({
         name: "/commonManager/user/components/add",
         params: { data: {}, title }
@@ -173,7 +173,7 @@ export default {
       const name = row.Name;
       const mobilephone = row.MobilePhone;
       const data = { id, username, name, mobilephone };
-      const title = "修改信息";
+      const title = "修改用户";
       this.$router.push({
         name: "/commonManager/user/components/update",
         params: { data, title }

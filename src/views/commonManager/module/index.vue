@@ -168,7 +168,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "类别";
+      const title = "新增类别";
       this.$router.push({
         name: "/commonManager/module/components/add",
         params: { data: {}, title }
@@ -176,7 +176,7 @@ export default {
     },
     handleAddClass() {
       const dataList = this.dataList;
-      const title = "应用";
+      const title = "新增应用";
       const parentId = this.addId;
       const data = { parentId };
       this.$router.push({
@@ -191,7 +191,7 @@ export default {
     },
     handleAddRole() {
       const dataList = this.dataList;
-      const title = "权限";
+      const title = "新增权限";
       const parentId = this.addId;
       const data = { parentId };
       this.$router.push({
