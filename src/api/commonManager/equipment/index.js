@@ -12,13 +12,13 @@ export function deleted(data) {
 export function add(data) {
   return post("/Assets/Create", data, commonUrl);
 }
-// 同步摄像头
-export function syncCamera(data) {
-  return post("/Monitor/SyncToCloud", data, "dev");
+// 同步
+export function syncEquipment(data) {
+  return post("/Assets/SyncToCloud", data, "tool");
 }
-// 同步烟感
-export function syncSmoke(data) {
-  return post("/Smoke/SyncToCloud", data, "dev");
+// 取消同步
+export function cancelEquipment(data) {
+  return post("/Assets/CancelSyncToCloud", data, "tool");
 }
 // 修改模块信息
 export function update(data) {

@@ -56,8 +56,8 @@ import { mapGetters } from "vuex";
 import {
   fetchList,
   deleted,
-  syncCamera,
-  syncSmoke
+  syncEquipment,
+  cancelEquipment
 } from "@/api/commonManager/equipment";
 
 export default {
@@ -118,6 +118,7 @@ export default {
         .then(response => {
           this.dataList = response.data.map(v => {
             v.result = "";
+            v.active = false;
             return v;
           });
           this.total = response.total;
@@ -165,21 +166,20 @@ export default {
     handleSync(row) {
       let ids =
         (row && ((row.active = !row.active), (ids = [row]))) || this.ids;
+
       ids
         .filter(v => v.Type == "摄像头" || v.Type == "烟感")
         .forEach(row => {
-          if (!row.active) {
-            const fn = row.Type == "摄像头" ? syncCamera : syncSmoke;
-            const id = row.Id;
-            fn({ id })
-              .then(r => {
-                row.result = r.msg;
-              })
-              .catch(r => {
-                row.result = r.msg;
-                row.active = false;
-              });
-          }
+          const fn = row.active ? cancelEquipment : syncEquipment;
+          const id = row.Id;
+          fn({ id })
+            .then(r => {
+              row.result = r.msg;
+            })
+            .catch(r => {
+              row.result = r.msg;
+              row.active = false;
+            });
         });
     },
     /** 删除按钮操作 */

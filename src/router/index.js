@@ -446,6 +446,17 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: false
         }
+      },
+      {
+        name: "123213",
+        path: "123123",
+        component: () => import("@/views/commonManager/equipment/index"),
+        meta: {
+          title: "行业管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
       }
     ]
   }
