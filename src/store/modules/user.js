@@ -85,8 +85,8 @@ const user = {
             resolve(res);
           })
           .catch(error => {
-            reject(error);
-            return;
+            // reject(error);
+            // return;
             commit("SET_ROLES", ["ROLE_DEFAULT"]);
             var res = {};
             res.data = [];
