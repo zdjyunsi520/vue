@@ -1,44 +1,37 @@
 <template>
   <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
 
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px" inline-message="true">
-      <el-row>
-        <el-col :span="8">
-          <el-col :span="24">
-            <el-form-item label="用户名" prop="username">
-              <el-input v-model="form.username" placeholder="请输入用户名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="确认密码" prop="confirmpassword">
-              <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model="form.name" placeholder="请输入姓名" auto-complete="off" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="预留手机号" prop="mobilephone">
-              <el-input v-model="form.mobilephone" placeholder="请输入手机号" maxlength="11" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" :xs='24'>
-            <div class="form-footer">
-              <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-              <el-button @click="handleOpen(null)">取 消</el-button>
-            </div>
-          </el-col>
-        </el-col>
-      </el-row>
-    </el-form>
+    <el-row>
+      <el-col :span="8">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
+
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="form.username" placeholder="请输入用户名" />
+          </el-form-item>
+
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          </el-form-item>
+
+          <el-form-item label="确认密码" prop="confirmpassword">
+            <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
+          </el-form-item>
+
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="form.name" placeholder="请输入姓名" auto-complete="off" />
+          </el-form-item>
+
+          <el-form-item label="预留手机号" prop="mobilephone">
+            <el-input v-model="form.mobilephone" placeholder="请输入手机号" maxlength="11" />
+          </el-form-item>
+
+        </el-form>
+        <div class="form-footer">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 

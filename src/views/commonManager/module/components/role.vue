@@ -1,42 +1,35 @@
 <template>
   <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
 
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px" inline-message="true">
-      <el-row>
-        <el-col :span="8">
-          <el-col :span="24">
-            <el-form-item label="父级分类" prop="parentId">
-              <el-select v-model="form.parentId" clearable size="small">
-                <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="权限标识" prop="key">
-              <el-input v-model="form.key" placeholder="请输入姓名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="排序号" prop="sortindex">
-              <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" :xs='24'>
-            <div class="form-footer">
-              <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-              <el-button @click="handleOpen(null)">取 消</el-button>
-            </div>
-          </el-col>
-        </el-col>
-      </el-row>
-    </el-form>
+    <el-row>
+      <el-col :span="8">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
 
+          <el-form-item label="父级分类" prop="parentId">
+            <el-select v-model="form.parentId" clearable size="small">
+              <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
+          </el-form-item>
+
+          <el-form-item label="权限标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入姓名" />
+          </el-form-item>
+
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
+          </el-form-item>
+
+        </el-form>
+        <div class="form-footer">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 

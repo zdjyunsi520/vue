@@ -2,7 +2,7 @@
   <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
     <el-row>
       <el-col :span="8">
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" inline-message="true">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true">
 
           <el-form-item label="用户名" prop="username">
             <el-input v-model="form.username" placeholder="请输入用户名" :disabled="true" />

@@ -1,9 +1,9 @@
 <template>
   <div class="search-box" style="height:100%;position: relative;padding-bottom:90px">
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="100px" inline-message="true">
-      <el-row>
-        <el-col :span="8">
+    <el-row>
+      <el-col :span="8">
+        <el-form ref="form" :model="form" :rules="rules" label-width="100px" :inline-message="true">
+
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入角色名称" style="width:90%" />
           </el-form-item>
@@ -29,17 +29,16 @@
               </el-row>
             </el-row>
           </el-form-item>
-          <el-col :span="24" :xs='24'>
-            <div class="form-footer">
-              <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-              <el-button @click="handleOpen(null)">取 消</el-button>
-            </div>
-          </el-col>
-        </el-col>
 
-      </el-row>
-    </el-form>
+        </el-form>
 
+        <div class="form-footer">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+      </el-col>
+
+    </el-row>
   </div>
 </template>
 
