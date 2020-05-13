@@ -66,7 +66,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="联系电话" prop="phoneno">
+              <el-form-item label="联系电话">
                 <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
               </el-form-item>
             </el-col>
@@ -79,7 +79,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="联系人" prop="contactperson">
+              <el-form-item label="联系人">
                 <el-input v-model="form.contactperson" placeholder="请输入联系人" />
               </el-form-item>
             </el-col>
@@ -89,14 +89,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="联系人手机" prop="mobilephone">
+              <el-form-item label="联系人手机" >
                 <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="是否启用" prop="isenable">
-                <el-switch v-model="form.isenable" :inactive-value="0" :active-value="1" active-color="#13ce66" inactive-color="#ff4949">
-                </el-switch>&nbsp;&nbsp;{{form.isenable?'启用':'禁用'}}
+                <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用"
+             inactive-text="禁用">
+                </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
@@ -146,7 +147,7 @@
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="电压等级" prop="voltlevel">
                 <el-select v-model="form.voltlevel" size="small" :disabled="disabled">
-                  <el-option label="请选择" value=""></el-option>
+                  <!-- <el-option label="请选择" value=""></el-option> -->
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
                 </el-select>
               </el-form-item>
@@ -217,14 +218,14 @@ const electronType1 = [
   { key: "中小型专变用户", value: "中小型专变用户" }
 ];
 const electronLvl = [
-  { key: "220KV", value: "220KV" },
-  { key: "380KV", value: "380KV" },
-  { key: "400KV", value: "400KV" },
   { key: "6KV", value: "6KV" },
   { key: "10KV", value: "10KV" },
   { key: "20KV", value: "20KV" },
   { key: "35KV", value: "35KV" },
-  { key: "110KV", value: "110KV" }
+  { key: "110KV", value: "110KV" },
+  { key: "220KV", value: "220KV" },
+  { key: "380KV", value: "380KV" },
+  { key: "400KV", value: "400KV" }
 ];
 export default {
   components: {
@@ -248,9 +249,6 @@ export default {
       name: rule,
       artificialperson: rule,
       creditcode: rule,
-      phoneno: rule,
-      contactperson: rule,
-      mobilephone: rule,
       industry: rule,
       principleactivity: rule,
       province: rule,

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-  <div class="search-box onlyform-box">
+  <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
@@ -96,7 +96,7 @@ export default {
   created() {
     let { data , title } = this.$route.params;
     this.title = title;
-    this.reset(data);
+    this.getInfo(data);
   },
   methods: {
     handleChange(data) {

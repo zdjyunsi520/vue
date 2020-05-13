@@ -304,7 +304,7 @@ export const constantRoutes = [{
     },
 
     {
-        path: "systemManager",
+        path: "/systemManager/organization/components",
         component: Layout,
         meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: true },
         hidden: true,
@@ -323,7 +323,7 @@ export const constantRoutes = [{
     },
 
     {
-        path: "systemManager",
+        path: "/commonManager/module/components",
         component: Layout,
         hidden: true,
         meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },

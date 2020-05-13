@@ -26,7 +26,7 @@
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
+      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'"  @selection-change="handleSelectionChange" border>
         <el-table-column type="selection" width="55" align="center" fixed="left" />
         <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -100,7 +100,7 @@ export default {
   },
   mounted() {
     let _this = this;
-    window.onresize = () => {
+    window.onresize = function() {
       _this.setTableHeight();
     };
   },
@@ -122,10 +122,10 @@ export default {
             return v;
           });
           this.total = response.total;
-          this.setTableHeight();
         })
         .finally(r => {
           this.listLoading = false;
+          this.setTableHeight();
         });
     },
 

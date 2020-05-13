@@ -56,8 +56,9 @@ const user = {
     GetInfo({ commit, state }) {
       //实例化一个异步请求对象
       return new Promise((resolve, reject) => {
-        getInfo1().then(r => {
-          console.log;
+        getInfo1().then(res => {
+          console.log('getInfo1',res);
+          commit("SET_NAME", res.data.Name);
         });
         getInfo()
           .then(res => {

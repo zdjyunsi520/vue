@@ -117,9 +117,4 @@ export default {
 </script>
 
 <style lang="scss">
-.comheight {
-  height: calc(100vh - 164px);
-  padding: 15px 10px;
-  box-sizing: border-box;
-}
 </style>

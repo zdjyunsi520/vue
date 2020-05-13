@@ -1,35 +1,38 @@
 <template>
-  <div class="app-container wrapperbox">
+  <div class="app-container">
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <common-tree @getInfo="getInfo" />
+    <el-row :gutter="20"class="comheight">
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar >
+          <common-tree @getInfo="getInfo" />
+        </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight">
-          <el-row class="equipInfobox">
-            <el-form :inline="true" size="mini">
+      <el-col :xs="{span: 24}" :span="18"  class="app-container" style="padding-top:0;padding-bottom:0">
+          <!-- <el-row class="equipInfobox"> -->
+        <div class="search-box">
+            <el-form :inline="true" >
               <el-form-item>
                 <el-dropdown @command="handleCommand">
-                  <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+                  <el-button type="primary"  icon=" el-icon-circle-plus-outline">
                     新增
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </el-button>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="a">配电室</el-dropdown-item>
-
                   </el-dropdown-menu>
                 </el-dropdown>
+            </el-form-item>
                 <!-- <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
                 <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button> -->
-              </el-form-item>
-            </el-form>
-          </el-row>
-          <el-row :gutter="20" class="equipInfobox">
-
-            <baseProp />
-          </el-row>
+              <!-- </el-form-item>-->
+            </el-form> 
         </div>
+          <!-- </el-row> -->
+          <div class="containerbox" ref="containerbox" style="background:#fff">
+            <el-row :gutter="20" class="equipInfobox">
+              <baseProp />
+            </el-row>
+          </div>
       </el-col>
     </el-row>
   </div>
@@ -44,6 +47,7 @@ export default {
     return {
       operateId: "",
       infoData: {},
+      loading:true,
       component: null
     };
   },
@@ -56,6 +60,7 @@ export default {
       if (data.type == 1) {
         this.component = baseProp;
         this.$nextTick(() => {
+        this.loading=false;
           console.log(this.$refs.component);
         });
       }
@@ -81,9 +86,4 @@ export default {
 </script>
 
 <style lang="scss">
-.comheight {
-  height: calc(100vh - 164px);
-  padding: 15px 10px;
-  box-sizing: border-box;
-}
 </style>

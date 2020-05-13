@@ -28,7 +28,7 @@
         <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
         <el-button type="info" plain icon="el-icon-unlock" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="用户名" align="center" width="200" prop="UserName" />
         <el-table-column label="姓名" align="center" width="160" prop="Name" />
