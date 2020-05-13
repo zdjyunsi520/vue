@@ -36,3 +36,7 @@ export function disabled(data) {
 export function getInfo(data) {
   return post("/Tenant/Get", data, commonUrl);
 }
+//获取用电单位信息列表（用于下拉框）
+export function getSelectList(data) {
+  return post("/Tenant/GetChildrenList", data, commonUrl);
+}

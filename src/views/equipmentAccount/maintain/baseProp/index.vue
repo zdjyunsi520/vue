@@ -1,89 +1,87 @@
 <template>
-  <div>
-    <h6>基本属性</h6>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>名称</label><span>{{infoData.Name}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>上级单位</label><span>{{infoData.TenantName}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>运行状态</label><span>{{infoData.Status==1?'在运':'停运'}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>单位地址</label><span>{{infoData.PropertyName}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>联系人</label><span>{{infoData.StartTime | parseTime('{y}-{m}-{d}')}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>联系人手机</label><span>{{infoData.ModelName}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>联系电话</label><span>{{infoData.Factory}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>电压等级</label><span>{{infoData.SerialCode}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>立户日期</label><span>{{infoData.SerialCode}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>运行容量</label><span>{{infoData.SerialCode}}</span>
-    </el-col>
-    <el-col :xs="{span: 24}" :span="12">
-      <label>合同容量</label><span>{{infoData.SerialCode}}</span>
-    </el-col>
+  <div v-show="visible">
+    <el-row :gutter="20" class="equipInfobox">
+      <el-form :inline="true" size="mini">
+        <el-form-item>
+          <el-dropdown @command="handleCommand">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini">
+              新增
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="/equipmentAccount/maintain/powerRoom/components/update">配电室</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <el-row :gutter="20" class="equipInfobox">
+      <h6>基本属性</h6>
+      <el-row :gutter="20" class="equipInfobox">
+        <el-col :xs="{span: 24}" :span="12">
+          <label>名称</label><span>{{infoData.Name}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>上级单位</label><span>{{infoData.ParentId}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>运行状态</label><span>{{infoData.IsEnable?'在运':'停运'}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>单位地址</label><span>{{infoData.Province}}{{infoData.City}}{{infoData.Area}}{{infoData.Address}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>联系人</label><span>{{infoData.ContactPerson }}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>联系人手机</label><span>{{infoData.MobilePhone}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>联系电话</label><span>{{infoData.PhoneNo}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>电压等级</label><span>{{infoData.VoltLevelText}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>立户日期</label><span>{{infoData.CreateTime| parseTime('{y}-{m}-{d}')}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>运行容量</label><span>{{infoData.OperatingCapacity}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>合同容量</label><span>{{infoData.ContractCapacity}}</span>
+        </el-col>
+      </el-row>
+    </el-row>
+
   </div>
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/powerRoom";
+import { getInfo } from "@/api/equipmentAccount/maintain";
 export default {
-  props: {
-    id: Number
-  },
   data() {
     return {
-      infoData: {}
+      infoData: {},
+      visible: false,
+      id: ""
     };
-  },
-
-  mounted() {
-    this.getInfo();
   },
   methods: {
     handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
-    },
-    handleAdd() {},
-    handleUpdate() {
-      const data = {};
+      const data = { tenantId: this.id };
+      const title = "新增";
       this.$router.push({
-        path: "/equipmentAccount/maintain/communicationHost/components/update",
-        params: { data }
+        name: commond,
+        params: { data, title }
       });
     },
-    handleDelete() {},
-    getInfo() {
-      console.log(this.id123);
-      getInfo({}).then(r => {
+    getInfo(data) {
+      this.id = data.id;
+      getInfo(data).then(r => {
         this.infoData = r.data;
       });
     }
   }
 };
 </script>
-
-<style lang="scss">
-.comheight {
-  height: calc(100vh - 164px);
-  padding: 15px 10px;
-  box-sizing: border-box;
-}
-</style>

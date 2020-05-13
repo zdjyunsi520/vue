@@ -1,118 +1,140 @@
 <template>
-  <div class="app-container wrapperbox">
+  <div v-show="visible">
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <common-tree @emit="getInfo" />
+    <el-row class="equipInfobox">
+      <el-form :inline="true" size="mini">
+        <el-form-item>
+          <el-dropdown @command="handleCommand">
+            <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
+              新增
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="/equipmentAccount/maintain/clock/components/update">电力表计</el-dropdown-item>
+              <el-dropdown-item command="/equipmentAccount/maintain/temperature/components/update">温控</el-dropdown-item>
+              <el-dropdown-item command="/equipmentAccount/maintain/smoke/components/update">烟感</el-dropdown-item>
+              <el-dropdown-item command="/equipmentAccount/maintain/interval/components/update">间隔</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <el-row :gutter="20" class="equipInfobox">
+      <h6>基本属性</h6>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>名称</label><span>{{infoData.Name}}</span>
       </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight">
-          <el-row class="equipInfobox">
-            <el-form :inline="true" size="mini">
-              <el-form-item>
-                <el-dropdown @command="handleCommand">
-                  <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
-                    新增
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                  </el-button>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="a">新增电力表计</el-dropdown-item>
-                    <el-dropdown-item command="b">温控</el-dropdown-item>
-                    <el-dropdown-item command="c">烟感</el-dropdown-item>
-                    <el-dropdown-item command="d">间隔</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-                <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
-                <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-              </el-form-item>
-            </el-form>
-          </el-row>
-          <el-row :gutter="20" class="equipInfobox">
-            <h6>基本属性</h6>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>名称</label><span>{{infoData.Name}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>所属单位</label><span>{{infoData.TenantName}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>电压等级</label><span>{{infoData.TenantName}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>运行状态</label><span>{{infoData.Status==1?'在运':'停运'}}</span>
-            </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>所属单位</label><span>{{infoData.TenantName}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>电压等级</label><span>{{infoData.VoltageLevelName}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>运行状态</label><span>{{infoData.IsEnable==1?'在运':'停运'}}</span>
+      </el-col>
 
-            <el-col :xs="{span: 24}" :span="12">
-              <label>投运日期</label><span>{{infoData.StartTime | parseTime('{y}-{m}-{d}')}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>资产属性</label><span>{{infoData.PropertyName}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>屏柜类型</label><span>{{infoData.ModelName}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>型号</label><span>{{infoData.Factory}}</span>
-            </el-col>
-            <el-col :xs="{span: 24}" :span="12">
-              <label>生产厂家</label><span>{{infoData.SerialCode}}</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20" class="equipInfobox">
-            <h6>附属信息</h6>
-            <el-row :gutter="20" class="equipInfobox">
-              <el-col :xs="{span: 24}" :span="12">
-                <label>创建人</label><span>{{infoData.CreateUserName}}</span>
-              </el-col>
-              <el-col :xs="{span: 24}" :span="12">
-                <label>创建时间</label><span>{{infoData.CreateTime | parseTime('{y}-{m}-{d}')}}</span>
-              </el-col>
-              <el-col :xs="{span: 24}" :span="12">
-                <label>最后维护人</label><span>{{infoData.UpdateUserName}}</span>
-              </el-col>
-              <el-col :xs="{span: 24}" :span="12">
-                <label>最后维护时间</label><span>{{infoData.UpdateTime | parseTime('{y}-{m}-{d}')}}</span>
-              </el-col>
-            </el-row>
-          </el-row>
-        </div>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>投运日期</label><span>{{infoData.StartTime | parseTime('{y}-{m}-{d}')}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>资产属性</label><span>{{infoData.Attribute}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>屏柜类型</label><span>{{infoData.TypeName}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>型号</label><span>{{infoData.ModelName}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>生产厂家</label><span>{{infoData.Manufactor}}</span>
+      </el-col>
+      <el-col :xs="{span: 24}" :span="12">
+        <label>出厂日期</label><span>{{}}</span>
       </el-col>
     </el-row>
+    <el-row :gutter="20" class="equipInfobox">
+      <h6>附属信息</h6>
+      <el-row :gutter="20" class="equipInfobox">
+        <el-col :xs="{span: 24}" :span="12">
+          <label>创建人</label><span>{{infoData.CreateUserName}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>创建时间</label><span>{{infoData.CreateTime | parseTime('{y}-{m}-{d}')}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>最后维护人</label><span>{{infoData.UpdateUserName}}</span>
+        </el-col>
+        <el-col :xs="{span: 24}" :span="12">
+          <label>最后维护时间</label><span>{{infoData.UpdateTime | parseTime('{y}-{m}-{d}')}}</span>
+        </el-col>
+      </el-row>
+    </el-row>
+
   </div>
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/powerRoom";
-import commonTree from "@/views/equipmentAccount/components";
+import { getInfo } from "@/api/equipmentAccount/maintain/panelCabinet";
 export default {
-  components: { commonTree },
   data() {
     return {
       operateId: "",
-      infoData: {}
+      infoData: {},
+      visible: false
     };
   },
 
   created() {},
   methods: {
+    getInfo(data) {
+      getInfo(data).then(r => {
+        this.infoData = r.data;
+      });
+    },
     handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
+      const title = "新增";
+      this.$router.push({
+        name: commond,
+        params: { title }
+      });
     },
     handleAdd() {},
     handleUpdate() {
-      const data = {};
-      this.$router.push({ path: "", query: { data } });
-    },
-    handleDelete() {},
-    getInfo(id) {
-      getInfo({ id }).then(r => {
-        this.infoData = r.data;
+      const id = this.infoData.Id;
+      const name = this.infoData.Name;
+      const tenantId = this.infoData.TenantId;
+      const starttime = this.infoData.StartTime;
+      const property = this.infoData.Property;
+      const voltlevel = this.infoData.voltLevel;
+      const modelname = this.infoData.ModelName;
+      const factory = this.infoData.Factory;
+      const sortindex = this.infoData.SortIndex;
+      const type = this.infoData.Type;
+      const status = this.infoData.Status;
+      const data = {
+        id,
+        name,
+        tenantId,
+        starttime,
+        property,
+        voltlevel,
+        modelname,
+        factory,
+        sortindex,
+        type,
+        status
+      };
+      const title = "修改";
+      this.$router.push({
+        name: "/equipmentAccount/maintain/panelCabinet/components/update",
+        params: { data, title }
       });
+    },
+    handleDelete() {
+      this.$confirm("确认要进行删除操作吗？").then(r => {});
     }
   }
 };

@@ -6,41 +6,41 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-row>
         <el-col :span="12">
-          <el-form-item label="名称" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入名称" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="资产属性" prop="industry">
-            <el-select v-model="form.industry" size="small">
+          <el-form-item label="资产属性" prop="property">
+            <el-select v-model="form.property" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="屏柜类型" prop="parentId">
-            <el-select v-model="form.parentId" size="small">
+          <el-form-item label="屏柜类型" prop="type">
+            <el-select v-model="form.type" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in panelCabinetType" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item label="电压等级" prop="principleactivity">
-            <el-select v-model="form.principleactivity" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="所属单位" prop="province">
-            <el-select v-model="form.province" size="small">
+          <el-form-item label="电压等级" prop="voltlevel">
+            <el-select v-model="form.voltlevel" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="12">
+          <el-form-item label="所属单位" prop="tenantId">
+            <el-select v-model="form.tenantid" size="small">
+              <el-option label="请选择" value=""></el-option>
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -51,17 +51,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="运行状态" prop="province">
-            <el-select v-model="form.province" size="small">
+          <el-form-item label="运行状态" prop="status">
+            <el-select v-model="form.status" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="生产厂家" prop="address">
-            <el-input v-model="form.address" placeholder="请输入生产厂家" />
+          <el-form-item label="生产厂家" prop="factory">
+            <el-input v-model="form.factory" placeholder="请输入生产厂家" />
           </el-form-item>
         </el-col>
 
@@ -93,29 +93,7 @@ import { add, fetchTree, update } from "@/api/systemManager/organization";
 import { fetchList } from "@/api/commonManager/area";
 import { mapGetters } from "vuex";
 import { fetchList as fetchProfession } from "@/api/commonManager/profession";
-const electronType = [
-  { key: "高压配电室", value: "高压配电室" },
-  { key: "变压器室", value: "变压器室" },
-  { key: "低压配电室", value: "低压配电室" }
-];
-const electronType1 = [
-  { key: "用户资产", value: "用户资产" },
-  { key: "局方资产", value: "局方资产" }
-];
-const runningState = [
-  { key: "在运", value: "在运" },
-  { key: "停运", value: "停运" }
-];
-const electronLvl = [
-  { key: "220KV", value: "220KV" },
-  { key: "380KV", value: "380KV" },
-  { key: "400KV", value: "400KV" },
-  { key: "6KV", value: "6KV" },
-  { key: "10KV", value: "10KV" },
-  { key: "20KV", value: "20KV" },
-  { key: "35KV", value: "35KV" },
-  { key: "110KV", value: "110KV" }
-];
+
 const panelCabinetType = [
   { key: "中央控制屏", value: "中央控制屏" },
   { key: "保护屏", value: "保护屏" },
@@ -160,12 +138,7 @@ export default {
       rules,
       dialogVisible: false,
       loading: false,
-      title: "",
-      professionList: [],
-      panelCabinetType,
-      electronType1,
-      electronLvl,
-      runningState
+      title: ""
     };
   },
   created() {
@@ -173,7 +146,13 @@ export default {
     this.reset(data);
   },
   computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
+    ...mapGetters({
+      powerRoomType: "status/panelCabinetType",
+      assetAttributeType: "status/assetAttributeType",
+      voltageLevelType: "status/voltageLevelType",
+      runningStateType: "status/runningStateType",
+      companyType: "status/companyType"
+    })
   },
   methods: {
     handleElectron(v) {},

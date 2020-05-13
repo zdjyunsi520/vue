@@ -7,28 +7,16 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <div class="bg-white comheight">
-          <el-row class="equipInfobox">
-            <el-form :inline="true" size="mini">
-              <el-form-item>
-                <el-dropdown @command="handleCommand">
-                  <el-button type="primary" size="mini" icon=" el-icon-circle-plus-outline">
-                    新增
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                  </el-button>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="a">配电室</el-dropdown-item>
 
-                  </el-dropdown-menu>
-                </el-dropdown>
-                <!-- <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
-                <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button> -->
-              </el-form-item>
-            </el-form>
-          </el-row>
-          <el-row :gutter="20" class="equipInfobox">
-
-            <baseProp />
-          </el-row>
+          <base-prop ref="component1" />
+          <power-room ref="component2" />
+          <panel-cabinet ref="component3" />
+          <camera ref="component8" />
+          <interval ref="component11" />
+          <communication-host ref="component4" />
+          <smoke ref="component7" />
+          <temperature ref="component6" />
+          <clock ref="component5" />
         </div>
       </el-col>
     </el-row>
@@ -37,28 +25,48 @@
 
 <script>
 import commonTree from "@/views/equipmentAccount/components";
+
 import baseProp from "./baseProp";
+import powerRoom from "./powerRoom";
+import panelCabinet from "./panelCabinet";
+import camera from "./camera";
+import interval from "./interval";
+import communicationHost from "./communicationHost";
+import smoke from "./smoke";
+import temperature from "./temperature";
+import clock from "./clock";
 export default {
-  components: { commonTree, baseProp },
+  components: {
+    commonTree,
+    baseProp,
+    powerRoom,
+    panelCabinet,
+    camera,
+    interval,
+    communicationHost,
+    smoke,
+    temperature,
+    clock
+  },
   data() {
     return {
-      operateId: "",
-      infoData: {},
-      component: null
+      operateId: ""
     };
   },
 
   created() {},
   methods: {
+    closeComponent() {
+      [1, 2, 3, 8, 11, 4, 7, 6, 5].forEach(v => {
+        this.$refs["component" + v].visible = false;
+      });
+    },
     getInfo(data) {
-      console.log(data);
       this.data = data;
-      if (data.type == 1) {
-        this.component = baseProp;
-        this.$nextTick(() => {
-          console.log(this.$refs.component);
-        });
-      }
+      this.closeComponent();
+      const target = this.$refs["component" + data.type];
+      target.visible = true;
+      target.getInfo(data);
     },
     handleCommand(commond) {
       if (commond == "a") {
@@ -67,15 +75,7 @@ export default {
     },
     handleAdd() {},
     handleUpdate() {},
-    handleDelete() {},
-    getServer() {
-      const id = this.operateId;
-      return new Promise((resolve, reject) => {
-        getServer({ id }).then(r => {
-          this.infoData = Object.assign({}, r.data);
-        });
-      });
-    }
+    handleDelete() {}
   }
 };
 </script>

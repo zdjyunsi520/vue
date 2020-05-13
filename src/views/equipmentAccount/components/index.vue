@@ -11,31 +11,19 @@ export default {
       defaultProps: {
         children: "childs",
         label: "text"
-      },
-      operateId: "",
-      operateType: "",
-      infoData: {}
+      }
     };
   },
 
   created() {
-    this.getTreeData().then(() => {
-      this.operateId = this.treeData[0].id;
-      this.operateType = this.treeData[0].type;
-      this.getServer();
-    });
+    this.getTreeData();
   },
   methods: {
     // 获取设备关系树状图
     getTreeData() {
-      return new Promise((resolve, reject) => {
-        getTrees()
-          .then(response => {
-            this.treeData = response.data;
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      getTrees().then(response => {
+        this.treeData = response.data;
+        this.$emit("getInfo", this.treeData[0]);
       });
     },
     handleNodeClick(obj, event) {

@@ -35,7 +35,7 @@ function resolve(dir) {
 const Timestamp = Date.now();
 const name = defaultSettings.title || "智能运维云平台操作后台"; // 标题
 
-const port = process.env.port || process.env.npm_config_port || 8088; // 端口
+const port = process.env.port || process.env.npm_config_port || 9955; // 端口
 // vue.config.js 配置说明
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
 // 这里只列一部分，具体配置参考文档

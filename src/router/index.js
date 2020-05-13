@@ -319,7 +319,7 @@ export const constantRoutes = [
   {
     path: "systemManager",
     component: Layout,
-    hidden: true,
+    hidden: false,
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -484,11 +484,107 @@ export const constantRoutes = [
         }
       },
       {
+        name: "/equipmentAccount/maintain/powerRoom/components/update",
+        path: "/equipmentAccount/maintain/powerRoom/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/powerRoom/components/update"),
+        meta: {
+          title: "新增/修改配电室",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/panelCabinet/components/update",
+        path: "/equipmentAccount/maintain/panelCabinet/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/panelCabinet/components/update"),
+        meta: {
+          title: "新增/修改屏柜",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/communicationHost/components/update",
+        path: "/equipmentAccount/maintain/communicationHost/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/communicationHost/components/update"),
+        meta: {
+          title: "新增/修改交流主机",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/camera/components/update",
+        path: "/equipmentAccount/maintain/camera/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/camera/components/update"),
+        meta: {
+          title: "新增/修改摄像头",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/smoke/components/update",
+        path: "/equipmentAccount/maintain/smoke/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/smoke/components/update"),
+        meta: {
+          title: "新增/修改烟感",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/interval/components/update",
+        path: "/equipmentAccount/maintain/interval/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/interval/components/update"),
+        meta: {
+          title: "新增/修改间隔",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/equipmentAccount/maintain/temperature/components/update",
+        path: "/equipmentAccount/maintain/temperature/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/temperature/components/update"),
+        meta: {
+          title: "新增/修改温感",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      // {
+      //   name: "/equipmentAccount/maintain/clock/components/update",
+      //   path: "/equipmentAccount/maintain/clock/components/update",
+      //   component: () =>
+      //     import("@/views/equipmentAccount/maintain/clock/components/update"),
+      //   meta: {
+      //     title: "新增/修改电计器",
+      //     icon: "dashboard",
+      //     noCache: true,
+      //     breadcrumb: false
+      //   }
+      // },
+      {
         name: "123213",
         path: "/123123",
-        component: () => import("@/views/commonManager/user/index"),
+        component: () => import("@/views/equipmentAccount/maintain/index"),
         meta: {
-          title: "人员信息",
+          title: "测试页面",
           icon: "dashboard",
           noCache: true,
           breadcrumb: false

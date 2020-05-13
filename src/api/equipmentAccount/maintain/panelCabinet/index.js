@@ -3,12 +3,12 @@ const commonUrl = "Dev";
 
 // 用电人员列表
 export function getInfo(data) {
-  return post("/SwitchingRoom/Get", data, "org");
+  return post("/Cabinet/Get", data, "org");
 }
 export function add(data) {
-  return post("/SwitchingRoom/Create", data, "org");
+  return post("/Cabinet/Create", data, "org");
 }
 
 export function update(data) {
-  return post("/SwitchingRoom/Modify", data, "org");
+  return post("/Cabinet/Modify", data, "org");
 }

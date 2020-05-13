@@ -324,6 +324,7 @@ export function removeClass(ele, cls) {
 }
 
 export function dateFortmat(dt, fmt) {
+  if (typeof dt == "string") dt = new Date(dt);
   var o = {
     "M+": dt.getMonth() + 1, //月份
     "d+": dt.getDate(), //日
