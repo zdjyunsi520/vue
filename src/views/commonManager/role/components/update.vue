@@ -4,16 +4,16 @@
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
-          <el-form-item label="角色名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入角色名称" style="width:90%" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>
-          <el-form-item label="权限字符" prop="key">
-            <el-input v-model="form.key" placeholder="请输入权限字符" style="width:90%" />
+          <el-form-item label="角色标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入角色标识" style="width:90%" />
           </el-form-item>
-          <el-form-item label="角色顺序" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" controls-position="right"  :min="0" />
           </el-form-item>
-          <el-form-item label="菜单权限">
+          <el-form-item label="模块权限">
             <el-row v-for="item in moduleList" :key="item.ModuleId">
               <el-col :span="24">
                 <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
@@ -52,21 +52,21 @@ export default {
       name: [
         {
           required: true,
-          message: "角色名称不能为空",
+          message: "名称不能为空",
           trigger: "blur"
         }
       ],
       key: [
         {
           required: true,
-          message: "权限字符不能为空",
+          message: "角色标识不能为空",
           trigger: "blur"
         }
       ],
       sortindex: [
         {
           required: true,
-          message: "角色顺序不能为空",
+          message: "排序号不能为空",
           trigger: "blur"
         }
       ]

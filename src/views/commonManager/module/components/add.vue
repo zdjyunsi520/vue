@@ -21,7 +21,7 @@
           </el-form-item>
 
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:100px" />
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"/>
           </el-form-item>
 
           <el-form-item label="应用图标">

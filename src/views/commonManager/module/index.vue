@@ -4,12 +4,12 @@
       <el-form :inline="true">
         <el-form-item>
           <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-          <el-dropdown @command="handleCommand">
+          <el-dropdown @command="handleCommand" >
             <el-button type="primary" icon=" el-icon-circle-plus-outline">
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown">
+            <el-dropdown-menu slot="dropdown" >
               <el-dropdown-item command="a">新增分类</el-dropdown-item>
               <el-dropdown-item command="b">新增应用</el-dropdown-item>
               <el-dropdown-item command="c">新增权限</el-dropdown-item>
@@ -24,12 +24,13 @@
     <el-row :gutter="20" class="containerbox">
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
         <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+          <el-tree :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all  node-key="id" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </el-col>
-      <el-col :xs="{span: 24}" :span="10" class="comheight">
+      <el-col :xs="{span: 24}" :span="10" style="width:554px" class="comheight">
         <div class="bg-white  infobox">
           <el-scrollbar>
+          <p class="form-smtitle marginBottom30">基础信息 </p>
             <el-form label-position="top" :model="smform" v-if="data&&data.Id">
               <el-form-item>
                 <el-form-item label="类型">
@@ -131,6 +132,9 @@ export default {
             return v;
           });
           this.dataList = response.data;
+
+          this.$refs.tree.setCurrentKey(this.dataList[0].id)
+          this.handleNodeClick(this.dataList[0]);
           this.loading = false;
           this.dataList.length && this.handleNodeClick(this.dataList[0]);
         })
