@@ -580,6 +580,28 @@ export const constantRoutes = [
       //   }
       // },
       {
+        name: "/commonManager/area/components/add",
+        path: "/commonManager/area/components/add",
+        component: () => import("@/views/commonManager/area/components/add"),
+        meta: {
+          title: "新增地区",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
+        name: "/commonManager/area/components/update",
+        path: "/commonManager/area/components/update",
+        component: () => import("@/views/commonManager/area/components/update"),
+        meta: {
+          title: "修改地区",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: false
+        }
+      },
+      {
         name: "123213",
         path: "/123123",
         component: () => import("@/views/equipmentAccount/maintain/index"),

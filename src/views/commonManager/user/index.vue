@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="queryParams.userName" placeholder="用户名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.username" placeholder="用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="queryParams.userName" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.name" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="预留手机号" prop="phone">
+        <el-form-item label="预留手机号" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
@@ -91,7 +91,7 @@ export default {
       // 用户表格数据
       dataList: null,
       tableHeight: "",
-
+      rules: {},
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -121,7 +121,7 @@ export default {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
     filterCancel(row) {
-      return row.IsLock ? "已注销" : "正常";
+      return row.IsCancel ? "已注销" : "正常";
     },
     handleSortChange(row) {
       this.queryParams.orderby = `${row.prop} ${

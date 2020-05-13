@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="设备编号">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+        <el-form-item label="设备编号" prop="serialcode">
           <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="设备类型">
+        <el-form-item label="设备类型" prop="type">
           <el-select v-model="queryParams.type" clearable>
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
           </el-select>
@@ -26,7 +26,7 @@
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'"  @selection-change="handleSelectionChange" border>
+      <el-table @cell-click="handleRowClick" v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange" border>
         <el-table-column type="selection" width="55" align="center" fixed="left" />
         <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -44,7 +44,16 @@
           </template>
         </el-table-column>
         <el-table-column label="同步结果" min-width="120" align="center" prop="result" />
-        <el-table-column label="备注" min-width="200" fixed="right" align="center" prop="Remark" />
+        <el-table-column label="备注" min-width="200" fixed="right" align="center" prop="Remark">
+          <template slot-scope="{row}">
+            <el-row v-if="row.edit">
+              <el-input v-model="row.Remark" @blur="handleBlur(row)" />
+            </el-row>
+            <el-row v-else>
+              {{row.Remark}}
+            </el-row>
+          </template>
+        </el-table-column>
       </el-table>
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
@@ -57,7 +66,8 @@ import {
   fetchList,
   deleted,
   syncEquipment,
-  cancelEquipment
+  cancelEquipment,
+  updateRemark
 } from "@/api/commonManager/equipment";
 
 export default {
@@ -77,7 +87,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-
+      rules: {},
       tableHeight: "",
       // 查询参数
       queryParams: {
@@ -108,6 +118,19 @@ export default {
     window.onresize = null;
   },
   methods: {
+    handleBlur(row) {
+      const id = row.Id;
+      const remark = row.Remark;
+      updateRemark({ id, remark }).then(r => {
+        this.$message.success(r.msg);
+        row.edit = false;
+      });
+    },
+    handleRowClick(row, col, cell) {
+      if (col.property == "Remark") {
+        row.edit = true;
+      }
+    },
     setTableHeight() {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
@@ -119,6 +142,7 @@ export default {
           this.dataList = response.data.map(v => {
             v.result = "";
             v.active = false;
+            v.edit = false;
             return v;
           });
           this.total = response.total;

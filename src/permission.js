@@ -56,7 +56,8 @@ router.beforeEach((to, from, next) => {
       // console.log(to)
       // let url = /^\/+$/g.test(to.path) ? '/login' : `/login?redirect=${to.path}`
       // next(url);
-      next(`/login?redirect=${to.path}`); // 否则全部重定向到登录页
+      next(`/login`);
+      // next(`/login?redirect=${to.path}`); // 否则全部重定向到登录页
       NProgress.done();
     }
   }

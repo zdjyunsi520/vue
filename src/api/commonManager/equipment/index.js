@@ -24,3 +24,7 @@ export function cancelEquipment(data) {
 export function update(data) {
   return post("/Assets/Modify", data, commonUrl);
 }
+// 修改备注
+export function updateRemark(data) {
+  return post("/Assets/Modify", data, "tool");
+}

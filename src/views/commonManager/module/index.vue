@@ -132,6 +132,7 @@ export default {
           });
           this.dataList = response.data;
           this.loading = false;
+          this.dataList.length && this.handleNodeClick(this.dataList[0]);
         })
         .finally(v => (this.loading = false));
     },
