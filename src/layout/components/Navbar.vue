@@ -39,7 +39,7 @@
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar" v-if="avatar" class="user-avatar">
-          <span>超级管理员 {{name}}</span>
+          <span>{{name}}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">

@@ -84,4 +84,11 @@ export default {
     }
   }
 };
+<<<<<<< HEAD
 </script>
+=======
+</script>
+
+<style lang="scss">
+</style>
+>>>>>>> e587be6d4941f03edb65ed2d0f903386f10d4ea5

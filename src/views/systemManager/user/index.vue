@@ -17,7 +17,7 @@
               <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item label="手机号码">
-              <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号码" clearable @keyup.enter.native="handleQuery" />
+              <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
               <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
@@ -30,7 +30,7 @@
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
               <el-button type="primary">
-                在岗状态<i class="el-icon-arrow-down el-icon--right"></i>
+                岗位状态<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="a">在职</el-dropdown-item>
@@ -39,8 +39,8 @@
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight">
-            <!-- <el-table-column type="selection" width="55" align="center" /> -->
+          <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
+            <el-table-column type="selection" width="55" align="center" fixed="left" />
             <el-table-column label="姓名" align="center" prop="Name" />
             <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
             <el-table-column label="用户名" align="center" prop="UserName" />
@@ -52,10 +52,11 @@
                 <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>开通账号</el-button>
-                <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
+                <el-button size="mini" v-if="!scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
               </template>
             </el-table-column>
           </el-table>
+          <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
       </el-col>
     </el-row>
@@ -74,6 +75,8 @@ export default {
       // 遮罩层
       loading: true,
       dataList: [],
+      // 总条数
+      total: 0,
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -110,6 +113,9 @@ export default {
     window.onresize = null;
   },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
+    },
     filterStatus(row) {
       return row.Status == 1
         ? "在职"
@@ -127,6 +133,7 @@ export default {
     handleCommand(commond) {
       if (commond == "a") {
       } else if (commond == "b") {
+
       }
     },
     getTree() {
@@ -149,11 +156,13 @@ export default {
           this.dataList = response.data;
           this.loading = false;
           this.listLoading = false;
-          this.setTableHeight();
+          this.total = response.total;
+          
         })
         .finally(v => {
           this.listLoading = false;
           this.loading = false;
+          this.setTableHeight();
         });
     },
     handleNodeClick(data) {
@@ -185,6 +194,7 @@ export default {
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
+
     },
     /** 修改按钮操作 */
     handleUpdate(data) {

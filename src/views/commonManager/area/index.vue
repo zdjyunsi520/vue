@@ -43,11 +43,11 @@
                 <el-input v-model="smform.Name" disabled></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item>
+            <!-- <el-form-item>
               <el-form-item label="类型">
                 <el-input v-model="smform.Type" disabled></el-input>
               </el-form-item>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item >
               <el-form-item label="邮编">
                 <el-input v-model="smform.ParentKey" disabled></el-input>

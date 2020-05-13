@@ -32,7 +32,7 @@
         <el-button type="info" plain icon="el-icon-lock" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
       </el-row>
 
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
         <el-table-column type="selection" width="55" align="center" fixed="left" />
         <el-table-column label="名称" align="center" min-width="155" prop="Name" />
         <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
@@ -42,13 +42,18 @@
         <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
         <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
         <el-table-column label="联系电话" align="center" min-width="110" prop="PhoneNo" />
-        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable" :formatter="filterEnable" />
+        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable" >
+            <template slot-scope="scope">
+              <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用"
+             inactive-text="禁用" @change="handleDisabled(scope.row,scope.row.IsEnable)" />
+            </template>          
+        </el-table-column>
         <el-table-column label="操作" align="center" min-width="150">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" @click="handleDisabled(scope.row,scope.row.IsEnable)">{{showEnable(scope.row)}}</el-button>
+            <!-- <el-button size="mini" type="text" @click="handleDisabled(scope.row,scope.row.IsEnable)">{{showEnable(scope.row)}}</el-button> -->
             <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
-            <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button>
+            <!-- <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -120,12 +125,12 @@ export default {
     setTableHeight() {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
-    filterEnable(row) {
-      return row.IsEnable ? "正常" : "禁用";
-    },
-    showEnable(row) {
-      return row.IsEnable ? "禁用" : "启用";
-    },
+    // filterEnable(row) {
+    //   return row.IsEnable ? "正常" : "禁用";
+    // },
+    // showEnable(row) {
+    //   return row.IsEnable ? "禁用" : "启用";
+    // },
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;

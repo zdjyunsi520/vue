@@ -4,7 +4,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'">
         <el-table-column label="名称" prop="Name" :show-overflow-tooltip="true" />
         <el-table-column label="角色标识" prop="Key" :show-overflow-tooltip="true" />
         <el-table-column label="操作">

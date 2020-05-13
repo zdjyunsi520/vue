@@ -1,9 +1,11 @@
 <template>
-  <div class="app-container wrapperbox">
+  <div class="app-container">
 
-    <el-row :gutter="10">
-      <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <common-tree @getInfo="getInfo" />
+    <el-row :gutter="20" class="comheight">
+      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
+        <el-scrollbar>
+          <common-tree @getInfo="getInfo" />
+        </el-scrollbar>
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <div class="bg-white comheight">
@@ -17,6 +19,12 @@
           <smoke ref="component7" />
           <temperature ref="component6" />
           <clock ref="component5" />
+        </div>
+        <!-- </el-row> -->
+        <div class="containerbox" ref="containerbox" style="background:#fff">
+          <el-row :gutter="20" class="equipInfobox">
+            <baseProp />
+          </el-row>
         </div>
       </el-col>
     </el-row>
@@ -50,7 +58,8 @@ export default {
   },
   data() {
     return {
-      operateId: ""
+      operateId: "",
+      loading: true
     };
   },
 
@@ -81,9 +90,4 @@ export default {
 </script>
 
 <style lang="scss">
-.comheight {
-  height: calc(100vh - 164px);
-  padding: 15px 10px;
-  box-sizing: border-box;
-}
 </style>

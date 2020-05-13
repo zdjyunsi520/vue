@@ -296,9 +296,9 @@ export const constantRoutes = [
   },
 
   {
-    path: "systemManager",
+    path: "/systemManager/organization/components",
     component: Layout,
-    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: true },
     hidden: true,
     children: [
       {
@@ -310,7 +310,7 @@ export const constantRoutes = [
           title: "组织机构",
           icon: "dashboard",
           noCache: true,
-          affix: true
+          affix: false
         }
       }
     ]

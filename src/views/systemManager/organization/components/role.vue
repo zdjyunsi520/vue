@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-  <div class="search-box onlyform-box" ref="containerbox">
+  <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item>
           <!-- <el-checkbox-group v-model="form.powers"> -->
-          <el-table :data="moduleList" border :height="tableHeight">
+          <el-table :data="moduleList" border :height="moduleList.length>0?tableHeight:'0'">
             <el-table-column prop="date" label="角色" width="180">
               <template slot="header">
                 <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
