@@ -66,9 +66,11 @@ service.interceptors.response.use(res => {
     //     })
     // })
     Notification.error({ title: res.data.msg });
-    store.dispatch("LogOut").then(() => {
-      location.reload(); // 为了重新实例化vue-router对象 避免bug
-    });
+    setTimeout(() => {
+      store.dispatch("LogOut").then(() => {
+        location.reload(); // 为了重新实例化vue-router对象 避免bug
+      });
+    }, 2000);
   } else if (code == 50000) {
     Notification.info({ title: res.data.msg });
     return Promise.reject(res.data);

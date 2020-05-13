@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" ref="queryForm" :inline="true">
-        <el-form-item label="名称">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" :rules="rules">
+        <el-form-item label="名称" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="联系人">
+        <el-form-item label="联系人" prop="contactperson">
           <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="手机号" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item>
@@ -28,8 +28,8 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-unlock" @click="handleDisabled(null,true)" :disabled="multiple">启用</el-button>
-        <el-button type="info" plain icon="el-icon-lock" @click="handleDisabled(null,false)" :disabled="multiple">禁用</el-button>
+        <el-button type="primary" plain icon="el-icon-unlock" @click="handleDisabled(null,false)" :disabled="multiple">启用</el-button>
+        <el-button type="info" plain icon="el-icon-lock" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button>
       </el-row>
 
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
@@ -42,11 +42,10 @@
         <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
         <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
         <el-table-column label="联系电话" align="center" min-width="110" prop="PhoneNo" />
-        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable" >
-            <template slot-scope="scope">
-              <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用"
-             inactive-text="禁用" @change="handleDisabled(scope.row,scope.row.IsEnable)" />
-            </template>          
+        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center" min-width="150">
           <template slot-scope="scope">
@@ -98,7 +97,8 @@ export default {
         contactperson: "",
         mobilephone: "",
         name: ""
-      }
+      },
+      rules: {}
     };
   },
   computed: {
@@ -164,13 +164,12 @@ export default {
       this.handleQuery();
     },
     handleDisabled(row, lock) {
-      console.log(lock);
       let Ids = row
         ? (Ids = [row.Id])
-        : this.Ids.filter(v => v.IsEnable == lock).map(v => v.Id);
+        : this.ids.filter(v => v.IsEnable == lock).map(v => v.Id);
       if (Ids.length) {
         const isenable = !lock;
-        Ids = Ids.join(",");
+        // Ids = Ids.join(",");
         locklock({ Ids, isenable }).then(r => {
           this.$message.success(r.msg);
           this.getList();

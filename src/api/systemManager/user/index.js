@@ -29,3 +29,7 @@ export function password(data) {
 export function createAccount(data) {
   return post("/Employee/OpenAccount", data, commonUrl);
 }
+// 设置状态
+export function setSts(data) {
+  return post("/Employee/SetStatus", data, commonUrl);
+}

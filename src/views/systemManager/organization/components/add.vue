@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="行业类别" prop="industry">
-                <el-select v-model="form.industry" size="small">
+                <el-select v-model="form.industry" size="small" @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
                 </el-select>
@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="省份" prop="province">
-                <el-select v-model="form.province" size="small">
+                <el-select v-model="form.province" size="small" @change="handleChange1">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                 </el-select>
@@ -59,7 +59,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="城市" prop="city">
-                <el-select v-model="form.city" size="small">
+                <el-select v-model="form.city" size="small" @change="handleChange2">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
                 </el-select>
@@ -89,14 +89,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="联系人手机" >
+              <el-form-item label="联系人手机">
                 <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="是否启用" prop="isenable">
-                <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用"
-             inactive-text="禁用">
+                <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
                 </el-switch>
               </el-form-item>
             </el-col>
@@ -318,6 +317,16 @@ export default {
     }
   },
   methods: {
+    handleChange() {
+      this.form.principleactivity = "";
+    },
+    handleChange1() {
+      this.form.area = "";
+      this.form.city = "";
+    },
+    handleChange2() {
+      this.form.area = "";
+    },
     getInfo(data) {
       const id = data.id;
       getInfo({ id }).then(r => {

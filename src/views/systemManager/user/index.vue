@@ -9,14 +9,14 @@
       </el-col>
       <el-col :xs="{span: 24}" :span="18" class="app-container" style="padding-top:0;padding-bottom:0">
         <div class="search-box">
-          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query">
-            <el-form-item label="姓名">
+          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+            <el-form-item label="姓名" prop="name">
               <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="用户名">
+            <el-form-item label="用户名" prop="username">
               <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="手机号码">
+            <el-form-item label="手机号码" prop="mobilephone">
               <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
@@ -29,17 +29,17 @@
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
-              <el-button type="primary">
+              <el-button type="primary" :disabled="multiple">
                 岗位状态<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="a">在职</el-dropdown-item>
-                <el-dropdown-item command="b">离职</el-dropdown-item>
-                <el-dropdown-item command="c">休假</el-dropdown-item>
+                <el-dropdown-item command="1">在职</el-dropdown-item>
+                <el-dropdown-item command="3">离职</el-dropdown-item>
+                <el-dropdown-item command="2">休假</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
+          <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" fixed="left" />
             <el-table-column label="姓名" align="center" prop="Name" />
             <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
@@ -52,7 +52,7 @@
                 <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>开通账号</el-button>
-                <el-button size="mini" v-if="!scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
+                <el-button size="mini" v-if="scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { fetchList, getInfo, deleted } from "@/api/systemManager/user";
+import { fetchList, getInfo, deleted, setSts } from "@/api/systemManager/user";
 import { fetchTree } from "@/api/systemManager/organization";
 
 export default {
@@ -97,7 +97,9 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight: ""
+      tableHeight: "",
+      rules: {},
+      multiple: true
     };
   },
   created() {
@@ -113,6 +115,12 @@ export default {
     window.onresize = null;
   },
   methods: {
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection;
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
     setTableHeight() {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
     },
@@ -131,10 +139,12 @@ export default {
       return row.IsOpenAccount ? "已开通" : "未开通";
     },
     handleCommand(commond) {
-      if (commond == "a") {
-      } else if (commond == "b") {
-
-      }
+      const ids = this.ids.map(v => v.Id);
+      const status = commond;
+      setSts({ ids, status }).then(r => {
+        this.$message.success(r.msg);
+        this.getList();
+      });
     },
     getTree() {
       fetchTree({}).then(r => {
@@ -157,7 +167,6 @@ export default {
           this.loading = false;
           this.listLoading = false;
           this.total = response.total;
-          
         })
         .finally(v => {
           this.listLoading = false;
@@ -194,7 +203,6 @@ export default {
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
-
     },
     /** 修改按钮操作 */
     handleUpdate(data) {
