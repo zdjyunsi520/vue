@@ -1,17 +1,21 @@
 <template>
   <div class="xl-scroll">
     <ul>
-      <li @click="handleClickLeft">
-        &#60;&#60;</li>
-      <li @click="handleClickHome">
-        首页 </li>
+      <li @click="handleClickLeft"  style="width:38px">
+        <i class="el-icon-d-arrow-left"></i>
+      </li>
+      <li @click="handleClickHome" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;"><svg-icon icon-class="home" /></li>
       <li>
         <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll">
           <slot />
         </el-scrollbar>
       </li>
-      <li @click="handleClickRight">&#62;&#62;</li>
-      <li @contextmenu.prevent="handleClickDown">下箭头</li>
+      <li @click="handleClickRight" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
+        <i class="el-icon-d-arrow-right"></i>
+      </li>
+      <li @contextmenu.prevent="handleClickDown" style="width:38px">
+        <i class="el-icon-arrow-down"></i>
+      </li>
     </ul>
 
   </div>
