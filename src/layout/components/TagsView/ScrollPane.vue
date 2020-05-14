@@ -37,7 +37,9 @@ export default {
     }
   },
   methods: {
-    handleClickDown(e) {},
+    handleClickDown(e) {
+      this.$emit("openMenu", null, e, true);
+    },
     handleClickHome() {
       this.$router.push({ name: "/index" });
     },
