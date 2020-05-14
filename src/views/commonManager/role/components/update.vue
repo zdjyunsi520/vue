@@ -3,24 +3,24 @@
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
-        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px"  :inline-message="true" style="width:800px">
           <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" />
+            <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>
           <el-form-item label="角色标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入角色标识" />
+            <el-input v-model="form.key" placeholder="请输入角色标识" style="width:90%"/>
           </el-form-item>
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:90%"/>
           </el-form-item>
           <el-form-item label="模块权限">
             <el-row v-for="item in moduleList" :key="item.ModuleId">
-              <el-col :span="24">
+              <el-col :span="24" class="medium-box">
                 <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
               </el-col>
               <el-row>
                 <el-col :span="23" :push="1">
-                  <el-row>
+                  <el-row class="sm-box" >
                     <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
                       <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
                     </el-col>
@@ -272,5 +272,32 @@ export default {
   top: 50%;
   margin-top: -10px;
   width: 100%;
+}
+
+.medium-box{
+  .el-checkbox{
+    color: #333333;
+    .el-checkbox__label{
+      font-size: 16px !important;
+    }
+  }
+}
+
+.sm-box{
+  border-radius: 2px;
+  position: relative;;
+  border: dotted 1px #d5dbeb;padding:10px  20px;margin: 20px 0;
+  .el-checkbox{
+  color: #666;
+  }
+  &::before{
+    content: "";
+    width: 22px;
+    height: 101%;
+    border-bottom: dotted 1px #d5dbeb;
+    border-left: dotted 1px #d5dbeb;
+    position: absolute;
+    left: -22px;top: -50%
+  }
 }
 </style>

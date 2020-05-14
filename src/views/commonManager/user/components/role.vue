@@ -14,7 +14,7 @@
               <li style="background-color: #fff;">
                 <div v-for="(item,index) in moduleList" :key="index">
                   <ul>
-                    <li style="width:200px">
+                    <li style="width:180px">
                       <div>
                         <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
                       </div>
@@ -22,8 +22,7 @@
                     <li>
                       <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
                         <ul>
-                          <li>
-                            <el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
+                          <li style="min-width:180px"><el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
                           </li>
                           <li class="last-box">
                             <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
