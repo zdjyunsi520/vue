@@ -52,6 +52,7 @@ export const constantRoutes = [
     component: () => import("@/views/error/401"),
     hidden: true
   },
+
   {
     path: "",
     component: Layout,
@@ -69,7 +70,7 @@ export const constantRoutes = [
   {
     path: "generalSituation",
     component: Layout,
-    hidden: true,
+    hidden: false,
     meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -79,7 +80,7 @@ export const constantRoutes = [
         meta: {
           title: "基本概况",
           noCache: true,
-          affix: true
+          affix: false
         }
       },
       {
