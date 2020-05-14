@@ -13,7 +13,6 @@
       <li @click.native.prevent="handleClickRight">&#62;&#62;</li>
       <li @click="handleClickDown">下箭头</li>
     </ul>
-
   </div>
 </template>
 
