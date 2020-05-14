@@ -2,14 +2,10 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-         <!--<h1 v-else class="sidebar-title">{{ title }} </h1> -->
+        <img v-if="smlogo" :src="smlogo" class="sidebar-logo">
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <!-- <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">{{ title }} </h1> -->
         <img v-if="logo" :src="logo" class="sidebar-logo">
-        <!-- <h1 class="sidebar-title">{{ title }} </h1> -->
       </router-link>
     </transition>
   </div>
@@ -30,6 +26,7 @@ export default {
     return {
       title: '迅腾电力',
       logo: require('@/assets/logo/logo.png'),
+      smlogo: require('@/assets/logo/smlogo.png'),
     };
   },
   computed: {
@@ -72,6 +69,8 @@ export default {
 
     & .sidebar-logo {
       vertical-align: middle;
+      width: 89px;
+      height: 31px;
     }
 
     & .sidebar-title {
@@ -88,7 +87,8 @@ export default {
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0px;
+      width: 28px;
+      height: 31px;
     }
   }
 }

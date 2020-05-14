@@ -24,6 +24,7 @@
       <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
         <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
           <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+           <!-- <ul id="treeDemo" class="ztree"></ul> -->
         </el-scrollbar>
       </el-col>
       <el-col :xs="{span: 24}" :span="10" class="comheight">
@@ -94,7 +95,15 @@ export default {
       operateId: "",
       data: {},
       level: "",
-      smform: {}
+      smform: {},
+      setting:{
+        data:{
+          key:{
+            name:'name',
+            children:'childrs'
+          }
+        }
+      }
     };
   },
   created() {
@@ -121,9 +130,14 @@ export default {
             v.lvl = true;
             return v;
           });
-          this.dataList = response.data;
+          // this.dataList = response.data;
+       
           this.dataList.length &&
             this.handleNodeClick(this.dataList[0], { level: 1 });
+
+          // $.fn.zTree.init($("#treeDemo"), this.setting, this.dataList);
+
+            console.log(111,this.dataList)
         })
         .finally(v => (this.loading = false));
     },

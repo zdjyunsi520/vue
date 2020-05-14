@@ -52,3 +52,36 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" >
+.el-submenu .el-menu-item{
+  height: 40px;
+  line-height: 40px;
+  padding-left: 55px!important;
+}
+.el-submenu .el-icon-arrow-down:before {
+    content: "";
+    background: url(../../../assets/image/ic_arrow_down.png) no-repeat;
+    width: 10px;
+    height: 6px;
+    display: inline-block;
+}
+
+ .el-submenu__icon-arrow {
+     right: 45px!important;
+ }
+.el-submenu {
+  &.is-opened{
+    .el-submenu__title{
+      position: relative;background-color: #222836!important;
+      &::before{
+      content: '';
+      height: 100%;width: 6px;background: #558cf7;position: absolute;left: 0
+      }
+    }
+  }
+  .el-submenu__title{
+      padding-left: 30px!important;
+  }
+}
+</style>
