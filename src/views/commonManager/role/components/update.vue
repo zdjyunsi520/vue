@@ -3,7 +3,7 @@
   <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
-        <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>

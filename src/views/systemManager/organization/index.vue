@@ -42,7 +42,7 @@
         <el-table-column label="联系人" align="center" min-width="70" prop="ContactPerson" />
         <el-table-column label="联系人手机" align="center" min-width="110" prop="MobilePhone" />
         <el-table-column label="联系电话" align="center" min-width="110" prop="PhoneNo" />
-        <el-table-column label="状态" sortable align="center" min-width="70" prop="IsEnable">
+        <el-table-column label="状态" sortable align="center" min-width="100" prop="IsEnable">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>

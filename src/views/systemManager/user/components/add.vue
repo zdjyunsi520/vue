@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
     
       <el-scrollbar>
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="所属单位" prop="text" v-if="!form.id">
             <el-input v-model="form.text" placeholder="" :disabled="true" />
@@ -19,8 +19,8 @@
           </el-form-item>
 
           <el-form-item label="是否开通账号" prop="isopenaccount" v-if="!form.id">
-            <el-switch v-model="form.isopenaccount" active-color="#13ce66" inactive-color="#ff4949">
-            </el-switch>&nbsp;{{form.isopenaccount?'开通':'不开通'}}
+            <el-switch v-model="form.isopenaccount" class="switchStyle switch-mx" style="width:60px" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开通" inactive-text="不开通">
+            </el-switch>
           </el-form-item>
           <el-form-item label="用户名" prop="username" v-if="form.isopenaccount">
             <el-input v-model="form.username" placeholder="请输入4-18位数字或字母" />

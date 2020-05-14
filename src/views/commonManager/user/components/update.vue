@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
     
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="用户名" prop="username">
             <el-input v-model="form.username" placeholder="请输入用户名" :disabled="true" />

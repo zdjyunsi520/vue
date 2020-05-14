@@ -312,7 +312,8 @@ export const constantRoutes = [
           title: "组织机构",
           icon: "dashboard",
           noCache: true,
-          affix: false
+          affix: false,
+          breadcrumb: true
         }
       }
     ]
