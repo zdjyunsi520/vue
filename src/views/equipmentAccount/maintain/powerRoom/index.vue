@@ -1,6 +1,6 @@
 <template>
   <div v-show="visible">
-    <el-row class="equipInfobox">
+    <el-row class="equipInfobox" v-if="showBtn">
       <el-form :inline="true" size="mini">
         <el-form-item>
           <el-dropdown @command="handleCommand">
@@ -51,7 +51,7 @@
         <el-col :xs="{span: 24}" :span="12">
           <label>生产厂家</label><span>{{infoData.Factory}}</span>
         </el-col>
-        <el-col :xs="{span: 24}" :span="12">
+        <el-col :xs="{span: 24}" :span="12" v-if="!showBtn">
           <label>出厂日期</label><span>{{}}</span>
         </el-col>
       </el-row>
@@ -82,7 +82,8 @@ export default {
   data() {
     return {
       infoData: {},
-      visible: false
+      visible: false,
+      showBtn: false
     };
   },
 

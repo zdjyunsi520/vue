@@ -1,14 +1,14 @@
 <template>
   <div v-if="visible">
 
-    <!-- <el-row class="equipInfobox">
-            <el-form :inline="true" size="mini">
-              <el-form-item>
-                <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
-                <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-              </el-form-item>
-            </el-form>
-          </el-row> -->
+    <el-row class="equipInfobox" v-if="showBtn">
+      <el-form :inline="true" size="mini">
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
     <el-row :gutter="20" class="equipInfobox">
       <h6>基本属性</h6>
       <el-col :xs="{span: 24}" :span="12">
@@ -63,7 +63,8 @@ export default {
     return {
       operateId: "",
       infoData: {},
-      visible: false
+      visible: false,
+      showBtn: false
     };
   },
 

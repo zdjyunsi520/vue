@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible">
 
-    <el-row class="equipInfobox">
+    <el-row class="equipInfobox" v-if="showBtn">
       <el-form :inline="true" size="mini">
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
@@ -77,26 +77,46 @@ export default {
     return {
       operateId: "",
       infoData: {},
-      visible: false
+      visible: false,
+      showBtn: false
     };
   },
 
   created() {},
   methods: {
-    handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
-    },
-    handleAdd() {},
     handleUpdate() {
-      const data = {};
+      const id = this.infoData.Id;
+      const name = this.infoData.Name;
+      const type = this.infoData.Type;
+      const tenantid = this.infoData.TenantId;
+      const isenable = this.infoData.IsEnable;
+      const starttime = this.infoData.StartTime;
+      const property = this.infoData.Property;
+      const voltlevel = this.infoData.VoltLevel;
+      const assetsid = this.infoData.AssetsId;
+      const assetstype = this.infoData.AssetsType;
+      const sortindex = this.infoData.SortIndex;
+      const ismainline = this.infoData.IsMainLine;
+      const parentid = "";
+      const data = {
+        id,
+        name,
+        type,
+        tenantid,
+        isenable,
+        starttime,
+        property,
+        voltlevel,
+        assetsid,
+        assetstype,
+        sortindex,
+        ismainline,
+        parentid
+      };
+      const title = "修改";
       this.$router.push({
-        path: "/equipmentAccount/maintain/communicationHost/components/update",
-        params: { data }
+        name: "/equipmentAccount/maintain/communicationHost/components/update",
+        params: { data, title }
       });
     },
     handleDelete() {},
