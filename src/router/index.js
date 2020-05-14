@@ -20,7 +20,7 @@ import Layout from "@/layout";
     roles: ['admin','editor']    // 设置该路由进入的权限，支持多个权限叠加
     title: 'title'               // 设置该路由在侧边栏和面包屑中展示的名字
     icon: 'svg-name'             // 设置该路由的图标，对应路径src/icons/svg
-    breadcrumb: false            // 如果设置为false，则不会在breadcrumb面包屑中显示
+    breadcrumb: true            // 如果设置为false，则不会在breadcrumb面包屑中显示
   }
  */
 
@@ -60,7 +60,7 @@ export const constantRoutes = [
       {
         path: "index",
         component: () => import("@/views/index"),
-        name: "首页",
+        name: "/index",
         meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
       }
     ]
@@ -319,7 +319,7 @@ export const constantRoutes = [
   {
     path: "systemManager",
     component: Layout,
-    hidden: false,
+    hidden: true,
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -330,7 +330,7 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -342,7 +342,7 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -353,7 +353,7 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -364,7 +364,7 @@ export const constantRoutes = [
           title: "角色管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -375,7 +375,7 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -386,7 +386,7 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -397,7 +397,7 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -409,7 +409,7 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -421,7 +421,7 @@ export const constantRoutes = [
           title: "设备管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -433,7 +433,7 @@ export const constantRoutes = [
           title: "行业管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -445,7 +445,7 @@ export const constantRoutes = [
           title: "行业管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -457,7 +457,7 @@ export const constantRoutes = [
           title: "组织结构",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -468,7 +468,7 @@ export const constantRoutes = [
           title: "人员信息",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -480,7 +480,7 @@ export const constantRoutes = [
           title: "人员信息",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -492,7 +492,7 @@ export const constantRoutes = [
           title: "新增/修改配电室",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -504,7 +504,7 @@ export const constantRoutes = [
           title: "新增/修改屏柜",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -516,7 +516,7 @@ export const constantRoutes = [
           title: "新增/修改交流主机",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -528,7 +528,7 @@ export const constantRoutes = [
           title: "新增/修改摄像头",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -540,7 +540,7 @@ export const constantRoutes = [
           title: "新增/修改烟感",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -552,7 +552,7 @@ export const constantRoutes = [
           title: "新增/修改间隔",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -564,7 +564,7 @@ export const constantRoutes = [
           title: "新增/修改温感",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       // {
@@ -576,7 +576,7 @@ export const constantRoutes = [
       //     title: "新增/修改电计器",
       //     icon: "dashboard",
       //     noCache: true,
-      //     breadcrumb: false
+      //     breadcrumb: true
       //   }
       // },
       {
@@ -587,7 +587,7 @@ export const constantRoutes = [
           title: "新增地区",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -598,7 +598,7 @@ export const constantRoutes = [
           title: "修改地区",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       },
       {
@@ -609,7 +609,7 @@ export const constantRoutes = [
           title: "测试页面",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: false
+          breadcrumb: true
         }
       }
     ]
