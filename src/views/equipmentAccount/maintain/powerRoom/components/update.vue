@@ -45,8 +45,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="运行状态" prop="status">
-            <el-select v-model="form.status" size="small">
+          <el-form-item label="运行状态" prop="isenable">
+            <el-select v-model="form.isenable" size="small">
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
             </el-select>
           </el-form-item>
@@ -66,7 +66,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"  />
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
         </el-col>
 
@@ -80,11 +80,7 @@
 </template>
 
 <script>
-import {
-  add,
-  fetchTree,
-  update
-} from "@/api/equipmentAccount/maintain/powerRoom";
+import { add, update } from "@/api/equipmentAccount/maintain/powerRoom";
 import { mapGetters } from "vuex";
 import { dateFortmat } from "@/utils";
 export default {
@@ -100,10 +96,9 @@ export default {
       name: rule,
       type: rule,
       tenantId: rule,
-      status: rule,
+      isenable: rule,
       starttime: rule,
-      property: rule,
-      mobilephone: rule
+      property: rule
     };
     return {
       form: {},
@@ -140,7 +135,7 @@ export default {
           type: "",
           tenantId: "",
           tenantid: "",
-          status: "",
+          isenable: true,
           starttime: "",
           property: "",
           voltlevel: "",

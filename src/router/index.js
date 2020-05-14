@@ -569,18 +569,18 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
-      // {
-      //   name: "/equipmentAccount/maintain/clock/components/update",
-      //   path: "/equipmentAccount/maintain/clock/components/update",
-      //   component: () =>
-      //     import("@/views/equipmentAccount/maintain/clock/components/update"),
-      //   meta: {
-      //     title: "新增/修改电计器",
-      //     icon: "dashboard",
-      //     noCache: true,
-      //     breadcrumb: true
-      //   }
-      // },
+      {
+        name: "/equipmentAccount/maintain/clock/components/update",
+        path: "/equipmentAccount/maintain/clock/components/update",
+        component: () =>
+          import("@/views/equipmentAccount/maintain/clock/components/update"),
+        meta: {
+          title: "新增/修改电计器",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
       {
         name: "/commonManager/area/components/add",
         path: "/commonManager/area/components/add",

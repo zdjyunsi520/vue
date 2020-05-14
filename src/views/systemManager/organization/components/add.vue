@@ -134,7 +134,7 @@
             </el-col>
             <el-col :span="23" :push="1" :xs='24'>
               <el-form-item>
-                <el-checkbox v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
+                <el-checkbox :disabled="form.id?true:false" v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
@@ -303,7 +303,7 @@ export default {
       } else return [];
     },
     disabled() {
-      return this.form.attribute ? false : true;
+      return (this.form.attribute ? false : true) || (form.id ? true : false);
     },
     cityList() {
       const list = this.areaList.filter(v => v.key == this.form.province);

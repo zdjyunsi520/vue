@@ -6,68 +6,65 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-row>
         <el-col :span="12">
-          <el-form-item label="名称" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入名称" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="资产属性" prop="industry">
-            <el-select v-model="form.industry" size="small">
+          <el-form-item label="资产属性" prop="property">
+            <el-select v-model="form.property" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="间隔类型" prop="parentId">
-            <el-select v-model="form.parentId" size="small">
+          <el-form-item label="间隔类型" prop="type">
+            <el-select v-model="form.type" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in panelCabinetType" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
             </el-select>
           </el-form-item>
         </el-col>
-
         <el-col :span="12">
-          <el-form-item label="电压等级" prop="principleactivity">
-            <el-select v-model="form.principleactivity" size="small">
+          <el-form-item label="关联设备" prop="assetsid">
+            <el-select v-model="form.assetsid" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item label="所属单位" prop="province">
-            <el-select v-model="form.province" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in connectType" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="关联设备" prop="province">
-            <el-select v-model="form.province" size="small">
+          <el-form-item label="所属单位" prop="tenantid">
+            <el-select v-model="form.tenantid" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="电压等级" prop="voltlevel">
+            <el-select v-model="form.voltlevel" size="small">
+              <el-option label="请选择" value=""></el-option>
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="运行状态" prop="province">
-            <el-select v-model="form.province" size="small">
+          <el-form-item label="运行状态" prop="isenable">
+            <el-select v-model="form.isenable" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
             </el-select>
           </el-form-item>
         </el-col>
-
         <el-col :span="12">
-          <el-form-item label="是否总进线" prop="province">
-            <el-select v-model="form.province" size="small">
+          <el-form-item label="是否总进线" prop="ismainline">
+            <el-select v-model="form.ismainline" size="small">
               <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in rwType" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -80,7 +77,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"  />
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
         </el-col>
 
@@ -96,43 +93,9 @@
 </template>
 
 <script>
-import { add, fetchTree, update } from "@/api/systemManager/organization";
-import { fetchList } from "@/api/commonManager/area";
+import { add, update } from "@/api/equipmentAccount/maintain/interval";
 import { mapGetters } from "vuex";
-import { fetchList as fetchProfession } from "@/api/commonManager/profession";
-const electronType = [
-  { key: "电力表计1", value: "电力表计1" },
-  { key: "温控表计1", value: "温控表计1" },
-  { key: "烟感表计1", value: "烟感表计1" }
-];
-const electronType1 = [
-  { key: "用户资产", value: "用户资产" },
-  { key: "局方资产", value: "局方资产" }
-];
-const isTotal = [
-  { key: "是", value: "是" },
-  { key: "否", value: "否" }
-];
-const runningState = [
-  { key: "在运", value: "在运" },
-  { key: "停运", value: "停运" }
-];
-const electronLvl = [
-  { key: "220KV", value: "220KV" },
-  { key: "380KV", value: "380KV" },
-  { key: "400KV", value: "400KV" },
-  { key: "6KV", value: "6KV" },
-  { key: "10KV", value: "10KV" },
-  { key: "20KV", value: "20KV" },
-  { key: "35KV", value: "35KV" },
-  { key: "110KV", value: "110KV" }
-];
-const panelCabinetType = [
-  { key: "高压进线", value: "高压进线" },
-  { key: "高压出现", value: "高压出现" },
-  { key: "低压进线", value: "低压进线" },
-  { key: "抵压出线", value: "抵压出线" }
-];
+
 export default {
   data() {
     const rule = [
@@ -143,44 +106,38 @@ export default {
       }
     ];
     const rules = {
-      parentId: rule,
       name: rule,
-      artificialperson: rule,
-      creditcode: rule,
-      phoneno: rule,
-      contactperson: rule,
-      mobilephone: rule,
-      industry: rule,
-      principleactivity: rule,
-      province: rule,
-      city: rule,
-      area: rule,
-      address: rule,
-
-      longitude: rule,
-      latitude: rule
+      type: rule,
+      tenantid: rule,
+      isenable: rule,
+      starttime: rule,
+      property: rule,
+      assetsid: rule
     };
     return {
       form: {},
       rules,
       dialogVisible: false,
       loading: false,
-      title: "",
-      professionList: [],
-      panelCabinetType,
-      electronType,
-      electronType1,
-      isTotal,
-      electronLvl,
-      runningState
+      title: ""
     };
   },
   created() {
-    const data = this.$route.query.data;
+    const { data, title } = this.$route.params;
+    this.title = title;
+    console.log(data);
     this.reset(data);
   },
   computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
+    ...mapGetters({
+      powerRoomType: "status/intervalType",
+      assetAttributeType: "status/assetAttributeType",
+      voltageLevelType: "status/voltageLevelType",
+      runningStateType: "status/runningStateType",
+      companyType: "status/companyType",
+      connectType: "status/connectType",
+      rwType: "status/rwType"
+    })
   },
   methods: {
     handleElectron(v) {},
@@ -190,38 +147,26 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          parentId: "",
+          id: "",
           name: "",
-          artificialperson: "",
-          creditcode: "",
-          phoneno: "",
-          contactperson: "",
-          mobilephone: "",
-          industry: "",
-          principleactivity: "1",
-          province: "1",
-          city: "1",
-          area: "1",
-          address: "",
-          isenable: 1,
-          longitude: "",
-          latitude: "",
-          attribute: "",
+          type: "",
+          tenantid: "",
+          isenable: "",
           starttime: "",
-          maintype: "",
-          subtype: "",
-          contractcapacity: "",
+          property: "",
           voltlevel: "",
-          operatingcapacity: "",
-          industryname: "",
-          principleactivityname: ""
+          assetsid: "",
+          assetstype: "",
+          sortindex: 1,
+          ismainline: "",
+          parentid: ""
         },
         data
       );
     },
     handleOpen(data) {
       this.$router.push({
-        path: "/equipmentAccount/maintain/interval/index"
+        name: "/equipmentAccount/maintain/index"
       });
     },
     handleMap() {},
@@ -229,12 +174,6 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.industryname = this.professionList.filter(
-            v => v.key == this.form.industry
-          )[0].text;
-          this.form.principleactivityname = this.professionChildList.filter(
-            v => v.key == this.form.principleactivity
-          )[0].text;
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;

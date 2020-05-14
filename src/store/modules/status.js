@@ -1,5 +1,5 @@
 import { getSelectList } from "@/api/systemManager/organization";
-
+import { getCommunicateList } from "@/api/equipmentAccount/maintain/communicationHost";
 const state = {
   equipmentType: [
     { key: 1, value: "通讯主机" },
@@ -24,36 +24,58 @@ const state = {
   powerRoomKV: null,
   //电压等级
   voltageLevelType: [
-    { key: "交流220V", value: "交流220V" },
-    { key: "交流380V", value: "交流380V" },
-    { key: "交流400V", value: "交流400V" },
-    { key: "交流6kV", value: "交流6kV" },
-    { key: "交流10kV", value: "交流10kV" },
-    { key: "交流20kV", value: "交流20kV" },
-    { key: "交流35kV", value: "交流35kV" },
-    { key: "交流110kV", value: "交流110kV" }
+    { key: 1, value: "交流220V" },
+    { key: 2, value: "交流380V" },
+    { key: 3, value: "交流400V" },
+    { key: 4, value: "交流6kV" },
+    { key: 5, value: "交流10kV" },
+    { key: 6, value: "交流20kV" },
+    { key: 7, value: "交流35kV" },
+    { key: 8, value: "交流110kV" }
   ],
   voltageLevelKV: null,
   //运行状态
-  runningStateType: [{ key: 1, value: "在运" }, { key: 0, value: "停运" }],
+  runningStateType: [
+    { key: true, value: "在运" },
+    { key: false, value: "停运" }
+  ],
   runningStateKV: null,
   //用电单位列表（用于下拉框）
   companyType: null,
   companyKV: null,
   //屏柜类型
   panelCabinetType: [
-    { key: "中央控制屏", value: "中央控制屏" },
-    { key: "保护屏", value: "保护屏" },
-    { key: "故障录波屏", value: "故障录波屏" },
-    { key: "测控屏", value: "测控屏" },
-    { key: "远东屏", value: "远东屏" },
-    { key: "直流屏", value: "直流屏" },
-    { key: "站用电屏", value: "站用电屏" },
-    { key: "UPS屏", value: "UPS屏" },
-    { key: "计量屏", value: "计量屏" },
-    { key: "公用屏", value: "公用屏" }
+    { key: 1, value: "中央控制屏" },
+    { key: 2, value: "保护屏" },
+    { key: 3, value: "故障录波屏" },
+    { key: 4, value: "测控屏" },
+    { key: 5, value: "远动屏" },
+    { key: 6, value: "直流屏" },
+    { key: 7, value: "站用电屏" },
+    { key: 8, value: "UPS屏" },
+    { key: 9, value: "计量屏" },
+    { key: 10, value: "公用屏" }
   ],
-  panelCabinetKV: null
+  panelCabinetKV: null,
+  intervalType: [
+    { key: 1, value: "高压进线" },
+    { key: 2, value: "高压出线" },
+    { key: 3, value: "低压进线" },
+    { key: 4, value: "低压出线" }
+  ],
+  intervalKV: null,
+  connectType: [
+    { key: 1, value: "数据主机" },
+    { key: 2, value: "电力表计" },
+    { key: 3, value: "温感" },
+    { key: 4, value: "烟感" },
+    { key: 5, value: "摄像头" }
+  ],
+  connectKV: null,
+  rwType: [{ key: true, value: "是" }, { key: false, value: "否" }],
+  rwKV: null,
+  communicateHostType: null,
+  communicateHostKV: null
 };
 
 const mutations = {
@@ -136,11 +158,50 @@ const getters = {
       });
     return state.companyKV;
   },
+  communicateHostType: state => {
+    state.communicateHostType ||
+      getCommunicateList({}).then(r => {
+        state.communicateHostType = r.data.map(v => {
+          const key = v.Id;
+          const value = v.Name;
+          return { key, value };
+        });
+        state.communicateHostKV = reduceKV(state.communicateHostType);
+      });
+    return state.communicateHostType;
+  },
+  communicateHostKV: state => {
+    state.communicateHostKV ||
+      getCommunicateList({}).then(r => {
+        state.communicateHostType = r.data.map(v => {
+          const key = v.Id;
+          const value = v.Name;
+          return { key, value };
+        });
+        state.communicateHostKV = reduceKV(state.communicateHostType);
+      });
+    return state.communicateHostKV;
+  },
   panelCabinetType: state => state.panelCabinetType,
   panelCabinetKV: state => {
     state.panelCabinetKV ||
       (state.panelCabinetKV = reduceKV(state.panelCabinetType));
     return state.panelCabinetKV;
+  },
+  intervalType: state => state.intervalType,
+  intervalKV: state => {
+    state.intervalKV || (state.intervalKV = reduceKV(state.intervalType));
+    return state.intervalKV;
+  },
+  connectType: state => state.connectType,
+  connectKV: state => {
+    state.connectKV || (state.connectKV = reduceKV(state.connectType));
+    return state.connectKV;
+  },
+  rwType: state => state.rwType,
+  rwKV: state => {
+    state.rwKV || (state.rwKV = reduceKV(state.rwType));
+    return state.rwKV;
   }
 };
 

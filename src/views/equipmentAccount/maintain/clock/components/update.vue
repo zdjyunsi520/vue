@@ -6,32 +6,26 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-row>
         <el-col :span="12">
+          <el-form-item label="设备编号" prop="serialcode">
+            <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="通讯主机" prop="dataserverId">
+            <el-select v-model="form.dataserverId" size="small">
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in communicationHostType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="资产属性" prop="attribute">
+          <el-form-item label="数据源地址" prop="attribute">
             <el-select v-model="form.attribute" size="small">
-              <el-option label="请选择" value=""></el-option>
               <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="屏柜类型" prop="type">
-            <el-select v-model="form.type" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item label="电压等级" prop="voltagelevel">
-            <el-select v-model="form.voltagelevel" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -60,8 +54,8 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="生产厂家" prop="manufactor">
-            <el-input v-model="form.manufactor" placeholder="请输入生产厂家" />
+          <el-form-item label="生产厂家" prop="factory">
+            <el-input v-model="form.factory" placeholder="请输入生产厂家" />
           </el-form-item>
         </el-col>
 
@@ -69,6 +63,30 @@
           <el-form-item label="投运日期" prop="starttime">
             <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期">
             </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="CT变化" prop="CTratio">
+            <el-input v-model="form.CTratio" placeholder="请输入CT变化" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="资产属性" prop="property">
+            <el-select v-model="form.property" size="small">
+              <el-option label="请选择" value=""></el-option>
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="PT变化" prop="RTratio">
+            <el-input v-model="form.RTratio" placeholder="请输入PT变化" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否启用" prop="status">
+            <el-switch v-model="form.status" active-color="#13ce66" inactive-color="#ff4949">
+            </el-switch>{{form.status?'启用':'未启用'}}
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -89,9 +107,9 @@
 </template>
 
 <script>
-import { add, update } from "@/api/equipmentAccount/maintain/panelCabinet";
+import { add, update } from "@/api/equipmentAccount/maintain/clock";
 import { mapGetters } from "vuex";
-
+import { getCommunicateList } from "@/api/equipmentAccount/maintain/communicationHost";
 export default {
   data() {
     const rule = [
@@ -102,25 +120,29 @@ export default {
       }
     ];
     const rules = {
-      tenantId: rule,
+      serialcode: rule,
       name: rule,
-      attribute: rule,
-      type: rule,
-      isenable: rule,
+      tenantId: rule,
       starttime: rule,
-      voltagelevel: rule
+      property: rule,
+      dataserverId: rule,
+      isenable: rule,
+      status: rule
     };
     return {
       form: {},
       rules,
       dialogVisible: false,
       loading: false,
-      title: ""
+      title: "",
+      communicationHostType: null
     };
   },
   created() {
     const { data, title } = this.$route.params;
     this.title = title;
+    this.fetechList(data);
+
     console.log(data);
     this.reset(data);
   },
@@ -134,6 +156,17 @@ export default {
     })
   },
   methods: {
+    fetechList(data) {
+      const tenantId = data.tenantId;
+      const switchingroomid = data.parentId;
+      getCommunicateList({ tenantId, switchingroomid }).then(r => {
+        this.communicationHostType = r.data.map(v => {
+          const key = v.Id;
+          const value = v.Name;
+          return { key, value };
+        });
+      });
+    },
     handleElectron(v) {},
     /** 行业列表 */
 
@@ -141,18 +174,21 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
-          tenantId: "",
+          serialcode: "",
           name: "",
-          attribute: "",
-          type: "",
-          voltagelevel: "",
-          modelname: "",
-          manufactor: "",
-          isenable: "",
+          tenantId: "",
           starttime: "",
-          sortindex: 1,
-          parentId: ""
+          property: "",
+          dataserverId: "",
+          isenable: "",
+          status: true,
+          factory: "",
+          modelname: "",
+          CTratio: "",
+          RTratio: "",
+          parentId: "",
+          id: "",
+          sortindex: 1
         },
         data
       );

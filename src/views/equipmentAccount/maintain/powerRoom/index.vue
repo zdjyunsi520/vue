@@ -33,7 +33,7 @@
           <label>电压等级</label><span>{{infoData.VoltLevelName}}</span>
         </el-col>
         <el-col :xs="{span: 24}" :span="12">
-          <label>运行状态</label><span>{{infoData.Status==1?'在运':'停运'}}</span>
+          <label>运行状态</label><span>{{infoData.IsEnable?'在运':'停运'}}</span>
         </el-col>
 
         <el-col :xs="{span: 24}" :span="12">
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/powerRoom";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/powerRoom";
 export default {
   data() {
     return {
@@ -89,10 +89,14 @@ export default {
   created() {},
   methods: {
     handleCommand(commond) {
+      const tenantId = this.infoData.TenantId;
+      const parentId = this.infoData.Id;
+      const data = { parentId, tenantId };
+
       const title = "新增";
       this.$router.push({
         name: commond,
-        params: { title }
+        params: { data, title }
       });
     },
     handleAdd() {},
@@ -107,7 +111,7 @@ export default {
       const factory = this.infoData.Factory;
       const sortindex = this.infoData.SortIndex;
       const type = this.infoData.Type;
-      const status = this.infoData.Status;
+      const isenable = this.infoData.IsEnable;
       const data = {
         id,
         name,
@@ -119,7 +123,7 @@ export default {
         factory,
         sortindex,
         type,
-        status
+        isenable
       };
       const title = "修改";
       this.$router.push({
@@ -128,7 +132,10 @@ export default {
       });
     },
     handleDelete() {
-      this.$confirm("确认要进行删除操作吗？").then(r => {});
+      this.$confirm("确认要进行删除操作吗？").then(r => {
+        const Ids = [this.infoData.Id];
+        deleted({ Ids }).then(r => this.$message.success(r.msg));
+      });
     },
     getInfo(data) {
       getInfo(data).then(r => {

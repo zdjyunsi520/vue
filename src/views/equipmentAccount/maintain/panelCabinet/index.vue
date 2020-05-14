@@ -33,14 +33,14 @@
         <label>电压等级</label><span>{{infoData.VoltageLevelName}}</span>
       </el-col>
       <el-col :xs="{span: 24}" :span="12">
-        <label>运行状态</label><span>{{infoData.IsEnable==1?'在运':'停运'}}</span>
+        <label>运行状态</label><span>{{infoData.IsEnable?'在运':'停运'}}</span>
       </el-col>
 
       <el-col :xs="{span: 24}" :span="12">
         <label>投运日期</label><span>{{infoData.StartTime | parseTime('{y}-{m}-{d}')}}</span>
       </el-col>
       <el-col :xs="{span: 24}" :span="12">
-        <label>资产属性</label><span>{{infoData.Attribute}}</span>
+        <label>资产属性</label><span>{{infoData.AttributeName}}</span>
       </el-col>
       <el-col :xs="{span: 24}" :span="12">
         <label>屏柜类型</label><span>{{infoData.TypeName}}</span>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/panelCabinet";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/panelCabinet";
 export default {
   data() {
     return {
@@ -95,37 +95,45 @@ export default {
       });
     },
     handleCommand(commond) {
+      const tenantid = this.infoData.TenantId;
+      const parentid = this.infoData.Id;
+      const tenantId = this.infoData.TenantId;
+      const parentId = this.infoData.Id;
+      const data = { parentid, tenantid, tenantId, parentId };
       const title = "新增";
       this.$router.push({
         name: commond,
-        params: { title }
+        params: { data, title }
       });
     },
     handleAdd() {},
     handleUpdate() {
       const id = this.infoData.Id;
-      const name = this.infoData.Name;
       const tenantId = this.infoData.TenantId;
-      const starttime = this.infoData.StartTime;
-      const property = this.infoData.Property;
-      const voltlevel = this.infoData.voltLevel;
-      const modelname = this.infoData.ModelName;
-      const factory = this.infoData.Factory;
-      const sortindex = this.infoData.SortIndex;
+      const name = this.infoData.Name;
       const type = this.infoData.Type;
-      const status = this.infoData.Status;
+      const voltagelevel = this.infoData.VoltageLevel;
+      const modelname = this.infoData.ModelName;
+      const manufactor = this.infoData.Manufactor;
+      const isenable = this.infoData.IsEnable;
+      const starttime = this.infoData.StartTime;
+      const sortindex = this.infoData.SortIndex;
+      const parentId = this.infoData.ParentId;
+      const attribute = this.infoData.Attribute;
       const data = {
         id,
-        name,
         tenantId,
-        starttime,
-        property,
-        voltlevel,
-        modelname,
-        factory,
-        sortindex,
+        name,
         type,
-        status
+        voltagelevel,
+        modelname,
+        manufactor,
+        isenable,
+        starttime,
+        sortindex,
+        status,
+        parentId,
+        attribute
       };
       const title = "修改";
       this.$router.push({
@@ -134,7 +142,10 @@ export default {
       });
     },
     handleDelete() {
-      this.$confirm("确认要进行删除操作吗？").then(r => {});
+      this.$confirm("确认要进行删除操作吗？").then(r => {
+        const id = this.infoData.Id;
+        deleted({ id }).then(r => this.$message.success(r.msg));
+      });
     }
   }
 };

@@ -12,3 +12,6 @@ export function add(data) {
 export function update(data) {
   return post("/SwitchingRoom/Modify", data, "org");
 }
+export function deleted(data) {
+  return post("/SwitchingRoom/Remove", data, "org");
+}

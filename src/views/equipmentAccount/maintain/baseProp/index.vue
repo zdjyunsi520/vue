@@ -77,8 +77,9 @@ export default {
       });
     },
     getInfo(data) {
+      const id = data.id;
       this.id = data.id;
-      getInfo(data).then(r => {
+      getInfo({ id }).then(r => {
         this.infoData = r.data;
       });
     }
