@@ -43,6 +43,7 @@ export default {
 
   created() {},
   methods: {
+    handleAdd() {},
     handleUpdate() {},
     handleDelete() {},
 
