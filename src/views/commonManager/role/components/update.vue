@@ -5,10 +5,10 @@
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
           <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
           <el-form-item label="角色标识" prop="key">
-            <el-input v-model="form.key" placeholder="请输入角色标识" style="width:90%" />
+            <el-input v-model="form.key" placeholder="请输入角色标识" />
           </el-form-item>
           <el-form-item label="排序号" prop="sortindex">
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />

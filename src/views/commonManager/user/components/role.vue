@@ -119,7 +119,6 @@ export default {
       ]
     };
     return {
-      tableHeight: "",
       form: {
         id: "",
         name: "",
@@ -152,9 +151,6 @@ export default {
     setCheck(item) {
       item.IsSelect = !item.IsSelect;
     },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight;
-    },
     handleChangeFarther(isSelect) {
       this.moduleList.map(v => {
         v.IsSelect = isSelect;
@@ -178,7 +174,6 @@ export default {
         getInfo({ id })
           .then(({ data }) => {
             this.moduleList = data;
-            this.setTableHeight();
           })
           .finally(v => (this.loading = false));
       } else {
