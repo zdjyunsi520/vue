@@ -66,6 +66,7 @@ export default {
       this.closeComponent();
       const target = this.$refs["component" + data.type];
       target.visible = true;
+      target.showBtn = true;
       target.getInfo(data);
     },
     handleCommand(commond) {

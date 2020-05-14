@@ -6,56 +6,57 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-row>
         <el-col :span="12">
-          <el-form-item label="设备编号" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入设备序列号" />
+          <el-form-item label="设备编号" prop="serialcode">
+            <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="通讯主机" prop="industry">
-            <el-select v-model="form.industry" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
+          <el-form-item label="通讯主机" prop="dataserverId">
+            <el-select v-model="form.dataserverId" size="small">
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in communicationHostType" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="名称" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入名称" />
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder="请输入名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="型号" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入型号" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="所属单位" prop="province">
-            <el-select v-model="form.province" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="生产厂家" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入生产厂家" />
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item label="运行状态" prop="province">
-            <el-select v-model="form.province" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+          <el-form-item label="数据源地址" prop="attribute">
+            <el-select v-model="form.attribute" size="small">
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="CT变化" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入CT变化" />
+          <el-form-item label="所属单位" prop="tenantId">
+            <el-select v-model="form.tenantId" size="small">
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+            </el-select>
           </el-form-item>
         </el-col>
+
+        <el-col :span="12">
+          <el-form-item label="型号" prop="modelname">
+            <el-input v-model="form.modelname" placeholder="请输入型号" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="运行状态" prop="isenable">
+            <el-select v-model="form.isenable" size="small">
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="12">
+          <el-form-item label="生产厂家" prop="factory">
+            <el-input v-model="form.factory" placeholder="请输入生产厂家" />
+          </el-form-item>
+        </el-col>
+
         <el-col :span="12">
           <el-form-item label="投运日期" prop="starttime">
             <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期">
@@ -63,16 +64,26 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="PT变化" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入PT变化" />
+          <el-form-item label="CT变化" prop="CTratio">
+            <el-input v-model="form.CTratio" placeholder="请输入CT变化" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="资产属性" prop="industry">
-            <el-select v-model="form.industry" size="small">
-              <el-option label="请选择" value=""></el-option>
-              <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
+          <el-form-item label="资产属性" prop="property">
+            <el-select v-model="form.property" size="small">
+              <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="PT变化" prop="RTratio">
+            <el-input v-model="form.RTratio" placeholder="请输入PT变化" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否启用" prop="status">
+            <el-switch v-model="form.status" active-color="#13ce66" inactive-color="#ff4949">
+            </el-switch>{{form.status?'启用':'未启用'}}
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -80,10 +91,7 @@
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="是否启用" prop="contactperson">
-          </el-form-item>
-        </el-col>
+
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -96,21 +104,9 @@
 </template>
 
 <script>
-import { add, fetchTree, update } from "@/api/systemManager/organization";
-import { fetchList } from "@/api/commonManager/area";
+import { add, update } from "@/api/equipmentAccount/maintain/temperature";
 import { mapGetters } from "vuex";
-import { fetchList as fetchProfession } from "@/api/commonManager/profession";
-
-const electronType1 = [
-  { key: "用户资产", value: "用户资产" },
-  { key: "局方资产", value: "局方资产" }
-];
-
-const runningState = [
-  { key: "在运", value: "在运" },
-  { key: "停运", value: "停运" }
-];
-
+import { getCommunicateList } from "@/api/equipmentAccount/maintain/communicationHost";
 export default {
   data() {
     const rule = [
@@ -121,22 +117,14 @@ export default {
       }
     ];
     const rules = {
-      parentId: rule,
+      serialcode: rule,
       name: rule,
-      artificialperson: rule,
-      creditcode: rule,
-      phoneno: rule,
-      contactperson: rule,
-      mobilephone: rule,
-      industry: rule,
-      principleactivity: rule,
-      province: rule,
-      city: rule,
-      area: rule,
-      address: rule,
-
-      longitude: rule,
-      latitude: rule
+      tenantId: rule,
+      starttime: rule,
+      property: rule,
+      dataserverId: rule,
+      isenable: rule,
+      status: rule
     };
     return {
       form: {},
@@ -144,19 +132,38 @@ export default {
       dialogVisible: false,
       loading: false,
       title: "",
-      professionList: [],
-      electronType1,
-      runningState
+      communicationHostType: null
     };
   },
   created() {
-    const data = this.$route.query.data;
+    const { data, title } = this.$route.params;
+    this.title = title;
+    this.fetechList(data);
+
+    console.log(data);
     this.reset(data);
   },
   computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
+    ...mapGetters({
+      powerRoomType: "status/panelCabinetType",
+      assetAttributeType: "status/assetAttributeType",
+      voltageLevelType: "status/voltageLevelType",
+      runningStateType: "status/runningStateType",
+      companyType: "status/companyType"
+    })
   },
   methods: {
+    fetechList(data) {
+      const tenantId = data.tenantId;
+      const switchingroomid = data.parentId;
+      getCommunicateList({ tenantId, switchingroomid }).then(r => {
+        this.communicationHostType = r.data.map(v => {
+          const key = v.Id;
+          const value = v.Name;
+          return { key, value };
+        });
+      });
+    },
     handleElectron(v) {},
     /** 行业列表 */
 
@@ -164,38 +171,28 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          parentId: "",
+          serialcode: "",
           name: "",
-          artificialperson: "",
-          creditcode: "",
-          phoneno: "",
-          contactperson: "",
-          mobilephone: "",
-          industry: "",
-          principleactivity: "1",
-          province: "1",
-          city: "1",
-          area: "1",
-          address: "",
-          isenable: 1,
-          longitude: "",
-          latitude: "",
-          attribute: "",
+          tenantId: "",
           starttime: "",
-          maintype: "",
-          subtype: "",
-          contractcapacity: "",
-          voltlevel: "",
-          operatingcapacity: "",
-          industryname: "",
-          principleactivityname: ""
+          property: "",
+          dataserverId: "",
+          isenable: "",
+          status: true,
+          factory: "",
+          modelname: "",
+          CTratio: "",
+          RTratio: "",
+          parentId: "",
+          id: "",
+          sortindex: 1
         },
         data
       );
     },
     handleOpen(data) {
       this.$router.push({
-        path: "/equipmentAccount/maintain/interval/index"
+        name: "/equipmentAccount/maintain/index"
       });
     },
     handleMap() {},
@@ -203,12 +200,6 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.industryname = this.professionList.filter(
-            v => v.key == this.form.industry
-          )[0].text;
-          this.form.principleactivityname = this.professionChildList.filter(
-            v => v.key == this.form.principleactivity
-          )[0].text;
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;

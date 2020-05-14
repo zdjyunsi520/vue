@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible">
 
-    <el-row class="equipInfobox">
+    <el-row class="equipInfobox" v-if="showBtn">
       <el-form :inline="true" size="mini">
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
@@ -68,7 +68,8 @@ export default {
     return {
       operateId: "",
       infoData: {},
-      visible: false
+      visible: false,
+      showBtn: false
     };
   },
 
