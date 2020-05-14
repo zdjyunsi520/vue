@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-  <div class="search-box onlyform-box" style="padding-bottom: 150px;">
+    <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px" style="width:600px" :inline-message="true">
@@ -11,7 +11,7 @@
             <el-input v-model="form.key" placeholder="请输入角色标识" style="width:90%" />
           </el-form-item>
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right"  :min="0" />
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
           <el-form-item label="模块权限">
             <el-row v-for="item in moduleList" :key="item.ModuleId">
@@ -34,17 +34,17 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check"   @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-  </div>
+    </div>
 
   </div>
 </template>
 
 <script>
-import { update, getInfo, add } from "@/api/commonManager/role";
+import { update, getInfo, add, getInfo1 } from "@/api/commonManager/role";
 
 export default {
   data() {
@@ -94,7 +94,7 @@ export default {
     };
   },
   created() {
-    let { data , title } = this.$route.params;
+    let { data, title } = this.$route.params;
     this.title = title;
     this.getInfo(data);
   },
@@ -115,11 +115,36 @@ export default {
       if (data && data.id) {
         id = data.id;
       }
-      getInfo({ id })
-        .then(({ data }) => {
-          this.moduleList = data.ModuleData;
-        })
-        .finally(v => (this.loading = false));
+      if (id)
+        getInfo({ id })
+          .then(({ data }) => {
+            this.moduleList = data.ModuleData;
+          })
+          .finally(v => (this.loading = false));
+      else {
+        getInfo1({})
+          .then(r => {
+            this.moduleList = r.data.map(v => {
+              let ModuleId = v.id;
+              let ModuleName = v.text;
+              let IsSelect = false;
+              let Childs = v.childs.map(v => {
+                let ModuleId = v.id;
+                let ModuleName = v.text;
+                let IsSelect = false;
+                return { ModuleId, ModuleName, IsSelect };
+              });
+              if (Childs.length == 0) Childs = null;
+              return {
+                ModuleId,
+                ModuleName,
+                IsSelect,
+                Childs
+              };
+            });
+          })
+          .finally(v => (this.loading = false));
+      }
       this.reset(data);
     },
     // getInfo(data) {

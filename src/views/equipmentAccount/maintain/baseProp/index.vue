@@ -1,6 +1,6 @@
 <template>
   <div v-show="visible">
-    <el-row :gutter="20" class="equipInfobox">
+    <el-row :gutter="20" class="equipInfobox" v-if="showBtn">
       <el-form :inline="true" size="mini">
         <el-form-item>
           <el-dropdown @command="handleCommand">
@@ -64,7 +64,8 @@ export default {
     return {
       infoData: {},
       visible: false,
-      id: ""
+      id: "",
+      showBtn: false
     };
   },
   methods: {
