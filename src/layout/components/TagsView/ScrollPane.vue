@@ -1,10 +1,12 @@
 <template>
   <div class="xl-scroll">
     <ul>
-      <li @click="handleClickLeft"  style="width:38px">
+      <li @click="handleClickLeft" style="width:38px">
         <i class="el-icon-d-arrow-left"></i>
       </li>
-      <li @click="handleClickHome" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;"><svg-icon icon-class="home" /></li>
+      <li @click="handleClickHome" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
+        <svg-icon icon-class="home" />
+      </li>
       <li>
         <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll">
           <slot />
@@ -13,7 +15,7 @@
       <li @click="handleClickRight" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
         <i class="el-icon-d-arrow-right"></i>
       </li>
-      <li @contextmenu.prevent="handleClickDown" style="width:38px">
+      <li @click.prevent="handleClickDown" style="width:38px">
         <i class="el-icon-arrow-down"></i>
       </li>
     </ul>
