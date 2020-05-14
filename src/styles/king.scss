@@ -77,7 +77,7 @@
  
  .infobox {
      line-height: 1.5;
-     padding: 15px 30px;
+     padding: 15px 20px 15px 30px;
      height: 100%;
      overflow: auto;
      .el-input--medium .el-input__inner {
@@ -150,7 +150,7 @@
  }
  
  .el-form {
-     padding-right: 2%;
+     padding-right: 30px;
  }
  
  .el-form-item__label {
@@ -271,9 +271,6 @@
      padding: 15px 10px 5px;
  }
  
- .el-submenu__icon-arrow {
-     right: 30px!important;
- }
  
  //  开关
  .el-switch__label * {
@@ -317,6 +314,11 @@
  }
  
  //  按钮样式
+ .el-button--primary {
+    color: #fff;
+    background-color: #418bff;
+    border-color: #418bff;
+}
  .el-button--primary.is-plain {
      color: #558cf7;
      background: #ffffff;

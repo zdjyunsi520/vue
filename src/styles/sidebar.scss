@@ -54,7 +54,7 @@
     }
 
     .svg-icon {
-      margin-right: 16px;
+      margin-right: 10px;
     }
 
     .el-menu {
@@ -78,8 +78,11 @@
     & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
-
+      // background-color: $subMenuBg !important;
+      &.is-active {
+        color: #fff!important;
+          background-color: $subMenuBg!important;
+      }
       &:hover {
         background-color: $subMenuHover !important;
       }
@@ -187,7 +190,7 @@
       background-color: $menuHover !important;
     }
   }
-
+  
   // the scroll bar appears when the subMenu is too long
   >.el-menu--popup {
     max-height: 100vh;
