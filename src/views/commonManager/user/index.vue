@@ -47,7 +47,7 @@
         <el-table-column label="是否锁定" width="140" align="center" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
             <!-- active-text="是"  inactive-text="否" -->
-            <el-switch v-model="row.IsLock" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleLock(row,!row.IsLock)"> </el-switch>
+            <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch>
             <!-- <el-button
               :type="row.IsLock?'warning':'primary'"
               size="mini"
@@ -193,7 +193,7 @@ export default {
     handleUpdateRole(row) {
       const id = row.Id;
       const data = { id };
-      const title = "修改权限";
+      const title = "权限设置";
       this.$router.push({
         name: "/commonManager/user/components/role",
         params: { data, title }

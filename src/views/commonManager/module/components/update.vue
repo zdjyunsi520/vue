@@ -3,10 +3,10 @@
   <div class="search-box onlyform-box">
     <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="父级分类" prop="parentId">
-            <el-select v-model="form.parentId" clearable size="small">
+            <el-select v-model="form.parentId" clearable >
               <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
             </el-select>
           </el-form-item>

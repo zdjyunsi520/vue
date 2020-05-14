@@ -5,14 +5,14 @@
     <!-- 添加或修改参数配置对话框 -->
     <div class="search-box onlyform-box">
       <el-scrollbar>
-        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px">
           <el-row :gutter="20">
             <el-col :span="24">
               <p class="smtitle"> 基础信息 </p>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="上级单位" prop="parentId">
-                <el-select v-model="form.parentId" size="small">
+                <el-select v-model="form.parentId" >
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
                 </el-select>
@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="行业类别" prop="industry">
-                <el-select v-model="form.industry" size="small" @change="handleChange">
+                <el-select v-model="form.industry"  @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
                 </el-select>
@@ -33,7 +33,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="行业分类" prop="principleactivity">
-                <el-select v-model="form.principleactivity" size="small">
+                <el-select v-model="form.principleactivity" >
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in professionChildList" />
                 </el-select>
@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="省份" prop="province">
-                <el-select v-model="form.province" size="small" @change="handleChange1">
+                <el-select v-model="form.province"  @change="handleChange1">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                 </el-select>
@@ -59,7 +59,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="城市" prop="city">
-                <el-select v-model="form.city" size="small" @change="handleChange2">
+                <el-select v-model="form.city"  @change="handleChange2">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
                 </el-select>
@@ -72,7 +72,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="区域/县" prop="area">
-                <el-select v-model="form.area" size="small">
+                <el-select v-model="form.area" >
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
                 </el-select>
@@ -145,7 +145,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="电压等级" prop="voltlevel">
-                <el-select v-model="form.voltlevel" size="small" :disabled="disabled">
+                <el-select v-model="form.voltlevel"  :disabled="disabled">
                   <!-- <el-option label="请选择" value=""></el-option> -->
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
                 </el-select>
@@ -153,14 +153,14 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电分类" prop="maintype">
-                <el-select v-model="form.maintype" size="small" :disabled="disabled">
+                <el-select v-model="form.maintype"  :disabled="disabled">
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
-                <el-select v-model="form.subtype" size="small" :disabled="disabled">
+                <el-select v-model="form.subtype"  :disabled="disabled">
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType1" />
                 </el-select>
               </el-form-item>

@@ -2,11 +2,46 @@
   <div class="app-container">
   <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
+      <div class="roletable-box">
+        <el-scrollbar>
+    <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+            <ul style="padding-left: 0px;">
+              <li class="first-box" >
+                  <div>
+                    <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
+                  </div>
+              </li>
+              <li style="background-color: #fff;">
+                <div v-for="(item,index) in moduleList" :key="index">
+                    <ul>
+                      <li style="width:200px">
+                          <div>
+                            <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
+                          </div>
+                      </li>
+                      <li>
+                        <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
+                          <ul>
+                            <li>
+                              <el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
+                            </li>
+                            <li class="last-box">
+                              <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
+                                  <!-- <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox> -->
+                                  <span @click="setCheck(checkbox.IsSelect)" :class="checkbox.IsSelect?'on':''">{{checkbox.ModuleName}}
+                                   <svg-icon icon-class="ic_seletecd" class="svgicon" />
+                                  </span>
+                              </div>
+                            </li>
+                          </ul>
 
-      <el-scrollbar>
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px" style="width:95%">
-      <el-form-item>
-        <!-- <el-checkbox-group v-model="form.moduleids"> -->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+              </li>
+            </ul>
+      <!-- <el-form-item>
         <el-table :data="moduleList">
           <el-table-column prop="date" label="角色" width="180">
             <template slot="header">
@@ -37,10 +72,10 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- </el-checkbox-group> -->
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
-      </el-scrollbar>
+        </el-scrollbar>
+     </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
 
         <div class="form-footer">
@@ -114,6 +149,9 @@ export default {
     this.getInfo(data);
   },
   methods: {
+    setCheck(item){
+      item = !item;
+    },
     setTableHeight() {
       this.tableHeight = this.$refs.containerbox.offsetHeight;
     },

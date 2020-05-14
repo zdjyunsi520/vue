@@ -3,7 +3,7 @@
   <div class="search-box onlyform-box">
    <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="父级分类" prop="parentKey" v-if="form.type!=1">
             <el-select v-model="form.parentKey" clearable size="small">

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
   <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="80px">
         <el-form-item>
           <!-- <el-checkbox-group v-model="form.powers"> -->
           <el-table :data="moduleList" border :height="moduleList.length>0?tableHeight:'0'">
@@ -37,13 +37,13 @@
           <!-- </el-checkbox-group> -->
         </el-form-item>
       </el-form>
-    </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
+    </div>
     </div>
   </div>
 </template>

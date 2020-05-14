@@ -22,7 +22,7 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" icon="el-icon-delete" :disabled="multiple" @click="handleDelete">删除</el-button>
+        <el-button type="info" icon="el-icon-delete" plain :disabled="multiple" @click="handleDelete">删除</el-button>
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
@@ -36,7 +36,7 @@
         <el-table-column label="同步平台" min-width="100" align="center">
           <template slot-scope="{row}">
             <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
-              <el-switch v-model="row.active" active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleSync(row)" />
+              <el-switch v-model="row.active"  active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleSync(row)" />
             </el-row>
             <el-row v-else>
               ----
@@ -132,7 +132,7 @@ export default {
       }
     },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     /** 查询用户列表 */
     getList() {
