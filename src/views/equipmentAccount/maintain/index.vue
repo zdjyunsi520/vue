@@ -1,34 +1,25 @@
 <template>
-  <div class="app-container">
 
-    <el-row :gutter="20" class="comheight">
-      <el-col :xs="{span: 24}" :span="6" class="treebox comheight">
-        <el-scrollbar>
-          <common-tree @getInfo="getInfo" />
-        </el-scrollbar>
-      </el-col>
-      <el-col :xs="{span: 24}" :span="18">
-        <div class="bg-white comheight">
+  <common-tree @getInfo="getInfo">
+    <div class="bg-white comheight">
 
-          <base-prop ref="component1" />
-          <power-room ref="component2" />
-          <panel-cabinet ref="component3" />
-          <camera ref="component8" />
-          <interval ref="component11" />
-          <communication-host ref="component4" />
-          <smoke ref="component7" />
-          <temperature ref="component6" />
-          <clock ref="component5" />
-        </div>
-        <!-- </el-row> -->
-        <div class="containerbox" ref="containerbox" style="background:#fff">
-          <el-row :gutter="20" class="equipInfobox">
-            <baseProp />
-          </el-row>
-        </div>
-      </el-col>
-    </el-row>
-  </div>
+      <base-prop ref="component1" />
+      <power-room ref="component2" />
+      <panel-cabinet ref="component3" />
+      <camera ref="component8" />
+      <interval ref="component11" />
+      <communication-host ref="component4" />
+      <smoke ref="component7" />
+      <temperature ref="component6" />
+      <clock ref="component5" />
+    </div>
+    <div class="containerbox" ref="containerbox" style="background:#fff">
+      <el-row :gutter="20" class="equipInfobox">
+        <baseProp />
+      </el-row>
+    </div>
+  </common-tree>
+
 </template>
 
 <script>

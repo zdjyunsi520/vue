@@ -10,8 +10,8 @@
           <slot />
         </el-scrollbar>
       </li>
-      <li @click="handleClickRight">&#62;&#62;</li>
-      <li @contextmenu.prevent="handleClickDown">下箭头</li>
+      <li @click.native.prevent="handleClickRight">&#62;&#62;</li>
+      <li @click="handleClickDown">下箭头</li>
     </ul>
 
   </div>
@@ -33,7 +33,9 @@ export default {
     }
   },
   methods: {
-    handleClickDown(e) {},
+    handleClickDown(e) {
+      this.$emit("openMenu", null, e, true);
+    },
     handleClickHome() {
       this.$router.push({ name: "/index" });
     },

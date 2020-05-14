@@ -1,6 +1,6 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @openMenu="openMenu">
       <router-link v-for="tag in visitedViews" ref="tag" :key="tag.path" :class="isActive(tag)?'active':''" :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }" tag="span" class="tags-view-item" @click.middle.native="closeSelectedTag(tag)" @contextmenu.prevent.native="openMenu(tag,$event)">
         {{ tag.title }}
         <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
@@ -18,6 +18,7 @@
 <script>
 import ScrollPane from "./ScrollPane";
 import path from "path";
+import { setTimeout } from "timers";
 
 export default {
   components: { ScrollPane },
@@ -27,7 +28,8 @@ export default {
       top: 0,
       left: 0,
       selectedTag: {},
-      affixTags: []
+      affixTags: [],
+      selectedTag1: {}
     };
   },
   computed: {
@@ -44,11 +46,13 @@ export default {
       this.moveToCurrentTag();
     },
     visible(value) {
-      if (value) {
-        document.body.addEventListener("click", this.closeMenu);
-      } else {
-        document.body.removeEventListener("click", this.closeMenu);
-      }
+      setTimeout(() => {
+        if (value) {
+          document.body.addEventListener("click", this.closeMenu);
+        } else {
+          document.body.removeEventListener("click", this.closeMenu);
+        }
+      }, 100);
     }
   },
   mounted() {
@@ -93,6 +97,7 @@ export default {
       const { name } = this.$route;
       if (name) {
         this.$store.dispatch("tagsView/addView", this.$route);
+        this.selectedTag1 = this.visitedViews.filter(v => v.name == name)[0];
       }
       return false;
     },
@@ -173,10 +178,11 @@ export default {
       } else {
         this.left = left;
       }
-
       this.top = e.clientY;
       this.visible = true;
+      this.visible = true;
       if (!outerClick) this.selectedTag = tag;
+      else this.selectedTag = this.selectedTag1;
     },
     closeMenu() {
       this.visible = false;
