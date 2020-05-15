@@ -12,7 +12,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="上级单位" prop="parentId">
-                <el-select v-model="form.parentId" >
+                <el-select v-model="form.parentId">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
                 </el-select>
@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="行业类别" prop="industry">
-                <el-select v-model="form.industry"  @change="handleChange">
+                <el-select v-model="form.industry" @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
                 </el-select>
@@ -33,7 +33,7 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="行业分类" prop="principleactivity">
-                <el-select v-model="form.principleactivity" >
+                <el-select v-model="form.principleactivity">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in professionChildList" />
                 </el-select>
@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="省份" prop="province">
-                <el-select v-model="form.province"  @change="handleChange1">
+                <el-select v-model="form.province" @change="handleChange1">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                 </el-select>
@@ -59,7 +59,7 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="城市" prop="city">
-                <el-select v-model="form.city"  @change="handleChange2">
+                <el-select v-model="form.city" @change="handleChange2">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
                 </el-select>
@@ -72,7 +72,7 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="区域/县" prop="area">
-                <el-select v-model="form.area" >
+                <el-select v-model="form.area">
                   <el-option label="请选择" value=""></el-option>
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
                 </el-select>
@@ -114,7 +114,7 @@
             </el-col>
             <el-col :span="23" :push="1" :xs='24'>
               <el-form-item label="地图搜索" prop="remark">
-                <el-input v-model="form.remark" placeholder="请输入内容进行搜索" style="width:70%;margin-right:20px" />
+                <el-input v-model="remark" placeholder="请输入内容进行搜索" style="width:70%;margin-right:20px" />
                 <el-button type="primary" size="medium" icon="el-icon-search" @click="handleMap">搜索</el-button>
               </el-form-item>
             </el-col>
@@ -123,9 +123,9 @@
                 <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
                   <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                   <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
-                  <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
+                  <bm-marker v-for="item in points" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
                   <bm-city-list anchor="BMAP_ANCHOR_TOP_LEFT"></bm-city-list>
-                  <bm-local-search :keyword="form.remark" :auto-viewport="true" :location="location" @markersset='markersset'></bm-local-search>
+                  <bm-local-search :keyword="remark123" :auto-viewport="true" :location="location" @searchcomplete='markersset'></bm-local-search>
                 </baidu-map>
               </el-form-item>
             </el-col>
@@ -135,7 +135,7 @@
             <el-col :span="23" :push="1" :xs='24'>
               <el-col :span="6" :push="1" :xs='12'>
                 <el-form-item>
-                  <el-radio v-model="form.attribute" label="电务"  @change="handleElectron">电务公司</el-radio>
+                  <el-radio v-model="form.attribute" label="电务" @change="handleElectron">电务公司</el-radio>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :push="2" :xs='12'>
@@ -152,23 +152,27 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="电压等级" prop="voltlevel">
-                <el-select v-model="form.voltlevel"  :disabled="disabled">
+                <el-select v-model="form.voltlevel" :disabled="disabled">
                   <!-- <el-option label="请选择" value=""></el-option> -->
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronLvl" />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电分类" prop="maintype">
-                <el-select v-model="form.maintype"  :disabled="disabled">
+                <el-select v-model="form.maintype" :disabled="disabled" @change="handleChange3">
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
-                <el-select v-model="form.subtype"  :disabled="disabled">
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType1" />
+                <el-select v-model="form.subtype" :disabled="disabled">
+                  <el-option label="大型专变用户" :value="1" v-if="form.maintype == 1" />
+                  <el-option label="中小型专变用户" :value="2" v-if="form.maintype == 1" />
+                  <el-option label="三相一般工商业用户" :value="3" v-if="form.maintype == 2" />
+                  <el-option label="单相一般工商业用户" :value="4" v-if="form.maintype == 2" />
+                  <el-option label="居民用户" :value="5" v-if="form.maintype == 3" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -213,26 +217,19 @@ import BmGeolocation from "vue-baidu-map/components/controls/Geolocation.vue";
 import BmCityList from "vue-baidu-map/components/controls/CityList.vue";
 import BmMarker from "vue-baidu-map/components/overlays/Marker.vue";
 import BmLocalSearch from "vue-baidu-map/components/search/LocalSearch.vue";
-
 const electronType = [
-  { key: "高压", value: "高压" },
-  { key: "高压非居民", value: "高压非居民" },
-  { key: "高压居民", value: "高压居民" }
+  { key: 1, value: "高压" },
+  { key: 2, value: "低压非居民" },
+  { key: 3, value: "低压居民" }
 ];
 const electronType1 = [
-  { key: "大型专变用户", value: "大型专变用户" },
-  { key: "中小型专变用户", value: "中小型专变用户" }
+  { key: 1, value: "大型专变用户" },
+  { key: 2, value: "中小型专变用户" },
+  { key: 3, value: "三相一般工商业用户" },
+  { key: 4, value: "单相一般工商业用户" },
+  { key: 5, value: "居民用户" }
 ];
-const electronLvl = [
-  { key: "6KV", value: "6KV" },
-  { key: "10KV", value: "10KV" },
-  { key: "20KV", value: "20KV" },
-  { key: "35KV", value: "35KV" },
-  { key: "110KV", value: "110KV" },
-  { key: "220KV", value: "220KV" },
-  { key: "380KV", value: "380KV" },
-  { key: "400KV", value: "400KV" }
-];
+
 export default {
   components: {
     BaiduMap,
@@ -276,12 +273,14 @@ export default {
       professionList: [],
       electronType,
       electronType1,
-      electronLvl,
       treeData: [],
       areaList: [],
       map: "",
       location: "北京",
-      keyword: "百度"
+      keyword: "百度",
+      remark123: "",
+      remark: "",
+      points: []
     };
   },
   created() {
@@ -289,11 +288,12 @@ export default {
     this.getTree();
     this.getAreaList();
     const data = this.$route.params.data;
-    if (data&&data.id) {
+    if (data && data.id) {
       this.getInfo(data);
     } else {
       this.reset(data);
     }
+    this.points.push(this.center);
   },
   mounted() {
     this.$nextTick(() => {
@@ -302,7 +302,10 @@ export default {
     });
   },
   computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" }),
+    ...mapGetters({
+      equipmentType: "status/equipmentType",
+      voltageLevelType: "status/voltageLevelType"
+    }),
     professionChildList() {
       const obj = this.professionList.filter(v => v.key == this.form.industry);
       if (obj.length) {
@@ -311,7 +314,7 @@ export default {
     },
     disabled() {
       // console.log(111,this.form.attribute,this.form.id,(this.form.attribute=='电务' ? false : true) && (this.form.id ? true : false))
-      return this.form.attribute=='用电' ? false : true;
+      return this.form.attribute == "用电" ? false : true;
       // return (this.form.attribute=='用电' ? false : true) || (this.form.id ? true : false);
     },
     cityList() {
@@ -335,6 +338,9 @@ export default {
     },
     handleChange2() {
       this.form.area = "";
+    },
+    handleChange3() {
+      this.form.subtype = "";
     },
     getInfo(data) {
       const id = data.id;
@@ -372,11 +378,11 @@ export default {
     initMaps() {
       this.map = new BMapGL.Map("container");
       let mPoint = new BMapGL.Point(116.404, 39.915); //天安门
+
       this.map.centerAndZoom(mPoint, 15);
     },
     locationSuccess(e) {
       //百度地图定位完成后
-      console.log("定位", e);
       this.center.lng = e.point.lng;
       this.center.lat = e.point.lat;
       this.form.longitude = e.point.lng;
@@ -387,11 +393,16 @@ export default {
       this.form.longitude = e.point.lng;
       this.form.latitude = e.point.lat;
     },
+    handleClickMarker(e) {},
     markersset(e) {
-      console.log("搜索", e);
+      if (e) {
+        this.points = e.Ir.map(v => {
+          return v.point;
+        });
+        this.remark123 = "";
+      }
     },
     handler({ BMap, map }) {
-      console.log(BMap, map);
       this.center.lng = 116.404;
       this.center.lat = 39.915;
       this.zoom = 15;
@@ -466,7 +477,9 @@ export default {
       // }
       //表单重置
     },
-    handleMap() {},
+    handleMap() {
+      this.remark123 = this.remark;
+    },
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {

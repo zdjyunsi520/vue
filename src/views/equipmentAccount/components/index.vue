@@ -5,7 +5,7 @@
     <el-row :gutter="20" class="comheight">
       <el-col :span="left" :xs="{span: 24}" class="treebox comheight" :style="'position:relative;width:'+leftwidth">
         <el-scrollbar>
-          <el-tree :data="treeData" node-key="id" :render-content="renderContent" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all='true'>
+          <el-tree :data="treeData" node-key="id" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all='true'>
           </el-tree>
         </el-scrollbar>
         <span @click="handleSlider" style="position:absolute;right:0px;width:8px;background:#f0f2f6;top: 0; height: 100%;text-align:center">
@@ -78,6 +78,10 @@ export default {
 <style lang="scss" scoped>
 /deep/.el-tree {
   .el-tree-node__expand-icon {
+    &.is-leaf {
+      background: #f00;
+    }
+
     border: 1px solid #ccc;
     width: 14px;
     height: 14px;
@@ -105,6 +109,8 @@ export default {
         position: absolute;
       }
     }
+    &.is-leaf {
+    }
   }
   .el-icon-caret-right:before {
   }
@@ -127,12 +133,12 @@ export default {
     }
     &:last-child {
       position: relative;
-      & ~ &:before {
+      &:before {
         content: "";
         height: 100%;
         background: #fff;
         position: absolute;
-        width: 1px;
+        width: 10px;
         left: -6px;
         top: 14px;
       }
