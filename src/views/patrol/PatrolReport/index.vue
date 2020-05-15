@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true"  size="mini" >
+    <el-form :inline="true"   >
       <el-form-item label="巡视单位">
         <el-select v-model="searchForm.tenantId" placeholder="请选择" style="max-width:200px" >
           <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.text" :value="item.id"></el-option>

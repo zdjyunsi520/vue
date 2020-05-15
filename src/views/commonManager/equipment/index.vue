@@ -3,7 +3,7 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="设备编号" prop="serialcode">
-          <el-input v-model="queryParams.serialcode" placeholder="设备编号" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.serialcode" placeholder="请输入设备编号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="设备类型" prop="type">
           <el-select v-model="queryParams.type" clearable>

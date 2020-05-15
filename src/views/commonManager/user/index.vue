@@ -3,13 +3,13 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="queryParams.username" placeholder="用户名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="queryParams.name" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="预留手机号" prop="mobilephone">
-          <el-input v-model="queryParams.mobilephone" placeholder="预留手机号" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.mobilephone" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
     },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";

@@ -10,6 +10,8 @@ import "./styles/element-variables.scss";
 
 import "@/styles/index.scss"; // global css
 import "@/styles/king.scss"; // common css
+import "@/styles/mobile.scss"; // mobile css
+
 
 import App from "./App";
 import store from "./store";

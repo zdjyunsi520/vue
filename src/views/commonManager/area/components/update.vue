@@ -7,14 +7,14 @@
           <el-row>
             <el-col :span="24" v-if="form.type==2||form.type==3">
               <el-form-item label="省份" prop="p_parentKey">
-                <el-select v-model="form.p_parentKey" clearable size="small" @change="changeCitys">
+                <el-select v-model="form.p_parentKey" clearable  @change="changeCitys">
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="24" v-if="form.type==3">
               <el-form-item label="城市" prop="parentKey">
-                <el-select v-model="form.parentKey" clearable size="small" :disabled="isdisabled">
+                <el-select v-model="form.parentKey" clearable  :disabled="isdisabled">
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in citydataList" />
                 </el-select>
               </el-form-item>

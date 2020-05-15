@@ -8,7 +8,7 @@
       <el-col :xs="{span: 24}" :span="18">
         <router-view />
         <div class="bg-white comheight">
-          <el-form :inline="true" size="mini">
+          <el-form :inline="true">
             <el-form-item>
               <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
               <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
@@ -43,6 +43,7 @@ export default {
 
   created() {},
   methods: {
+    handleAdd() {},
     handleUpdate() {},
     handleDelete() {},
 
@@ -59,9 +60,4 @@ export default {
 </script>
 
 <style lang="scss">
-.comheight {
-  height: calc(100vh - 164px);
-  padding: 15px 10px;
-  box-sizing: border-box;
-}
 </style>

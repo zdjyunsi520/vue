@@ -47,7 +47,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
+      <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
     </div>
     <!-- 添加或修改参数配置对话框 end -->
   </el-dialog>

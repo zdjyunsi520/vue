@@ -41,11 +41,11 @@
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" fixed="left" />
-            <el-table-column label="姓名" align="center" prop="Name" />
-            <el-table-column label="预留手机号" align="center" prop="MobilePhone" />
-            <el-table-column label="用户名" align="center" prop="UserName" />
+            <el-table-column label="姓名" align="center" min-width="100" prop="Name" />
+            <el-table-column label="预留手机号" min-width="150" align="center" prop="MobilePhone" />
+            <el-table-column label="用户名" align="center" min-width="100" prop="UserName" />
             <el-table-column label="添加时间" sortable align="center" min-width="180" prop="CreateTime" />
-            <el-table-column label="岗位状态" sortable align="center" prop="Status" :formatter="filterStatus" />
+            <el-table-column label="岗位状态" sortable min-width="100"  align="center" prop="Status" :formatter="filterStatus" />
             <el-table-column label="账号" align="center" prop="IsOpenAccount" :formatter="filterAccount" />
             <el-table-column label="操作" align="center" min-width="150">
               <template slot-scope="scope">
@@ -274,21 +274,21 @@ export default {
 }
 </style>
 <style lang="scss">
-.xl-query {
-  /deep/.el-form-item {
-    margin-bottom: 0;
-  }
-  /deep/ .el-input__inner {
-    width: 140px;
-  }
-  /deep/.el-date-editor.el-input {
-    width: 200px;
+// .xl-query {
+//   /deep/.el-form-item {
+//     margin-bottom: 0;
+//   }
+//   /deep/ .el-input__inner {
+//     width: 140px;
+//   }
+//   /deep/.el-date-editor.el-input {
+//     width: 200px;
 
-    .el-input__inner {
-      width: 200px;
-    }
-  }
-}
+//     .el-input__inner {
+//       width: 200px;
+//     }
+//   }
+// }
 .dot {
   width: 5px;
   height: 5px;

@@ -30,34 +30,23 @@
       <el-col :xs="{span: 24}" :span="10" style="width:554px" class="comheight">
         <div class="bg-white  infobox">
           <el-scrollbar>
-          <p class="form-smtitle marginBottom30">基础信息 </p>
+          <div class="form-smtitle marginBottom30">基础信息 </div>
             <el-form label-position="top" :model="smform" v-if="data&&data.Id">
-              <el-form-item>
                 <el-form-item label="类型">
                   <el-input v-model="smform.Type" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="名称">
                   <el-input v-model="smform.Name" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="权限标识">
                   <el-input v-model="smform.Key" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="URL">
                   <el-input v-model="smform.Url" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="Component">
                   <el-input v-model="smform.Component" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="排序号">
                   <el-input v-model="smform.SortIndex" disabled></el-input>
                 </el-form-item>

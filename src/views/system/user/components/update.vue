@@ -11,7 +11,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="归属分站" prop="deptId">
-                            <el-select v-model="form.deptId" clearable size="small">
+                            <el-select v-model="form.deptId" clearable >
                                 <el-option label="所属站点" value="" />
                                 <el-option :key="item.deptName" :label="item.deptName" :value="item.deptId" v-for="item in deptType" />
                             </el-select>
