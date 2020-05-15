@@ -121,7 +121,7 @@ export default {
       ]
     };
     return {
-      tableHeight: "",
+      tableHeight: "0",
       form: {
         id: "",
         name: "",

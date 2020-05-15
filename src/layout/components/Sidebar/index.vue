@@ -67,8 +67,12 @@ export default {
     display: inline-block;
 }
 
+.sidebar-container .el-scrollbar__wrap {
+    overflow: scroll;
+}
+
  .el-submenu__icon-arrow {
-     right: 45px!important;
+     right:30px!important;
  }
 .el-submenu {
   &.is-opened{

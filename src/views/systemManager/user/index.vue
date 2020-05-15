@@ -16,7 +16,7 @@
             <el-form-item label="用户名" prop="username">
               <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="手机号码" prop="mobilephone">
+            <el-form-item label="手机号" prop="mobilephone">
               <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
@@ -41,13 +41,13 @@
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" fixed="left" />
-            <el-table-column label="姓名" align="center" min-width="100" prop="Name" />
+            <el-table-column label="姓名" align="center" min-width="150" prop="Name" />
             <el-table-column label="预留手机号" min-width="150" align="center" prop="MobilePhone" />
-            <el-table-column label="用户名" align="center" min-width="100" prop="UserName" />
+            <el-table-column label="用户名" align="center" min-width="150" prop="UserName" />
             <el-table-column label="添加时间" sortable align="center" min-width="180" prop="CreateTime" />
             <el-table-column label="岗位状态" sortable min-width="100"  align="center" prop="Status" :formatter="filterStatus" />
-            <el-table-column label="账号" align="center" prop="IsOpenAccount" :formatter="filterAccount" />
-            <el-table-column label="操作" align="center" min-width="150">
+            <el-table-column label="账号" align="center" min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
+            <el-table-column label="操作" align="center" min-width="250">
               <template slot-scope="scope">
                 <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
@@ -97,7 +97,7 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight: "",
+      tableHeight: "0",
       rules: {},
       multiple: true
     };
@@ -106,9 +106,11 @@ export default {
     this.getTree();
   },
   mounted() {
-    let _this = this;
+    let _this = this;console.log(11111)
     window.onresize = () => {
-      _this.setTableHeight();
+      if (_this.dataList) {console.log(2222)
+        _this.setTableHeight();
+      }
     };
   },
   destroyed() {

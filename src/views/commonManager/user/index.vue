@@ -33,7 +33,7 @@
         <el-table-column label="用户名" align="center" width="200" prop="UserName" />
         <el-table-column label="姓名" align="center" width="160" prop="Name" />
         <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-        <el-table-column label="添加时间" min-width="180" align="center" prop="CreateTime" sortable="custom">
+        <el-table-column label="添加时间" min-width="220" align="center" prop="CreateTime" sortable="custom">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
           </template>
@@ -90,7 +90,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "",
+      tableHeight: "0",
       rules: {},
       // 查询参数
       queryParams: {

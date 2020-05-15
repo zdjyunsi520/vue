@@ -54,7 +54,7 @@ export default {
         name: ""
       },
       rules: {},
-      tableHeight: "",
+      tableHeight: "0",
       dataList: null
     };
   },

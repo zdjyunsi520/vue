@@ -18,7 +18,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="行业类别" prop="industry">
                 <el-select v-model="form.industry"  @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
@@ -31,7 +31,7 @@
                 <el-input v-model="form.name" placeholder="请输入名称" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="行业分类" prop="principleactivity">
                 <el-select v-model="form.principleactivity" >
                   <el-option label="请选择" value=""></el-option>
@@ -44,7 +44,7 @@
                 <el-input v-model="form.artificialperson" placeholder="请输入法人代表" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="省份" prop="province">
                 <el-select v-model="form.province"  @change="handleChange1">
                   <el-option label="请选择" value=""></el-option>
@@ -57,7 +57,7 @@
                 <el-input v-model="form.creditcode" placeholder="请输入统一信用代码" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="城市" prop="city">
                 <el-select v-model="form.city"  @change="handleChange2">
                   <el-option label="请选择" value=""></el-option>
@@ -70,7 +70,7 @@
                 <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="区域/县" prop="area">
                 <el-select v-model="form.area" >
                   <el-option label="请选择" value=""></el-option>
@@ -83,7 +83,7 @@
                 <el-input v-model="form.contactperson" placeholder="请输入联系人" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="详细地址" prop="address">
                 <el-input v-model="form.address" placeholder="请输入详细地址" />
               </el-form-item>
@@ -93,7 +93,7 @@
                 <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="是否启用" prop="isenable">
                 <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
                 </el-switch>
@@ -107,7 +107,7 @@
                 <el-input v-model="form.longitude" placeholder="输入或通过地图点击获取" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="纬度" prop="latitude">
                 <el-input v-model="form.latitude" placeholder="输入或通过地图点击获取" />
               </el-form-item>
@@ -133,9 +133,16 @@
               <p class="smtitle"> 附加属性 </p>
             </el-col>
             <el-col :span="23" :push="1" :xs='24'>
-              <el-form-item>
-                <el-checkbox :disabled="form.id?true:false" v-model="form.attribute" true-label="用电" false-label="" @change="handleElectron">用电</el-checkbox>
-              </el-form-item>
+              <el-col :span="6" :push="1" :xs='12'>
+                <el-form-item>
+                  <el-radio v-model="form.attribute" label="电务"  @change="handleElectron">电务公司</el-radio>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" :push="2" :xs='12'>
+                <el-form-item>
+                  <el-radio v-model="form.attribute" label="用电" @change="handleElectron">用电单位</el-radio>
+                </el-form-item>
+              </el-col>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="立户日期" prop="starttime">
@@ -143,7 +150,7 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="电压等级" prop="voltlevel">
                 <el-select v-model="form.voltlevel"  :disabled="disabled">
                   <!-- <el-option label="请选择" value=""></el-option> -->
@@ -158,7 +165,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
                 <el-select v-model="form.subtype"  :disabled="disabled">
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType1" />
@@ -170,7 +177,7 @@
                 <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
                 <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
               </el-form-item>
@@ -282,7 +289,7 @@ export default {
     this.getTree();
     this.getAreaList();
     const data = this.$route.params.data;
-    if (data.id) {
+    if (data&&data.id) {
       this.getInfo(data);
     } else {
       this.reset(data);
@@ -303,7 +310,9 @@ export default {
       } else return [];
     },
     disabled() {
-      return (this.form.attribute ? false : true) || (form.id ? true : false);
+      // console.log(111,this.form.attribute,this.form.id,(this.form.attribute=='电务' ? false : true) && (this.form.id ? true : false))
+      return this.form.attribute=='用电' ? false : true;
+      // return (this.form.attribute=='用电' ? false : true) || (this.form.id ? true : false);
     },
     cityList() {
       const list = this.areaList.filter(v => v.key == this.form.province);
@@ -361,8 +370,8 @@ export default {
       });
     },
     initMaps() {
-      this.map = new BMap.Map("container");
-      let mPoint = new BMap.Point(116.404, 39.915); //天安门
+      this.map = new BMapGL.Map("container");
+      let mPoint = new BMapGL.Point(116.404, 39.915); //天安门
       this.map.centerAndZoom(mPoint, 15);
     },
     locationSuccess(e) {
@@ -434,7 +443,7 @@ export default {
           isenable: 1,
           longitude: "",
           latitude: "",
-          attribute: "",
+          attribute: "电务",
           starttime: "",
           maintype: "",
           subtype: "",

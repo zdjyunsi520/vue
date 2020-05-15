@@ -88,7 +88,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "",
+      tableHeight: "0",
       // 查询参数
       queryParams: {
         pageno: 1,

@@ -1,13 +1,15 @@
- 
  @media screen and (max-width:768px) {
-    .comheight {
-        height: auto!important;
-        margin-bottom: 10px;
-    }
-    .treebox .el-tree {
-        padding-bottom: 30px;
-    }
-    .el-col-push-1{
-        left: 0;
-    }
-}
+     .comheight {
+         height: auto!important;
+         margin-bottom: 10px;
+     }
+     .treebox .el-tree {
+         padding-bottom: 30px;
+     }
+     .el-col-push-1 {
+         left: 0;
+     }
+     .el-pagination {
+         white-space: initial;
+     }
+ }
