@@ -8,7 +8,7 @@
           <el-tree :data="treeData" node-key="id" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all='true' :expand-on-click-node="false">
           </el-tree>
         </el-scrollbar>
-        <span @click="handleSlider" style="position:absolute;right:0px;width:8px;background:#f0f2f6;top: 0; height: 100%;text-align:center">
+        <span @click="handleSlider"  class="iconslider" >
           <svg-icon icon-class="ic_drag" style="font-size:16px;margin-top:40vh;margin-left:-5px;" />
           <i :class="!ishidden?'el-icon-arrow-left':'el-icon-arrow-right'" style="font-size:12px;margin-left:-2px;" />
         </span>
