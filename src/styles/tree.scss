@@ -1,0 +1,148 @@
+/deep/.el-tree {
+    .el-tree-node__expand-icon {
+        border: 1px solid #dcdfe4;
+        width: 14px;
+        line-height: 12px;
+        height: 14px;
+        margin-right: 8px;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        border-radius: 3px;
+        display: block;
+        // font-size: 20px;
+        // background: #f00;
+        &:before {
+            content: "+";
+            font-size: 14px;
+        }
+        &.is-leaf {
+            background: url(../../../assets/image/ic_project.png) no-repeat;
+            border: none;
+            background-size: 100%;
+            &:before {
+                content: "+";
+                font-size: 24px;
+            }
+        }
+        &.expanded {
+            //background: #ff0;
+            transform: rotate(0);
+            &:before {
+                content: "";
+                background: #dcdfe4;
+                height: 1px;
+                top: 50%;
+                width: 50%;
+                display: block;
+                left: 50%;
+                transform: translateX(-50%);
+                position: absolute;
+            }
+        }
+    }
+    .el-tree-node {
+        .custom-tree-node {
+            position: relative;
+            &:before {
+                position: absolute;
+                content: "";
+                width: 14px;
+                height: 14px;
+                //这里background替换成图标
+                background: url(../../../assets/image/ic_project.png) no-repeat;
+                background-size: 100%;
+                left: -22px;
+                top: 2px;
+            }
+        }
+        &.is-current {
+            &>.el-tree-node__content {
+                color: #558cf7;
+                .is-leaf {
+                    background: url(../../../assets/image/ic_project_on.png) no-repeat;
+                    border: none;
+                    background-size: 100%;
+                    &:before {
+                        content: "+";
+                        font-size: 24px;
+                    }
+                }
+            }
+        }
+        .is-expanded.is-current.is-focusable {
+            color: #666!important;
+        }
+        .is-expanded {
+            &.is-current {
+                &.is-focusable {
+                    color: #558cf7;
+                }
+            }
+        }
+        .el-tree-node__content:hover {
+            background: none;
+        }
+        &:last-child {
+            position: relative;
+            &:before {
+                content: "";
+                height: 100%;
+                background: #fff;
+                position: absolute;
+                width: 1px;
+                left: -6px;
+                top: 14px;
+            }
+        }
+        padding: 0;
+        margin: 0 5px;
+        //  background: url(/assets/images/line.png);
+        &>.el-tree-node__children {
+            overflow: visible;
+            // background: #f00;
+            border-left: 1px dotted #dcdfe4;
+            margin-left: 7px;
+        }
+        &>.el-tree-node__children {
+            position: relative;
+            &>.el-tree-node {
+                &>.el-tree-node__content {
+                    position: relative;
+                    margin-left: 6px;
+                    &:before {
+                        content: "";
+                        width: 24px;
+                        position: absolute;
+                        border-top: 1px dotted #dcdfe4;
+                        left: -10px;
+                    }
+                    &+.el-tree-node__children {
+                        margin-left: 30px;
+                        &>.el-tree-node {
+                            &>.el-tree-node__content {
+                                position: relative;
+                                left: -16px;
+                                &:before {
+                                    left: 7px;
+                                }
+                                &+.el-tree-node__children {
+                                    margin-left: 32px;
+                                    &>.el-tree-node {
+                                        &>.el-tree-node__content {
+                                            position: relative;
+                                            left: -36px;
+                                            &:before {
+                                                left: 26px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
