@@ -133,14 +133,14 @@
               <p class="smtitle"> 附加属性 </p>
             </el-col>
             <el-col :span="23" :push="1" :xs='24'>
-              <el-col :span="6" :push="1" :xs='12'>
+              <el-col :span="3" :push="1" :xs='12'>
                 <el-form-item>
-                  <el-radio v-model="form.attribute" label="电务" @change="handleElectron">电务公司</el-radio>
+                  <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="电务" @change="handleElectron">电务公司</el-radio>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" :push="2" :xs='12'>
+              <el-col :span="3" :push="1" :xs='12'>
                 <el-form-item>
-                  <el-radio v-model="form.attribute" label="用电" @change="handleElectron">用电单位</el-radio>
+                  <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="用电" @change="handleElectron">用电单位</el-radio>
                 </el-form-item>
               </el-col>
             </el-col>
@@ -313,9 +313,7 @@ export default {
       } else return [];
     },
     disabled() {
-      // console.log(111,this.form.attribute,this.form.id,(this.form.attribute=='电务' ? false : true) && (this.form.id ? true : false))
-      return this.form.attribute == "用电" ? false : true;
-      // return (this.form.attribute=='用电' ? false : true) || (this.form.id ? true : false);
+      return (this.form.attribute=='用电' ? false : true) || (this.form.id ? true : false);
     },
     cityList() {
       const list = this.areaList.filter(v => v.key == this.form.province);

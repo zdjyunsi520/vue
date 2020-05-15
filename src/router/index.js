@@ -25,509 +25,523 @@ import Layout from "@/layout";
  */
 
 // 公共路由
-export const constantRoutes = [
-  {
-    path: "/redirect",
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: "/redirect/:path*",
-        component: () => import("@/views/redirect")
-      }
-    ]
-  },
-  {
-    path: "/login",
-    component: () => import("@/views/login"),
-    hidden: true
-  },
-  {
-    path: "/404",
-    component: () => import("@/views/error/404"),
-    hidden: true
-  },
-  {
-    path: "/401",
-    component: () => import("@/views/error/401"),
-    hidden: true
-  },
+export const constantRoutes = [{
+        path: "/redirect",
+        component: Layout,
+        hidden: true,
+        children: [{
+            path: "/redirect/:path*",
+            component: () =>
+                import ("@/views/redirect")
+        }]
+    },
+    {
+        path: "/login",
+        component: () =>
+            import ("@/views/login"),
+        hidden: true
+    },
+    {
+        path: "/404",
+        component: () =>
+            import ("@/views/error/404"),
+        hidden: true
+    },
+    {
+        path: "/401",
+        component: () =>
+            import ("@/views/error/401"),
+        hidden: true
+    },
 
-  {
-    path: "",
-    component: Layout,
-    redirect: "index",
-    hidden: true,
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/index"),
-        name: "/index",
-        meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
-      }
-    ]
-  },
-  {
-    path: "generalSituation",
-    component: Layout,
-    hidden: false,
-    meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/baseData",
-        component: () => import("@/views/generalSituation/base/index"),
-        name: "基本概况",
-        meta: {
-          title: "基本概况",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/largeData",
-        component: () => import("@/views/generalSituation/large/index"),
-        name: "大屏展示",
-        meta: {
-          title: "大屏展示",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/userLargeData",
-        component: () => import("@/views/generalSituation/userLarge/index"),
-        name: "用户大屏",
-        meta: {
-          title: "用户大屏",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
-  {
-    path: "defect",
-    component: Layout,
-    hidden: true,
-    meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/orderList",
-        component: () => import("@/views/defect/orderList/index"),
-        name: "缺陷工单",
-        meta: {
-          title: "缺陷工单",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/statistics",
-        component: () => import("@/views/defect/statistics/index"),
-        name: "缺陷统计",
-        meta: {
-          title: "缺陷统计",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
+    {
+        path: "",
+        component: Layout,
+        redirect: "index",
+        hidden: true,
+        children: [{
+            path: "index",
+            component: () =>
+                import ("@/views/index"),
+            name: "/index",
+            meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
+        }]
+    },
+    {
+        path: "generalSituation",
+        component: Layout,
+        hidden: false,
+        meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+                path: "/baseData",
+                component: () =>
+                    import ("@/views/generalSituation/base/index"),
+                name: "基本概况",
+                meta: {
+                    title: "基本概况",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/largeData",
+                component: () =>
+                    import ("@/views/generalSituation/large/index"),
+                name: "大屏展示",
+                meta: {
+                    title: "大屏展示",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/userLargeData",
+                component: () =>
+                    import ("@/views/generalSituation/userLarge/index"),
+                name: "用户大屏",
+                meta: {
+                    title: "用户大屏",
+                    noCache: true,
+                    affix: false
+                }
+            }
+        ]
+    },
+    {
+        path: "defect",
+        component: Layout,
+        hidden: true,
+        meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+                path: "/orderList",
+                component: () =>
+                    import ("@/views/defect/orderList/index"),
+                name: "缺陷工单",
+                meta: {
+                    title: "缺陷工单",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/statistics",
+                component: () =>
+                    import ("@/views/defect/statistics/index"),
+                name: "缺陷统计",
+                meta: {
+                    title: "缺陷统计",
+                    noCache: true,
+                    affix: false
+                }
+            }
+        ]
+    },
 
-  {
-    path: "patrol",
-    component: Layout,
-    hidden: true,
-    meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/PatrolCycle",
-        component: () => import("@/views/patrol/PatrolCycle/index"),
-        name: "巡视周期设置",
-        meta: {
-          title: "巡视周期设置",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolJob",
-        component: () => import("@/views/patrol/PatrolJob/index"),
-        name: "巡视任务单",
-        meta: {
-          title: "巡视任务单",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolReport",
-        component: () => import("@/views/patrol/PatrolReport/index"),
-        name: "巡视报告",
-        meta: {
-          title: "巡视报告",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolPersonnel",
-        component: () => import("@/views/patrol/PatrolPersonnel/index"),
-        name: "人员巡视统计",
-        meta: {
-          title: "人员巡视统计",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolUnit",
-        component: () => import("@/views/patrol/PatrolUnit/index"),
-        name: "单位巡视统计",
-        meta: {
-          title: "单位巡视统计",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
+    {
+        path: "patrol",
+        component: Layout,
+        hidden: true,
+        meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+                path: "/PatrolCycle",
+                component: () =>
+                    import ("@/views/patrol/PatrolCycle/index"),
+                name: "巡视周期设置",
+                meta: {
+                    title: "巡视周期设置",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/PatrolJob",
+                component: () =>
+                    import ("@/views/patrol/PatrolJob/index"),
+                name: "巡视任务单",
+                meta: {
+                    title: "巡视任务单",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/PatrolReport",
+                component: () =>
+                    import ("@/views/patrol/PatrolReport/index"),
+                name: "巡视报告",
+                meta: {
+                    title: "巡视报告",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/PatrolPersonnel",
+                component: () =>
+                    import ("@/views/patrol/PatrolPersonnel/index"),
+                name: "人员巡视统计",
+                meta: {
+                    title: "人员巡视统计",
+                    noCache: true,
+                    affix: false
+                }
+            },
+            {
+                path: "/PatrolUnit",
+                component: () =>
+                    import ("@/views/patrol/PatrolUnit/index"),
+                name: "单位巡视统计",
+                meta: {
+                    title: "单位巡视统计",
+                    noCache: true,
+                    affix: false
+                }
+            }
+        ]
+    },
 
-  {
-    path: "/systemManager/organization/components",
-    component: Layout,
-    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: true },
-    hidden: true,
-    children: [
-      {
-        name: "/systemManager/organization/components/add",
-        path: "/systemManager/organization/components/add",
-        component: () =>
-          import("@/views/systemManager/organization/components/add"),
-        meta: {
-          title: "组织机构",
-          icon: "dashboard",
-          noCache: true,
-          affix: false,
-          breadcrumb: true
-        }
-      }
-    ]
-  },
+    {
+        path: "/systemManager/organization/components",
+        component: Layout,
+        meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: true },
+        hidden: true,
+        children: [{
+            name: "/systemManager/organization/components/add",
+            path: "/systemManager/organization/components/add",
+            component: () =>
+                import ("@/views/systemManager/organization/components/add"),
+            meta: {
+                title: "组织机构",
+                icon: "dashboard",
+                noCache: true,
+                affix: false,
+                breadcrumb: true
+            }
+        }]
+    },
 
-  {
-    path: "systemManager",
-    component: Layout,
-    hidden: false,
-    meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        name: "/commonManager/module/components/add",
-        path: "/commonManager/module/components/add",
-        component: () => import("@/views/commonManager/module/components/add"),
-        meta: {
-          title: "模块管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/module/components/update",
-        path: "/commonManager/module/components/update",
-        component: () =>
-          import("@/views/commonManager/module/components/update"),
-        meta: {
-          title: "模块管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/module/components/role",
-        path: "/commonManager/module/components/role",
-        component: () => import("@/views/commonManager/module/components/role"),
-        meta: {
-          title: "模块管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/role/components/update",
-        path: "/commonManager/role/components/update",
-        component: () => import("@/views/commonManager/role/components/update"),
-        meta: {
-          title: "角色管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/user/components/add",
-        path: "/commonManager/user/components/add",
-        component: () => import("@/views/commonManager/user/components/add"),
-        meta: {
-          title: "用户管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/user/components/update",
-        path: "/commonManager/user/components/update",
-        component: () => import("@/views/commonManager/user/components/update"),
-        meta: {
-          title: "用户管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/user/components/role",
-        path: "/commonManager/user/components/role",
-        component: () => import("@/views/commonManager/user/components/role"),
-        meta: {
-          title: "用户管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/user/components/password",
-        path: "/commonManager/user/components/password",
-        component: () =>
-          import("@/views/commonManager/user/components/password"),
-        meta: {
-          title: "用户管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/equipment/components/add",
-        path: "/commonManager/equipment/components/add",
-        component: () =>
-          import("@/views/commonManager/equipment/components/add"),
-        meta: {
-          title: "设备管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/profession/components/add",
-        path: "/commonManager/profession/components/add",
-        component: () =>
-          import("@/views/commonManager/profession/components/add"),
-        meta: {
-          title: "行业管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/profession/components/update",
-        path: "/commonManager/profession/components/update",
-        component: () =>
-          import("@/views/commonManager/profession/components/update"),
-        meta: {
-          title: "行业管理",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/systemManager/organization/components/role",
-        path: "/systemManager/organization/components/role",
-        component: () =>
-          import("@/views/systemManager/organization/components/role"),
-        meta: {
-          title: "组织结构",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/systemManager/user/components/add",
-        path: "/systemManager/user/components/add",
-        component: () => import("@/views/systemManager/user/components/add"),
-        meta: {
-          title: "人员信息",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/systemManager/user/components/password",
-        path: "/systemManager/user/components/password",
-        component: () =>
-          import("@/views/systemManager/user/components/password"),
-        meta: {
-          title: "人员信息",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/powerRoom/components/update",
-        path: "/equipmentAccount/maintain/powerRoom/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/powerRoom/components/update"),
-        meta: {
-          title: "新增/修改配电室",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/panelCabinet/components/update",
-        path: "/equipmentAccount/maintain/panelCabinet/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/panelCabinet/components/update"),
-        meta: {
-          title: "新增/修改屏柜",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/communicationHost/components/update",
-        path: "/equipmentAccount/maintain/communicationHost/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/communicationHost/components/update"),
-        meta: {
-          title: "新增/修改交流主机",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/camera/components/update",
-        path: "/equipmentAccount/maintain/camera/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/camera/components/update"),
-        meta: {
-          title: "新增/修改摄像头",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/smoke/components/update",
-        path: "/equipmentAccount/maintain/smoke/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/smoke/components/update"),
-        meta: {
-          title: "新增/修改烟感",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/interval/components/update",
-        path: "/equipmentAccount/maintain/interval/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/interval/components/update"),
-        meta: {
-          title: "新增/修改间隔",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/temperature/components/update",
-        path: "/equipmentAccount/maintain/temperature/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/temperature/components/update"),
-        meta: {
-          title: "新增/修改温感",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/equipmentAccount/maintain/clock/components/update",
-        path: "/equipmentAccount/maintain/clock/components/update",
-        component: () =>
-          import("@/views/equipmentAccount/maintain/clock/components/update"),
-        meta: {
-          title: "新增/修改电计器",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/area/components/add",
-        path: "/commonManager/area/components/add",
-        component: () => import("@/views/commonManager/area/components/add"),
-        meta: {
-          title: "新增地区",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/commonManager/area/components/update",
-        path: "/commonManager/area/components/update",
-        component: () => import("@/views/commonManager/area/components/update"),
-        meta: {
-          title: "修改地区",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "123213",
-        path: "/123123",
-        component: () => import("@/views/equipmentAccount/maintain/index"),
-        meta: {
-          title: "测试页面",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      }
-    ]
-  }
+    {
+        path: "systemManager",
+        component: Layout,
+        hidden: true,
+        meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
+        children: [{
+                name: "/commonManager/module/components/add",
+                path: "/commonManager/module/components/add",
+                component: () =>
+                    import ("@/views/commonManager/module/components/add"),
+                meta: {
+                    title: "模块管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/module/components/update",
+                path: "/commonManager/module/components/update",
+                component: () =>
+                    import ("@/views/commonManager/module/components/update"),
+                meta: {
+                    title: "模块管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/module/components/role",
+                path: "/commonManager/module/components/role",
+                component: () =>
+                    import ("@/views/commonManager/module/components/role"),
+                meta: {
+                    title: "模块管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/role/components/update",
+                path: "/commonManager/role/components/update",
+                component: () =>
+                    import ("@/views/commonManager/role/components/update"),
+                meta: {
+                    title: "角色管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/user/components/add",
+                path: "/commonManager/user/components/add",
+                component: () =>
+                    import ("@/views/commonManager/user/components/add"),
+                meta: {
+                    title: "用户管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/user/components/update",
+                path: "/commonManager/user/components/update",
+                component: () =>
+                    import ("@/views/commonManager/user/components/update"),
+                meta: {
+                    title: "用户管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/user/components/role",
+                path: "/commonManager/user/components/role",
+                component: () =>
+                    import ("@/views/commonManager/user/components/role"),
+                meta: {
+                    title: "用户管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/user/components/password",
+                path: "/commonManager/user/components/password",
+                component: () =>
+                    import ("@/views/commonManager/user/components/password"),
+                meta: {
+                    title: "用户管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/equipment/components/add",
+                path: "/commonManager/equipment/components/add",
+                component: () =>
+                    import ("@/views/commonManager/equipment/components/add"),
+                meta: {
+                    title: "设备管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/profession/components/add",
+                path: "/commonManager/profession/components/add",
+                component: () =>
+                    import ("@/views/commonManager/profession/components/add"),
+                meta: {
+                    title: "行业管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/profession/components/update",
+                path: "/commonManager/profession/components/update",
+                component: () =>
+                    import ("@/views/commonManager/profession/components/update"),
+                meta: {
+                    title: "行业管理",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/systemManager/organization/components/role",
+                path: "/systemManager/organization/components/role",
+                component: () =>
+                    import ("@/views/systemManager/organization/components/role"),
+                meta: {
+                    title: "组织结构",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/systemManager/user/components/add",
+                path: "/systemManager/user/components/add",
+                component: () =>
+                    import ("@/views/systemManager/user/components/add"),
+                meta: {
+                    title: "人员信息",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/systemManager/user/components/password",
+                path: "/systemManager/user/components/password",
+                component: () =>
+                    import ("@/views/systemManager/user/components/password"),
+                meta: {
+                    title: "人员信息",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/powerRoom/components/update",
+                path: "/equipmentAccount/maintain/powerRoom/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/powerRoom/components/update"),
+                meta: {
+                    title: "新增/修改配电室",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/panelCabinet/components/update",
+                path: "/equipmentAccount/maintain/panelCabinet/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/panelCabinet/components/update"),
+                meta: {
+                    title: "新增/修改屏柜",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/communicationHost/components/update",
+                path: "/equipmentAccount/maintain/communicationHost/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/communicationHost/components/update"),
+                meta: {
+                    title: "新增/修改交流主机",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/camera/components/update",
+                path: "/equipmentAccount/maintain/camera/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/camera/components/update"),
+                meta: {
+                    title: "新增/修改摄像头",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/smoke/components/update",
+                path: "/equipmentAccount/maintain/smoke/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/smoke/components/update"),
+                meta: {
+                    title: "新增/修改烟感",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/interval/components/update",
+                path: "/equipmentAccount/maintain/interval/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/interval/components/update"),
+                meta: {
+                    title: "新增/修改间隔",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/temperature/components/update",
+                path: "/equipmentAccount/maintain/temperature/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/temperature/components/update"),
+                meta: {
+                    title: "新增/修改温感",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/equipmentAccount/maintain/clock/components/update",
+                path: "/equipmentAccount/maintain/clock/components/update",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/clock/components/update"),
+                meta: {
+                    title: "新增/修改电计器",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/area/components/add",
+                path: "/commonManager/area/components/add",
+                component: () =>
+                    import ("@/views/commonManager/area/components/add"),
+                meta: {
+                    title: "新增地区",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/commonManager/area/components/update",
+                path: "/commonManager/area/components/update",
+                component: () =>
+                    import ("@/views/commonManager/area/components/update"),
+                meta: {
+                    title: "修改地区",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "123213",
+                path: "/123123",
+                component: () =>
+                    import ("@/views/equipmentAccount/maintain/index"),
+                meta: {
+                    title: "测试页面",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            }
+        ]
+    }
 ];
 const createRouter = () => {
-  const router = new Router({
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
-  });
-  router.onError(error => {
-    const pattern = /Loading .* chunk .* failed/g;
-    const isChunkLoadFailed = error.message.match(pattern);
-    const targetPath = router.history.pending.fullPath;
-    if (isChunkLoadFailed) {
-      router.replace(targetPath);
-    }
-  });
-  return router;
+    const router = new Router({
+        scrollBehavior: () => ({ y: 0 }),
+        routes: constantRoutes
+    });
+    router.onError(error => {
+        const pattern = /Loading .* chunk .* failed/g;
+        const isChunkLoadFailed = error.message.match(pattern);
+        const targetPath = router.history.pending.fullPath;
+        if (isChunkLoadFailed) {
+            router.replace(targetPath);
+        }
+    });
+    return router;
 };
 const router = createRouter();
 
