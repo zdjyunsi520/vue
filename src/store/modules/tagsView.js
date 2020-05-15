@@ -1,20 +1,24 @@
 const state = {
   visitedViews: [],
-  cachedViews: []
+  cachedViews: [],
+  unVisitedViews: []
 };
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
     if (
-      (view.meta && view.meta.breadcrumb) ||
-      state.visitedViews.some(v => v.path === view.path)
+      state.visitedViews.some(v => v.path == view.path) ||
+      state.unVisitedViews.some(v => v.path == view.path)
     )
       return;
-    state.visitedViews.push(
-      Object.assign({}, view, {
-        title: view.meta.title || "no-name"
-      })
-    );
+    const v = Object.assign({}, view, {
+      title: view.meta.title || "no-name"
+    });
+    if (view.meta && view.meta.breadcrumb) {
+      state.unVisitedViews.push(v);
+      return;
+    }
+    state.visitedViews.push(v);
   },
   ADD_CACHED_VIEW: (state, view) => {
     if (state.cachedViews.includes(view.name)) return;
@@ -30,8 +34,15 @@ const mutations = {
         break;
       }
     }
+    for (const [i, v] of state.unVisitedViews.entries()) {
+      if (v.path === view.path) {
+        state.unVisitedViews.splice(i, 1);
+        break;
+      }
+    }
   },
   DEL_CACHED_VIEW: (state, view) => {
+    console.log(state.cachedViews);
     for (const i of state.cachedViews) {
       if (i === view.name) {
         const index = state.cachedViews.indexOf(i);
@@ -43,6 +54,9 @@ const mutations = {
 
   DEL_OTHERS_VISITED_VIEWS: (state, view) => {
     state.visitedViews = state.visitedViews.filter(v => {
+      return v.meta.affix || v.path === view.path;
+    });
+    state.unVisitedViews = state.unVisitedViews.filter(v => {
       return v.meta.affix || v.path === view.path;
     });
   },
@@ -60,6 +74,8 @@ const mutations = {
     // keep affix tags
     const affixTags = state.visitedViews.filter(tag => tag.meta.affix);
     state.visitedViews = affixTags;
+    const affixTags1 = state.unVisitedViews.filter(tag => tag.meta.affix);
+    state.unVisitedViews = affixTags1;
   },
   DEL_ALL_CACHED_VIEWS: state => {
     state.cachedViews = [];
@@ -67,6 +83,12 @@ const mutations = {
 
   UPDATE_VISITED_VIEW: (state, view) => {
     for (let v of state.visitedViews) {
+      if (v.path === view.path) {
+        v = Object.assign(v, view);
+        break;
+      }
+    }
+    for (let v of state.unVisitedViews) {
       if (v.path === view.path) {
         v = Object.assign(v, view);
         break;

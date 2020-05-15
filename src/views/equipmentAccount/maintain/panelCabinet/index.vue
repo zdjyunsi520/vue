@@ -52,7 +52,7 @@
         <label>生产厂家</label><span>{{infoData.Manufactor}}</span>
       </el-col>
       <el-col :xs="{span: 24}" :span="12" v-if="!showBtn">
-        <label>出厂日期</label><span>{{}}</span>
+        <label>出厂日期</label><span>{{infoData.ExFactoryDate}}</span>
       </el-col>
     </el-row>
     <el-row :gutter="20" class="equipInfobox">

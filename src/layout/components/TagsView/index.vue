@@ -36,6 +36,9 @@ export default {
     visitedViews() {
       return this.$store.state.tagsView.visitedViews;
     },
+    cachedViews() {
+      return this.$store.state.tagsView.unVisitedViews;
+    },
     routes() {
       return this.$store.state.permission.routes;
     }
@@ -97,7 +100,7 @@ export default {
       const { name } = this.$route;
       if (name) {
         this.$store.dispatch("tagsView/addView", this.$route);
-        this.selectedTag1 = this.visitedViews.filter(v => v.name == name)[0];
+        this.selectedTag1 = this.cachedViews.filter(v => v.name == name)[0];
       }
       return false;
     },
