@@ -218,7 +218,7 @@ export const constantRoutes = [
   {
     path: "systemManager",
     component: Layout,
-    hidden: true,
+    hidden: false,
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
