@@ -338,19 +338,19 @@ export default {
 };
 </script>
 <style lang="scss">
-.xl-query {
-    /deep/.el-form-item {
-        margin-bottom: 0;
-    }
-    /deep/ .el-input__inner {
-        width: 130px;
-    }
-    /deep/.el-date-editor.el-input {
-        width: 200px;
+// .xl-query {
+//     /deep/.el-form-item {
+//         margin-bottom: 0;
+//     }
+//     /deep/ .el-input__inner {
+//         width: 130px;
+//     }
+//     /deep/.el-date-editor.el-input {
+//         width: 200px;
 
-        .el-input__inner {
-            width: 200px;
-        }
-    }
-}
+//         .el-input__inner {
+//             width: 200px;
+//         }
+//     }
+// }
 </style>

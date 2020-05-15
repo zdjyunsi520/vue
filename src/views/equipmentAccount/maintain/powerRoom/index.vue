@@ -1,10 +1,10 @@
 <template>
-  <div v-show="visible">
-    <el-row class="equipInfobox" v-if="showBtn">
-      <el-form :inline="true" size="mini">
-        <el-form-item>
+  <div v-show="visible" class="app-container smInfoform-wrap" >
+    <div class="search-box" v-if="showBtn">
+      <el-form :inline="true" >
+         <el-form-item>
           <el-dropdown @command="handleCommand">
-            <el-button type="primary" size="mini" icon="el-icon-circle-plus-outline">
+            <el-button type="primary"  icon="el-icon-circle-plus-outline">
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -18,69 +18,120 @@
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
         </el-form-item>
       </el-form>
-    </el-row>
-
-    <el-row :gutter="20" class="equipInfobox">
-      <h6>基本属性</h6>
-      <el-row :gutter="20" class="equipInfobox">
-        <el-col :xs="{span: 24}" :span="12">
-          <label>名称</label><span>{{infoData.Name}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>所属单位</label><span>{{infoData.TenantName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>电压等级</label><span>{{infoData.VoltLevelName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>运行状态</label><span>{{infoData.IsEnable?'在运':'停运'}}</span>
-        </el-col>
-
-        <el-col :xs="{span: 24}" :span="12">
-          <label>投运日期</label><span>{{infoData.StartTime | parseTime('{y}-{m}-{d}')}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>资产属性</label><span>{{infoData.PropertyName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>配电室类型</label><span>{{infoData.TypeName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>型号</label><span>{{infoData.ModelName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>生产厂家</label><span>{{infoData.Factory}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12" v-if="!showBtn">
-          <label>出厂日期</label><span>{{}}</span>
-        </el-col>
+    </div>
+    <el-row class="containerbox">
+    <el-scrollbar>
+      <el-row class="smInfoform-box">
+        <div class="form-smtitle marginBottom30">基本属性</div>
+        <el-form label-position="top" :model="infoData">
+        <el-row :gutter="30" >
+          <el-col :xs="{span: 24}" :span="12" class="border-right">
+            <el-col :span="24">
+              <el-form-item label="名称">
+                <el-input v-model="infoData.Name" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="电压等级">
+                <el-input v-model="infoData.VoltLevelName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="投运日期">
+                <el-input v-model="infoData.StartTime" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="配电室类型">
+                <el-input v-model="infoData.TypeName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="生产厂家">
+                <el-input v-model="infoData.Factory" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+          <el-col :xs="{span: 24}" :span="12" >
+            <el-col :span="24">
+              <el-form-item label="所属单位">
+                <el-input v-model="infoData.TenantName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="运行状态">
+                <el-input v-model="infoData.IsEnable" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="资产属性">
+                <el-input v-model="infoData.PropertyName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="型号">
+                <el-input v-model="infoData.ModelName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="出厂日期">
+                <el-input v-model="infoData.ExFactoryDate" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+        </el-row>
+        </el-form>
       </el-row>
-    </el-row>
-    <el-row :gutter="20" class="equipInfobox">
-      <h6>附属信息</h6>
-      <el-row :gutter="20" class="equipInfobox">
-        <el-col :xs="{span: 24}" :span="12">
-          <label>创建人</label><span>{{infoData.CreateUserName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>创建时间</label><span>{{infoData.CreateTime | parseTime('{y}-{m}-{d}')}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>最后维护人</label><span>{{infoData.UpdateUserName}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>最后维护时间</label><span>{{infoData.UpdateTime | parseTime('{y}-{m}-{d}')}}</span>
-        </el-col>
-      </el-row>
+      <el-row class="smInfoform-box">
+        <div class="form-smtitle marginBottom30">附属信息</div>
+        <el-form label-position="top" :model="infoData">
+        <el-row :gutter="30" >
+          <el-col :xs="{span: 24}" :span="12"  class="border-right">
+            <el-col :span="24">
+              <el-form-item label="创建人">
+                <el-input v-model="infoData.CreateUserName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="最后维护人">
+                <el-input v-model="infoData.UpdateUserName" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+          <el-col :xs="{span: 24}" :span="12" >
+            <el-col :span="24">
+              <el-form-item label="创建时间">
+                <el-input v-model="infoData.CreateTime" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="最后维护时间">
+                <el-input v-model="infoData.UpdateTime" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+          </el-row>
+        </el-form>
+          <!-- <el-col :xs="{span: 24}" :span="12">
+            <label>创建时间</label><span>{{infoData.CreateTime | parseTime('{y}-{m}-{d}')}}</span>
+          </el-col>
+      
+          <el-col :xs="{span: 24}" :span="12">
+            <label>最后维护时间</label><span>{{infoData.UpdateTime | parseTime('{y}-{m}-{d}')}}</span>
+          </el-col> -->
+        </el-row>
+      </el-scrollbar>
     </el-row>
   </div>
+
 </template>
 
 <script>
-import { getInfo, deleted } from "@/api/equipmentAccount/maintain/powerRoom";
+import { getInfo } from "@/api/equipmentAccount/maintain/interval";
 export default {
   data() {
     return {
+      operateId: "",
       infoData: {},
       visible: false,
       showBtn: false
@@ -90,62 +141,62 @@ export default {
   created() {},
   methods: {
     handleCommand(commond) {
-      const tenantId = this.infoData.TenantId;
-      const parentId = this.infoData.Id;
-      const data = { parentId, tenantId };
-
-      const title = "新增";
-      this.$router.push({
-        name: commond,
-        params: { data, title }
-      });
+      if (commond == "a") {
+        this.$router.push({
+          path: "/equipmentAccount/maintain/panelCabinet/components/update",
+          params: {}
+        });
+      }
     },
     handleAdd() {},
+
     handleUpdate() {
       const id = this.infoData.Id;
       const name = this.infoData.Name;
-      const tenantId = this.infoData.TenantId;
+      const type = this.infoData.Type;
+      const tenantid = this.infoData.TenantId;
+      const isenable = this.infoData.IsEnable;
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
-      const voltlevel = this.infoData.VoltLevelName;
-      const modelname = this.infoData.ModelName;
-      const factory = this.infoData.Factory;
+      const voltlevel = this.infoData.VoltLevel;
+      const assetsid = this.infoData.AssetsId;
+      const assetstype = this.infoData.AssetsType;
       const sortindex = this.infoData.SortIndex;
-      const type = this.infoData.Type;
-      const isenable = this.infoData.IsEnable;
+      const ismainline = this.infoData.IsMainLine;
+      const parentid = "";
       const data = {
         id,
         name,
-        tenantId,
+        type,
+        tenantid,
+        isenable,
         starttime,
         property,
         voltlevel,
-        modelname,
-        factory,
+        assetsid,
+        assetstype,
         sortindex,
-        type,
-        isenable
+        ismainline,
+        parentid
       };
       const title = "修改";
       this.$router.push({
-        name: "/equipmentAccount/maintain/powerRoom/components/update",
+        name: "/equipmentAccount/maintain/interval/components/update",
         params: { data, title }
       });
     },
-    handleDelete() {
-      this.$confirm("确认要进行删除操作吗？").then(r => {
-        const Ids = [this.infoData.Id];
-        deleted({ Ids }).then(r => this.$message.success(r.msg));
-      });
-    },
+    handleDelete() {},
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
+        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
+        this.infoData.IsMainLine = r.data.IsMainLine ? "是" : "否";
+        this.infoData.StartTime = this.parseTime( r.data.StartTime, "{y}-{m}-{d}" );
+        this.infoData.CreateTime = this.parseTime( r.data.CreateTime, "{y}-{m}-{d}" );
+        this.infoData.UpdateTime = this.parseTime( r.data.UpdateTime, "{y}-{m}-{d}" );
       });
     }
   }
 };
 </script>
 
-<style lang="scss">
-</style>

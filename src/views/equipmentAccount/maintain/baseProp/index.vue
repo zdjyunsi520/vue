@@ -1,10 +1,10 @@
 <template>
-  <div v-show="visible">
-    <el-row :gutter="20" class="equipInfobox" v-if="showBtn">
-      <el-form :inline="true" size="mini">
+  <div v-show="visible" class="app-container smInfoform-wrap" >
+    <div class="search-box" v-if="showBtn">
+      <el-form :inline="true" >
         <el-form-item>
           <el-dropdown @command="handleCommand">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" >
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -14,46 +14,79 @@
           </el-dropdown>
         </el-form-item>
       </el-form>
+    </div>
+    <!-- </el-row> -->
+    <el-row class="containerbox">
+    <el-scrollbar>
+    <el-row class="smInfoform-box">
+      <div class="form-smtitle marginBottom30">基本属性</div>
+      <el-form label-position="top" :model="infoData">
+        <el-row :gutter="30">
+          <el-col :xs="{span: 24}" :span="12" class="border-right">
+            <el-col :span="24">
+              <el-form-item label="名称">
+                <el-input v-model="infoData.Name" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="运行状态">
+                <el-input v-model="infoData.IsEnable" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="联系人">
+                <el-input v-model="infoData.ContactPerson" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="联系电话">
+                <el-input v-model="infoData.PhoneNo" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="立户日期">
+                <el-input v-model="infoData.CreateTime" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="合同容量">
+                <el-input v-model="infoData.ContractCapacity" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+          <el-col :xs="{span: 24}" :span="12">
+            <el-col :span="24">
+              <el-form-item label="上级单位">
+                <el-input v-model="infoData.ParentId" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="单位地址">
+                <el-input v-model="infoData.Address" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="联系人手机">
+                <el-input v-model="infoData.MobilePhone" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="电压等级">
+                <el-input v-model="infoData.VoltLevelText" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="运行容量">
+                <el-input v-model="infoData.OperatingCapacity" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+        </el-row>
+      </el-form>
+   
     </el-row>
-    <el-row :gutter="20" class="equipInfobox">
-      <h6>基本属性</h6>
-      <el-row :gutter="20" class="equipInfobox">
-        <el-col :xs="{span: 24}" :span="12">
-          <label>名称</label><span>{{infoData.Name}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>上级单位</label><span>{{infoData.ParentId}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>运行状态</label><span>{{infoData.IsEnable?'在运':'停运'}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>单位地址</label><span>{{infoData.Province}}{{infoData.City}}{{infoData.Area}}{{infoData.Address}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>联系人</label><span>{{infoData.ContactPerson }}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>联系人手机</label><span>{{infoData.MobilePhone}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>联系电话</label><span>{{infoData.PhoneNo}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>电压等级</label><span>{{infoData.VoltLevelText}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>立户日期</label><span>{{infoData.CreateTime| parseTime('{y}-{m}-{d}')}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>运行容量</label><span>{{infoData.OperatingCapacity}}</span>
-        </el-col>
-        <el-col :xs="{span: 24}" :span="12">
-          <label>合同容量</label><span>{{infoData.ContractCapacity}}</span>
-        </el-col>
-      </el-row>
+      </el-scrollbar>
     </el-row>
-
   </div>
 </template>
 
@@ -82,6 +115,8 @@ export default {
       this.id = data.id;
       getInfo({ id }).then(r => {
         this.infoData = r.data;
+        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
+        this.infoData.CreateTime = this.parseTime( r.data.CreateTime, "{y}-{m}-{d}" );
       });
     }
   }

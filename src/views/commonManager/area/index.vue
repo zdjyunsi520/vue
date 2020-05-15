@@ -14,8 +14,8 @@
               <el-dropdown-item command="c">区域/县</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -31,34 +31,26 @@
         <div class="bg-white  infobox">
           <el-scrollbar>
             <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-              <el-form-item>
                 <el-form-item label="代码">
                   <el-input v-model="smform.Key" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
               <el-form-item label="父级地区代码" v-if="smform.ParentKey">
                 <el-input v-model="smform.ParentKey" disabled></el-input>
               </el-form-item>
-              <el-form-item>
                 <el-form-item label="名称">
                   <el-input v-model="smform.Name" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
               <!-- <el-form-item>
               <el-form-item label="类型">
                 <el-input v-model="smform.Type" disabled></el-input>
               </el-form-item>
             </el-form-item> -->
-              <el-form-item>
                 <el-form-item label="邮编">
                   <el-input v-model="smform.ZipCode" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="路径">
                   <el-input v-model="smform.Location" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
             </el-form>
             <div v-else class="tips">
               暂无数据

@@ -14,8 +14,8 @@
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate" :disabled="operateId==''">修改</el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="handleDelete" :disabled="operateId==''">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -30,21 +30,15 @@
         <div class="bg-white infobox">
           <el-scrollbar >
             <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-              <el-form-item>
                 <el-form-item label="代码">
                   <el-input v-model="smform.Key" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="名称">
                   <el-input v-model="smform.Name" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
-              <el-form-item>
                 <el-form-item label="排序">
                   <el-input v-model="smform.SortIndex" disabled></el-input>
                 </el-form-item>
-              </el-form-item>
               <el-form-item label="父级" v-if="smform.ParentKey">
                 <el-input v-model="smform.ParentKey" disabled></el-input>
               </el-form-item>
@@ -107,8 +101,10 @@ export default {
             v.lvl = true;
             return v;
           });
-          this.dataList = response.data;
+          // this.dataList = response.data;
           this.loading = false;
+          this.dataList.length &&
+            this.handleNodeClick(this.dataList[0], { level: 1 });
         })
         .finally(v => (this.loading = false));
     },

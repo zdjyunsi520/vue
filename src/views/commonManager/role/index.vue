@@ -4,7 +4,7 @@
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
 
         <el-form-item label="名称" prop="name">
-          <el-input v-model="queryParams.name" placeholder="名称" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <el-form-item>
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     /** 查询角色列表 */
     getList() {

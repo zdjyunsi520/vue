@@ -1,8 +1,7 @@
 <template>
 
   <common-tree @getInfo="getInfo">
-    <div class="bg-white comheight">
-
+    <div class="comheight">
       <base-prop ref="component1" />
       <power-room ref="component2" />
       <panel-cabinet ref="component3" />
@@ -12,11 +11,6 @@
       <smoke ref="component7" />
       <temperature ref="component6" />
       <clock ref="component5" />
-    </div>
-    <div class="containerbox" ref="containerbox" style="background:#fff">
-      <el-row :gutter="20" class="equipInfobox">
-        <baseProp />
-      </el-row>
     </div>
   </common-tree>
 

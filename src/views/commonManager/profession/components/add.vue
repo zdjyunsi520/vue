@@ -6,7 +6,7 @@
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="父级分类" prop="parentKey" v-if="form.type!=1">
-            <el-select v-model="form.parentKey" clearable size="small">
+            <el-select v-model="form.parentKey" clearable>
               <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
             </el-select>
           </el-form-item>

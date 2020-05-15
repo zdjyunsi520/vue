@@ -6,7 +6,7 @@
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="设备类型" prop="type">
-            <el-select v-model="form.type" clearable size="small">
+            <el-select v-model="form.type" clearable >
               <el-option label="请选择" value=""></el-option>
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
             </el-select>

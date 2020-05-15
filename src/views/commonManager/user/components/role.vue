@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <div class="search-box onlyform-box">
+    <div class="search-box onlyform-box" style="padding-bottom: 130px;">
       <p class="form-smtitle">{{title}} </p>
-      <div class="roletable-box">
+      <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
         <el-scrollbar>
           <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
-            <ul style="padding-left: 0px;">
+            <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
                 <div>
                   <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
@@ -40,6 +40,7 @@
                 </div>
               </li>
             </ul>
+            <p v-else class="tips">暂无数据</p>
             <!-- <el-form-item>
         <el-table :data="moduleList">
           <el-table-column prop="date" label="角色" width="180">
@@ -279,8 +280,5 @@ export default {
   .el-checkbox__input.is-focus .el-checkbox__inner {
     border-color: #f00;
   }
-}
-.onlyform-box {
-  padding-bottom: 150px;
 }
 </style>

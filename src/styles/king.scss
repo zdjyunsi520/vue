@@ -9,7 +9,9 @@
  .el-pagination {
      padding: 10px 15px!important;
  }
- 
+ .el-pagination__jump {
+    margin-left: 0px!important;
+ }
  .el-table th {
      color: #565656!important;
      //  padding: 18px 0!important;
@@ -83,11 +85,15 @@
      .el-input--medium .el-input__inner {
          height: 54px;
          line-height: 54px;
+         color: #333333!important;
      }
  }
  
  .el-input-number--medium {
      width: 100%;
+     .el-input__inner{
+         text-align: left;
+     }
  }
  
  .el-input--medium .el-input__inner {
@@ -99,33 +105,49 @@
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 19px;
  }
- 
- .equipInfobox {
-     text-align: left;
-     padding: 0 20px;
-     font-size: 14px;
-     h6 {
-         font-size: 14px;
-         margin: 0 0 10px;
-         ;
-     }
-     .el-col {
-         margin-bottom: 10px;
-         label {
-             background: #f5f5f5;
-             display: inline-block;
-             margin-right: 10px;
-             min-width: 100px;
-             padding: 5px 5px;
-             border-radius: 3px;
-             text-align: center;
-             font-weight: normal;
-         }
-         span {
-             display: inline-block;
-         }
-     }
- }
+ .smInfoform-wrap{
+    height: 100%;padding: 0;
+    max-width: 950px;
+    .smInfoform-box{
+        background: #fff;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0px 1px 5px #f2f7ff;
+        &:last-child{
+            margin-bottom: 0;
+        }
+        .el-form{
+            .el-input.is-disabled .el-input__inner{color: #333!important;}
+        }
+    }
+    .border-right{border-right:1px dashed #ededee ;}
+}
+//  .equipInfobox {
+//      text-align: left;
+//      padding: 0 20px;
+//      font-size: 14px;
+//      h6 {
+//          font-size: 14px;
+//          margin: 0 0 10px;
+//          ;
+//      }
+//      .el-col {
+//          margin-bottom: 10px;
+//          label {
+//              background: #f5f5f5;
+//              display: inline-block;
+//              margin-right: 10px;
+//              min-width: 100px;
+//              padding: 5px 5px;
+//              border-radius: 3px;
+//              text-align: center;
+//              font-weight: normal;
+//          }
+//          span {
+//              display: inline-block;
+//          }
+//      }
+//  }
  
  .search-box {
      background: #fff;
@@ -145,10 +167,14 @@
      position: relative;
      padding-bottom: 90px;
      margin-bottom: 0;
-     ;
      .el-form .el-form-item {
          margin-bottom: 22px;
      }
+    .el-select{width: 100%;}
+    .el-date-editor.el-input, .el-date-editor.el-input__inner{
+         width: 100%;
+     }
+
  }
  
  .el-form {
@@ -224,8 +250,7 @@
      padding: 20px 0;
  }
  
- .smtitle,
- .form-smtitle {
+ .smtitle{
      font-size: 14px;
      color: #333333;
      font-weight: bold;
@@ -242,13 +267,17 @@
  
  .form-smtitle {
      font-size: 18px;
-     margin-bottom: 40px;
+     margin-bottom: 40px;text-align: left!important;
      margin-top: 10px;
      margin-left: 10px;
-     &::before {
+     &::before {   
+         content: "";
+        width: 4px;
          background-color: #4473f2;
          margin-right: 10px;
          height: 18px;
+         display: inline-block;
+         vertical-align: text-top;
      }
  }
  
@@ -418,16 +447,7 @@
      color: #fff;
      border: 1px solid #558cf7;
  }
- 
- @media screen and (max-width:768px) {
-     .comheight {
-         height: auto!important;
-         margin-bottom: 10px;
-     }
-     .treebox .el-tree {
-         padding-bottom: 30px;
-     }
- }
+
  
  //  权限表格 样式
  .roletable-box {
@@ -517,3 +537,5 @@
          }
      }
  }
+
+

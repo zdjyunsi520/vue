@@ -12,7 +12,7 @@
             <i :class="!ishidden?'el-icon-arrow-left':'el-icon-arrow-right'" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
-      <el-col :xs="{span: 24}" :span="right">
+      <el-col :xs="{span: 24}" :span="right" class="comheight">
         <slot />
       </el-col>
     </el-row>
