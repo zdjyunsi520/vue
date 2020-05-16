@@ -75,7 +75,7 @@
                 <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
+            <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="出厂日期" prop="exfactorydate">
                 <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
