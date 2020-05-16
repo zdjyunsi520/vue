@@ -63,7 +63,7 @@
  
  .treebox {
      .el-tree {
-         padding: 10px;
+         padding: 20px;
          box-sizing: border-box;
      }
  }
@@ -169,6 +169,14 @@
      font-weight: normal;
  }
  
+ .el-form .el-form-item__error--inline {
+     margin-top: 0px!important;
+     width: 100%!important;
+     top: 100%!important;
+     left: 0!important;
+     margin-left: 0!important;
+ }
+ 
  .search-box {
      .el-dropdown {
          margin-right: 10px;
@@ -180,7 +188,18 @@
  }
  
  .el-scrollbar__wrap {
-     overflow: auto;
+     overflow-x: auto;
+ }
+ 
+ .iconslider {
+     position: absolute;
+     right: 0px;
+     width: 8px;
+     background: #f0f2f6;
+     top: 0;
+     height: 100%;
+     text-align: center;
+     cursor: pointer;
  }
  
  .el-tree {
