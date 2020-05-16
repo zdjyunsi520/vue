@@ -12,55 +12,35 @@
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="资产属性" prop="attribute">
-                <el-select v-model="form.attribute" >
+                <el-select v-model="form.attribute">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="(item,index) in assetAttributeType"
-                  />
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="屏柜类型" prop="type">
-                <el-select v-model="form.type" >
+                <el-select v-model="form.type">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in powerRoomType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="电压等级" prop="voltagelevel">
-                <el-select v-model="form.voltagelevel" >
+                <el-select v-model="form.voltagelevel">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in voltageLevelType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="所属单位" prop="tenantId">
-                <el-select v-model="form.tenantId" >
+                <el-select v-model="form.tenantId">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in companyType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -72,14 +52,9 @@
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="运行状态" prop="isenable">
-                <el-select v-model="form.isenable" >
+                <el-select v-model="form.isenable">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in runningStateType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -100,17 +75,17 @@
                 <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
+            <el-col :span="10" :push="2" :xs='24'>
+              <el-form-item label="出厂日期" prop="exfactorydate">
+                <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="handleSubmit"
-            :loading="loading"
-          >确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -138,7 +113,8 @@ export default {
       type: rule,
       isenable: rule,
       starttime: rule,
-      voltagelevel: rule
+      voltagelevel: rule,
+      exfactorydate: rule
     };
     return {
       form: {},
@@ -170,7 +146,6 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
           tenantId: "",
           name: "",
           attribute: "",
@@ -181,7 +156,9 @@ export default {
           isenable: "",
           starttime: "",
           sortindex: 1,
-          parentId: ""
+          parentId: "",
+          id: "",
+          exfactorydate: ""
         },
         data
       );
@@ -196,6 +173,11 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          // this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");
+          // this.form.exfactorydate = dateFortmat(
+          //   this.form.exfactorydate,
+          //   "yyyy-MM-dd"
+          // );
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;

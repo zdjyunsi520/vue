@@ -14,12 +14,7 @@
               <el-form-item label="资产属性" prop="property">
                 <el-select v-model="form.property">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="(item,index) in assetAttributeType"
-                  />
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -27,12 +22,7 @@
               <el-form-item label="间隔类型" prop="type">
                 <el-select v-model="form.type">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in powerRoomType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -40,12 +30,7 @@
               <el-form-item label="关联设备" prop="assetsid">
                 <el-select v-model="form.assetsid">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in connectType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in connectType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -54,12 +39,7 @@
               <el-form-item label="所属单位" prop="tenantid">
                 <el-select v-model="form.tenantid">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in companyType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -67,12 +47,7 @@
               <el-form-item label="电压等级" prop="voltlevel">
                 <el-select v-model="form.voltlevel">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in voltageLevelType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -81,12 +56,7 @@
               <el-form-item label="运行状态" prop="isenable">
                 <el-select v-model="form.isenable">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in runningStateType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -94,12 +64,7 @@
               <el-form-item label="是否总进线" prop="ismainline">
                 <el-select v-model="form.ismainline">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in rwType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in rwType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -119,12 +84,7 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="handleSubmit"
-            :loading="loading"
-          >确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -187,17 +147,16 @@ export default {
       this.form = Object.assign(
         {
           id: "",
+          tenantid: "",
+          assetsid: "",
           name: "",
           type: "",
-          tenantid: "",
           isenable: "",
           starttime: "",
           property: "",
           voltlevel: "",
-          assetsid: "",
-          assetstype: "",
-          sortindex: 1,
           ismainline: "",
+          sortindex: 1,
           parentid: ""
         },
         data

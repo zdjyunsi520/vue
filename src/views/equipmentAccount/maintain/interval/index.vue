@@ -1,5 +1,5 @@
 <template>
-  <div v-show="visible" class="app-container smInfoform-wrap" >
+  <div v-show="visible" class="app-container smInfoform-wrap">
     <div class="search-box" v-if="showBtn">
       <el-form :inline="true">
         <el-form-item>
@@ -9,93 +9,93 @@
       </el-form>
     </div>
     <el-row class="containerbox">
-    <el-scrollbar>
-      <el-row class="smInfoform-box">
-        <div class="form-smtitle marginBottom30">基本属性</div>
-        <el-form label-position="top" :model="infoData">
-        <el-row :gutter="30" >
-          <el-col :xs="{span: 24}" :span="12" class="border-right">
-            <el-col :span="24">
-              <el-form-item label="名称">
-                <el-input v-model="infoData.Name" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="电压等级">
-                <el-input v-model="infoData.VoltLevelName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="投运日期">
-                <el-input v-model="infoData.StartTime" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="间隔类型">
-                <el-input v-model="infoData.TypeName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="关联设备">
-                <el-input v-model="infoData.AssetsType" disabled></el-input>
-              </el-form-item>
-            </el-col>
-          </el-col>
-          <el-col :xs="{span: 24}" :span="12" >
-            <el-col :span="24">
-              <el-form-item label="所属单位">
-                <el-input v-model="infoData.TenantName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="运行状态">
-                <el-input v-model="infoData.IsEnable" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="资产属性">
-                <el-input v-model="infoData.PropertyName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="是否总进线">
-                <el-input v-model="infoData.IsMainLine" disabled></el-input>
-              </el-form-item>
-            </el-col>
-          </el-col>
+      <el-scrollbar>
+        <el-row class="smInfoform-box">
+          <div class="form-smtitle marginBottom30">基本属性</div>
+          <el-form label-position="top" :model="infoData">
+            <el-row :gutter="30">
+              <el-col :xs="{span: 24}" :span="12" class="border-right">
+                <el-col :span="24">
+                  <el-form-item label="名称">
+                    <el-input v-model="infoData.Name" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="电压等级">
+                    <el-input v-model="infoData.VoltLevelName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="投运日期">
+                    <el-input v-model="infoData.StartTime" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="间隔类型">
+                    <el-input v-model="infoData.TypeName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="关联设备">
+                    <el-input v-model="infoData.AssetsType" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-col>
+              <el-col :xs="{span: 24}" :span="12">
+                <el-col :span="24">
+                  <el-form-item label="所属单位">
+                    <el-input v-model="infoData.TenantName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="运行状态">
+                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="资产属性">
+                    <el-input v-model="infoData.PropertyName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="是否总进线">
+                    <el-input v-model="infoData.IsMainLine" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-col>
+            </el-row>
+          </el-form>
         </el-row>
-        </el-form>
-      </el-row>
-      <el-row class="smInfoform-box">
-        <div class="form-smtitle marginBottom30">附属信息</div>
-        <el-form label-position="top" :model="infoData">
-        <el-row :gutter="30" >
-          <el-col :xs="{span: 24}" :span="12"  class="border-right">
-            <el-col :span="24">
-              <el-form-item label="创建人">
-                <el-input v-model="infoData.CreateUserName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="最后维护人">
-                <el-input v-model="infoData.UpdateUserName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-          </el-col>
-          <el-col :xs="{span: 24}" :span="12" >
-            <el-col :span="24">
-              <el-form-item label="创建时间">
-                <el-input v-model="infoData.CreateTime" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="最后维护时间">
-                <el-input v-model="infoData.UpdateTime" disabled></el-input>
-              </el-form-item>
-            </el-col>
-          </el-col>
-          </el-row>
-        </el-form>
+        <el-row class="smInfoform-box">
+          <div class="form-smtitle marginBottom30">附属信息</div>
+          <el-form label-position="top" :model="infoData">
+            <el-row :gutter="30">
+              <el-col :xs="{span: 24}" :span="12" class="border-right">
+                <el-col :span="24">
+                  <el-form-item label="创建人">
+                    <el-input v-model="infoData.CreateUserName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="最后维护人">
+                    <el-input v-model="infoData.UpdateUserName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-col>
+              <el-col :xs="{span: 24}" :span="12">
+                <el-col :span="24">
+                  <el-form-item label="创建时间">
+                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="最后维护时间">
+                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-col>
+            </el-row>
+          </el-form>
         </el-row>
       </el-scrollbar>
     </el-row>
@@ -137,7 +137,6 @@ export default {
       const property = this.infoData.Property;
       const voltlevel = this.infoData.VoltLevel;
       const assetsid = this.infoData.AssetsId;
-      const assetstype = this.infoData.AssetsType;
       const sortindex = this.infoData.SortIndex;
       const ismainline = this.infoData.IsMainLine;
       const parentid = "";
@@ -151,7 +150,6 @@ export default {
         property,
         voltlevel,
         assetsid,
-        assetstype,
         sortindex,
         ismainline,
         parentid
@@ -168,9 +166,18 @@ export default {
         this.infoData = r.data;
         this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
         this.infoData.IsMainLine = r.data.IsMainLine ? "是" : "否";
-        this.infoData.StartTime = this.parseTime( r.data.StartTime, "{y}-{m}-{d}" );
-        this.infoData.CreateTime = this.parseTime( r.data.CreateTime, "{y}-{m}-{d}" );
-        this.infoData.UpdateTime = this.parseTime( r.data.UpdateTime, "{y}-{m}-{d}" );
+        this.infoData.StartTime = this.parseTime(
+          r.data.StartTime,
+          "{y}-{m}-{d}"
+        );
+        this.infoData.CreateTime = this.parseTime(
+          r.data.CreateTime,
+          "{y}-{m}-{d}"
+        );
+        this.infoData.UpdateTime = this.parseTime(
+          r.data.UpdateTime,
+          "{y}-{m}-{d}"
+        );
       });
     }
   }

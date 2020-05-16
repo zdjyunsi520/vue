@@ -182,6 +182,7 @@ export default {
       const sortindex = this.infoData.SortIndex;
       const parentId = this.infoData.ParentId;
       const attribute = this.infoData.Attribute;
+      const exfactorydate = this.infoData.ExFactoryDate;
       const data = {
         id,
         tenantId,
@@ -195,7 +196,8 @@ export default {
         sortindex,
         status,
         parentId,
-        attribute
+        attribute,
+        exfactorydate
       };
       const title = "修改";
       this.$router.push({
