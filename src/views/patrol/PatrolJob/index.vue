@@ -33,7 +33,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
         <el-table-column label="巡视性质" width="150"  align='center'  sortable prop="PtrolNature">
