@@ -110,7 +110,7 @@ export const constantRoutes = [{
     {
         path: "defect",
         component: Layout,
-        hidden: true,
+        hidden: false,
         meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
         children: [{
                 path: "/orderList",
@@ -140,7 +140,7 @@ export const constantRoutes = [{
     {
         path: "patrol",
         component: Layout,
-        hidden: true,
+        hidden: false,
         meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
         children: [{
                 path: "/PatrolCycle",

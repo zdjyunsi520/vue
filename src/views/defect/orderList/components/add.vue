@@ -1,8 +1,15 @@
-<template>
-  <el-dialog width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center top="5vh">
-
+<template> <div class="app-container">
+  <div class="search-box onlyform-box">
+      <p class="form-smtitle">{{title}} </p>
+    
+      <el-scrollbar>
     <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+     <el-form
+      :model="form"
+      ref="form" label-position="left"
+      :rules="rules"
+      label-width="110px"
+    style="width:600px">
       <el-row>
         <el-col :span="12" :xs='24'>
           <el-form-item label="用电单位" prop="tenantId">
@@ -10,8 +17,8 @@
               <el-option
                 v-for="(item,index) in TenantIds"
                 :key="index"
-                :label="item.text"
-                :value="item.id"
+                :label="item.Name"
+                :value="item.Id"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -110,16 +117,19 @@
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
+      </el-scrollbar>
+      <el-col :span="24" :xs='24' class="absolute-bottom">
+        <div class="form-footer">
+          <el-button type="primary"  icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
-  </el-dialog>
+      </el-col>
+  </div>
+  </div>
 </template>
 
 <script>
-import { getAssets,createAssetsBugs} from "@/api/biz";
+import { getAssets,add,getInfo,update} from "@/api/biz";
 
 export default {
   data() {
@@ -217,7 +227,19 @@ export default {
       imageUrl:''
     };
   },
-  created() {},
+  created() {
+    
+    let { data , title ,TenantIds,ranks} = this.$route.params;
+    this.title = title;
+    this.TenantIds = TenantIds;
+    this.ranks = ranks;
+    if (data && data.Id) {
+      this.getInfo(data);
+    } else {
+      this.reset(data);
+    }
+
+  },
   methods: {
     // 获取设备列表
     // getAssets(){
@@ -235,7 +257,7 @@ export default {
           tenantId:'',
           assetsIds:'',
           rank:'',
-          detecterId:'33B25FEA-237B-417B-92B7-5525773CA0F2',
+          detecterId:'',
           detecttime:'',
           processorId:'',
           processdue:'',
@@ -243,12 +265,32 @@ export default {
           attachmentkey:'',
           attachmenturl:'',
           number:'',
-          unit:'福建迅腾电力能源管理有限公司',
-          reporterId:'33B25FEA-237B-417B-92B7-5525773CA0F2',
-          reporttime:'2020-04-27'
+          unit:'',
+          reporterId:'',
+          reporttime:''
         },
         data
       );
+    },
+    getInfo(data) {
+      this.loading = true;
+      if (data) {
+        const id = {id:data.Id};
+        if (id) {
+          getInfo(id).then(res => {
+              this.reset(data);
+              this.form = res.data;
+              // this.form.StartTime = new Date(res.data.StartTime).getTime();
+            })
+            .finally(v => (this.loading = false));
+        }
+      } else {
+        this.loading = false;
+        this.reset(data);
+        this.$nextTick(()=>{
+            this.$refs.form.clearValidate();
+        })
+      }
     },
     handleOpen(data) {
       //改变窗口状态
@@ -270,8 +312,10 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          //添加
-          createAssetsBugs(this.form)
+           let fn;
+          if (this.form.id) fn = update;
+          else fn = add;
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);

@@ -186,39 +186,6 @@ export default {
             });
 
 
-
-          // this.loading = true;
-          //   //添加用户
-          //   const form = {
-          //       "tenantid":this.form.TenantId,
-          //       "cycleday":this.form.CycleDay,
-          //       "starttime":this.form.StartTime,
-          //       "PatrolUserId":"0ddcc0dd-ea50-4d8d-a64e-e3c7205f1217",
-          //       "patrolmemberids":"1E078858-862E-44C9-B138-46191953D5E4,56C1F009-3483-4993-A86E-7354F96E2382",
-          //       "patrolscope":this.form.PatrolScope
-          //   };
-          // if (this.form.Id != undefined) {
-          //   //保存修改
-          //   form.id = this.form.Id;
-          //   modifyPatrolCycle(form).then(response => {
-          //       this.msgSuccess(response.msg);
-          //       this.$emit("getList");
-          //       this.handleOpen();
-          //     })
-          //     .catch(r => {
-          //       //取消按钮转圈圈
-          //       this.loading = false;
-          //     });
-          // } else {
-          //   createPatrolCycle(form).then(response => {
-          //       this.msgSuccess(response.msg);
-          //       this.$emit("getList");
-          //       this.handleOpen();
-          //     })
-          //     .catch(r => {
-          //       this.loading = false;
-          //     });
-          // }
         }
       });
     }

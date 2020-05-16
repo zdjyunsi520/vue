@@ -22,7 +22,7 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
      
-      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border  style='margin-top:20px'>
+      <el-table v-loading="listLoading"  :height="dataList?tableHeight:'0'" border  :data="tableData" element-loading-text="Loading"  style='margin-top:20px'>
         <el-table-column label="巡视单位" sortable min-width="250" align="center" prop="TenantName" />
         <el-table-column label="巡视内容"  min-width="250" align="center" prop="PatrolScope" />
         <el-table-column label="巡视人员" sortable min-width="150" align="center" prop="PatrolUserName" />
@@ -98,6 +98,9 @@ export default {
     window.onresize = null;
   },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
+    },
     // 巡视单位列表
     getTenants(){
       getChildrenList().then(response => {
@@ -105,9 +108,6 @@ export default {
       }).catch(error => {
         console.log(error); 
       });
-    },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
     },
     /** 查询用户列表 */
     getList() {
@@ -175,22 +175,6 @@ export default {
       });
     },
 
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
-    }
   }
 };
 </script>

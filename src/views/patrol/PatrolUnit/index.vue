@@ -33,12 +33,12 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download"  @click="handleExport">导出</el-button>
+          <el-button icon="el-icon-download"  :loading="downloadLoading"  @click="handleExport">导出</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border style='margin-top:20px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border style='margin-top:20px'>
         <el-table-column label="巡视人员" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]"  align='center' :label="item"></el-table-column>
       </el-table>
@@ -73,6 +73,7 @@ components: {
         ptrolnature:'',
         isexecute:'',
       },
+      downloadLoading:false,
       dataList:null,
       total: 0,
       rules: {},
@@ -207,17 +208,37 @@ components: {
     handleRowInfo(row){
       this.getList(this.activeName,row);
     },
+     // 导出
     handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(function() {
-
-      })
-        .catch(function() {});
+      this.$confirm("是否确认导出表格吗?", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+         this.download();
+      });
     },
+    download() {
+      this.downloadLoading = true;
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = this.columns.slice(0);
+        const list = this.dataList;
+        const data = this.formatJson(this.columns, list);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.chartData.title,
+          autoWidth: true,
+          bookType:'xlsx'
+        })
+        this.downloadLoading = false
+      })
+    }, 
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+          return v[j]
+      }))
+    }
  
   }
 }
