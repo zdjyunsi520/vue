@@ -514,6 +514,29 @@ export const constantRoutes = [{
                 }
             },
             {
+                name: "/patrol/PatrolCycle/components/add",
+                path: "/patrol/PatrolCycle/components/add",
+                component: () =>
+                    import ("@/views/patrol/PatrolCycle/components/add"),
+                meta: {
+                    title: "新增巡视周期",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            },
+            {
+                name: "/patrol/PatrolJob/components/add",
+                path: "/patrol/PatrolJob/components/add",
+                component: () =>
+                    import ("@/views/patrol/PatrolJob/components/add"),
+                meta: {
+                    title: "新增巡视任务单",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
+            }, {
                 name: "123213",
                 path: "/123123",
                 component: () =>

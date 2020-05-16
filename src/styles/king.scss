@@ -134,9 +134,9 @@
  .search-box {
      background: #fff;
      padding: 20px 20px 10px;
-     margin-bottom: 15px;
-     box-shadow: 0px 2px 4px #f5f5f5;
-     border-radius: 4px;
+     //  box-shadow: 0px 2px 4px #f5f5f5;
+     border-bottom: 1px solid #ebeef5;
+     border-radius: 4px 4px 0 0;
      .el-form {
          .el-form-item {
              margin-bottom: 10px;
@@ -539,4 +539,34 @@
              }
          }
      }
+ }
+ 
+ .dot {
+     width: 5px;
+     height: 5px;
+     border-radius: 100%;
+     margin-right: 10px;
+     vertical-align: middle;
+     display: inline-block;
+     &.red {
+         background-color: #67c23a;
+     }
+     &.green {
+         background-color: #f56c6c;
+     }
+ }
+ 
+ .marginbottom15 {
+     margin-bottom: 15px;
+ }
+ 
+ .el-tabs__item {
+     font-size: 16px;
+     height: auto;
+     line-height: normal;
+     padding: 10px 20px 15px;
+ }
+ 
+ .el-tabs__nav-wrap::after {
+     background-color: #f6f7fa;
  }

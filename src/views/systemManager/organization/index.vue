@@ -20,7 +20,7 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <!-- <el-button type="success" icon="el-icon-edit"  :disabled="single" @click="handleUpdate"">修改</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit-outline"  :disabled="single" @click="handleUpdate"">修改</el-button>
                         <el-button type="warning" icon="el-icon-download"  @click="handleExport"">导出</el-button> -->
         </el-form-item>
       </el-form>

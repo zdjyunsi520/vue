@@ -1,168 +1,198 @@
 <template>
-  <div  class="app-container">
-    <el-form :inline="true"  size="mini">
-      <el-form-item label="巡视单位">
-        <el-select v-model="searchForm.tenantId" placeholder="请选择" style="width:200px" >
-          <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.text" :value="item.id"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="巡视人员">
-        <el-input v-model="searchForm.patrolusername"  style="width:150px" ></el-input>
-      </el-form-item>
-      <el-form-item label="巡视周期">
-        <el-input v-model="searchForm.cycleday"  style="width:80px"></el-input>&nbsp;天
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="getTableList">查询</el-button>
-        <el-button type="primary" @click="toReSet">重置</el-button>
-        <el-button type="primary" @click="toAdd">新增</el-button>
-      </el-form-item>
-    </el-form>
-    <div class="tb-contain">
-      <el-table v-loading="listLoading" :data="tableData" element-loading-text="Loading" border fit highlight-current-row >
-        <el-table-column label="巡视单位" min-width="250"  sortable align='center'  prop="TenantName"></el-table-column>
-        <el-table-column label="巡视内容" min-width="250" align='center' prop="PatrolScope"></el-table-column>
-        <el-table-column label="巡视人员"  min-width="150" sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="巡视成员" width="250" align='center' prop="PatrolMemberNames"></el-table-column>
-        <el-table-column label="巡视周期" width="120" sortable align='center' prop="CycleDay">
-          <template slot-scope="scope">
-            {{scope.row.CycleDay}}天
-          </template>
-        </el-table-column>
-        <el-table-column label="开始时间" width="200"  sortable align='center' prop="StartTime">
+  <div class="app-container">
+    <div class="search-box">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" >
+        <el-form-item label="巡视单位" prop="tenantId">
+            <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位"  >
+              <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="巡视人员" prop="patrolusername">
+          <el-input v-model="queryParams.patrolusername" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="巡视周期" prop="cycleday">
+          <el-input v-model="queryParams.cycleday" clearable style="width:80px"></el-input>&nbsp;天
+        </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="bg-white containerbox" ref="containerbox">
+     
+      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border  style='margin-top:20px'>
+        <el-table-column label="巡视单位" sortable min-width="250" align="center" prop="TenantName" />
+        <el-table-column label="巡视内容"  min-width="250" align="center" prop="PatrolScope" />
+        <el-table-column label="巡视人员" sortable min-width="150" align="center" prop="PatrolUserName" />
+        <el-table-column label="巡视成员" sortable min-width="150" align="center" prop="PatrolMemberNames" />
+        <el-table-column label="巡视周期" sortable min-width="100" align="center" prop="CycleDay"></el-table-column>
+        <el-table-column label="开始时间" sortable min-width="120" align="center" prop="StartTime" >
           <template slot-scope="scope">
             {{scope.row.StartTime.substring(0,10)}}
           </template>
         </el-table-column>
-        </el-table-column>
-        <el-table-column label="操作" width="220" align="center">
+        <el-table-column label="操作" min-width="200" fixed="right" align="center">
           <template slot-scope="scope">
-            <div> 
-                <el-button type="primary" plain size="mini" @click="toEdit(scope.row)" >编辑</el-button>
-                <el-button type="success" plain size="mini" @click="toDelete(scope.row)">删除</el-button>
-            </div>
+            <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button type="text"  icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total" > </el-pagination>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
-    <p style="color:red">注： 1、巡视人员接口，巡视单位接口 未知<br/>2、新增/修改保存，返回 ‘用电单位信息错误’</p>
-    
-    <!-- 新增 编辑 -->
-    <addEndEdit ref="addEndEdit"  @getList="getTableList"></addEndEdit>
-
   </div>
 </template>
 
 <script>
-import { getPatrolCycle,deletePatrolCycle} from "@/api/patrol";
-import { getGetHierarchicalDtos} from "@/api/org";
-import addEndEdit from "./components/addEndEdit";
+import { fetchList,deleted} from "@/api/patrol";
+import { getChildrenList} from "@/api/org";
+
 export default {
-components: {
-    addEndEdit,
-  },
+  name: "",
   data() {
     return {
-      searchForm:{
-        patrolusername:"",
-        cycleday:"",
-        tenantId:"",
-      },
-      TenantIds:[],
-      nowDoc:{},
-      tableData: [],
-      listLoading:true,
-      currentPage: 1,
-      pageSize:10,
+      deptType: null,
+      // 遮罩层
+      listLoading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 总条数
       total: 0,
-    }
-  },
+      // 用户表格数据
+      dataList: null,
+      rules: {},
+      tableHeight: "0",
+      TenantIds:[],
 
+      // 查询参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+        tenantId: "",
+        patrolusername: "",
+        cycleday: ""
+      }
+    };
+  },
+  computed: {
+   
+  },
   created() {
-    this.getTableList();
+    this.getList();
     this.getTenants();
+    
+  },
+  mounted() {
+    let _this = this;
+    window.onresize = function() {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
   },
   methods: {
-    toAdd(){
-        const target = this.$refs.addEndEdit;
-        target.handleOpen();
-        target.title = "新增巡视信息";
-    },
-    toEdit(row){
-        const target = this.$refs.addEndEdit;
-        target.handleOpen(row);
-        target.title = "修改巡视信息";
-    },
-    toDelete(row){
-        this.$confirm('确认删除?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          const data={
-            'id':row.Id,
-          };
-          deletePatrolCycle(data).then(response => {
-            this.getTableList();
-            this.$message({
-              type: 'success',
-              message: '成功删除!'
-            });
-          }).finally(v =>{
-            this.listLoading=false;
-          });
-
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-    },
-    getTableList(){
-        const data={
-            'pageno':this.currentPage,
-            'pagesize':this.pageSize,
-            'patrolusername':this.searchForm.patrolusername,
-            'tenantid':this.searchForm.tenantId,
-            'cycleday':this.searchForm.cycleday,
-        };
-        getPatrolCycle(data).then(response => {
-          this.tableData = response.data;
-          this.total = response.total;
-        }).finally(v =>{
-          this.listLoading=false;
-        });
-    },
     // 巡视单位列表
     getTenants(){
-      getGetHierarchicalDtos().then(response => {
+      getChildrenList().then(response => {
          this.TenantIds=response.data;
-         this.$refs.addEndEdit.TenantIds = response.data;
       }).catch(error => {
         console.log(error); 
       });
     },
-    
-    toReSet(){
-      this.searchForm.patrolusername='';
-      this.searchForm.cycleday='',
-      this.searchForm.tenantId='',
-      this.getTableList();
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
     },
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.currentPage = 1;
-      this.getTableList();
+    /** 查询用户列表 */
+    getList() {
+      this.listLoading = true;
+      fetchList(this.queryParams)
+        .then(response => {
+          this.dataList = response.data;
+          this.total = response.total;
+        })
+        .finally(r => {
+          this.listLoading = false;
+          this.setTableHeight();
+        });
     },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getTableList();
-    },
-  }
-}
-</script>
 
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.page = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection;
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      const title = "新增巡视周期";
+      const TenantIds= this.TenantIds;
+      this.$router.push({
+        name: "/patrol/PatrolCycle/components/add",
+        params: { data: {}, title, TenantIds }
+      });
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      const title = "修改巡视周期";
+      const data = row;
+      const TenantIds= this.TenantIds;
+      this.$router.push({
+        name: "/patrol/PatrolCycle/components/add",
+        params: { data, title, TenantIds }
+      });
+    },
+  
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      console.log(row)
+      this.$confirm("是否确认删除?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(v => {
+        const id = row.Id;
+        deleted({ id }).then(r => {
+          this.$message.success('成功删除!');
+          this.getList();
+        });
+      });
+    },
+
+    /** 导出按钮操作 */
+    handleExport() {
+      const queryParams = this.queryParams;
+      this.$confirm("是否确认导出所有用户数据项?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(function() {
+          return exportUser(queryParams);
+        })
+        .then(response => {
+          this.download(response.msg);
+        })
+        .catch(function() {});
+    }
+  }
+};
+</script>
 <style lang="scss">
 </style>

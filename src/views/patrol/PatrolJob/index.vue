@@ -1,37 +1,39 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true"  size="mini" >
-      <el-form-item label="巡视单位">
-        <el-select v-model="searchForm.tenantId" placeholder="请选择" style="max-width:200px" >
-          <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.text" :value="item.id"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="巡视人员">
-        <el-input v-model="searchForm.patrolusername"  style="max-width:240px" ></el-input>
-      </el-form-item>
-      <el-form-item label="巡视日期">
-            <el-date-picker v-model="searchForm.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+    <div class="search-box">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" >
+        <el-form-item label="巡视单位" prop="tenantId">
+            <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位"  >
+              <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="巡视人员" prop="patrolusername">
+          <el-input v-model="queryParams.patrolusername" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="巡视日期">
+            <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
             至
-            <el-date-picker v-model="searchForm.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
-      </el-form-item>
-      <el-form-item label="巡视性质">
-        <el-select v-model="searchForm.ptrolnature" placeholder="请选择" style="max-width:200px" >
-          <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.id"></el-option>
+            <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+        </el-form-item>
+        <el-form-item label="巡视性质" prop="ptrolnature">
+          <el-select v-model="queryParams.ptrolnature" placeholder="请选择" >
+            <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.id"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="searchForm.isexecute" placeholder="请选择" style="max-width:200px" >
-          <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
+        </el-form-item>
+        <el-form-item label="状态" prop="isexecute">
+          <el-select v-model="queryParams.isexecute" placeholder="请选择" >
+            <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="getTableList">查询</el-button>
-        <el-button type="primary" @click="toReSet">重置</el-button>
-        <el-button type="primary" @click="toAdd">新增临时任务单</el-button>
-      </el-form-item>
-    </el-form>
-    <div class="tb-contain">
-      <el-table v-loading="listLoading" :data="tableData" element-loading-text="Loading" border fit highlight-current-row >
+        </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="bg-white containerbox" ref="containerbox">
+      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
         <el-table-column label="巡视性质" width="150"  align='center'  sortable prop="PtrolNature">
@@ -49,180 +51,198 @@
         <el-table-column label="编制人"  min-width="140" sortable align='center' prop="CreateUserName"></el-table-column>
         <el-table-column label="状态"  width="140" sortable align='center' prop="IsExecute">
           <template slot-scope="scope">
-            <span>{{ scope.row.IsExecute?"已执行":"未执行"}}</span>
+            <span v-if="scope.row.IsExecute"><i class="red dot"></i>已执行</span>
+            <span v-else><i class="green dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column  label="操作" width="220" align="center">
+        <el-table-column label="操作" min-width="200" fixed="right" align="center">
           <template slot-scope="scope">
-            <div v-if="scope.row.IsExecute"> 
-                <el-button type="primary" plain size="mini"  @click="toShowReport(scope.row)" >查看报告</el-button>
-                <el-button type="primary" plain size="mini" @click="toBack(scope.row)" >回退</el-button>
+             <div v-if="scope.row.IsExecute"> 
+                <el-button type="text" icon="el-icon-document-remove"   @click="handleReport(scope.row)" >查看报告</el-button>
+                <el-button type="text" icon="el-icon-s-promotion"   @click="handleBack(scope.row)" >回退</el-button>
             </div>
-            <div v-else> 
-                <el-button type="primary" plain size="mini" @click="toEdit(scope.row)" >编辑</el-button>
-                <el-button type="success" plain size="mini"  @click="toDelete(scope.row)">删除</el-button>
+            <div v-else>
+                <el-button type="text" icon="el-icon-edit-outline"  @click="handleUpdate(scope.row)" >编辑</el-button>
+                <el-button type="text"  icon="el-icon-delete"  @click="handleDelete(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total" > </el-pagination>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
-    
-    <!-- 新增 编辑 -->
-    <addEndEdit ref="addEndEdit"  @getList="getTableList"></addEndEdit>
-
-    <p style="color:red">注：<br/>
-     1、条件查询：状态选择无效（接口参数缺失）<br/>
-     2、提交修改时间，返回列表结果没变<br/>
-     3、编制人？字段<br/>
-     4、回退和查询报告的接口<br/>
-    </p>
   </div>
 </template>
 
 <script>
-import { getPatrolJob,deletePatrolJob} from "@/api/patrol";
-import { getGetHierarchicalDtos} from "@/api/org";
-import addEndEdit from "./components/addEndEdit";
-import { mapGetters } from 'vuex'
+import { fetchListJob,deletedJob} from "@/api/patrol";
+import { getChildrenList} from "@/api/org";
 
-export default {
-components: {
-    addEndEdit,
-  },
-  data() {
-    return {
-      searchForm:{
-        tenantId:"",
-        patroltimebegin:"",
-        patroltimeend:"",
-        ptrolnature:"",
-        patrolusername:"",
-        isexecute:"",
-      },
-      TenantIds:[],
-      nowDoc:{},
-      tableData: [],
-      listLoading:true,
-      currentPage: 1,
-      pageSize:10,
-      total: 0,
-      dialogVisible:false,
-      ptrolnatures:[
+const ptrolnatures = [
           {name:'全部',id:''},
           {name:'定期巡视',id:'1'},
           {name:'临时巡视',id:'2'}
-      ],
-      isexecutes:[
+      ];
+const isexecutes = [
           {name:'全部',id:''},
           {name:'已执行',id:'1'},
           {name:'未执行',id:'0'}
-      ],
+      ];
+export default {
+  name: "",
+  data() {
+    return {
+      deptType: null,
+      // 遮罩层
+      listLoading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 总条数
+      total: 0,
+      // 用户表格数据
+      dataList: null,
+      rules: {},
+      tableHeight: "0",
+      TenantIds:[],
+
+      ptrolnatures,
+      isexecutes,
+      // 查询参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+        tenantId: "",
+        patrolusername:'',
+        patroltimeend:'',
+        patroltimebegin:'',
+        ptrolnature:'',
+        isexecute:'',
+      }
     }
   },
   computed: {
-    ...mapGetters([
-      'name'
-    ]),
+   
   },
   created() {
-    this.getTableList();
+    this.getList();
     this.getTenants();
+    
+  },
+  mounted() {
+    let _this = this;
+    window.onresize = function() {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
   },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
+    },
     // 巡视单位列表
     getTenants(){
-      getGetHierarchicalDtos().then(response => {
+      getChildrenList().then(response => {
          this.TenantIds=response.data;
-         this.$refs.addEndEdit.TenantIds = response.data;
       }).catch(error => {
         console.log(error); 
       });
     },
-
-    toAdd(){
-        const target = this.$refs.addEndEdit;
-        target.handleOpen();
-        target.title = "新增临时任务单";
-    },
-    toEdit(row){
-        const target = this.$refs.addEndEdit;
-        target.handleOpen(row);
-        target.title = "修改任务单";
-    },
-    toShowReport(row){
-      window.open('https://www.baidu.com/','_blank')
-    },
-    toBack(){
-        this.isEdit=true;
-        this.dialogVisible=true;
-
-    },
-    toDelete(row){
-        this.$confirm('确认删除?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          const data={'id':row.Id};
-          deletePatrolJob(data).then(response => {
-            this.getTableList();
-            this.$message({
-              type: 'success',
-              message: '成功删除!'
-            });
-          }).finally(v =>{
-            this.listLoading=false;
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-    },
-
-    getTableList(){
-        const data={
-            'pageno':this.currentPage,
-            'pagesize':this.pageSize,
-            'tenantid':this.searchForm.tenantId,
-            "patroltimebegin":this.searchForm.patroltimebegin,
-            "patroltimeend":this.searchForm.patroltimeend,
-            "ptrolnature":this.searchForm.ptrolnature,
-            'patrolusername':this.searchForm.patrolusername,
-            'isexecute':this.searchForm.isexecute,
-        };
-        getPatrolJob(data).then(response => {
-          console.log(response)
-          this.listLoading=false;
-          this.tableData = response.data;
+    /** 查询用户列表 */
+    getList() {
+      this.listLoading = true;
+      fetchListJob(this.queryParams)
+        .then(response => {
+          this.dataList = response.data;
           this.total = response.total;
-        }).catch(error => {
-          console.log(error); 
+        })
+        .finally(r => {
+          this.listLoading = false;
+          this.setTableHeight();
         });
     },
-    toReSet(){
-      this.searchForm.ptrolnature='';
-      this.searchForm.patrolusername='',
-      this.searchForm.patroltimeend='';
-      this.searchForm.patroltimebegin='',
-      this.searchForm.tenantId='',
-      this.searchForm.isexecute='',
-      this.getTableList();
-    },
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.currentPage = 1;
-      this.getTableList();
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getTableList();
-    },
-  }
-}
-</script>
 
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.page = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection;
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      const title = "新增巡视任务单";
+      const TenantIds= this.TenantIds;
+      this.$router.push({
+        name: "/patrol/PatrolJob/components/add",
+        params: { data: {}, title, TenantIds }
+      });
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      const title = "修改巡视任务单";
+      const data = row;
+      const TenantIds= this.TenantIds;
+      this.$router.push({
+        name: "/patrol/PatrolJob/components/add",
+        params: { data, title, TenantIds }
+      });
+    },
+    // 回退
+    handleBack(row){
+
+    },
+    // 查看报告
+    handleReport(row){
+      
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      console.log(row)
+      this.$confirm("是否确认删除?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(v => {
+        const id = row.Id;
+        deletedJob({ id }).then(r => {
+          this.$message.success('成功删除!');
+          this.getList();
+        });
+      });
+    },
+
+    /** 导出按钮操作 */
+    handleExport() {
+      const queryParams = this.queryParams;
+      this.$confirm("是否确认导出所有用户数据项?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(function() {
+          return exportUser(queryParams);
+        })
+        .then(response => {
+          this.download(response.msg);
+        })
+        .catch(function() {});
+    }
+  }
+};
+</script>
 <style lang="scss">
 </style>

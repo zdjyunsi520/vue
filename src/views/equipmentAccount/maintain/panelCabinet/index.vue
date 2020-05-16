@@ -15,7 +15,7 @@
               <el-dropdown-item command="/equipmentAccount/maintain/interval/components/update">间隔</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
         </el-form-item>
       </el-form>

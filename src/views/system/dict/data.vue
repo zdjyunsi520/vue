@@ -49,7 +49,7 @@
       <el-col :span="1.5">
         <el-button
           type="success"
-          icon="el-icon-edit"
+          icon="el-icon-edit-outline"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
@@ -95,7 +95,7 @@
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-edit"
+            icon="el-icon-edit-outline"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:dict:edit']"
           >修改</el-button>

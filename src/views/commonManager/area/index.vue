@@ -14,7 +14,7 @@
               <el-dropdown-item command="c">区域/县</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit-outline" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>

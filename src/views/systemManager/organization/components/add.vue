@@ -123,7 +123,7 @@
                 <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
                   <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                   <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
-                  <bm-marker v-for="item in points" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
+                  <bm-marker v-for="(item,index) in points" :key="index" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker> 
                   <bm-city-list anchor="BMAP_ANCHOR_TOP_LEFT"></bm-city-list>
                   <bm-local-search :keyword="remark123" :auto-viewport="true" :location="location" @searchcomplete='markersset'></bm-local-search>
                 </baidu-map>
