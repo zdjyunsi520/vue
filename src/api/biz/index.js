@@ -22,3 +22,21 @@ export function getInfo(data) {
 export function deleted(data) {
     return post("/AssetsBug/Remove", data, commonUrl);
 }
+
+// 上传附件
+export function imageUpload(data) {
+    return post("/File/Url", data, 'common');
+}
+
+// 统计-年
+export function bugReportByYear(data) {
+    return post("/AssetsBugReport/ReportByYear", data, 'Report');
+}
+// 统计-缺陷等级
+export function bugReportByRank(data) {
+    return post("/AssetsBugReport/ReportByRank", data, 'Report');
+}
+//统计-消缺率
+export function bugReportByRate(data) {
+    return post("/AssetsBugReport/ReportByRate", data, 'Report');
+}

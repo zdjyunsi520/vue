@@ -536,6 +536,18 @@ export const constantRoutes = [{
                     noCache: true,
                     breadcrumb: true
                 }
+            },
+            {
+                name: "/defect/orderList/components/add",
+                path: "/defect/orderList/components/add",
+                component: () =>
+                    import ("@/views/defect/orderList/components/add"),
+                meta: {
+                    title: "新增缺陷工单",
+                    icon: "dashboard",
+                    noCache: true,
+                    breadcrumb: true
+                }
             }, {
                 name: "123213",
                 path: "/123123",
