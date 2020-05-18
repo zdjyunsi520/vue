@@ -38,7 +38,7 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" v-if="avatar" class="user-avatar">
+          <img :src="avatar1" v-if="avatar1" class="user-avatar">
           <span>{{name}}</span>
           <i class="el-icon-caret-bottom" style="margin-left: 8px;" />
         </div>
@@ -76,6 +76,11 @@ export default {
     // Search,
     Ku,
     UpdatePwd
+  }, 
+  data() {
+    return {
+      avatar1: require('../../assets/image/photo.jpg')
+    };
   },
   computed: {
     ...mapGetters(['sidebar', 'avatar', 'device', 'name']),
@@ -184,6 +189,9 @@ export default {
           cursor: pointer;
           width: 30px;
           height: 30px;
+          vertical-align: middle;
+          margin-right: 10px;
+          margin-left: 10px;
           border-radius: 100%;
         }
 

@@ -42,8 +42,8 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="巡视成员" prop="PatrolMemberName">
-        <el-select v-model="form.PatrolMemberName" placeholder="请选择巡视成员" multiple style="width:100%">
+      <el-form-item label="巡视成员" prop="PatrolMemberIds">
+        <el-select v-model="form.PatrolMemberIds" placeholder="请选择巡视成员" multiple style="width:100%">
           <el-option
             v-for="(item,index) in patrolusers"
             :key="index"
@@ -134,13 +134,13 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id:undefined,
-          TenantId: "",
-          CycleDay: "",
-          StartTime: "",
-          PatrolUserId: "",
-          PatrolMemberName: "",
-          PatrolScope: ""
+          id:'',
+          tenantid:'',
+          cycleday:'',
+          starttime:'',
+          patroluserid:'',
+          patrolmemberids:'',
+          patrolscope:'',
         },
         data
       );
@@ -153,7 +153,9 @@ export default {
           getInfo(id).then(res => {
               this.reset(data);
               this.form = res.data;
-              this.form.StartTime = new Date(res.data.StartTime).getTime();
+              // this.form.PatrolMemberIds = this.PatrolMemberIds.split(',');
+              // this.form.StartTime = new Date(res.data.StartTime).getTime();
+              console.log(this.form)
             })
             .finally(v => (this.loading = false));
         }
@@ -179,7 +181,7 @@ export default {
            //按钮转圈圈
           this.loading = true;
           let fn;
-          if (this.form.id) fn = update;
+          if (this.form.Id) fn = update;
           else fn = add;
           fn(this.form)
             .then(response => {

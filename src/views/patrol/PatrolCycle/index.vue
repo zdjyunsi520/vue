@@ -151,8 +151,23 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
+      const id = row.Id;
+      const tenantid = row.Name;
+      const cycleday = row.Type;
+      const starttime = row.TenantId;
+      const patroluserid = row.IsEnable;
+      const patrolmemberids = row.StartTime;
+      const patrolscope = row.Property;
+      const data = {
+        id,
+        tenantid,
+        cycleday,
+        starttime,
+        patroluserid,
+        patrolmemberids,
+        patrolscope
+      };
       const title = "修改巡视周期";
-      const data = row;
       const TenantIds= this.TenantIds;
       this.$router.push({
         name: "/patrol/PatrolCycle/components/add",
