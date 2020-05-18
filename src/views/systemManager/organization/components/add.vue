@@ -248,7 +248,7 @@ export default {
       }
     ];
     const rules = {
-      parentId: rule,
+      // parentId: rule,
       name: rule,
       artificialperson: rule,
       creditcode: rule,

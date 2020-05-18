@@ -1,19 +1,29 @@
 <template>
-
   <div class="app-container">
-
-    <el-row :gutter="20" class="comheight">
-      <el-col :span="left" :xs="{span: 24}" class="treebox comheight" :style="'position:relative;width:'+leftwidth">
-        <el-scrollbar>
-          <el-tree :data="treeData" node-key="id" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all='true' :expand-on-click-node="false">
-          </el-tree>
-        </el-scrollbar>
-        <span @click="handleSlider"  class="iconslider" >
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-top:40vh;margin-left:-5px;" />
-          <i :class="!ishidden?'el-icon-arrow-left':'el-icon-arrow-right'" style="font-size:12px;margin-left:-2px;" />
+    <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
+        <div style="background:#fff;height:100%">
+          <el-scrollbar>
+            <el-tree
+              :data="treeData"
+              node-key="id"
+              :props="defaultProps"
+              class="comheight"
+              @node-click="handleNodeClick"
+              :default-expand-all="true"
+              :expand-on-click-node="false"
+            ></el-tree>
+          </el-scrollbar>
+        </div>
+      </el-col>
+      <el-col class="dragresize">
+        <span class="iconslider">
+          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
+          />
         </span>
       </el-col>
-      <el-col :xs="{span: 24}" :span="right" class="comheight">
+      <el-col :xs="{span: 24}" class="comheight dragright">
         <slot />
       </el-col>
     </el-row>
@@ -30,20 +40,13 @@ export default {
         children: "childs",
         label: "text"
       },
-      left: 6,
-      middle: 1,
-      ishidden: false,
-      leftwidth: ""
     };
   },
-
+  mounted() {
+    this.dragControllerDiv();
+  },
   created() {
     this.getTreeData();
-  },
-  computed: {
-    right() {
-      return 24 - this.left;
-    }
   },
   methods: {
     renderContent(h, { node, data, store }) {
@@ -54,11 +57,7 @@ export default {
         </span>
       );
     },
-    handleSlider() {
-      this.left = this.left == 6 ? 1 : 6;
-      this.leftwidth = this.left == 1 ? "40px" : "";
-      this.ishidden = !this.ishidden;
-    },
+   
     // 获取设备关系树状图
     getTreeData() {
       getTrees().then(response => {
@@ -70,12 +69,14 @@ export default {
       const id = obj.id;
       const type = obj.type;
       this.$emit("getInfo", { id, type });
-    }
+    },
+
+    
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../styles/tree.scss';
+@import "../../../styles/tree.scss";
 
 </style>

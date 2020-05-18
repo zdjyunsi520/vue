@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
     },
     /** 查询角色列表 */
     getList() {

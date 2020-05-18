@@ -91,6 +91,8 @@ export default {
 <style scoped>
 .pagination-container {
   background: #fff;
+    border: 1px solid #ebeef5;
+    border-top: none;
 }
 .pagination-container.hidden {
   display: none;

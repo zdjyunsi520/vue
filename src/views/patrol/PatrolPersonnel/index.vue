@@ -13,12 +13,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年度" v-show="activeName=='0'" prop='patrolYear'>
-            <el-date-picker v-model="queryParams.patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
+            <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="巡视日期" v-show="activeName!='0'" prop='patroltimebegin'>
-              <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期"  clearable style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="巡视日期" v-show="activeName!='0'" prop='timeBegin'>
+              <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期"  clearable style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
               至
-              <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" clearable format="yyyy-MM-dd"> </el-date-picker>
+              <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="巡视性质"  v-show="activeName!='1'" prop='ptrolnature'>
           <el-select v-model="queryParams.ptrolnature" clearable placeholder="请选择" >
@@ -45,7 +45,8 @@
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
-        <BarChart ref="chart" :chartData='chartData'/>
+        <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0"/>
+        <p v-else class="tips" style="padding-top:13%">暂无数据</p>
     </div>
     
   </div>
@@ -74,6 +75,9 @@ components: {
         ptrolnature:'',
         isexecute:'',
       },
+      patrolYear:'',
+      timeBegin:'',
+      timeEnd:'',
       dataList:null,
       total: 0,
       rules: {},
@@ -120,20 +124,59 @@ components: {
       this.tableHeight = this.$refs.containerbox.offsetHeight-40;
     },
     handleClick(tab, event) {
-      this.resetQuery();
+      this.resetQuery("queryForm");
+      this.patrolYear='';
+      this.timeBegin='';
+      this.timeEnd='';
+      this.queryParams.patroltimebegin='';
+      this.queryParams.patroltimeend='';
       this.getList(this.activeName);
     },
     
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.page = 1;
+      this.queryParams.patroltimebegin = this.getBeginTime();
+      this.queryParams.patroltimeend = this.getEndTime();
       this.getList(this.activeName);
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.patrolYear='';
+      this.timeBegin='';
+      this.timeEnd='';
+      this.queryParams.patroltimebegin='';
       this.queryParams.patroltimeend='';
       this.handleQuery();
+    },
+    // 获取开始时间
+    getBeginTime(time){
+      let begin='';
+      if(this.activeName==0){
+        if(this.patrolYear!=''){
+          begin = this.patrolYear+'-01-01 00:00:00';
+        }
+      }else{
+        if(this.timeBegin!=''){
+          begin = this.timeBegin+' 00:00:00';
+        }
+      }
+      return begin;
+    },
+    // 获取结束时间
+    getEndTime(){
+      let end='';
+      if(this.activeName==0){
+        if(this.patrolYear!=''){
+          end = this.patrolYear+'-12-31 23:59:59';
+        }
+      }else{
+        if(this.timeEnd!=''){
+          end = this.timeEnd+' 23:59:59';
+        }
+      }
+      return end;
     },
     // 巡视单位列表
     getTenants(){
@@ -147,6 +190,8 @@ components: {
       const data={
         "type":1,
         "tenantId":this.queryParams.tenantId,
+        "patroltimebegin":this.getBeginTime(),
+        "patroltimeend":this.getEndTime(),
       };
       let smtitle='';
       
@@ -155,7 +200,6 @@ components: {
         case '0':
           data.ptrolnature=this.queryParams.ptrolnature;
           data.isexecute=this.queryParams.isexecute;
-          data.patrolYear=this.queryParams.patrolYear;
           fn = userReportByYear;
           this.columns = this.columns1.slice(0);
           this.props = this.prop1.slice(0);
@@ -163,8 +207,6 @@ components: {
           break;
         case '1':
           data.isexecute=this.queryParams.isexecute;
-          data.patroltimebegin=this.queryParams.patroltimebegin;
-          data.patroltimeend=this.queryParams.patroltimeend;
           fn = userReportByNature;
           this.columns = this.columns2.slice(0);
           this.props = this.prop2.slice(0);
@@ -172,8 +214,6 @@ components: {
           break;
         case '2':
           data.ptrolnature=this.queryParams.ptrolnature;
-          data.patroltimebegin=this.queryParams.patroltimebegin;
-          data.patroltimeend=this.queryParams.patroltimeend;
           fn = userReportByExecute;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
@@ -183,6 +223,11 @@ components: {
           break;
       }
       fn(data).then(res => {
+        if (!res.data) {
+          this.dataList=[];
+          return;
+        }
+
         this.dataList = res.data;
         this.total = res.total;
         let arr=[];
@@ -222,7 +267,7 @@ components: {
       this.downloadLoading = true;
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = this.columns.slice(0);
-        const list = this.dataList;
+        const list = this.dataList.slice(0);
         const data = this.formatJson(this.columns, list);
         excel.export_json_to_excel({
           header: tHeader,

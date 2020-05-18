@@ -17,14 +17,18 @@
  .el-table th {
      color: #565656!important;
      //  padding: 18px 0!important;
+     font-size: 14px;
      height: 50px;
      background-color: #f7f8fe!important;
  }
  
  .el-table td {
+     font-size: 12px;
      height: 40px;
  }
- 
+ .el-table--medium th, .el-table--medium td{
+     padding: 0px;
+ }
  .el-table--border th,
  .el-table--border td {
      border-right: 1px solid #ebeef5!important;
@@ -82,6 +86,7 @@
  .infobox {
      line-height: 1.5;
      padding: 15px 20px 15px 30px;
+     max-width: 550px;
      height: 100%;
      overflow: auto;
      .el-input--medium .el-input__inner {
@@ -99,8 +104,8 @@
  }
  
  .el-input--medium .el-input__inner {
-     height: 40px;
-     line-height: 40px;
+     height:32px;
+     line-height:32px;
  }
  
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
@@ -133,13 +138,13 @@
  
  .search-box {
      background: #fff;
-     padding: 20px 20px 10px;
+     padding: 15px 20px 5px;
      //  box-shadow: 0px 2px 4px #f5f5f5;
      border-bottom: 1px solid #ebeef5;
      border-radius: 4px 4px 0 0;
      .el-form {
          .el-form-item {
-             margin-bottom: 10px;
+             margin-bottom: 10px;    margin-right: 30px;
          }
      }
  }
@@ -188,18 +193,7 @@
  }
  
  .el-scrollbar__wrap {
-     overflow-x: auto;
- }
- 
- .iconslider {
-     position: absolute;
-     right: 0px;
-     width: 8px;
-     background: #f0f2f6;
-     top: 0;
-     height: 100%;
-     text-align: center;
-     cursor: pointer;
+     overflow-x: hidden;
  }
  
  .el-tree {
@@ -213,6 +207,9 @@
  .treebox {
      .el-scrollbar {
          background: #fff;
+         .el-scrollbar__wrap{
+            background: #fff;
+         }
      }
  }
  
@@ -241,7 +238,7 @@
          flex: 1;
          display: block;
          height: 72%;
-         padding: 0 20px;
+         padding: 0 15px;
          &.el-row {
              padding: 0;
              ;
@@ -250,7 +247,7 @@
  }
  
  .table-btns {
-     padding: 20px 0;
+     padding:10px 0;
  }
  
  .smtitle {
@@ -374,8 +371,16 @@
      color: #fff;
      background-color: #418bff;
      border-color: #418bff;
+     padding: 8px 15px;
+     border-radius: 2px;
+     & + .el-dropdown{
+         margin-left: 10px;
+     }
  }
- 
+ .el-button--medium {
+     padding: 8px 15px;
+     font-size: 14px;
+}
  .el-button--primary.is-plain {
      color: #558cf7;
      background: #ffffff;
@@ -433,7 +438,7 @@
      color: #C0C4CC;
      cursor: not-allowed;
  }
- 
+
  .el-pagination.is-background .btn-prev,
  .el-pagination.is-background .btn-next,
  .el-pagination.is-background .el-pager li {
@@ -450,6 +455,10 @@
      background-color: #558cf7;
      color: #fff;
      border: 1px solid #558cf7;
+ }
+
+ .el-pagination span:not([class*=suffix]), .el-pagination button, .el-pager li,.el-input--mini .el-input__inner,.el-pagination__editor.el-input .el-input__inner,.el-pagination__editor{
+     height: 26px;line-height: 24px;font-size: 12px;
  }
  
  //  权限表格 样式

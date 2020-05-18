@@ -1,17 +1,22 @@
 <template>
   <div class="app-container">
 
-    <el-row :gutter="20" class="comheight">
-      <el-col :xs="{span: 24}" :span="left" class="treebox comheight" :style="'position:relative;width:'+leftwidth">
-        <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
-        </el-scrollbar>
-          <span @click="handleSlider" class="iconslider" >
-            <svg-icon icon-class="ic_drag" style="font-size:16px;margin-top:40vh;margin-left:-5px;" />
-            <i :class="!ishidden?'el-icon-arrow-left':'el-icon-arrow-right'" style="font-size:12px;margin-left:-2px;" />
-          </span>
+    <el-row :gutter="20" class="comheight dragbox"   ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
+        <div style="background:#fff;height:100%">
+          <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+            <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+          </el-scrollbar>
+        </div>
       </el-col>
-      <el-col :xs="{span: 24}" :span="right" class="app-container" style="padding-top:0;padding-bottom:0">
+      <el-col class="dragresize">
+        <span class="iconslider">
+          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
+          />
+        </span>
+      </el-col>
+      <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
         <div class="search-box">
           <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
             <el-form-item label="姓名" prop="name">
@@ -44,14 +49,18 @@
             </el-dropdown>
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center" fixed="left" />
-            <el-table-column label="姓名" align="center" min-width="150" prop="Name" />
-            <el-table-column label="预留手机号" min-width="150" align="center" prop="MobilePhone" />
-            <el-table-column label="用户名" align="center" min-width="150" prop="UserName" />
-            <el-table-column label="添加时间" sortable align="center" min-width="180" prop="CreateTime" />
-            <el-table-column label="岗位状态" sortable min-width="100"  align="center" prop="Status" :formatter="filterStatus" />
-            <el-table-column label="账号" align="center" min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
-            <el-table-column label="操作" align="center" min-width="250">
+            <el-table-column type="selection" width="55"   fixed="left" />
+            <el-table-column label="姓名"   min-width="150" prop="Name" />
+            <el-table-column label="预留手机号" min-width="150"   prop="MobilePhone" />
+            <el-table-column label="用户名"   min-width="150" prop="UserName" />
+            <el-table-column label="添加时间" sortable   min-width="180" prop="CreateTime" >
+                <template slot-scope="{row}">
+                  <i class="el-icon-time" style="margin-right:10px"/>{{row.CreateTime}}
+              </template>
+            </el-table-column>
+            <el-table-column label="岗位状态" sortable min-width="100"    prop="Status" :formatter="filterStatus" />
+            <el-table-column label="账号"   min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
+            <el-table-column label="操作"   min-width="250">
               <template slot-scope="scope">
                 <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
@@ -105,19 +114,16 @@ export default {
       rules: {},
       multiple: true,
       
-      left: 6,
-      middle: 1,
-      ishidden: false,
-      leftwidth: "",
     };
   },
   created() {
     this.getTree();
   },
   mounted() {
-    let _this = this;console.log(11111)
+    this.dragControllerDiv();
+    let _this = this;
     window.onresize = () => {
-      if (_this.dataList) {console.log(2222)
+      if (_this.dataList) {
         _this.setTableHeight();
       }
     };
@@ -125,18 +131,7 @@ export default {
   destroyed() {
     window.onresize = null;
   },
-  computed: {
-    right() {
-      return 24 - this.left;
-    }
-  },
   methods: {
-    
-    handleSlider() {
-      this.left = this.left == 6 ? 1 : 6;
-      this.leftwidth = this.left == 1 ? "30px" : "";
-      this.ishidden = !this.ishidden;
-    },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection;
@@ -144,7 +139,7 @@ export default {
       this.multiple = !selection.length;
     },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
     },
     filterStatus(row) {
       return row.Status == 1

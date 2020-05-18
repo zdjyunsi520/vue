@@ -26,14 +26,18 @@
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table @cell-click="handleRowClick" v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange" border>
-        <el-table-column type="selection" width="55" align="center" fixed="left" />
-        <el-table-column label="设备编码" min-width="200" align="center" prop="SerialCode" />
-        <!-- <el-table-column label="设备检验码" align="center" prop="nickName" /> -->
-        <el-table-column label="设备类型" sortable min-width="100" align="center" prop="Type" />
-        <el-table-column label="添加人员" min-width="100" align="center" prop="CreateUser" />
-        <el-table-column label="添加时间" sortable min-width="155" align="center" prop="CreateTime" />
-        <el-table-column label="同步平台" min-width="100" align="center">
+      <el-table @cell-click="handleRowClick" v-loading="listLoading" element-loading-text="Loading"  :data="dataList" :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange" border>
+        <el-table-column type="selection" width="55"  fixed="left" />
+        <el-table-column label="设备编码" min-width="200"  prop="SerialCode" />
+        <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
+        <el-table-column label="设备类型" sortable min-width="100"  prop="Type" />
+        <el-table-column label="添加人员" min-width="100"  prop="CreateUser" />
+        <el-table-column label="添加时间" sortable min-width="155"  prop="CreateTime" >
+            <template slot-scope="{row}">
+              <i class="el-icon-time" style="margin-right:10px"/>{{row.CreateTime}}
+          </template>
+        </el-table-column>
+        <el-table-column label="同步平台" min-width="100" >
           <template slot-scope="{row}">
             <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
               <el-switch v-model="row.active"  active-color="#56a7ff" inactive-color="#f3f6fc" @change="handleSync(row)" />
@@ -43,8 +47,8 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column label="同步结果" min-width="120" align="center" prop="result" />
-        <el-table-column label="备注" min-width="200" fixed="right" align="center" prop="Remark">
+        <el-table-column label="同步结果" min-width="120"  prop="result" />
+        <el-table-column label="备注" min-width="200" fixed="right"  prop="Remark">
           <template slot-scope="{row}">
             <el-row v-if="row.edit">
               <el-input v-model="row.Remark" @blur="handleBlur(row)" />
@@ -132,7 +136,7 @@ export default {
       }
     },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
     },
     /** 查询用户列表 */
     getList() {

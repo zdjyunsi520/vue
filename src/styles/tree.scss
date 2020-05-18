@@ -149,3 +149,35 @@
         }
     }
 }
+
+
+// 拖拽
+.dragbox{
+    .dragleft {
+      width: 224px; /*左侧初始化宽度*/
+    //   height: 100%;
+      float: left;
+    }
+    .dragresize {
+      cursor: col-resize;
+      float: left;
+      position: relative;
+      top: 0;
+      width: 8px;
+      padding: 0 !important;
+      margin-left: -10px;padding-right: 20px;;
+      height: 100%;
+      background: #f0f2f6;
+    }
+    .dragright {
+      float: left;
+      width: 68%; /*右侧初始化宽度*/
+      height: 100%;
+      &.mxright{width:calc(100% - 234px);
+    padding-right: 0!important;}
+    }
+    .iconslider {
+      position: relative;
+      top: 40vh;
+    }
+  }

@@ -29,22 +29,22 @@
         <el-button type="info" plain icon="el-icon-unlock" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
-        <el-table-column type="selection" fixed="left" width="55" align="center" />
-        <el-table-column label="用户名" align="center" width="200" prop="UserName" />
-        <el-table-column label="姓名" align="center" width="160" prop="Name" />
-        <el-table-column label="预留手机号" width="150" align="center" prop="MobilePhone" />
-        <el-table-column label="添加时间" min-width="220" align="center" prop="CreateTime" sortable="custom">
+        <el-table-column type="selection" fixed="left" width="55"   />
+        <el-table-column label="用户名"   width="200" prop="UserName" />
+        <el-table-column label="姓名"   width="160" prop="Name" />
+        <el-table-column label="预留手机号" width="150"   prop="MobilePhone" />
+        <el-table-column label="添加时间" min-width="220"   prop="CreateTime" sortable="custom">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="最后登录时间" min-width="180" align="center" prop="LoginTime" sortable="custom">
+        <el-table-column label="最后登录时间" min-width="180"   prop="LoginTime" sortable="custom">
           <template slot-scope="{row}">
             <i v-if="row.LoginTime" class="el-icon-time"></i>&nbsp;{{row.LoginTime}}
           </template>
         </el-table-column>
 
-        <el-table-column label="是否锁定" width="140" align="center" prop="IsLock" sortable="custom">
+        <el-table-column label="是否锁定" width="140"   prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
             <!-- active-text="是"  inactive-text="否" -->
             <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch>
@@ -55,8 +55,8 @@
             >{{row.IsLock?'解锁':'锁定'}}</el-button> -->
           </template>
         </el-table-column>
-        <el-table-column label="注销状态" width="100" align="center" prop="IsCancel" :formatter="filterCancel" />
-        <el-table-column label="操作" align="center" min-width="300">
+        <el-table-column label="注销状态" width="100"   prop="IsCancel" :formatter="filterCancel" />
+        <el-table-column label="操作"   min-width="300">
           <template slot-scope="scope">
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改信息</el-button>
             <el-button size="mini" type="text" icon="el-icon-key" @click="handleResetPwd(scope.row)">修改密码</el-button>
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
     },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";

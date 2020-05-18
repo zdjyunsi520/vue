@@ -17,23 +17,24 @@
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        未完：新增，修改
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
      
-      <el-table v-loading="listLoading"  :height="dataList?tableHeight:'0'" border  :data="tableData" element-loading-text="Loading"  style='margin-top:20px'>
-        <el-table-column label="巡视单位" sortable min-width="250" align="center" prop="TenantName" />
-        <el-table-column label="巡视内容"  min-width="250" align="center" prop="PatrolScope" />
-        <el-table-column label="巡视人员" sortable min-width="150" align="center" prop="PatrolUserName" />
-        <el-table-column label="巡视成员" sortable min-width="150" align="center" prop="PatrolMemberNames" />
-        <el-table-column label="巡视周期" sortable min-width="100" align="center" prop="CycleDay"></el-table-column>
-        <el-table-column label="开始时间" sortable min-width="120" align="center" prop="StartTime" >
+      <el-table v-loading="listLoading"  :height="dataList?tableHeight:'0'" border  :data="dataList" element-loading-text="Loading"  style='margin-top:20px'>
+        <el-table-column label="巡视单位" sortable min-width="250"   prop="TenantName" />
+        <el-table-column label="巡视内容"  min-width="250"   prop="PatrolScope" />
+        <el-table-column label="巡视人员" sortable min-width="150"   prop="PatrolUserName" />
+        <el-table-column label="巡视成员" sortable min-width="150"   prop="PatrolMemberNames" />
+        <el-table-column label="巡视周期" sortable min-width="100"   prop="CycleDay"></el-table-column>
+        <el-table-column label="开始时间" sortable min-width="120"   prop="StartTime" >
           <template slot-scope="scope">
             {{scope.row.StartTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right" align="center">
+        <el-table-column label="操作" min-width="200" fixed="right"  >
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button type="text"  icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
