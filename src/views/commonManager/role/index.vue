@@ -6,11 +6,8 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
@@ -72,7 +69,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     /** 查询角色列表 */
     getList() {

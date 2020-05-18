@@ -11,7 +11,7 @@
       label-width="110px"
     style="width:600px">
       <el-form-item label="巡视单位" prop="TenantId">
-        <el-select v-model="form.TenantId" placeholder="请选择巡视单位" style="width:100%">
+        <el-select v-model="form.TenantId" placeholder="请选择巡视单位" style="width:100%" @change="getPatrolusers">
           <el-option
             v-for="(item,index) in TenantIds"
             :key="index"
@@ -69,7 +69,7 @@
 
 <script>
 import {  add, update,getInfo } from "@/api/patrol";
-import { getGetEmployee } from "@/api/org";
+import { getTenantEmployees } from "@/api/org";
 export default {
  
   data() {
@@ -96,10 +96,11 @@ export default {
       form: {},
       TenantIds:[],
       patrolusers:[],
+      allpatrolusers:[],
     };
   },
   created() {
-    this.getGetEmployee();
+    this.getTenantEmployees();
     let { data , title ,TenantIds} = this.$route.params;
     this.title = title;
     this.TenantIds = TenantIds;
@@ -112,14 +113,23 @@ export default {
   },
   methods: {
     // 巡视人员
-    getGetEmployee(){
-      getGetEmployee({}).then(res => {
-         this.patrolusers=res.data;
+    getTenantEmployees(){
+      getTenantEmployees({}).then(res => {
+         this.allpatrolusers=res.data;
       }).catch(error => {
         console.log(error); 
       });
     },
       
+    //获取关联的巡视人员下拉列表
+    getPatrolusers(){
+      this.allpatrolusers.map(v =>{
+        if (v.id == this.form.TenantId) {
+          this.patrolusers = v.childs ;
+          return;
+        }
+      })
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(

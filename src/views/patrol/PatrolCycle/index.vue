@@ -34,7 +34,7 @@
             {{scope.row.StartTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right"  >
+        <el-table-column label="操作" min-width="230" fixed="right"  >
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button type="text"  icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>

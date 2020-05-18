@@ -7,7 +7,7 @@ export function dragControllerDiv() {
       // 鼠标按下事件
       resize[i].onmousedown = function(e) {
         //颜色改变提醒
-        resize[i].style.background = "#818181";
+        resize[i].style.background = "#dfe6f3";
         var startX = e.clientX;
         resize[i].left = resize[i].offsetLeft;
         // 鼠标拖动事件

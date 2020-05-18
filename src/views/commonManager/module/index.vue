@@ -65,7 +65,7 @@
               </el-form-item>
             </el-form>
             <div v-else class="tips">
-              暂无数据
+              请稍后...
             </div>
           </el-scrollbar>
         </div>

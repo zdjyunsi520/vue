@@ -15,3 +15,9 @@ export function getGetEmployee(data) {
 export function getTrees() {
     return post("/EntityRelation/GetTrees", {}, commonUrl);
 }
+
+// 获取用电单位人员下拉
+export function getTenantEmployees() {
+    return post("/Employee/GetTenantEmployees", {}, commonUrl);
+}
+

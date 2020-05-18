@@ -38,6 +38,7 @@
       <el-col :xs="{span: 24}"  style="width:554px" class="comheight dragright">
         <div class="bg-white  infobox">
           <el-scrollbar>
+          <div class="form-smtitle marginBottom30">基础信息 </div>
             <el-form label-position="top" :model="smform" v-if="data&&data.Key">
                 <el-form-item label="代码">
                   <el-input v-model="smform.Key" disabled></el-input>

@@ -60,7 +60,7 @@
             </el-table-column>
             <el-table-column label="岗位状态" sortable min-width="100"    prop="Status" :formatter="filterStatus" />
             <el-table-column label="账号"   min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
-            <el-table-column label="操作"   min-width="250">
+            <el-table-column label="操作"   min-width="300">
               <template slot-scope="scope">
                 <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
@@ -139,7 +139,7 @@ export default {
       this.multiple = !selection.length;
     },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 115;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     filterStatus(row) {
       return row.Status == 1
