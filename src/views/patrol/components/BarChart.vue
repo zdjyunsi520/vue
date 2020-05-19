@@ -81,7 +81,7 @@ export default {
         zlevel: 0
       });
     },
-   
+
     setOptions({ title, xAxisData, listData } = {}) {
       this.chart.setOption({
         title: {
@@ -146,7 +146,7 @@ export default {
           }
         ]
       });
-      this.hideLoading();
+      this.chart.hideLoading();
     }
   }
 };
