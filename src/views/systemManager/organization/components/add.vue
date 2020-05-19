@@ -22,7 +22,7 @@
               <el-form-item label="行业类别" prop="industry">
                 <el-select v-model="form.industry" @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
-                  <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in professionList" />
+                  <el-option :key="item.key+''+index" :label="item.text" :value="item.id" v-for="(item,index) in professionList" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -35,7 +35,7 @@
               <el-form-item label="行业分类" prop="principleactivity">
                 <el-select v-model="form.principleactivity">
                   <el-option label="请选择" value=""></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in professionChildList" />
+                  <el-option :key="item.key" :label="item.text" :value="item.id" v-for="item in professionChildList" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -123,7 +123,7 @@
                 <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
                   <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                   <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
-                  <bm-marker v-for="(item,index) in points" :key="index" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker> 
+                  <bm-marker v-for="(item,index) in points" :key="index" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
                   <bm-city-list anchor="BMAP_ANCHOR_TOP_LEFT"></bm-city-list>
                   <bm-local-search :keyword="remark123" :auto-viewport="true" :location="location" @searchcomplete='markersset'></bm-local-search>
                 </baidu-map>
@@ -307,13 +307,16 @@ export default {
       voltageLevelType: "status/voltageLevelType"
     }),
     professionChildList() {
-      const obj = this.professionList.filter(v => v.key == this.form.industry);
+      const obj = this.professionList.filter(v => v.id == this.form.industry);
       if (obj.length) {
         return obj[0].childs;
       } else return [];
     },
     disabled() {
-      return (this.form.attribute=='用电' ? false : true) || (this.form.id ? true : false);
+      return (
+        (this.form.attribute == "用电" ? false : true) ||
+        (this.form.id ? true : false)
+      );
     },
     cityList() {
       const list = this.areaList.filter(v => v.key == this.form.province);
@@ -483,10 +486,10 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.industryname = this.professionList.filter(
-            v => v.key == this.form.industry
+            v => v.id == this.form.industry
           )[0].text;
           this.form.principleactivityname = this.professionChildList.filter(
-            v => v.key == this.form.principleactivity
+            v => v.id == this.form.principleactivity
           )[0].text;
           //按钮转圈圈
           this.loading = true;

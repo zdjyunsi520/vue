@@ -109,7 +109,7 @@ export default {
                 },
 
                 areaStyle: {
-                  color: "red"
+                  color: "#7fa9fa"
                 }
               }
             },

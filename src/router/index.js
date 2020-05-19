@@ -84,6 +84,16 @@ export const constantRoutes = [
         }
       },
       {
+        path: "/powerOverview",
+        component: () => import("@/views/generalSituation/powerOverview/index"),
+        name: "用电概况",
+        meta: {
+          title: "用电概况",
+          noCache: true,
+          affix: false
+        }
+      },
+      {
         path: "/largeData",
         component: () => import("@/views/generalSituation/large/index"),
         name: "大屏展示",
@@ -96,9 +106,9 @@ export const constantRoutes = [
       {
         path: "/userLargeData",
         component: () => import("@/views/generalSituation/userLarge/index"),
-        name: "用户大屏",
+        name: "用电概况",
         meta: {
-          title: "用户大屏",
+          title: "用电概况",
           noCache: true,
           affix: false
         }
