@@ -43,10 +43,22 @@ export function deletedJob(data) {
     return post("/PatrolJob/Remove", data, commonUrl);
 }
 
+// 回退
+export function fallbackJob(data) {
+    return post("/PatrolJob/Fallback", data, commonUrl);
+}
+
+
+
 //巡视报告单列表
 export function fetchReport(data) {
-    // return post("/PatrolJob/Gets", data, commonUrl);
+    return post("/PatrolJob/GetReports", data, commonUrl);
 }
+// 报告详情
+export function getReportInfo(data) {
+    return post("/PatrolJob/GetReport", data, commonUrl);
+}
+
 // 巡视统计-年
 export function userReportByYear(data) {
     return post("/PatrolJobReport/ReportByYear", data, 'Report');

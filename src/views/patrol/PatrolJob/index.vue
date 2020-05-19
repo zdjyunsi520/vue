@@ -28,6 +28,7 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+          <el-button icon="el-icon-refresh" @click="handleReport">报告</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -58,7 +59,7 @@
             <span v-else><i class="green dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right">
+        <el-table-column label="操作" min-width="250" fixed="right">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
               <el-button type="text" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-import { fetchListJob, deletedJob } from "@/api/patrol";
+import { fetchListJob, deletedJob,fallbackJob } from "@/api/patrol";
 import { getChildrenList } from "@/api/org";
 
 const ptrolnatures = [
@@ -214,12 +215,22 @@ export default {
       });
     },
     // 回退
-    handleBack(row) {},
+    handleBack(row) {
+        const id = row.Id;
+        fallbackJob({ id }).then(r => {
+          this.$message.success("已回退!");
+          this.getList();
+        });
+
+    },
     // 查看报告
-    handleReport(row) {},
+    handleReport() {
+      // const id = row.Id;
+      let routeData = this.$router.resolve({ path: '/patrol/components/report', query: {  jobid: '8ED77D8B-C8DE-4390-9FC5-EDB109ADC419' } });
+      window.open(routeData.href, '_blank');
+    },
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log(row);
       this.$confirm("是否确认删除?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
