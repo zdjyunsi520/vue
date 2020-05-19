@@ -10,7 +10,7 @@
         <el-form-item label="巡视人员" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
-        <el-form-item label="巡视日期">
+        <el-form-item label="巡视日期" prop="patroltimebegin">
             <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
             至
             <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
@@ -22,13 +22,14 @@
         </el-form-item>
         <el-form-item label="状态" prop="isexecute">
           <el-select v-model="queryParams.isexecute" placeholder="请选择" >
-            <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
+            <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.type"></el-option>
         </el-select>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
+        未完：新增，修改
         </el-form-item>
       </el-form>
     </div>
@@ -36,10 +37,10 @@
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视性质" width="150"  align='center'  sortable prop="PtrolNature">
-          <template slot-scope="scope">
+        <el-table-column label="巡视性质" width="150"  align='center'  sortable prop="PtrolNatureText">
+          <!-- <template slot-scope="scope">
             <span>{{ scope.row.PtrolNature==1?"定期巡视":"临时巡视"}}</span>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column label="巡视日期" width="130"  sortable align='center' prop="PatrolTime">
           <template slot-scope="scope">
@@ -55,7 +56,7 @@
             <span v-else><i class="green dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right" align="center">
+        <el-table-column label="操作" min-width="200" fixed="right"  >
           <template slot-scope="scope">
              <div v-if="scope.row.IsExecute"> 
                 <el-button type="text" icon="el-icon-document-remove"   @click="handleReport(scope.row)" >查看报告</el-button>
@@ -84,8 +85,8 @@ const ptrolnatures = [
       ];
 const isexecutes = [
           {name:'全部',id:''},
-          {name:'已执行',id:'1'},
-          {name:'未执行',id:'0'}
+          {name:'已执行',type:true},
+          {name:'未执行',type:false}
       ];
 export default {
   name: "",
@@ -174,6 +175,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.patroltimeend='';
       this.handleQuery();
     },
     // 多选框选中数据

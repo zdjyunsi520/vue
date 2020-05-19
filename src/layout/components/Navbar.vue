@@ -18,17 +18,17 @@
         <div class="right-menu-item hover-effect" >
           <span style="position:relative">
           <el-badge is-dot class="item" style="display: inline;">
-            <svg-icon icon-class="news" style="font-size: 29px;vertical-align: -0.35em;"/>
+            <svg-icon icon-class="news" style="font-size: 23px;vertical-align: -0.3em;"/>
             <!-- <el-button class="share-button" icon="el-icon-share" type="primary"></el-button> -->
           </el-badge>
           </span>
         </div>
         
         <div class="right-menu-item hover-effect" >
-          <svg-icon icon-class="nav_colour" style="font-size: 22px;vertical-align: middle;"/>
+          <svg-icon icon-class="nav_colour" style="font-size: 15px;vertical-align: middle;" />
         </div>
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 12px;"/>
 
         <!-- <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
@@ -38,9 +38,9 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" v-if="avatar" class="user-avatar">
+          <img :src="avatar1" v-if="avatar1" class="user-avatar">
           <span>{{name}}</span>
-          <i class="el-icon-caret-bottom" />
+          <i class="el-icon-caret-bottom" style="margin-left: 8px;" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <!-- <router-link to="/user/profile">
@@ -76,6 +76,11 @@ export default {
     // Search,
     Ku,
     UpdatePwd
+  }, 
+  data() {
+    return {
+      avatar1: require('../../assets/image/photo.jpg')
+    };
   },
   computed: {
     ...mapGetters(['sidebar', 'avatar', 'device', 'name']),
@@ -115,10 +120,10 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  height: 50px;    margin-bottom: -1px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #fff;    border-bottom: 1px solid #ebeef5;
   // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
@@ -158,7 +163,7 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 4px;
       height: 100%;
       font-size: 14px;
       color: #5a5e66;
@@ -184,6 +189,9 @@ export default {
           cursor: pointer;
           width: 30px;
           height: 30px;
+          vertical-align: middle;
+          margin-right: 10px;
+          margin-left: 10px;
           border-radius: 100%;
         }
 

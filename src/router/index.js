@@ -108,7 +108,7 @@ export const constantRoutes = [
   {
     path: "defect",
     component: Layout,
-    hidden: false,
+    hidden: true,
     meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -137,7 +137,7 @@ export const constantRoutes = [
   {
     path: "patrol",
     component: Layout,
-    hidden: false,
+    hidden: true,
     meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -218,7 +218,7 @@ export const constantRoutes = [
   {
     path: "systemManager",
     component: Layout,
-    hidden: false,
+    hidden: true,
     meta: { title: "系统管理", icon: "dashboard", noCache: true, affix: false },
     children: [
       {
@@ -500,28 +500,7 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
-      {
-        name: "/patrol/PatrolCycle/components/add",
-        path: "/patrol/PatrolCycle/components/add",
-        component: () => import("@/views/patrol/PatrolCycle/components/add"),
-        meta: {
-          title: "新增巡视周期",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
-      {
-        name: "/patrol/PatrolJob/components/add",
-        path: "/patrol/PatrolJob/components/add",
-        component: () => import("@/views/patrol/PatrolJob/components/add"),
-        meta: {
-          title: "新增巡视任务单",
-          icon: "dashboard",
-          noCache: true,
-          breadcrumb: true
-        }
-      },
+      ,
       {
         name: "/runningDuty/dutyConfiguration/components/index",
         path: "/runningDuty/dutyConfiguration/components/index",
@@ -565,6 +544,50 @@ export const constantRoutes = [
           import("@/views/runningDuty/dutyConfiguration/role/index"),
         meta: {
           title: "角色",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/patrol/PatrolCycle/components/add",
+        path: "/patrol/PatrolCycle/components/add",
+        component: () => import("@/views/patrol/PatrolCycle/components/add"),
+        meta: {
+          title: "新增巡视周期",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/patrol/PatrolJob/components/add",
+        path: "/patrol/PatrolJob/components/add",
+        component: () => import("@/views/patrol/PatrolJob/components/add"),
+        meta: {
+          title: "新增巡视任务单",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/defect/orderList/components/add",
+        path: "/defect/orderList/components/add",
+        component: () => import("@/views/defect/orderList/components/add"),
+        meta: {
+          title: "新增缺陷工单",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "123213",
+        path: "/123123",
+        component: () => import("@/views/equipmentAccount/maintain/index"),
+        meta: {
+          title: "测试页面",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true

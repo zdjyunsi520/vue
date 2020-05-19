@@ -37,6 +37,7 @@ import {
   selectDictLabel,
   download
 } from "@/utils/king";
+import {dragControllerDiv} from "@/utils/dragTree.js"; 
 import Pagination from "@/components/Pagination";
 
 // 全局方法挂载
@@ -47,6 +48,7 @@ Vue.prototype.resetForm = resetForm;
 Vue.prototype.addDateRange = addDateRange;
 Vue.prototype.selectDictLabel = selectDictLabel;
 Vue.prototype.download = download;
+Vue.prototype.dragControllerDiv = dragControllerDiv;
 
 Vue.prototype.msgSuccess = function(msg) {
   this.$message({ showClose: true, message: msg, type: "success" });

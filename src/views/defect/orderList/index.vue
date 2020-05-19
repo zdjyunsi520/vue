@@ -69,7 +69,7 @@
 
         </el-table-column>
         </el-table-column>
-        <el-table-column label="操作" width="220" align="center">
+        <el-table-column label="操作" width="220"  >
           <template slot-scope="scope">
             <div> 
             <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>

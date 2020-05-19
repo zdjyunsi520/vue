@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box">
+    <div class="search-box marginbottom15">
       <el-form :inline="true">
         <el-form-item>
           <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
@@ -21,17 +21,22 @@
       </el-form>
     </div>
 
-    <el-row :gutter="20" class="containerbox">
-      <el-col :xs="{span: 24}" :span="left" class="treebox comheight" :style="'position:relative;width:'+leftwidth">
-        <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all  node-key="id" :expand-on-click-node="false"></el-tree>
+    <el-row :gutter="20" class="containerbox dragbox"   ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
+        <div style="background:#fff;height:100%">
+          <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+            <el-tree :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all  node-key="id" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
-          <span @click="handleSlider" class="iconslider" >
-            <svg-icon icon-class="ic_drag" style="font-size:16px;margin-top:40vh;margin-left:-5px;" />
-            <i :class="!ishidden?'el-icon-arrow-left':'el-icon-arrow-right'" style="font-size:12px;margin-left:-2px;" />
-          </span>
+          </div>
       </el-col>
-      <el-col :xs="{span: 24}" :span="right" style="width:554px" class="comheight">
+      <el-col class="dragresize">
+        <span class="iconslider">
+          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
+          />
+        </span>
+      </el-col>
+      <el-col :xs="{span: 24}"  style="width:554px" class="comheight dragright">
         <div class="bg-white  infobox">
           <el-scrollbar>
           <div class="form-smtitle marginBottom30">基础信息 </div>
@@ -60,7 +65,7 @@
               </el-form-item>
             </el-form>
             <div v-else class="tips">
-              暂无数据
+              请稍后...
             </div>
           </el-scrollbar>
         </div>
@@ -99,27 +104,16 @@ export default {
       data: {},
       smform: {},
 
-      left: 6,
-      middle: 1,
-      ishidden: false,
-      leftwidth: "",
     };
   },
   created() {
     this.getList();
   },
 
-  computed: {
-    right() {
-      return 24 - this.left;
-    }
+  mounted() {
+    this.dragControllerDiv();
   },
   methods: {
-    handleSlider() {
-      this.left = this.left == 6 ? 1 : 6;
-      this.leftwidth = this.left == 1 ? "30px" : "";
-      this.ishidden = !this.ishidden;
-    },
     handleCommand(commond) {
       if (commond == "a") {
         this.handleAdd();
