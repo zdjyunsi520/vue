@@ -613,3 +613,51 @@
  }
 
  .datainfo{padding:15px 20px 15px 30px;}
+
+
+//  概况
+.smdatabox{
+        height: 154px;
+        margin-bottom: 15px;color: #fff;
+        box-shadow: 0px 0px 10px 0px  #b4ceff;
+        border-radius: 4px;
+    &.bluebg{
+        background-image: linear-gradient(90deg, 
+            #558cf7 0%, 
+            #8fb3f9 100%);
+    } 
+    &.b-bluebg{
+        background-image:linear-gradient(90deg, #77c3f9 0%, #91ccf6 50%, #abd4f2 100%);
+    }
+    &.orangebg{
+        background-image: linear-gradient(90deg, 
+		#f3a248 0%, 
+        #fdb769 100%)  }
+        
+    h6 {
+        margin: 0;
+        padding: 15px 10px 10px;
+        font-size: 14px;
+        font-weight: normal;
+        > i {
+            margin-right: 5px;
+            font-size: 18px;
+            vertical-align: text-top !important;
+        }
+    }
+    .el-col p {
+        text-align: center;
+        font-size: 12px;
+        line-height: 2;
+        margin: 0;
+        padding-bottom: 10px;
+        span {
+          font-size: 14px;
+          b {
+            font-size: 18px;
+            margin-right: 5px;
+            font-weight: normal;
+          }
+        }
+      }
+}
