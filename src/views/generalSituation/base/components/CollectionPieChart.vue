@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "250px"
+      default: "180px"
     }
   },
   data() {
@@ -53,20 +53,20 @@ export default {
           show: false
         },
         emphasis: {
-          itemStyle:{
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowBlur: 10,
+          itemStyle: {
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+            shadowBlur: 10
           }
         },
-        color: ["#333", "#999"],
+        color: ["#f4a248", "#ffedda"],
         series: [
           {
             name: "采集情况",
             type: "pie",
-            radius: ["45%", "75%"],
+            radius: ["55%", "80%"],
             center: ["50%", "50%"],
-            labelLine:{
-              show:false
+            labelLine: {
+              show: false
             },
             data: [
               {
@@ -76,12 +76,10 @@ export default {
                   normal: {
                     show: true,
                     position: "center",
-                    fontWeight:'bold',
-                    fontSize:14,
-                    formatter: "{d}%\n{b}率"
+                    fontSize: 14,
+                    formatter: "{d}%\n\n在线率"
                   }
-                },
- 
+                }
               },
               {
                 value: 24,
@@ -90,7 +88,7 @@ export default {
                   normal: {
                     show: false
                   }
-                },
+                }
               }
             ]
           }
