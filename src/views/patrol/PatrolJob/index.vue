@@ -1,35 +1,35 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
         <el-form-item label="巡视单位" prop="tenantId">
-            <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位"  >
-              <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
-            </el-select>
+          <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
+            <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="巡视人员" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视日期" prop="patroltimebegin">
-            <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
-            至
-            <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd"  format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          至
+          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="巡视性质" prop="ptrolnature">
-          <el-select v-model="queryParams.ptrolnature" placeholder="请选择" >
+          <el-select v-model="queryParams.ptrolnature" placeholder="请选择">
             <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.id"></el-option>
-        </el-select>
+          </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="isexecute">
-          <el-select v-model="queryParams.isexecute" placeholder="请选择" >
+          <el-select v-model="queryParams.isexecute" placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.type"></el-option>
-        </el-select>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
-        未完：新增，修改
+          未完：新增，修改
         </el-form-item>
       </el-form>
     </div>
@@ -37,34 +37,34 @@
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视性质" width="150"  align='center'  sortable prop="PtrolNatureText">
+        <el-table-column label="巡视性质" width="150" align='center' sortable prop="PtrolNatureText">
           <!-- <template slot-scope="scope">
             <span>{{ scope.row.PtrolNature==1?"定期巡视":"临时巡视"}}</span>
           </template> -->
         </el-table-column>
-        <el-table-column label="巡视日期" width="130"  sortable align='center' prop="PatrolTime">
+        <el-table-column label="巡视日期" width="130" sortable align='center' prop="PatrolTime">
           <template slot-scope="scope">
             {{scope.row.PatrolTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="巡视人员"  min-width="140"  sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="确认人"  min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="编制人"  min-width="140" sortable align='center' prop="CreateUserName"></el-table-column>
-        <el-table-column label="状态"  width="140" sortable align='center' prop="IsExecute">
+        <el-table-column label="巡视人员" min-width="140" sortable align='center' prop="PatrolUserName"></el-table-column>
+        <el-table-column label="确认人" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
+        <el-table-column label="编制人" min-width="140" sortable align='center' prop="CreateUserName"></el-table-column>
+        <el-table-column label="状态" width="140" sortable align='center' prop="IsExecute">
           <template slot-scope="scope">
             <span v-if="scope.row.IsExecute"><i class="red dot"></i>已执行</span>
             <span v-else><i class="green dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right"  >
+        <el-table-column label="操作" min-width="200" fixed="right">
           <template slot-scope="scope">
-             <div v-if="scope.row.IsExecute"> 
-                <el-button type="text" icon="el-icon-document-remove"   @click="handleReport(scope.row)" >查看报告</el-button>
-                <el-button type="text" icon="el-icon-s-promotion"   @click="handleBack(scope.row)" >回退</el-button>
+            <div v-if="scope.row.IsExecute">
+              <el-button type="text" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
+              <el-button type="text" icon="el-icon-s-promotion" @click="handleBack(scope.row)">回退</el-button>
             </div>
             <div v-else>
-                <el-button type="text" icon="el-icon-edit-outline"  @click="handleUpdate(scope.row)" >编辑</el-button>
-                <el-button type="text"  icon="el-icon-delete"  @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
+              <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
@@ -75,19 +75,19 @@
 </template>
 
 <script>
-import { fetchListJob,deletedJob} from "@/api/patrol";
-import { getChildrenList} from "@/api/org";
+import { fetchListJob, deletedJob } from "@/api/patrol";
+import { getChildrenList } from "@/api/org";
 
 const ptrolnatures = [
-          {name:'全部',id:''},
-          {name:'定期巡视',id:'1'},
-          {name:'临时巡视',id:'2'}
-      ];
+  { name: "全部", id: "" },
+  { name: "定期巡视", id: "1" },
+  { name: "临时巡视", id: "2" }
+];
 const isexecutes = [
-          {name:'全部',id:''},
-          {name:'已执行',type:true},
-          {name:'未执行',type:false}
-      ];
+  { name: "全部", id: "" },
+  { name: "已执行", type: true },
+  { name: "未执行", type: false }
+];
 export default {
   name: "",
   data() {
@@ -107,7 +107,7 @@ export default {
       dataList: null,
       rules: {},
       tableHeight: "0",
-      TenantIds:[],
+      TenantIds: [],
 
       ptrolnatures,
       isexecutes,
@@ -116,21 +116,18 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
-        patrolusername:'',
-        patroltimeend:'',
-        patroltimebegin:'',
-        ptrolnature:'',
-        isexecute:'',
+        patrolusername: "",
+        patroltimeend: "",
+        patroltimebegin: "",
+        ptrolnature: "",
+        isexecute: ""
       }
-    }
+    };
   },
-  computed: {
-   
-  },
+  computed: {},
   created() {
     this.getList();
     this.getTenants();
-    
   },
   mounted() {
     let _this = this;
@@ -142,16 +139,26 @@ export default {
     window.onresize = null;
   },
   methods: {
+    //获取关联的巡视人员下拉列表
+    getPatrolusers() {
+      this.allpatrolusers.forEach(v => {
+        if (v.id == this.form.tenantid) {
+          this.patrolusers = v.childs;
+        }
+      });
+    },
     setTableHeight() {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
     },
     // 巡视单位列表
-    getTenants(){
-      getChildrenList().then(response => {
-         this.TenantIds=response.data;
-      }).catch(error => {
-        console.log(error); 
-      });
+    getTenants() {
+      getChildrenList()
+        .then(response => {
+          this.TenantIds = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     /** 查询用户列表 */
     getList() {
@@ -175,7 +182,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.patroltimeend='';
+      this.queryParams.patroltimeend = "";
       this.handleQuery();
     },
     // 多选框选中数据
@@ -187,7 +194,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       const title = "新增巡视任务单";
-      const TenantIds= this.TenantIds;
+      const TenantIds = this.TenantIds;
       this.$router.push({
         name: "/patrol/PatrolJob/components/add",
         params: { data: {}, title, TenantIds }
@@ -197,23 +204,20 @@ export default {
     handleUpdate(row) {
       const title = "修改巡视任务单";
       const data = row;
-      const TenantIds= this.TenantIds;
+
+      const TenantIds = this.TenantIds;
       this.$router.push({
         name: "/patrol/PatrolJob/components/add",
         params: { data, title, TenantIds }
       });
     },
     // 回退
-    handleBack(row){
-
-    },
+    handleBack(row) {},
     // 查看报告
-    handleReport(row){
-      
-    },
+    handleReport(row) {},
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log(row)
+      console.log(row);
       this.$confirm("是否确认删除?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -221,7 +225,7 @@ export default {
       }).then(v => {
         const id = row.Id;
         deletedJob({ id }).then(r => {
-          this.$message.success('成功删除!');
+          this.$message.success("成功删除!");
           this.getList();
         });
       });

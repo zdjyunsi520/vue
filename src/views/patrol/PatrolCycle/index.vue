@@ -153,9 +153,9 @@ export default {
       const id = row.Id;
       const tenantid = row.TenantId;
       const cycleday = row.CycleDay;
-      const starttime = row.StartTim;
+      const starttime = row.StartTime;
       const patroluserid = row.PatrolUserId;
-      const patrolmemberids = row.PatrolMemberIds;
+      const patrolmemberids = row.PatrolMemberIds.split(",");
       const patrolscope = row.PatrolScope;
       const data = {
         id,

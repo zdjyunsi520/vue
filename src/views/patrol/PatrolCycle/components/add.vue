@@ -5,7 +5,7 @@
 
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px" style="width:600px">
-          <el-form-item label="巡视单位" prop="TenantId">
+          <el-form-item label="巡视单位" prop="tenantid">
             <el-select v-model="form.tenantid" placeholder="请选择巡视单位" style="width:100%" @change="getPatrolusers">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
@@ -78,12 +78,14 @@ export default {
     let { data, title, TenantIds } = this.$route.params;
     this.title = title;
     this.TenantIds = TenantIds;
-    data.starttime = new Date(data.starttime).getTime();
-    if (data && data.id) {
-      this.getInfo(data);
-    } else {
-      this.reset(data);
-    }
+    // data.starttime = new Date(data.starttime).getTime();
+    this.reset(data);
+    return;
+    // if (data && data.id) {
+    //   this.getInfo(data);
+    // } else {
+
+    // }
   },
   methods: {
     // 巡视人员
@@ -91,6 +93,7 @@ export default {
       getTenantEmployees({})
         .then(res => {
           this.allpatrolusers = res.data;
+          if (this.form.tenantid) this.getPatrolusers();
         })
         .catch(error => {
           console.log(error);
@@ -99,10 +102,9 @@ export default {
 
     //获取关联的巡视人员下拉列表
     getPatrolusers() {
-      this.allpatrolusers.map(v => {
+      this.allpatrolusers.forEach(v => {
         if (v.id == this.form.tenantid) {
           this.patrolusers = v.childs;
-          return;
         }
       });
     },
@@ -130,8 +132,6 @@ export default {
             .then(res => {
               this.form = res.data;
               this.reset(data);
-
-              console.log(this.form);
             })
             .finally(v => (this.loading = false));
         }
@@ -156,23 +156,21 @@ export default {
           //按钮转圈圈
           this.loading = true;
 
-          this.form.id = this.form.Id;
-          this.form.tenantid = this.form.TenantId;
-          this.form.cycleday = this.form.CycleDay;
-          this.form.starttime = dateFortmat(this.form.StartTime, "yyyy-MM-dd");
-          this.form.patroluserid = this.form.PatrolUserId;
-          this.form.patrolmemberids = this.form.PatrolMemberIds.split(",");
-          this.form.patrolscope = this.form.PatrolScope;
-
+          // this.form.id = this.form.Id;
+          // this.form.tenantid = this.form.TenantId;
+          // this.form.cycleday = this.form.CycleDay;
+          // this.form.starttime = dateFortmat(this.form.StartTime, "yyyy-MM-dd");
+          // this.form.patroluserid = this.form.PatrolUserId;
+          // this.form.patrolmemberids = this.form.PatrolMemberIds.split(",");
+          // this.form.patrolscope = this.form.PatrolScope;
+          this.form.patrolmemberids = this.form.patrolmemberids.join(",");
           let fn;
-          if (this.form.Id) fn = update;
+          if (this.form.id) fn = update;
           else fn = add;
           fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-              //刷新列表
-              this.$emit("getList");
               //关闭窗口
               this.handleOpen();
             })
