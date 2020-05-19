@@ -154,7 +154,7 @@
 // 拖拽
 .dragbox{
     .dragleft {
-      width: 224px; /*左侧初始化宽度*/
+      width: 324px; /*左侧初始化宽度*/
     //   height: 100%;
       float: left;
     }
@@ -176,7 +176,7 @@
       float: left;
       width: 68%; /*右侧初始化宽度*/
       height: 100%;
-      &.mxright{width:calc(100% - 234px);
+      &.mxright{width:calc(100% - 334px);
     padding-right: 0!important;}
     }
     .iconslider {
