@@ -294,9 +294,6 @@ import { fetchTree } from "@/api/systemManager/organization";
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
 
-import PatrolPieChart from "./components/PatrolPieChart";
-import CollectionPieChart from "./components/CollectionPieChart";
-import RepairPieChart from "./components/RepairPieChart";
 import AlarmPieChart from "./components/AlarmPieChart";
 import BarChart from "./components/BarChart";
 const repairPieChartData = {
@@ -420,10 +417,6 @@ export default {
   components: {
     PieChart,
     LineChart,
-    // StructurePieChart,
-    PatrolPieChart,
-    CollectionPieChart,
-    RepairPieChart,
     AlarmPieChart,
     BarChart
   },
