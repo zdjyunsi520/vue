@@ -38,7 +38,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="投运日期">
-                    <el-input v-model="infoData.StartTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -60,7 +60,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -75,7 +75,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="出厂日期">
-                    <el-input v-model="infoData.ExFactoryDate" disabled></el-input>
+                    <el-input disabled :value="filterDate(infoData.ExFactoryDate)"></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -101,12 +101,12 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="创建时间">
-                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.CreateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护时间">
-                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.UpdateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -127,26 +127,38 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/interval";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/powerRoom";
 export default {
   data() {
     return {
       operateId: "",
       infoData: {},
       visible: false,
-      showBtn: false
+      showBtn: false,
+      data: {}
     };
   },
 
   created() {},
   methods: {
-    handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
+    filterDate(date) {
+      return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
+    },
+    filterRun(state) {
+      return !!state ? "在运" : "停运";
+    },
+    filterIsMain(state) {
+      return !!state ? "是" : "否";
+    },
+    handleCommand(name) {
+      const parentid = this.data.id;
+      const parentId = parentid;
+      const data = { parentid, parentId };
+      const title = "新增";
+      this.$router.push({
+        name,
+        params: { data, title }
+      });
     },
     handleAdd() {},
 
@@ -159,10 +171,11 @@ export default {
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
       const voltlevel = this.infoData.VoltLevel;
-      const assetsid = this.infoData.AssetsId;
-      const assetstype = this.infoData.AssetsType;
+      const modelname = this.infoData.ModelName;
+      const factory = this.infoData.Factory;
       const sortindex = this.infoData.SortIndex;
-      const ismainline = this.infoData.IsMainLine;
+      const exfactorydate = this.infoData.ExFactoryDate;
+      const tenantId = tenantid;
       const parentid = "";
       const data = {
         id,
@@ -173,36 +186,34 @@ export default {
         starttime,
         property,
         voltlevel,
-        assetsid,
-        assetstype,
+        modelname,
+        factory,
         sortindex,
-        ismainline,
-        parentid
+        exfactorydate,
+        parentid,
+        tenantId
       };
       const title = "修改";
       this.$router.push({
-        name: "/equipmentAccount/maintain/interval/components/update",
+        name: "/equipmentAccount/maintain/powerRoom/components/update",
         params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的数据吗")
+        .then(r => {
+          const Ids = [this.data.id];
+          deleted({ Ids }).then(r => {
+            this.getList1();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
+      this.data = data;
       getInfo(data).then(r => {
         this.infoData = r.data;
-        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
-        this.infoData.IsMainLine = r.data.IsMainLine ? "是" : "否";
-        this.infoData.StartTime = this.parseTime(
-          r.data.StartTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.CreateTime = this.parseTime(
-          r.data.CreateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.UpdateTime = this.parseTime(
-          r.data.UpdateTime,
-          "{y}-{m}-{d}"
-        );
       });
     }
   }

@@ -28,6 +28,7 @@
                 <el-col :span="24">
                   <el-form-item label="投运日期">
                     <el-input v-model="infoData.StartTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -49,7 +50,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -59,7 +60,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="是否总进线">
-                    <el-input v-model="infoData.IsMainLine" disabled></el-input>
+                    <el-input :value="filterIsMain(infoData.IsMainLine)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -85,12 +86,12 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="创建时间">
-                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.CreateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护时间">
-                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.UpdateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -117,6 +118,15 @@ export default {
 
   created() {},
   methods: {
+    filterDate(date) {
+      return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
+    },
+    filterRun(state) {
+      return !!state ? "在运" : "停运";
+    },
+    filterIsMain(state) {
+      return !!state ? "是" : "否";
+    },
     handleCommand(commond) {
       if (commond == "a") {
         this.$router.push({
@@ -164,20 +174,6 @@ export default {
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
-        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
-        this.infoData.IsMainLine = r.data.IsMainLine ? "是" : "否";
-        this.infoData.StartTime = this.parseTime(
-          r.data.StartTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.CreateTime = this.parseTime(
-          r.data.CreateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.UpdateTime = this.parseTime(
-          r.data.UpdateTime,
-          "{y}-{m}-{d}"
-        );
       });
     }
   }

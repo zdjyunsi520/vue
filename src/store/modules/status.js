@@ -72,6 +72,12 @@ const state = {
     { key: 5, value: "摄像头" }
   ],
   connectKV: null,
+  //记事类型
+  recordType: [
+    { key: 1, value: "事故处理操作" },
+    { key: 2, value: "设备告警" }
+  ],
+  recordKV: null,
   rwType: [{ key: true, value: "是" }, { key: false, value: "否" }],
   rwKV: null,
   communicateHostType: null,
@@ -202,6 +208,11 @@ const getters = {
   rwKV: state => {
     state.rwKV || (state.rwKV = reduceKV(state.rwType));
     return state.rwKV;
+  },
+  recordType: state => state.recordType,
+  recordKV: state => {
+    state.recordKV || (state.recordKV = reduceKV(state.recordType));
+    return state.recordKV;
   }
 };
 

@@ -174,10 +174,11 @@ export default {
           const fn = this.form.id ? update : add;
           this.form.tenantid = this.form.tenantId;
           this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");
-          this.form.exfactorydate = dateFortmat(
-            this.form.exfactorydate,
-            "yyyy-MM-dd"
-          );
+          if (this.form.exfactorydate)
+            this.form.exfactorydate = dateFortmat(
+              this.form.exfactorydate,
+              "yyyy-MM-dd"
+            );
           //添加用户
           fn(this.form)
             .then(response => {

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { fetchList } from "@/api/runningDuty/dutyConfiguration";
+import { fetchList } from "@/api/runningDuty/sortManager";
 
 export default {
   name: "user",

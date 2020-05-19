@@ -2,6 +2,12 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+        <el-form-item label="用电单位" prop="tenantId">
+          <el-select v-model="queryParams.tenantId">
+            <el-option label="请选择" value></el-option>
+            <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="值班班组" prop="teamId">
           <el-input v-model="queryParams.teamId" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -20,50 +26,33 @@
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-download" @click="resetQuery">导出</el-button>
+        </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox" ref="containerbox">
-      <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增值班</el-button>
-        <el-dropdown @command="handleCommand">
-          <el-button type="primary" icon=" el-icon-circle-plus-outline">
-            设置<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/group/index">设置班组</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/classTime/index">设置班次</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/role/index">设置角色</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
-        <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-        <el-table-column label="值班班组" align="center" prop="TeamName" />
-        <el-table-column label="值班人员" align="center" prop="EmployeeNames" />
-        <el-table-column label="班次类型" align="center" prop="ShiftTypeName" />
-        <el-table-column label="班次" align="center" prop="ShiftNames" />
-        <el-table-column label="角色类型" align="center" prop="CharaTypeName" />
-        <el-table-column label="角色" align="center" prop="Characters" />
-        <el-table-column label="岗位" align="center" prop="Positions" />
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-key" @click="handleDelete(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+    <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
+      <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
+      <el-table-column label="所属电务公司" align="center" prop="TeamName" />
+      <el-table-column label="用电单位" align="center" prop="EmployeeNames" />
+      <el-table-column label="值班人员" align="center" prop="ShiftTypeName" />
+      <el-table-column label="值班机构" align="center" prop="ShiftNames" />
+      <el-table-column label="班次" align="center" prop="CharaTypeName" />
+      <el-table-column label="值班开始时间" align="center" prop="Characters" />
+      <el-table-column label="值班结束时间" align="center" prop="Positions" />
+    </el-table>
 
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
   </div>
+
 </template>
 
 <script>
-import { fetchList } from "@/api/runningDuty/dutyConfiguration";
+import { mapGetters } from "vuex";
+import { fetchList } from "@/api/runningDuty/search";
 
 export default {
   name: "user",
@@ -91,18 +80,18 @@ export default {
         shifttypeId: "",
         charatypeId: "",
         employeename: ""
-      }
+      },
+      height: "calc(100% - 50px)"
     };
   },
 
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
+  computed: {
+    ...mapGetters({
+      companyType: "status/companyType"
+    })
   },
   destroyed() {
     window.onresize = null;

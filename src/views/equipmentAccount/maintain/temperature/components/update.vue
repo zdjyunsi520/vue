@@ -44,7 +44,9 @@
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="运行状态" prop="isenable">
                 <el-select v-model="form.isenable">
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
+                  <el-option label="在运" :value="1" />
+                  <el-option label="停运" :value="2" />
+                  <!-- <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" /> -->
                 </el-select>
               </el-form-item>
             </el-col>
@@ -92,7 +94,7 @@
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="数据源地址" prop="attribute">
-                <el-select v-model="form.attribute">
+                <el-select v-model="form.attribute" :disabled="!!form.Id">
                   <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
                 </el-select>
               </el-form-item>
@@ -192,7 +194,7 @@ export default {
           CTratio: "",
           RTratio: "",
           parentId: "",
-          id: "",
+          Id: "",
           sortindex: 1,
           exfactorydate: ""
         },
@@ -211,7 +213,7 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          const fn = this.form.id ? update : add;
+          const fn = this.form.Id ? update : add;
           //添加用户
           fn(this.form)
             .then(response => {

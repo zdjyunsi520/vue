@@ -6,99 +6,90 @@
         <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="设备序列号" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入设备序列号" />
+              <el-form-item label="设备序列号" prop="serialcode">
+                <el-input v-model="form.serialcode" placeholder="请输入设备序列号" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="投运日期" prop="starttime">
-                <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="名称" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入名称" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="资产属性" prop="industry">
-                <el-select v-model="form.industry" >
+              <el-form-item label="资产属性" prop="attribute">
+                <el-select v-model="form.attribute">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.name"
-                    :value="item.key"
-                    v-for="(item,index) in electronType1"
-                  />
+                  <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="设备验证码" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入设备验证码" />
+              <el-form-item label="名称" prop="name">
+                <el-input v-model="form.name" placeholder="请输入名称" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="型号" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入型号" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="软件版本号" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入软件版本号" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="通道号" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入通道号" />
+              <el-form-item label="通道号" prop="channelno">
+                <el-input v-model="form.channelno" placeholder="请输入通道号" />
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="province">
-                <el-select v-model="form.province" >
+              <el-form-item label="设备验证码" prop="validatecode">
+                <el-input v-model="form.validatecode" placeholder="请输入设备验证码" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="10" :push="2" :xs="24">
+              <el-form-item label="型号" prop="modelname">
+                <el-input v-model="form.modelname" placeholder="请输入型号" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="10" :push="1" :xs="24">
+              <el-form-item label="软件版本号" prop="softwareversion">
+                <el-input v-model="form.softwareversion" placeholder="请输入软件版本号" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="10" :push="2" :xs="24">
+              <el-form-item label="生产厂家" prop="contactperson">
+                <el-input v-model="form.contactperson" placeholder="请输入生产厂家" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="10" :push="1" :xs="24">
+              <el-form-item label="所属单位" prop="tenantid">
+                <el-select v-model="form.tenantid">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.text"
-                    :value="item.key"
-                    v-for="item in areaList"
-                  />
+                  <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                 </el-select>
               </el-form-item>
             </el-col>
-
+            <el-col :span="10" :push="2" :xs="24">
+              <el-form-item label="出厂日期" prop="exfactorydate">
+                <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10" :push="1" :xs="24">
+              <el-form-item label="运行状态" prop="province">
+                <el-select v-model="form.province">
+                  <el-option label="请选择" value></el-option>
+                  <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+                </el-select>
+              </el-form-item>
+            </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="排序号" prop="sortindex">
                 <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
-
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="province">
-                <el-select v-model="form.province" >
-                  <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.text"
-                    :value="item.key"
-                    v-for="item in runningState"
-                  />
-                </el-select>
+              <el-form-item label="投运日期" prop="starttime">
+                <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
+
           </el-row>
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="handleSubmit"
-            :loading="loading"
-          >确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -176,31 +167,18 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          parentId: "",
+          id: "",
+          parentid: "",
+          serialcode: "",
+          validatecode: "",
           name: "",
-          artificialperson: "",
-          creditcode: "",
-          phoneno: "",
-          contactperson: "",
-          mobilephone: "",
-          industry: "",
-          principleactivity: "1",
-          province: "1",
-          city: "1",
-          area: "1",
-          address: "",
-          isenable: 1,
-          longitude: "",
-          latitude: "",
+          channelno: "",
+          tenantid: "",
           attribute: "",
+          softwareversion: "",
           starttime: "",
-          maintype: "",
-          subtype: "",
-          contractcapacity: "",
-          voltlevel: "",
-          operatingcapacity: "",
-          industryname: "",
-          principleactivityname: ""
+          modelname: "",
+          exfactorydate: ""
         },
         data
       );
@@ -215,12 +193,6 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.industryname = this.professionList.filter(
-            v => v.key == this.form.industry
-          )[0].text;
-          this.form.principleactivityname = this.professionChildList.filter(
-            v => v.key == this.form.principleactivity
-          )[0].text;
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;

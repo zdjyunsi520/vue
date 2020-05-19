@@ -7,7 +7,7 @@
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="设备编号" prop="serialcode">
-                <el-input v-model="form.serialcode" placeholder="请输入名称" />
+                <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
@@ -42,8 +42,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="isenable">
-                <el-select v-model="form.isenable">
+              <el-form-item label="运行状态" prop="status">
+                <el-select v-model="form.status">
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
                 </el-select>
@@ -140,6 +140,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
+          id: "",
           serialcode: "",
           attribute: "",
           name: "",

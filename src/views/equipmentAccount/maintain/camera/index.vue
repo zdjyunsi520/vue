@@ -24,7 +24,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -56,7 +56,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="投运日期">
-                    <el-input v-model="infoData.StartTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -76,7 +76,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="出厂日期">
-                    <el-input v-model="infoData.ExFactoryDate" disabled></el-input>
+                    <el-input disabled :value="filterDate(infoData.ExFactoryDate)"></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -102,12 +102,12 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="创建时间">
-                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.CreateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护时间">
-                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.UpdateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -129,9 +129,7 @@
 
 <script>
 import { getInfo } from "@/api/equipmentAccount/maintain/camera";
-import commonTree from "@/views/equipmentAccount/components";
 export default {
-  components: { commonTree },
   data() {
     return {
       operateId: "",
@@ -143,14 +141,13 @@ export default {
 
   created() {},
   methods: {
-    handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
+    filterDate(date) {
+      return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
     },
+    filterRun(state) {
+      return !!state ? "在运" : "停运";
+    },
+
     handleAdd() {},
     handleUpdate() {
       const data = {};
@@ -163,23 +160,6 @@ export default {
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
-        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
-        this.infoData.StartTime = this.parseTime(
-          r.data.StartTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.CreateTime = this.parseTime(
-          r.data.CreateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.UpdateTime = this.parseTime(
-          r.data.UpdateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.ExFactoryDate = this.parseTime(
-          r.data.ExFactoryDate,
-          "{y}-{m}-{d}"
-        );
       });
     }
   }

@@ -12,13 +12,8 @@
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="通讯主机" prop="dataserverId">
-                <el-select v-model="form.dataserverId" >
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="(item,index) in communicationHostType"
-                  />
+                <el-select v-model="form.dataserverId">
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in communicationHostType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -29,27 +24,17 @@
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="数据源地址" prop="attribute">
-                <el-select v-model="form.attribute" >
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="(item,index) in assetAttributeType"
-                  />
+                <el-select v-model="form.attribute" :disabled="!!form.id">
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="所属单位" prop="tenantId">
-                <el-select v-model="form.tenantId" >
+                <el-select v-model="form.tenantId">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in companyType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -61,14 +46,9 @@
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="运行状态" prop="isenable">
-                <el-select v-model="form.isenable" >
+                <el-select v-model="form.isenable">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="item in runningStateType"
-                  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -91,14 +71,9 @@
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="资产属性" prop="property">
-                <el-select v-model="form.property" >
+                <el-select v-model="form.property">
                   <el-option label="请选择" value></el-option>
-                  <el-option
-                    :key="item.key+''+index"
-                    :label="item.value"
-                    :value="item.key"
-                    v-for="(item,index) in assetAttributeType"
-                  />
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -123,12 +98,7 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="handleSubmit"
-            :loading="loading"
-          >确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>

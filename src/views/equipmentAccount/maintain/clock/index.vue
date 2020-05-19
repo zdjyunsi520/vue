@@ -1,7 +1,7 @@
 <template>
   <div v-show="visible" class="app-container smInfoform-wrap">
     <div class="search-box" v-if="showBtn">
-      <el-form :inline="true" >
+      <el-form :inline="true">
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
@@ -28,7 +28,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="投运日期">
-                    <el-input v-model="infoData.StartTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -37,10 +37,21 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item label="设备编号">
+                  <el-form-item label="出厂日期">
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="通讯主机">
                     <el-input v-model="infoData.SerialCode" disabled></el-input>
                   </el-form-item>
                 </el-col>
+                <el-col :span="24">
+                  <el-form-item label="CT变化">
+                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+
               </el-col>
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
@@ -50,7 +61,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input v-model="infoData.status" disabled></el-input>
+                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -60,6 +71,21 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="生产厂家">
+                    <el-input v-model="infoData.Factory" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="设备编号">
+                    <el-input v-model="infoData.Factory" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="数据源地址">
+                    <el-input v-model="infoData.Factory" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="PT变化">
                     <el-input v-model="infoData.Factory" disabled></el-input>
                   </el-form-item>
                 </el-col>
@@ -86,12 +112,12 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="创建时间">
-                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.CreateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护时间">
-                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.UpdateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -118,6 +144,12 @@ export default {
 
   created() {},
   methods: {
+    filterDate(date) {
+      return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
+    },
+    filterRun(state) {
+      return !!state ? "在运" : "停运";
+    },
     handleCommand(commond) {
       if (commond == "a") {
         this.$router.push({
@@ -138,11 +170,6 @@ export default {
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
-        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
-        this.infoData.StartTime = this.parseTime( r.data.StartTime, "{y}-{m}-{d}" );
-        this.infoData.CreateTime = this.parseTime( r.data.CreateTime, "{y}-{m}-{d}" );
-        this.infoData.UpdateTime = this.parseTime( r.data.UpdateTime, "{y}-{m}-{d}" );
-    
       });
     }
   }
