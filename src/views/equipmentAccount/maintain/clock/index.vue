@@ -5,6 +5,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+          <el-tag type="danger">未提供删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -23,7 +24,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="是否启用">
-                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                    <el-input :value="filterDisabled(infoData.Status)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -43,12 +44,14 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="通讯主机">
-                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                    <el-input v-model="infoData.DataServer" disabled></el-input>
+                    <el-tag type="danger">未提供此字段</el-tag>
+                    <el-tag type="danger">/ElectricMeter/Get</el-tag>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="CT变化">
-                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                    <el-input v-model="infoData.CTRatio" disabled></el-input>
                   </el-form-item>
                 </el-col>
 
@@ -66,7 +69,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="资产属性">
-                    <el-input v-model="infoData.AttributeName" disabled></el-input>
+                    <el-input v-model="infoData.PropertyName" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -76,17 +79,20 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="设备编号">
-                    <el-input v-model="infoData.Factory" disabled></el-input>
+                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="数据源地址">
-                    <el-input v-model="infoData.Factory" disabled></el-input>
+                    <el-input v-model="infoData.DataServer" disabled></el-input>
+                    <el-tag type="danger">未提供此字段</el-tag>
+                    <el-tag type="danger">并且未提供parentId字段</el-tag>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="PT变化">
-                    <el-input v-model="infoData.Factory" disabled></el-input>
+                    <el-input v-model="infoData.RTRatio" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -130,7 +136,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/smoke";
+import { getInfo } from "@/api/equipmentAccount/maintain/clock";
 
 export default {
   data() {
@@ -150,20 +156,44 @@ export default {
     filterRun(state) {
       return !!state ? "在运" : "停运";
     },
-    handleCommand(commond) {
-      if (commond == "a") {
-        this.$router.push({
-          path: "/equipmentAccount/maintain/panelCabinet/components/update",
-          params: {}
-        });
-      }
+    filterDisabled(state) {
+      return !!state ? "启用" : "停用";
     },
     handleAdd() {},
     handleUpdate() {
-      const data = {};
+      const id = this.infoData.Id;
+      const tenantId = this.infoData.TenantId;
+      const name = this.infoData.Name;
+      const type = this.infoData.Type;
+      const voltagelevel = this.infoData.VoltageLevel;
+      const modelname = this.infoData.ModelName;
+      const manufactor = this.infoData.Manufactor;
+      const isenable = this.infoData.IsEnable;
+      const starttime = this.infoData.StartTime;
+      const sortindex = this.infoData.SortIndex;
+      const parentId = this.infoData.ParentId;
+      const attribute = this.infoData.Attribute;
+      const exfactorydate = this.infoData.ExFactoryDate;
+      const data = {
+        id,
+        tenantId,
+        name,
+        type,
+        voltagelevel,
+        modelname,
+        manufactor,
+        isenable,
+        starttime,
+        sortindex,
+        status,
+        parentId,
+        attribute,
+        exfactorydate
+      };
+      const title = "修改";
       this.$router.push({
-        path: "/equipmentAccount/maintain/communicationHost/components/update",
-        params: { data }
+        path: "/equipmentAccount/maintain/clock/components/update",
+        params: { data, title }
       });
     },
     handleDelete() {},

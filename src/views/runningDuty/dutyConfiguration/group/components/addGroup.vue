@@ -7,13 +7,19 @@
         <el-col :span="24">
           <el-form-item label="班组名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入班组名称" />
+            <el-tag type="danger">先写死用电ID，不然无法添加</el-tag>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="班组成员" prop="employeeIds">
-            <el-select v-model="form.employeeIds" multiple placeholder="请选择">
-              <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId"></el-option>
-            </el-select>
+            <el-popover placement="bottom-start" width="600" trigger="click">
+              <el-scrollbar class="xl-popover">
+                <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange">
+                </el-tree>
+              </el-scrollbar>
+              <el-input :value="form.employeenames" slot="reference"></el-input>
+            </el-popover>
+
           </el-form-item>
         </el-col>
 
@@ -28,10 +34,8 @@
 </template>
 
 <script>
-import {
-  addGroup as add,
-  updateGroup as update
-} from "@/api/runningDuty/dutyConfiguration";
+import { add, update } from "@/api/runningDuty/dutyConfiguration/group";
+import { mapActions } from "vuex";
 export default {
   data() {
     const rules = {
@@ -45,8 +49,7 @@ export default {
       employeeIds: [
         {
           required: true,
-          message: "请选择班组成员",
-          trigger: "blur"
+          message: "请选择班组成员"
         }
       ]
     };
@@ -56,16 +59,45 @@ export default {
       dialogVisible: false,
       loading: false,
       title: "",
-      roleList: []
+      roleList: [],
+      props: {
+        label: "text",
+        children: "childs"
+      },
+      employeeIds: []
     };
   },
-  created() {},
+  created() {
+    this.getChildList();
+  },
+  computed: {},
   methods: {
+    ...mapActions({ employee: "common/employee" }),
+
+    handleCheckChange(row, select) {
+      console.log(row);
+      if (!row.lvl)
+        if (select) {
+          this.employeeIds.push(row);
+        } else {
+          this.employeeIds = this.employeeIds.filter(v => v.id != row.id);
+        }
+      this.form.employeeIds = this.employeeIds.map(v => v.id).join(",");
+      this.form.employeenames = this.employeeIds.map(v => v.text).join(",");
+    },
+    getChildList() {
+      this.employee().then(r => {
+        this.roleList = r.data.map(v => {
+          v.lvl = 1;
+          return v;
+        });
+      });
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          tenantId: "",
+          //tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
           name: "",
           employeenames: "",
           employeeIds: ""
@@ -93,7 +125,6 @@ export default {
           fn(this.form)
             .then(response => {
               this.msgSuccess(response.msg);
-              this.$emit("getList");
               this.handleOpen();
             })
             .catch(r => {
@@ -109,5 +140,8 @@ export default {
 <style lang="scss" scoped>
 /deep/.el-select {
   width: 100%;
+}
+.xl-popover {
+  height: 300px;
 }
 </style>

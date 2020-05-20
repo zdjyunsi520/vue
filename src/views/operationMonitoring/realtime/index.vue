@@ -22,34 +22,24 @@
               <div class="form-smtitle marginBottom30">实时信息 </div>
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
-                  <!-- <h5>电压(baseData.UA.Unit)</h5>
-                  <p>A相<span>{{baseData.UA.Value}}</span></p>
-                  <p>B相<span>{{baseData.UB.Value}}</span></p>
-                  <p>C相<span>{{baseData.UC.Value}}</span></p> -->
+                  <h5>电压(V)</h5>
+                  <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
-                  <h5>电流(V)</h5>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
+                  <h5>电流(A)</h5>
+                  <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 blue">总视在功率(kVA)<b>10.99</b></h5>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
+                  <h5 class="smtitleh5 blue">总视在功率(kVA)<b v-if="datakVA[3]" @click="handleClick(datakVA[3])">{{datakVA[3].Value}}</b></h5>
+                  <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
-                  <h5 class="smtitleh5">总有功功率(kVA)<b>10.99</b></h5>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
+                  <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick(item)">{{datakW[3]?datakW[3].Value:''}}</b></h5>
+                  <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
-                  <h5 class="smtitleh5">总功率因素<b>10.99</b></h5>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
-                  <p>A相<span>0.89</span></p>
+                  <h5 class="smtitleh5">总功率因素<b @click="handleClick(item)">{{dataPF[3]?dataPF[3].Value:''}}</b></h5>
+                  <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
               </el-row>
             </div>
@@ -91,6 +81,9 @@
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
             <div class="form-smtitle marginBottom30">历史曲线 </div>
+            <div>
+
+            </div>
             <div class="  chart-wrapper">
               <LineChart ref="chart" :chartData='chartData' />
               <!-- <p class="tips" style="padding-top:13%">暂无数据</p> -->
@@ -104,7 +97,7 @@
 </template>
 
 <script>
-import { getMeasureData } from "@/api/report";
+import { getMeasureData, getMeasureDataHistory } from "@/api/report";
 import { getTrees } from "@/api/org";
 import LineChart from "./components/LineChart";
 const chartData = {
@@ -126,18 +119,73 @@ export default {
         children: "childs",
         label: "text"
       },
-      baseData: {}
+      baseData: [],
+      id: null,
+      form: {
+        intervalId: "",
+        type: "A",
+        cycleType: 2,
+        beginTime: "",
+        endTime: ""
+      },
+      interval: null
     };
   },
   created() {
     // this.getList();
     this.getTreeData();
   },
-
+  computed: {
+    dataV() {
+      const data = this.baseData
+        .filter(v => v.Unit == "V")
+        .map(v => {
+          v.Name = v.Name.replace("电压", "");
+          return v;
+        });
+      if (this.form.type == "" && data.length) this.form.type = data[0].Type;
+      return data;
+    },
+    dataA() {
+      return this.baseData
+        .filter(v => v.Unit == "A")
+        .map(v => {
+          v.Name = v.Name.replace("电流", "");
+          return v;
+        });
+    },
+    datakW() {
+      return this.baseData
+        .filter(v => v.Unit == "KW")
+        .map(v => {
+          v.Name = v.Name.replace("有功功率", "");
+          return v;
+        });
+    },
+    datakVA() {
+      return this.baseData
+        .filter(v => v.Unit == "kVA")
+        .map(v => {
+          v.Name = v.Name.replace("视在功率", "");
+          return v;
+        });
+    },
+    dataPF() {
+      return this.baseData
+        .filter(v => v.Type.indexOf("PF") > -1)
+        .map(v => {
+          v.Name = v.Name.replace("功率因数", "");
+          return v;
+        });
+    }
+  },
   mounted() {
     this.dragControllerDiv();
   },
   methods: {
+    handleClick(data) {
+      console.log(data.Type);
+    },
     renderContent(h, { node, data, store }) {
       return (
         // 间隔 加class
@@ -155,27 +203,35 @@ export default {
         // this.$emit("getInfo", this.treeData[0]);
       });
     },
-    getMeasureData(id) {
-      const intervalId = id;
+    getMeasureData() {
+      const intervalId = this.id;
       getMeasureData({ intervalId }).then(res => {
         console.log(res);
         let list = res.data;
-        list.map(v => {
-          this.getBaseData(v);
-        });
-        console.log(this.baseData.UA.Unit);
+        this.baseData = res.data;
       });
+      this.getMeasureDataHistory();
+      if (this.interval) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+      this.interval = setInterval(() => {
+        console.log("setInterval");
+        this.getMeasureDataHistory();
+      }, 15 * 1000);
     },
-    getBaseData(v) {
-      this.baseData[v.Type] = v;
+    getMeasureDataHistory() {
+      getMeasureDataHistory(this.form).then(r => {});
     },
+
     handleNodeClick(obj, event) {
       const id = obj.id;
       const type = obj.type;
-      console.log(obj);
+      this.id = obj.id;
       if (type == 11) {
         //间隔
-        this.getMeasureData(obj.id);
+        this.form.intervalId = this.id;
+        this.getMeasureData();
       }
       // this.$emit("getInfo", { id, type });
     }

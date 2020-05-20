@@ -185,11 +185,15 @@ export default {
     },
     handleUpdate() {},
     handleDelete() {
-      const Ids = this.target.ids;
-      deleted({ Ids }).then(r => {
-        this.getList();
-        this.$message.success("删除成功");
-      });
+      this.$confirm("确定要删除选中的班次类型吗")
+        .then(r => {
+          const Ids = this.target.ids.map(v => v.Id);
+          deleted({ Ids }).then(r => {
+            this.getList();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
     },
     handleDelete1() {
       this.$confirm("确定要删除选中的班次吗")

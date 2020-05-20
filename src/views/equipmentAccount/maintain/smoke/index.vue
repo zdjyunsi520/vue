@@ -22,7 +22,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="是否启用">
-                    <el-input :value="filterDisabled(infoData.IsEnable)" disabled></el-input>
+                    <el-input :value="filterDisabled(infoData.Status)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -49,7 +49,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input :value="filterRun(infoData.Status)" disabled></el-input>
+                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -144,7 +144,7 @@ export default {
     handleUpdate() {
       const id = this.infoData.Id;
       const serialcode = this.infoData.SerialCode;
-      const attribute = this.infoData.AttributeName;
+      const attribute = this.infoData.Attribute;
       const name = this.infoData.Name;
       const tenantid = this.infoData.TenantId;
       const starttime = this.infoData.StartTime;
@@ -154,6 +154,7 @@ export default {
       const exfactorydate = this.infoData.ExFactoryDate;
       const isenable = this.infoData.IsEnable;
       const parentid = this.infoData.ParentId;
+      const status = this.infoData.Status;
       const data = {
         id,
         serialcode,
@@ -166,7 +167,8 @@ export default {
         sortindex,
         exfactorydate,
         parentid,
-        isenable
+        isenable,
+        status
       };
       const title = "修改";
       this.$router.push({

@@ -33,3 +33,7 @@ export function createAccount(data) {
 export function setSts(data) {
   return post("/Employee/SetStatus", data, commonUrl);
 }
+
+export function fetchChildList(data) {
+  return post("/Employee/GetTenantEmployees", data, commonUrl);
+}

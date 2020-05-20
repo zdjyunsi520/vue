@@ -56,10 +56,11 @@
               <el-form-item label="所属单位" prop="tenantid">
                 <el-select v-model="form.tenantid">
                   <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
+
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="出厂日期" prop="exfactorydate">
                 <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
@@ -157,7 +158,10 @@ export default {
     this.reset(data);
   },
   computed: {
-    ...mapGetters({ equipmentType: "status/equipmentType" })
+    ...mapGetters({
+      equipmentType: "status/equipmentType",
+      companyType: "status/companyType"
+    })
   },
   methods: {
     handleElectron(v) {},

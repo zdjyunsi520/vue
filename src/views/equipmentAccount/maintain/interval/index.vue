@@ -5,6 +5,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+          <el-tag type="danger">未提供删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -27,7 +28,6 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="投运日期">
-                    <el-input v-model="infoData.StartTime" disabled></el-input>
                     <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
@@ -39,6 +39,7 @@
                 <el-col :span="24">
                   <el-form-item label="关联设备">
                     <el-input v-model="infoData.AssetsType" disabled></el-input>
+                    <el-tag type="danger">GET接口未读取该字段及其ID，并且未读取parentId导致无法修改</el-tag>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -74,12 +75,12 @@
               <el-col :xs="{span: 24}" :span="12" class="border-right">
                 <el-col :span="24">
                   <el-form-item label="创建人">
-                    <el-input v-model="infoData.CreateUserName" disabled></el-input>
+                    <el-input v-model="infoData.CreateUser" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护人">
-                    <el-input v-model="infoData.UpdateUserName" disabled></el-input>
+                    <el-input v-model="infoData.UpdateUser" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>

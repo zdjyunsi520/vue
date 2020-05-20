@@ -10,7 +10,7 @@
 
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-            <el-button icon="el-icon-remove-outline" @click="handleAdd">删除</el-button>
+            <el-button icon="el-icon-remove-outline" :loading="loading" @click="handleDelete" :disabled="multiple">删除</el-button>
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border height="calc(100% - 180px)">
             <el-table-column type="selection" fixed="left" width="55" align="center" />
@@ -21,7 +21,7 @@
         </div>
         <el-col :span="24" :xs="24" class="absolute-bottom">
           <div class="form-footer">
-            <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button>
             <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
           </div>
         </el-col>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { fetchGroup as fetchList } from "@/api/runningDuty/dutyConfiguration";
+import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/group";
 import add from "./components/addGroup";
 export default {
   components: { add },
@@ -62,14 +62,19 @@ export default {
         pagesize: 30
       },
       total: 0,
-      disabledSelect: false
+      disabledSelect: false,
+      ids: []
     };
   },
 
   created() {
     this.getList();
   },
-  computed: {},
+  computed: {
+    multiple() {
+      return !(this.ids.length > 0);
+    }
+  },
   methods: {
     getList() {
       fetchList(this.queryParams).then(r => {
@@ -77,7 +82,9 @@ export default {
         this.total = r.total;
       });
     },
-    handleSelectionChange() {},
+    handleSelectionChange(selection) {
+      this.ids = selection;
+    },
 
     getInfo(data) {
       this.data = data;
@@ -100,7 +107,20 @@ export default {
       target.handleOpen();
     },
     handleUpdate() {},
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的班组吗")
+        .then(r => {
+          this.loading = true;
+          const Ids = this.ids.map(v => v.Id);
+          deleted({ Ids })
+            .then(r => {
+              this.getList();
+              this.$message.success("删除成功");
+            })
+            .finally(r => (this.loading = false));
+        })
+        .catch(e => {});
+    },
     handleBack() {
       this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
     }

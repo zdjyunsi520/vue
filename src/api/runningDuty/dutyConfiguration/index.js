@@ -17,10 +17,3 @@ export function deleted(data) {
 export function getInfo(data) {
   return post("/Duty/Get", data, commonUrl);
 }
-//班组
-export function fetchGroup(data) {
-  return post("/DutyTeam/Gets", data, commonUrl);
-}
-export function addGroup(data) {
-  return post("/DutyTeam/Create", data, commonUrl);
-}

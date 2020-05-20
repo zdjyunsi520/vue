@@ -15,7 +15,7 @@
             <el-input-number v-model="form.period" :min="0" :max="99" controls-position="right" />
           </el-form-item>
           <el-form-item label="结束时间" prop="endtime">
-            <el-time-select v-model="form.endtime" placeholder="请选择时间" />
+            <el-time-select v-model="form.endtime" :picker-options="pickerOptions" placeholder="请选择时间" />
           </el-form-item>
           <el-form-item label="备注" prop="remark">
             <el-input v-model="form.remark" placeholder="" />

@@ -1,41 +1,21 @@
-import { fetchTotalCount } from '@/api/common'
-const state = {
-    merId: null,
-    buyerId: null,
-    orderNo: null,
-    taskNo: null,
-    buyerId: null,
-    form: {
-        transactionType: 1,
-        taskNo: "",
-        orderNo: "",
-        buyerId: "",
-        buyerAccount: "",
-        transactionMoney: "",
-        note: "",
-        resource: 0
-    },
-    count: {
-        bWithdrawRecord: 0,
-        sysFeedback: 0,
-        mMerchantBindStore: 0,
-        bBuyerAudit: 0,
-        mWithdrawRecord: 0,
-        merchantAppeal: 0,
-        bBuyerAccountInfo: 0,
-        buyerAppeal: 0,
-        mRechargeRecord: 0,
-        bBindJdAccountInfo: 0,
-        bBindTbAccountInfo: 0,
-        bBindPddAccountInfo: 0
-    }
-};
+import { fetchList as fetchCommunicationHost } from "@/api/equipmentAccount/maintain/communicationHost";
+import { fetchChildList } from "@/api/systemManager/user";
+const state = {};
 
 const actions = {
-    refresh: ({ state }) => {
-        fetchTotalCount().then(r => {
-            Object.assign(state.count, r.data)
-        })
-    }
-}
+  communicationHost: ({ state }, data) => {
+    return new Promise((resolve, reject) => {
+      fetchCommunicationHost(data).then(r => {
+        resolve(r);
+      });
+    });
+  },
+  employee: ({ state }, data) => {
+    return new Promise((resolve, reject) => {
+      fetchChildList({}).then(r => {
+        resolve(r);
+      });
+    });
+  }
+};
 export default { namespaced: true, state, actions };

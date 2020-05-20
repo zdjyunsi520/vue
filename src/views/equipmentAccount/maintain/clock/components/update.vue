@@ -23,10 +23,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
+
               <el-form-item label="数据源地址" prop="attribute">
-                <el-select v-model="form.attribute" :disabled="!!form.id">
-                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+                <el-select v-model="form.attribute" :disabled="!!form.Id">
+                  <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
                 </el-select>
+                <el-tag type="danger">未提供此字段</el-tag>
               </el-form-item>
             </el-col>
 
@@ -84,8 +86,8 @@
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="是否启用" prop="status">
-                <el-switch v-model="form.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-                {{form.status?'启用':'未启用'}}
+                <el-switch v-model="form.status" :active-value="1" :inactive-value="0" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+                </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
@@ -108,8 +110,7 @@
 
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/clock";
-import { mapGetters } from "vuex";
-import { getCommunicateList } from "@/api/equipmentAccount/maintain/communicationHost";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     const rule = [
@@ -141,6 +142,7 @@ export default {
   created() {
     const { data, title } = this.$route.params;
     this.title = title;
+    console.log(data);
     this.fetechList(data);
 
     console.log(data);
@@ -156,10 +158,11 @@ export default {
     })
   },
   methods: {
+    ...mapActions({ communicationHost: "common/communicationHost" }),
     fetechList(data) {
       const tenantId = data.tenantId;
-      const switchingroomid = data.parentId;
-      getCommunicateList({ tenantId, switchingroomid }).then(r => {
+      // const switchingroomid = data.parentId;
+      this.communicationHost({ tenantId }).then(r => {
         this.communicationHostType = r.data.map(v => {
           const key = v.Id;
           const value = v.Name;
@@ -180,8 +183,8 @@ export default {
           starttime: "",
           property: "",
           dataserverId: "",
-          isenable: "",
-          status: true,
+          isenable: true,
+          status: 1,
           factory: "",
           modelname: "",
           CTratio: "",
