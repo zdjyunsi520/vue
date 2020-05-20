@@ -487,6 +487,7 @@ export default {
       let fd = new FormData();
       fd.append("filekey", file);
       imageUpload(fd).then(r => {});
+      return false;
       // const isJPG = file.type === "image/jpeg";
       // const isLt2M = file.size / 1024 / 1024 < 2;
 
