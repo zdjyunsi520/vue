@@ -50,7 +50,7 @@
             <span @click="setting = true">布局设置</span>
           </el-dropdown-item> -->
           <el-dropdown-item>
-            <span @click="logout">退出登录</span>
+            <span class="xl-login-out-span" @click="logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -215,5 +215,10 @@ export default {
   &:hover {
     color: #1890ff;
   }
+}
+.xl-login-out-span {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 </style>

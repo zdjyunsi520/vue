@@ -7,12 +7,17 @@ import { getToken } from "@/utils/auth";
 // import getPageTitle from "@/utils/get-page-title";
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ["/login", "/auth-redirect", "/bind", "/register", "/findpwd"];
+const whiteList = [
+  "/login",
+  "/auth-redirect",
+  "/bind",
+  "/register",
+  "/findpwd"
+];
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
   // document.title = getPageTitle(to.meta.title, store.getters.title);
-  console.log(getToken());
   if (getToken()) {
     /* has token*/
     if (to.path === "/login") {
@@ -25,7 +30,6 @@ router.beforeEach((to, from, next) => {
           .dispatch("GetInfo")
           .then(res => {
             //拉取user_info
-            console.log("permissionRes", res);
             const roles = res.roles;
             store.dispatch("GenerateRoutes", res).then(accessRoutes => {
               // 测试 默认静态页面

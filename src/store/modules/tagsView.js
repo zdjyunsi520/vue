@@ -42,7 +42,6 @@ const mutations = {
     }
   },
   DEL_CACHED_VIEW: (state, view) => {
-    console.log(state.cachedViews);
     for (const i of state.cachedViews) {
       if (i === view.name) {
         const index = state.cachedViews.indexOf(i);

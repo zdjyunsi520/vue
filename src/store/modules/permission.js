@@ -31,7 +31,6 @@ const permission = {
         const data = [];
         mapRouter(data, res.data);
         const accessedRoutes = filterAsyncRouter(data);
-        console.log(accessedRoutes);
         commit("SET_ROUTES", accessedRoutes);
         resolve(accessedRoutes);
       });
