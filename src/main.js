@@ -12,7 +12,6 @@ import "@/styles/index.scss"; // global css
 import "@/styles/king.scss"; // common css
 import "@/styles/mobile.scss"; // mobile css
 
-
 import App from "./App";
 import store from "./store";
 import router from "./router";
@@ -23,13 +22,9 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 
-
 import "./assets/icons"; // icon
 import "./permission"; // permission control
-//字典配置
-import { getDicts } from "@/api/system/dict/data";
-//参数配置
-import { getConfigKey } from "@/api/system/config";
+
 //工具类
 import {
   parseTime,
@@ -42,8 +37,7 @@ import { dragControllerDiv } from "@/utils/dragTree.js";
 import Pagination from "@/components/Pagination";
 
 // 全局方法挂载
-Vue.prototype.getDicts = getDicts;
-Vue.prototype.getConfigKey = getConfigKey;
+
 Vue.prototype.parseTime = parseTime;
 Vue.prototype.resetForm = resetForm;
 Vue.prototype.addDateRange = addDateRange;
@@ -51,15 +45,15 @@ Vue.prototype.selectDictLabel = selectDictLabel;
 Vue.prototype.download = download;
 Vue.prototype.dragControllerDiv = dragControllerDiv;
 
-Vue.prototype.msgSuccess = function (msg) {
+Vue.prototype.msgSuccess = function(msg) {
   this.$message({ showClose: true, message: msg, type: "success" });
 };
 
-Vue.prototype.msgError = function (msg) {
+Vue.prototype.msgError = function(msg) {
   this.$message({ showClose: true, message: msg, type: "error" });
 };
 
-Vue.prototype.msgInfo = function (msg) {
+Vue.prototype.msgInfo = function(msg) {
   this.$message.info(msg);
 };
 
