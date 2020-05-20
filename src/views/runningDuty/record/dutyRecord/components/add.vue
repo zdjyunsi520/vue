@@ -87,7 +87,7 @@ export default {
         {
           Id: "",
           starttime: "",
-          endtime: 1,
+          endtime: "",
           tenantId: "",
           contactperson: "",
           phoneno: "",

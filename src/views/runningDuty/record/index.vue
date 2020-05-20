@@ -9,28 +9,29 @@
 
           <el-main class=" search-box onlyform-box">
 
-            <p class="form-smtitle">城讯电力</p>
-            <el-row class="table-btns">
-              <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loading">确 定</el-button>
-              <el-button :disabled="!disabledSelect" icon="el-icon-edit-outline" @click="handleUpdate(null)">修 改</el-button>
+            <el-row>
+              <el-col class="form-smtitle">
+                城讯电力
+              </el-col>
+              <el-col>
+                <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
+              </el-col>
+              <el-col>
+                <el-radio-group v-model="radio">
+                  <el-radio :label="3">白班 20:00:00-8:00:00</el-radio>
+                  <el-radio :label="6">白班 20:00:00-8:00:00</el-radio>
+                </el-radio-group>
+              </el-col>
             </el-row>
-            <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
-              <el-row>
-                <el-col :span="24" :xs="24">
-                  <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
-                </el-col>
-                <el-col :span="24">
-                  {{dataList}}
-                </el-col>
-              </el-row>
-            </el-form>
 
           </el-main>
 
           <el-main class="no-padding">
-            <div class="search-box onlyform-box">
-              12123132
-            </div>
+            <el-row class="search-box onlyform-box">
+              <el-col>正值：张三</el-col>
+              <el-col>正值：张三</el-col>
+            </el-row>
+
           </el-main>
         </el-container>
 
@@ -44,6 +45,7 @@
               <el-tab-pane label="交接记录" name="shiftRecord"></el-tab-pane>
               <el-tab-pane label="巡视记录" name="patrolRecord"></el-tab-pane>
             </el-tabs>
+            <mainComponents ref="main" v-show="activeName == 'main'" />
             <dutyRecord ref="dutyRecord" v-show="activeName == 'dutyRecord'" />
             <shiftRecord ref="shiftRecord" v-show="activeName == 'shiftRecord'" />
             <patrolRecord ref="patrolRecord" v-show="activeName == 'patrolRecord'" />
@@ -60,8 +62,9 @@ import { fetchList } from "@/api/runningDuty/record";
 import dutyRecord from "./dutyRecord";
 import shiftRecord from "./shiftRecord";
 import patrolRecord from "./patrolRecord";
+import mainComponents from "./main";
 export default {
-  components: { dutyRecord, shiftRecord, patrolRecord },
+  components: { dutyRecord, shiftRecord, patrolRecord, mainComponents },
   data() {
     const rules = {
       teamId: [{ required: true, message: "请选择值班班组" }],
@@ -86,7 +89,7 @@ export default {
       },
       total: 1,
       disabledSelect: false,
-      activeName: ""
+      activeName: "main"
     };
   },
 
@@ -102,6 +105,7 @@ export default {
   },
   methods: {
     handleClick(tab) {
+      console.log(this.activeName);
       const target = this.$refs[this.activeName];
       target.getList();
     },

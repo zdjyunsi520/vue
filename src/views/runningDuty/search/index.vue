@@ -8,20 +8,18 @@
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="值班班组" prop="teamId">
-          <el-input v-model="queryParams.teamId" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="值班人员" prop="teamId">
+          <el-input v-model="queryParams.teamId" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="班次类型" prop="shifttypeId">
-          <el-input v-model="queryParams.shifttypeId" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="值班日期" prop="starttime">
+          <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
         </el-form-item>
-        <el-form-item label="角色类型" prop="charatypeId">
-          <el-input v-model="queryParams.charatypeId" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="至" prop="endtime">
+          <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
         </el-form-item>
-        <el-form-item label="班组人员" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>

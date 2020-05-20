@@ -97,7 +97,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          //tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
+          tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
           name: "",
           employeenames: "",
           employeeIds: ""
