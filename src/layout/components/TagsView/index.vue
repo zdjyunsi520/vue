@@ -198,17 +198,19 @@ export default {
 .tags-view-container {
   height: 34px;
   width: 100%;
-  background: #fff;    margin-bottom: -3px;
+  background: #fff;
+  margin-bottom: -3px;
+  border-top: 1px solid #ebeef5;
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 34px;
+      height: 36px;
       line-height: 34px;
       color: #999999;
       background: #fff;
-      padding: 0 15px;
+      padding: 1px 15px 0;
       font-size: 14px;
       text-align: center;
       // &:first-of-type {
@@ -268,7 +270,8 @@ export default {
       // width: 16px;
       // height: 16px;
       // vertical-align: 2px;
-      border-radius: 50%;margin-left: 6px;
+      border-radius: 50%;
+      margin-left: 6px;
       // text-align: center;
       // transition: all .3s cubic-bezier(.645, .045, .355, 1);
       // transform-origin: 100% 50%;

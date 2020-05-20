@@ -2,8 +2,9 @@
   <div class="login">
     <div class="login-main">
       <div class="smloginimg">
-        <img src="../assets/image/img_electric_tower.png">
-
+        <img src="../assets/image/img_electric_tower.png" class="img_electric">
+        <img src="../assets/image/img_slogan.png" class="textimg1">
+        <img src="../assets/image/img_text_white.png" class="textimg2">
       </div>
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
@@ -141,7 +142,6 @@ export default {
     },
     // 找回密码
     handlerFindpwd() {
-      console.log(2);
       this.$router.push("/findpwd");
     },
     handleLogin() {
@@ -196,6 +196,7 @@ export default {
     display: flex;
     height: 100%;
     justify-content: center;
+    position: relative;
     align-items: center;
     .smloginimg {
       box-shadow: 0px 0px 8px 0px rgba(58, 58, 58, 0.25);
@@ -204,9 +205,21 @@ export default {
       position: relative;
       display: block;
       height: 100%;
-      img {
+      img.img_electric {
         width: 100%;
         height: 100%;
+      }
+      .textimg2 {
+        position: absolute;
+        bottom: 120px;
+        right: 80px;
+        width: 80%;
+      }
+      .textimg1 {
+        position: absolute;
+        top: 60px;
+        left: 60px;
+        width: 30%;
       }
     }
     .login-form {
@@ -289,5 +302,21 @@ export default {
   height: 46px;
   line-height: 46px;
   padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .login .login-main .smloginimg {
+    display: none;
+  }
+  .login .login-main .login-form {
+    width: 100%;
+    padding: 0 20px;
+  }
+  .title {
+    margin: 23% auto 60px;
+  }
+  .login .login-main {
+    padding: 70px 15px;
+  }
 }
 </style>

@@ -122,7 +122,7 @@ export default {
         bottom: 0px;
       }
       .el-scrollbar__wrap {
-        height: 36px;
+        height: 33px;
         overflow: hidden;
       }
     }
