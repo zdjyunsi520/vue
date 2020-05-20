@@ -132,6 +132,15 @@ export default {
               lineStyle: {
                 color: "#909399"
               }
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#dde4f4",
+                type: "dashed"
+              }
+            },
+            splitArea: {
+              show: false
             }
           }
         ],

@@ -23,7 +23,7 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
-         <el-table-column label="报告名称" min-width="220" sortable align='center' prop=""></el-table-column>
+         <el-table-column label="报告名称" min-width="220" sortable align='center' prop="ReportName"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" sortable align='center' prop="TenantName"></el-table-column>
         <el-table-column label="巡视日期" width="150" sortable align='center' prop="PatrolTime">
           <template slot-scope="scope">
@@ -32,11 +32,11 @@
         </el-table-column>
         <el-table-column label="巡视人员"  min-width="140"sortable align='center' prop="PatrolUserName"></el-table-column>
         <el-table-column label="确认人" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="报告时间"  min-width="140" sortable align='center' prop=""></el-table-column>
+        <el-table-column label="报告时间"  min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
         <el-table-column label="操作" min-width="200" fixed="right" align="center">
           <template slot-scope="scope">
              <div> 
-                <el-button type="primary" plain size="mini" @click="toShowReport(scope.row)" >查看报告</el-button>
+                <el-button type="primary" plain size="mini" @click="handleReport(scope.row)" >查看报告</el-button>
             </div>
           </template>
         </el-table-column>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { fetchReport,deletedJob} from "@/api/patrol";
+import { fetchReport} from "@/api/patrol";
 import { getChildrenList} from "@/api/org";
 
 export default {
@@ -71,8 +71,6 @@ export default {
       tableHeight: "0",
       TenantIds:[],
 
-      ptrolnatures,
-      isexecutes,
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -81,13 +79,8 @@ export default {
         patrolusername:'',
         patroltimeend:'',
         patroltimebegin:'',
-        ptrolnature:'',
-        isexecute:'',
       }
     }
-  },
-  computed: {
-   
   },
   created() {
     this.getList();
@@ -137,73 +130,16 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.patroltimeend='';
       this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection;
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      const title = "新增巡视任务单";
-      const TenantIds= this.TenantIds;
-      this.$router.push({
-        name: "/patrol/PatrolJob/components/add",
-        params: { data: {}, title, TenantIds }
-      });
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      const title = "修改巡视任务单";
-      const data = row;
-      const TenantIds= this.TenantIds;
-      this.$router.push({
-        name: "/patrol/PatrolJob/components/add",
-        params: { data, title, TenantIds }
-      });
-    },
-    // 回退
-    handleBack(row){
-
     },
     // 查看报告
     handleReport(row){
-      window.open('https://www.baidu.com/','_blank')
+      const id = row.Id;
+      let routeData = this.$router.resolve({ path: '/patrol/components/report', query: {  id: id } });
+      window.open(routeData.href, '_blank');
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      console.log(row)
-      this.$confirm("是否确认删除?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(v => {
-        const id = row.Id;
-        deletedJob({ id }).then(r => {
-          this.$message.success('成功删除!');
-          this.getList();
-        });
-      });
-    },
-
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
-    }
+   
   }
 };
 </script>

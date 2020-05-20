@@ -16,14 +16,14 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-          未完：新增，修改
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-
-      <el-table v-loading="listLoading" :height="dataList?tableHeight:'0'" border :data="dataList" element-loading-text="Loading" style='margin-top:20px'>
+      <el-row class="table-btns">
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+      </el-row>
+      <el-table v-loading="listLoading" :height="dataList?tableHeight:'0'" border :data="dataList" element-loading-text="Loading">
         <el-table-column label="巡视单位" sortable min-width="250" prop="TenantName" />
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
         <el-table-column label="巡视人员" sortable min-width="150" prop="PatrolUserName" />
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     // 巡视单位列表
     getTenants() {

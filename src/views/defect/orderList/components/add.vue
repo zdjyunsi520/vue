@@ -16,7 +16,7 @@
           <el-row>
             <el-col :span="11" :xs="24">
               <el-form-item label="用电单位" prop="tenantId">
-                <el-select v-model="form.tenantId" placeholder="请选择用电单位" >
+                <el-select v-model="form.tenantId" placeholder="请选择用电单位"   @change="changeTenant">
                   <el-option
                     v-for="(item,index) in TenantIds"
                     :key="index"
@@ -29,7 +29,7 @@
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="设备" prop="assetsIds">
                 <input type="hidden"  v-model="form.assetsIds" />
-                <el-input v-model="form.assetsIds" placeholder="请选择设备" auto-complete="off"   @focus="getAssets"/>
+                <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off"   @focus="getAssets"/>
                 <!-- <el-select v-model="form.assetsIds" placeholder="请选择设备"  @visible-change="getAssets">
                   <el-option
                     v-for="(item,index) in assetsIdss"
@@ -73,7 +73,7 @@
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="安排消缺人" prop="processorId">
-                <el-select v-model="form.processorId" placeholder="请选择消缺人"   @focus="getProcessor">
+                <el-select v-model="form.processorId" placeholder="请选择消缺人"  >
                   <el-option
                     v-for="(item,index) in processorIds"
                     :key="index"
@@ -183,33 +183,21 @@
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-    <el-dialog  title="设备选择"  :visible.sync="dialogAssetsVisible" center width="500px" style="height:80vh">
-        {{assetsTree}}
-        <el-scrollbar style="height:80%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="assetsTree" :props="defaultProps" node-key="id" :highlight-current="true" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
-          </el-scrollbar>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogAssetsVisible = false">确 定</el-button>
-            <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-        </span>
-    </el-dialog>
-    <el-dialog  title="人员选择"  :visible.sync="dialogProcessorVisible" center width="500px" style="height:80vh">
-        {{processorTree}}
-        <el-scrollbar style="height:80%" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="processorTree" :props="defaultProps" node-key="id" :highlight-current="true" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
-          </el-scrollbar>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogProcessorVisible = false">确 定</el-button>
-            <el-button @click="dialogProcessorVisible = false">取 消</el-button>
-        </span>
-    </el-dialog>
+      <el-dialog  title="设备选择"  :visible.sync="dialogAssetsVisible" center width="500px">
+          <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+          <span slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="handlecheck">确 定</el-button>
+              <el-button @click="dialogAssetsVisible = false">取 消</el-button>
+          </span>
+      </el-dialog>
+   
     </div>
   </div>
 </template>
 
 <script>
 import { getAssets, add, getInfo, update,imageUpload } from "@/api/biz";
-import { getTrees} from "@/api/org";
+import { getTrees,getTenantEmployees} from "@/api/org";
 import { mapGetters } from 'vuex';
 
 export default {
@@ -281,12 +269,7 @@ export default {
       title: "",
       deptType: "",
       assetsIdss: [],
-      processorIds: [
-        {
-          id: "33B25FEA-237B-417B-92B7-5525773CA0F2",
-          text: "张珊珊"
-        }
-      ],
+      processorIds: [],
       defaultProps: {
         children: "childs",
         label: "text"
@@ -297,15 +280,19 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       dialogAssetsVisible: false,
-      dialogProcessorVisible: false,
       assetsTree:[],
+      allassetsTree:[],
       processorTree:[],
+      allpatrolusers: [],
+      ischange:false,
+      count:0,
     };
   },
   computed: {
     ...mapGetters(['name','userId']),
   },
   created() {
+    this.getTenantEmployees();
     let { data, title, TenantIds, ranks } = this.$route.params;
     this.title = title;
     this.TenantIds = TenantIds;
@@ -321,22 +308,77 @@ export default {
     getAssets(){
         this.dialogAssetsVisible = true;
         getTrees().then(res => {
-          this.assetsTree=res.data;
-        this.dialogAssetsVisible = false;
+          
+          this.allassetsTree=res.data;
+          this.allassetsTree.forEach(v => {
+            if (v.id == this.form.tenantId) {
+              this.assetsTree = v.childs;
+              // if (this.form.assetsIds) {
+              //   this.$refs.tree.setCheckedNodes(this.form.assetsIds);
+              // }
+              return;
+            }
+          });
+      
         }).catch(error => {
           console.log(error);
         });
     },
-    // 获取设备列表
+    
+    // 巡视人员
+    getTenantEmployees() {
+      getTenantEmployees({})
+        .then(res => {
+          this.allpatrolusers = res.data;
+          if (this.form.tenantId) this.getProcessor();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    changeTenant(){
+      this.ischange=true;
+      this.getProcessor();
+    },
+    // 消缺人下拉
     getProcessor(){
-        this.dialogProcessorVisible = true;
-        getTrees().then(res => {
-          this.assetsTree=res.data;
-          this.dialogAssetsVisible = false;
-        }).catch(error => {
-          console.log(error);
-        });
+      if (this.ischange) {
+        this.form.processorId='';
+      }
+      this.allpatrolusers.forEach(v => {
+        if (v.id == this.form.tenantId) {
+          this.processorIds = v.childs;
+        }
+      });
     },
+     checkchange(data,checked, node) {
+        this.count++;
+        if(this.count%2===0){
+            if(checked){
+                this.$refs.tree.setCheckedNodes([]);
+                this.$refs.tree.setCheckedNodes([data]);
+                this.form.assetsIds = data.id;
+                this.form.assetsIdtext = data.text;
+                //交叉点击节点
+            }else{
+                this.$refs.tree.setCheckedNodes([]);
+                this.form.assetsIds = '';
+                this.form.assetsIdtext = '';
+                //点击已经选中的节点，置空
+            }
+        }
+      
+      console.log(22,this.form.assetsIds)
+    },
+  
+    //设备选择确定
+    handlecheck() {
+      this.dialogAssetsVisible=false;
+      var arr = this.$refs.tree.getCheckedNodes();
+      console.log(1111,arr)
+    },
+
     // 缺陷关联发现时间
     changeTime(){
       var d = new Date(this.form.detecttime);
@@ -514,7 +556,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/.el-select {
-  width: 100%;
+/deep/.el-dialog__body {
+  height: 60vh;overflow: auto
+}
+/deep/.el-checkbox:last-of-type{
+  margin-right: 10px!important;
 }
 </style>

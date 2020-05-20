@@ -6,7 +6,7 @@
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px" style="width:600px">
           <el-form-item label="巡视单位" prop="tenantid">
-            <el-select v-model="form.tenantid" placeholder="请选择巡视单位" style="width:100%" @change="getPatrolusers">
+            <el-select v-model="form.tenantid" placeholder="请选择巡视单位" style="width:100%" @change="changeTenant">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
           </el-form-item>
@@ -70,7 +70,8 @@ export default {
       form: {},
       TenantIds: [],
       patrolusers: [],
-      allpatrolusers: []
+      allpatrolusers: [],
+      ischange:false,
     };
   },
   created() {
@@ -101,7 +102,15 @@ export default {
     },
 
     //获取关联的巡视人员下拉列表
+    changeTenant(){
+      this.ischange=true;
+      this.getPatrolusers();
+    },
     getPatrolusers() {
+      if (this.ischange) {
+        this.form.patroluserid='';
+        this.form.patrolmemberids='';
+      }
       this.allpatrolusers.forEach(v => {
         if (v.id == this.form.tenantid) {
           this.patrolusers = v.childs;

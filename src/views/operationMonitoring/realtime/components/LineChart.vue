@@ -88,6 +88,16 @@ export default {
         yAxis: {
           axisTick: {
             show: false
+          },
+
+          splitLine: {
+            lineStyle: {
+              color: "#dde4f4",
+              type: "dashed"
+            }
+          },
+          splitArea: {
+            show: false
           }
         },
         legend: {

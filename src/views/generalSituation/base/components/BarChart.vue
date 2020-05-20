@@ -22,10 +22,10 @@ export default {
     },
     height: {
       type: String,
-      default: "300px"
+      default: "250px"
     },
 
-    chartData: {
+    barchartData: {
       type: Object,
       required: true
     }
@@ -36,7 +36,7 @@ export default {
     };
   },
   watch: {
-    chartData: {
+    barchartData: {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
@@ -67,11 +67,10 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.chartData.listData) {
+      if (this.barchartData.listData) {
         this.chart.hideLoading();
-        this.setOptions(this.chartData);
+        this.setOptions(this.barchartData);
       }
-      this.setOptions(this.chartData);
     },
     showLoading() {
       this.chart.showLoading({
@@ -83,32 +82,22 @@ export default {
       });
     },
 
-    setOptions({ title, xAxisData, listData } = {}) {
+    setOptions({ ytext, title, xAxisData, listData } = {}) {
       this.chart.setOption({
-        title: {
-          text: title,
-          left: "5px",
-          top: "20px",
-          textStyle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#333"
-          }
-        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           }
         },
         grid: {
-          top: "60px",
-          left: "30px",
-          right: "30px",
+          top: "30px",
+          left: "40px",
+          right: "40px",
           bottom: "20px",
           containLabel: true
         },
+
         xAxis: [
           {
             type: "category",
@@ -120,43 +109,39 @@ export default {
               lineStyle: {
                 color: "#909399"
               }
-            },
-            splitLine: {
-              show: true
             }
           }
         ],
         yAxis: [
           {
+            name: ytext,
             type: "value",
             axisLine: {
               lineStyle: {
                 color: "#909399"
-              },
-
-              splitLine: {
-                lineStyle: {
-                  color: "#dde4f4",
-                  type: "dashed"
-                }
-              },
-              splitArea: {
-                show: false
               }
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#dde4f4",
+                type: "dashed"
+              }
+            },
+            splitArea: {
+              show: false
             }
           }
         ],
-        color: ["#558cf7"],
         series: [
           {
-            name: "巡视",
+            name: title,
             type: "bar",
-            // stack: 'vistors',
-            barWidth: "50",
+            barWidth: "30",
             data: listData
           }
         ]
       });
+      this.chart.hideLoading();
     }
   }
 };
