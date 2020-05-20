@@ -14,7 +14,7 @@
               <el-form-item label="资产属性" prop="attribute">
                 <el-select v-model="form.attribute">
                   <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key+''+index" :label="item.name" :value="item.key" v-for="(item,index) in electronType1" />
+                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -47,8 +47,9 @@
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="生产厂家" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入生产厂家" />
+              <el-form-item label="生产厂家" prop="factory">
+                <el-input v-model="form.factory" placeholder="请输入生产厂家" />
+                <el-tag>未提供此字段</el-tag>
               </el-form-item>
             </el-col>
 
@@ -67,17 +68,20 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="province">
-                <el-select v-model="form.province">
+              <el-form-item label="运行状态" prop="status">
+                <el-select v-model="form.status">
                   <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in runningState" />
+                  <el-option label="在运" :value="1" />
+                  <el-option label="停运" :value="0" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="排序号" prop="sortindex">
                 <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+                <el-tag type="danger">未提供此字段</el-tag>
               </el-form-item>
+
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="投运日期" prop="starttime">
@@ -99,20 +103,8 @@
 </template>
 
 <script>
-import { add, fetchTree, update } from "@/api/systemManager/organization";
-import { fetchList } from "@/api/commonManager/area";
+import { add, update } from "@/api/equipmentAccount/maintain/camera";
 import { mapGetters } from "vuex";
-import { fetchList as fetchProfession } from "@/api/commonManager/profession";
-
-const electronType1 = [
-  { key: "用户资产", value: "用户资产" },
-  { key: "局方资产", value: "局方资产" }
-];
-
-const runningState = [
-  { key: "在运", value: "在运" },
-  { key: "停运", value: "停运" }
-];
 
 export default {
   data() {
@@ -146,10 +138,7 @@ export default {
       rules,
       dialogVisible: false,
       loading: false,
-      title: "",
-      professionList: [],
-      electronType1,
-      runningState
+      title: ""
     };
   },
   created() {
@@ -160,7 +149,8 @@ export default {
   computed: {
     ...mapGetters({
       equipmentType: "status/equipmentType",
-      companyType: "status/companyType"
+      companyType: "status/companyType",
+      assetAttributeType: "status/assetAttributeType"
     })
   },
   methods: {
@@ -182,7 +172,10 @@ export default {
           softwareversion: "",
           starttime: "",
           modelname: "",
-          exfactorydate: ""
+          exfactorydate: "",
+          status: 1,
+          factory: "",
+          sortindex: 1
         },
         data
       );

@@ -202,7 +202,7 @@ export default {
       });
     },
     handleDelete() {
-      this.$confirm("确定要删除选中的数据吗")
+      this.$confirm("确定要删除选中的配电室吗")
         .then(r => {
           const Ids = [this.data.id];
           deleted({ Ids }).then(r => {

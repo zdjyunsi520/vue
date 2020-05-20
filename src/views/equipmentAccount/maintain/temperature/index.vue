@@ -5,6 +5,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+          <el-tag type="danger">未提供删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -41,8 +42,13 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
+                  <el-form-item label="通讯主机">
+                    <el-input v-model="infoData.DataServerName" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
                   <el-form-item label="CT变化">
-                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                    <el-input v-model="infoData.CTRatio" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -74,12 +80,12 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="数据源地址">
-                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                    <el-input v-model="infoData.DataAddress" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="PT变化">
-                    <el-input v-model="infoData.SerialCode" disabled></el-input>
+                    <el-input v-model="infoData.RTRatio" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -124,7 +130,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/temperature";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/temperature";
 export default {
   data() {
     return {
@@ -147,41 +153,51 @@ export default {
       return !!state ? "启用" : "停用";
     },
     handleUpdate() {
-      const id = this.infoData.Id;
-      const name = this.infoData.Name;
-      const type = this.infoData.Type;
-      const tenantid = this.infoData.TenantId;
-      const isenable = this.infoData.IsEnable;
-      const starttime = this.infoData.StartTime;
-      const property = this.infoData.Property;
-      const voltlevel = this.infoData.VoltLevel;
-      const assetsid = this.infoData.AssetsId;
-      const assetstype = this.infoData.AssetsType;
-      const sortindex = this.infoData.SortIndex;
-      const ismainline = this.infoData.IsMainLine;
-      const parentid = "";
-      const data = {
-        id,
-        name,
-        type,
-        tenantid,
-        isenable,
-        starttime,
-        property,
-        voltlevel,
-        assetsid,
-        assetstype,
-        sortindex,
-        ismainline,
-        parentid
-      };
+      // const id = this.infoData.Id;
+      // const name = this.infoData.Name;
+      // const type = this.infoData.Type;
+      // const tenantid = this.infoData.TenantId;
+      // const isenable = this.infoData.IsEnable;
+      // const starttime = this.infoData.StartTime;
+      // const property = this.infoData.Property;
+      // const voltlevel = this.infoData.VoltLevel;
+      // const assetsid = this.infoData.AssetsId;
+      // const assetstype = this.infoData.AssetsType;
+      // const sortindex = this.infoData.SortIndex;
+      // const ismainline = this.infoData.IsMainLine;
+      // const parentid = "";
+      // const data = {
+      //   id,
+      //   name,
+      //   type,
+      //   tenantid,
+      //   isenable,
+      //   starttime,
+      //   property,
+      //   voltlevel,
+      //   assetsid,
+      //   assetstype,
+      //   sortindex,
+      //   ismainline,
+      //   parentid
+      // };
       const title = "修改";
+      const data = this.infoData;
       this.$router.push({
         name: "/equipmentAccount/maintain/temperature/components/update",
         params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的温控吗")
+        .then(r => {
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;

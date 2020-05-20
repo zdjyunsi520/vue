@@ -24,11 +24,10 @@
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
 
-              <el-form-item label="数据源地址" prop="attribute">
-                <el-select v-model="form.attribute" :disabled="!!form.Id">
+              <el-form-item label="数据源地址" prop="dataaddress">
+                <el-select v-model="form.dataaddress" :disabled="!!form.Id">
                   <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
                 </el-select>
-                <el-tag type="danger">未提供此字段</el-tag>
               </el-form-item>
             </el-col>
 
@@ -102,6 +101,8 @@
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-tag type="danger">修改5000错误</el-tag>
+
         </div>
       </el-col>
     </div>
@@ -142,7 +143,7 @@ export default {
   created() {
     const { data, title } = this.$route.params;
     this.title = title;
-    console.log(data);
+    console.log("data", data);
     this.fetechList(data);
 
     console.log(data);
@@ -189,9 +190,9 @@ export default {
           modelname: "",
           CTratio: "",
           RTratio: "",
-          parentId: "",
           id: "",
-          sortindex: 1
+          sortindex: 1,
+          dataaddress: ""
         },
         data
       );

@@ -6,6 +6,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+          <el-tag type="danger">未提供此删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -178,9 +179,8 @@ export default {
     handleDelete() {
       this.$confirm("确定要删除通讯主机吗")
         .then(r => {
-          const Ids = [this.data.id];
-          deleted({ Ids }).then(r => {
-            this.getList1();
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
             this.$message.success("删除成功");
           });
         })
