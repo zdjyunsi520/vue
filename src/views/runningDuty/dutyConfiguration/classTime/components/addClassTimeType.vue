@@ -7,6 +7,7 @@
         <el-col :span="24">
           <el-form-item label="班次类型" prop="name">
             <el-input v-model="form.name" placeholder="请输入班次类型" />
+            <el-tag type="danger">先写死用电ID，不然无法添加</el-tag>
           </el-form-item>
         </el-col>
       </el-row>
@@ -47,7 +48,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          //   tenantId: "",
+          tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
           name: ""
         },
         data
