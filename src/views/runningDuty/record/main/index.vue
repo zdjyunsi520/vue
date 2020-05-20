@@ -11,23 +11,23 @@
           <div class="text item">
             <el-form ref="form" :model="form" :rules="rules">
               <el-form-item label="正值" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+                <el-input v-model="form.contactperson" placeholder="请输入正值" />
               </el-form-item>
 
               <el-form-item label="交班时间" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+                <el-input v-model="form.contactperson" placeholder="请输入交班时间" />
               </el-form-item>
               <el-form-item label="交班人" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+                <el-input v-model="form.contactperson" placeholder="请输入交班人" />
               </el-form-item>
               <el-form-item label="天气" prop="tenantId">
                 <el-select v-model="form.tenantId">
-                  <el-option label="请选择" value></el-option>
+                  <el-option label="请选择天气" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
               <el-form-item label="温度(℃)" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+                <el-input v-model="form.contactperson" placeholder="请输入温度" />
               </el-form-item>
               <el-form-item>
                 <el-button>交班</el-button>

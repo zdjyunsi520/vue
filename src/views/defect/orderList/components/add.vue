@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { getAssets, add, getInfo, update, imageUpload } from "@/api/biz";
+import { add, getInfo, update, imageUpload } from "@/api/biz";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
 

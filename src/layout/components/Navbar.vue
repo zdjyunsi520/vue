@@ -15,20 +15,20 @@
       <template v-if="device!=='mobile'">
         <!-- <search id="header-search" class="right-menu-item" /> -->
 
-        <div class="right-menu-item hover-effect" >
+        <div class="right-menu-item hover-effect">
           <span style="position:relative">
-          <el-badge is-dot class="item" style="display: inline;">
-            <svg-icon icon-class="news" style="font-size: 23px;vertical-align: -0.3em;"/>
-            <!-- <el-button class="share-button" icon="el-icon-share" type="primary"></el-button> -->
-          </el-badge>
+            <el-badge is-dot class="item" style="display: inline;">
+              <svg-icon icon-class="news" style="font-size: 23px;vertical-align: -0.3em;" />
+              <!-- <el-button class="share-button" icon="el-icon-share" type="primary"></el-button> -->
+            </el-badge>
           </span>
         </div>
-        
-        <div class="right-menu-item hover-effect" >
+
+        <div class="right-menu-item hover-effect">
           <svg-icon icon-class="nav_colour" style="font-size: 15px;vertical-align: middle;" />
         </div>
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 12px;"/>
+        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 12px;" />
 
         <!-- <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
@@ -49,7 +49,7 @@
           <el-dropdown-item>
             <span @click="setting = true">布局设置</span>
           </el-dropdown-item> -->
-          <el-dropdown-item >
+          <el-dropdown-item>
             <span @click="logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -59,14 +59,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Breadcrumb from '@/components/Breadcrumb';
-import Hamburger from '@/components/Hamburger';
-import Screenfull from '@/components/Screenfull';
-import SizeSelect from '@/components/SizeSelect';
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import Screenfull from "@/components/Screenfull";
+import SizeSelect from "@/components/SizeSelect";
 // import Search from '@/components/HeaderSearch';
-import Ku from '@/components/Ku';
-import UpdatePwd from '@/views/login/components/UpdatePwd';
+import Ku from "@/components/Ku";
+import UpdatePwd from "@/views/login/components/UpdatePwd";
 export default {
   components: {
     Breadcrumb,
@@ -76,21 +76,21 @@ export default {
     // Search,
     Ku,
     UpdatePwd
-  }, 
+  },
   data() {
     return {
-      avatar1: require('../../assets/image/photo.jpg')
+      avatar1: require("../../assets/image/photo.jpg")
     };
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'device', 'name']),
+    ...mapGetters(["sidebar", "avatar", "device", "name"]),
     setting: {
       get() {
         return this.$store.state.settings.showSettings;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'showSettings',
+        this.$store.dispatch("settings/changeSetting", {
+          key: "showSettings",
           value: val
         });
       }
@@ -98,32 +98,32 @@ export default {
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar');
+      this.$store.dispatch("app/toggleSideBar");
     },
     async logout() {
-      this.$confirm('确定注销并退出系统吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("确定注销并退出系统吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(() => {
-        this.$store.dispatch('LogOut').then(() => {
+        this.$store.dispatch("LogOut").then(() => {
           location.reload();
         });
       });
     },
-     handleOpen(ref) {
+    handleOpen(ref) {
       this.$refs[ref].dialogVisible = true;
-    },
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;    margin-bottom: -1px;
+  height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;    border-bottom: 1px solid #ebeef5;
+  background: #fff;
   // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {

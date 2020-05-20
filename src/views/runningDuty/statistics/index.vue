@@ -9,7 +9,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年度" prop="teamId">
-          <el-input v-model="queryParams.teamId" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.teamId" placeholder="请输入年度" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <el-form-item>

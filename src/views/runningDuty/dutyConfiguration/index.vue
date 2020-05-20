@@ -3,16 +3,16 @@
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="值班班组" prop="teamId">
-          <el-input v-model="queryParams.teamId" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.teamId" placeholder="请输入值班班组" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="班次类型" prop="shifttypeId">
-          <el-input v-model="queryParams.shifttypeId" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.shifttypeId" placeholder="请输入班次类型" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="角色类型" prop="charatypeId">
-          <el-input v-model="queryParams.charatypeId" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.charatypeId" placeholder="请输入角色类型" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="班组人员" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.employeename" placeholder="请输入班组人员" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
