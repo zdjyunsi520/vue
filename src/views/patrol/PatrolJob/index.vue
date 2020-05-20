@@ -28,14 +28,13 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-refresh" @click="handleReport">报告</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
-        未完：新增接口不能用--（修改，查询）
+        未完：修改
       </el-row>
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
@@ -78,7 +77,7 @@
 </template>
 
 <script>
-import { fetchListJob, deletedJob,fallbackJob } from "@/api/patrol";
+import { fetchListJob, deletedJob, fallbackJob } from "@/api/patrol";
 import { getChildrenList } from "@/api/org";
 
 const ptrolnatures = [
@@ -216,18 +215,20 @@ export default {
     },
     // 回退
     handleBack(row) {
-        const id = row.Id;
-        fallbackJob({ id }).then(r => {
-          this.$message.success("已回退!");
-          this.getList();
-        });
-
+      const id = row.Id;
+      fallbackJob({ id }).then(r => {
+        this.$message.success("已回退!");
+        this.getList();
+      });
     },
     // 查看报告
-    handleReport() {
-      // const id = row.Id;
-      let routeData = this.$router.resolve({ path: '/patrol/components/report', query: {  jobid: '8ED77D8B-C8DE-4390-9FC5-EDB109ADC419' } });
-      window.open(routeData.href, '_blank');
+    handleReport(row) {
+      const id = row.Id;
+      let routeData = this.$router.resolve({
+        path: "/patrol/components/report",
+        query: { jobid: id }
+      });
+      window.open(routeData.href, "_blank");
     },
     /** 删除按钮操作 */
     handleDelete(row) {

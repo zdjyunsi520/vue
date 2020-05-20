@@ -5,31 +5,19 @@
 
       <el-scrollbar>
         <!-- 添加或修改参数配置对话框 -->
-        <el-form
-          :model="form"
-          ref="form"
-          label-position="left"
-          :rules="rules"
-          label-width="110px"
-          
-        >
+        <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="11" :xs="24">
               <el-form-item label="用电单位" prop="tenantId">
-                <el-select v-model="form.tenantId" placeholder="请选择用电单位"   @change="changeTenant">
-                  <el-option
-                    v-for="(item,index) in TenantIds"
-                    :key="index"
-                    :label="item.Name"
-                    :value="item.Id"
-                  ></el-option>
+                <el-select v-model="form.tenantId" placeholder="请选择用电单位" @change="changeTenant">
+                  <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="设备" prop="assetsIds">
-                <input type="hidden"  v-model="form.assetsIds" />
-                <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off"   @focus="getAssets"/>
+                <input type="hidden" v-model="form.assetsIds" />
+                <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" />
                 <!-- <el-select v-model="form.assetsIds" placeholder="请选择设备"  @visible-change="getAssets">
                   <el-option
                     v-for="(item,index) in assetsIdss"
@@ -41,69 +29,39 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <el-col :span="11"  :xs="24">
+              <el-col :span="11" :xs="24">
                 <el-form-item label="缺陷等级" prop="rank">
-                  <el-select v-model="form.rank" placeholder="请选择设备"  @change="changeTime">
-                    <el-option
-                      v-for="(item,index) in ranks"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id"
-                    ></el-option>
+                  <el-select v-model="form.rank" placeholder="请选择设备" @change="changeTime">
+                    <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="发现人" prop="detecterId">
-                <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" /> 
+                <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="发现时间" prop="detecttime" >
-                <el-date-picker
-                  v-model="form.detecttime"
-                  type="datetime"
-                  placeholder="请选择发现时间"
-                   @change="changeTime"
-                  value-format="yyyy-MM-dd hh:mm:ss"
-                  format="yyyy-MM-dd hh:mm:ss"
-                ></el-date-picker>
+              <el-form-item label="发现时间" prop="detecttime">
+                <el-date-picker v-model="form.detecttime" type="datetime" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="安排消缺人" prop="processorId">
-                <el-select v-model="form.processorId" placeholder="请选择消缺人"  >
-                  <el-option
-                    v-for="(item,index) in processorIds"
-                    :key="index"
-                    :label="item.text"
-                    :value="item.id"
-                  ></el-option>
+                <el-select v-model="form.processorId" placeholder="请选择消缺人">
+                  <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="处理期限" prop="processdue">
-                <el-date-picker
-                  v-model="form.processdue"
-                  type="datetime"
-                  placeholder="请选择处理期限"
-                  
-                  value-format="yyyy-MM-dd hh:mm:ss"
-                  format="yyyy-MM-dd hh:mm:ss"
-                ></el-date-picker>
+                <el-date-picker v-model="form.processdue" type="datetime" placeholder="请选择处理期限" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="23">
               <el-form-item label="缺陷内容" prop="description">
-                <el-input
-                  v-model="form.description"
-                  type="textarea"
-                  :rows="5"
-                  placeholder="请输入缺陷内容"
-                  auto-complete="off"
-                />
+                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" auto-complete="off" />
               </el-form-item>
             </el-col>
             <el-col :span="23">
@@ -113,7 +71,7 @@
                   action="https://jsonplaceholder.typicode.com/posts/"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
-                   :before-upload='beforeAvatarUpload'
+                  :before-upload='beforeAvatarUpload'
                   :on-success="handleAvatarSuccess"
                   :on-preview="handlePictureCardPreview"
                   :on-remove="handleRemove"
@@ -122,15 +80,9 @@
                   <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload> -->
-                <el-upload
-                  action="http://apicommont.xtioe.com/File/Url"
-                  list-type="picture-card" 
-                  ref="upload"
-                  name="filekey"
-                  :http-request="uploadSectionFile"
-                 >
+                <el-upload action="http://apicommont.xtioe.com/File/Url" list-type="picture-card" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
                   <i class="el-icon-plus"></i>
-                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible" size="tiny">
                   <img width="100%" :src="dialogImageUrl" alt="">
@@ -153,20 +105,14 @@
 
             <el-col :span="11" :xs="24">
               <el-form-item label="填报人" prop="reporterId">
-                <el-input v-model="form.reporterId" disabled />
+                <input type="hidden" v-model="form.reporterId">
+                <el-input v-model="form.reporterName" disabled />
               </el-form-item>
             </el-col>
 
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="填报时间" prop="reporttime">
-                <el-date-picker
-                  v-model="form.reporttime"
-                  type="datetime"
-                  
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  disabled
-                  format="yyyy-MM-dd HH:mm:ss"
-                ></el-date-picker>
+                <el-date-picker v-model="form.reporttime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" disabled format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -174,31 +120,33 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="handleSubmit"
-            :loading="loading"
-          >确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-      <el-dialog  title="设备选择"  :visible.sync="dialogAssetsVisible" center width="500px">
-          <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
-          <span slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="handlecheck">确 定</el-button>
-              <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-          </span>
+      <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
+        <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlecheck">确 定</el-button>
+          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
+        </span>
       </el-dialog>
-   
+
+      <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
+        <el-tree :data="processorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handleEmpcheck">确 定</el-button>
+          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getAssets, add, getInfo, update,imageUpload } from "@/api/biz";
-import { getTrees,getTenantEmployees} from "@/api/org";
-import { mapGetters } from 'vuex';
+import { getAssets, add, getInfo, update, imageUpload } from "@/api/biz";
+import { getTrees, getTenantEmployees } from "@/api/org";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -224,7 +172,7 @@ export default {
           trigger: "change"
         }
       ],
-     
+
       detecterId: [
         {
           required: true,
@@ -277,19 +225,21 @@ export default {
       ranks: [],
       TenantIds: [],
       imageUrl: "",
-      dialogImageUrl: '',
+      dialogImageUrl: "",
       dialogVisible: false,
       dialogAssetsVisible: false,
-      assetsTree:[],
-      allassetsTree:[],
-      processorTree:[],
+      dialogEmployeesVisible: false,
+      assetsTree: [],
+      allassetsTree: [],
+      processorTree: [],
       allpatrolusers: [],
-      ischange:false,
-      count:0,
+      employeesTree: [],
+      ischange: false,
+      count: 0
     };
   },
   computed: {
-    ...mapGetters(['name','userId']),
+    ...mapGetters(["name", "userId"])
   },
   created() {
     this.getTenantEmployees();
@@ -305,26 +255,26 @@ export default {
   },
   methods: {
     // 获取设备列表
-    getAssets(){
-        this.dialogAssetsVisible = true;
-        getTrees().then(res => {
-          
-          this.allassetsTree=res.data;
+    getAssets() {
+      this.dialogAssetsVisible = true;
+      getTrees()
+        .then(res => {
+          this.allassetsTree = res.data;
           this.allassetsTree.forEach(v => {
             if (v.id == this.form.tenantId) {
               this.assetsTree = v.childs;
-              // if (this.form.assetsIds) {
-              //   this.$refs.tree.setCheckedNodes(this.form.assetsIds);
-              // }
+              if (this.form.assetsIds) {
+                this.$refs.tree.setCheckedKeys([this.form.assetsIds]);
+              }
               return;
             }
           });
-      
-        }).catch(error => {
+        })
+        .catch(error => {
           console.log(error);
         });
     },
-    
+
     // 巡视人员
     getTenantEmployees() {
       getTenantEmployees({})
@@ -337,14 +287,14 @@ export default {
         });
     },
 
-    changeTenant(){
-      this.ischange=true;
+    changeTenant() {
+      this.ischange = true;
       this.getProcessor();
     },
     // 消缺人下拉
-    getProcessor(){
+    getProcessor() {
       if (this.ischange) {
-        this.form.processorId='';
+        this.form.processorId = "";
       }
       this.allpatrolusers.forEach(v => {
         if (v.id == this.form.tenantId) {
@@ -352,43 +302,59 @@ export default {
         }
       });
     },
-     checkchange(data,checked, node) {
-        this.count++;
-        if(this.count%2===0){
-            if(checked){
-                this.$refs.tree.setCheckedNodes([]);
-                this.$refs.tree.setCheckedNodes([data]);
-                this.form.assetsIds = data.id;
-                this.form.assetsIdtext = data.text;
-                //交叉点击节点
-            }else{
-                this.$refs.tree.setCheckedNodes([]);
-                this.form.assetsIds = '';
-                this.form.assetsIdtext = '';
-                //点击已经选中的节点，置空
-            }
+    checkchange(data, checked, node) {
+      console.log(data, checked, node, this.count);
+      this.count++;
+      console.log(2, this.count);
+      if (this.count % 2 === 0) {
+        if (checked) {
+          console.log(3);
+          this.$refs.tree.setCheckedKeys([]);
+          this.$refs.tree.setCheckedKeys([data.id]);
+          this.form.assetsIds = data.id;
+          this.form.assetsIdtext = data.text;
+          this.count = 1;
+          //交叉点击节点
+        } else {
+          console.log(4);
+          this.$refs.tree.setCheckedKeys([]);
+          this.form.assetsIds = "";
+          this.form.assetsIdtext = "";
+          this.count = 0;
+          //点击已经选中的节点，置空
         }
-      
-      console.log(22,this.form.assetsIds)
+      } else {
+        this.form.assetsIds = data.id;
+        this.form.assetsIdtext = data.text;
+        this.count = 1;
+      }
+
+      console.log(22, this.form.assetsIds);
     },
-  
+
     //设备选择确定
     handlecheck() {
-      this.dialogAssetsVisible=false;
+      this.dialogAssetsVisible = false;
       var arr = this.$refs.tree.getCheckedNodes();
-      console.log(1111,arr)
+      console.log(1111, arr);
+    },
+    //人员选择确定
+    handleEmpcheck() {
+      this.dialogEmployeesVisible = false;
+      var arr = this.$refs.emptree.getCheckedNodes();
+      console.log(1111, arr);
     },
 
     // 缺陷关联发现时间
-    changeTime(){
+    changeTime() {
       var d = new Date(this.form.detecttime);
       var dtime;
-      if (this.form.rank==1) {
-        dtime= d.setMonth(d.getMonth() + 6);
-      }else if (this.form.rank==2) {
-        dtime= d.setMonth(d.getMonth() + 1);
-      }else{
-        dtime= d.setDate(d.getDate() + 1);
+      if (this.form.rank == 1) {
+        dtime = d.setMonth(d.getMonth() + 6);
+      } else if (this.form.rank == 2) {
+        dtime = d.setMonth(d.getMonth() + 1);
+      } else {
+        dtime = d.setDate(d.getDate() + 1);
       }
       this.form.processdue = d;
     },
@@ -397,13 +363,15 @@ export default {
     reset(data) {
       var nowTime = new Date();
       var processdueTime = nowTime;
-      processdueTime = new Date(processdueTime.setMonth(processdueTime.getMonth() + 6 ));
+      processdueTime = new Date(
+        processdueTime.setMonth(processdueTime.getMonth() + 6)
+      );
       this.form = Object.assign(
         {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: this.userId,
+          detecterId: "",
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
@@ -412,7 +380,8 @@ export default {
           attachmenturl: "",
           number: "",
           unit: "",
-          reporterId: "",
+          reporterId: this.userId,
+          reporterName: this.name,
           reporttime: nowTime
         },
         data
@@ -440,7 +409,7 @@ export default {
       }
     },
     handleOpen(data) {
-        this.$router.push({
+      this.$router.push({
         name: "/defect/orderList/index",
         params: {}
       });
@@ -512,54 +481,17 @@ export default {
       //   this.$message.error("上传图片大小不能超过 2MB!");
       // }
       // return isJPG && isLt2M;
-    },
-    uploadSectionFile(params) {
-          const file = params.file,
-            fileType = file.type,
-            isImage = fileType.indexOf("image") != -1,
-            isLt2M = file.size / 1024 / 1024 < 2;
-          // 这里常规检验，看项目需求而定
-          // if (!isImage) {
-          //   this.$message.error("只能上传图片格式png、jpg、gif!");
-          //   return;
-          // }
-          // if (!isLt2M) {
-          //   this.$message.error("只能上传图片大小小于2M");
-          //   return;
-          // }
-          // 根据后台需求数据格式
-          const form = new FormData();
-          // 文件对象
-              console.log('params',params)
-          form.append("filekey", params);
-              console.log('form',form)
-          // 本例子主要要在请求时添加特定属性，所以要用自己方法覆盖默认的action
-          // form.append("clientType", 'xxx');
-          // 项目封装的请求方法，下面做简单介绍
-          imageUpload(form)
-            .then(res => {
-              console.log(res)
-             //自行处理各种情况
-              // const code = res && parseInt(res.code, 10);
-              // if (code === 200) {
-              //   // xxx
-              // } else {
-              //   // xxx
-              // }
-            })
-            .catch(() => {
-              // xxx
-            });
-    } 
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/.el-dialog__body {
-  height: 60vh;overflow: auto
+  height: 60vh;
+  overflow: auto;
 }
-/deep/.el-checkbox:last-of-type{
-  margin-right: 10px!important;
+/deep/.el-checkbox:last-of-type {
+  margin-right: 10px !important;
 }
 </style>

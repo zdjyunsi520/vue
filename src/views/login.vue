@@ -1,18 +1,23 @@
 <template>
   <div class="login">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">智能运维云平台操作后台</h3>
-      <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-        </el-input>
-      </el-form-item>
-      <!-- <el-form-item prop="code">
+    <div class="login-main">
+      <div class="smloginimg">
+        <img src="../assets/image/img_electric_tower.png">
+
+      </div>
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+        <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+            <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
+            <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          </el-input>
+        </el-form-item>
+        <!-- <el-form-item prop="code">
         <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
@@ -21,17 +26,22 @@
         </div>
         <short-message ref="sms" :type="0" @setData="setUserName" v-else></short-message>
       </el-form-item> -->
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <div class="smbottombtn">
+          <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
+          <span class="pwdbtn" @click="handlerFindpwd">
+            <svg-icon icon-class="ic_find_out" style="font-size: 25px;vertical-align: middle;margin-right: 4px;" />找回密码</span>
+        </div>
+        <el-form-item style="width:100%;">
+          <el-button :loading="loading" class="btnbg" size="medium" type="primary" style="width:100%;" @click="handleLogin">
+            <span v-if="!loading">登 录</span>
+            <span v-else>登 录 中...</span>
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2020 Robat Ant All Rights Reserved.</span>
+      <span>2019-2020 xuntengdl.com 版权所有 闽ICP备19017481号</span>
     </div>
   </div>
 </template>
@@ -129,6 +139,11 @@ export default {
         };
       }
     },
+    // 找回密码
+    handlerFindpwd() {
+      console.log(2);
+      this.$router.push("/findpwd");
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -172,34 +187,75 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   background-image: url("../assets/image/login-background.jpg");
-  background-size: cover;
-}
-.title {
-  margin: 0px auto 30px auto;
-  text-align: center;
-  color: #707070;
-}
-
-.login-form {
-  border-radius: 6px;
-  background: #ffffff;
-  width: 400px;
-  padding: 25px 25px 5px 25px;
-  .el-input {
-    height: 38px;
-    input {
-      height: 38px;
+  background-size: 100% 100%;
+  position: relative;
+  .login-main {
+    padding: 45px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    .smloginimg {
+      box-shadow: 0px 0px 8px 0px rgba(58, 58, 58, 0.25);
+      border-radius: 5px 0 0 10px;
+      overflow: hidden;
+      position: relative;
+      display: block;
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .login-form {
+      border-radius: 0 5px 10px 0;
+      background: #ffffff;
+      height: 100%;
+      width: 586px;
+      padding: 0 90px;
+      .el-input {
+        height: 46px;
+        input {
+          height: 46px;
+        }
+      }
+      .input-icon {
+        height: 39px;
+        width: 14px;
+        margin-left: 2px;
+      }
+      .el-form-item {
+        margin-bottom: 20px;
+      }
+    }
+    .smbottombtn {
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span.pwdbtn {
+        cursor: pointer;
+        font-size: 12px;
+        color: #558cf7;
+      }
     }
   }
-  .input-icon {
-    height: 39px;
-    width: 14px;
-    margin-left: 2px;
+}
+.title {
+  margin: 50% auto 60px;
+  img {
+    margin-bottom: 30px;
+    width: 120px;
+    display: block;
+  }
+  font-size: 20px;
+  font-weight: normal;
+  color: #222836;
+  label {
+    font-weight: normal;
+    color: #558cf7;
   }
 }
 .login-tip {
@@ -227,5 +283,11 @@ export default {
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 1px;
+}
+.btnbg {
+  background-image: linear-gradient(90deg, #0072ff 0%, #5f95ff 100%);
+  height: 46px;
+  line-height: 46px;
+  padding: 0;
 }
 </style>

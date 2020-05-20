@@ -7,7 +7,7 @@ import { getToken } from "@/utils/auth";
 // import getPageTitle from "@/utils/get-page-title";
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ["/login", "/auth-redirect", "/bind", "/register"];
+const whiteList = ["/login", "/auth-redirect", "/bind", "/register", "/findpwd"];
 
 router.beforeEach((to, from, next) => {
   NProgress.start();

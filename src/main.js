@@ -23,6 +23,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 
+
 import "./assets/icons"; // icon
 import "./permission"; // permission control
 //字典配置
@@ -37,7 +38,7 @@ import {
   selectDictLabel,
   download
 } from "@/utils/king";
-import {dragControllerDiv} from "@/utils/dragTree.js"; 
+import { dragControllerDiv } from "@/utils/dragTree.js";
 import Pagination from "@/components/Pagination";
 
 // 全局方法挂载
@@ -50,15 +51,15 @@ Vue.prototype.selectDictLabel = selectDictLabel;
 Vue.prototype.download = download;
 Vue.prototype.dragControllerDiv = dragControllerDiv;
 
-Vue.prototype.msgSuccess = function(msg) {
+Vue.prototype.msgSuccess = function (msg) {
   this.$message({ showClose: true, message: msg, type: "success" });
 };
 
-Vue.prototype.msgError = function(msg) {
+Vue.prototype.msgError = function (msg) {
   this.$message({ showClose: true, message: msg, type: "error" });
 };
 
-Vue.prototype.msgInfo = function(msg) {
+Vue.prototype.msgInfo = function (msg) {
   this.$message.info(msg);
 };
 
