@@ -16,7 +16,7 @@
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="设备" prop="assetsIds">
-                <input type="hidden" v-model="form.assetsIds" />
+                <!-- <input type="hidden" v-model="form.assetsIds" /> -->
                 <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" />
                 <!-- <el-select v-model="form.assetsIds" placeholder="请选择设备"  @visible-change="getAssets">
                   <el-option
@@ -39,7 +39,10 @@
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="发现人" prop="detecterId">
-                <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" />
+                <!-- <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" /> -->
+                <el-select v-model="form.detecterId" placeholder="请选择">
+                  <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
@@ -80,7 +83,7 @@
                   <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload> -->
-                <el-upload action="http://apicommont.xtioe.com/File/Url" list-type="picture-card" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                <el-upload action="#" list-type="picture-card" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
                   <i class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
@@ -235,7 +238,8 @@ export default {
       allpatrolusers: [],
       employeesTree: [],
       ischange: false,
-      count: 0
+      count: 0,
+      selectAssets: []
     };
   },
   computed: {
@@ -302,7 +306,13 @@ export default {
         }
       });
     },
-    checkchange(data, checked, node) {
+    checkchange(data, checked) {
+      if (checked) {
+        const target = this.$refs.tree;
+        target.setCheckedKeys([data.id]);
+      }
+    },
+    checkchange1(data, checked, node) {
       console.log(data, checked, node, this.count);
       this.count++;
       console.log(2, this.count);
@@ -334,15 +344,18 @@ export default {
 
     //设备选择确定
     handlecheck() {
-      this.dialogAssetsVisible = false;
       var arr = this.$refs.tree.getCheckedNodes();
-      console.log(1111, arr);
+      if (arr.length) {
+        this.form.assetsIdtext = arr[0].text;
+        this.form.assetsIds = arr[0].id;
+        this.dialogAssetsVisible = false;
+      } else {
+        this.$message.error("请选择一个设备");
+      }
     },
     //人员选择确定
     handleEmpcheck() {
       this.dialogEmployeesVisible = false;
-      var arr = this.$refs.emptree.getCheckedNodes();
-      console.log(1111, arr);
     },
 
     // 缺陷关联发现时间
@@ -471,6 +484,9 @@ export default {
     // 附件上传之前判断大小
     beforeAvatarUpload(file) {
       console.log(file);
+      let fd = new FormData();
+      fd.append("filekey", file);
+      imageUpload(fd).then(r => {});
       // const isJPG = file.type === "image/jpeg";
       // const isLt2M = file.size / 1024 / 1024 < 2;
 

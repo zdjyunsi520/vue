@@ -6,7 +6,7 @@
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="140px" style="width:600px">
           <el-form-item label="巡视单位" prop="tenantId">
-            <el-select v-model="form.tenantId" placeholder="请选择巡视单位" @change="getTenantInfo(form.tenantId)">
+            <el-select v-model="form.tenantId" placeholder="请选择巡视单位" @change="handleChangeTenantId">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
           </el-form-item>
@@ -32,7 +32,7 @@
             <el-input v-model="form.patroluserphone"></el-input>
           </el-form-item>
           <el-form-item label="巡视成员" prop="patrolmemberids">
-            <el-select v-model="form.patrolmemberids" placeholder="请选择巡视成员" multiple>
+            <el-select v-model="patrolmemberids" placeholder="请选择巡视成员" multiple>
               <el-option v-for="(item,index) in patrolusers" :key="index" :label="item.text" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -61,14 +61,12 @@ export default {
     return {
       form: {},
       rules: {
-        tenantId: [
-          { required: true, message: "请选择巡视单位", trigger: "change" }
-        ],
+        tenantId: [{ required: true, message: "请选择巡视单位" }],
         patroluserid: [
-          { required: true, message: "请请选择巡视人员", trigger: "change" }
+          { required: true, message: "请请选择巡视人员", trigger: "blur" }
         ],
         patroltime: [
-          { required: true, message: "请选择巡视日期", trigger: "change" }
+          { required: true, message: "请选择巡视日期", trigger: "blur" }
         ]
       },
       dialogVisible: false,
@@ -76,8 +74,10 @@ export default {
       title: "",
       form: {},
       TenantIds: [],
-      patrolusers: [],
-      allpatrolusers: []
+      allpatrolusers: [],
+      once: 2,
+      patroluserid: "",
+      patrolmemberids: []
     };
   },
   created() {
@@ -85,12 +85,25 @@ export default {
     let { data, title, TenantIds } = this.$route.params;
     this.title = title;
     this.TenantIds = TenantIds;
-    this.reset(data);
-    // if (data && data.Id) {
-    //   this.getInfoJob(data);
-    // } else {
-    //   this.reset(data);
-    // }
+
+    if (data && data.id) {
+      this.getInfoJob(data);
+    } else {
+      this.reset(data);
+    }
+  },
+  computed: {
+    patrolusers() {
+      if (this.once) {
+        this.once--;
+      } else {
+        this.form.patroluserid = "";
+        this.patrolmemberids = [];
+      }
+      return this.allpatrolusers
+        .filter(v => v.id == this.form.tenantId)
+        .map(v => v.childs)[0];
+    }
   },
   methods: {
     // 巡视人员
@@ -98,20 +111,9 @@ export default {
       getTenantEmployees({})
         .then(res => {
           this.allpatrolusers = res.data;
-
-          if (this.form.tenantid) this.getPatrolusers();
         })
         .catch(error => {
           console.log(error);
-        });
-    },
-    //获取关联的巡视人员下拉列表
-    getPatrolusers() {
-      if (this.form.tenantId)
-        this.allpatrolusers.forEach(v => {
-          if (v.id == this.form.tenantId) {
-            this.patrolusers = v.childs;
-          }
         });
     },
 
@@ -134,29 +136,39 @@ export default {
         data
       );
     },
-    getInfoJob(data) {
+    getInfoJob({ id }) {
       this.loading = true;
-      if (data) {
-        const id = { id: data.Id };
-        if (id) {
-          getInfoJob(id)
-            .then(res => {
-              this.reset(data);
-              this.form = res.data;
-            })
-            .finally(v => (this.loading = false));
-        }
-      } else {
-        this.loading = false;
-        this.reset(data);
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate();
-        });
-      }
+      getInfoJob({ id })
+        .then(res => {
+          const row = res.data;
+          const tenantId = row.TenantId;
+          const patroladdress = row.PatrolAddress;
+          const contactusername = row.ContactUserName;
+          const contactphone = row.ContactPhone;
+          const patroltime = row.PatrolTime;
+          const patroluserid = row.PatrolUserId;
+          const patroluserphone = row.PatrolUserPhone;
+          const patrolmemberids = row.PatrolMemberIds;
+          const patrolscope = row.PatrolScope;
+          this.patrolmemberids = patrolmemberids.split(",");
+          const data = {
+            tenantId,
+            patroladdress,
+            contactusername,
+            contactphone,
+            patroltime,
+            patroluserid,
+            patroluserphone,
+            patrolmemberids,
+            patrolscope
+          };
+          this.reset(data);
+        })
+        .finally(v => (this.loading = false));
     },
     // 获取单位的信息：电话地址联系人
-    getTenantInfo(id) {
-      this.getPatrolusers();
+    handleChangeTenantId() {
+      const id = this.form.tenantId;
       getInfo({ id }).then(res => {
         this.form.patroladdress = res.data.Address;
         this.form.contactusername = res.data.ContactPerson;
@@ -179,8 +191,7 @@ export default {
           let fn;
           if (this.form.id) fn = updateJob;
           else fn = addJob;
-          console.log("this.form.patrolmemberids", this.form.patrolmemberids);
-          this.form.patrolmemberids = this.form.patrolmemberids.join(",");
+          this.form.patrolmemberids = this.patrolmemberids.join(",");
           fn(this.form)
             .then(response => {
               //消息提示
@@ -193,7 +204,6 @@ export default {
             .catch(r => {
               //取消按钮转圈圈
               this.loading = false;
-              this.form.patrolmemberids = this.form.patrolmemberids.split(",");
             });
         }
       });

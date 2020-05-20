@@ -34,7 +34,6 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
-        未完：修改
       </el-row>
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
@@ -205,7 +204,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       const title = "修改巡视任务单";
-      const data = row;
+      const data = { id: row.Id };
 
       const TenantIds = this.TenantIds;
       this.$router.push({

@@ -99,6 +99,15 @@ export function post(url, params, baseUrl) {
   }
   return service({ url, method: "post", params });
 }
+export function postFile(url, data, baseUrl) {
+  if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
+  const token = getToken();
+  if (token) {
+    data.append("Token", token);
+  }
+  const headers = { "Content-Type": "multipart/form-data" };
+  return service({ url, method: "post", data, headers });
+}
 export function post1(url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
