@@ -22,7 +22,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="是否启用">
-                    <el-input :value="filterDisabled(infoData.Status)" disabled></el-input>
+                    <el-input :value="filterDisabled(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -49,7 +49,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
+                    <el-input :value="filterRun(infoData.Status)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/smoke";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/smoke";
 export default {
   data() {
     return {
@@ -176,7 +176,16 @@ export default {
         params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的烟感吗")
+        .then(r => {
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;

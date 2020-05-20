@@ -28,12 +28,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="关联设备" prop="assetsid">
-                <el-select v-model="form.assetsid">
+              <el-form-item label="关联设备" prop="binddeviceId">
+                <el-select v-model="form.binddeviceId">
                   <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in connectType" />
+                  <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in deviceType" />
                 </el-select>
-                <el-tag type="danger">新增接口中未指明是哪个字段，不知是否这里影响到展示页</el-tag>
               </el-form-item>
             </el-col>
 
@@ -88,6 +87,7 @@
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-tag type="danger">修改报错50000</el-tag>
         </div>
       </el-col>
     </div>
@@ -96,7 +96,7 @@
 
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/interval";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -121,13 +121,15 @@ export default {
       rules,
       dialogVisible: false,
       loading: false,
-      title: ""
+      title: "",
+      deviceType: []
     };
   },
   created() {
     const { data, title } = this.$route.params;
     this.title = title;
     this.reset(data);
+    this.fetchDeviceList();
   },
   computed: {
     ...mapGetters({
@@ -141,8 +143,14 @@ export default {
     })
   },
   methods: {
+    ...mapActions({ deviceList: "common/deviceList" }),
     handleElectron(v) {},
-    /** 行业列表 */
+    fetchDeviceList() {
+      const tenantId = this.form.tenantid;
+      this.deviceList({ tenantId }).then(r => {
+        this.deviceType = r.data;
+      });
+    },
 
     // 表单重置
     reset(data) {
@@ -150,16 +158,16 @@ export default {
         {
           id: "",
           tenantid: "",
-          assetsid: "",
+          binddeviceId: "",
+          binddevicetype: "",
           name: "",
           type: "",
-          isenable: "",
+          isenable: true,
           starttime: "",
           property: "",
           voltlevel: "",
-          ismainline: "",
-          sortindex: 1,
-          parentid: ""
+          ismainline: 1,
+          sortindex: 1
         },
         data
       );
@@ -177,6 +185,12 @@ export default {
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;
+          const deviceType = this.deviceType.filter(
+            v => v.Id == this.form.binddeviceId
+          );
+          this.form.binddevicetype = deviceType.length
+            ? deviceType[0].Type
+            : "";
           //添加用户
           fn(this.form)
             .then(response => {

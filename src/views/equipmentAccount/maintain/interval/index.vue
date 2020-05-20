@@ -5,7 +5,6 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-          <el-tag type="danger">未提供删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -38,8 +37,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="关联设备">
-                    <el-input v-model="infoData.AssetsType" disabled></el-input>
-                    <el-tag type="danger">GET接口未读取该字段及其ID，并且未读取parentId导致无法修改</el-tag>
+                    <el-input v-model="infoData.BindDeviceName" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -106,7 +104,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/interval";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/interval";
 export default {
   data() {
     return {
@@ -147,10 +145,11 @@ export default {
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
       const voltlevel = this.infoData.VoltLevel;
-      const assetsid = this.infoData.AssetsId;
+      const binddeviceId = this.infoData.BindDeviceId;
+      const binddevicetype = this.infoData.BindDeviceType;
       const sortindex = this.infoData.SortIndex;
       const ismainline = this.infoData.IsMainLine;
-      const parentid = "";
+      const parentid = this.infoData.ParentId;
       const data = {
         id,
         name,
@@ -160,10 +159,11 @@ export default {
         starttime,
         property,
         voltlevel,
-        assetsid,
+        binddeviceId,
+        binddevicetype,
         sortindex,
-        ismainline,
-        parentid
+        ismainline
+        //  parentid
       };
       const title = "修改";
       this.$router.push({
@@ -171,7 +171,16 @@ export default {
         params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的间隔吗")
+        .then(r => {
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;

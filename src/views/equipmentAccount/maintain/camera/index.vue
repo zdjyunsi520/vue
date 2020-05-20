@@ -44,7 +44,8 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="生产厂家">
-                    <el-input v-model="infoData.SoftwareVersion" disabled></el-input>
+                    <el-input v-model="infoData.SoftwareVersion123" disabled></el-input>
+                    <el-tag type="danger">未提供此字段</el-tag>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -128,7 +129,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/camera";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/camera";
 export default {
   data() {
     return {
@@ -150,13 +151,51 @@ export default {
 
     handleAdd() {},
     handleUpdate() {
-      const data = {};
+      const id = this.infoData.Id;
+      const parentid = this.infoData.ParentId;
+      const serialcode = this.infoData.SerialCode;
+      const validatecode = this.infoData.ValidateCode;
+      const name = this.infoData.Name;
+      const channelno = this.infoData.ChannelNo;
+      const tenantid = this.infoData.TenantId;
+      const attribute = this.infoData.Attribute;
+      const softwareversion = this.infoData.SoftwareVersion;
+      const starttime = this.infoData.StartTime;
+      const modelname = this.infoData.ModelName;
+      const exfactorydate = this.infoData.ExFactoryDate;
+      const status = this.infoData.Status;
+
+      const data = {
+        id,
+        parentid,
+        serialcode,
+        validatecode,
+        name,
+        channelno,
+        tenantid,
+        attribute,
+        softwareversion,
+        starttime,
+        modelname,
+        exfactorydate,
+        status
+      };
+      const title = "修改";
       this.$router.push({
-        path: "/equipmentAccount/maintain/camera/components/update",
-        params: { data }
+        name: "/equipmentAccount/maintain/camera/components/update",
+        params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的摄像头吗")
+        .then(r => {
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;

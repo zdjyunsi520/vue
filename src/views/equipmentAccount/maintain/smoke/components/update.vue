@@ -8,12 +8,11 @@
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="设备编号" prop="serialcode">
                 <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
-                <el-tag type="danger">新增提示当前设备不在资产设备库中</el-tag>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="是否启用" prop="isenable">
-                <el-switch v-model="form.isenable" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+                <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="停用">
                 </el-switch>
               </el-form-item>
             </el-col>
@@ -46,9 +45,9 @@
               <el-form-item label="运行状态" prop="status">
                 <el-select v-model="form.status">
                   <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
+                  <el-option label="在运" :value="1" />
+                  <el-option label="停运" :value="0" />
                 </el-select>
-                <el-tag type="danger">未提供此字段</el-tag>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
@@ -148,7 +147,8 @@ export default {
           name: "",
           tenantid: "",
           starttime: "",
-          isenable: 1,
+          isenable: true,
+          status: 1,
           ModelName: "",
           factory: "",
           sortindex: 1,

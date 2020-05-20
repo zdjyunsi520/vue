@@ -44,9 +44,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="通讯主机">
-                    <el-input v-model="infoData.DataServer" disabled></el-input>
-                    <el-tag type="danger">未提供此字段</el-tag>
-                    <el-tag type="danger">/ElectricMeter/Get</el-tag>
+                    <el-input v-model="infoData.DataServerName" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -85,9 +83,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="数据源地址">
-                    <el-input v-model="infoData.DataServer" disabled></el-input>
-                    <el-tag type="danger">未提供此字段</el-tag>
-                    <el-tag type="danger">并且未提供parentId字段</el-tag>
+                    <el-input v-model="infoData.DataAddress" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -164,35 +160,39 @@ export default {
       const id = this.infoData.Id;
       const tenantId = this.infoData.TenantId;
       const name = this.infoData.Name;
-      const type = this.infoData.Type;
-      const voltagelevel = this.infoData.VoltageLevel;
-      const modelname = this.infoData.ModelName;
-      const manufactor = this.infoData.Manufactor;
-      const isenable = this.infoData.IsEnable;
       const starttime = this.infoData.StartTime;
+      const property = this.infoData.Property;
+      const serialcode = this.infoData.SerialCode;
+      const dataserverId = this.infoData.DataServerId;
+      const isenable = this.infoData.IsEnable;
+      const status = this.infoData.Status;
+      const factory = this.infoData.Factory;
+      const modelname = this.infoData.ModelName;
+      const CTratio = this.infoData.CTRatio;
+      const RTratio = this.infoData.RTRatio;
       const sortindex = this.infoData.SortIndex;
-      const parentId = this.infoData.ParentId;
-      const attribute = this.infoData.Attribute;
-      const exfactorydate = this.infoData.ExFactoryDate;
+      const dataaddress = this.infoData.DataAddress;
       const data = {
         id,
         tenantId,
         name,
-        type,
-        voltagelevel,
-        modelname,
-        manufactor,
-        isenable,
+
+        serialcode,
         starttime,
-        sortindex,
+        property,
+        dataserverId,
+        isenable,
         status,
-        parentId,
-        attribute,
-        exfactorydate
+        factory,
+        modelname,
+        CTratio,
+        RTratio,
+        sortindex,
+        dataaddress
       };
       const title = "修改";
       this.$router.push({
-        path: "/equipmentAccount/maintain/clock/components/update",
+        name: "/equipmentAccount/maintain/clock/components/update",
         params: { data, title }
       });
     },
