@@ -9,12 +9,12 @@
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+          <el-input v-model="loginForm.username" type="text" auto-complete="new-username" placeholder="账号">
             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
+          <el-input v-model="loginForm.password" type="password" auto-complete="new-password" placeholder="密码" @keyup.enter.native="handleLogin">
             <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
@@ -62,8 +62,8 @@ export default {
       codeUrl: "",
       cookiePassword: "",
       loginForm: {
-        username: "administrator",
-        password: "123456@abc",
+        username: "",
+        password: "",
         rememberMe: false,
         fromurl: "system"
       },
@@ -107,7 +107,7 @@ export default {
     //     this.getCode();
     //   }
     // });
-    // this.getCookie();
+    this.getCookie();
   },
   methods: {
     setUserName() {
@@ -128,10 +128,13 @@ export default {
     // },
     getCookie() {
       const rememberMe = Boolean(Cookies.get("rememberMe"));
+      let username = "";
+      let password = "";
+      let fromurl = "";
       if (rememberMe) {
-        let username = Cookies.get("username");
-        let password = Base64.decode(Cookies.get("password"));
-        let fromurl = Cookies.get("fromurl");
+        username = Cookies.get("username");
+        password = Base64.decode(Cookies.get("password"));
+        fromurl = Cookies.get("fromurl");
         this.loginForm = {
           username,
           password,
@@ -148,6 +151,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          console.log(this.loginForm);
           if (this.loginForm.rememberMe) {
             Cookies.set("username", this.loginForm.username, {
               expires: 30
@@ -167,6 +171,7 @@ export default {
             Cookies.remove("rememberMe");
             Cookies.remove("fromurl");
           }
+
           this.$store
             .dispatch("Login", this.loginForm)
             .then(() => {
