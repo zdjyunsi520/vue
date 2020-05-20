@@ -3,15 +3,7 @@
     <div class="login-main">
       <div class="smloginimg">
         <img src="../assets/image/img_electric_tower.png">
-        <div class="txt1">
-          <p class="t1"></p>
-          <p class="t1"></p>
-          <p class="t1"></p>
-        </div>
-        <div class="txt2">
-          <p class="t1">XUNTENG SMART ENERGY CLOUD PLATFORM</p>
-          <p class="t2">迅腾智慧能源云平台</p>
-        </div>
+
       </div>
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
@@ -215,40 +207,6 @@ export default {
       img {
         width: 100%;
         height: 100%;
-      }
-      color: #fff;
-      .txt1 {
-        text-align: left;
-        position: absolute;
-        top: 60px;
-        left: 60px;
-        line-height: 24px;
-        opacity: 0.8;
-        .t1 {
-          font-size: 54px;
-          margin-bottom: 33px;
-        }
-        .t2 {
-          font-size: 24px;
-        }
-        .t3 {
-          font-size: 24px;
-        }
-      }
-      .txt2 {
-        text-align: right;
-        line-height: 24px;
-        position: absolute;
-        bottom: 120px;
-        right: 84px;
-        opacity: 0.8;
-        .t1 {
-          font-size: 54px;
-          margin-bottom: 33px;
-        }
-        .t2 {
-          font-size: 24px;
-        }
       }
     }
     .login-form {

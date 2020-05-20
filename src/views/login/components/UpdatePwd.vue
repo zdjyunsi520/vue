@@ -1,33 +1,37 @@
 <template>
-  <el-dialog width="800px" :title="title+'密码修改'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
-    <el-form :model="form" ref="form" :rules="rules">
+  <div class="pwdbox">
+    <div class="pwd-main">
+      <div class="pwdtitle">
+        <svg-icon icon='logintag' class="logintag" />
+        <span>找回密码</span>
+      </div>
+      <el-form :model="form" ref="form" :rules="rules">
 
-      <!-- <el-form-item class="xl-line-height-initial" label="密码类型">
+        <!-- <el-form-item class="xl-line-height-initial" label="密码类型">
         <el-switch style="display: block" v-model="form.sts" active-color="#409eff" inactive-color="#409eff" active-text="登录密码" inactive-text="提现密码" :active-value='0' :inactive-value='1'>
         </el-switch>
       </el-form-item> -->
 
-      <el-form-item label="旧密码" prop="oldPassword">
-        <el-input style="width:200px;" type="password" v-model="form.oldPassword" autocomplete="off" placeholder="旧密码"></el-input>
-      </el-form-item>
-      <el-form-item label="新密码" prop="newPassword">
-        <el-input style="width:200px;" type="password" v-model="form.newPassword" autocomplete="off" placeholder="新密码"></el-input>
-      </el-form-item>
-      <el-form-item label="新密码" prop="againPassword">
-        <el-input style="width:200px;" type="password" v-model="form.againPassword" autocomplete="off" placeholder="再次输入新密码"></el-input>
-      </el-form-item>
-      <!-- <el-form-item label="短信验证码" prop="code">
-        <el-input style="width:200px;" v-model="form.code" autocomplete="off" placeholder="短信验证码"></el-input>
-        <short-message ref="sms" @validatePhone="validatePhone"></short-message>
+        <el-form-item prop="oldPassword">
+          <el-input type="password" v-model="form.oldPassword" autocomplete="off" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword">
+          <el-input type="password" v-model="form.newPassword" autocomplete="off" placeholder="请输入新密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="againPassword">
+          <el-input type="password" v-model="form.againPassword" autocomplete="off" placeholder="请再次输入新密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="code">
+          <el-input v-model="form.code" autocomplete="off" placeholder="请填写验证码"></el-input>
+          <short-message ref="sms" @validatePhone="validatePhone"></short-message>
 
-      </el-form-item> -->
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button :loading="loading" type="warning" @click="handleSubmit">确定</el-button>
-
-      <el-button @click="handleOpen">取消</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button :loading="loading" type="warning" @click="handleSubmit">确定</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-  </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -142,27 +146,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/.el-form-item__label {
-  width: 30%;
-}
-/deep/.el-input,
-/deep/.el-select {
-  width: 45%;
-  .el-input {
-    width: 100%;
+.pwdbox {
+  height: 100%;
+  background-image: url("../../../assets/image/login-background.jpg");
+  background-size: 100% 100%;
+  position: relative;
+  padding-top: 10%;
+  .pwd-main {
+    width: 420px;
+    height: 440px;
+    margin: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px 0px #96a9ff;
+    border-radius: 5px;
+    .pwdtitle {
+      width: 166px;
+      height: 50px;
+      color: #fff;
+      position: relative;
+      text-align: center;
+      line-height: 50px;
+      .logintag {
+        background-image: linear-gradient(90deg, #0072ff 0%, #5f95ff 100%);
+        box-shadow: 0px 3px 5px 0px #c1d9ff;
+        position: absolute;
+        top: -30px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 166px;
+      }
+    }
+    .el-form {
+      padding: 0 40px;
+      .el-form-item {
+        margin-bottom: 20px;
+        .el-input--medium .el-input__inner {
+          line-height: 46px !important;
+          height: 46px !important;
+        }
+      }
+    }
   }
-}
-/deep/.el-form-item__error {
-  left: 45%;
-}
-/deep/.xl-line-height-initial {
-  /deep/.el-form-item__label {
-    width: 30%;
-    line-height: initial;
-  }
-}
-/deep/.el-form {
-  width: 400px;
-  margin: 0 auto;
 }
 </style>
