@@ -8,6 +8,7 @@
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="设备编号" prop="serialcode">
                 <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
+                <el-tag type="danger">新增提示当前设备不在资产设备库中</el-tag>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
@@ -44,8 +45,8 @@
             <el-col :span="10" :push="1" :xs="24">
               <el-form-item label="运行状态" prop="isenable">
                 <el-select v-model="form.isenable">
-                  <el-option label="在运" :value="1" />
-                  <el-option label="停运" :value="2" />
+                  <el-option label="在运" :value="true" />
+                  <el-option label="停运" :value="false" />
                   <!-- <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" /> -->
                 </el-select>
               </el-form-item>
@@ -97,26 +98,31 @@
                 <el-select v-model="form.attribute" :disabled="!!form.Id">
                   <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
                 </el-select>
+                <el-tag type="danger">未提供此字段</el-tag>
               </el-form-item>
+
             </el-col>
 
           </el-row>
         </el-form>
       </el-scrollbar>
+
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
+
     </div>
+
   </div>
 </template>
 
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/temperature";
-import { mapGetters } from "vuex";
-import { getCommunicateList } from "@/api/equipmentAccount/maintain/communicationHost";
+import { mapGetters, mapActions } from "vuex";
+import { fetchList } from "@/api/equipmentAccount/maintain/communicationHost";
 export default {
   data() {
     const rule = [
@@ -147,6 +153,7 @@ export default {
   },
   created() {
     const { data, title } = this.$route.params;
+    console.log(data);
     this.title = title;
     this.fetechList(data);
 
@@ -163,10 +170,11 @@ export default {
     })
   },
   methods: {
+    ...mapActions({ communicationHost: "common/communicationHost" }),
     fetechList(data) {
       const tenantId = data.tenantId;
-      const switchingroomid = data.parentId;
-      getCommunicateList({ tenantId, switchingroomid }).then(r => {
+      // const switchingroomid = data.parentId;
+      this.communicationHost({ tenantId }).then(r => {
         this.communicationHostType = r.data.map(v => {
           const key = v.Id;
           const value = v.Name;

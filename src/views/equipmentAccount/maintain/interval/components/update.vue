@@ -24,6 +24,7 @@
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
                 </el-select>
+
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
@@ -32,6 +33,7 @@
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in connectType" />
                 </el-select>
+                <el-tag type="danger">新增接口中未指明是哪个字段，不知是否这里影响到展示页</el-tag>
               </el-form-item>
             </el-col>
 

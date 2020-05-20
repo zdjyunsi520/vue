@@ -5,6 +5,16 @@ const commonUrl = "Dev";
 export function getInfo(data) {
   return post("/DataServer/Get", data, commonUrl);
 }
-export function getCommunicateList(data) {
+export function add(data) {
+  return post("/DataServer/Create", data, commonUrl);
+}
+
+export function update(data) {
+  return post("/DataServer/Modify", data, commonUrl);
+}
+export function deleted(data) {
+  return post("/DataServer/Remove", data, commonUrl);
+}
+export function fetchList(data) {
   return post("/DataServer/Gets", data, commonUrl);
 }

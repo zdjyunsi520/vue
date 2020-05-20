@@ -152,8 +152,10 @@ export default {
     },
     handleCommand(name) {
       const parentid = this.data.id;
+      const tenantid = this.infoData.TenantId;
       const parentId = parentid;
-      const data = { parentid, parentId };
+      const switchingroomid = parentid;
+      const data = { parentid, parentId, switchingroomid, tenantid };
       const title = "新增";
       this.$router.push({
         name,

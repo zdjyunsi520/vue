@@ -23,12 +23,13 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input v-model="infoData.IsEnable" disabled></el-input>
+                    <el-input :value="filterRun(infoData.Status)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="投运日期">
-                    <el-input v-model="infoData.StartTime" disabled></el-input>
+
+                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -64,7 +65,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="出厂日期">
-                    <el-input v-model="infoData.ExFactoryDate" disabled></el-input>
+                    <el-input :value="filterDate(infoData.ExFactoryDate)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -91,12 +92,12 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="创建时间">
-                    <el-input v-model="infoData.CreateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.CreateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="最后维护时间">
-                    <el-input v-model="infoData.UpdateTime" disabled></el-input>
+                    <el-input :value="filterDate(infoData.UpdateTime)" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -110,7 +111,10 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/communicationHost";
+import {
+  getInfo,
+  deleted
+} from "@/api/equipmentAccount/maintain/communicationHost";
 export default {
   data() {
     return {
@@ -123,6 +127,12 @@ export default {
 
   created() {},
   methods: {
+    filterDate(date) {
+      return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
+    },
+    filterRun(state) {
+      return state == 1 ? "在运" : "停运";
+    },
     handleCommand(commond) {
       if (commond == "a") {
         this.$router.push({
@@ -133,68 +143,52 @@ export default {
     },
     handleAdd() {},
     handleUpdate() {
-      const id = this.infoData.Id;
+      const Id = this.infoData.Id;
       const serialcode = this.infoData.SerialCode;
       const name = this.infoData.Name;
-      const tenantId = this.infoData.TenantId;
+      const tenantid = this.infoData.TenantId;
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
       const status = this.infoData.Status;
       const factory = this.infoData.Factory;
       const modelname = this.infoData.ModelName;
-      //  const dataserverId = this.infoData.
-      //  const isenable = this.infoData.
-      //  const CTratio = this.infoData.
-      //  const RTratio = this.infoData.
-      //  const parentId = this.infoData.
       const sortindex = this.infoData.SortIndex;
       const exfactorydate = this.infoData.ExFactoryDate;
+      const switchingroomId = this.infoData.SwitchingRoomId;
       const data = {
         serialcode,
         name,
-        tenantId,
+        tenantid,
         starttime,
         property,
-
         status,
         factory,
         modelname,
-        // dataserverId,
-        // isenable,
-        // CTratio,
-        // RTratio,
-        // parentId,
-        id,
+        Id,
         sortindex,
-        exfactorydate
+        exfactorydate,
+        switchingroomId
       };
-      const titke = "修改";
+      const title = "修改";
       this.$router.push({
-        path: "/equipmentAccount/maintain/communicationHost/components/update",
-        params: { data }
+        name: "/equipmentAccount/maintain/communicationHost/components/update",
+        params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除通讯主机吗")
+        .then(r => {
+          const Ids = [this.data.id];
+          deleted({ Ids }).then(r => {
+            this.getList1();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
-        this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";
-        this.infoData.StartTime = this.parseTime(
-          r.data.StartTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.CreateTime = this.parseTime(
-          r.data.CreateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.UpdateTime = this.parseTime(
-          r.data.UpdateTime,
-          "{y}-{m}-{d}"
-        );
-        this.infoData.ExFactoryDate = this.parseTime(
-          r.data.ExFactoryDate,
-          "{y}-{m}-{d}"
-        );
       });
     }
   }
