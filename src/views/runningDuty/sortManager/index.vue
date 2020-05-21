@@ -22,17 +22,9 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增值班</el-button>
-        <el-dropdown @command="handleCommand">
-          <el-button type="primary" icon=" el-icon-circle-plus-outline">
-            设置<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/group/index">设置班组</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/classTime/index">设置班次</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/role/index">设置角色</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-document-copy" @click="handleCopy">复制</el-button>
+        <el-button icon="el-icon-delete" @click="handleDelete">删除</el-button>
         <div class="timetips">
           <label>值班班次</label>
           <p>
@@ -42,24 +34,79 @@
         </div>
       </el-row>
       <div class="scheduletitle">- 班组二 2020年04月排班表 -</div>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
-        <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-        <el-table-column label="值班班组" align="center" prop="TeamName" />
-        <el-table-column label="值班人员" align="center" prop="EmployeeNames" />
-        <el-table-column label="班次类型" align="center" prop="ShiftTypeName" />
-        <el-table-column label="班次" align="center" prop="ShiftNames" />
-        <el-table-column label="角色类型" align="center" prop="CharaTypeName" />
-        <el-table-column label="角色" align="center" prop="Characters" />
-        <el-table-column label="岗位" align="center" prop="Positions" />
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-key" @click="handleDelete(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
+      <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
+        <el-table-column label="岗位" align="center" fixed="left" prop="TeamName" />
+        <el-table-column label="1号" align="center" prop="TeamName" />
+        <el-table-column label="2号" align="center" prop="TeamName" />
+        <el-table-column label="3号" align="center" prop="TeamName" />
       </el-table>
 
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <el-dialog :title="activeName==1?'人员排班维护':'日期排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
+        <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
+          <el-form-item label="值班班组" prop="dutyId">
+            <el-select v-model="form.dutyId" clearable placeholder="请选择值班班组" style="width:100%">
+              <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.name" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="值班日期" prop="time">
+            <el-date-picker v-model="form.time" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          </el-form-item>
+          <div v-if='activeName==1'>
+            <el-form-item label="人员" prop="memberName">
+              <el-input v-model="form.memberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+            <el-form-item label="岗位" prop="type" v-if='activeName==1'>
+              <el-checkbox-group v-model="form.type">
+                <el-checkbox label="白班值班"></el-checkbox>
+                <el-checkbox label="晚班值班"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </div>
+          <div v-else>
+            <el-form-item label="白班值班" prop="daymemberName">
+              <el-input v-model="form.daymemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+            <el-form-item label="晚班值班" prop="eveningmemberName">
+              <el-input v-model="form.eveningmemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+          </div>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlecheck">保 存</el-button>
+          <el-button @click="dialogAddVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="550px" append-to-body>
+        <el-form :model="copyform" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
+          <el-form-item label="排班日期" prop="timebegin">
+            <el-date-picker v-model="copyform.timebegin" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          </el-form-item>
+          <el-form-item label="至" prop="timeend">
+            <el-date-picker v-model="copyform.timeend" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          </el-form-item>
+          <el-form-item label="复制起始日期" prop="copybegintime">
+            <el-date-picker v-model="copyform.copybegintime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          </el-form-item>
+          <el-form-item label="复制次数" prop="count">
+            <el-input-number v-model="copyform.count" controls-position="right" :min="1" />
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handleCopyCheck">保 存</el-button>
+          <el-button @click="dialogRotationVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
+
+      <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
+        <el-scrollbar style="height: 86vh;">
+          <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        </el-scrollbar>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="handleMemberscheck">确 定</el-button>
+          <el-button @click="dialogMemberVisible = false">取 消</el-button>
+        </div>
+      </el-drawer>
     </div>
 
   </div>
@@ -67,10 +114,22 @@
 
 <script>
 import { fetchList } from "@/api/runningDuty/sortManager";
+import { getTenantEmployees } from "@/api/org";
 
 export default {
   name: "user",
   data() {
+    const rule = [
+      {
+        required: true,
+        message: "此处不能为空",
+        trigger: "blur"
+      }
+    ];
+    const mrules = {
+      dutyId: rule,
+      time: rule
+    };
     return {
       // 遮罩层
       listLoading: true,
@@ -87,6 +146,15 @@ export default {
       tableHeight: "0",
       rules: {},
       activeName: "0",
+      dialogMemberVisible: false,
+      dialogAddVisible: false,
+      dialogRotationVisible: false,
+      memberTree: [],
+      defaultProps: {
+        children: "childs",
+        label: "text"
+      },
+      mrules,
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -104,7 +172,24 @@ export default {
           id: 2,
           name: "班组二"
         }
-      ]
+      ],
+      form: {
+        dutyId: "",
+        time: "",
+        memberName: "",
+        memberId: "",
+        type: [],
+        daymemberName: "",
+        daymemberId: "",
+        eveningmemberName: "",
+        eveningmemberId: ""
+      },
+      copyform: {
+        timebegin: "",
+        timeend: "",
+        copybegintime: "",
+        count: ""
+      }
     };
   },
 
@@ -127,24 +212,10 @@ export default {
       // this.getList(this.activeName);
     },
 
-    handleCommand(commond) {
-      this.$router.push({
-        name: commond,
-        params: {}
-      });
-    },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 210;
     },
-    filterCancel(row) {
-      return row.IsCancel ? "已注销" : "正常";
-    },
-    handleSortChange(row) {
-      this.queryParams.orderby = `${row.prop} ${
-        row.order == "ascending" ? "asc" : "desc"
-      }`;
-      this.getList();
-    },
+
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;
@@ -158,6 +229,13 @@ export default {
           this.setTableHeight();
         });
     },
+    // 选择人员
+    getMembers() {
+      this.dialogMemberVisible = true;
+      getTenantEmployees({}).then(response => {
+        this.memberTree = response.data;
+      });
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
@@ -168,53 +246,34 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection;
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
+
+    checkchange(data, checked) {
+      if (checked) {
+        const target = this.$refs.tree;
+        target.setCheckedKeys([data.id]);
+      }
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "新增";
-      this.$router.push({
-        name: "/runningDuty/dutyConfiguration/components/index",
-        params: { data: {}, title }
-      });
+      this.dialogAddVisible = true;
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const name = row.Name;
-      const mobilephone = row.MobilePhone;
-      const data = { id, username, name, mobilephone };
-      const title = "修改用户";
-      this.$router.push({
-        name: "/commonManager/user/components/update",
-        params: { data, title }
-      });
+    // 复制
+    handleCopy() {
+      this.dialogRotationVisible = true;
     },
-    /** 重置密码按钮操作 */
-    handleResetPwd(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const data = { id, username };
-      const title = "修改密码";
-      this.$router.push({
-        name: "/commonManager/user/components/password",
-        params: { data, title }
-      });
+    handlecheck() {},
+    handleCopyCheck() {},
+    handleMemberscheck() {
+      var arr = this.$refs.tree.getCheckedNodes();
+      if (arr.length) {
+        this.form.memberName = arr[0].text;
+        this.form.memberId = arr[0].id;
+        this.dialogMemberVisible = false;
+      } else {
+        this.$message.error("请选择人员");
+      }
     },
-    handleUpdateRole(row) {
-      const id = row.Id;
-      const data = { id };
-      const title = "权限设置";
-      this.$router.push({
-        name: "/commonManager/user/components/role",
-        params: { data, title }
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const userIds = row.userId || this.ids;
@@ -237,36 +296,6 @@ export default {
         .catch(function() {
           this.msgSuccess("操作失败");
         });
-    },
-    handleLock(row, lock) {
-      let ids = row
-        ? (ids = [row.Id])
-        : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
-      if (ids.length) {
-        const islock = !lock;
-        ids = ids.join(",");
-        locklock({ ids, islock }).then(r => {
-          this.$message.success(r.msg);
-          this.getList();
-        });
-      }
-    },
-
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
     }
   }
 };
@@ -275,7 +304,7 @@ export default {
 .timetips {
   position: absolute;
   right: 15px;
-  top: -10px;
+  top: -5px;
   color: #313033;
   font-size: 14px;
   display: flex;
@@ -312,8 +341,28 @@ export default {
 .scheduletitle {
   text-align: center;
   font-size: 20px;
-  padding: 30px 0 60px;
+  padding: 20px 0 40px;
   font-weight: bold;
   color: #333333;
+}
+.el-dialog__wrapper {
+  .el-drawer__header {
+    background-color: #f7f8fe;
+    border: solid 1px #ebeef5;
+    padding: 0 30px;
+    height: 39px;
+    line-height: 39px;
+    margin-bottom: 20px;
+  }
+  .el-drawer__body {
+    padding: 0 10px 0 20px;
+  }
+  .el-tree-node__content > .el-checkbox:last-of-type {
+    margin-right: 8px;
+  }
+  .dialog-footer {
+    text-align: center;
+    padding-top: 20px;
+  }
 }
 </style>
