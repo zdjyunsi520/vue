@@ -14,28 +14,28 @@
           <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
             <el-row>
               <el-col :span="24">
-                <el-form-item label="值班班组" prop="teamId">
-                  <el-select v-model="form.teamId" :disabled="disabledSelect">
+                <el-form-item label="值班班组" prop="TeamId">
+                  <el-select v-model="form.TeamId" :disabled="disabledSelect">
                     <el-option label="请选择" value></el-option>
-                    <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
                   </el-select>
                 </el-form-item>
               </el-col>
 
               <el-col :span="24">
-                <el-form-item label="班次类型" prop="shifttypeId">
-                  <el-select v-model="form.shifttypeId" :disabled="disabledSelect">
+                <el-form-item label="班次类型" prop="ShiftTypeId">
+                  <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
                     <el-option label="请选择" value></el-option>
-                    <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                   </el-select>
                 </el-form-item>
               </el-col>
 
               <el-col :span="24">
-                <el-form-item label="角色类型" prop="charatype">
-                  <el-select v-model="form.charatype" :disabled="disabledSelect">
+                <el-form-item label="角色类型" prop="CharaType">
+                  <el-select v-model="form.CharaType" :disabled="disabledSelect">
                     <el-option label="请选择" value></el-option>
-                    <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -56,7 +56,7 @@
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
                 <el-button :disabled="!disabledSelect" icon="el-icon-remove-outline" @click="handleAdd">删除</el-button>
               </el-row>
-              <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border height="calc(100% - 130px)">
+              <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
                 <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
                 <el-table-column label="岗位名称" align="center" prop="TeamName" />
 
@@ -76,37 +76,48 @@
 </template>
 
 <script>
+import {
+  fetchList,
+  fetchTeam,
+  fetchShiftType,
+  fetchCharactorType,
+  update,
+  add
+} from "@/api/runningDuty/dutyConfiguration";
 export default {
   components: {},
   data() {
     const rules = {
-      teamId: [{ required: true, message: "请选择值班班组" }],
-      shifttypeId: [{ required: true, message: "请选择班次类型" }],
-      charatype: [{ required: true, message: "请选择角色类型" }]
+      TeamId: [{ required: true, message: "请选择值班班组" }],
+      ShiftTypeId: [{ required: true, message: "请选择班次类型" }],
+      CharaType: [{ required: true, message: "请选择角色类型" }]
     };
     return {
-      operateId: "",
       loading: false,
-      form: {
-        teamId: "",
-        shifttypeId: "",
-        charatype: ""
-      },
-      rules,
-      assetAttributeType: [{ key: 1, value: "asdas" }],
       listLoading: false,
-      dataList: [{}],
+      form: {},
+      rules,
+      listLoading: false,
+      dataList: [],
       tableHeight: "0",
       queryParams: {
         pageno: 1,
         pagesize: 30
       },
       total: 1,
-      disabledSelect: false
+      disabledSelect: false,
+      teamList: [],
+      charactorTypeList: [],
+      shiftTypeList: [],
+      height: "calc(100% - 130px)"
     };
   },
 
-  created() {},
+  created() {
+    this.getCharactorType();
+    this.getTeam();
+    this.getShiftType();
+  },
   computed: {
     addDisabled() {
       return (
@@ -115,15 +126,30 @@ export default {
     }
   },
   methods: {
+    getTeam() {
+      fetchTeam(this.queryParams).then(r => {
+        this.teamList = r.data;
+      });
+    },
+    getShiftType() {
+      fetchShiftType(this.queryParams).then(r => {
+        this.shiftTypeList = r.data;
+      });
+    },
+    getCharactorType() {
+      fetchCharactorType(this.queryParams).then(r => {
+        this.charactorTypeList = r.data;
+      });
+    },
     handleSelectionChange() {},
 
-    getInfo(data) {
-      this.data = data;
-      this.closeComponent();
-      const target = this.$refs["component" + data.type];
-      target.visible = true;
-      target.showBtn = true;
-      target.getInfo(data);
+    getList() {
+      this.listLoading = true;
+      fetchList(this.queryParams)
+        .then(r => {
+          this.dataList = r.data;
+        })
+        .finally(r => (this.listLoading = false));
     },
     handleConfirm() {
       this.$refs.form.validate(v => {
@@ -132,7 +158,30 @@ export default {
         }
       });
     },
-
+    reset(data) {
+      this.form = Object.assign(
+        {
+          Id: "",
+          TenantId: "",
+          // TenantName: "福建迅腾电力科技有限公司",
+          TeamId: "",
+          // TeamName: "班组二",
+          EmployeeIds: "",
+          // EmployeeNames: "京帅",
+          ShiftTypeId: "",
+          //  ShiftTypeName: "两班制",
+          ShiftIds: "",
+          //  ShiftNames: "夜班,白班",
+          CharaType: "",
+          //  CharaTypeName: "两班制人员",
+          CharacterIds: "",
+          //  Characters: "夜班人员",
+          PositionIds: ""
+          //  Positions: null
+        },
+        data
+      );
+    },
     handleAdd() {},
     handleUpdate() {},
     handleDelete() {},
