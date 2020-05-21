@@ -2,31 +2,14 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组" prop="teamId">
-          <el-select v-model="queryParams.teamId">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
-          </el-select>
+        <el-form-item label="应用名称" prop="versionname">
+          <el-input v-model="queryParams.versionname" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="班次类型" prop="shifttypeId">
-          <el-select v-model="queryParams.shifttypeId">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="角色类型" prop="charatypeId">
-          <el-select v-model="queryParams.charatypeId">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="班组人员" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="版本号" prop="versioncode">
+          <el-input v-model="queryParams.versioncode" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        </el-form-item>
-        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
@@ -34,33 +17,34 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox" ref="containerbox">
+    <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增值班</el-button>
-        <el-dropdown @command="handleCommand">
-          <el-button type="primary" icon=" el-icon-circle-plus-outline">
-            设置<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/group/index">设置班组</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/classTime/index">设置班次</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/role/index">设置角色</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-remove-outline" @click="handleLock(null,false)">删除</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
-        <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-        <el-table-column label="值班班组" align="center" prop="TeamName" />
-        <el-table-column label="值班人员" align="center" prop="EmployeeNames" />
-        <el-table-column label="班次类型" align="center" prop="ShiftTypeName" />
-        <el-table-column label="班次" align="center" prop="ShiftNames" />
-        <el-table-column label="角色类型" align="center" prop="CharaTypeName" />
-        <el-table-column label="角色" align="center" prop="Characters" />
-        <el-table-column label="岗位" align="center" prop="Positions" />
-        <el-table-column label="操作" align="center">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
+        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column label="应用名称" prop="TypeName" />
+        <el-table-column label="版本名称" prop="VersionName" />
+        <el-table-column label="更新时间" width="170" prop="CreateTime">
+          <template slot-scope="{row}">
+            <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
+          </template>
+        </el-table-column>
+        <el-table-column label="版本号" prop="VersionCode" />
+        <el-table-column label="更新说明" prop="UpdateDescription" />
+        <el-table-column label="是否强制更新" prop="ForcedUpdate" />
+        <el-table-column label="APK文件" prop="FileUrl" />
+
+        <el-table-column label="状态" prop="IsLock">
+          <template slot-scope="{row}">
+            <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-key" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleResetPwd(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -72,12 +56,7 @@
 </template>
 
 <script>
-import {
-  fetchList,
-  fetchTeam,
-  fetchShiftType,
-  fetchCharactorType
-} from "@/api/runningDuty/dutyConfiguration";
+import { fetchList, deleted } from "@/api/commonManager/app";
 
 export default {
   name: "user",
@@ -101,22 +80,14 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        teamId: "",
-        shifttypeId: "",
-        charatypeId: "",
-        employeename: ""
-      },
-      teamList: [],
-      charactorTypeList: [],
-      shiftTypeList: []
+        versioncode: "",
+        versionname: ""
+      }
     };
   },
 
   created() {
     this.getList();
-    this.getTeam();
-    this.getShiftType();
-    this.getCharactorType();
   },
   mounted() {
     let _this = this;
@@ -128,30 +99,8 @@ export default {
     window.onresize = null;
   },
   methods: {
-    getTeam() {
-      fetchTeam(this.queryParams).then(r => {
-        this.teamList = r.data;
-      });
-    },
-    getShiftType() {
-      fetchShiftType(this.queryParams).then(r => {
-        this.shiftTypeList = r.data;
-      });
-    },
-    getCharactorType() {
-      fetchCharactorType(this.queryParams).then(r => {
-        this.charactorTypeList = r.data;
-      });
-    },
-
-    handleCommand(commond) {
-      this.$router.push({
-        name: commond,
-        params: {}
-      });
-    },
     setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 130;
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";
@@ -167,6 +116,10 @@ export default {
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
+          this.dataList = response.data;
+          this.total = response.total;
+        })
+        .catch(response => {
           this.dataList = response.data;
           this.total = response.total;
         })
@@ -195,7 +148,7 @@ export default {
     handleAdd() {
       const title = "新增";
       this.$router.push({
-        name: "/runningDuty/dutyConfiguration/components/index",
+        name: "/commonManager/app/components/add",
         params: { data: {}, title }
       });
     },
@@ -208,7 +161,7 @@ export default {
       const data = { id, username, name, mobilephone };
       const title = "修改用户";
       this.$router.push({
-        name: "/commonManager/user/components/update",
+        name: "/commonManager/app/components/update",
         params: { data, title }
       });
     },
