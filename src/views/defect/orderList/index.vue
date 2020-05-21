@@ -240,6 +240,7 @@ export default {
 
     // 导出
     handleExport() {
+      return;
       this.$confirm("是否确认导出表格吗?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

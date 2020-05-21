@@ -153,11 +153,10 @@ export default {
   },
   created() {
     const { data, title } = this.$route.params;
-    console.log(data);
+
     this.title = title;
     this.fetechList(data);
 
-    console.log(data);
     this.reset(data);
   },
   computed: {
@@ -172,7 +171,7 @@ export default {
   methods: {
     ...mapActions({ communicationHost: "common/communicationHost" }),
     fetechList(data) {
-      const tenantId = data.tenantId;
+      const tenantId = data.tenantId || data.TenantId;
       // const switchingroomid = data.parentId;
       this.communicationHost({ tenantId }).then(r => {
         this.communicationHostType = r.data.map(v => {

@@ -182,6 +182,11 @@ export default {
   mounted() {
     this.dragControllerDiv();
   },
+  watch: {
+    id(id) {
+      console.log("watch", id);
+    }
+  },
   methods: {
     handleClick(data) {
       console.log(data.Type);
@@ -200,7 +205,18 @@ export default {
       getTrees().then(response => {
         this.loading = false;
         this.treeData = response.data;
+        this.findFistInterval(this.treeData);
         // this.$emit("getInfo", this.treeData[0]);
+      });
+    },
+    findFistInterval(list) {
+      if (this.id || !list) return;
+      list.forEach(v => {
+        if (v.type == 11) {
+          this.id = v.id;
+        } else {
+          this.findFistInterval(v.childs);
+        }
       });
     },
     getMeasureData() {

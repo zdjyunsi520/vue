@@ -88,7 +88,7 @@
 
             <el-col :span="11" :xs="24">
               <el-form-item label="缺陷编号" prop="number">
-                <el-input v-model="form.number" disabled placeholder="编号自动生成" />
+                <el-input v-model="form.number" disabled placeholder="" />
               </el-form-item>
             </el-col>
 
@@ -382,12 +382,7 @@ export default {
           processdue: processdueTime,
           description: "",
           attachmentkey: "",
-          attachmenturl: "",
-          number: "",
-          unit: "",
-          reporterId: this.userId,
-          reporterName: this.name,
-          reporttime: nowTime
+          attachmenturl: ""
         },
         data
       );
