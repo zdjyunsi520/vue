@@ -68,7 +68,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "0",
+      tableHeight: "auto",
       TenantIds: [],
 
       // 查询参数

@@ -84,7 +84,7 @@ export const constantRoutes = [{
 {
     path: "generalSituation",
     component: Layout,
-    hidden: false,
+    hidden: true,
     meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
     children: [{
         path: "/baseData",

@@ -18,17 +18,17 @@
         <div class="right-menu-item hover-effect">
           <span style="position:relative">
             <el-badge is-dot class="item" style="display: inline;">
-              <svg-icon icon-class="news" style="font-size: 23px;vertical-align: -0.3em;" />
+              <svg-icon icon-class="news" style="font-size: 25px;vertical-align: -0.3em;" />
               <!-- <el-button class="share-button" icon="el-icon-share" type="primary"></el-button> -->
             </el-badge>
           </span>
         </div>
 
         <div class="right-menu-item hover-effect">
-          <svg-icon icon-class="nav_colour" style="font-size: 15px;vertical-align: middle;" />
+          <svg-icon icon-class="nav_colour" style="font-size: 18px;vertical-align: middle;" />
         </div>
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 12px;" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 23px; padding: 0;" />
 
         <!-- <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />

@@ -73,9 +73,7 @@
          box-sizing: border-box;
      }
  }
- .el-table__fixed, .el-table__fixed-right{
-    padding-bottom: 2px;    box-sizing: content-box;
- }
+
  .bg-white {
      background: #fff;
      border-radius: 3px;
@@ -261,7 +259,7 @@
  }
  
  .table-btns {
-     padding:15px 0;
+     padding:15px 0;position: relative;
  }
 
  

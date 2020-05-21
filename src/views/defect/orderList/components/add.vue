@@ -18,14 +18,6 @@
               <el-form-item label="设备" prop="assetsIds">
                 <!-- <input type="hidden" v-model="form.assetsIds" /> -->
                 <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" />
-                <!-- <el-select v-model="form.assetsIds" placeholder="请选择设备"  @visible-change="getAssets">
-                  <el-option
-                    v-for="(item,index) in assetsIdss"
-                    :key="index"
-                    :label="item.text"
-                    :value="item.id"
-                  ></el-option>
-                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="24">

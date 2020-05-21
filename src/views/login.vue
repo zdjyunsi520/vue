@@ -242,7 +242,7 @@ export default {
         }
       }
       .input-icon {
-        height: 39px;
+        height: 48px;
         width: 14px;
         margin-left: 2px;
       }

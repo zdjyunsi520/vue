@@ -1,28 +1,23 @@
 <template>
   <div class="app-container">
-    <div class="search-box">
+    <div class="search-box" style="border-bottom:none">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="按岗位展示" name="0"></el-tab-pane>
+        <el-tab-pane label="按人员展示" name="1"></el-tab-pane>
+      </el-tabs>
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组" prop="teamId">
-          <el-input v-model="queryParams.teamId" placeholder="请输入值班班组" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="值班班组" prop="dutyId">
+          <el-select v-model="queryParams.dutyId" clearable placeholder="请选择值班班组">
+            <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.name" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="班次类型" prop="shifttypeId">
-          <el-input v-model="queryParams.shifttypeId" placeholder="请输入班次类型" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="角色类型" prop="charatypeId">
-          <el-input v-model="queryParams.charatypeId" placeholder="请输入角色类型" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="班组人员" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="请输入班组人员" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="年月" prop="time">
+          <el-date-picker v-model="queryParams.time" type="month" placeholder="请选择年月" value-format="yyyy-MM" format="yyyy-MM"> </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
-                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
@@ -38,7 +33,15 @@
             <el-dropdown-item command="/runningDuty/dutyConfiguration/role/index">设置角色</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <div class="timetips">
+          <label>值班班次</label>
+          <p>
+            <span>白班<b>08:00:00-20:00:00</b></span>
+            <span>晚班<b>20:00:00-08:00:00</b></span>
+          </p>
+        </div>
       </el-row>
+      <div class="scheduletitle">- 班组二 2020年04月排班表 -</div>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
         <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
         <el-table-column label="值班班组" align="center" prop="TeamName" />
@@ -83,15 +86,25 @@ export default {
       dataList: null,
       tableHeight: "0",
       rules: {},
+      activeName: "0",
       // 查询参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        teamId: "",
-        shifttypeId: "",
-        charatypeId: "",
-        employeename: ""
-      }
+        tenantId: "",
+        dutyId: "",
+        time: ""
+      },
+      dutyIds: [
+        {
+          id: 1,
+          name: "班组一"
+        },
+        {
+          id: 2,
+          name: "班组二"
+        }
+      ]
     };
   },
 
@@ -108,6 +121,12 @@ export default {
     window.onresize = null;
   },
   methods: {
+    handleClick(tab, event) {
+      // this.resetQuery("queryForm");
+      // this.queryParams.patroltimeend = "";
+      // this.getList(this.activeName);
+    },
+
     handleCommand(commond) {
       this.$router.push({
         name: commond,
@@ -252,5 +271,49 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
+.timetips {
+  position: absolute;
+  right: 15px;
+  top: -10px;
+  color: #313033;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  label {
+    display: block;
+    font-weight: normal;
+    margin-right: 20px;
+  }
+  p {
+    span {
+      display: block;
+      padding: 5px 0;
+      font-weight: normal;
+      b {
+        margin-left: 10px;
+        font-weight: normal;
+      }
+      &::before {
+        content: "";
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: middle;
+        color: #909399;
+        border-radius: 100%;
+        width: 6px;
+        height: 6px;
+        background-color: #7098ff;
+      }
+    }
+  }
+}
+.scheduletitle {
+  text-align: center;
+  font-size: 20px;
+  padding: 30px 0 60px;
+  font-weight: bold;
+  color: #333333;
+}
 </style>
