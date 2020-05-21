@@ -30,8 +30,19 @@
                   <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='24'>
+                  <h5 class="smtitleh5 blue">总视在功率(kVA)
+                    <p>但是第<span>4</span>条我想显示在这里</p>
+                  </h5>
+
+                  <p @click="handleClick({Name:'我是乱写的电压'})">第<span>1</span>条</p>
+                  <p>第<span>2</span>条</p>
+                  <p>第<span>3</span>条</p>
+                  <p>第<span>4</span>条的html结构在这里</p>
+                </el-col>
+                <el-col :span='4' :xs='24'>
                   <h5 class="smtitleh5 blue">总视在功率(kVA)<b v-if="datakVA[3]" @click="handleClick(datakVA[3])">{{datakVA[3].Value}}</b></h5>
                   <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick(item)">{{datakW[3]?datakW[3].Value:''}}</b></h5>
@@ -80,8 +91,27 @@
             </div>
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
-            <div class="form-smtitle marginBottom30">历史曲线 </div>
+            <div class="form-smtitle marginBottom30">历史曲线
+              <el-tag type="danger">form.intervalId=</el-tag>
+              <el-tag>{{form.intervalId}}</el-tag>
+            </div>
             <div>
+              <ul>
+                <li>
+                  {{labelName}}
+                </li>
+                <li>
+                  周期 <el-select v-model="form.cycleType">
+                    <el-option label="月" :value="3" />
+                    <el-option label="日" :value="2" />
+                    <el-option label="15分钟" :value="1" />
+                  </el-select>
+                </li>
+                <li>
+                  日期 <el-date-picker v-model="form.beginTime" type="date" placeholder="选择日期">
+                  </el-date-picker>
+                </li>
+              </ul>
 
             </div>
             <div class="  chart-wrapper">
@@ -121,12 +151,13 @@ export default {
       },
       baseData: [],
       id: null,
+      weight: 0,
+      labelName: "",
       form: {
         intervalId: "",
         type: "A",
-        cycleType: 2,
-        beginTime: "",
-        endTime: ""
+        cycleType: 3,
+        beginTime: ""
       },
       interval: null
     };
@@ -184,12 +215,16 @@ export default {
   },
   watch: {
     id(id) {
-      console.log("watch", id);
+      if (id) {
+        this.form.intervalId = this.id;
+        this.getMeasureData();
+      }
     }
   },
   methods: {
     handleClick(data) {
       console.log(data.Type);
+      this.labelName = data.Name;
     },
     renderContent(h, { node, data, store }) {
       return (
@@ -210,19 +245,27 @@ export default {
       });
     },
     findFistInterval(list) {
-      if (this.id || !list) return;
-      list.forEach(v => {
-        if (v.type == 11) {
-          this.id = v.id;
-        } else {
+      if (list) {
+        list.forEach(v => {
           this.findFistInterval(v.childs);
-        }
-      });
+          if (this.id) return;
+          if (v.type == 11) {
+            this.id = v.id;
+          }
+        });
+      }
+      // list.forEach((v, i) => {
+      //   if (v.type == 11 && weight + i > this.weight) {
+      //     this.weight = weight + i;
+      //     this.id = v.id;
+      //   } else {
+      //     this.findFistInterval(v.childs, weight * 100);
+      //   }
+      // });
     },
     getMeasureData() {
       const intervalId = this.id;
       getMeasureData({ intervalId }).then(res => {
-        console.log(res);
         let list = res.data;
         this.baseData = res.data;
       });
@@ -231,10 +274,9 @@ export default {
         clearInterval(this.interval);
         this.interval = null;
       }
-      this.interval = setInterval(() => {
-        console.log("setInterval");
-        this.getMeasureDataHistory();
-      }, 15 * 1000);
+      // this.interval = setInterval(() => {
+      //   this.getMeasureDataHistory();
+      // }, 15 * 1000);
     },
     getMeasureDataHistory() {
       getMeasureDataHistory(this.form).then(r => {});
@@ -243,11 +285,12 @@ export default {
     handleNodeClick(obj, event) {
       const id = obj.id;
       const type = obj.type;
-      this.id = obj.id;
+
       if (type == 11) {
+        this.id = "";
+        this.baseData = [];
         //间隔
-        this.form.intervalId = this.id;
-        this.getMeasureData();
+        this.id = obj.id;
       }
       // this.$emit("getInfo", { id, type });
     }

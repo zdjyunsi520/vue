@@ -10,7 +10,7 @@
           </el-form-item>
           <el-form-item label="配电室" prop='switchroomId'>
             <el-select v-model="queryParams.switchroomId" clearable placeholder="请选择">
-              <el-option v-for="(item,index) in switchrooms" :key="index" :label="item.name" :value="item.id"></el-option>
+              <el-option v-for="(item,index) in switchrooms" :key="index" :label="item.text" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -275,7 +275,7 @@
 
 <script>
 import { getDeviceMonitor } from "@/api/report";
-import { getChildrenList } from "@/api/org";
+import { getChildrenList, getTrees } from "@/api/org";
 export default {
   data() {
     return {
@@ -288,17 +288,38 @@ export default {
       dataList: null,
       rules: {},
       TenantIds: [],
-
+      TenantTree: [],
       listLoading: true,
-      switchrooms: []
+      firstLoad: 1
     };
   },
 
   created() {
-    // this.getMonitor(this.activeName);
     this.getTenants();
+    this.getAssets();
+  },
+  computed: {
+    switchrooms() {
+      let switchrooms = this.TenantTree.filter(
+        v => v.id == this.queryParams.tenantId
+      );
+      if (switchrooms.length) switchrooms = switchrooms[0].childs || [];
+      if (switchrooms.length) this.queryParams.switchroomId = switchrooms[0].id;
+      this.handleFirstEvent();
+      return switchrooms;
+    }
   },
   methods: {
+    handleFirstEvent() {
+      if (
+        this.firstLoad &&
+        this.queryParams.switchroomId &&
+        this.queryParams.tenantId
+      ) {
+        this.firstLoad = 0;
+        this.getMonitor();
+      }
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.getMonitor();
@@ -314,32 +335,28 @@ export default {
       this.handleQuery();
     },
 
+    getAssets() {
+      getTrees().then(res => {
+        this.TenantTree = res.data;
+      });
+    },
     // 巡视单位列表
     getTenants() {
-      getChildrenList()
-        .then(response => {
-          this.TenantIds = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getChildrenList().then(response => {
+        this.TenantIds = response.data;
+        if (this.TenantIds.length)
+          this.queryParams.tenantId = this.TenantIds[0].Id;
+      });
     },
     getMonitor() {
-      const data = {
-        switchroomId: this.queryParams.switchroomId
-      };
-      getDeviceMonitor(data)
+      this.dataList = [];
+      this.listLoading = true;
+      getDeviceMonitor(this.queryParams)
         .then(res => {
-          if (!res.data) {
-            this.dataList = [];
-            return;
-          }
-
-          this.dataList = res.data;
+          this.dataList = res.data || [];
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     }
   }
