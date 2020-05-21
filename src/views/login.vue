@@ -10,12 +10,12 @@
         <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
         <el-form-item prop="username">
           <el-input v-model="loginForm.username" type="text" auto-complete="new-username" placeholder="账号">
-            <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+            <svg-icon slot="prefix" icon-class="ic_user" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="loginForm.password" type="password" auto-complete="new-password" placeholder="密码" @keyup.enter.native="handleLogin">
-            <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+            <svg-icon slot="prefix" icon-class="ic_pwd" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
         <!-- <el-form-item prop="code">
@@ -218,7 +218,7 @@ export default {
       }
       .textimg2 {
         position: absolute;
-        bottom: 120px;
+        bottom: 80px;
         right: 80px;
         width: 80%;
       }
@@ -226,7 +226,7 @@ export default {
         position: absolute;
         top: 60px;
         left: 60px;
-        width: 30%;
+        width: 45%;
       }
     }
     .login-form {
@@ -234,20 +234,29 @@ export default {
       background: #ffffff;
       height: 100%;
       width: 586px;
-      padding: 0 90px;
+      padding: 0 80px;
       .el-input {
         height: 46px;
         input {
           height: 46px;
+          padding-left: 45px;
         }
       }
       .input-icon {
         height: 48px;
-        width: 14px;
-        margin-left: 2px;
+        width: 20px;
+        margin-left: 10px;
       }
       .el-form-item {
         margin-bottom: 20px;
+      }
+.el-checkbox__label{
+        font-size: 12px;
+
+}
+      .el-checkbox__input.is-checked + .el-checkbox__label {
+        color: #558cf7;
+        font-size: 12px;
       }
     }
     .smbottombtn {

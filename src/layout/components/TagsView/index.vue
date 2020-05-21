@@ -220,9 +220,18 @@ export default {
       //   margin-right: 15px;
       // }
       &.active {
+        position: relative;
+        &::before {
+          position: absolute;
+          content: "";
+          top: -2px;
+          left: 0;
+          height: 2px;
+          width: 100%;
+          background: #303133;
+        }
         background-color: #f6f7fa;
         color: #333333;
-        border-top: 2px solid #303133;
         line-height: 30px;
         // border-color: #42b983;
         // &::before {
