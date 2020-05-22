@@ -4,61 +4,62 @@
       <el-form :inline="true">
         <el-form-item>
           <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
-          <el-dropdown @command="handleCommand" >
+          <el-dropdown @command="handleCommand">
             <el-button type="primary" icon=" el-icon-circle-plus-outline">
               新增
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="a">新增分类</el-dropdown-item>
               <el-dropdown-item command="b">新增应用</el-dropdown-item>
               <el-dropdown-item command="c">新增权限</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit-outline" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" plain @click="handleUpdate" :disabled="operateId==''">
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+          </el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
-    <el-row :gutter="20" class="containerbox dragbox"   ref="dragbox">
+    <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all  node-key="id" :expand-on-click-node="false"></el-tree>
-        </el-scrollbar>
-          </div>
+            <el-tree :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+          </el-scrollbar>
+        </div>
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
-          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
-          />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
-      <el-col :xs="{span: 24}"  style="width:554px" class="comheight dragright">
+      <el-col :xs="{span: 24}" style="width:554px" class="comheight dragright">
         <div class="bg-white  infobox">
           <el-scrollbar>
-          <div class="form-smtitle marginBottom30">基础信息 </div>
+            <div class="form-smtitle marginBottom30">基础信息 </div>
             <el-form label-position="top" :model="smform" v-if="data&&data.Id">
-                <el-form-item label="类型">
-                  <el-input v-model="smform.Type" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="名称">
-                  <el-input v-model="smform.Name" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="权限标识">
-                  <el-input v-model="smform.Key" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="URL">
-                  <el-input v-model="smform.Url" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="Component">
-                  <el-input v-model="smform.Component" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="排序号">
-                  <el-input v-model="smform.SortIndex" disabled></el-input>
-                </el-form-item>
+              <el-form-item label="类型">
+                <el-input v-model="smform.Type" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="权限标识">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="URL">
+                <el-input v-model="smform.Url" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="Component">
+                <el-input v-model="smform.Component" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="排序号">
+                <el-input v-model="smform.SortIndex" disabled></el-input>
+              </el-form-item>
               </el-form-item>
               <el-form-item label="图标" v-if="smform.IconUrl">
                 <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
@@ -102,8 +103,7 @@ export default {
       addId: "",
       operateId: "",
       data: {},
-      smform: {},
-
+      smform: {}
     };
   },
   created() {
@@ -135,7 +135,7 @@ export default {
           });
           this.dataList = response.data;
 
-          this.$refs.tree.setCurrentKey(this.dataList[0].id)
+          this.$refs.tree.setCurrentKey(this.dataList[0].id);
           this.handleNodeClick(this.dataList[0]);
           this.loading = false;
           this.dataList.length && this.handleNodeClick(this.dataList[0]);
@@ -267,5 +267,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../../../styles/tree.scss';
+@import "../../../styles/tree.scss";
 </style>

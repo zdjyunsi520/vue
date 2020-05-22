@@ -60,12 +60,16 @@
         <el-table-column label="操作" min-width="250" fixed="right">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
-              <el-button type="text" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
-              <el-button type="text" icon="el-icon-s-promotion" @click="handleBack(scope.row)">回退</el-button>
+              <el-button type="text" size="mini" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
+              <el-button type="text" size="mini" icon="el-icon-s-promotion" @click="handleBack(scope.row)">回退</el-button>
             </div>
             <div v-else>
-              <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
-              <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+              </el-button>
+              <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+                <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+              </el-button>
             </div>
           </template>
         </el-table-column>

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-row :gutter="20" class="comheight dragbox"   ref="dragbox">
+    <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
@@ -11,9 +11,8 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
-          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
-          />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
       <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
@@ -49,23 +48,30 @@
             </el-dropdown>
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"   fixed="left" />
-            <el-table-column label="姓名"   min-width="150" prop="Name" />
-            <el-table-column label="预留手机号" min-width="150"   prop="MobilePhone" />
-            <el-table-column label="用户名"   min-width="150" prop="UserName" />
-            <el-table-column label="添加时间" sortable   min-width="180" prop="CreateTime" >
-                <template slot-scope="{row}">
-                  <i class="el-icon-time" style="margin-right:10px"/>{{row.CreateTime}}
+            <el-table-column type="selection" width="55" fixed="left" />
+            <el-table-column label="姓名" min-width="150" prop="Name" />
+            <el-table-column label="预留手机号" min-width="150" prop="MobilePhone" />
+            <el-table-column label="用户名" min-width="150" prop="UserName" />
+            <el-table-column label="添加时间" sortable min-width="180" prop="CreateTime">
+              <template slot-scope="{row}">
+                <i class="el-icon-time" style="margin-right:10px" />{{row.CreateTime}}
               </template>
             </el-table-column>
-            <el-table-column label="岗位状态" sortable min-width="100"    prop="Status" :formatter="filterStatus" />
-            <el-table-column label="账号"   min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
-            <el-table-column label="操作"   min-width="300">
+            <el-table-column label="岗位状态" sortable min-width="120" prop="Status" :formatter="filterStatus" />
+            <el-table-column label="账号" min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
+            <el-table-column label="操作" min-width="300">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-                <el-button type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">修改密码</el-button>
-                <el-button type="text" @click="handlePassword(scope.row,false)" v-else>开通账号</el-button>
-                <el-button v-if="scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">设置权限</el-button>
+                <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+                  <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+                </el-button>
+                <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">
+                  <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>修改密码
+                </el-button>
+                <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>
+                  <svg-icon icon-class='ic_opening' class="tablesvgicon" />开通账号</el-button>
+                <el-button size="mini" v-if="scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">
+                  <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>设置权限
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -112,8 +118,7 @@ export default {
       listLoading: true,
       tableHeight: "0",
       rules: {},
-      multiple: true,
-      
+      multiple: true
     };
   },
   created() {
@@ -272,7 +277,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../../../styles/tree.scss';
+@import "../../../styles/tree.scss";
 .xl-left {
   width: 300px;
   float: left;

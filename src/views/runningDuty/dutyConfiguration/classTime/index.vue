@@ -9,7 +9,7 @@
           <p class="form-smtitle">班次类型</p>
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-circle-check" @click="handleAdd" :loading="loading">添加</el-button>
-            <el-button :disabled="multiple" icon="el-icon-edit-outline" @click="handleDelete(null)">删除</el-button>
+            <el-button :disabled="multiple" icon="el-icon-delete" @click="handleDelete(null)">删除</el-button>
           </el-row>
           <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 190px)">
             <el-table-column type="selection" fixed="left" width="55" align="center" />

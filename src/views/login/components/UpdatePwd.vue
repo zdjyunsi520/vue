@@ -1,5 +1,9 @@
 <template>
   <div class="pwdbox">
+    <div class="topbox">
+      <img src="../../../assets/logo/logo.png" class="logo">
+      <div class="line"></div>
+    </div>
     <div class="pwd-main">
       <div class="pwdtitle">
         <img src="../../../assets/image/img_title_blue.png" class="logintag">
@@ -7,7 +11,7 @@
       </div>
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item prop="phone">
-          <el-input placeholder="请输入手机号" v-model="form.phone" class="input-with-select">
+          <el-input placeholder="请输入手机号" v-model="form.phone" class="input-with-select phoneinput">
             <el-select v-model="select" slot="prepend" placeholder="请选择" style="color: #333;">
               <el-option label="中国 +86" value="中国 +86"></el-option>
             </el-select>
@@ -15,7 +19,7 @@
         </el-form-item>
 
         <el-form-item prop="code">
-          <el-input v-model="form.code" autocomplete="off" placeholder="请填写验证码">
+          <el-input v-model="form.code" autocomplete="off" placeholder="请填写验证码" class="codeinput">
             <template slot="append">
               <el-button type="text" class="sendbtn" @click="handleSend">发送验证码</el-button>
             </template>
@@ -35,7 +39,7 @@
         </el-form-item>
         <div class="smbottombtn">
           <span @click="handlerBack">
-            <i class="el-icon-arrow-left"></i>返回登录</span>
+            <i class="el-icon-arrow-left" style="font-size: 16px;vertical-align: text-bottom;margin-right: 5px;"></i>返回登录</span>
         </div>
       </el-form>
     </div>
@@ -162,14 +166,35 @@ export default {
   background-image: url("../../../assets/image/login-background.jpg");
   background-size: 100% 100%;
   position: relative;
-  padding-top: 20%;
+  .topbox {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    right: 50px;
+    .logo {
+      margin-bottom: 18px;
+    }
+    .line {
+      height: 1px;
+      background-image: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+  }
   .pwd-main {
     width: 420px;
     margin: auto;
     background-color: #ffffff;
     box-shadow: 0px 0px 5px 0px #96a9ff;
     padding: 60px 0 30px;
-    position: relative;
+    position: absolute;
+    height: 480px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-radius: 5px;
     .pwdtitle {
       width: 166px;
@@ -207,6 +232,36 @@ export default {
           height: 46px !important;
         }
       }
+      // &.is-error {
+      //   .phoneinput {
+      //     .el-input__inner:focus {
+      //       border-left: 1px solid #ff4949;
+      //     }
+      //   }
+      // }
+    }
+    .phoneinput {
+      &.el-input--medium .el-input__inner {
+        border-left: 1px solid #fff;
+      }
+    }
+    .el-form-item.is-error .phoneinput.el-input--medium > .el-input__inner {
+      border-left: 1px solid #ff4949;
+    }
+    .phoneinput .el-input__inner:focus {
+      border-left: 1px solid #1890ff;
+    }
+
+    .codeinput {
+      &.el-input--medium .el-input__inner {
+        border-right: 1px solid #fff;
+      }
+    }
+    .el-form-item.is-error .codeinput.el-input--medium > .el-input__inner {
+      border-right: 1px solid #ff4949;
+    }
+    .codeinput .el-input__inner:focus {
+      border-right: 1px solid #1890ff;
     }
     .el-input-group__append,
     .el-input-group__prepend {
@@ -219,7 +274,7 @@ export default {
       color: #558cf7;
       span {
         cursor: pointer;
-        font-size: 12px;
+        font-size: 14px;
       }
     }
     .sendbtn {

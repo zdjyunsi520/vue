@@ -5,13 +5,15 @@
     <el-row :gutter="20" class="comheight">
 
       <el-col :span="6" :xs="{span: 24}" class="comheight">
-        <div class="search-box onlyform-box">
+        <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">新增值班</p>
           <el-row class="table-btns">
             <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loading">确 定</el-button>
-            <el-button :disabled="!disabledSelect" icon="el-icon-edit-outline" @click="handleUpdate(null)">修 改</el-button>
+            <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
+            </el-button>
           </el-row>
-          <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
+          <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
             <el-row>
               <el-col :span="24">
                 <el-form-item label="值班班组" prop="TeamId">
@@ -47,21 +49,17 @@
       </el-col>
       <el-col :xs="{span: 18}" :span="18" class="comheight">
         <div class="comheight">
-          <div class="search-box onlyform-box">
+          <div class="search-box onlyform-box" style="border-bottom:none">
             <p class="form-smtitle">岗位设置</p>
-
-            <div class="bg-white containerbox">
-
+            <div class="bg-white containerbox" style="padding:0">
               <el-row class="table-btns">
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-                <el-button :disabled="!disabledSelect" icon="el-icon-remove-outline" @click="handleAdd">删除</el-button>
+                <el-button :disabled="!disabledSelect" icon="el-icon-delete" @click="handleDelete">删除</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
-                <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
+                <el-table-column type="selection" fixed="left" width="55" align="center" />
                 <el-table-column label="岗位名称" align="center" prop="TeamName" />
-
                 <el-table-column label="班次" align="center" prop="ShiftNames" />
-
                 <el-table-column label="角色" align="center" prop="Characters" />
 
               </el-table>
@@ -71,7 +69,7 @@
         </div>
       </el-col>
     </el-row>
-    <add-job ref="add" :shiftTypeId="form.shifttypeId" />
+    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" @getList="getList" />
   </div>
 
 </template>
@@ -94,11 +92,18 @@ export default {
       ShiftTypeId: [{ required: true, message: "请选择班次类型" }],
       CharaType: [{ required: true, message: "请选择角色类型" }]
     };
+    const mrules = {
+      TeamName: [{ required: true, message: "请输入岗位名称" }],
+      ShiftNames: [{ required: true, message: "请选择班次" }],
+      Characters: [{ required: true, message: "请选择角色" }]
+    };
     return {
       loading: false,
       listLoading: false,
       form: {},
+      teamform: {},
       rules,
+      mrules,
       listLoading: false,
       dataList: [],
       tableHeight: "0",
@@ -111,7 +116,28 @@ export default {
       teamList: [],
       charactorTypeList: [],
       shiftTypeList: [],
-      height: "calc(100% - 130px)"
+      height: "calc(100% - 65px)",
+      dialogAddVisible: false,
+      shifts: [
+        {
+          id: 1,
+          name: "白班"
+        },
+        {
+          id: 2,
+          name: "晚班"
+        }
+      ],
+      character: [
+        {
+          id: 1,
+          name: "正值"
+        },
+        {
+          id: 2,
+          name: "副值"
+        }
+      ]
     };
   },
 
@@ -190,12 +216,19 @@ export default {
     },
     handleUpdate() {},
     handleDelete() {},
+    handleAddCheck() {},
     handleSubmit() {}
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+/deep/.search-box .el-form .el-form-item {
+  margin-right: 0;
+}
+/deep/.form-smtitle {
+  margin-bottom: 5px;
+}
 .comheight .containerbox {
   height: 100%;
 }

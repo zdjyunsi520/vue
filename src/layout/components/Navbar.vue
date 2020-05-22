@@ -28,7 +28,7 @@
           <svg-icon icon-class="nav_colour" style="font-size: 18px;vertical-align: middle;" />
         </div>
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 23px; padding: 0;" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" style="font-size: 20px; padding: 0;" />
 
         <!-- <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />

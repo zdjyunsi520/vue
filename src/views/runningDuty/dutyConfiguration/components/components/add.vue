@@ -1,34 +1,29 @@
 <template>
-  <el-dialog width="800px" :title="title+'岗位'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
 
-    <!-- 添加或修改参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-row>
-        <el-col :span="24">
-          <el-form-item label="岗位名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入岗位名称" />
-          </el-form-item>
-          <el-form-item label="班次" prop="starttime">
-            <el-select v-model="form.CharaType">
-              <el-option label="请选择" value></el-option>
-              <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in classTimeList" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="角色" prop="period">
-            <el-select v-model="form.CharaType">
-              <el-option label="请选择" value></el-option>
-              <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in classTimeList" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+  <el-dialog :title="title+'岗位'" :visible.sync="dialogVisible" center width="550px" append-to-body :close-on-click-modal="false">
+    <el-form :model="form" ref="form" class="xl-query" :rules="rules" label-width="130px">
+      <el-form-item label="岗位名称" prop="name">
+        <el-input type="text" v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="班次" prop="CharaType">
+        <el-select v-model="form.CharaType" style="width:100%;">
+          <el-option label="全部" value=""></el-option>
+          <el-option :key="index" :label="item.name" :value="item.id" v-for="(item,index) in classTimeList" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="角色" prop="CharaType">
+        <el-select v-model="form.CharaType" style="width:100%;">
+          <el-option label="全部" value=""></el-option>
+          <el-option :key="index" :label="item.name" :value="item.id" v-for="(item,index) in roleList" />
+        </el-select>
+      </el-form-item>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或修改参数配置对话框 end -->
+    </span>
   </el-dialog>
+
 </template>
 
 <script>

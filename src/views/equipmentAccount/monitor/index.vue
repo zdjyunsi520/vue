@@ -11,7 +11,9 @@
           <el-form :inline="true">
             <el-form-item>
               <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
-              <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
+              <el-button type="primary" @click="handleUpdate">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+              </el-button>
               <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
             </el-form-item>
           </el-form>

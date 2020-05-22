@@ -11,14 +11,9 @@
         <el-form-item label="年度" prop="teamId">
           <el-input v-model="queryParams.teamId" placeholder="请输入年度" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-download" @click="resetQuery">导出</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>

@@ -4,8 +4,16 @@
 
       <el-form :inline="true">
         <el-form-item>
+<<<<<<< HEAD
           <el-button type="primary" icon="el-icon-edit-outline" @click="handleUpdate">修改</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+=======
+          <el-button type="primary" plain @click="handleUpdate">
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+          </el-button>
+          <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
+          <el-tag type="danger">未提供此删除接口</el-tag>
+>>>>>>> c555726c5cbc892a89d1e6910e5f40862c17ed09
         </el-form-item>
       </el-form>
     </div>
@@ -14,7 +22,7 @@
         <el-row class="smInfoform-box">
           <div class="form-smtitle marginBottom30">基本属性</div>
           <el-form label-position="top" :model="infoData">
-            <el-row :gutter="30">
+            <el-row :gutter="20">
               <el-col :xs="{span: 24}" :span="12" class="border-right">
                 <el-col :span="24">
                   <el-form-item label="名称">

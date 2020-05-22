@@ -33,25 +33,29 @@
       </el-row>
 
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
-        <el-table-column type="selection" width="55"   fixed="left" />
-        <el-table-column label="名称"   min-width="155" prop="Name" />
+        <el-table-column type="selection" width="55" fixed="left" />
+        <el-table-column label="名称" min-width="155" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
-        <el-table-column label="附加属性" sortable min-width="120"   prop="Attribute" />
-        <el-table-column label="行业类别" sortable min-width="120"   prop="IndustryName" />
-        <el-table-column label="行业分类" sortable min-width="120"   prop="PrincipleActivityName" />
-        <el-table-column label="联系人"   min-width="120" prop="ContactPerson" />
-        <el-table-column label="联系人手机"   min-width="130" prop="MobilePhone" />
-        <el-table-column label="联系电话"   min-width="110" prop="PhoneNo" />
-        <el-table-column label="状态" sortable   min-width="110" prop="IsEnable">
+        <el-table-column label="附加属性" sortable min-width="120" prop="Attribute" />
+        <el-table-column label="行业类别" sortable min-width="120" prop="IndustryName" />
+        <el-table-column label="行业分类" sortable min-width="120" prop="PrincipleActivityName" />
+        <el-table-column label="联系人" min-width="120" prop="ContactPerson" />
+        <el-table-column label="联系人手机" min-width="130" prop="MobilePhone" />
+        <el-table-column label="联系电话" min-width="140" prop="PhoneNo" />
+        <el-table-column label="状态" sortable min-width="110" prop="IsEnable">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
-        <el-table-column label="操作"   min-width="150">
+        <el-table-column label="操作" min-width="200">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
             <!-- <el-button size="mini" type="text" @click="handleDisabled(scope.row,scope.row.IsEnable)">{{showEnable(scope.row)}}</el-button> -->
-            <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">权限编辑</el-button>
+            <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
+              <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限编辑
+            </el-button>
             <!-- <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button> -->
           </template>
         </el-table-column>
@@ -171,8 +175,7 @@ export default {
         const isenable = !lock;
         // Ids = Ids.join(",");
         locklock({ Ids, isenable }).then(r => {
-          
-          this.$message.success(!lock?'已启用':'已禁用');
+          this.$message.success(!lock ? "已启用" : "已禁用");
           this.getList();
         });
       }
