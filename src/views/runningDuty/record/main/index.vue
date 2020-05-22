@@ -5,34 +5,32 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>交班信息</span>
-
           </div>
-
           <div class="text item">
-            <el-form ref="form" :model="form" :rules="rules">
-              <el-form-item label="正值" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入正值" />
+            <el-form ref="form" :model="form" :rules="rules" :inline="true">
+              <el-form-item prop="contactperson">
+                <el-input value='正值：' disabled />
               </el-form-item>
-
-              <el-form-item label="交班时间" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入交班时间" />
+              <el-form-item prop="contactperson">
+                <el-input value="交班时间：" disabled />
               </el-form-item>
-              <el-form-item label="交班人" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入交班人" />
+              <el-form-item prop="contactperson">
+                <el-input value="交班人：" disabled />
               </el-form-item>
-              <el-form-item label="天气" prop="tenantId">
-                <el-select v-model="form.tenantId">
-                  <el-option label="请选择天气" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+              <el-form-item prop="tenantId">
+                <el-select v-model="form.tenantId" placeholder="请选择天气">
+                  <el-option label="1" value>晴</el-option>
+                  <el-option label="2" value>阴</el-option>
+                  <el-option label="3" value>雨</el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="温度(℃)" prop="contactperson">
+              <el-form-item prop="contactperson">
                 <el-input v-model="form.contactperson" placeholder="请输入温度" />
               </el-form-item>
-              <el-form-item>
-                <el-button>交班</el-button>
-                <el-button>召回</el-button>
-                <el-button>重置</el-button>
+              <el-form-item class="cardbtns">
+                <el-button type="primary" size="mini">交班</el-button>
+                <el-button type="primary" size="mini" plain>召回</el-button>
+                <el-button type="info" size="mini" plain>重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -42,33 +40,31 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>接班信息</span>
-
           </div>
-
           <div class="text item">
-            <el-form ref="form" :model="form" :rules="rules">
-              <el-form-item label="正值" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+            <el-form ref="form" :model="form" :rules="rules" :inline="true">
+              <el-form-item prop="contactperson">
+                <el-input value='正值：' disabled />
               </el-form-item>
-
-              <el-form-item label="接班时间" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+              <el-form-item prop="contactperson">
+                <el-input value="接班时间：" disabled />
               </el-form-item>
-              <el-form-item label="接班人" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+              <el-form-item prop="contactperson">
+                <el-input value="接班人：" disabled />
               </el-form-item>
-              <el-form-item label="天气" prop="tenantId">
-                <el-select v-model="form.tenantId">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+              <el-form-item prop="tenantId">
+                <el-select v-model="form.tenantId" placeholder="请选择天气">
+                  <el-option label="1" value>晴</el-option>
+                  <el-option label="2" value>阴</el-option>
+                  <el-option label="3" value>雨</el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="温度(℃)" prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+              <el-form-item prop="contactperson">
+                <el-input v-model="form.contactperson" placeholder="请输入温度" />
               </el-form-item>
-              <el-form-item>
-                <el-button>接班</el-button>
-                <el-button>重置</el-button>
+              <el-form-item class="cardbtns">
+                <el-button type="primary" size="mini">接班</el-button>
+                <el-button type="info" size="mini" plain>重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -265,5 +261,36 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+/deep/.el-card {
+  width: 360px;
+  .el-card__header {
+    padding: 15px 30px;
+    border-bottom: none;
+    box-sizing: border-box;
+    background-color: #f9fafd;
+  }
+  .el-card__body {
+    padding: 20px 30px;
+    .el-form {
+      padding-right: 0px;
+      .el-form-item {
+        margin-bottom: 15px;
+        margin-right: 0;
+        width: 100%;
+      }
+      .el-form-item--medium .el-form-item__label {
+        line-height: inherit;
+        margin-bottom: 15px;
+      }
+      .el-form-item--medium .el-form-item__content {
+        width: 100%;
+      }
+    }
+    .cardbtns {
+      margin-bottom: 0 !important;
+      text-align: center;
+    }
+  }
+}
 </style>

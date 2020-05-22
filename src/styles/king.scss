@@ -119,12 +119,11 @@
      }
  }
  
- .el-input--medium .el-input__inner {
-     height: 32px;
-     line-height: 32px;
-     border-radius: 2px;
-     ;
- }
+//  .el-input--medium .el-input__inner {
+//      height: 32px;
+//      line-height: 32px;
+//      border-radius: 2px;
+//  }
  
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
@@ -184,7 +183,7 @@
      padding-bottom: 90px;
      margin-bottom: 0;
      .el-form .el-form-item {
-         margin-bottom: 22px;
+         margin-bottom: 20px;
      }
      .el-select {
          width: 100%;
@@ -418,9 +417,11 @@
  }
  
  .el-button--medium {
-     padding: 8px 15px;
+     padding: 0 15px;
      border-radius: 2px;
+     height: 32px;
      font-size: 14px;
+     line-height: 30px;
  }
  
  .el-button--primary.is-plain {
