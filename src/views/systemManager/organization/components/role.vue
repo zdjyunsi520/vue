@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-     <div class="search-box onlyform-box" style="padding-bottom: 123px;">
+    <div class="search-box onlyform-box" style="padding-bottom: 123px;">
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box">
         <el-scrollbar>
-  <!-- <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;"> -->
-      <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
-       
-         <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
+          <!-- <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;"> -->
+          <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+
+            <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
                 <div>
                   <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
@@ -24,7 +24,8 @@
                     <li>
                       <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
                         <ul>
-                          <li style="min-width:180px"><el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
+                          <li style="min-width:180px">
+                            <el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
                           </li>
                           <li class="last-box">
                             <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
@@ -43,8 +44,7 @@
               </li>
             </ul>
 
-       
-        <!-- <el-form-item>
+            <!-- <el-form-item>
           <el-table :data="moduleList" border :height="moduleList.length>0?tableHeight:'0'">
             <el-table-column prop="date" label="角色" width="180">
               <template slot="header">
@@ -76,7 +76,7 @@
             </el-table-column>
           </el-table>
         </el-form-item> -->
-      </el-form>
+          </el-form>
         </el-scrollbar>
       </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
@@ -86,7 +86,7 @@
         </div>
       </el-col>
     </div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -193,11 +193,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
-          name: "",
-          key: "",
-          powers: [],
-          sortindex: 1
+          powers: []
         },
         data
       );
@@ -215,28 +211,35 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          this.form.powers = [];
+          this.form.powers = [
+            {
+              RoleId: "49305f31-088b-4cfe-8860-2ffe99fa7cb7",
+              ModuleId: "817ef1a8-f56b-49a5-b1d2-5803af77b886"
+            }
+          ];
           // this.moduleList.forEach(v => {
           //   if (v.IsSelect) {
           //     const RoleId = v.RoleId;
           //     this.form.powers.push({ RoleId });
           //   }
           // });
-          this.moduleList.forEach((v, i) => {
-            if (v.IsSelect) this.form.powers.push(v.RoleId);
-            if (v.ModuleData)
-              v.ModuleData.forEach(v => {
-                if (v.IsSelect) this.form.powers.push(v.ModuleId);
-                if (v.IsSelect) this.form.powers.push(v.ModuleId);
-                if (v.Childs)
-                  v.Childs.forEach(v => {
-                    if (v.IsSelect) this.form.powers.push(v.ModuleId);
-                  });
-              });
-          });
+
+          // this.moduleList.forEach((v, i) => {
+          //   if (v.IsSelect) this.form.powers.push(v.RoleId);
+          //   if (v.ModuleData)
+          //     v.ModuleData.forEach(v => {
+          //       if (v.IsSelect) this.form.powers.push(v.ModuleId);
+          //       if (v.IsSelect) this.form.powers.push(v.ModuleId);
+          //       if (v.Childs)
+          //         v.Childs.forEach(v => {
+          //           if (v.IsSelect) this.form.powers.push(v.ModuleId);
+          //         });
+          //     });
+          // });
+
           // this.form.powers = [...new Set(this.form.powers)];
-          this.form.moduleids = this.form.powers.join(",");
-          this.form.powers = "";
+          //this.form.moduleids = this.form.powers.join(",");
+          //  this.form.powers = "";
           //保存修改
           update(this.form)
             .then(response => {

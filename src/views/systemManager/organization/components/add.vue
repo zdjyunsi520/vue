@@ -122,7 +122,7 @@
               <el-form-item>
                 <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
                   <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-                  <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
+                  <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" @locationError="locationError" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
                   <bm-marker v-for="(item,index) in points" :key="index" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>
                   <bm-city-list anchor="BMAP_ANCHOR_TOP_LEFT"></bm-city-list>
                   <bm-local-search :keyword="remark123" :auto-viewport="true" :location="location" @searchcomplete='markersset'></bm-local-search>
@@ -263,8 +263,8 @@ export default {
       latitude: rule
     };
     return {
-      center: { lng: 0, lat: 0 },
-      zoom: 3,
+      center: { lng: 116.404, lat: 39.915 },
+      zoom: 15,
       form: {},
       rules,
       dialogVisible: false,
@@ -298,7 +298,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initMaps(); //调用初始化函数
-      this.locate();
+      // this.locate();
     });
   },
   computed: {
@@ -360,6 +360,10 @@ export default {
 
         let contractcapacity = row.ContractCapacity;
         let voltlevel = row.OperatingCapacity;
+        let longitude = row.Longitude;
+        let latitude = row.Latitude;
+        if (longitude && latitude)
+          this.center = { lng: longitude, lat: latitude };
         data = Object.assign(data, {
           attribute,
           isenable,
@@ -371,25 +375,31 @@ export default {
           mobilephone,
           phoneno,
           contractcapacity,
-          voltlevel
+          voltlevel,
+          longitude,
+          latitude
         });
         this.reset(data);
       });
     },
     initMaps() {
-      this.map = new BMapGL.Map("container");
-      let mPoint = new BMapGL.Point(116.404, 39.915); //天安门
-
-      this.map.centerAndZoom(mPoint, 15);
+      // this.map = new BMapGL.Map("container");
+      // let mPoint = new BMapGL.Point(116.404, 39.915); //天安门
+      // this.map.centerAndZoom(mPoint, 15);
     },
     locationSuccess(e) {
+      console.log(e);
       //百度地图定位完成后
       this.center.lng = e.point.lng;
       this.center.lat = e.point.lat;
       this.form.longitude = e.point.lng;
       this.form.latitude = e.point.lat;
     },
-
+    locationError() {
+      this.center.lng = 116.404;
+      this.center.lat = 39.915;
+      this.zoom = 15;
+    },
     dragging(e) {
       this.form.longitude = e.point.lng;
       this.form.latitude = e.point.lat;
@@ -404,9 +414,10 @@ export default {
       }
     },
     handler({ BMap, map }) {
-      this.center.lng = 116.404;
-      this.center.lat = 39.915;
-      this.zoom = 15;
+      console.log("handler", BMap, map);
+      // this.center.lng = 116.404;
+      // this.center.lat = 39.915;
+      // this.zoom = 15;
     },
     getAreaList() {
       fetchList({}).then(response => {
