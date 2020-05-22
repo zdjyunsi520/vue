@@ -8,7 +8,6 @@
             <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
           </el-button>
           <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
-          <el-tag type="danger">未提供此删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
