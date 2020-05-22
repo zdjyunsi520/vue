@@ -71,6 +71,7 @@
         </div>
       </el-col>
     </el-row>
+    <add-job ref="add" :shiftTypeId="form.shifttypeId" />
   </div>
 
 </template>
@@ -84,8 +85,9 @@ import {
   update,
   add
 } from "@/api/runningDuty/dutyConfiguration";
+import addJob from "./components/add";
 export default {
-  components: {},
+  components: { addJob },
   data() {
     const rules = {
       TeamId: [{ required: true, message: "请选择值班班组" }],
@@ -127,17 +129,17 @@ export default {
   },
   methods: {
     getTeam() {
-      fetchTeam(this.queryParams).then(r => {
+      fetchTeam({}).then(r => {
         this.teamList = r.data;
       });
     },
     getShiftType() {
-      fetchShiftType(this.queryParams).then(r => {
+      fetchShiftType({}).then(r => {
         this.shiftTypeList = r.data;
       });
     },
     getCharactorType() {
-      fetchCharactorType(this.queryParams).then(r => {
+      fetchCharactorType({}).then(r => {
         this.charactorTypeList = r.data;
       });
     },
@@ -182,7 +184,10 @@ export default {
         data
       );
     },
-    handleAdd() {},
+    handleAdd() {
+      const target = this.$refs.add;
+      target.handleOpen();
+    },
     handleUpdate() {},
     handleDelete() {},
     handleSubmit() {}

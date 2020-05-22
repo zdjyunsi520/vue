@@ -4,13 +4,13 @@
       <div class="search-box marginbottom15">
         <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
           <el-form-item label="单位名称" prop='tenantId'>
-            <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
+            <el-select v-model="queryParams.tenantId" clearable placeholder="请选择" @change="handleChangeTenantId">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="配电室" prop='switchroomId'>
             <el-select v-model="queryParams.switchroomId" clearable placeholder="请选择">
-              <el-option v-for="(item,index) in switchrooms" :key="index" :label="item.text" :value="item.id"></el-option>
+              <el-option v-for="(item,index) in switchrooms" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -274,7 +274,7 @@
 </template>
 
 <script>
-import { getDeviceMonitor } from "@/api/report";
+import { getPowerRoomByTenantId, getDeviceMonitor } from "@/api/report";
 import { getChildrenList, getTrees } from "@/api/org";
 export default {
   data() {
@@ -290,7 +290,8 @@ export default {
       TenantIds: [],
       TenantTree: [],
       listLoading: true,
-      firstLoad: 1
+      firstLoad: 1,
+      switchrooms: []
     };
   },
 
@@ -298,27 +299,30 @@ export default {
     this.getTenants();
     this.getAssets();
   },
-  computed: {
-    switchrooms() {
-      let switchrooms = this.TenantTree.filter(
-        v => v.id == this.queryParams.tenantId
-      );
-      if (switchrooms.length) switchrooms = switchrooms[0].childs || [];
-      if (switchrooms.length) this.queryParams.switchroomId = switchrooms[0].id;
-      this.handleFirstEvent();
-      return switchrooms;
-    }
-  },
+  computed: {},
   methods: {
+    //切换用电单位ID
+    handleChangeTenantId() {
+      getPowerRoomByTenantId(this.queryParams).then(res => {
+        this.switchrooms = res.data || [];
+        let switchroomId = "";
+        if (this.switchrooms.length) {
+          switchroomId = this.switchrooms[0].Id;
+        }
+        this.queryParams.switchroomId = switchroomId;
+        this.handleFirstEvent();
+      });
+    },
+    //第一次进来
     handleFirstEvent() {
       if (
         this.firstLoad &&
         this.queryParams.switchroomId &&
         this.queryParams.tenantId
       ) {
-        this.firstLoad = 0;
         this.getMonitor();
       }
+      this.firstLoad = 0;
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -338,6 +342,7 @@ export default {
     getAssets() {
       getTrees().then(res => {
         this.TenantTree = res.data;
+        this.handleChangeTenantId();
       });
     },
     // 巡视单位列表
@@ -348,9 +353,11 @@ export default {
           this.queryParams.tenantId = this.TenantIds[0].Id;
       });
     },
+
     getMonitor() {
       this.dataList = [];
       this.listLoading = true;
+      console.log(1123123);
       getDeviceMonitor(this.queryParams)
         .then(res => {
           this.dataList = res.data || [];
@@ -358,6 +365,10 @@ export default {
         .finally(r => {
           this.listLoading = false;
         });
+    },
+
+    getPowerRoomByTenantId() {
+      getPowerRoomByTenantId(this.queryParams).then(r => {});
     }
   }
 };

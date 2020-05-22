@@ -77,9 +77,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
-                <el-tag type="danger">未提供此字段</el-tag>
+              <el-form-item label="排序号" prop="SortIndex">
+                <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
               </el-form-item>
 
             </el-col>
@@ -175,7 +174,7 @@ export default {
           exfactorydate: "",
           status: 1,
           factory: "",
-          sortindex: 1
+          SortIndex: 1
         },
         data
       );

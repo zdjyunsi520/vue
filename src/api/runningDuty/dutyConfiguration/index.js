@@ -19,13 +19,13 @@ export function getInfo(data) {
 }
 //获取值班班组 用于下拉框
 export function fetchTeam(data) {
-  return post("/DutyTeam/Gets", data, commonUrl);
+  return post("/DutyTeam/GetList", data, commonUrl);
 }
 //获取值班班次 用于下拉框
 export function fetchShiftType(data) {
-  return post("/DutyShiftType/Gets", data, commonUrl);
+  return post("/DutyShiftType/GetList", data, commonUrl);
 }
 //获取角色类型 用于下拉框
 export function fetchCharactorType(data) {
-  return post("/DutyCharaType/Gets", data, commonUrl);
+  return post("/DutyCharaType/GetList", data, commonUrl);
 }

@@ -129,17 +129,17 @@ export default {
   },
   methods: {
     getTeam() {
-      fetchTeam(this.queryParams).then(r => {
+      fetchTeam({}).then(r => {
         this.teamList = r.data;
       });
     },
     getShiftType() {
-      fetchShiftType(this.queryParams).then(r => {
+      fetchShiftType({}).then(r => {
         this.shiftTypeList = r.data;
       });
     },
     getCharactorType() {
-      fetchCharactorType(this.queryParams).then(r => {
+      fetchCharactorType({}).then(r => {
         this.charactorTypeList = r.data;
       });
     },

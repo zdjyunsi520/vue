@@ -44,8 +44,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="生产厂家">
-                    <el-input v-model="infoData.SoftwareVersion123" disabled></el-input>
-                    <el-tag type="danger">未提供此字段</el-tag>
+                    <el-input v-model="infoData.Factory" disabled></el-input>
                   </el-form-item>
                 </el-col>
               </el-col>
@@ -164,7 +163,7 @@ export default {
       const modelname = this.infoData.ModelName;
       const exfactorydate = this.infoData.ExFactoryDate;
       const status = this.infoData.Status;
-
+      const SortIndex = this.infoData.SortIndex;
       const data = {
         id,
         parentid,
@@ -178,7 +177,8 @@ export default {
         starttime,
         modelname,
         exfactorydate,
-        status
+        status,
+        SortIndex
       };
       const title = "修改";
       this.$router.push({
