@@ -55,6 +55,8 @@
               <el-row class="table-btns">
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
                 <el-button :disabled="!disabledSelect" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+                <el-button icon="el-icon-delete" @click="handleSubmit">保存</el-button>
+                <el-button icon="el-icon-delete" @click="handleBack">返回</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
                 <el-table-column type="selection" fixed="left" width="55" align="center" />
@@ -217,7 +219,15 @@ export default {
     handleUpdate() {},
     handleDelete() {},
     handleAddCheck() {},
-    handleSubmit() {}
+    handleSubmit() {
+      this.$refs.form.validate(v => {
+        if (v) {
+          add(this.form).then(r => {
+            this.$message.success("操作成功");
+          });
+        }
+      });
+    }
   }
 };
 </script>
