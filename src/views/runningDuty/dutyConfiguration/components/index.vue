@@ -9,7 +9,9 @@
           <p class="form-smtitle">新增值班</p>
           <el-row class="table-btns">
             <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loading">确 定</el-button>
-            <el-button :disabled="!disabledSelect" icon="el-icon-edit-outline" @click="handleUpdate(null)">修 改</el-button>
+            <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
+            </el-button>
           </el-row>
           <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
             <el-row>

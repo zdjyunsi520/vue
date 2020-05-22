@@ -199,14 +199,14 @@ export default {
   height: 34px;
   width: 100%;
   background: #fff;
-  margin-bottom: -3px;
-  border-top: 1px solid #ebeef5;
+  // margin-bottom: -3px;
+  // border-top: 1px solid #ebeef5;
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 34px;
+      height: 36px;
       line-height: 34px;
       color: #999999;
       background: #fff;
@@ -219,12 +219,22 @@ export default {
       // &:last-of-type {
       //   margin-right: 15px;
       // }
+
+      &::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        background: #ebeef5;
+      }
       &.active {
         position: relative;
         &::before {
           position: absolute;
           content: "";
-          top: -2px;
+          top: -1px;
           left: 0;
           height: 2px;
           width: 100%;
@@ -232,7 +242,8 @@ export default {
         }
         background-color: #f6f7fa;
         color: #333333;
-        line-height: 30px;
+        line-height: 33px;
+        z-index: 1;
         // border-color: #42b983;
         // &::before {
         //   content: '';

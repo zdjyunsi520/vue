@@ -93,12 +93,12 @@
  
  .infobox {
      line-height: 1.5;
-     padding: 15px 20px 15px 30px;
+     padding: 15px 20px 15px 20px;
      max-width: 550px;
      height: 100%;
      overflow: auto;
      .el-form-item {
-         margin-bottom: 15px;
+         margin-bottom: 20px;
      }
      .el-input--medium .el-input__inner {
          height: 45px;
@@ -106,7 +106,8 @@
          color: #333333!important;
      }
      .el-form-item--medium .el-form-item__label {
-         line-height: 36px;
+         line-height: inherit;
+         padding-bottom: 10px;
      }
  }
  
@@ -136,22 +137,26 @@
      max-width: 950px;
      .smInfoform-box {
          background: #fff;
-         padding: 30px;
+         padding:15px 20px 20px;
          margin-bottom: 20px;
          box-shadow: 0px 1px 5px #f2f7ff;
          &:last-child {
              margin-bottom: 0;
          }
          .el-form {
+             margin: 0 -10px;
              .el-form-item {
-                 margin-bottom: 15px;
-                 ;
+                 margin-bottom: 20px;
              }
              .el-input.is-disabled .el-input__inner {
                  color: #333!important;
                  height: 45px;
                  line-height: 45px;
              }
+             .el-form-item--medium .el-form-item__label {
+                line-height: inherit;
+                padding-bottom: 10px;
+            }
          }
      }
      .border-right {
@@ -192,7 +197,14 @@
  
  .el-form {
      padding-right: 30px;
+     .tablesvgicon{
+        margin-right: 2px;
+    }
  }
+ .tablesvgicon{
+     font-size: 18px;
+     vertical-align:-0.2em!important
+}
  
  .el-form-item__label {
      font-weight: normal;
@@ -289,13 +301,15 @@
          vertical-align: text-top;
      }
  }
- 
+ .cell .el-button+.el-button{
+    margin-left: 20px;
+}
  .form-smtitle {
-     font-size: 18px;
-     margin-bottom: 40px;
+     font-size: 16px;
+     margin-bottom: 20px;
      text-align: left!important;
-     margin-top: 10px;
-     margin-left: 10px;
+     margin-top: 5px;
+    //  margin-left: 10px;
      &::before {
          content: "";
          width: 4px;
@@ -307,9 +321,9 @@
      }
  }
  
- .el-form--label-left {
-     padding-left: 10px;
- }
+//  .el-form--label-left {
+//      padding-left: 10px;
+//  }
  
  .marginBottom30 {
      margin-bottom: 20px;

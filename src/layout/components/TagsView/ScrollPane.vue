@@ -2,18 +2,27 @@
   <div class="xl-scroll">
     <ul>
       <li @click="handleClickLeft" style="width:38px">
-        <i class="el-icon-d-arrow-left" style="font-size: 13px;font-weight: bold;"></i>
+        <div class="smbox">
+          <i class="el-icon-d-arrow-left" style="font-size: 13px;font-weight: bold;"></i>
+        </div>
+
       </li>
       <li @click="handleClickHome" style="width:38px;font-size: 21px;font-weight: bold;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
-        <svg-icon icon-class="ic_home" />
+        <div class="smbox">
+          <svg-icon icon-class="ic_home" />
+        </div>
       </li>
       <li>
-        <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll">
-          <slot />
-        </el-scrollbar>
+        <div class="smbox">
+          <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll">
+            <slot />
+          </el-scrollbar>
+        </div>
       </li>
       <li @click="handleClickRight" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
-        <i class="el-icon-d-arrow-right" style="font-size: 12px;font-weight: bold;"></i>
+        <div class="smbox">
+          <i class="el-icon-d-arrow-right" style="font-size: 12px;font-weight: bold;"></i>
+        </div>
       </li>
       <!-- <li @click.prevent="handleClickDown" style="width:38px">
         <i class="el-icon-arrow-down" style="font-size: 12px;font-weight: bold;"></i>
@@ -122,7 +131,7 @@ export default {
         bottom: 0px;
       }
       .el-scrollbar__wrap {
-        height: 33px;
+        // height: 33px;
         overflow: hidden;
       }
     }
@@ -133,12 +142,25 @@ export default {
     margin: 0;
     display: flex;
     li {
-      height: 36px;
+      height: 37px;
       line-height: 36px;
       width: 50px;
       text-align: center;
       display: block;
       cursor: pointer;
+      position: relative;
+      .smbox {
+        height: 100%;
+        &::before {
+          position: absolute;
+          content: "";
+          top: 0px;
+          left: 0;
+          height: 1px;
+          width: 100%;
+          background: #ebeef5;
+        }
+      }
 
       &:nth-of-type(3) {
         flex-grow: 1;

@@ -25,8 +25,6 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
@@ -59,8 +57,12 @@
         <el-table-column label="岗位" align="center" prop="Positions" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-key" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
+            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -368,7 +368,6 @@ export default {
   padding: 20px;
 }
 .smbsdatabox {
-  margin-top: -20px;
   & > div {
     border: solid 1px #f1f1f1;
   }

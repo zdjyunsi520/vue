@@ -232,17 +232,37 @@ export default {
           height: 46px !important;
         }
       }
+      // &.is-error {
+      //   .phoneinput {
+      //     .el-input__inner:focus {
+      //       border-left: 1px solid #ff4949;
+      //     }
+      //   }
+      // }
     }
-    // .phoneinput {
-    //   &.el-input--medium .el-input__inner {
-    //     border-left: none;
-    //   }
-    // }
-    // .codeinput {
-    //   &.el-input--medium .el-input__inner {
-    //     border-right: none;
-    //   }
-    // }
+    .phoneinput {
+      &.el-input--medium .el-input__inner {
+        border-left: 1px solid #fff;
+      }
+    }
+    .el-form-item.is-error .phoneinput.el-input--medium > .el-input__inner {
+      border-left: 1px solid #ff4949;
+    }
+    .phoneinput .el-input__inner:focus {
+      border-left: 1px solid #1890ff;
+    }
+
+    .codeinput {
+      &.el-input--medium .el-input__inner {
+        border-right: 1px solid #fff;
+      }
+    }
+    .el-form-item.is-error .codeinput.el-input--medium > .el-input__inner {
+      border-right: 1px solid #ff4949;
+    }
+    .codeinput .el-input__inner:focus {
+      border-right: 1px solid #1890ff;
+    }
     .el-input-group__append,
     .el-input-group__prepend {
       width: 110px;

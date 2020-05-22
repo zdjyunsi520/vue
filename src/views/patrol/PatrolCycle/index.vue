@@ -28,7 +28,7 @@
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
         <el-table-column label="巡视人员" sortable min-width="150" prop="PatrolUserName" />
         <el-table-column label="巡视成员" sortable min-width="150" prop="PatrolMemberNames" />
-        <el-table-column label="巡视周期" sortable min-width="100" prop="CycleDay"></el-table-column>
+        <el-table-column label="巡视周期" sortable min-width="150" prop="CycleDay"></el-table-column>
         <el-table-column label="开始时间" sortable min-width="120" prop="StartTime">
           <template slot-scope="scope">
             {{scope.row.StartTime.substring(0,10)}}
@@ -36,8 +36,12 @@
         </el-table-column>
         <el-table-column label="操作" min-width="230" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-edit-outline" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
+            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

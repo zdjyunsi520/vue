@@ -11,7 +11,7 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
           <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>

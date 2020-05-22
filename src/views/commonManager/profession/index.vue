@@ -14,41 +14,42 @@
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit-outline" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" plain @click="handleUpdate" :disabled="operateId==''">
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+          </el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
-    <el-row :gutter="20" class="containerbox dragbox"   ref="dragbox">
-      <el-col :xs="{span: 24}"  class="treebox comheight dragleft" >
+    <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
-        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
-          <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
-        </el-scrollbar>
+          <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
+            <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
+          </el-scrollbar>
         </div>
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
-          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
-          />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
-      <el-col :xs="{span: 24}"    class="comheight dragright">
+      <el-col :xs="{span: 24}" class="comheight dragright">
         <div class="bg-white infobox">
-          <el-scrollbar >
-          <div class="form-smtitle marginBottom30">基础信息 </div>
+          <el-scrollbar>
+            <div class="form-smtitle marginBottom30">基础信息 </div>
             <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-                <el-form-item label="代码">
-                  <el-input v-model="smform.Key" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="名称">
-                  <el-input v-model="smform.Name" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="排序">
-                  <el-input v-model="smform.SortIndex" disabled></el-input>
-                </el-form-item>
+              <el-form-item label="代码">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="排序">
+                <el-input v-model="smform.SortIndex" disabled></el-input>
+              </el-form-item>
               <el-form-item label="父级" v-if="smform.ParentKey">
                 <el-input v-model="smform.ParentKey" disabled></el-input>
               </el-form-item>
@@ -86,8 +87,7 @@ export default {
       addId: "",
       operateId: "",
       smform: {},
-      data: {},
-
+      data: {}
     };
   },
   created() {
@@ -202,5 +202,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../../../styles/tree.scss';
+@import "../../../styles/tree.scss";
 </style>

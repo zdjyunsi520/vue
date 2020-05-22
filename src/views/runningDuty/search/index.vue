@@ -23,8 +23,7 @@
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <el-form-item>
+
           <el-button icon="el-icon-download" @click="resetQuery">导出</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>

@@ -14,52 +14,53 @@
               <el-dropdown-item command="c">区域/县</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" icon="el-icon-edit-outline" plain @click="handleUpdate" :disabled="operateId==''">修改</el-button>
+          <el-button type="primary" plain @click="handleUpdate" :disabled="operateId==''">
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+          </el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
-    <el-row :gutter="20" class="containerbox dragbox"   ref="dragbox">
-      <el-col :xs="{span: 24}" class="treebox comheight dragleft" >
+    <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
-        <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
-             <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
-        </el-scrollbar>
+          <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
+            <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :expand-on-click-node="false"></el-tree>
+          </el-scrollbar>
         </div>
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:16px;margin-left:-5px;" />
-          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;"
-          />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
-      <el-col :xs="{span: 24}"  style="width:554px" class="comheight dragright">
+      <el-col :xs="{span: 24}" style="width:554px" class="comheight dragright">
         <div class="bg-white  infobox">
           <el-scrollbar>
-          <div class="form-smtitle marginBottom30">基础信息 </div>
+            <div class="form-smtitle marginBottom30">基础信息 </div>
             <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-                <el-form-item label="代码">
-                  <el-input v-model="smform.Key" disabled></el-input>
-                </el-form-item>
+              <el-form-item label="代码">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
               <el-form-item label="父级地区代码" v-if="smform.ParentKey">
                 <el-input v-model="smform.ParentKey" disabled></el-input>
               </el-form-item>
-                <el-form-item label="名称">
-                  <el-input v-model="smform.Name" disabled></el-input>
-                </el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
               <!-- <el-form-item>
               <el-form-item label="类型">
                 <el-input v-model="smform.Type" disabled></el-input>
               </el-form-item>
             </el-form-item> -->
-                <el-form-item label="邮编">
-                  <el-input v-model="smform.ZipCode" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="路径">
-                  <el-input v-model="smform.Location" disabled></el-input>
-                </el-form-item>
+              <el-form-item label="邮编">
+                <el-input v-model="smform.ZipCode" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="路径">
+                <el-input v-model="smform.Location" disabled></el-input>
+              </el-form-item>
             </el-form>
             <div v-else class="tips">
               请稍后...
@@ -96,8 +97,7 @@ export default {
       operateId: "",
       data: {},
       level: "",
-      smform: {},
-      
+      smform: {}
     };
   },
   created() {
@@ -128,13 +128,13 @@ export default {
             return v;
           });
           // this.dataList = response.data;
-       
+
           this.dataList.length &&
             this.handleNodeClick(this.dataList[0], { level: 1 });
 
           // $.fn.zTree.init($("#treeDemo"), this.setting, this.dataList);
 
-            console.log(111,this.dataList)
+          console.log(111, this.dataList);
         })
         .finally(v => (this.loading = false));
     },
@@ -355,5 +355,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../../../styles/tree.scss';
+@import "../../../styles/tree.scss";
 </style>
