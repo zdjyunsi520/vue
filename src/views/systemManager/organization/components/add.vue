@@ -293,7 +293,6 @@ export default {
     } else {
       this.reset(data);
     }
-    this.points.push(this.center);
   },
   mounted() {
     this.$nextTick(() => {
@@ -357,13 +356,16 @@ export default {
         let mobilephone = row.MobilePhone;
 
         let phoneno = row.PhoneNo;
-
+        let creditcode = row.CreditCode;
+        let artificialperson = row.ArtificialPerson;
         let contractcapacity = row.ContractCapacity;
         let voltlevel = row.OperatingCapacity;
         let longitude = row.Longitude;
         let latitude = row.Latitude;
-        if (longitude && latitude)
+        if (longitude && latitude) {
           this.center = { lng: longitude, lat: latitude };
+          this.points = [this.center];
+        }
         data = Object.assign(data, {
           attribute,
           isenable,
@@ -377,7 +379,9 @@ export default {
           contractcapacity,
           voltlevel,
           longitude,
-          latitude
+          latitude,
+          creditcode,
+          artificialperson
         });
         this.reset(data);
       });
@@ -394,11 +398,13 @@ export default {
       this.center.lat = e.point.lat;
       this.form.longitude = e.point.lng;
       this.form.latitude = e.point.lat;
+      this.points = [this.center];
     },
     locationError() {
       this.center.lng = 116.404;
       this.center.lat = 39.915;
       this.zoom = 15;
+      this.points = [this.center];
     },
     dragging(e) {
       this.form.longitude = e.point.lng;
