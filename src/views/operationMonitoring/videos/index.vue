@@ -28,7 +28,7 @@
           <div class="" style="margin-top:15px;padding: 0;">
             <div class="videolist">
               <el-row :gutter="15">
-                <el-col v-for="item in current" :span="current==1?24:(current==4?12:8)">
+                <el-col v-for="(item,index) in current" :span="current==1?24:(current==4?12:8)" :key='index'>
                   <div></div>
                 </el-col>
               </el-row>

@@ -28,7 +28,11 @@
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
         <el-table-column label="巡视人员" sortable min-width="150" prop="PatrolUserName" />
         <el-table-column label="巡视成员" sortable min-width="150" prop="PatrolMemberNames" />
-        <el-table-column label="巡视周期" sortable min-width="150" prop="CycleDay"></el-table-column>
+        <el-table-column label="巡视周期" sortable min-width="150" prop="CycleDay">
+          <template slot-scope="scope">
+            {{scope.row.CycleDay}}天
+          </template>
+        </el-table-column>
         <el-table-column label="开始时间" sortable min-width="120" prop="StartTime">
           <template slot-scope="scope">
             {{scope.row.StartTime.substring(0,10)}}
