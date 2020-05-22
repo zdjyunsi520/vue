@@ -5,16 +5,14 @@
       <el-form-item label="岗位名称" prop="name">
         <el-input type="text" v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="班次" prop="CharaType">
-        <el-select v-model="form.CharaType" style="width:100%;">
-          <el-option label="全部" value=""></el-option>
-          <el-option :key="index" :label="item.name" :value="item.id" v-for="(item,index) in classTimeList" />
+      <el-form-item label="班次" prop="shiftId">
+        <el-select v-model="form.shiftId" style="width:100%;">
+          <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in classTimeList" />
         </el-select>
       </el-form-item>
-      <el-form-item label="角色" prop="CharaType">
-        <el-select v-model="form.CharaType" style="width:100%;">
-          <el-option label="全部" value=""></el-option>
-          <el-option :key="index" :label="item.name" :value="item.id" v-for="(item,index) in roleList" />
+      <el-form-item label="角色" prop="characterId">
+        <el-select v-model="form.characterId" style="width:100%;">
+          <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in roleList" />
         </el-select>
       </el-form-item>
     </el-form>
@@ -29,9 +27,15 @@
 <script>
 import { add } from "@/api/runningDuty/dutyConfiguration/job";
 import { fetchList } from "@/api/runningDuty/dutyConfiguration/classTime";
+import { fetchList as fetchList1 } from "@/api/runningDuty/dutyConfiguration/role";
 export default {
   props: {
     shiftTypeId: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    charaType: {
       type: String,
       required: true,
       default: ""
@@ -40,8 +44,14 @@ export default {
   watch: {
     shiftTypeId(shiftTypeId) {
       shiftTypeId &&
-        fetchList({ shiftTypeId }).then(r => {
+        fetchList({ shiftTypeId, pageno: 1, pagesize: 999999 }).then(r => {
           this.classTimeList = r.data;
+        });
+    },
+    charaType(charatypeId) {
+      charatypeId &&
+        fetchList1({ charatypeId, pageno: 1, pagesize: 999999 }).then(r => {
+          this.roleList = r.data;
         });
     }
   },
@@ -54,14 +64,14 @@ export default {
           trigger: "blur"
         }
       ],
-      starttime: [
+      shiftId: [
         {
           required: true,
           message: "请选择班次",
           trigger: "blur"
         }
       ],
-      endtime: [
+      characterId: [
         {
           required: true,
           message: "请选择角色",

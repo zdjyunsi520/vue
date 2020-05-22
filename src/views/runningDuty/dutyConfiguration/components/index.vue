@@ -69,7 +69,7 @@
         </div>
       </el-col>
     </el-row>
-    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" @getList="getList" />
+    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" :charaType="form.CharaType" @getList="getList" />
   </div>
 
 </template>
