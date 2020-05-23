@@ -13,6 +13,13 @@
             <el-button icon="el-icon-remove-outline" :loading="loading" @click="handleDelete" :disabled="multiple">删除</el-button>
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border height="calc(100% - 180px)">
+
+            <template slot="empty">
+              <div class="nodata-box">
+                <img src="../../../../assets/image/nodata.png" />
+                <p>暂时还没有数据</p>
+              </div>
+            </template>
             <el-table-column type="selection" fixed="left" width="55" align="center" />
             <el-table-column label="班组" align="center" prop="Name" />
             <el-table-column label="班组人员" align="center" prop="EmployeeNames" />

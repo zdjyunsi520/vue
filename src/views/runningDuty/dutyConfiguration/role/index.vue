@@ -12,6 +12,13 @@
             <el-button :disabled="multiple" icon="el-icon-delete" @click="handleDelete(null)">删除</el-button>
           </el-row>
           <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 190px)">
+
+            <template slot="empty">
+              <div class="nodata-box">
+                <img src="../../../../assets/image/nodata.png" />
+                <p>暂时还没有数据</p>
+              </div>
+            </template>
             <el-table-column type="selection" fixed="left" width="55" align="center" />
             <el-table-column label="角色类型" align="center" prop="Name" />
           </el-table>

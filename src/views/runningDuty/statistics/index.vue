@@ -1,6 +1,10 @@
 <template>
   <div class="app-container">
-    <div class="search-box">
+    <div class="search-box marginbottom15">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="按人员统计" name="0"></el-tab-pane>
+        <el-tab-pane label="按值班统计" name="1"></el-tab-pane>
+      </el-tabs>
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="用电单位" prop="tenantId">
           <el-select v-model="queryParams.tenantId">
@@ -21,14 +25,24 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <BarChart ref="BarChart" />
-    <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
-      <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-      <el-table-column label="值班人员" align="center" prop="TeamName" />
-      <el-table-column label="用电单位" align="center" prop="EmployeeNames" />
-    </el-table>
+    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:20px'>
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template><!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
+        <el-table-column label="值班人员" align="center" prop="TeamName" />
+        <el-table-column label="用电单位" align="center" prop="EmployeeNames" />
+      </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
+    <div class="bg-white containerbox  chart-wrapper">
+      <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
+      <p v-else class="tips" style="padding-top:13%">暂无数据</p>
+    </div>
   </div>
 
 </template>
@@ -36,7 +50,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList } from "@/api/runningDuty/search";
-import BarChart from "@/views/components/Barchart";
+import BarChart from "./components/BarChart";
 export default {
   name: "user",
   components: { BarChart },
@@ -65,7 +79,7 @@ export default {
         charatypeId: "",
         employeename: ""
       },
-      height: "calc(100% - 50px)"
+      height: "calc(100% - 80px)"
     };
   },
 
@@ -92,6 +106,10 @@ export default {
     },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";
+    },
+    handleClick(tab, event) {
+      this.resetQuery("queryForm");
+      this.getList(this.activeName);
     },
     handleSortChange(row) {
       this.queryParams.orderby = `${row.prop} ${

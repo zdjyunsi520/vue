@@ -48,6 +48,13 @@
             </el-dropdown>
           </el-row>
           <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
+
+            <template slot="empty">
+              <div class="nodata-box">
+                <img src="../../../assets/image/nodata.png" />
+                <p>暂时还没有数据</p>
+              </div>
+            </template>
             <el-table-column type="selection" width="55" fixed="left" />
             <el-table-column label="姓名" min-width="150" prop="Name" />
             <el-table-column label="预留手机号" min-width="150" prop="MobilePhone" />

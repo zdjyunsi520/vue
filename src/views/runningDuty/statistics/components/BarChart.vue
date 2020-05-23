@@ -7,6 +7,8 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
 
+const animationDuration = 6000;
+
 export default {
   mixins: [resize],
   props: {
@@ -20,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "300px"
     },
 
     chartData: {
@@ -69,6 +71,7 @@ export default {
         this.chart.hideLoading();
         this.setOptions(this.chartData);
       }
+      this.setOptions(this.chartData);
     },
     showLoading() {
       this.chart.showLoading({
@@ -80,42 +83,80 @@ export default {
       });
     },
 
-    setOptions({ legendData, listData } = {}) {
+    setOptions({ title, xAxisData, listData } = {}) {
       this.chart.setOption({
+        title: {
+          text: title,
+          left: "5px",
+          top: "20px",
+          textStyle: {
+            fontSize: 16,
+            fontWeight: "bold",
+            color: "#333"
+          }
+        },
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
         },
-        legend: {
-          show: true,
-          left: "center",
-          bottom: 30,
-          data: legendData
+        grid: {
+          top: "60px",
+          left: "30px",
+          right: "30px",
+          bottom: "20px",
+          containLabel: true
         },
-        color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
-        series: [
+        xAxis: [
           {
-            name: "用电结构",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "40%"],
-            emphasis: {
-              itemStyle: {
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 5
+            type: "category",
+            data: xAxisData,
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#909399"
               }
             },
-            data: listData,
-            labelLine: {
-              show: false
-            },
-            label: {
-              show: false
+            splitLine: {
+              show: true
             }
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            axisLine: {
+              lineStyle: {
+                color: "#909399"
+              },
+
+              splitLine: {
+                lineStyle: {
+                  color: "#dde4f4",
+                  type: "dashed"
+                }
+              },
+              splitArea: {
+                show: false
+              }
+            }
+          }
+        ],
+        color: ["#558cf7"],
+        series: [
+          {
+            name: "巡视",
+            type: "bar",
+            // stack: 'vistors',
+            barWidth: "50",
+            data: listData
           }
         ]
       });
-      this.chart.hideLoading();
     }
   }
 };

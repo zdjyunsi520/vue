@@ -25,6 +25,12 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="告警等级" min-width="220" sortable align='center' prop="ReportName"></el-table-column>
         <el-table-column label="用电单位" min-width="250" sortable align='center' prop="TenantName"></el-table-column>

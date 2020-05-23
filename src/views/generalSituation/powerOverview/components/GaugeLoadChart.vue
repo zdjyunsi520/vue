@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "350px"
     },
 
     chartData: {
@@ -80,38 +80,58 @@ export default {
       });
     },
 
-    setOptions({ legendData, listData } = {}) {
+    setOptions({ title, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c}"
         },
-        legend: {
-          show: true,
-          left: "center",
-          bottom: 30,
-          data: legendData
-        },
-        color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
+
         series: [
           {
-            name: "用电结构",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "40%"],
-            emphasis: {
-              itemStyle: {
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 5
+            name: title,
+
+            splitNumber: 1,
+            title: {
+              offsetCenter: [0, "90%"],
+              color: "#558cf7",
+              fontSize: 18
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                width: 30,
+                color: [
+                  [0.5, "#558cf7"],
+                  [1, "#e3ebff"]
+                ]
               }
             },
-            data: listData,
-            labelLine: {
+
+            axisLabel: {
+              distance: 15,
+              fontSize: 16,
+              color: "#909399"
+            },
+
+            pointer: {
               show: false
             },
-            label: {
-              show: false
-            }
+            axisTick: {
+              // show: false
+            },
+            //
+            radius: "90%",
+            min: 0,
+            max: 100,
+            type: "gauge",
+            center: ["50%", "50%"],
+            detail: {
+              offsetCenter: [0, "0%"],
+              fontSize: 40,
+              formatter: "{value}%"
+            },
+            data: listData
           }
         ]
       });

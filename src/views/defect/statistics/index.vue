@@ -41,6 +41,12 @@
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border style='margin-top:20px'>
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column :label="activeName!=2?'用电单位':'缺陷等级'" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
       </el-table>

@@ -24,6 +24,12 @@
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
       <el-table v-loading="listLoading" :height="dataList?tableHeight:'0'" border :data="dataList" element-loading-text="Loading">
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column label="巡视单位" sortable min-width="250" prop="TenantName" />
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
         <el-table-column label="巡视人员" sortable min-width="150" prop="PatrolUserName" />

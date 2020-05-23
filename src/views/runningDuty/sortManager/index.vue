@@ -35,6 +35,13 @@
       </el-row>
       <div class="scheduletitle">- 班组二 2020年04月排班表 -</div>
       <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
+
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column label="岗位" align="center" fixed="left" prop="TeamName" />
         <el-table-column label="1号" align="center" prop="TeamName" />
         <el-table-column label="2号" align="center" prop="TeamName" />

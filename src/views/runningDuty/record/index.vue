@@ -149,6 +149,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .onlyform-box .el-form.xl-query .el-form-item {
+  margin-bottom: 10px;
+}
+
+/deep/.el-tabs__header {
+  margin: 0;
+}
+/deep/.search-box {
+  padding: 15px 20px 0px;
+  border-bottom: none;
+  margin-bottom: -10px;
+}
 .comheight .containerbox {
   height: 100%;
 }

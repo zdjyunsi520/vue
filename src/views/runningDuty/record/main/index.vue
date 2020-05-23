@@ -1,77 +1,87 @@
 <template>
   <div class="comheight">
-    <el-row>
-      <el-col :span="10" :push="1">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>交班信息</span>
+    <el-scrollbar>
+      <el-row class="rowbox">
+        <div class="leftcard">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>接班信息</span>
+            </div>
+            <div class="text item">
+              <el-form ref="form" :model="form" :rules="rules" :inline="true">
+                <el-form-item prop="contactperson">
+                  <el-input value='正值：' disabled />
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input value="接班时间：" disabled />
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input value="接班人：" disabled />
+                </el-form-item>
+                <el-form-item prop="tenantId">
+                  <el-select v-model="form.tenantId" placeholder="请选择天气">
+                    <el-option label="1" value>晴</el-option>
+                    <el-option label="2" value>阴</el-option>
+                    <el-option label="3" value>雨</el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input v-model="form.contactperson" placeholder="请输入温度" />
+                </el-form-item>
+                <el-form-item class="cardbtns">
+                  <el-button type="primary" size="mini">接班</el-button>
+                  <el-button type="info" size="mini" plain>重置</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-card>
+          <div class="databtnbox left">
+            <el-button type="primary" circle size="mini">接</el-button>
+            <label>2020-04-29 早班 08:00:00</label>
           </div>
-          <div class="text item">
-            <el-form ref="form" :model="form" :rules="rules" :inline="true">
-              <el-form-item prop="contactperson">
-                <el-input value='正值：' disabled />
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input value="交班时间：" disabled />
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input value="交班人：" disabled />
-              </el-form-item>
-              <el-form-item prop="tenantId">
-                <el-select v-model="form.tenantId" placeholder="请选择天气">
-                  <el-option label="1" value>晴</el-option>
-                  <el-option label="2" value>阴</el-option>
-                  <el-option label="3" value>雨</el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入温度" />
-              </el-form-item>
-              <el-form-item class="cardbtns">
-                <el-button type="primary" size="mini">交班</el-button>
-                <el-button type="primary" size="mini" plain>召回</el-button>
-                <el-button type="info" size="mini" plain>重置</el-button>
-              </el-form-item>
-            </el-form>
+        </div>
+        <div class="rightcard">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>交班信息</span>
+            </div>
+            <div class="text item">
+              <el-form ref="form" :model="form" :rules="rules" :inline="true">
+                <el-form-item prop="contactperson">
+                  <el-input value='正值：' disabled />
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input value="交班时间：" disabled />
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input value="交班人：" disabled />
+                </el-form-item>
+                <el-form-item prop="tenantId">
+                  <el-select v-model="form.tenantId" placeholder="请选择天气">
+                    <el-option label="1" value>晴</el-option>
+                    <el-option label="2" value>阴</el-option>
+                    <el-option label="3" value>雨</el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item prop="contactperson">
+                  <el-input v-model="form.contactperson" placeholder="请输入温度" />
+                </el-form-item>
+                <el-form-item class="cardbtns">
+                  <el-button type="primary" size="mini">交班</el-button>
+                  <el-button type="primary" size="mini" plain>召回</el-button>
+                  <el-button type="info" size="mini" plain>重置</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-card>
+          <div class="databtnbox right">
+            <label>2020-04-10 早班 18:00:00</label>
+            <el-button type="primary" plain circle disabled size="mini">交</el-button>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="10" :push="3">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>接班信息</span>
-          </div>
-          <div class="text item">
-            <el-form ref="form" :model="form" :rules="rules" :inline="true">
-              <el-form-item prop="contactperson">
-                <el-input value='正值：' disabled />
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input value="接班时间：" disabled />
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input value="接班人：" disabled />
-              </el-form-item>
-              <el-form-item prop="tenantId">
-                <el-select v-model="form.tenantId" placeholder="请选择天气">
-                  <el-option label="1" value>晴</el-option>
-                  <el-option label="2" value>阴</el-option>
-                  <el-option label="3" value>雨</el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item prop="contactperson">
-                <el-input v-model="form.contactperson" placeholder="请输入温度" />
-              </el-form-item>
-              <el-form-item class="cardbtns">
-                <el-button type="primary" size="mini">接班</el-button>
-                <el-button type="info" size="mini" plain>重置</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+      </el-row>
 
+    </el-scrollbar>
   </div>
 </template>
 
@@ -292,5 +302,87 @@ export default {
       text-align: center;
     }
   }
+}
+.rowbox {
+  padding: 30px 0px;
+  width: 750px;
+  margin-left: -420px;
+  position: relative;
+  left: 50%;
+}
+.databtnbox {
+  position: absolute;
+  z-index: 1;
+  .el-button--mini.is-circle {
+    height: 40px;
+    line-height: 38px;
+    padding: 0;
+    width: 40px;
+    font-size: 18px;
+    span {
+      font-size: 18px;
+    }
+  }
+  label {
+    color: #303133;
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0 15px;
+  }
+  &.left {
+    right: -305px;
+    top: 42%;
+    label {
+      color: #558cf7;
+    }
+    &::before {
+      content: "";
+      width: 70px;
+      height: 0;
+      border-top: solid 1px #dcdfe4;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &.right {
+    left: -305px;
+    top: 42%;
+    label {
+      color: #303133;
+    }
+    &::after {
+      content: "";
+      width: 70px;
+      height: 0;
+      border-top: solid 1px #dcdfe4;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
+.leftcard {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 70px;
+  .el-card {
+    float: right;
+  }
+  &::after {
+    content: "";
+    width: 1px;
+    height: 70vh;
+    background-color: #ebeef5;
+    display: inline-block;
+    position: absolute;
+    right: -86px;
+    top: 0;
+  }
+}
+.rightcard {
+  top: 220px;
+  margin-left: -210px;
+  left: 50%;
+  display: inline-block;
+  position: relative;
 }
 </style>

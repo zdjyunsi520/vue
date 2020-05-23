@@ -27,6 +27,12 @@
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
       <el-table @cell-click="handleRowClick" v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange" border>
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column type="selection" width="55" fixed="left" />
         <el-table-column label="设备编码" min-width="200" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
