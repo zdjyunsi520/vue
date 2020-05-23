@@ -49,9 +49,10 @@
             </el-col>
 
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="运行状态" prop="isenable">
-                <el-select v-model="form.isenable">
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
+              <el-form-item label="运行状态" prop="status">
+                <el-select v-model="form.status">
+                  <el-option label="在运" :value="1" />
+                  <el-option label="停运" :value="0" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -110,7 +111,7 @@ export default {
       name: rule,
       type: rule,
       tenantId: rule,
-      isenable: rule,
+      status: rule,
       starttime: rule,
       property: rule
     };
@@ -149,7 +150,7 @@ export default {
           type: "",
           tenantId: "",
           tenantid: "",
-          isenable: true,
+          status: 1,
           starttime: "",
           property: "",
           voltlevel: "",

@@ -62,7 +62,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
+                    <el-input :value="filterRun(infoData.Status)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -171,7 +171,7 @@ export default {
       const name = this.infoData.Name;
       const type = this.infoData.Type;
       const tenantid = this.infoData.TenantId;
-      const isenable = this.infoData.IsEnable;
+      const status = this.infoData.Status;
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
       const voltlevel = this.infoData.VoltLevel;
@@ -186,7 +186,7 @@ export default {
         name,
         type,
         tenantid,
-        isenable,
+        status,
         starttime,
         property,
         voltlevel,

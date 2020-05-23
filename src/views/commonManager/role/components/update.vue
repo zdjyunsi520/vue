@@ -22,7 +22,7 @@
                 <el-col :span="23" :push="1">
                   <el-row class="sm-box">
                     <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-                      <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
+                      <el-checkbox @change="handleChange(checkbox,item)" v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
                     </el-col>
                   </el-row>
                 </el-col>
@@ -99,7 +99,7 @@ export default {
     this.getInfo(data);
   },
   methods: {
-    handleChange(data) {
+    handleChange(data, parent) {
       const isSelect = data.IsSelect;
       const childs = data.Childs || data.ModuleData;
       if (childs)
@@ -107,6 +107,16 @@ export default {
           v.IsSelect = isSelect;
           this.handleChange(v);
         });
+      if (parent) {
+        if (isSelect) {
+          parent.IsSelect = true;
+        } else {
+          parent.IsSelect = !(
+            parent.Childs.filter(v => v.IsSelect == false).length ==
+            parent.Childs.length
+          );
+        }
+      }
     },
     getInfo(data) {
       this.moduleList = [];

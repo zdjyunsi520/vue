@@ -24,7 +24,17 @@
         <el-form-item label="更新说明" prop="UpdateDescription">
           <el-input type="textarea" :rows="6" v-model="form.UpdateDescription" placeholder="请输入更新说明" />
         </el-form-item>
+        <el-form-item label="附件" prop="FileUrl">
 
+          <el-upload action="#" list-type="picture-card" :limit="1" accept=".apk" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+            <i class="el-icon-plus"></i>
+            <div slot="tip" class="el-upload__tip">只能上传apk文件</div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible" size="tiny">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+
+        </el-form-item>
       </el-form>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
@@ -38,10 +48,11 @@
 
 <script>
 import { add, update } from "@/api/commonManager/app";
+import { imageUpload } from "@/api/biz";
 const appNameList = [{ key: 1, value: "用户端" }];
 const forceUpdateList = [
-  { key: 1, value: "是" },
-  { key: 2, value: "否" }
+  { key: true, value: "是" },
+  { key: false, value: "否" }
 ];
 export default {
   data() {
@@ -63,14 +74,14 @@ export default {
       UpdateDescription: [
         {
           required: true,
-          message: "更新描述不能为空",
+          message: "更新说明不能为空",
           trigger: "blur"
         }
       ],
       FileUrl: [
         {
           required: true,
-          message: "安装包地址不能为空",
+          message: "请上传更新包",
           trigger: "blur"
         }
       ],
@@ -112,18 +123,18 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id: "f62d43ee-f681-42de-b166-1adc19c4643b",
-          VersionName: "最新版",
-          VersionCode: "2.0.9",
-          UpdateDescription: "修复页面适配",
+          Id: "",
+          VersionName: "",
+          VersionCode: "",
+          UpdateDescription: "",
           ForcedUpdate: true,
-          FileUrl: "http://apitoolt.xtioe.com/test.apk",
-          Status: 1,
-          CreateTime: "2020-04-30 11:42:54",
-          AttachmentKey: "e7032772-da26-4749-aef2-ea9f06ffe365",
-          Type: 1,
-          TypeName: "安卓管理端",
-          StatusName: "上架"
+          FileUrl: "",
+          //  Status: 1,
+          //   CreateTime: "",
+          AttachmentKey: "",
+          Type: 1
+          //  TypeName: "",
+          //  StatusName: ""
         },
         data
       );
@@ -152,13 +163,13 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
+          const fn = this.form.Id ? update : add;
           //添加用户
-          add(this.form)
+          fn(this.form)
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-              //刷新列表
-              this.$emit("getList");
+
               //关闭窗口
               this.handleOpen();
             })
@@ -168,6 +179,37 @@ export default {
             });
         }
       });
+    },
+    // 附件上传成功
+    handleAvatarSuccess(res, file) {
+      this.form.attachmenturl = URL.createObjectURL(file.raw);
+    },
+    // 删除附件
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    // 预览附件
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    // 附件上传之前判断大小
+    beforeAvatarUpload(file) {
+      console.log(file);
+      let fd = new FormData();
+      fd.append("filekey", file);
+      imageUpload(fd).then(r => {});
+      return false;
+      // const isJPG = file.type === "image/jpeg";
+      // const isLt2M = file.size / 1024 / 1024 < 2;
+
+      // if (!isJPG) {
+      //   this.$message.error("上传图片只能是 JPG 格式!");
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error("上传图片大小不能超过 2MB!");
+      // }
+      // return isJPG && isLt2M;
     }
   }
 };

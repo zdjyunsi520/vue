@@ -2,11 +2,18 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="应用名称" prop="versionname">
-          <el-input v-model="queryParams.versionname" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="版本号" prop="versioncode">
-          <el-input v-model="queryParams.versioncode" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="代码" prop="key">
+          <el-input v-model="queryParams.key" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="queryParams.type">
+            <el-option label="全部" value=""></el-option>
+            <el-option label="键值" :value="1" />
+            <el-option label="枚举" :value="2" />
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -24,29 +31,14 @@
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="应用名称" prop="TypeName" />
-        <el-table-column label="版本名称" prop="VersionName" />
-        <el-table-column label="更新时间" width="170" prop="CreateTime">
-          <template slot-scope="{row}">
-            <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
-          </template>
-        </el-table-column>
-        <el-table-column label="版本号" prop="VersionCode" />
-        <el-table-column label="更新说明" prop="UpdateDescription" />
-        <el-table-column label="是否强制更新" prop="ForcedUpdate" :formatter="filterCancel" />
-        <el-table-column label="APK文件" prop="FileUrl">
-          <template slot-scope="{row}">
-            <a href="row.FileUrl" download target="_blank">{{row.VersionName}}</a>
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" prop="IsLock">
-          <template slot-scope="{row}">
-            <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
-          </template>
-        </el-table-column>
+        <el-table-column label="名称" prop="Name" />
+        <el-table-column label="代码" prop="Key" />
+        <el-table-column label="类型" prop="Type" :formatter="filterCancel" />
+        <el-table-column label="描述" prop="Description" />
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">配置项</el-button>
             <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -59,7 +51,7 @@
 </template>
 
 <script>
-import { fetchList, deleted, updateStatus } from "@/api/commonManager/app";
+import { fetchList, deleted, updateStatus } from "@/api/commonManager/settings";
 
 export default {
   name: "user",
@@ -83,8 +75,9 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        versioncode: "",
-        versionname: ""
+        key: "",
+        name: "",
+        type: ""
       }
     };
   },
@@ -106,7 +99,7 @@ export default {
       this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     filterCancel(row) {
-      return row.ForcedUpdate ? "是" : "否";
+      return row.Type == 1 ? "键值" : "枚举";
     },
     handleSortChange(row) {
       this.queryParams.orderby = `${row.prop} ${
@@ -151,48 +144,30 @@ export default {
     handleAdd() {
       const title = "新增";
       this.$router.push({
-        name: "/commonManager/app/components/add",
+        name: "/commonManager/settings/components/add",
         params: { data: {}, title }
       });
     },
     /** 修改按钮操作 */
     handleUpdate(data) {
-      // const id = row.Id;
-      // const username = row.UserName;
-      // const name = row.Name;
-      // const mobilephone = row.MobilePhone;
-      // const data = { id, username, name, mobilephone };
-
       const title = "修改";
       this.$router.push({
-        name: "/commonManager/app/components/add",
+        name: "/commonManager/settings/components/add",
         params: { data, title }
       });
     },
-    /** 重置密码按钮操作 */
-    handleResetPwd(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const data = { id, username };
-      const title = "修改密码";
+    /** 修改按钮操作 */
+    handleEdit(data) {
+      const title = "编辑子项";
       this.$router.push({
-        name: "/commonManager/user/components/password",
-        params: { data, title }
-      });
-    },
-    handleUpdateRole(row) {
-      const id = row.Id;
-      const data = { id };
-      const title = "权限设置";
-      this.$router.push({
-        name: "/commonManager/user/components/role",
+        name: "/commonManager/settings/keyValue/index",
         params: { data, title }
       });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       let ids = row ? [row.Id] : this.ids.map(v => v.Id);
-      this.$confirm("是否确认删除选中的APP?", "警告", {
+      this.$confirm("是否确认删除选中的配置?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -207,29 +182,6 @@ export default {
         .catch(function() {
           this.msgSuccess("操作失败");
         });
-    },
-    handleUpdateStatus(row) {
-      updateStatus(row).then(r => {
-        this.$message.success(r.msg);
-        this.getList();
-      });
-    },
-
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
     }
   }
 };

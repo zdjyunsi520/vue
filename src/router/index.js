@@ -614,6 +614,41 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: true
         }
+      },
+      {
+        name: "/commonManager/settings/components/add",
+        path: "/commonManager/settings/components/add",
+        component: () =>
+          import("@/views/commonManager/settings/components/add"),
+        meta: {
+          title: "新增配置管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/commonManager/settings/keyValue/index",
+        path: "/commonManager/settings/keyValue/index",
+        component: () =>
+          import("@/views/commonManager/settings/keyValue/index"),
+        meta: {
+          title: "配置子项管理列表",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/commonManager/settings/keyValue/add",
+        path: "/commonManager/settings/keyValue/add",
+        component: () => import("@/views/commonManager/settings/keyValue/add"),
+        meta: {
+          title: "新增配置子项管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
       }
     ]
   }

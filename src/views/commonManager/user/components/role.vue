@@ -16,18 +16,19 @@
                   <ul>
                     <li style="width:180px">
                       <div>
-                        <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
+                        <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
                       </div>
                     </li>
                     <li>
                       <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
                         <ul>
-                          <li style="min-width:180px"><el-checkbox @change="handleChange(childItem)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
+                          <li style="min-width:180px">
+                            <el-checkbox @change="handleChange(childItem,item)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
                           </li>
                           <li class="last-box">
                             <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
                               <!-- <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox> -->
-                              <span @click="setCheck(checkbox)" :class="checkbox.IsSelect?'on':''">{{checkbox.ModuleName}}
+                              <span @click="setCheck(checkbox,childItem,item)" :class="checkbox.IsSelect?'on':''">{{checkbox.ModuleName}}
                                 <svg-icon v-if="checkbox.IsSelect" icon-class="ic_seletecd" class="svgicon" />
                               </span>
                             </div>
@@ -148,24 +149,59 @@ export default {
     this.getInfo(data);
   },
   methods: {
-    setCheck(item) {
+    setCheck(item, item1, item2) {
       item.IsSelect = !item.IsSelect;
+      if (item.IsSelect) {
+        item1.IsSelect = true;
+        item2.IsSelect = true;
+      } else {
+        item1.IsSelect = !(
+          item1.Childs.filter(v => v.IsSelect == false).length ==
+          item1.Childs.length
+        );
+        item2.IsSelect = !(
+          item2.ModuleData.filter(v => v.IsSelect == false).length ==
+          item2.ModuleData.length
+        );
+      }
     },
     handleChangeFarther(isSelect) {
       this.moduleList.map(v => {
         v.IsSelect = isSelect;
-        this.handleChange(v);
+        this.setChildStatus(v);
         return v;
       });
     },
-    handleChange(data) {
+    setChildStatus(data) {
       const isSelect = data.IsSelect;
       const childs = data.Childs || data.ModuleData;
       if (childs)
         childs.forEach(v => {
           v.IsSelect = isSelect;
-          this.handleChange(v);
+          this.setChildStatus(v);
         });
+    },
+    handleChange(data, item2) {
+      this.setChildStatus(data);
+      if (data.isSelect) {
+        item2.isSelect = true;
+      } else {
+        item2.IsSelect = !(
+          item2.ModuleData.filter(v => v.IsSelect == false).length ==
+          item2.ModuleData.length
+        );
+      }
+    },
+    handleChange1(data) {
+      this.setChildStatus(data);
+      if (data.isSelect) {
+        this.fafa = true;
+      } else {
+        this.fafa = !(
+          this.moduleList.filter(v => v.IsSelect == false).length ==
+          this.moduleList.length
+        );
+      }
     },
     getInfo(data) {
       this.loading = true;

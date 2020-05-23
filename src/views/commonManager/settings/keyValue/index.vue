@@ -2,11 +2,11 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="应用名称" prop="versionname">
-          <el-input v-model="queryParams.versionname" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="版本号" prop="versioncode">
-          <el-input v-model="queryParams.versioncode" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="代码" prop="key">
+          <el-input v-model="queryParams.key" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -21,27 +21,17 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
         <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button type="primary" icon="el-icon-remove-outline" @click="handleBack">返回</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="应用名称" prop="TypeName" />
-        <el-table-column label="版本名称" prop="VersionName" />
-        <el-table-column label="更新时间" width="170" prop="CreateTime">
+        <el-table-column label="名称" prop="Name" />
+        <el-table-column label="代码" prop="Key" />
+        <el-table-column label="值" prop="Value" />
+        <el-table-column label="描述" prop="Description" />
+        <el-table-column label="状态" prop="IsLock" v-if="showSwitch">
           <template slot-scope="{row}">
-            <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
-          </template>
-        </el-table-column>
-        <el-table-column label="版本号" prop="VersionCode" />
-        <el-table-column label="更新说明" prop="UpdateDescription" />
-        <el-table-column label="是否强制更新" prop="ForcedUpdate" :formatter="filterCancel" />
-        <el-table-column label="APK文件" prop="FileUrl">
-          <template slot-scope="{row}">
-            <a href="row.FileUrl" download target="_blank">{{row.VersionName}}</a>
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" prop="IsLock">
-          <template slot-scope="{row}">
-            <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
+            <el-switch v-model="row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
@@ -59,7 +49,11 @@
 </template>
 
 <script>
-import { fetchList, deleted, updateStatus } from "@/api/commonManager/app";
+import {
+  fetchList,
+  deleted,
+  update
+} from "@/api/commonManager/settings/keyValue";
 
 export default {
   name: "user",
@@ -83,14 +77,26 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        versioncode: "",
-        versionname: ""
+        name: "",
+        key: "",
+        SettingId: "",
+        Type: 1
       }
     };
   },
 
   created() {
-    this.getList();
+    const { data } = this.$route.params;
+    if (data && data.Id) {
+      this.queryParams.SettingId = data.Id;
+      this.queryParams.Type = data.Type;
+      this.getList();
+    }
+  },
+  computed: {
+    showSwitch() {
+      return this.queryParams.Type == 2;
+    }
   },
   mounted() {
     let _this = this;
@@ -151,48 +157,27 @@ export default {
     handleAdd() {
       const title = "新增";
       this.$router.push({
-        name: "/commonManager/app/components/add",
-        params: { data: {}, title }
+        name: "/commonManager/settings/keyValue/add",
+        params: { data: this.queryParams, title }
       });
     },
     /** 修改按钮操作 */
     handleUpdate(data) {
-      // const id = row.Id;
-      // const username = row.UserName;
-      // const name = row.Name;
-      // const mobilephone = row.MobilePhone;
-      // const data = { id, username, name, mobilephone };
-
       const title = "修改";
       this.$router.push({
-        name: "/commonManager/app/components/add",
+        name: "/commonManager/settings/keyValue/add",
         params: { data, title }
       });
     },
-    /** 重置密码按钮操作 */
-    handleResetPwd(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const data = { id, username };
-      const title = "修改密码";
+    handleBack() {
       this.$router.push({
-        name: "/commonManager/user/components/password",
-        params: { data, title }
-      });
-    },
-    handleUpdateRole(row) {
-      const id = row.Id;
-      const data = { id };
-      const title = "权限设置";
-      this.$router.push({
-        name: "/commonManager/user/components/role",
-        params: { data, title }
+        name: "/commonManager/settings/index"
       });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       let ids = row ? [row.Id] : this.ids.map(v => v.Id);
-      this.$confirm("是否确认删除选中的APP?", "警告", {
+      this.$confirm("是否确认删除选中的数据?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -209,8 +194,8 @@ export default {
         });
     },
     handleUpdateStatus(row) {
-      updateStatus(row).then(r => {
-        this.$message.success(r.msg);
+      update(row).then(r => {
+        this.$message.success("操作成功");
         this.getList();
       });
     },
