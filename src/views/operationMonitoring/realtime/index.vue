@@ -128,7 +128,7 @@
 
 <script>
 import { getMeasureData, getMeasureDataHistory } from "@/api/report";
-import { getTrees } from "@/api/org";
+import { getStopIntervalTrees as getTrees } from "@/api/org";
 import LineChart from "./components/LineChart";
 const chartData = {
   expectedData: [100, 120, 161, 134, 105, 160, 165],
