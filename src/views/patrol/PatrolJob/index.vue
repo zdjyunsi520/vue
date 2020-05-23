@@ -36,6 +36,13 @@
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
       </el-row>
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border>
+
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
         <el-table-column label="巡视性质" width="150" align='center' sortable prop="PtrolNatureText">

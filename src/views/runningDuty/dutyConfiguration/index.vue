@@ -47,6 +47,13 @@
         </el-dropdown>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
+
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
         <el-table-column label="值班班组" align="center" prop="TeamName" />
         <el-table-column label="值班人员" align="center" prop="EmployeeNames" />

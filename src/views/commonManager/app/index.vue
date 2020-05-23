@@ -23,6 +23,12 @@
         <el-button type="primary" icon="el-icon-remove-outline" @click="handleLock(null,false)">删除</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="应用名称" prop="TypeName" />
         <el-table-column label="版本名称" prop="VersionName" />

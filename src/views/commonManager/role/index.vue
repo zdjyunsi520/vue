@@ -20,6 +20,12 @@
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'">
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column label="名称" prop="Name" :show-overflow-tooltip="true" />
         <el-table-column label="角色标识" prop="Key" :show-overflow-tooltip="true" />
         <el-table-column label="操作">

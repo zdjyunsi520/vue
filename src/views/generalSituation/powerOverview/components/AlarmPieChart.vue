@@ -51,42 +51,58 @@ export default {
         },
         legend: {
           show: true,
-          right: "1%",
-          bottom: "10",
+          left: "40px",
+          top: "30px",
+          itemWidth: 6,
+          itemHeight: 6,
+          icon: "circle",
+          textStyle: {
+            color: "#909399"
+          },
           orient: "vertical",
           data: [
-            "分闸",
             "越上上限",
+            "分闸",
             "越下限",
-            "越上限",
-            "超温",
-            "工况异常",
             "告警",
+            "工况异常",
+            "超温",
+            "越上限",
             "过压"
           ]
         },
 
-        color: ["#333", "#444", "#555", "#666", "#777", "#888", "#aaa", "#bbb"],
+        color: [
+          "#4982f7",
+          "#588ef7",
+          "#91c5f3",
+          "#badbf4",
+          "#e8a4458",
+          "#ebbc8a",
+          "#f8d687",
+          "#fbe8bf"
+        ],
         series: [
           {
             name: "告警情况",
             type: "pie",
-              label: {
-                show: false,
-                position: 'center'
+            roseType: "radius",
+            label: {
+              show: false,
+              position: "center"
             },
             emphasis: {
-                label: {
-                    show: true,
-                    fontSize: '30',
-                    fontWeight: 'bold'
-                }
+              label: {
+                show: true,
+                fontSize: "14",
+                formatter: "{d}次\n{b}"
+              }
             },
             labelLine: {
-                show: false
+              show: false
             },
-            radius: ["45%", "75%"],
-            center: ["45%", "50%"],
+            radius: ["35%", "100%"],
+            center: ["55%", "40%"],
             data: [
               {
                 value: 21,

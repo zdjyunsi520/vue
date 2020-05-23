@@ -7,6 +7,8 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
 
+const animationDuration = 6000;
+
 export default {
   mixins: [resize],
   props: {
@@ -20,10 +22,10 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "150px"
     },
 
-    chartData: {
+    barchartData: {
       type: Object,
       required: true
     }
@@ -34,7 +36,7 @@ export default {
     };
   },
   watch: {
-    chartData: {
+    barchartData: {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
@@ -65,9 +67,9 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.chartData.listData) {
+      if (this.barchartData.listData) {
         this.chart.hideLoading();
-        this.setOptions(this.chartData);
+        this.setOptions(this.barchartData);
       }
     },
     showLoading() {
@@ -80,38 +82,73 @@ export default {
       });
     },
 
-    setOptions({ legendData, listData } = {}) {
+    setOptions({ ytext, title, xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          top: "30px",
+          left: "40px",
+          right: "40px",
+          bottom: "20px",
+          containLabel: true
         },
         legend: {
-          show: true,
-          left: "center",
-          bottom: 30,
-          data: legendData
+          right: 0,
+          top: "0px",
+          itemWidth: 6,
+          itemHeight: 6,
+          icon: "circle",
+          textStyle: {
+            color: "#909399"
+          },
+          data: xAxisData
         },
-        color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
-        series: [
+
+        xAxis: [
           {
-            name: "用电结构",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "40%"],
-            emphasis: {
-              itemStyle: {
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 5
+            type: "category",
+            data: xAxisData,
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#909399"
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            name: ytext,
+            type: "value",
+            axisLine: {
+              lineStyle: {
+                color: "#909399"
               }
             },
-            data: listData,
-            labelLine: {
-              show: false
+            splitLine: {
+              lineStyle: {
+                color: "#dde4f4",
+                type: "dashed"
+              }
             },
-            label: {
+            splitArea: {
               show: false
             }
+          }
+        ],
+        series: [
+          {
+            name: title,
+            type: "bar",
+            barWidth: "30",
+            data: listData
           }
         ]
       });

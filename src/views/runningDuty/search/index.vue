@@ -20,10 +20,7 @@
 
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-
           <el-button icon="el-icon-download" @click="resetQuery">导出</el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
@@ -31,18 +28,26 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
-      <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-      <el-table-column label="所属电务公司" align="center" prop="TeamName" />
-      <el-table-column label="用电单位" align="center" prop="EmployeeNames" />
-      <el-table-column label="值班人员" align="center" prop="ShiftTypeName" />
-      <el-table-column label="值班机构" align="center" prop="ShiftNames" />
-      <el-table-column label="班次" align="center" prop="CharaTypeName" />
-      <el-table-column label="值班开始时间" align="center" prop="Characters" />
-      <el-table-column label="值班结束时间" align="center" prop="Positions" />
-    </el-table>
+    <div class="bg-white containerbox" ref="containerbox">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:20px'>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template><!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
+        <el-table-column label="所属电务公司" align="center" prop="TeamName" />
+        <el-table-column label="用电单位" align="center" prop="EmployeeNames" />
+        <el-table-column label="值班人员" align="center" prop="ShiftTypeName" />
+        <el-table-column label="值班机构" align="center" prop="ShiftNames" />
+        <el-table-column label="班次" align="center" prop="CharaTypeName" />
+        <el-table-column label="值班开始时间" align="center" prop="Characters" />
+        <el-table-column label="值班结束时间" align="center" prop="Positions" />
+      </el-table>
+
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
   </div>
 
 </template>
@@ -78,7 +83,7 @@ export default {
         charatypeId: "",
         employeename: ""
       },
-      height: "calc(100% - 50px)"
+      height: "calc(100% - 80px)"
     };
   },
 

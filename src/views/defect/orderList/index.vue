@@ -45,6 +45,12 @@
         <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" element-loading-text="Loading" border fit :height="dataList?tableHeight:'0'" highlight-current-row>
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column label="缺陷编号" sortable min-width="250" sortable align='center' prop="bugNumber"></el-table-column>
         <el-table-column label="用电单位" sortable min-width="250" align='center' prop="TenantName"></el-table-column>
         <el-table-column label="设备名称" min-width="150" sortable align='center' prop="assetsname"></el-table-column>

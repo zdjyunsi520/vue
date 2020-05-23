@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "223px"
     },
 
     chartData: {
@@ -80,38 +80,61 @@ export default {
       });
     },
 
-    setOptions({ legendData, listData } = {}) {
+    setOptions({ title, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c}"
         },
-        legend: {
-          show: true,
-          left: "center",
-          bottom: 30,
-          data: legendData
-        },
-        color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
+
         series: [
           {
-            name: "用电结构",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "40%"],
-            emphasis: {
-              itemStyle: {
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 5
+            name: title,
+
+            splitNumber: 5,
+            title: {
+              offsetCenter: [0, "95%"],
+              color: "#558cf7"
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                width: 18,
+                color: [
+                  [0.5, "#558cf7"],
+                  [1, "#e3ebff"]
+                ]
               }
             },
-            data: listData,
-            labelLine: {
+
+            axisLabel: {
+              distance: 15,
+              fontSize: 14,
+              color: "#999"
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#cad6f8"
+              },
+              length: 10
+            },
+
+            axisTick: {
+              lineStyle: {
+                color: "#cad6f8"
+              },
+
+              length: 7
+            },
+            //
+            radius: "90%",
+            min: 0,
+            max: 1,
+            type: "gauge",
+            detail: {
               show: false
             },
-            label: {
-              show: false
-            }
+            data: listData
           }
         ]
       });

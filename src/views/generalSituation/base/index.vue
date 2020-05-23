@@ -122,7 +122,7 @@
                           <p>日平均(KW)<span>760</span></p>
                         </el-col>
                       </el-row>
-                      <el-row :gutter="10" class="legendbox" v-else>
+                      <el-row class="legendbox lx" v-else>
                         <el-col :span="8">
                           <p>本月最高(KW)<span>800</span></p>
                         </el-col>

@@ -38,19 +38,22 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-button icon="el-icon-plus" @click="handleAdd">新增</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button icon="el-icon-edit" @click="handleUpdate" :disabled="single">修改</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button icon="el-icon-delete" @click="handleDelete" :disabled="multiple">删除</el-button>
-        </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox comheight" ref="containerbox">
+      <el-row class="table-btns">
+        <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-edit" @click="handleUpdate" :disabled="single">修改</el-button>
+        <el-button type="info" plain icon="el-icon-delete" @click="handleDelete" :disabled="multiple">删除</el-button>
+      </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
+
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="../../../../assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
+          </div>
+        </template>
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="用电单位" align="center" prop="StartTime" />
         <el-table-column label="值班班组" align="center" prop="EndTime" />

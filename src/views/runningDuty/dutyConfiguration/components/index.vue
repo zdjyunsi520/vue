@@ -59,6 +59,13 @@
                 <el-button icon="el-icon-delete" @click="handleBack">返回</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
+
+                <template slot="empty">
+                  <div class="nodata-box">
+                    <img src="../../../../assets/image/nodata.png" />
+                    <p>暂时还没有数据</p>
+                  </div>
+                </template>
                 <el-table-column type="selection" fixed="left" width="55" align="center" />
                 <el-table-column label="岗位名称" align="center" prop="TeamName" />
                 <el-table-column label="班次" align="center" prop="ShiftNames" />
