@@ -7,14 +7,14 @@
           <el-row>
             <el-col :span="24" v-if="form.type==2||form.type==3">
               <el-form-item label="省份" prop="p_parentKey">
-                <el-select v-model="form.p_parentKey" clearable  @change="changeCitys">
+                <el-select v-model="form.p_parentKey" clearable @change="changeCitys">
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in dataList" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="24" v-if="form.type==3">
               <el-form-item label="城市" prop="parentKey">
-                <el-select v-model="form.parentKey" clearable  :disabled="isdisabled">
+                <el-select v-model="form.parentKey" clearable :disabled="isdisabled">
                   <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in citydataList" />
                 </el-select>
               </el-form-item>
@@ -137,8 +137,13 @@ export default {
         }
       }
     },
-    handleOpen(data) {
-      this.$router.push({ name: "/commonManager/area/index" });
+    handleOpen() {
+      const data = this.form;
+      console.log(this.form);
+      this.$router.push({
+        name: "/commonManager/area/index",
+        params: { data }
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -150,8 +155,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-              //刷新列表
-              this.$emit("getList");
+
               //关闭窗口
               this.handleOpen();
             })

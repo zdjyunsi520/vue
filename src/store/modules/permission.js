@@ -39,9 +39,10 @@ const permission = {
 };
 function mapRouter(parent, data) {
   data.forEach(v => {
+    const component = v.Component ? v.Component : "";
     const node = {
-      name: v.Component,
-      component: v.Component ? v.Component : "",
+      name: component,
+      component,
       path: v.Url,
       meta: {
         title: v.Name,

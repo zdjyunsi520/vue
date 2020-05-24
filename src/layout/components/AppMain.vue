@@ -1,16 +1,16 @@
 <template>
   <section class="app-main">
     <!-- <transition name="fade-transform" mode="out-in"> -->
-      <keep-alive :include="cachedViews">
-        <router-view :key="key" />
-      </keep-alive>
+    <keep-alive :include="cachedViews">
+      <router-view :key="key" />
+    </keep-alive>
     <!-- </transition> -->
   </section>
 </template>
 
 <script>
 export default {
-  name: 'AppMain',
+  name: "AppMain",
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews;
@@ -27,8 +27,9 @@ export default {
   /* 50= navbar  50  */
   height: calc(100vh - 84px);
   width: 100%;
-  position: relative;top: 84px;
-    overflow: auto;
+  position: relative;
+  top: 84px;
+  overflow: auto;
 }
 
 // .fixed-header + .app-main {

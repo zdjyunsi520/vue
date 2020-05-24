@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-  <div class="search-box onlyform-box">
-    <p class="form-smtitle">{{title}} </p>
+    <div class="search-box onlyform-box">
+      <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="父级分类" prop="parentId">
-            <el-select v-model="form.parentId" clearable >
+            <el-select v-model="form.parentId" clearable>
               <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in dataList" />
             </el-select>
           </el-form-item>
@@ -28,18 +28,18 @@
           </el-form-item>
 
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"/>
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
 
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check"   @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -122,20 +122,12 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      const data = this.form;
       this.$router.push({
         name: "/commonManager/module/index",
-        params: {}
+        params: { data }
       });
-      return;
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-      }
-      //表单重置
-      this.reset(data);
     },
     /** 提交按钮 */
     handleSubmit: function() {

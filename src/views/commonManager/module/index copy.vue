@@ -24,45 +24,67 @@
       </el-form>
     </div>
 
-    <commonTree :dataList="dataList" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
-      <div class="form-smtitle marginBottom30">基础信息 </div>
-      <el-form label-position="top" :model="smform" v-if="data&&data.Id">
-        <el-form-item label="类型">
-          <el-input v-model="smform.Type" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="名称">
-          <el-input v-model="smform.Name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="权限标识">
-          <el-input v-model="smform.Key" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="URL">
-          <el-input v-model="smform.Url" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="Component">
-          <el-input v-model="smform.Component" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="排序号">
-          <el-input v-model="smform.SortIndex" disabled></el-input>
-        </el-form-item>
+    <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
+      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
+        <div style="background:#fff;height:100%">
+          <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+            <el-tree :current-node-key="currentNode.id" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+          </el-scrollbar>
+        </div>
+      </el-col>
+      <el-col class="dragresize">
+        <span class="iconslider">
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
+        </span>
+      </el-col>
+      <el-col :xs="{span: 24}" style="width:554px" class="comheight dragright">
+        <div class="bg-white  infobox">
+          <el-scrollbar>
+            <div class="form-smtitle marginBottom30">基础信息 </div>
+            <el-form label-position="top" :model="smform" v-if="data&&data.Id">
+              <el-form-item label="类型">
+                <el-input v-model="smform.Type" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="smform.Name" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="权限标识">
+                <el-input v-model="smform.Key" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="URL">
+                <el-input v-model="smform.Url" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="Component">
+                <el-input v-model="smform.Component" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="排序号">
+                <el-input v-model="smform.SortIndex" disabled></el-input>
+              </el-form-item>
 
-        <el-form-item label="图标" v-if="smform.IconUrl">
-          <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
-        </el-form-item>
-      </el-form>
-      <div v-else class="tips">
-        请稍后...
-      </div>
-    </commonTree>
+              <el-form-item label="图标" v-if="smform.IconUrl">
+                <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
+              </el-form-item>
+            </el-form>
+            <div v-else class="tips">
+              请稍后...
+            </div>
+          </el-scrollbar>
+        </div>
+      </el-col>
+    </el-row>
+
+    <!-- <update ref="update" @getList="getList123"></update>
+    <add ref="add" @getList="getList123"></add> -->
   </div>
 </template>
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/module";
-import commonTree from "@/views/commonManager/commonTree";
+// import update from "./components/update";
 // import add from "./components/add";
 export default {
-  components: { commonTree },
+  // components: { update, add },
   data() {
     return {
       // 遮罩层
@@ -82,16 +104,29 @@ export default {
       operateId: "",
       data: {},
       smform: {},
-      currentNode: {},
-      needToScroll: 1
+      currentNode: {}
     };
   },
   created() {
-    const { data } = this.$route.params;
-    this.currentNode = data || {};
+    this.currentNode = this.$route.params.data || {};
+
     this.getList();
   },
 
+  mounted() {
+    this.dragControllerDiv();
+  },
+  watch: {
+    currentNode(node) {
+      if (node.id) {
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(node.id);
+          console.log(this.$refs.tree.getCurrentNode());
+        });
+        this.getInfo();
+      }
+    }
+  },
   computed: {},
   methods: {
     handleCommand(commond) {
@@ -115,11 +150,15 @@ export default {
             return v;
           });
           this.dataList = response.data;
+          if (!this.currentNode.id && this.dataList.length)
+            this.currentNode = this.dataList[0];
+          this.$nextTick(
+            () => (this.$refs.elScrollbar.$refs.wrap.scrollTop = 200)
+          );
         })
         .finally(v => (this.loading = false));
     },
-    getInfo(node) {
-      this.currentNode = node;
+    getInfo() {
       const { id } = this.currentNode;
       id &&
         getInfo({ id }).then(r => {
@@ -133,7 +172,19 @@ export default {
               : "权限";
         });
     },
-
+    getList123() {
+      this.getList();
+      this.getInfo();
+    },
+    handleNodeClick(node) {
+      // if (Type == 1) {
+      //   this.addId = id;
+      // } else {
+      //   this.addId = "";
+      // }
+      // this.operateId = id;
+      this.currentNode = node;
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.getList();
@@ -173,6 +224,8 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate() {
+      console.log(this.$refs.elScrollbar.$refs.wrap.scrollTop);
+      return;
       let target;
       let data,
         id,
@@ -221,11 +274,9 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(v => {
-        const id = this.currentNode.id;
+        const id = this.operateId;
         deleted({ id }).then(r => {
           this.$message.success(r.msg);
-          this.currentNode = {};
-          this.needToScroll++;
           this.getList();
         });
       });
@@ -234,4 +285,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "../../../styles/tree.scss";
 </style>

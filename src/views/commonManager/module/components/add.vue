@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-  <div class="search-box  onlyform-box">
+    <div class="search-box  onlyform-box">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="120px" :inline-message="true" style="width:600px">
@@ -21,7 +21,7 @@
           </el-form-item>
 
           <el-form-item label="排序号" prop="sortindex">
-            <el-input-number v-model="form.sortindex" controls-position="right" :min="0"/>
+            <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
           </el-form-item>
 
           <el-form-item label="应用图标">
@@ -37,12 +37,12 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check"  @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
 
-  </div>
+    </div>
   </div>
 </template>
 
@@ -102,7 +102,7 @@ export default {
     };
   },
   created() {
-    let { data , title } = this.$route.params;
+    let { data, title } = this.$route.params;
     this.title = title;
     this.reset(data);
   },
@@ -127,10 +127,11 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      const data = this.form;
       this.$router.push({
         name: "/commonManager/module/index",
-        params: {}
+        params: { data }
       });
     },
     /** 提交按钮 */
