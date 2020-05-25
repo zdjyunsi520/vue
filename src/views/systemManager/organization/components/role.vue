@@ -253,26 +253,46 @@ export default {
           //     ModuleId: "817ef1a8-f56b-49a5-b1d2-5803af77b886"
           //   }
           // ];
-          let powers = this.moduleList
+
+          // let powers = this.moduleList
+          //   .filter(v => v.IsSelect)
+          //   .map(v => {
+          //     const RoleId = v.RoleId;
+          //     let ModuleId = [];
+          //     if (v.ModuleData) {
+          //       v.ModuleData.filter(v => v.IsSelect).forEach(v => {
+          //         ModuleId.push(v.ModuleId);
+          //         if (v.Childs) {
+          //           ModuleId.push(
+          //             ...v.Childs.filter(v => v.IsSelect).map(v => v.ModuleId)
+          //           );
+          //         }
+          //       });
+          //     }
+          //     ModuleId = ModuleId.join(",");
+          //     return { RoleId, ModuleId };
+          //   });
+
+          let powers = [];
+          this.moduleList
             .filter(v => v.IsSelect)
-            .map(v => {
-              console.log(v);
+            .forEach(v => {
               const RoleId = v.RoleId;
-              let ModuleId = [];
+
               if (v.ModuleData) {
                 v.ModuleData.filter(v => v.IsSelect).forEach(v => {
-                  ModuleId.push(v.ModuleId);
+                  powers.push({ RoleId, ModuleId: v.ModuleId });
                   if (v.Childs) {
-                    ModuleId.push(
-                      ...v.Childs.filter(v => v.IsSelect).map(v => v.ModuleId)
+                    v.Childs.filter(v => v.IsSelect).forEach(v =>
+                      powers.push({ RoleId, ModuleId: v.ModuleId })
                     );
                   }
                 });
               }
-              ModuleId = ModuleId.join(",");
-              return { RoleId, ModuleId };
             });
+
           this.form.powers = JSON.stringify(powers);
+
           // this.moduleList.forEach(v => {
           //   if (v.IsSelect) {
           //     const RoleId = v.RoleId;
