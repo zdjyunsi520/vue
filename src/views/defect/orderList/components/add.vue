@@ -75,13 +75,15 @@
                   <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload> -->
-                <el-upload action="#" list-type="picture-card" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
-                  <i class="el-icon-plus"></i>
+                <el-upload action="#" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
-                <el-dialog :visible.sync="dialogVisible" size="tiny">
+
+                <!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
                   <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
+                </el-dialog> -->
 
               </el-form-item>
             </el-col>
@@ -369,7 +371,7 @@ export default {
       const now = Date.now();
       var nowTime = new Date(now);
       var processdueTime = new Date(now);
-      processdueTime.setDate(processdueTime.getDate() + 5);
+      processdueTime.setMonth(processdueTime.getMonth() + 6);
       this.form = Object.assign(
         {
           tenantId: "",
@@ -470,11 +472,15 @@ export default {
     },
     // 附件上传之前判断大小
     beforeAvatarUpload(file) {
-      console.log(file);
       let fd = new FormData();
       fd.append("filekey", file);
       imageUpload(fd).then(r => {
         this.form.attachmentkey = r.data.AttachmentKey;
+        const fileReader = new FileReader();
+        fileReader.onload = e => {
+          this.imageUrl = e.target.result;
+        };
+        fileReader.readAsDataURL(file);
       });
       return false;
       // const isJPG = file.type === "image/jpeg";
@@ -499,5 +505,8 @@ export default {
 }
 /deep/.el-checkbox:last-of-type {
   margin-right: 10px !important;
+}
+.avatar {
+  width: 100%;
 }
 </style>
