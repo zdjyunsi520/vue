@@ -39,7 +39,7 @@
         <el-form-item label="URL">
           <el-input v-model="smform.Url" disabled></el-input>
         </el-form-item>
-        <el-form-item label="Component">
+        <el-form-item label="组件">
           <el-input v-model="smform.Component" disabled></el-input>
         </el-form-item>
         <el-form-item label="排序号">

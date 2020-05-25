@@ -22,7 +22,7 @@
               <el-form-item label="行业类别" prop="industry">
                 <el-select v-model="form.industry" @change="handleChange">
                   <el-option label="请选择" value=""></el-option>
-                  <el-option :key="item.key+''+index" :label="item.text" :value="item.id" v-for="(item,index) in professionList" />
+                  <el-option :key="index" :label="item.text" :value="item.id" v-for="(item,index) in professionList" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -354,7 +354,7 @@ export default {
         let address = row.Address;
         let contactperson = row.ContactPerson;
         let mobilephone = row.MobilePhone;
-
+        let parentId = row.ParentId;
         let phoneno = row.PhoneNo;
         let creditcode = row.CreditCode;
         let artificialperson = row.ArtificialPerson;
@@ -362,6 +362,8 @@ export default {
         let voltlevel = row.OperatingCapacity;
         let longitude = row.Longitude;
         let latitude = row.Latitude;
+        let industry = row.IndustryCode;
+        let principleactivity = row.PrincipleActivityCode;
         if (longitude && latitude) {
           this.center = { lng: longitude, lat: latitude };
           this.points = [this.center];
@@ -381,7 +383,10 @@ export default {
           longitude,
           latitude,
           creditcode,
-          artificialperson
+          artificialperson,
+          industry,
+          principleactivity,
+          parentId
         });
         this.reset(data);
       });

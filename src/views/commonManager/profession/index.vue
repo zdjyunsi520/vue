@@ -175,9 +175,10 @@ export default {
       type = this.data.Type;
       sortindex = this.data.SortIndex;
       parentKey = this.data.ParentKey;
+      const id = "123";
       const title = "修改信息";
       const dataList = this.dataList;
-      data = { name, key, type, sortindex, parentKey };
+      data = { id, name, key, type, sortindex, parentKey };
       this.$router.push({
         name: "/commonManager/profession/components/add",
         params: { data, dataList, title }

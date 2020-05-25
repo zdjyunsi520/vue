@@ -23,7 +23,7 @@
             <el-input v-model="form.url" placeholder="请输入url" />
           </el-form-item>
 
-          <el-form-item label="Component" prop="component">
+          <el-form-item label="组件" prop="component">
             <el-input v-model="form.component" placeholder="请输入组件" />
           </el-form-item>
 
