@@ -366,9 +366,10 @@ export default {
 
     // 表单重置
     reset(data) {
-      var nowTime = new Date();
-      var processdueTime = new Date(nowTime).setDate(nowTime.getDate() + 1);
-
+      const now = Date.now();
+      var nowTime = new Date(now);
+      var processdueTime = new Date(now);
+      processdueTime.setDate(processdueTime.getDate() + 5);
       this.form = Object.assign(
         {
           tenantId: "",
