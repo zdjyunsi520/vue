@@ -134,7 +134,7 @@ export default {
       if (rememberMe) {
         username = Cookies.get("username");
         password = Base64.decode(Cookies.get("password"));
-        fromurl = Cookies.get("fromurl");
+        fromurl = Base64.decode(Cookies.get("fromurl"));
         this.loginForm = {
           username,
           password,
@@ -250,10 +250,9 @@ export default {
       .el-form-item {
         margin-bottom: 20px;
       }
-.el-checkbox__label{
+      .el-checkbox__label {
         font-size: 12px;
-
-}
+      }
       .el-checkbox__input.is-checked + .el-checkbox__label {
         color: #558cf7;
         font-size: 12px;
