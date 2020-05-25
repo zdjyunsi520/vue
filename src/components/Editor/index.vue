@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth";
-import OSS from "ali-oss";
 // 工具栏配置
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
@@ -46,17 +44,7 @@ export default {
   },
   components: { quillEditor },
   data() {
-    var client = new OSS({
-      expiration: null,
-      accessKeyId: "",
-      accessKeySecret: "",
-      securityToken: null,
-      region: "",
-      bucket: "",
-      domain: ""
-    });
     return {
-      client,
       content: this.value,
       uploadImgUrl: "",
       editorOption: {
@@ -80,7 +68,7 @@ export default {
       },
       uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
       headers: {
-        Authorization: "Bearer " + getToken()
+        // Authorization: "Bearer " + getToken()
       }
     };
   },
