@@ -81,7 +81,7 @@ export default {
       count: 0
     };
   },
-  created() {
+  mounted() {
     this.dragControllerDiv();
   },
   watch: {
@@ -98,7 +98,7 @@ export default {
               });
             }
           });
-          console.log(this.dataArray);
+          // console.log(this.dataArray);
         }
         if (!this.currentNode[this.nodeKey] && this.dataList.length) {
           this.handleNodeClick(this.dataList[0]);
@@ -116,7 +116,7 @@ export default {
             const nowIndex =
               this.dataArray.findIndex(v => v == targetValue) - 3;
             const scrollTop = 32 * nowIndex;
-            console.log(nowIndex);
+            // console.log(nowIndex);
             this.$refs.elScrollbar.$refs.wrap.scrollTop = scrollTop;
           });
         }
