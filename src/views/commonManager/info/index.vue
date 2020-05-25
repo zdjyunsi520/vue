@@ -1,6 +1,13 @@
 <template>
   <div class="app-container">
     <div class="bg-white containerbox">
+      <!--       
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
+        <el-tab-pane label="按巡视性质统计" name="1"></el-tab-pane>
+        <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
+      </el-tabs> -->
+
       <el-scrollbar style="height:calc(100% - 80px)">
         <p class="form-smtitle">软件许可及服务协议</p>
         <editor class="xl-height" @input="handleContent" ref="editors" :value="form.Licence"></editor>
@@ -11,7 +18,6 @@
 
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
-
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
         </div>
@@ -55,6 +61,15 @@ export default {
       } else this.getList(data);
     },
 
+    handleClick(tab, event) {
+      // this.resetQuery("queryForm");
+      // this.patrolYear = "";
+      // this.timeBegin = "";
+      // this.timeEnd = "";
+      // this.queryParams.patroltimebegin = "";
+      // this.queryParams.patroltimeend = "";
+      // this.getList(this.activeName);
+    },
     getList() {
       fetchList({}).then(r => {
         this.reset(r.data);
