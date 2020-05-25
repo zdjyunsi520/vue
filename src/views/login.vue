@@ -135,12 +135,12 @@ export default {
         username = Cookies.get("username");
         password = Base64.decode(Cookies.get("password"));
         //   fromurl = Base64.decode(Cookies.get("fromurl"));
-        this.loginForm = {
+        this.loginForm = Object.assign(this.loginForm, {
           username,
           password,
           rememberMe
           //     fromurl
-        };
+        });
       }
     },
     // 找回密码
