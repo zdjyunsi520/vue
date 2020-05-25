@@ -25,7 +25,7 @@ export function deleted(data) {
 
 // 上传附件
 export function imageUpload(data) {
-  return postFile("/File/Url", data, "common");
+  return postFile("/File/Upload", data, "common");
 }
 
 // 统计-年

@@ -253,7 +253,7 @@ export default {
           //     ModuleId: "817ef1a8-f56b-49a5-b1d2-5803af77b886"
           //   }
           // ];
-          this.form.powers = this.moduleList
+          let powers = this.moduleList
             .filter(v => v.IsSelect)
             .map(v => {
               console.log(v);
@@ -272,7 +272,7 @@ export default {
               ModuleId = ModuleId.join(",");
               return { RoleId, ModuleId };
             });
-          console.log(this.form.powers);
+          this.form.powers = JSON.stringify(powers);
           // this.moduleList.forEach(v => {
           //   if (v.IsSelect) {
           //     const RoleId = v.RoleId;
