@@ -31,10 +31,10 @@
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="发现人" prop="detecterId">
-                <!-- <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" /> -->
-                <el-select v-model="form.detecterId" placeholder="请选择">
+                <el-input v-model="form.detecterId" placeholder="请输入发现人" />
+                <!-- <el-select v-model="form.detecterId" placeholder="请选择">
                   <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="23">
               <el-form-item label="缺陷内容" prop="description">
-                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" auto-complete="off" />
+                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
               </el-form-item>
             </el-col>
             <el-col :span="23">

@@ -22,7 +22,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="巡视成员" prop="patrolmemberids">
-            <el-select v-model="form.patrolmemberids" placeholder="请选择巡视成员" multiple style="width:100%">
+            <el-select v-model="patrolmemberids" placeholder="请选择巡视成员" multiple style="width:100%">
               <el-option v-for="(item,index) in patrolusers" :key="index" :label="item.text" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -71,7 +71,8 @@ export default {
       TenantIds: [],
       patrolusers: [],
       allpatrolusers: [],
-      ischange:false,
+      ischange: false,
+      patrolmemberids: []
     };
   },
   created() {
@@ -80,6 +81,8 @@ export default {
     this.title = title;
     this.TenantIds = TenantIds;
     // data.starttime = new Date(data.starttime).getTime();
+    if (data && data.patrolmemberids)
+      this.patrolmemberids = data.patrolmemberids.split(",");
     this.reset(data);
     return;
     // if (data && data.id) {
@@ -102,14 +105,14 @@ export default {
     },
 
     //获取关联的巡视人员下拉列表
-    changeTenant(){
-      this.ischange=true;
+    changeTenant() {
+      this.ischange = true;
       this.getPatrolusers();
     },
     getPatrolusers() {
       if (this.ischange) {
-        this.form.patroluserid='';
-        this.form.patrolmemberids='';
+        this.form.patroluserid = "";
+        this.patrolmemberids = [];
       }
       this.allpatrolusers.forEach(v => {
         if (v.id == this.form.tenantid) {
@@ -172,7 +175,7 @@ export default {
           // this.form.patroluserid = this.form.PatrolUserId;
           // this.form.patrolmemberids = this.form.PatrolMemberIds.split(",");
           // this.form.patrolscope = this.form.PatrolScope;
-          this.form.patrolmemberids = this.form.patrolmemberids.join(",");
+          this.form.patrolmemberids = this.patrolmemberids.join(",");
           let fn;
           if (this.form.id) fn = update;
           else fn = add;

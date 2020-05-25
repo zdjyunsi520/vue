@@ -169,7 +169,7 @@ export default {
       const cycleday = row.CycleDay;
       const starttime = row.StartTime;
       const patroluserid = row.PatrolUserId;
-      const patrolmemberids = row.PatrolMemberIds.split(",");
+      const patrolmemberids = row.PatrolMemberIds;
       const patrolscope = row.PatrolScope;
       const data = {
         id,
