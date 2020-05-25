@@ -130,16 +130,16 @@ export default {
       const rememberMe = Boolean(Cookies.get("rememberMe"));
       let username = "";
       let password = "";
-      let fromurl = "";
+      //  let fromurl = "";
       if (rememberMe) {
         username = Cookies.get("username");
         password = Base64.decode(Cookies.get("password"));
-        fromurl = Base64.decode(Cookies.get("fromurl"));
+        //   fromurl = Base64.decode(Cookies.get("fromurl"));
         this.loginForm = {
           username,
           password,
-          rememberMe,
-          fromurl
+          rememberMe
+          //     fromurl
         };
       }
     },
@@ -165,9 +165,9 @@ export default {
                     expires: 30
                   }
                 );
-                Cookies.set("fromurl", Base64.encode(this.loginForm.fromurl), {
-                  expires: 30
-                });
+                // Cookies.set("fromurl", Base64.encode(this.loginForm.fromurl), {
+                //   expires: 30
+                // });
                 Cookies.set("rememberMe", this.loginForm.rememberMe, {
                   expires: 30
                 });
@@ -175,7 +175,7 @@ export default {
                 Cookies.remove("username");
                 Cookies.remove("password");
                 Cookies.remove("rememberMe");
-                Cookies.remove("fromurl");
+                //   Cookies.remove("fromurl");
               }
 
               this.loading = false;
