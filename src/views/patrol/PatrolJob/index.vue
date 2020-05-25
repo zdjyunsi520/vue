@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :label-width="100">
         <el-form-item label="巡视单位" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
