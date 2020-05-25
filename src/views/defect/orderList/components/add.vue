@@ -30,8 +30,8 @@
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="detecterId">
-                <el-input v-model="form.detecterId" placeholder="请输入发现人" />
+              <el-form-item label="发现人" prop="name">
+                <el-input v-model="form.name" placeholder="请输入发现人" />
                 <!-- <el-select v-model="form.detecterId" placeholder="请选择">
                   <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
                 </el-select> -->
@@ -367,22 +367,21 @@ export default {
     // 表单重置
     reset(data) {
       var nowTime = new Date();
-      var processdueTime = nowTime;
-      processdueTime = new Date(
-        processdueTime.setMonth(processdueTime.getMonth() + 6)
-      );
+      var processdueTime = new Date(nowTime).setDate(nowTime.getDate() + 1);
+
       this.form = Object.assign(
         {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: "",
+          detecterId: this.userId,
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
           description: "",
           attachmentkey: "",
-          attachmenturl: ""
+          attachmenturl: "",
+          name: ""
         },
         data
       );
@@ -473,7 +472,9 @@ export default {
       console.log(file);
       let fd = new FormData();
       fd.append("filekey", file);
-      imageUpload(fd).then(r => {});
+      imageUpload(fd).then(r => {
+        this.form.attachmentkey = r.data.AttachmentKey;
+      });
       return false;
       // const isJPG = file.type === "image/jpeg";
       // const isLt2M = file.size / 1024 / 1024 < 2;

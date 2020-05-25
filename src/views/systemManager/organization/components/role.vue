@@ -273,25 +273,25 @@ export default {
           //     return { RoleId, ModuleId };
           //   });
 
-          let powers = [];
-          this.moduleList
-            .filter(v => v.IsSelect)
-            .forEach(v => {
-              const RoleId = v.RoleId;
+          // let powers = [];
+          // this.moduleList
+          //   .filter(v => v.IsSelect)
+          //   .forEach(v => {
+          //     const RoleId = v.RoleId;
 
-              if (v.ModuleData) {
-                v.ModuleData.filter(v => v.IsSelect).forEach(v => {
-                  powers.push({ RoleId, ModuleId: v.ModuleId });
-                  if (v.Childs) {
-                    v.Childs.filter(v => v.IsSelect).forEach(v =>
-                      powers.push({ RoleId, ModuleId: v.ModuleId })
-                    );
-                  }
-                });
-              }
-            });
+          //     if (v.ModuleData) {
+          //       v.ModuleData.filter(v => v.IsSelect).forEach(v => {
+          //         powers.push({ RoleId, ModuleId: v.ModuleId });
+          //         if (v.Childs) {
+          //           v.Childs.filter(v => v.IsSelect).forEach(v =>
+          //             powers.push({ RoleId, ModuleId: v.ModuleId })
+          //           );
+          //         }
+          //       });
+          //     }
+          //   });
 
-          this.form.powers = JSON.stringify(powers);
+          // this.form.powers = JSON.stringify(powers);
 
           // this.moduleList.forEach(v => {
           //   if (v.IsSelect) {
@@ -300,21 +300,21 @@ export default {
           //   }
           // });
 
-          // this.moduleList.forEach((v, i) => {
-          //   if (v.IsSelect) this.form.powers.push(v.RoleId);
-          //   if (v.ModuleData)
-          //     v.ModuleData.forEach(v => {
-          //       if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //       if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //       if (v.Childs)
-          //         v.Childs.forEach(v => {
-          //           if (v.IsSelect) this.form.powers.push(v.ModuleId);
-          //         });
-          //     });
-          // });
+          let roles = [];
+          this.moduleList.forEach((v, i) => {
+            if (v.IsSelect) roles.push(v.RoleId);
+            if (v.ModuleData)
+              v.ModuleData.forEach(v => {
+                if (v.IsSelect) roles.push(v.ModuleId);
+                if (v.Childs)
+                  v.Childs.forEach(v => {
+                    if (v.IsSelect) roles.push(v.ModuleId);
+                  });
+              });
+          });
 
           // this.form.powers = [...new Set(this.form.powers)];
-          //this.form.moduleids = this.form.powers.join(",");
+          this.form.moduleids = roles.join(",");
           //  this.form.powers = "";
           //保存修改
           update(this.form)
