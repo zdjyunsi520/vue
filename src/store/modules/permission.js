@@ -73,9 +73,17 @@ function filterAsyncRouter(asyncRouterMap) {
   });
 }
 
+// export const loadView = view => {
+//   // 路由懒加载
+//   return () => import(`@/views${view}`);
+// };
+
 export const loadView = view => {
-  // 路由懒加载
-  return () => import(`@/views${view}`);
+  return resolve => {
+    require.ensure([], require => {
+      resolve(require("@/views" + view + ".vue"));
+    });
+  };
 };
 
 export default permission;
