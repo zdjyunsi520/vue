@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}}附件类型</p>
-      <el-scollbar class="bg-white containerbox">
+      <el-scrollbar class="bg-white containerbox">
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
           <el-form-item label="名称" prop="Name">
             <el-input v-model="form.Name" placeholder="请输入名称" />
@@ -101,7 +101,7 @@
             </el-select>
           </el-form-item>
         </el-form>
-      </el-scollbar>
+      </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
@@ -191,7 +191,7 @@ export default {
     let { data, title } = this.$route.params;
     this.title = title;
     this.reset(data);
-    this.getInfo();
+    if (data && data.Id) this.getInfo();
   },
   methods: {
     getInfo() {
@@ -203,7 +203,11 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id: ""
+          Id: "",
+          IsMultiVersion: false,
+          IsMultiVersionFromPackage: false,
+          IsRemoveFile: false,
+          IsGenerateThumbnail: false
         },
         data
       );

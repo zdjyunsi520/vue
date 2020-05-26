@@ -174,17 +174,18 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(function() {
-          return deleted({ ids });
-        })
-        .then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        })
-        .catch(function() {
-          this.msgSuccess("操作失败");
+      }).then(() => {
+        let count = 0;
+        ids.forEach(id => {
+          deleted({ id }).finally(r => {
+            count++;
+            if (count >= ids.length) {
+              this.msgSuccess("删除成功");
+              this.getList();
+            }
+          });
         });
+      });
     }
   }
 };
