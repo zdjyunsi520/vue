@@ -30,11 +30,11 @@
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="detecterId">
-                <!-- <el-input v-model="form.detecterId" placeholder="请输入发现人" auto-complete="off" /> -->
-                <el-select v-model="form.detecterId" placeholder="请选择">
+              <el-form-item label="发现人" prop="name">
+                <el-input v-model="form.name" placeholder="请输入发现人" />
+                <!-- <el-select v-model="form.detecterId" placeholder="请选择">
                   <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="23">
               <el-form-item label="缺陷内容" prop="description">
-                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" auto-complete="off" />
+                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
               </el-form-item>
             </el-col>
             <el-col :span="23">
@@ -75,13 +75,15 @@
                   <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload> -->
-                <el-upload action="#" list-type="picture-card" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
-                  <i class="el-icon-plus"></i>
+                <el-upload action="#" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
-                <el-dialog :visible.sync="dialogVisible" size="tiny">
+
+                <!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
                   <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
+                </el-dialog> -->
 
               </el-form-item>
             </el-col>
@@ -366,23 +368,23 @@ export default {
 
     // 表单重置
     reset(data) {
-      var nowTime = new Date();
-      var processdueTime = nowTime;
-      processdueTime = new Date(
-        processdueTime.setMonth(processdueTime.getMonth() + 6)
-      );
+      const now = Date.now();
+      var nowTime = new Date(now);
+      var processdueTime = new Date(now);
+      processdueTime.setMonth(processdueTime.getMonth() + 6);
       this.form = Object.assign(
         {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: "",
+          detecterId: this.userId,
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
           description: "",
           attachmentkey: "",
-          attachmenturl: ""
+          attachmenturl: "",
+          name: ""
         },
         data
       );
@@ -470,10 +472,16 @@ export default {
     },
     // 附件上传之前判断大小
     beforeAvatarUpload(file) {
-      console.log(file);
       let fd = new FormData();
       fd.append("filekey", file);
-      imageUpload(fd).then(r => {});
+      imageUpload(fd).then(r => {
+        this.form.attachmentkey = r.data.AttachmentKey;
+        const fileReader = new FileReader();
+        fileReader.onload = e => {
+          this.imageUrl = e.target.result;
+        };
+        fileReader.readAsDataURL(file);
+      });
       return false;
       // const isJPG = file.type === "image/jpeg";
       // const isLt2M = file.size / 1024 / 1024 < 2;
@@ -497,5 +505,8 @@ export default {
 }
 /deep/.el-checkbox:last-of-type {
   margin-right: 10px !important;
+}
+.avatar {
+  width: 100%;
 }
 </style>

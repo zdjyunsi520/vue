@@ -122,10 +122,10 @@ export default {
     return {
       form: {
         id: "",
-        name: "",
-        key: "",
-        moduleids: [],
-        sortindex: 1
+        // name: "",
+        // key: "",
+        moduleids: []
+        // sortindex: 1
       },
       farther: false,
       rules,
@@ -222,10 +222,10 @@ export default {
       this.form = Object.assign(
         {
           id: "",
-          name: "",
-          key: "",
-          moduleids: [],
-          sortindex: 1
+          // name: "",
+          // key: "",
+          moduleids: []
+          // sortindex: 1
         },
         data
       );

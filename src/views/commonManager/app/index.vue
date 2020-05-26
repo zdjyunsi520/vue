@@ -30,27 +30,27 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="应用名称" prop="TypeName" />
-        <el-table-column label="版本名称" prop="VersionName" />
-        <el-table-column label="更新时间" width="170" prop="CreateTime">
+        <el-table-column label="应用名称" min-width="150" prop="TypeName" />
+        <el-table-column label="版本名称" min-width="180" prop="VersionName" />
+        <el-table-column label="更新时间" min-width="200" width="170" prop="CreateTime">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="版本号" prop="VersionCode" />
-        <el-table-column label="更新说明" prop="UpdateDescription" />
-        <el-table-column label="是否强制更新" prop="ForcedUpdate" :formatter="filterCancel" />
-        <el-table-column label="APK文件" prop="FileUrl">
+        <el-table-column label="版本号" min-width="150" prop="VersionCode" />
+        <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
+        <el-table-column label="是否强制更新" min-width="150" prop="ForcedUpdate" :formatter="filterCancel" />
+        <el-table-column label="APK文件" min-width="200" prop="FileUrl">
           <template slot-scope="{row}">
             <a href="row.FileUrl" download target="_blank">{{row.VersionName}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="状态" prop="IsLock">
+        <el-table-column label="状态" min-width="120" prop="IsLock">
           <template slot-scope="{row}">
             <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>

@@ -60,7 +60,8 @@
 </template>
 
 <script>
-import { fetchList } from "@/api/runningDuty/record";
+import { mapGetters } from "vuex";
+import { getShift as fetchList } from "@/api/runningDuty/record";
 import dutyRecord from "./dutyRecord";
 import shiftRecord from "./shiftRecord";
 import patrolRecord from "./patrolRecord";
@@ -77,9 +78,8 @@ export default {
       operateId: "",
       loading: false,
       form: {
-        teamId: "",
-        shifttypeId: "",
-        charatype: ""
+        userId: "",
+        date: new Date()
       },
       rules,
       assetAttributeType: [{ key: 1, value: "asdas" }],
@@ -99,6 +99,7 @@ export default {
     this.getList();
   },
   computed: {
+    ...mapGetters(["userId"]),
     addDisabled() {
       return (
         !this.form.teamId || !this.form.shifttypeId || !this.form.charatype
@@ -113,10 +114,10 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      fetchList(this.queryParams)
+      this.form.userId = this.userId;
+      fetchList(this.form)
         .then(response => {
           this.dataList = response.data;
-          this.total = response.total;
         })
         .finally(r => {
           this.listLoading = false;

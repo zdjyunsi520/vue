@@ -17,3 +17,6 @@ export function deleted(data) {
 export function getInfo(data) {
   return post("/DutyRecord/Get", data, commonUrl);
 }
+export function getShift(data) {
+  return post("/DutySchedule/GetUserSchedule", data, commonUrl);
+}
