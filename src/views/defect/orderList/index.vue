@@ -119,7 +119,7 @@ export default {
       dataList: null,
       listLoading: true,
       total: 0,
-      tableHeight: "auto",
+      tableHeight: 'calc(100% - 120px)',
       ranks: [
         { name: "一般缺陷", id: 1 },
         { name: "紧急缺陷", id: 2 },
@@ -144,19 +144,7 @@ export default {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
-    },
     getList() {
       this.listLoading = true;
       getAssetsBugs(this.queryParams)

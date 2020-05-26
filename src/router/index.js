@@ -107,7 +107,7 @@ export const constantRoutes = [
       },
       {
         path: "/largeData",
-        component: () => import("@/views/generalSituation/large/index"),
+        component: () => import("@/views/generalSituation/systemlarge/index"),
         name: "大屏展示",
         meta: {
           title: "大屏展示",

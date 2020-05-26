@@ -1,11 +1,16 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
-      <p class="form-smtitle">{{title}}</p>
+      
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="登记情况" name="0"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="1"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="2"></el-tab-pane>
+      </el-tabs>
 
+      <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
-        <!-- 添加或修改参数配置对话框 -->
-        <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
+        <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px" v-if='activeName==0'>
           <el-row>
             <el-col :span="11" :xs="24">
               <el-form-item label="用电单位" prop="tenantId">
@@ -30,8 +35,8 @@
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="name">
-                <el-input v-model="form.name" placeholder="请输入发现人" />
+              <el-form-item label="发现人" prop="detecterId">
+                <el-input v-model="form.detecterId" placeholder="请输入发现人" />
                 <!-- <el-select v-model="form.detecterId" placeholder="请选择">
                   <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
                 </el-select> -->
@@ -39,7 +44,7 @@
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="发现时间" prop="detecttime">
-                <el-date-picker v-model="form.detecttime" type="datetime" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                <el-date-picker v-model="form.detecttime" type="date" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
@@ -51,7 +56,7 @@
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="处理期限" prop="processdue">
-                <el-date-picker v-model="form.processdue" type="datetime" placeholder="请选择处理期限" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                <el-date-picker v-model="form.processdue" type="date" placeholder="请选择处理期限" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="23">
@@ -90,7 +95,7 @@
 
             <el-col :span="11" :xs="24">
               <el-form-item label="缺陷编号" prop="number">
-                <el-input v-model="form.number" disabled placeholder="" />
+                <el-input v-model="form.number" disabled placeholder="自动生成" />
               </el-form-item>
             </el-col>
 
@@ -101,23 +106,25 @@
             </el-col>
 
             <el-col :span="11" :xs="24">
-              <el-form-item label="填报人" prop="reporterId">
-                <input type="hidden" v-model="form.reporterId">
+              <el-form-item label="填报人" prop="reporterName">
                 <el-input v-model="form.reporterName" disabled />
               </el-form-item>
             </el-col>
 
             <el-col :span="11" :push='1' :xs="24">
               <el-form-item label="填报时间" prop="reporttime">
-                <el-date-picker v-model="form.reporttime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" disabled format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                <el-date-picker v-model="form.reporttime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
+        
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check"  v-if='activeName==0' @click="handleSubmit" :loading="loading">保 存</el-button>
+          <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading">发 送</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -233,7 +240,8 @@ export default {
       employeesTree: [],
       ischange: false,
       count: 0,
-      selectAssets: []
+      selectAssets: [],
+      activeName:'0',
     };
   },
   computed: {
@@ -307,12 +315,9 @@ export default {
       }
     },
     checkchange1(data, checked, node) {
-      console.log(data, checked, node, this.count);
       this.count++;
-      console.log(2, this.count);
       if (this.count % 2 === 0) {
         if (checked) {
-          console.log(3);
           this.$refs.tree.setCheckedKeys([]);
           this.$refs.tree.setCheckedKeys([data.id]);
           this.form.assetsIds = data.id;
@@ -320,7 +325,6 @@ export default {
           this.count = 1;
           //交叉点击节点
         } else {
-          console.log(4);
           this.$refs.tree.setCheckedKeys([]);
           this.form.assetsIds = "";
           this.form.assetsIdtext = "";
@@ -332,8 +336,6 @@ export default {
         this.form.assetsIdtext = data.text;
         this.count = 1;
       }
-
-      console.log(22, this.form.assetsIds);
     },
 
     //设备选择确定
@@ -377,14 +379,16 @@ export default {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: this.userId,
+          detecterId: '',
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
           description: "",
           attachmentkey: "",
           attachmenturl: "",
-          name: ""
+          reporterId: this.userId,
+          reporterName:this.name,
+          reporttime:nowTime,
         },
         data
       );
@@ -416,17 +420,14 @@ export default {
         params: {}
       });
 
-      // //改变窗口状态
-      // this.dialogVisible = !this.dialogVisible;
-      // if (!this.dialogVisible) {
-      //   //关闭窗口时取消按钮转圈圈
-      //   this.loading = false;
-      // }
-      // //表单重置
-      // this.reset(data);
-      // this.$nextTick(() => {
-      //   this.$refs.form.clearValidate();
-      // });
+    },
+    // 回退
+    handleBack(){
+
+    },
+    // 发送
+    handleSend(){
+
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -434,10 +435,6 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-
-          // 上传图片
-          // this.$refs.upload.submit();
-
           let fn;
           if (this.form.id) fn = update;
           else fn = add;

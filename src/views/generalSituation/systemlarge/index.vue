@@ -10,25 +10,120 @@
           <Systime /></span>
       </div>
     </el-row>
-    <el-row :gutter="20" class="comheight ">
-      <div class="dataCount">
-        <countTo :startVal='startVal' :endVal='endVal' :duration='3000'></countTo>
-      </div>
+    <el-row :gutter="20"  >
+      <el-col :span='5' :xs='8' class='count-box'>
+          <p>运维中心</p>
+          <div class="dataCount">
+            <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
+          </div>
+      </el-col>
+      <el-col :span='5' :xs='8' class='count-box'>
+          <p>总用户</p>
+          <div class="dataCount">
+            <countTo :startVal='startVal' :endVal='totalUsers' :duration='3000' separator=''></countTo>
+          </div>
+      </el-col>
+      <el-col :span='4' :xs='8' class='count-box'>
+          <p>总容量(kVA)</p>
+          <div class="dataCount">
+            <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
+          </div>
+      </el-col>
+      <el-col :span='5' :xs='8' class='count-box'>
+          <p>配电房</p>
+          <div class="dataCount">
+            <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
+          </div>
+      </el-col>
+      <el-col :span='5' :xs='8' class='count-box'>
+          <p>安全运行(天)</p>
+          <div class="dataCount">
+            <countTo :startVal='startVal' :endVal='safeRunning' :duration='3000' separator=''></countTo>
+          </div>
+      </el-col>
     </el-row>
+    <el-row :gutter='20' class='maincontent'>
+      <el-col :span='7' :xs='24'  >
+          <el-row>
+            <h6>用电类型统计</h6>
+            <div class="chartbox">
+                <powerTypePieChart :chartData='powerTypeData'/>
+            </div>
+          </el-row>
+          <el-row>
+            <h6>用电分析</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+          <el-row>
+            <h6>用电负荷</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+      </el-col>
+      <el-col :span='10' :xs='24'  >
+          <el-row>
+            <h6>地图</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+          <el-row>
+            <h6>预警信息</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+      </el-col>
+      <el-col :span='7' :xs='24'  >
+          <el-row>
+            <h6>运维成果</h6>
+            <div class="chartbox">
+
+            </div>
+          </el-row>
+          <el-row>
+            <h6>采集情况</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+          <el-row>
+            <h6>运维跟踪情况</h6>
+            <div class="chartbox">
+              
+            </div>
+          </el-row>
+      </el-col>
+    </el-row>
+   
   </div>
 </template>
 
 <script>
 import Systime from "../components/systime.vue";
-
+import countTo from 'vue-count-to';
 import { fetchTree } from "@/api/systemManager/organization";
 
 import PieChart from "./components/PieChart";
+import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
 import BarChart from "./components/BarChart";
 import PowerBarchart from "./components/PowerBarchart";
 import GaugeChart from "./components/GaugeChart";
 import GaugeLoadChart from "./components/GaugeLoadChart";
+
+const powerTypeData = {
+  legendData: ["工业", "商业", "居民"],
+  listData: [
+    { value: 335, name: "工业" },
+    { value: 310, name: "商业" },
+    { value: 234, name: "居民" },
+  ]
+};
+
 
 const typeChartData = {
   title: "电费",
@@ -89,20 +184,13 @@ const PowerbarChartData = {
   nowlistData: ["211", "165", "43"]
 };
 
-const pieChartData = {
-  legendData: ["尖峰", "高峰", "平时", "低谷"],
-  listData: [
-    { value: 335, name: "尖峰" },
-    { value: 310, name: "高峰" },
-    { value: 234, name: "平时" },
-    { value: 135, name: "低谷" }
-  ]
-};
-
 export default {
   name: "baseData",
   components: {
     Systime,
+    countTo,
+    powerTypePieChart,
+
     PieChart,
     LineChart,
     BarChart,
@@ -120,16 +208,15 @@ export default {
       },
       radioType: 0,
       loading: false,
-      typeChartData: typeChartData,
-      powerChartData_month: powerChartData_month,
-      powerChartData_day: powerChartData_day,
-      loadChartData: loadChartData,
-      lineChartData: lineChartData[0],
-      PowerbarChartData: PowerbarChartData,
-      pieChartData: pieChartData,
+      powerTypeData: powerTypeData,
+     
 
       startVal: 0,
-      endVal: 2017
+      maintenanceCenter: 3,
+      totalUsers: 234,
+      totalCapacity: 23333,
+      powerRoom: 56,
+      safeRunning: 2311,
     };
   },
   mounted() {
@@ -165,7 +252,7 @@ export default {
 }
 .tophead {
   position: relative;
-  padding: 40px 0px;
+  padding: 40px 0px 30px;
 
   .img_title_bj {
     width: 100%;
@@ -192,8 +279,61 @@ export default {
         padding-left: 10%;
       }
     }
-    // .img_title{width: }
   }
+}
+.count-box{
+  text-align:center;
+  font-size:16px;
+  color:#68b6ef;
+  p{
+    &:before{
+      content:'';
+      width: 40px;
+        vertical-align: super;
+      height: 2px;margin-right:5px;
+      display:inline-block;
+     background-image: linear-gradient(90deg,  rgba(0,0,0,0) 0%,  #68b6ef 100%);
+    }
+    &:after{
+      content:'';
+      width: 40px;    vertical-align: super;
+      height: 2px;margin-left:5px;
+      display:inline-block;
+      background-image: linear-gradient(90deg,  #68b6ef 0%,  rgba(0,0,0,0) 100%);
+    }
+  }
+}
+.dataCount{
+  span{
+    display:inline-block;
+    background:url('../../../assets/image/userscreen/ic_number_bj.png')  repeat-x;
+    background-size:40px 100%;
+    color:#fff;font-size:36px;font-weight:bold;
+    padding-left: 5px;
+    letter-spacing: 5px;
+    
+  }
+}
+.maincontent{
+  padding:0 30px;
+  h6{
+    font-size: 16px;color: #68b6ef;
+    margin-bottom:20px;
+    font-weight:normal;
+    &:after{
+      content:'';
+      background:url(../../../assets/image/largescreen/img_divisio_minimum.png) center no-repeat;
+      background-size:100% 100%;
+      width:70%;
+      display:inline-block;height:10px;margin-left:10px;
+
+    }
+  }
+}
+
+.chartbox {
+  background:url('../../../assets/image/userscreen/img_suspension_bj.png') no-repeat bottom center;
+  background-size:100%;
 }
 
 /deep/.smdatabox {
@@ -239,15 +379,6 @@ export default {
       color: #333;
       font-size: 24px;
     }
-  }
-}
-.chart-wrapper {
-  background: #fff;
-  padding: 0 20px;
-  .rightradiobox {
-    position: absolute;
-    top: 30px;
-    right: 30px;
   }
 }
 </style>

@@ -43,7 +43,7 @@
       <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border style='margin-top:20px'>
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" />
+            <img src="../../../assets/image/nodata.png" class='smimg' />
             <p>暂时还没有数据</p>
           </div>
         </template>
@@ -89,7 +89,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "0",
+      tableHeight: 'calc(100% - 40px)',
       listLoading: true,
 
       ranks: [
@@ -157,19 +157,8 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
+
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 40;
-    },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
       this.patrolYear = "";
@@ -336,7 +325,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     // 点击行
