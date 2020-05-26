@@ -52,7 +52,8 @@ export default {
   methods: {
     closeComponent() {
       [1, 2, 3, 8, 11, 4, 7, 6, 5].forEach(v => {
-        this.$refs["component" + v].visible = false;
+        const target = this.$refs["component" + v];
+        if (target) target.visible = false;
       });
     },
     getInfo(data) {
@@ -61,6 +62,7 @@ export default {
       const target = this.$refs["component" + data.type];
       target.visible = true;
       target.showBtn = true;
+      target.infoData = {};
       target.getInfo(data);
     },
     handleCommand(commond) {

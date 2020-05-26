@@ -661,6 +661,40 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: true
         }
+      },
+      {
+        name: "/repairOrder/repair/components/add",
+        path: "/repairOrder/repair/components/add",
+        component: () => import("@/views/repairOrder/repair/components/add"),
+        meta: {
+          title: "新抢修工单",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/repairOrder/repair/components/repair",
+        path: "/repairOrder/repair/components/repair",
+        component: () => import("@/views/repairOrder/repair/components/repair"),
+        meta: {
+          title: "新故障抢修",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/repairOrder/repair/components/backFile",
+        path: "/repairOrder/repair/components/backFile",
+        component: () =>
+          import("@/views/repairOrder/repair/components/backFile"),
+        meta: {
+          title: "新故障归档",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
       }
     ]
   }
