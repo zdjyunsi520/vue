@@ -26,14 +26,11 @@
         </el-form-item>
         <el-form-item label="附件" prop="FileUrl">
 
-          <el-upload action="#" list-type="picture-card" :limit="1" accept=".apk" ref="upload" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
-            <i class="el-icon-plus"></i>
+          <el-upload class="avatar-wrap" action="http://apicommont.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess" name="filekey">
+
+            <i v-if="showPlus" class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">只能上传apk文件</div>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible" size="tiny">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-
         </el-form-item>
       </el-form>
       <el-col :span="24" :xs='24' class="absolute-bottom">
@@ -48,7 +45,8 @@
 
 <script>
 import { add, update } from "@/api/commonManager/app";
-import { imageUpload } from "@/api/biz";
+import { mapGetters } from "vuex";
+import apk from "@/assets/logo/apk.jpg";
 const appNameList = [{ key: 1, value: "用户端" }];
 const forceUpdateList = [
   { key: true, value: "是" },
@@ -78,13 +76,13 @@ export default {
           trigger: "blur"
         }
       ],
-      // FileUrl: [
-      //   {
-      //     required: true,
-      //     message: "请上传更新包",
-      //     trigger: "blur"
-      //   }
-      // ],
+      FileUrl: [
+        {
+          required: true,
+          message: "请上传更新包",
+          trigger: "blur"
+        }
+      ],
       Type: [
         {
           required: true,
@@ -110,8 +108,9 @@ export default {
       roleOptions: [],
       deptType: "",
       appNameList,
-      dialogImageUrl:'',
-      forceUpdateList
+      dialogImageUrl: "",
+      forceUpdateList,
+      showPlus: true
     };
   },
   created() {
@@ -119,6 +118,7 @@ export default {
     this.title = title;
     this.reset(data);
   },
+  computed: { ...mapGetters(["token"]) },
   methods: {
     // 表单重置
     reset(data) {
@@ -140,6 +140,7 @@ export default {
         data
       );
     },
+
     handleOpen(data) {
       this.$router.push({
         name: "/commonManager/app/index",
@@ -181,36 +182,14 @@ export default {
         }
       });
     },
-    // 附件上传成功
-    handleAvatarSuccess(res, file) {
-      this.form.attachmenturl = URL.createObjectURL(file.raw);
-    },
-    // 删除附件
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    // 预览附件
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    // 附件上传之前判断大小
-    beforeAvatarUpload(file) {
-      console.log(file);
-      let fd = new FormData();
-      fd.append("filekey", file);
-      imageUpload(fd).then(r => {});
-      return false;
-      // const isJPG = file.type === "image/jpeg";
-      // const isLt2M = file.size / 1024 / 1024 < 2;
 
-      // if (!isJPG) {
-      //   this.$message.error("上传图片只能是 JPG 格式!");
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error("上传图片大小不能超过 2MB!");
-      // }
-      // return isJPG && isLt2M;
+    // 附件上传成功
+    handleAvatarSuccess(res, file, fileList) {
+      this.form.FileUrl = res.data.AttachmentKey;
+      file.url = apk;
+    },
+    handleRemove() {
+      this.form.FileUrl = "";
     }
   }
 };
@@ -226,5 +205,15 @@ export default {
   top: 50%;
   margin-top: -10px;
   width: 100%;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+.avatar-wrap {
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

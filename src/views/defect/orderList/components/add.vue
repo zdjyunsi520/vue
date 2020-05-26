@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
-      
+
       <el-tabs v-model="activeName">
         <el-tab-pane label="登记情况" name="0"></el-tab-pane>
         <el-tab-pane label="消缺情况" name="1"></el-tab-pane>
@@ -79,10 +79,11 @@
                 >
                   <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+               :before-upload='beforeAvatarUpload' 
+
                 </el-upload> -->
-                <el-upload action="#" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :before-upload='beforeAvatarUpload' :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                  <i v-else class="el-icon-plus"></i>
+                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                  <i class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
 
@@ -118,11 +119,11 @@
             </el-col>
           </el-row>
         </el-form>
-        
+
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check"  v-if='activeName==0' @click="handleSubmit" :loading="loading">保 存</el-button>
+          <el-button type="primary" icon="el-icon-check" v-if='activeName==0' @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button>
           <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading">发 送</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
@@ -151,7 +152,6 @@
 import { add, getInfo, update, imageUpload } from "@/api/biz";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
-
 export default {
   data() {
     const rules = {
@@ -228,7 +228,7 @@ export default {
       },
       ranks: [],
       TenantIds: [],
-      imageUrl: "",
+      imageUrl: [],
       dialogImageUrl: "",
       dialogVisible: false,
       dialogAssetsVisible: false,
@@ -241,11 +241,11 @@ export default {
       ischange: false,
       count: 0,
       selectAssets: [],
-      activeName:'0',
+      activeName: "0"
     };
   },
   computed: {
-    ...mapGetters(["name", "userId"])
+    ...mapGetters(["name", "userId", "token"])
   },
   created() {
     this.getTenantEmployees();
@@ -379,7 +379,7 @@ export default {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: '',
+          detecterId: "",
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
@@ -387,8 +387,8 @@ export default {
           attachmentkey: "",
           attachmenturl: "",
           reporterId: this.userId,
-          reporterName:this.name,
-          reporttime:nowTime,
+          reporterName: this.name,
+          reporttime: nowTime
         },
         data
       );
@@ -419,16 +419,11 @@ export default {
         name: "/defect/orderList/index",
         params: {}
       });
-
     },
     // 回退
-    handleBack(){
-
-    },
+    handleBack() {},
     // 发送
-    handleSend(){
-
-    },
+    handleSend() {},
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
@@ -438,6 +433,7 @@ export default {
           let fn;
           if (this.form.id) fn = update;
           else fn = add;
+          this.form.AttachmentKey = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
             .then(res => {
               //消息提示
@@ -455,12 +451,15 @@ export default {
       });
     },
     // 附件上传成功
-    handleAvatarSuccess(res, file) {
-      this.form.attachmenturl = URL.createObjectURL(file.raw);
+    handleAvatarSuccess(res, file, fileList) {
+      console.log(file);
+      file.uid = res.data.AttachmentKey;
+      this.imageUrl = fileList;
     },
     // 删除附件
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      //fileList.splice( fileList.findIndex(v=>v.uid=file.uid),1)
+      this.imageUrl = fileList;
     },
     // 预览附件
     handlePictureCardPreview(file) {
@@ -469,13 +468,14 @@ export default {
     },
     // 附件上传之前判断大小
     beforeAvatarUpload(file) {
+      console.log(file);
       let fd = new FormData();
       fd.append("filekey", file);
       imageUpload(fd).then(r => {
         this.form.attachmentkey = r.data.AttachmentKey;
         const fileReader = new FileReader();
         fileReader.onload = e => {
-          this.imageUrl = e.target.result;
+          this.imageUrl.push({ src: e.target.result, uid: file.uid });
         };
         fileReader.readAsDataURL(file);
       });
@@ -505,5 +505,6 @@ export default {
 }
 .avatar {
   width: 100%;
+  height: 100%;
 }
 </style>

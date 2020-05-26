@@ -649,6 +649,18 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: true
         }
+      },
+      {
+        name: "/commonManager/attachment/components/add",
+        path: "/commonManager/attachment/components/add",
+        component: () =>
+          import("@/views/commonManager/attachment/components/add"),
+        meta: {
+          title: "新附件分类",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
       }
     ]
   }
