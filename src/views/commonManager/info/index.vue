@@ -1,20 +1,17 @@
 <template>
   <div class="app-container">
-    <div class="bg-white containerbox">
-      <!--       
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
-        <el-tab-pane label="按巡视性质统计" name="1"></el-tab-pane>
-        <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
-      </el-tabs> -->
+    <div class="bg-white containerbox " style='position:relative'>
+            
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="软件许可及服务协议" name="0"></el-tab-pane>
+        <el-tab-pane label="隐私政策" name="1"></el-tab-pane>
+        <el-tab-pane label="注销协议" name="2"></el-tab-pane>
+      </el-tabs>
 
       <el-scrollbar style="height:calc(100% - 80px)">
-        <p class="form-smtitle">软件许可及服务协议</p>
-        <editor class="xl-height" @input="handleContent" ref="editors" :value="form.Licence"></editor>
-        <p class="form-smtitle">隐私政策</p>
-        <editor class="xl-height" @input="handleContent1" ref="editors1" :value="form.Privacy"></editor>
-        <p class="form-smtitle">注销协议</p>
-        <editor class="xl-height" @input="handleContent2" ref="editors2" :value="form.Cancellation"></editor>
+        <editor class="xl-height" @input="handleContent" v-if='activeName=="0"' ref="editors" :value="form.Licence"></editor>
+        <editor class="xl-height" @input="handleContent1"  v-if='activeName=="1"' ref="editors1" :value="form.Privacy"></editor>
+        <editor class="xl-height" @input="handleContent2"  v-if='activeName=="2"' ref="editors2" :value="form.Cancellation"></editor>
 
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
@@ -46,7 +43,8 @@ export default {
     return {
       form: {},
       rules,
-      loading: false
+      loading: false,
+      activeName:'0'
     };
   },
   computed: {},
@@ -59,16 +57,6 @@ export default {
       if (!this.dialogVisible) {
         this.loading = false;
       } else this.getList(data);
-    },
-
-    handleClick(tab, event) {
-      // this.resetQuery("queryForm");
-      // this.patrolYear = "";
-      // this.timeBegin = "";
-      // this.timeEnd = "";
-      // this.queryParams.patroltimebegin = "";
-      // this.queryParams.patroltimeend = "";
-      // this.getList(this.activeName);
     },
     getList() {
       fetchList({}).then(r => {
@@ -112,7 +100,7 @@ export default {
 <style lang="scss" scoped>
 .xl-height {
   display: inline-block;
-  width: 80%;
+  width: 100%;
   height: 400px;
 }
 /deep/.editor {

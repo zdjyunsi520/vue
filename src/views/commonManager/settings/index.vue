@@ -37,9 +37,16 @@
         <el-table-column label="描述" min-width="250" prop="Description" />
         <el-table-column label="操作" width="250">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">配置项</el-button>
-            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>配置项
+            </el-button>
+            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+            </el-button>
+
           </template>
         </el-table-column>
       </el-table>

@@ -78,13 +78,13 @@ export default {
           trigger: "blur"
         }
       ],
-      FileUrl: [
-        {
-          required: true,
-          message: "请上传更新包",
-          trigger: "blur"
-        }
-      ],
+      // FileUrl: [
+      //   {
+      //     required: true,
+      //     message: "请上传更新包",
+      //     trigger: "blur"
+      //   }
+      // ],
       Type: [
         {
           required: true,
@@ -110,6 +110,7 @@ export default {
       roleOptions: [],
       deptType: "",
       appNameList,
+      dialogImageUrl:'',
       forceUpdateList
     };
   },
