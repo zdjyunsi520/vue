@@ -8,7 +8,8 @@
         <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">新增值班</p>
           <el-row class="table-btns">
-            <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loading">确 定</el-button>
+            <el-tag type="danger">此处写死用电ID，否则无法添加</el-tag>
+            <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loadingConfirm">确 定</el-button>
             <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
             </el-button>
@@ -107,6 +108,7 @@ export default {
       Characters: [{ required: true, message: "请选择角色" }]
     };
     return {
+      loadingConfirm: false,
       loading: false,
       listLoading: false,
       form: {},
@@ -154,6 +156,7 @@ export default {
     this.getCharactorType();
     this.getTeam();
     this.getShiftType();
+    this.reset();
   },
   computed: {
     addDisabled() {
@@ -191,7 +194,13 @@ export default {
     handleConfirm() {
       this.$refs.form.validate(v => {
         if (v) {
-          this.disabledSelect = true;
+          this.loadingConfirm = true;
+          const fn = this.form.Id ? update : add;
+          fn(this.form)
+            .then(r => {
+              this.disabledSelect = true;
+            })
+            .finally(r => (this.loadingConfirm = false));
         }
       });
     },
@@ -199,7 +208,7 @@ export default {
       this.form = Object.assign(
         {
           Id: "",
-          TenantId: "",
+          TenantId: "3ad33f15-6456-4263-b417-43286b4f247f",
           // TenantName: "福建迅腾电力科技有限公司",
           TeamId: "",
           // TeamName: "班组二",
