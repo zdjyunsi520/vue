@@ -7,7 +7,6 @@
             <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
           </el-button>
           <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
-          <el-tag type="danger">未提供删除接口</el-tag>
         </el-form-item>
       </el-form>
     </div>
@@ -134,7 +133,7 @@
 </template>
 
 <script>
-import { getInfo } from "@/api/equipmentAccount/maintain/clock";
+import { getInfo, deleted } from "@/api/equipmentAccount/maintain/clock";
 
 export default {
   data() {
@@ -198,7 +197,16 @@ export default {
         params: { data, title }
       });
     },
-    handleDelete() {},
+    handleDelete() {
+      this.$confirm("确定要删除选中的电力表计吗")
+        .then(r => {
+          const Id = this.infoData.Id;
+          deleted({ Id }).then(r => {
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
     getInfo(data) {
       getInfo(data).then(r => {
         this.infoData = r.data;
