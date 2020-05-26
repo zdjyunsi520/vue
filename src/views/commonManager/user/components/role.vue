@@ -245,20 +245,40 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          this.form.moduleids = [];
-          this.moduleList.forEach((v, i) => {
-            if (v.IsSelect) this.form.moduleids.push(v.RoleId);
-            if (v.ModuleData)
-              v.ModuleData.forEach(v => {
-                if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-                if (v.Childs)
-                  v.Childs.forEach(v => {
-                    if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-                  });
-              });
-          });
+          // this.form.moduleids = [];
+          // this.moduleList.forEach((v, i) => {
+          //   if (v.IsSelect) this.form.moduleids.push(v.RoleId);
+          //   if (v.ModuleData)
+          //     v.ModuleData.forEach(v => {
+          //       if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+          //       if (v.Childs)
+          //         v.Childs.forEach(v => {
+          //           if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+          //         });
+          //     });
+          // });
+          //       this.form.moduleids = this.form.moduleids.join(",");
+
+          let powers = [];
+          this.moduleList
+            .filter(v => v.IsSelect)
+            .forEach(v => {
+              const RoleId = v.RoleId;
+              if (v.ModuleData) {
+                v.ModuleData.filter(v => v.IsSelect).forEach(v => {
+                  powers.push({ RoleId, ModuleId: v.ModuleId });
+                  if (v.Childs) {
+                    v.Childs.filter(v => v.IsSelect).forEach(v =>
+                      powers.push({ RoleId, ModuleId: v.ModuleId })
+                    );
+                  }
+                });
+              }
+            });
+
+          this.form.powers = JSON.stringify(powers);
           //this.form.moduleids = [...new Set(this.form.moduleids)];
-          this.form.moduleids = this.form.moduleids.join(",");
+
           if (this.form.id) {
             //保存修改
             update(this.form)
