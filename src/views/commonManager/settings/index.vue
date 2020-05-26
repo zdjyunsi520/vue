@@ -31,11 +31,11 @@
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="名称" prop="Name" />
-        <el-table-column label="代码" prop="Key" />
-        <el-table-column label="类型" prop="Type" :formatter="filterCancel" />
-        <el-table-column label="描述" prop="Description" />
-        <el-table-column label="操作" width="150">
+        <el-table-column label="名称" min-width="110" prop="Name" />
+        <el-table-column label="代码" min-width="150" prop="Key" />
+        <el-table-column label="类型" min-width="110" prop="Type" :formatter="filterCancel" />
+        <el-table-column label="描述" min-width="250" prop="Description" />
+        <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">配置项</el-button>
