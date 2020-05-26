@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "300px"
+      default: "200px"
     },
     autoResize: {
       type: Boolean,
@@ -61,11 +61,11 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.setOptions(this.linechartData);
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
-          left: 30,
-          right: 40,
+          left: 10,
+          right: 20,
           bottom: 30,
           top: 50,
           containLabel: true
@@ -86,16 +86,16 @@ export default {
             show: false
           },
           nameTextStyle: {
-            color: "#909399"
+            color: "#68b6ef"
           },
           axisLabel: {
             fontSize: 12,
-            color: "#909399",
+            color: "#68b6ef",
             margin: 20
           },
           axisLine: {
             lineStyle: {
-              color: "#dde4f4"
+              color: "#1b2c5e"
             }
           }
         },
@@ -107,21 +107,20 @@ export default {
           },
           axisLine: {
             lineStyle: {
-              color: "#dde4f4"
+              color: "#1b2c5e"
             }
           },
           nameTextStyle: {
-            color: "#909399"
+            color: "#68b6ef"
           },
           axisLabel: {
             fontSize: 12,
-            color: "#909399",
+            color: "#68b6ef",
             margin: 30
           },
           splitLine: {
             lineStyle: {
-              color: "#dde4f4",
-              type: "dashed"
+              color: "#1b2c5e",
             }
           },
           splitArea: {
@@ -135,17 +134,18 @@ export default {
           itemHeight: 6,
           icon: "circle",
           textStyle: {
-            color: "#909399"
+            color: "#ffffff",
+            fontSize:12,
           },
-          data: ["本月负荷", "上月负荷"]
+          data: legendData
         },
         series: [
           {
-            name: "本月负荷",
+            name: legendData[0],
             showAllSymbol: true,
             itemStyle: {
               // normal: {
-              color: "#558cf7"
+              color: "#2178ff"
               // lineStyle: {
               //   color: "#77c3f9",
               //   width: 2
@@ -154,53 +154,41 @@ export default {
             },
 
             lineStyle: {
-              color: "#77c3f9",
-              width: 2
+              color: "#2178ff",
+              width: 1
             },
             areaStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
-                    color: "#9bd0f7" // 0% 处的颜色
+                    color: "#2178ff" // 0% 处的颜色
                   },
 
                   {
                     offset: 1,
-                    color: "#fff" // 100% 处的颜色
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
                   }
                 ]) //背景渐变色
               }
             },
-            smooth: false,
+            smooth: true,
             clip: false,
             type: "line",
-            data: expectedData,
-            markPoint: {
-              symbol: "pin",
-              symbolSize: 40,
-              label: {
-                fontSize: 12,
-                fontWeight: "normal"
-              },
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" }
-              ]
-            }
+            data: highData,
           },
           {
-            name: "上月负荷",
+            name:legendData[1],
             showAllSymbol: true,
             clip: false,
-            smooth: false,
+            smooth: true,
             type: "line",
             itemStyle: {
               normal: {
-                color: "#77c3f9",
+                color: "#07fdff",
                 lineStyle: {
-                  color: "#558cf7",
-                  width: 2
+                  color: "#07fdff",
+                  width: 1
                 }
               }
             },
@@ -209,29 +197,49 @@ export default {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
-                    color: "#98bbfd" // 0% 处的颜色
+                    color: "#07fdff" // 0% 处的颜色
                   },
 
                   {
                     offset: 1,
-                    color: "#fff" // 100% 处的颜色
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
                   }
                 ]) //背景渐变色
               }
             },
-            data: actualData,
-            markPoint: {
-              symbol: "pin",
-              symbolSize: 40,
-              label: {
-                fontSize: 12,
-                fontWeight: "normal"
-              },
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" }
-              ]
-            }
+            data: averageData,
+          },
+          {
+            name:legendData[2],
+            showAllSymbol: true,
+            clip: false,
+            smooth: true,
+            type: "line",
+            itemStyle: {
+              normal: {
+                color: "#d2feff",
+                lineStyle: {
+                  color: "#d2feff",
+                  width: 1
+                }
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#1b2c5e" // 0% 处的颜色
+                  },
+
+                  {
+                    offset: 1,
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
+                  }
+                ]) //背景渐变色
+              }
+            },
+            data: lowData,
           }
         ]
       });

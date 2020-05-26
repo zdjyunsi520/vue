@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "150px"
+      default: "180px"
     },
 
     barchartData: {
@@ -82,7 +82,7 @@ export default {
       });
     },
 
-    setOptions({ ytext, title, xAxisData, listData } = {}) {
+    setOptions({ xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -98,56 +98,69 @@ export default {
           containLabel: true
         },
         legend: {
-          right: 0,
-          top: "0px",
-          itemWidth: 6,
-          itemHeight: 6,
-          icon: "circle",
-          textStyle: {
-            color: "#909399"
+          show:false,
+        },  
+        radiusAxis: {
+          type: 'category',
+          data: xAxisData,
+          boundaryGap: ['20%', '20%'],
+          z: 10,
+          axisTick:{
+            show:false
           },
-          data: xAxisData
+          axisLabel:{
+            show:false
+          }, 
+          axisLine:{
+            lineStyle: {
+              color: '#3e4674'
+            }
+           },
+           splitLine:{
+            show:true,
+            lineStyle: {
+              color: '#3e4674'
+            }
+           },
+          splitArea:{
+            show:true
+          },
         },
-
-        xAxis: [
-          {
-            type: "category",
-            data: xAxisData,
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "#909399"
-              }
+      
+        polar: {
+        }, 
+        angleAxis: {
+          boundaryGap:['20%','20%'],
+          axisTick:{
+            show:false
+          },
+          axisLabel:{
+            show:false
+          },
+          splitLine:{   
+            show:false,
+            lineStyle: {
+              color: '#3e4674'
             }
-          }
-        ],
-        yAxis: [
-          {
-            name: ytext,
-            type: "value",
-            axisLine: {
-              lineStyle: {
-                color: "#909399"
-              }
-            },
-            splitLine: {
-              lineStyle: {
-                color: "#dde4f4",
-                type: "dashed"
-              }
-            },
-            splitArea: {
-              show: false
+          },
+          splitArea:{
+            show:false
+          },
+           axisLine:{
+            lineStyle: {
+              color: '#3e4674'
             }
-          }
-        ],
+           },
+           minorSplitLine:{
+             show:true
+           }
+        },
         series: [
           {
-            name: title,
+            // name: title,
             type: "bar",
-            barWidth: "30",
+            barWidth: "10",
+             coordinateSystem: 'polar',
             data: listData
           }
         ]
