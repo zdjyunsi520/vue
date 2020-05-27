@@ -35,11 +35,8 @@
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="detecterId">
-                <el-input v-model="form.detecterId" placeholder="请输入发现人" />
-                <!-- <el-select v-model="form.detecterId" placeholder="请选择">
-                  <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select> -->
+              <el-form-item label="发现人" prop="detecter">
+                <el-input v-model="form.detecter" placeholder="请输入发现人" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
@@ -82,7 +79,7 @@
                :before-upload='beforeAvatarUpload' 
 
                 </el-upload> -->
-                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
                   <i class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
@@ -177,7 +174,7 @@ export default {
         }
       ],
 
-      detecterId: [
+      detecter: [
         {
           required: true,
           message: "发现人不能为空",
@@ -379,7 +376,7 @@ export default {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: "",
+          detecter: "",
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
@@ -387,7 +384,6 @@ export default {
           attachmentkey: "",
           attachmenturl: "",
           reporterId: this.userId,
-          reporterName: this.name,
           reporttime: nowTime
         },
         data
@@ -433,7 +429,7 @@ export default {
           let fn;
           if (this.form.id) fn = update;
           else fn = add;
-          this.form.AttachmentKey = this.imageUrl.map(v => v.uid).join(",");
+          this.form.attachmentKey = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
             .then(res => {
               //消息提示
