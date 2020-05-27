@@ -23,26 +23,24 @@
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
                   <h5>电压(V)</h5>
-                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
+                  <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5>电流(A)</h5>
-                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
+                  <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
-                <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 blue">总视在功率(kVA)</h5>
-                </el-col>
+
                 <el-col :span='4' :xs='24'>
                   <h5 class="smtitleh5 blue">总视在功率(kVA)<b v-if="datakVA[3]" @click="handleClick(datakVA[3])">{{datakVA[3].Value}}</b></h5>
-                  <!-- <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
+                  <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick(item)">{{datakW[3]?datakW[3].Value:''}}</b></h5>
-                  <!-- <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
+                  <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
                   <h5 class="smtitleh5">总功率因素<b @click="handleClick(item)">{{dataPF[3]?dataPF[3].Value:''}}</b></h5>
-                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
+                  <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
               </el-row>
             </div>
@@ -87,25 +85,17 @@
               <el-tag type="danger">form.intervalId=</el-tag>
               <el-tag>{{form.intervalId}}</el-tag>
             </div>
-            <div>
-              <ul>
-                <li>
-                  {{labelName}}
-                </li>
-                <li>
-                  周期 <el-select v-model="form.cycleType">
-                    <el-option label="月" :value="3" />
-                    <el-option label="日" :value="2" />
-                    <el-option label="15分钟" :value="1" />
-                  </el-select>
-                </li>
-                <li>
-                  日期 <el-date-picker v-model="form.beginTime" type="date" placeholder="选择日期">
-                  </el-date-picker>
-                </li>
-              </ul>
-
-            </div>
+            <el-row>
+              <el-col :span="3"> {{labelName}}</el-col>
+              <el-col :span="3">周期 <el-select v-model="form.cycleType">
+                  <el-option label="月" :value="3" />
+                  <el-option label="日" :value="2" />
+                  <el-option label="15分钟" :value="1" />
+                </el-select>
+              </el-col>
+              <el-col :span="3"> 日期<el-date-picker v-model="form.beginTime" type="date" placeholder="选择日期"></el-date-picker>
+              </el-col>
+            </el-row>
             <div class="  chart-wrapper">
               <LineChart ref="chart" :chartData='chartData' />
               <!-- <p class="tips" style="padding-top:13%">暂无数据</p> -->
@@ -160,6 +150,11 @@ export default {
   },
   computed: {
     dataV() {
+      return [
+        { Name: "A相", Value: "238.6" },
+        { Name: "B相", Value: "239.6" },
+        { Name: "C相", Value: "238.6" }
+      ];
       const data = this.baseData
         .filter(v => v.Unit == "V")
         .map(v => {
@@ -170,6 +165,11 @@ export default {
       return data;
     },
     dataA() {
+      return [
+        { Name: "A相", Value: "33.35" },
+        { Name: "B相", Value: "25.68" },
+        { Name: "C相", Value: "27.6" }
+      ];
       return this.baseData
         .filter(v => v.Unit == "A")
         .map(v => {
@@ -178,6 +178,12 @@ export default {
         });
     },
     datakW() {
+      return [
+        { Name: "A相", Value: "3" },
+        { Name: "B相", Value: "5" },
+        { Name: "C相", Value: "7.76" },
+        { Name: "C相", Value: "10.8" }
+      ];
       return this.baseData
         .filter(v => v.Unit == "KW")
         .map(v => {
@@ -186,6 +192,12 @@ export default {
         });
     },
     datakVA() {
+      return [
+        { Name: "A相", Value: "8.72" },
+        { Name: "B相", Value: "6.72" },
+        { Name: "C相", Value: "7.76" },
+        { Name: "C相", Value: "16.08" }
+      ];
       return this.baseData
         .filter(v => v.Unit == "kVA")
         .map(v => {
@@ -194,6 +206,12 @@ export default {
         });
     },
     dataPF() {
+      return [
+        { Name: "A相", Value: "8.72" },
+        { Name: "B相", Value: "6.72" },
+        { Name: "C相", Value: "7.76" },
+        { Name: "", Value: "16.08" }
+      ];
       return this.baseData
         .filter(v => v.Type.indexOf("PF") > -1)
         .map(v => {

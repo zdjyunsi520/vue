@@ -426,8 +426,6 @@ export default {
     handleSend() {},
     /** 提交按钮 */
     handleSubmit: function() {
-      this.form.attachmenturl = this.imageUrl.map(v => v.uid).join(",");
-      console.log(this.form);
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
