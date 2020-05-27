@@ -60,8 +60,8 @@
         <el-table-column label="编制人" min-width="140" sortable align='center' prop="CreateUserName"></el-table-column>
         <el-table-column label="状态" width="140" sortable align='center' prop="IsExecute">
           <template slot-scope="scope">
-            <span v-if="scope.row.IsExecute"><i class="red dot"></i>已执行</span>
-            <span v-else><i class="green dot"></i>未执行</span>
+            <span v-if="scope.row.IsExecute"><i class="green dot"></i>已执行</span>
+            <span v-else><i class="red dot"></i>未执行</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" min-width="250" fixed="right">

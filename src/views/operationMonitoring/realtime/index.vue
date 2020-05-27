@@ -476,7 +476,7 @@ export default {
     display:inline-block;margin-right:10px;color:#313033;font-size:14px;font-weight:normal;
   }
   .el-radio-button--mini .el-radio-button__inner{
-        padding: 8px 15px;
+        padding: 9px 15px!important;
   }
 }
 </style>

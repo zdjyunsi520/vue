@@ -7,8 +7,8 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="缺陷编号" prop="bugNumber">
-          <el-input v-model="queryParams.bugNumber"></el-input>
+        <el-form-item label="缺陷编号" prop="No">
+          <el-input v-model="queryParams.No"></el-input>
         </el-form-item>
         <el-form-item label="发现日期" prop="reporttimestart">
           <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
@@ -23,9 +23,9 @@
         <el-form-item label="设备名称" prop="assetsname">
           <el-input v-model="queryParams.assetsname"></el-input>
         </el-form-item>
-        <el-form-item label="消缺结果" prop="solve">
-          <el-select v-model="queryParams.solve" placeholder="请选择" style="max-width:240px">
-            <el-option v-for="(item,index) in solves" :key="index" :label="item.name" :value="item.id"></el-option>
+        <el-form-item label="消缺结果" prop="IsProcessed">
+          <el-select v-model="queryParams.IsProcessed" placeholder="请选择" style="max-width:240px">
+            <el-option v-for="(item,index) in IsProcesseds" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
@@ -51,28 +51,33 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="缺陷编号" sortable min-width="250" sortable align='center' prop="bugNumber"></el-table-column>
-        <el-table-column label="用电单位" sortable min-width="250" align='center' prop="TenantName"></el-table-column>
-        <el-table-column label="设备名称" min-width="150" sortable align='center' prop="assetsname"></el-table-column>
-        <el-table-column label="缺陷等级" sortable min-width="250" align='center' prop="rank"></el-table-column>
-        <el-table-column label="缺陷现象" min-width="250" align='center' prop="PatrolMemberNames"></el-table-column>
-        <el-table-column label="发现时间" min-width="250" align='center' prop="reporttimestart">
+        <el-table-column label="缺陷编号" sortable min-width="250" sortable prop="No"></el-table-column>
+        <el-table-column label="用电单位" sortable min-width="250" prop="TenantName"></el-table-column>
+        <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
+        <el-table-column label="缺陷等级" sortable min-width="250" prop="Rank">
           <template slot-scope="scope">
-            {{scope.row.StartTime.substring(0,10)}}
-          </template>
-        </el-table-column>
-        <el-table-column label="发现人" min-width="120" sortable align='center' prop="CycleDay"> </el-table-column>
-        <el-table-column label="消缺结果" sortable width="250" align='center' prop="PatrolMemberNames">
-          <template slot-scope="scope">
-            {{scope.row.StartTime.substring(0,10)}}
+            {{formatterRank(scope.row.Rank)}}
           </template>
         </el-table-column>
         </el-table-column>
-        <el-table-column label="状态" sortable min-width="250" align='center' prop="Status">
+        <el-table-column label="缺陷现象" min-width="250" prop="Description"></el-table-column>
+        <el-table-column label="发现时间" min-width="150" prop="DetectTime">
+          <template slot-scope="scope">
+            {{scope.row.DetectTime.substring(0,10)}}
+          </template>
+        </el-table-column>
+        <el-table-column label="发现人" min-width="150" sortable prop="Detecter"> </el-table-column>
+        <el-table-column label="消缺结果" sortable width="150" prop="IsProcessed">
+          <template slot-scope="scope">
+            <span v-if="scope.row.IsProcessed"><i class="green dot"></i>已消缺</span>
+            <span v-else><i class="red dot"></i>未消缺</span>
+          </template>
+        </el-table-column>
+        </el-table-column>
+        <el-table-column label="状态" sortable min-width="150" prop="Status">
           <template slot-scope="scope">
             {{formatterStatus(scope.row.Status)}}
           </template>
-
         </el-table-column>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="220">
@@ -105,12 +110,12 @@ export default {
         pageno: 1,
         pagesize: 10,
         tenantname: "",
-        bugNumber: "",
+        No: "",
         reporttimestart: "",
         reporttimeend: "",
         rank: "",
         assetsname: "",
-        solve: "",
+        IsProcessed: "",
         status: ""
       },
       downloadLoading: false,
@@ -125,10 +130,10 @@ export default {
         { name: "紧急缺陷", id: 2 },
         { name: "严重缺陷", id: 3 }
       ],
-      solves: [
+      IsProcesseds: [
         { name: "全部", id: "" },
-        { name: "未消缺", id: "0" },
-        { name: "已消缺", id: "1" }
+        { name: "未消缺", id: false },
+        { name: "已消缺", id: true }
       ],
       statuss: [
         { name: "全部", id: "" },
@@ -169,16 +174,26 @@ export default {
     formatterStatus(status) {
       if (status == 0) {
         return "登记";
-      } else if (row.status == 1) {
+      } else if (status == 1) {
         return "消缺";
-      } else if (row.status == 2) {
+      } else if (status == 2) {
         return "验收";
-      } else if (row.status == 3) {
+      } else if (status == 3) {
         return "完成";
-      } else if (row.status == "") {
+      } else if (status == "") {
         return "全部";
       }
     },
+    formatterRank(rank) {
+      if (rank == 1) {
+        return "一般缺陷";
+      } else if (rank == 2) {
+        return "紧急缺陷";
+      } else if (rank == 3) {
+        return "严重缺陷";
+      }
+    },
+    
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
@@ -224,8 +239,8 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(v => {
-        const id = row.Id;
-        deleted({ id })
+        const Ids = row.Id;
+        deleted({ Ids })
           .then(r => {
             this.$message.success("成功删除!");
             this.getList();
@@ -280,8 +295,8 @@ export default {
             filterVal.map(j => {
               if (j === "PatrolMemberNames") {
                 return v[j].substring(0, 10);
-              } else if (j === "Status") {
-                return this.formatterStatus(v[j]);
+              // } else if (j === "Status") {
+              //   return this.formatterStatus(v[j]);
               } else {
                 return v[j];
               }

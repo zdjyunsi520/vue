@@ -69,6 +69,19 @@ export default {
           boundaryGap: false,
           axisTick: {
             show: false
+          },
+          nameTextStyle: {
+            color: "#909399"
+          },
+          axisLabel: {
+            fontSize: 12,
+            color: "#909399",
+            margin: 20
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#dde4f4"
+            }
           }
         },
         grid: {
@@ -86,10 +99,22 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
-          axisTick: {
+           axisTick: {
             show: false
           },
-
+          axisLine: {
+            lineStyle: {
+              color: "#dde4f4"
+            }
+          },
+          nameTextStyle: {
+            color: "#909399"
+          },
+          axisLabel: {
+            fontSize: 12,
+            color: "#909399",
+            margin: 30
+          },
           splitLine: {
             lineStyle: {
               color: "#dde4f4",
@@ -101,7 +126,7 @@ export default {
           }
         },
         legend: {
-          data: ["expected", "actual"]
+          show:false,
         },
         series: [
           {
