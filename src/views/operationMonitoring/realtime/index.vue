@@ -23,34 +23,26 @@
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
                   <h5>电压(V)</h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5>电流(A)</h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
                 </el-col>
                 <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 blue">总视在功率(kVA)
-                    <p>但是第<span>4</span>条我想显示在这里</p>
-                  </h5>
-
-                  <p @click="handleClick({Name:'我是乱写的电压'})">第<span>1</span>条</p>
-                  <p>第<span>2</span>条</p>
-                  <p>第<span>3</span>条</p>
-                  <p>第<span>4</span>条的html结构在这里</p>
+                  <h5 class="smtitleh5 blue">总视在功率(kVA)</h5>
                 </el-col>
                 <el-col :span='4' :xs='24'>
                   <h5 class="smtitleh5 blue">总视在功率(kVA)<b v-if="datakVA[3]" @click="handleClick(datakVA[3])">{{datakVA[3].Value}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
-
+                  <!-- <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick(item)">{{datakW[3]?datakW[3].Value:''}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <!-- <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
                 </el-col>
                 <el-col :span='6' :xs='12'>
                   <h5 class="smtitleh5">总功率因素<b @click="handleClick(item)">{{dataPF[3]?dataPF[3].Value:''}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <!-- <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p> -->
                 </el-col>
               </el-row>
             </div>
