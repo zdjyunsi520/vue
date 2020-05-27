@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="800px" :title="title+'角色类型'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+  <el-dialog width="500px" :title="title+'角色类型'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">

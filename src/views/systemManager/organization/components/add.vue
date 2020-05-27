@@ -120,7 +120,7 @@
             </el-col>
             <el-col :span="20" :push="1" :xs='24'>
               <el-form-item>
-                <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="fIsGkZxy0E8LMufKVSyy1HX0oREDBrWu">
+                <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="WdhysOvzhtGHHRWoo8sXqvRnKTABcc1Q">
                   <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                   <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" @locationError="locationError" :showAddressBar="true" :autoLocation="true" @locationSuccess="locationSuccess"></bm-geolocation>
                   <bm-marker v-for="(item,index) in points" :key="index" :click="dragging" :position="item" :dragging="true" animation="BMAP_ANIMATION_DROP" @dragging='dragging'></bm-marker>

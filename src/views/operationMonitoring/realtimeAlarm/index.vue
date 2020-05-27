@@ -33,21 +33,21 @@
         </template>
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="告警等级" min-width="220" sortable align='center' prop="ReportName"></el-table-column>
-        <el-table-column label="用电单位" min-width="250" sortable align='center' prop="ReportName1"></el-table-column>
-        <el-table-column label="配电房/屏柜" width="150" sortable align='center' prop="ReportName2"></el-table-column>
-        <el-table-column label="设备名称" width="150" sortable align='center' prop="ReportName3"></el-table-column>
-        <el-table-column label="信号名" width="150" sortable align='center' prop="ReportName4"></el-table-column>
-        <el-table-column label="告警描述" width="150" sortable align='center' prop="ReportName5"></el-table-column>
-        <el-table-column label="告警时间" min-width="140" sortable align='center' prop="ReportName6"></el-table-column>
-        <el-table-column label="告警值" min-width="140" sortable align='center' prop="ReportName7"></el-table-column>
-        <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportName8"></el-table-column>
-        <el-table-column label="是否确认" min-width="140" sortable align='center' prop="ReportName9"></el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right" align="center">
+        <el-table-column label="用电单位" min-width="250" sortable align='center' prop="TenantName"></el-table-column>
+        <el-table-column label="配电房/屏柜" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
+        <el-table-column label="设备名称" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
+        <el-table-column label="信号名" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
+        <el-table-column label="告警描述" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
+        <el-table-column label="告警时间" min-width="140" sortable align='center' prop="PatrolUserName"></el-table-column>
+        <el-table-column label="告警值" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
+        <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
+        <el-table-column label="是否确认" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
+        <el-table-column label="操作" min-width="250" fixed="right" align="center">
           <template slot-scope="scope">
             <div>
-              <el-button type="primary" plain size="mini" @click="handleCheck(scope.row)">确认</el-button>
-              <el-button type="primary" plain size="mini" @click="handleDispatch(scope.row)">派单</el-button>
-              <el-button type="primary" plain size="mini" @click="handleMonitor(scope.row)">监控</el-button>
+              <el-button type="text" size="mini" @click="handleCheck(scope.row)">确认</el-button>
+              <el-button type="text" size="mini" @click="handleDispatch(scope.row)">派单</el-button>
+              <el-button type="text" size="mini" @click="handleMonitor(scope.row)">监控</el-button>
             </div>
           </template>
         </el-table-column>

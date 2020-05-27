@@ -35,11 +35,8 @@
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="detecterId">
-                <el-input v-model="form.detecterId" placeholder="请输入发现人" />
-                <!-- <el-select v-model="form.detecterId" placeholder="请选择">
-                  <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select> -->
+              <el-form-item label="发现人" prop="detecter">
+                <el-input v-model="form.detecter" placeholder="请输入发现人" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
@@ -87,13 +84,13 @@
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
 
-                <!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
+                <el-dialog :visible.sync="dialogVisible" size="tiny">
                   <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog> -->
+                </el-dialog>
 
               </el-form-item>
             </el-col>
-
+<!-- 
             <el-col :span="11" :xs="24">
               <el-form-item label="缺陷编号" prop="number">
                 <el-input v-model="form.number" disabled placeholder="自动生成" />
@@ -116,7 +113,7 @@
               <el-form-item label="填报时间" prop="reporttime">
                 <el-date-picker v-model="form.reporttime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
 
@@ -177,7 +174,7 @@ export default {
         }
       ],
 
-      detecterId: [
+      detecter: [
         {
           required: true,
           message: "发现人不能为空",
@@ -379,7 +376,7 @@ export default {
           tenantId: "",
           assetsIds: "",
           rank: 1,
-          detecterId: "",
+          detecter: "",
           detecttime: nowTime,
           processorId: "",
           processdue: processdueTime,
@@ -387,7 +384,6 @@ export default {
           attachmentkey: "",
           attachmenturl: "",
           reporterId: this.userId,
-          reporterName: this.name,
           reporttime: nowTime
         },
         data

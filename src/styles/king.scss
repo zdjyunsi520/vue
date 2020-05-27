@@ -18,15 +18,17 @@
      color: #565656!important;
      //  padding: 18px 0!important;
      font-size: 14px;
-     height: 50px;
+     height: 50px;    font-weight: normal;
      background-color: #f7f8fe!important;
  }
  
  .el-table td {
-     font-size: 12px;
+     font-size: 14px;
      height: 40px;
  }
- 
+ .el-button--mini{
+    font-size: 14px;
+ }
  .el-table--medium th,
  .el-table--medium td {
      padding: 0px;
@@ -122,11 +124,10 @@
      }
  }
  
- //  .el-input--medium .el-input__inner {
- //      height: 32px;
- //      line-height: 32px;
- //      border-radius: 2px;
- //  }
+ .el-input--medium .el-input__inner {
+    height: 34px;
+    line-height: 34px;
+}
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 17px;
@@ -631,10 +632,10 @@
      vertical-align: middle;
      display: inline-block;
      &.red {
-         background-color: #67c23a;
+         background-color: #f56c6c;
      }
      &.green {
-         background-color: #f56c6c;
+         background-color: #67c23a;
      }
  }
  
@@ -654,7 +655,7 @@
  }
  
  .datainfo {
-     padding: 15px 20px 15px 30px;
+     padding: 15px 20px;
  }
  
  //  概况
@@ -750,4 +751,8 @@
          padding:0 10px;margin: 0;
          text-align: center;
      }
+ }
+
+ .el-radio-button:first-child .el-radio-button__inner{
+    border-radius: 2px 0 0 2px;
  }

@@ -4,14 +4,14 @@
 
     <el-row :gutter="20" class="comheight">
 
-      <el-col :span="6" :xs="{span: 24}" class="comheight">
+      <el-col :span="8" :xs="{span: 24}" class="comheight">
         <div class="search-box onlyform-box">
           <p class="form-smtitle">班次类型</p>
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-circle-check" @click="handleAdd" :loading="loading">添加</el-button>
             <el-button :disabled="multiple" icon="el-icon-delete" @click="handleDelete(null)">删除</el-button>
           </el-row>
-          <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 190px)">
+          <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 60px)">
             <el-table-column type="selection" fixed="left" width="55" align="center" />
             <el-table-column label="班次类型" align="center" prop="Name" />
           </el-table>
@@ -21,7 +21,7 @@
         </div>
 
       </el-col>
-      <el-col :xs="{span: 18}" :span="18" class="comheight">
+      <el-col :xs="{span: 24}" :span="16" class="comheight">
         <div class="comheight">
           <div class="search-box onlyform-box">
             <p class="form-smtitle">班次</p>
@@ -29,8 +29,10 @@
               <el-row class="table-btns">
                 <el-button :disabled="single" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd1">新增</el-button>
                 <el-button :disabled="multiple1" icon="el-icon-remove-outline" @click="handleDelete1">删除</el-button>
+                <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button>
+                <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
               </el-row>
-              <el-table v-loading="target1.listLoading" :data="target1.dataList" @selection-change="handleSelectionChange1" border height="calc(100% - 190px)">
+              <el-table v-loading="target1.listLoading" :data="target1.dataList" @selection-change="handleSelectionChange1" border height="calc(100% - 60px)">
                 <el-table-column type="selection" fixed="left" width="55" align="center" />
                 <el-table-column label="班次" align="center" prop="Name" />
                 <el-table-column label="开始时间" align="center" prop="StartTime" />
@@ -45,12 +47,7 @@
       </el-col>
 
     </el-row>
-    <el-col :span="24" :xs="24" class="absolute-bottom">
-      <div class="form-footer">
-        <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button>
-        <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
-      </div>
-    </el-col>
+  
     <add-class-time-type @getList="getList" ref="addClassTimeType" />
     <add-class-time @getList="getList1" ref="addClassTime" />
   </div>
@@ -213,8 +210,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .comheight .containerbox {
   height: 100%;
 }
+/deep/.form-smtitle{
+  margin-bottom:0
+}
+// /deep/.onlyform-box{
+//   margin-bottom:0
+// }
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="800px" :title="title+'班次'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+  <el-dialog width="500px" :title="title+'班次'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -8,7 +8,7 @@
           <el-form-item label="班次" prop="name">
             <el-input v-model="form.name" placeholder="请输入班次名称" />
           </el-form-item>
-          <el-form-item label="开始时间" prop="starttime">
+          <el-form-item label="开始时间" prop="starttime" >
             <el-time-select v-model="form.starttime" :picker-options="pickerOptions" placeholder="请选择时间" />
           </el-form-item>
           <el-form-item label="间隔天数" prop="period">
@@ -123,6 +123,9 @@ export default {
 
 <style lang="scss" scoped>
 /deep/.el-select {
+  width: 100%;
+}
+/deep/.el-date-editor.el-input, .el-date-editor.el-input__inner{
   width: 100%;
 }
 </style>
