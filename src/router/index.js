@@ -58,7 +58,16 @@ export const constantRoutes = [
     component: () => import("@/views/error/401"),
     hidden: true
   },
-
+  {
+    path: "/Userlarge",
+    component: () => import("@/views/generalSituation/userLarge/index"),
+    hidden: true
+  },
+  {
+    path: "/Systemlarge",
+    component: () => import("@/views/generalSituation/systemlarge/index"),
+    hidden: true
+  },
   {
     path: "/patrol/components/report",
     component: () => import("@/views/patrol/components/report"),

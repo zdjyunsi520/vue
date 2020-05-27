@@ -26,7 +26,7 @@
         </el-form-item>
         <el-form-item label="附件" prop="FileUrl">
 
-          <el-upload class="avatar-wrap" action="http://apicommont.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess" name="filekey">
+          <el-upload class="avatar-wrap" action="http://apicommont.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token,filekey:'appversion'}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess">
 
             <i v-if="showPlus" class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">只能上传apk文件</div>
@@ -185,7 +185,8 @@ export default {
 
     // 附件上传成功
     handleAvatarSuccess(res, file, fileList) {
-      this.form.FileUrl = res.data.AttachmentKey;
+      this.form.FileUrl = res.data.FileUrls[0].Url;
+      this.form.AttachmentKey = res.data.AttachmentKey;
       file.url = apk;
     },
     handleRemove() {
