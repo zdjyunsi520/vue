@@ -30,15 +30,24 @@ const permission = {
         // 向后端请求路由数据
         const data = [];
         mapRouter(data, res.data);
-        if (data && data.length) {
-          const IconUrl = data[0].meta.icon;
-          const Component =
-            data[0].children && data[0].children && data[0].children.length
-              ? data[0].children[0].name
-              : "";
+        let IconUrl;
+        let Component = "";
+        let Name = "index";
+        if (res.data && res.data.length) {
+          IconUrl = res.data[0].IconUrl;
+          if (res.data[0].Childs && res.data[0].Childs.length) {
+            Component = res.data[0].Childs[0].Component;
+            Name = res.data[0].Childs[0].Url;
+          }
           store.dispatch("SetHome", { IconUrl, Component });
         }
         const accessedRoutes = filterAsyncRouter(data);
+        accessedRoutes.push({ path: "/", redirect: Name, hidden: true });
+        // accessedRoutes.push({
+        //   path: "/index",
+        //   redirect: Component,
+        //   hidden: true
+        // });
         commit("SET_ROUTES", accessedRoutes);
         resolve(accessedRoutes);
       });

@@ -472,8 +472,11 @@ export default {
   position:absolute;
   top:0px;
   right:20px;
-  label{
-    display:inline-block;margin-right:10px;color:#313033;font-size:14px;
+  &>label{
+    display:inline-block;margin-right:10px;color:#313033;font-size:14px;font-weight:normal;
+  }
+  .el-radio-button--mini .el-radio-button__inner{
+        padding: 8px 15px;
   }
 }
 </style>

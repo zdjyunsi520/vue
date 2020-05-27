@@ -10,7 +10,7 @@
       <li @click="handleClickHome" style="width:38px;font-size: 21px;font-weight: bold;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
         <div class="smbox">
           <!-- <svg-icon icon-class="ic_home" /> -->
-          <svg-icon :icon-class="IconUrl" />
+          <svg-icon :icon-class="IconUrl" style='font-size: 14px;vertical-align: baseline;'  />
         </div>
       </li>
       <li>

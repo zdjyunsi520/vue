@@ -74,68 +74,68 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: "",
-    component: Layout,
-    redirect: "index",
-    hidden: true,
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/index"),
-        name: "/index",
-        meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
-      }
-    ]
-  },
-  {
-    path: "generalSituation",
-    component: Layout,
-    hidden: true,
-    meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/baseData",
-        component: () => import("@/views/generalSituation/base/index"),
-        name: "系统总览",
-        meta: {
-          title: "系统总览",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/powerOverview",
-        component: () => import("@/views/generalSituation/powerOverview/index"),
-        name: "用电概况",
-        meta: {
-          title: "用电概况",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/largeData",
-        component: () => import("@/views/generalSituation/systemlarge/index"),
-        name: "系统大屏",
-        meta: {
-          title: "系统大屏",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/userLargeData",
-        component: () => import("@/views/generalSituation/userLarge/index"),
-        name: "用户大屏",
-        meta: {
-          title: "用户大屏",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
+  // {
+  //   path: "",
+  //   component: Layout,
+  //   redirect: "index",
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: "index",
+  //       component: () => import("@/views/index"),
+  //       name: "/index",
+  //       meta: { title: "首页", icon: "dashboard", noCache: true, affix: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "generalSituation",
+  //   component: Layout,
+  //   hidden: true,
+  //   meta: { title: "概况", icon: "dashboard", noCache: true, affix: false },
+  //   children: [
+  //     {
+  //       path: "/baseData",
+  //       component: () => import("@/views/generalSituation/base/index"),
+  //       name: "基本概况",
+  //       meta: {
+  //         title: "基本概况",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/powerOverview",
+  //       component: () => import("@/views/generalSituation/powerOverview/index"),
+  //       name: "用电概况",
+  //       meta: {
+  //         title: "用电概况",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/largeData",
+  //       component: () => import("@/views/generalSituation/systemlarge/index"),
+  //       name: "大屏展示",
+  //       meta: {
+  //         title: "大屏展示",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/userLargeData",
+  //       component: () => import("@/views/generalSituation/userLarge/index"),
+  //       name: "用电概况",
+  //       meta: {
+  //         title: "用电概况",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: "defect",
     component: Layout,
