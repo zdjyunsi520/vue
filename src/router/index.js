@@ -97,9 +97,9 @@ export const constantRoutes = [
       {
         path: "/baseData",
         component: () => import("@/views/generalSituation/base/index"),
-        name: "基本概况",
+        name: "系统总览",
         meta: {
-          title: "基本概况",
+          title: "系统总览",
           noCache: true,
           affix: false
         }
@@ -117,9 +117,9 @@ export const constantRoutes = [
       {
         path: "/largeData",
         component: () => import("@/views/generalSituation/systemlarge/index"),
-        name: "大屏展示",
+        name: "系统大屏",
         meta: {
-          title: "大屏展示",
+          title: "系统大屏",
           noCache: true,
           affix: false
         }
@@ -127,9 +127,9 @@ export const constantRoutes = [
       {
         path: "/userLargeData",
         component: () => import("@/views/generalSituation/userLarge/index"),
-        name: "用电概况",
+        name: "用户大屏",
         meta: {
-          title: "用电概况",
+          title: "用户大屏",
           noCache: true,
           affix: false
         }
