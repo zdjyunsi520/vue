@@ -84,9 +84,11 @@
             <div class="form-smtitle marginBottom30" style="position:relative">历史曲线
               <el-tag type="danger">form.intervalId=</el-tag>
               <el-tag>{{form.intervalId}}</el-tag>
-              
+
               <div class="rightradiobox">
-                <label>日期</label><el-date-picker v-model="form.beginTime" type="date" size="small" placeholder="选择日期"></el-date-picker>
+                <b>{{labelName}}</b>
+                <label>日期</label>
+                <el-date-picker v-model="form.beginTime" type="date" size="small" placeholder="选择日期"></el-date-picker>
 
                 <el-radio-group v-model="radioType" @change=handleSetLineChartData size="mini">
                   <el-radio-button :label="0">15分钟</el-radio-button>
@@ -126,16 +128,111 @@ import LineChart from "./components/LineChart";
 
 const lineChartData = [
   {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+    xAxisData: [
+      "08:00",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01",
+      "08:01"
+    ],
+    actualData: [
+      120,
+      82,
+      91,
+      154,
+      162,
+      140,
+      145,
+      120,
+      82,
+      91,
+      154,
+      162,
+      91,
+      154,
+      162
+    ]
   },
   {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
+    xAxisData: [
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01",
+      "01-01"
+    ],
+    actualData: [
+      180,
+      160,
+      151,
+      106,
+      145,
+      150,
+      130,
+      151,
+      106,
+      145,
+      150,
+      130,
+      180,
+      160,
+      151,
+      106,
+      145,
+      150,
+      130,
+      151,
+      106,
+      145,
+      150,
+      130
+    ]
   },
   {
-    expectedData: [20, 32, 140, 54, 60, 170, 240],
-    actualData: [180, 560, 151, 146, 145, 30, 130]
+    xAxisData: [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12"
+    ],
+    actualData: [180, 560, 151, 146, 145, 180, 560, 151, 146, 145, 30, 130]
   }
 ];
 export default {
@@ -164,7 +261,7 @@ export default {
         beginTime: ""
       },
       interval: null,
-      lineChartData: lineChartData[0],
+      lineChartData: lineChartData[0]
     };
   },
   created() {
@@ -296,7 +393,7 @@ export default {
       //   }
       // });
     },
-     // 15分钟/日/月切换
+    // 15分钟/日/月切换
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type];
     },
@@ -468,15 +565,23 @@ export default {
   }
 }
 
-.rightradiobox{
-  position:absolute;
-  top:0px;
-  right:20px;
-  &>label{
-    display:inline-block;margin-right:10px;color:#313033;font-size:14px;font-weight:normal;
+.rightradiobox {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  color: #313033;
+  & > b {
+    font-size: 16px;
+    margin-right: 10px;
   }
-  .el-radio-button--mini .el-radio-button__inner{
-        padding: 9px 15px!important;
+  & > label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .el-radio-button--mini .el-radio-button__inner {
+    padding: 9px 15px !important;
   }
 }
 </style>

@@ -85,8 +85,58 @@
         </el-row>
         <el-row>
           <h6>预警信息</h6>
-          <div class="chartbox">
-
+          <div class="warnlistinfo">
+            <div>
+              <span class="smicon"><img src="@/assets/image/ic_notice.png" /></span>
+              <div>
+                <el-col :span="5">
+                  顺康塑料
+                </el-col>
+                <el-col :span="8">
+                  低压进线间隔 67#低压进线间隔
+                </el-col>
+                <el-col :span="4">
+                  状态：分闸
+                </el-col>
+                <el-col :span="7">
+                  2020-03-20 18:00:08
+                </el-col>
+              </div>
+            </div>
+            <div>
+              <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
+              <div>
+                <el-col :span="5">
+                  顺康塑料
+                </el-col>
+                <el-col :span="8">
+                  低压进线间隔 67#低压进线间隔
+                </el-col>
+                <el-col :span="4">
+                  状态：分闸
+                </el-col>
+                <el-col :span="7">
+                  2020-03-20 18:00:08
+                </el-col>
+              </div>
+            </div>
+            <div>
+              <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
+              <div>
+                <el-col :span="5">
+                  顺康塑料
+                </el-col>
+                <el-col :span="8">
+                  低压进线间隔 67#低压进线间隔
+                </el-col>
+                <el-col :span="4">
+                  状态：分闸
+                </el-col>
+                <el-col :span="7">
+                  2020-03-20 18:00:08
+                </el-col>
+              </div>
+            </div>
           </div>
         </el-row>
       </el-col>
@@ -94,7 +144,12 @@
         <el-row>
           <h6>运维成果</h6>
           <div class="chartbox">
-            <BarChart :barchartData='gainChartData' />
+            <!-- <GainPieChart :piechartData='gainChartData' /> -->
+            <!-- <div class="circlebox">
+              <div class='circle1'></div>
+              <div class='circle2'></div>
+              <div class='circle3'></div>
+            </div> -->
           </div>
         </el-row>
         <el-row>
@@ -119,15 +174,11 @@
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import { fetchTree } from "@/api/systemManager/organization";
-
 import PieChart from "./components/PieChart";
 import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
+// import GainPieChart from "./components/GainPieChart";
 import BarChart from "./components/BarChart";
-
-import PowerBarchart from "./components/PowerBarchart";
-import GaugeChart from "./components/GaugeChart";
-import GaugeLoadChart from "./components/GaugeLoadChart";
 
 const powerTypeData = {
   legendData: ["工业", "商业", "居民"],
@@ -137,86 +188,23 @@ const powerTypeData = {
     { value: 234, name: "居民" }
   ]
 };
-const typeChartData = {
-  title: "电费",
-  ytext: "单位(元)",
-  xAxisData: ["电度", "基本", "力调"],
-  listData: [
-    {
-      name: "电度",
-      value: 56,
-      itemStyle: {
-        color: "#f4a248"
-      }
-    },
-    {
-      name: "基本",
-      value: 12,
-      itemStyle: {
-        color: "#558cf7"
-      }
-    },
-    {
-      name: "力调",
-      value: 34,
-      itemStyle: {
-        color: "#81c7f9"
-      }
-    }
-  ]
-};
-const powerChartData_day = {
-  title: "功率因素",
-  listData: [{ value: 0.5, name: "本日平均" }]
-};
-
-const powerChartData_month = {
-  title: "功率因素",
-  listData: [{ value: 0.3, name: "本月平均" }]
-};
-const loadChartData = {
-  title: "负荷",
-  listData: [{ value: 49, name: "当前负荷" }]
-};
-
 const lineChartData = {
-  legendData:['最高负荷','平均负荷','最低负荷'],
+  legendData: ["最高负荷", "平均负荷", "最低负荷"],
   highData: [100, 120, 161, 134, 105, 160, 165],
   averageData: [42, 435, 23, 122, 445, 545, 54],
   lowData: [120, 82, 91, 154, 162, 140, 145]
 };
 const tracklineChartData = {
-  legendData:['巡视','故障维修','用户报修'],
+  legendData: ["巡视", "故障维修", "用户报修"],
   highData: [100, 120, 161, 134, 105, 160, 165],
   averageData: [42, 435, 23, 122, 445, 545, 54],
   lowData: [120, 82, 91, 154, 162, 140, 145]
 };
 
 const gainChartData = {
-  xAxisData: ["总巡检", "总预警", "总抢修"],
-  listData: [
-    {
-      name: "总巡检(次)",
-      value: 56,
-      itemStyle: {
-        color: "#2178ff"
-      }
-    },
-    {
-      name: "总预警(次)",
-      value: 12,
-      itemStyle: {
-        color: "#07fdff"
-      }
-    },
-    {
-      name: "总抢修(次)",
-      value: 34,
-      itemStyle: {
-        color: "#d2feff"
-      }
-    }
-  ]
+  inspection: 40,
+  warning: 30,
+  repair: 70
 };
 
 export default {
@@ -226,12 +214,9 @@ export default {
     countTo,
     powerTypePieChart,
     BarChart,
-
+    // GainPieChart,
     PieChart,
-    LineChart,
-    PowerBarchart,
-    GaugeChart,
-    GaugeLoadChart
+    LineChart
   },
 
   data() {
@@ -246,7 +231,7 @@ export default {
       powerTypeData: powerTypeData,
       lineChartData: lineChartData,
       tracklineChartData: tracklineChartData,
-      gainChartData:gainChartData,
+      gainChartData: gainChartData,
       startVal: 0,
       maintenanceCenter: 3,
       totalUsers: 234,
@@ -404,6 +389,40 @@ export default {
     text-align: center;
     display: block;
     font-size: 20px;
+  }
+}
+.warnlistinfo {
+  > div {
+    height: 48px;
+    line-height: 48px;
+    background-color: rgba(6, 253, 255, 0.1);
+    border-radius: 24px;
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 0px 20px;
+    .smicon {
+      display: inline-block;
+      margin-top: 5px;
+      img {
+        width: 22px;
+        display: inline-block;
+      }
+    }
+    &:first-child > div {
+      color: #fff;
+    }
+    > div {
+      flex: 1;
+      color: #68b6ef;
+      text-align: center;
+
+      > div {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
   }
 }
 </style>
