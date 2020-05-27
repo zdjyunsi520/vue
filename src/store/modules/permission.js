@@ -1,7 +1,7 @@
 import { constantRoutes } from "@/router";
 import { getRouters } from "@/api/menu";
 import Layout from "@/layout/index";
-
+import store from "@/store";
 const permission = {
   state: {
     routes: [],
@@ -30,6 +30,14 @@ const permission = {
         // 向后端请求路由数据
         const data = [];
         mapRouter(data, res.data);
+        if (data && data.length) {
+          const IconUrl = data[0].meta.icon;
+          const Component =
+            data[0].children && data[0].children && data[0].children.length
+              ? data[0].children[0].name
+              : "";
+          store.dispatch("SetHome", { IconUrl, Component });
+        }
         const accessedRoutes = filterAsyncRouter(data);
         commit("SET_ROUTES", accessedRoutes);
         resolve(accessedRoutes);
@@ -50,6 +58,7 @@ function mapRouter(parent, data) {
       },
       children: []
     };
+
     if (v.Childs) {
       mapRouter(node.children, v.Childs);
     }

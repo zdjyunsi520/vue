@@ -9,7 +9,8 @@
       </li>
       <li @click="handleClickHome" style="width:38px;font-size: 21px;font-weight: bold;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
         <div class="smbox">
-          <svg-icon icon-class="ic_home" />
+          <!-- <svg-icon icon-class="ic_home" /> -->
+          <svg-icon :icon-class="IconUrl" />
         </div>
       </li>
       <li>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 const tagAndTagSpacing = 4; // tagAndTagSpacing
 
 export default {
@@ -42,6 +44,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["IconUrl", "Component"]),
     scrollWrapper() {
       return this.$refs.scrollContainer.$refs.wrap;
     }
@@ -51,7 +54,7 @@ export default {
       this.$emit("openMenu", null, e, true);
     },
     handleClickHome() {
-      this.$router.push({ name: "/index" });
+      this.$router.push({ name: this.Component });
     },
     handleClickLeft() {
       const $scrollWrapper = this.scrollWrapper;
