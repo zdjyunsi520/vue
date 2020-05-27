@@ -13,7 +13,9 @@ const user = {
     userId: "",
     deptName: "",
     deptLogo: "",
-    deptCommisionRate: 0
+    deptCommisionRate: 0,
+    IconUrl: "",
+    Component: ""
   },
   //处理数据逻辑方法全部放在mutations里面 动态变量
   mutations: {
@@ -54,7 +56,9 @@ const user = {
           });
       });
     },
-
+    SetHome({ commit, state }, data) {
+      Object.assign(state, data);
+    },
     // 获取用户信息
     GetInfo({ commit, state }) {
       //实例化一个异步请求对象
