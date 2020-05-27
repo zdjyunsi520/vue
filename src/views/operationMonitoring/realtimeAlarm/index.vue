@@ -42,12 +42,12 @@
         <el-table-column label="告警值" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
         <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
         <el-table-column label="是否确认" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right" align="center">
+        <el-table-column label="操作" min-width="250" fixed="right" align="center">
           <template slot-scope="scope">
             <div>
-              <el-button type="primary" plain size="mini" @click="handleCheck(scope.row)">确认</el-button>
-              <el-button type="primary" plain size="mini" @click="handleDispatch(scope.row)">派单</el-button>
-              <el-button type="primary" plain size="mini" @click="handleMonitor(scope.row)">监控</el-button>
+              <el-button type="text" size="mini" @click="handleCheck(scope.row)">确认</el-button>
+              <el-button type="text" size="mini" @click="handleDispatch(scope.row)">派单</el-button>
+              <el-button type="text" size="mini" @click="handleMonitor(scope.row)">监控</el-button>
             </div>
           </template>
         </el-table-column>

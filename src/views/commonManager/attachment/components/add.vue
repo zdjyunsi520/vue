@@ -16,13 +16,13 @@
                 <el-input v-model="form.Key" placeholder="请输入代码" />
               </el-form-item>
               <el-form-item class="largelabel" label="是否多版本" prop="IsMultiVersion">
-                <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" @change="handleUpdateStatus(row)"> </el-switch>
+                <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
               </el-form-item>
               <el-form-item class="largelabel" label="版本是否来自压缩包" prop="IsMultiVersionFromPackage">
-                <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" @change="handleUpdateStatus(row)"> </el-switch>
+                <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
               </el-form-item>
               <el-form-item class="largelabel" label="删除数据同时删除文件" prop="IsRemoveFile">
-                <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" @change="handleUpdateStatus(row)"> </el-switch>
+                <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
@@ -55,7 +55,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
+            <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="附件访问方式" prop="AccessMode">
                 <el-select v-model="form.AccessMode" placeholder="">
                   <el-option label="普通方式访问" :value="1"></el-option>
@@ -63,7 +63,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="20" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="FTP设置" prop="FTPSetting">
                 <el-input v-model="form.FTPSetting" placeholder="未使用FTP可不填" />
               </el-form-item>
@@ -79,50 +79,52 @@
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="允许文件最大值" prop="MaxFileSize">
-                <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" />kb
+                <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" style="width:calc(100% - 20px)" />&nbsp;&nbsp;kb
               </el-form-item>
-
+            </el-col>
+            <el-col :span="24" :xs='24'>
+              <p class="smtitle">上传图片设置</p>
+            </el-col>
+            <el-col :span="10" :push="1" :xs='24'>
+              <el-form-item label="是否生成缩略图" prop="IsGenerateThumbnail">
+                <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
+              </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="是否生成缩略图" prop="IsGenerateThumbnail">
-                <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" @change="handleUpdateStatus(row)"> </el-switch>
+              <el-form-item label="文件大于该值时生成缩略图"  class="largelabel"  prop="ThumbnailMaxFileSize">
+                <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" style="width:calc(100% - 20px)" />&nbsp;&nbsp;kb
               </el-form-item>
             </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
-              <el-form-item label="文件大于该值时生成缩略图" prop="ThumbnailMaxFileSize">
-                <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" />kb
-              </el-form-item>
-            </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
+            <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="缩略图规格" prop="ThumbnailSizes">
                 <el-input v-model="form.ThumbnailSizes" placeholder='宽高用"_"隔开,"*"表示自适应;多种规格用","隔开' />
               </el-form-item>
             </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="限制大小规格" prop="LimitSize">
                 <el-input v-model="form.LimitSize" placeholder="0时为不限制文件大小" />
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle"> 地图定位 </p>
+              <p class="smtitle">水印设置</p>
             </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
-
+            <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="水印方式" prop="WatermarkMethod">
                 <el-select v-model="form.WatermarkMethod">
+                  <el-option label="请选择" :value="0"></el-option>
                   <el-option label="无水印" :value="1"></el-option>
                   <el-option label="文字水印" :value="2"></el-option>
                   <el-option label="图片水印" :value="3"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="20" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="水印文字" prop="WatermarkText">
                 <el-input v-model="form.WatermarkText" placeholder="请输入水印文字" />
               </el-form-item>
             </el-col>
-            <el-col :span="20" :push="1" :xs='24'>
-              <el-form-item label="水印水平对齐方式" prop="WatermarkHorizontalAlign">
+            <el-col :span="10" :push="1" :xs='24'>
+              <el-form-item label="水印水平对齐方式"   class="largelabel1" prop="WatermarkHorizontalAlign">
                 <el-select v-model="form.WatermarkHorizontalAlign">
                   <el-option label="未设置" value="NotSet"></el-option>
                   <el-option label="居左" value="Left"></el-option>
@@ -132,14 +134,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="20" :push="1" :xs='24'>
+            <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="水印图片URL" prop="WatermarkImageUrl">
                 <el-input v-model="form.WatermarkImageUrl" placeholder="请输入水印图片URL" />
               </el-form-item>
             </el-col>
-            <el-col :span="20" :push="1" :xs='24'>
-              <el-form-item label="水印水平垂直方式" prop="WatermarkVerticalAlign">
-                <el-select v-model="form.WatermarkVerticalAlign">
+            <el-col :span="10" :push="1" :xs='24'>
+              <el-form-item label="水印水平垂直方式" class="largelabel2" prop="WatermarkVerticalAlign">
+                <el-select v-model="form.WatermarkVerticalAlign" >
                   <el-option label="未设置" value="NotSet"></el-option>
                   <el-option label="顶部" value="Top"></el-option>
                   <el-option label="居中" value="Middle"></el-option>
@@ -267,6 +269,9 @@ export default {
         params: {}
       });
     },
+    handleUpdateStatus(row){
+
+    },
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
@@ -306,10 +311,32 @@ export default {
   width: 100%;
 }
 
-/deep/.largelabel .el-form-item__label {
-  width: 200px !important;
-}
+/deep/.largelabel{
 
+.el-form-item__label {
+    width: 180px !important;
+  }
+  .el-form-item__content{
+  margin-left: 180px !important;
+  }
+} 
+
+/deep/.largelabel1 {
+  .el-form-item__label {
+    width: 140px !important;
+  }
+  .el-form-item__content{
+  margin-left: 140px !important;
+  }
+}
+/deep/.largelabel2{
+  .el-form-item__label {
+    width: 140px !important;
+  }
+  .el-form-item__content{
+  margin-left: 140px !important;;
+  }
+}
 .avatar {
   width: 100%;
   height: 100%;

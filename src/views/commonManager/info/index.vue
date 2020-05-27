@@ -9,9 +9,9 @@
       </el-tabs>
 
       <el-scrollbar style="height:calc(100% - 80px)">
-        <editor class="xl-height" @input="handleContent" v-if='activeName=="0"' ref="editors" :value="form.Licence"></editor>
-        <editor class="xl-height" @input="handleContent1"  v-if='activeName=="1"' ref="editors1" :value="form.Privacy"></editor>
-        <editor class="xl-height" @input="handleContent2"  v-if='activeName=="2"' ref="editors2" :value="form.Cancellation"></editor>
+        <editor class="xl-height" @input="handleContent" v-if='activeName=="0"' ref="editors" :value="form.licence"></editor>
+        <editor class="xl-height" @input="handleContent1"  v-if='activeName=="1"' ref="editors1" :value="form.privacy"></editor>
+        <editor class="xl-height" @input="handleContent2"  v-if='activeName=="2"' ref="editors2" :value="form.cancellation"></editor>
 
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
@@ -60,24 +60,29 @@ export default {
     },
     getList() {
       fetchList({}).then(r => {
-        this.reset(r.data);
+        let form = r.data;
+        this.form.licence = form.Licence;
+        this.form.privacy = form.Privacy;
+        this.form.cancellation = form.Cancellation;
+        this.reset(this.form);
+        
       });
     },
     handleContent(content) {
-      this.form.Licence = content;
+      this.form.licence = content;
     },
     handleContent1(content) {
-      this.form.Privacy = content;
+      this.form.privacy = content;
     },
     handleContent2(content) {
-      this.form.Cancellation = content;
+      this.form.cancellation = content;
     },
     reset(data) {
       this.form = Object.assign(
         {
-          Licence: "",
-          Privacy: "",
-          Cancellation: ""
+          licence: "",
+          privacy: "",
+          cancellation: ""
         },
         data
       );
@@ -85,6 +90,7 @@ export default {
     handleSubmit() {
       this.loading = true;
       var o = update;
+      console.log(11,this.form)
       o(this.form)
         .then(res => {
           this.$message.success(res.msg);

@@ -87,13 +87,13 @@
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
 
-                <!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
+                <el-dialog :visible.sync="dialogVisible" size="tiny">
                   <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog> -->
+                </el-dialog>
 
               </el-form-item>
             </el-col>
-
+<!-- 
             <el-col :span="11" :xs="24">
               <el-form-item label="缺陷编号" prop="number">
                 <el-input v-model="form.number" disabled placeholder="自动生成" />
@@ -116,7 +116,7 @@
               <el-form-item label="填报时间" prop="reporttime">
                 <el-date-picker v-model="form.reporttime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
 
