@@ -220,8 +220,34 @@ export default {
       this.listLoading = true;
       fetchReport(this.queryParams)
         .then(response => {
-          this.dataList = response.data;
+          // this.dataList = response.data;
           this.total = response.total;
+          this.dataList = [
+            {
+              ReportName: "一般",
+              ReportName1: "福建迅腾电力科技有限公司",
+              ReportName2: "配电室1/--",
+              ReportName3: "1#烟感",
+              ReportName4: "故障",
+              ReportName5: "1#烟感 故障 启动",
+              ReportName6: "2020-04-05 15:11:32",
+              ReportName7: "1.0",
+              ReportName8: "是",
+              ReportName9: "是"
+            },
+            {
+              ReportName: "普通",
+              ReportName1: "福建迅腾电力科技有限公司",
+              ReportName2: "配电室1/低压进线间隔",
+              ReportName3: "低压进线间隔",
+              ReportName4: "A相电流",
+              ReportName5: "低压进线间隔 A相电流 过流",
+              ReportName6: "1#烟感 故障 启动",
+              ReportName7: "2020-04-03 14:41:27",
+              ReportName8: "1.0",
+              ReportName9: "是"
+            }
+          ];
         })
         .finally(r => {
           this.listLoading = false;

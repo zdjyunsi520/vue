@@ -40,31 +40,32 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="工单编号" min-width="250" align='center' prop="bugNumber"></el-table-column>
-        <el-table-column label="业务来源" min-width="250" align='center' prop="bugNumber"></el-table-column>
-        <el-table-column label="用电单位" min-width="250" align='center' prop="TenantName"></el-table-column>
-        <el-table-column label="故障地址" min-width="150" align='center' prop="assetsname"></el-table-column>
-        <el-table-column label="故障现象" min-width="250" align='center' prop="rank"></el-table-column>
-        <el-table-column label="紧急程度" min-width="250" align='center' prop="PatrolMemberNames"></el-table-column>
-        <el-table-column label="受理时间" min-width="250" align='center' prop="reporttimestart">
-          <template slot-scope="scope">
-            {{scope.row.StartTime.substring(0,10)}}
-          </template>
-        </el-table-column>
+        <el-table-column label="工单编号" min-width="250" align='center' prop="OrderCode"></el-table-column>
+        <el-table-column label="业务来源" min-width="250" align='center' prop="BizSource" :formatter="formatterOrderResource"></el-table-column>
+        <el-table-column label="用电单位" min-width="250" align='center' prop="SourceTenantName"></el-table-column>
+        <el-table-column label="故障地址" min-width="150" align='center' prop="Address"></el-table-column>
+        <el-table-column label="故障现象" min-width="250" align='center' prop="Situation"></el-table-column>
+        <el-table-column label="紧急程度" min-width="250" align='center' prop="EmergencyLevel" :formatter="formatterUrgency"></el-table-column>
+        <el-table-column label="受理时间" min-width="250" align='center' prop="ReceiveTime" />
 
-        <el-table-column label="状态" min-width="250" align='center' prop="Status">
-          <template slot-scope="scope">
-            {{formatterStatus(scope.row.Status)}}
-          </template>
-
-        </el-table-column>
+        <el-table-column label="状态" min-width="250" align='center' prop="Status" :formatter="formatterStatus" />
         <el-table-column label="操作" fixed="right" width="220">
-          <template slot-scope="scope">
+          <template slot-scope="{row}">
             <div>
-              <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+
+              <el-button v-if="row.Status==2" type="text" size="mini" @click="handleUpdate(row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>抢修
+              </el-button>
+              <el-button v-else-if="row.Status==3" type="text" size="mini" @click="handleUpdate(row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
+              </el-button>
+              <el-button v-else-if="row.Status==4" type="text" size="mini" @click="handleUpdate(row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
+              </el-button>
+              <el-button v-else type="text" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <el-button type="text" size="mini" @click="handleDelete(row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>
@@ -78,6 +79,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/repairOrder";
 import { getChildrenList } from "@/api/org";
 export default {
@@ -109,12 +111,11 @@ export default {
         { name: "未消缺", id: "0" },
         { name: "已消缺", id: "1" }
       ],
-      statuss: [
-        { name: "全部", id: "" },
-        { name: "登记", id: "0" },
-        { name: "消缺", id: "1" },
-        { name: "验收", id: "2" },
-        { name: "完成", id: "3" }
+      status: [
+        { name: "故障受理", id: 1 },
+        { name: "故障抢修", id: 2 },
+        { name: "故障归档", id: 3 },
+        { name: "完成", id: 4 }
       ]
     };
   },
@@ -122,6 +123,16 @@ export default {
   created() {
     this.getList();
     this.getTenants();
+  },
+  computed: {
+    ...mapGetters({
+      repairOrderKV: "status/repairOrderKV",
+      urgencyKV: "status/urgencyKV",
+      orderResourceKV: "status/orderResourceKV"
+    }),
+    statusKV() {
+      return this.status;
+    }
   },
   methods: {
     getList() {
@@ -145,18 +156,14 @@ export default {
           console.log(error);
         });
     },
-    formatterStatus(status) {
-      if (status == 0) {
-        return "登记";
-      } else if (row.status == 1) {
-        return "消缺";
-      } else if (row.status == 2) {
-        return "验收";
-      } else if (row.status == 3) {
-        return "完成";
-      } else if (row.status == "") {
-        return "全部";
-      }
+    formatterStatus(row) {
+      return this.repairOrderKV[row.Status];
+    },
+    formatterOrderResource(row) {
+      return this.orderResourceKV[row.BizSource];
+    },
+    formatterUrgency(row) {
+      return this.urgencyKV[row.EmergencyLevel];
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -186,12 +193,14 @@ export default {
       const data = row;
       const TenantIds = this.TenantIds;
       const ranks = this.ranks;
+
+      let arr = ["add", "add", "repair", "backFile", "backFile"];
       // const id = row.Id;
       // const username = row.UserName;
       // const name = row.Name;
       // const mobilephone = row.MobilePhone;
       this.$router.push({
-        name: "/repairOrder/repair/components/add",
+        name: "/repairOrder/repair/components/" + arr[row.Status],
         params: { data, title, TenantIds, ranks }
       });
     },
