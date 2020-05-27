@@ -48,7 +48,6 @@ const permission = {
         //   redirect: Component,
         //   hidden: true
         // });
-        console.log(accessedRoutes);
         commit("SET_ROUTES", accessedRoutes);
         resolve(accessedRoutes);
       });
