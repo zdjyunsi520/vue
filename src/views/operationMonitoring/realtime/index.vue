@@ -44,7 +44,7 @@
                 </el-col>
               </el-row>
             </div>
-            <div style="margin-top:30px">
+            <div style="margin-top:40px">
               <div class="form-smtitle marginBottom30">其他参数 </div>
               <el-row :gutter="20" class="cellinfo noborder">
                 <el-col :span='5' :xs='12'>
@@ -81,13 +81,24 @@
             </div>
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
-            <div class="form-smtitle marginBottom30">历史曲线
+            <div class="form-smtitle marginBottom30" style="position:relative">历史曲线
               <el-tag type="danger">form.intervalId=</el-tag>
               <el-tag>{{form.intervalId}}</el-tag>
+              
+              <div class="rightradiobox">
+                <label>日期</label><el-date-picker v-model="form.beginTime" type="date" size="small" placeholder="选择日期"></el-date-picker>
+
+                <el-radio-group v-model="radioType" @change=handleSetLineChartData size="mini">
+                  <el-radio-button :label="0">15分钟</el-radio-button>
+                  <el-radio-button :label="1">日</el-radio-button>
+                  <el-radio-button :label="2">月</el-radio-button>
+                </el-radio-group>
+              </div>
             </div>
-            <el-row>
+            <!-- <el-row>
               <el-col :span="3"> {{labelName}}</el-col>
-              <el-col :span="3">周期 <el-select v-model="form.cycleType">
+              <el-col :span="3">周期 
+                <el-select v-model="form.cycleType">
                   <el-option label="月" :value="3" />
                   <el-option label="日" :value="2" />
                   <el-option label="15分钟" :value="1" />
@@ -95,9 +106,9 @@
               </el-col>
               <el-col :span="3"> 日期<el-date-picker v-model="form.beginTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-col>
-            </el-row>
-            <div class="  chart-wrapper">
-              <LineChart ref="chart" :chartData='chartData' />
+            </el-row> -->
+            <div class="chart-wrapper">
+              <LineChart ref="chart" :chartData='lineChartData' />
               <!-- <p class="tips" style="padding-top:13%">暂无数据</p> -->
             </div>
           </div>
@@ -112,10 +123,21 @@
 import { getMeasureData, getMeasureDataHistory } from "@/api/report";
 import { getStopIntervalTrees as getTrees } from "@/api/org";
 import LineChart from "./components/LineChart";
-const chartData = {
-  expectedData: [100, 120, 161, 134, 105, 160, 165],
-  actualData: [120, 82, 91, 154, 162, 140, 145]
-};
+
+const lineChartData = [
+  {
+    expectedData: [100, 120, 161, 134, 105, 160, 165],
+    actualData: [120, 82, 91, 154, 162, 140, 145]
+  },
+  {
+    expectedData: [200, 192, 120, 144, 160, 130, 140],
+    actualData: [180, 160, 151, 106, 145, 150, 130]
+  },
+  {
+    expectedData: [20, 32, 140, 54, 60, 170, 240],
+    actualData: [180, 560, 151, 146, 145, 30, 130]
+  }
+];
 export default {
   name: "components",
   components: {
@@ -125,7 +147,6 @@ export default {
     return {
       // 遮罩层
       loading: true,
-      chartData: chartData,
       treeData: [],
       defaultProps: {
         children: "childs",
@@ -134,6 +155,7 @@ export default {
       baseData: [],
       id: null,
       weight: 0,
+      radioType: 0,
       labelName: "",
       form: {
         intervalId: "",
@@ -141,7 +163,8 @@ export default {
         cycleType: 3,
         beginTime: ""
       },
-      interval: null
+      interval: null,
+      lineChartData: lineChartData[0],
     };
   },
   created() {
@@ -272,6 +295,10 @@ export default {
       //     this.findFistInterval(v.childs, weight * 100);
       //   }
       // });
+    },
+     // 15分钟/日/月切换
+    handleSetLineChartData(type) {
+      this.lineChartData = lineChartData[type];
     },
     getMeasureData() {
       const intervalId = this.id;
@@ -438,6 +465,15 @@ export default {
         color: #558cf7;
       }
     }
+  }
+}
+
+.rightradiobox{
+  position:absolute;
+  top:0px;
+  right:20px;
+  label{
+    display:inline-block;margin-right:10px;color:#313033;font-size:14px;
   }
 }
 </style>
