@@ -16,8 +16,8 @@
             <el-option label="故障告警" :value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="紧急程度" prop="rank">
-          <el-select v-model="queryParams.rank" placeholder="全部" style="max-width:240px">
+        <el-form-item label="紧急程度" prop="status">
+          <el-select v-model="queryParams.status" placeholder="全部" style="max-width:240px">
             <el-option label="紧急" :value="1"></el-option>
             <el-option label="重要" :value="2"></el-option>
             <el-option label="一般" :value="3"></el-option>
@@ -90,7 +90,7 @@ export default {
         tenantId: "",
         ordercode: "",
         bizsource: "",
-        rank: ""
+        status: ""
       },
       downloadLoading: false,
       TenantIds: [],

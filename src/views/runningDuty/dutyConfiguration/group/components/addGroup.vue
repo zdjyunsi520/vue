@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="800px" :title="title+'值班班组'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+  <el-dialog width="500px" :title="title+'值班班组'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -7,18 +7,19 @@
         <el-col :span="24">
           <el-form-item label="班组名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入班组名称" />
-            <el-tag type="danger">先写死用电ID，不然无法添加</el-tag>
+            <!-- <el-tag type="danger">先写死用电ID，不然无法添加</el-tag> -->
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="班组成员" prop="employeeIds">
-            <el-popover placement="bottom-start" width="600" trigger="click">
+              <el-input v-model="form.employeenames" placeholder="请选择班组成员" @focus="getMembers"></el-input>
+            <!-- <el-popover placement="bottom-start" width="600" trigger="click">
               <el-scrollbar class="xl-popover">
                 <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange">
                 </el-tree>
               </el-scrollbar>
               <el-input :value="form.employeenames" slot="reference"></el-input>
-            </el-popover>
+            </el-popover> -->
 
           </el-form-item>
         </el-col>
@@ -29,6 +30,18 @@
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
+    
+      <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
+        <el-scrollbar style="height: 86vh;">
+              <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange"></el-tree>
+          <!-- <el-tree :data="roleList" :props="props" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree> -->
+        </el-scrollbar>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="dialogMemberVisible = false">确 定</el-button>
+          <el-button @click="dialogMemberVisible = false">取 消</el-button>
+        </div>
+      </el-drawer>
+
     <!-- 添加或修改参数配置对话框 end -->
   </el-dialog>
 </template>
@@ -64,7 +77,8 @@ export default {
         label: "text",
         children: "childs"
       },
-      employeeIds: []
+      employeeIds: [],
+      dialogMemberVisible:false,
     };
   },
   created() {
@@ -93,11 +107,18 @@ export default {
         });
       });
     },
+       // 选择人员
+    getMembers() {
+      this.dialogMemberVisible = true;
+      getTenantEmployees({}).then(response => {
+        this.memberTree = response.data;
+      });
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
+          // tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
           name: "",
           employeenames: "",
           employeeIds: ""

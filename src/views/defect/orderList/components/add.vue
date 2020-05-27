@@ -79,7 +79,7 @@
                :before-upload='beforeAvatarUpload' 
 
                 </el-upload> -->
-                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" name="filekey">
+                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                   <i class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
@@ -422,6 +422,8 @@ export default {
     handleSend() {},
     /** 提交按钮 */
     handleSubmit: function() {
+      this.form.attachmenturl = this.imageUrl.map(v => v.uid).join(",");
+      console.log(this.form);
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
@@ -429,7 +431,7 @@ export default {
           let fn;
           if (this.form.id) fn = update;
           else fn = add;
-          this.form.attachmentKey = this.imageUrl.map(v => v.uid).join(",");
+          this.form.attachmenturl = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
             .then(res => {
               //消息提示
@@ -449,7 +451,8 @@ export default {
     // 附件上传成功
     handleAvatarSuccess(res, file, fileList) {
       console.log(file);
-      file.uid = res.data.AttachmentKey;
+      file.uid = res.data.FileUrls[0].Url;
+      this.form.attachmentkey = res.data.AttachmentKey;
       this.imageUrl = fileList;
     },
     // 删除附件

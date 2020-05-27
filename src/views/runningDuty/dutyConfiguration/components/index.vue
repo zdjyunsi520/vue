@@ -56,7 +56,7 @@
               <el-row class="table-btns">
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
                 <el-button :disabled="!disabledSelect" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-                <el-button icon="el-icon-delete" @click="handleSubmit">保存</el-button>
+                <el-button type="primary"  icon="el-icon-delete" @click="handleSubmit">保存</el-button>
                 <el-button icon="el-icon-delete" @click="handleBack">返回</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
