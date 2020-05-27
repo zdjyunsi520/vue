@@ -82,8 +82,8 @@
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
             <div class="form-smtitle marginBottom30">历史曲线
-              <el-tag type="danger">form.intervalId=</el-tag>
-              <el-tag>{{form.intervalId}}</el-tag>
+              <!-- <el-tag type="danger">form.intervalId=</el-tag>
+              <el-tag>{{form.intervalId}}</el-tag> -->
             </div>
             <el-row>
               <el-col :span="3"> {{labelName}}</el-col>

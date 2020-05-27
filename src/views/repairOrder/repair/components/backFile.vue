@@ -4,8 +4,8 @@
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="故障受理" name="add"></el-tab-pane>
-        <el-tab-pane label="故障抢修" name="repair"></el-tab-pane>
-        <el-tab-pane label="故障归档" name="backFile"></el-tab-pane>
+        <el-tab-pane label="故障抢修" name="repair" v-if="form.Status>1"></el-tab-pane>
+        <el-tab-pane label="故障归档" name="backFile" v-if="form.Status>2"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>

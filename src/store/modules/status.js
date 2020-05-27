@@ -81,7 +81,28 @@ const state = {
   rwType: [{ key: true, value: "是" }, { key: false, value: "否" }],
   rwKV: null,
   communicateHostType: null,
-  communicateHostKV: null
+  communicateHostKV: null,
+  //抢修工单 状态类型
+  repairOrderType: [
+    { value: "故障受理", key: 1 },
+    { value: "故障抢修", key: 2 },
+    { value: "故障归档", key: 3 },
+    { value: "完成", key: 4 }
+  ],
+  repairOrderKV: null,
+  //抢修工单 业务来源 类型
+  orderResourceType: [
+    { value: "用户报修", key: 1 },
+    { value: "故障告警", key: 2 }
+  ],
+  orderResourceKV: null,
+  //抢修工单 紧急程度 类型
+  urgencyType: [
+    { value: "紧急", key: 2 },
+    { value: "重要", key: 3 },
+    { value: "一般", key: 1 }
+  ],
+  urgencyKV: null
 };
 
 const mutations = {
@@ -213,6 +234,23 @@ const getters = {
   recordKV: state => {
     state.recordKV || (state.recordKV = reduceKV(state.recordType));
     return state.recordKV;
+  },
+  repairOrderType: state => state.repairOrderType,
+  repairOrderKV: state => {
+    state.repairOrderKV ||
+      (state.repairOrderKV = reduceKV(state.repairOrderType));
+    return state.repairOrderKV;
+  },
+  urgencyType: state => state.urgencyType,
+  urgencyKV: state => {
+    state.urgencyKV || (state.urgencyKV = reduceKV(state.urgencyType));
+    return state.urgencyKV;
+  },
+  orderResourceType: state => state.orderResourceType,
+  orderResourceKV: state => {
+    state.orderResourceKV ||
+      (state.orderResourceKV = reduceKV(state.orderResourceType));
+    return state.orderResourceKV;
   }
 };
 

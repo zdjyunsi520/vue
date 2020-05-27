@@ -51,14 +51,14 @@
         </template>
         <el-table-column type="selection" fixed="left" width="55" align="center" />
         <el-table-column label="告警等级" min-width="220" sortable align='center' prop="ReportName"></el-table-column>
-        <el-table-column label="用电单位" min-width="250" sortable align='center' prop="TenantName"></el-table-column>
-        <el-table-column label="配电房/屏柜" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="设备名称" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="信号名" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警描述" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警时间" min-width="140" sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="告警值" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
+        <el-table-column label="用电单位" min-width="250" sortable align='center' prop="ReportName1"></el-table-column>
+        <el-table-column label="配电房/屏柜" width="150" sortable align='center' prop="ReportName2"></el-table-column>
+        <el-table-column label="设备名称" width="150" sortable align='center' prop="ReportName3"></el-table-column>
+        <el-table-column label="信号名" width="150" sortable align='center' prop="ReportName4"></el-table-column>
+        <el-table-column label="告警描述" width="150" sortable align='center' prop="ReportName5"></el-table-column>
+        <el-table-column label="告警时间" min-width="140" sortable align='center' prop="ReportName6"></el-table-column>
+        <el-table-column label="告警值" min-width="140" sortable align='center' prop="ReportName7"></el-table-column>
+        <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportName8"></el-table-column>
 
       </el-table>
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
@@ -294,6 +294,31 @@ export default {
         .then(response => {
           this.dataList = response.data;
           this.total = response.total;
+          this.dataList = [
+            {
+              ReportName: "一般",
+              ReportName1: "福建迅腾电力科技有限公司",
+              ReportName2: "配电室1/--",
+              ReportName3: "1#烟感",
+              ReportName4: "故障",
+              ReportName5: "1#烟感 故障 启动",
+              ReportName6: "2020-04-05 15:11:32",
+              ReportName7: "1.0",
+              ReportName8: "是",
+              ReportName9: "是"
+            },
+            {
+              ReportName: "普通",
+              ReportName1: "福建迅腾电力科技有限公司",
+              ReportName2: "配电室1/低压进线间隔",
+              ReportName3: "A相电流",
+              ReportName4: "低压进线间隔 A相电流 过流",
+              ReportName5: "1#烟感 故障 启动",
+              ReportName6: "2020-04-03 14:41:27",
+              ReportName7: "1.0",
+              ReportName8: "是"
+            }
+          ];
         })
         .finally(r => {
           this.listLoading = false;

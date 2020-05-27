@@ -14,3 +14,6 @@ export function update(data) {
 export function deleted(data) {
   return post("/RepairOrderReceive/Remove", data, commonUrl);
 }
+export function senderOrder(data) {
+  return post("/RepairOrderReceive/Send", data, commonUrl);
+}
