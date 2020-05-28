@@ -16,31 +16,46 @@
           <el-col :span='5' :xs='8' class='count-box'>
             <p>运维中心</p>
             <div class="dataCount">
-              <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
+              <div>
+                {{maintenanceCenter}}
+                <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
+              </div>
             </div>
           </el-col>
           <el-col :span='5' :xs='8' class='count-box'>
             <p>总用户</p>
             <div class="dataCount">
-              <countTo :startVal='startVal' :endVal='totalUsers' :duration='3000' separator=''></countTo>
+              <div>
+                {{totalUsers}}
+                <countTo :startVal='startVal' :endVal='totalUsers' :duration='3000' separator=''></countTo>
+              </div>
             </div>
           </el-col>
           <el-col :span='4' :xs='8' class='count-box'>
             <p>总容量(kVA)</p>
             <div class="dataCount">
-              <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
+              <div>
+                {{totalCapacity}}
+                <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
+              </div>
             </div>
           </el-col>
           <el-col :span='5' :xs='8' class='count-box'>
             <p>配电房</p>
             <div class="dataCount">
-              <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
+              <div>
+                {{powerRoom}}
+                <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
+              </div>
             </div>
           </el-col>
           <el-col :span='5' :xs='8' class='count-box'>
             <p>安全运行(天)</p>
             <div class="dataCount">
-              <countTo :startVal='startVal' :endVal='safeRunning' :duration='3000' separator=''></countTo>
+              <div>
+                {{safeRunning}}
+                <countTo :startVal='startVal' :endVal='safeRunning' :duration='3000' separator=''></countTo>
+              </div>
             </div>
           </el-col>
         </div>
@@ -539,16 +554,21 @@ export default {
   }
 }
 .dataCount {
-  span {
+  div {
     display: inline-block;
+    position: relative;
     background: url("../../../assets/image/userscreen/ic_number_bj.png")
       repeat-x;
-    background-size: 40px 100%;
-    color: #fff;
+    background-size: calc(3103px / 100) 100%;
     font-size: 36px;
     font-weight: bold;
-    padding-left: 5px;
-    letter-spacing: 5px;
+    letter-spacing: 11px;
+    color: transparent;
+    span {
+      position: absolute;
+      left: calc(11px / 2);
+      color: #fff;
+    }
   }
 }
 .maincontent {

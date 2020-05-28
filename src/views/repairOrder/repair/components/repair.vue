@@ -13,37 +13,35 @@
           <el-row>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="到达现场时间" prop="arrivetime">
-                  <el-date-picker v-model="form.arrivetime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                <el-form-item label="到达现场时间" prop="ArriveTime">
+                  <el-date-picker :disabled="disabled" v-model="form.ArriveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="故障排除时间" prop="processtime">
-                  <el-date-picker v-model="form.processtime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                <el-form-item label="故障排除时间" prop="ProcessTime">
+                  <el-date-picker :disabled="disabled" v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="恢复送电时间" prop="recovertime">
-                  <el-date-picker v-model="form.recovertime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                <el-form-item label="恢复送电时间" prop="RecoverTime">
+                  <el-date-picker :disabled="disabled" v-model="form.RecoverTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="处理人" prop="processpersonId">
-                  <el-select v-model="form.processpersonId" placeholder="">
-                    <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                  </el-select>
+                <el-form-item label="处理人" prop="ProcessPersonId">
+                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="processpersonId" />
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="现场抢修记录" prop="situation">
-                <el-input type="textarea" :rows="5" v-model="form.situation" placeholder="" />
+              <el-form-item label="现场抢修记录" prop="ProcessRecord">
+                <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.ProcessRecord" placeholder="" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -52,58 +50,52 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading">发 送</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSubmit" :loading="loading" v-if="form1.Status == 2">发 送</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
 
-      <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
-        <el-tree :data="processorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleEmpcheck">确 定</el-button>
-          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-        </span>
-      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getInfo, add, update } from "@/api/repairOrder/repair";
+import { getInfo, add, senderOrder } from "@/api/repairOrder/repair";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
+import TreeSelect from "@/views/components/TreeSelect";
 export default {
+  components: { TreeSelect },
   data() {
     const rules = {
-      arrivetime: [
+      ArriveTime: [
         {
           required: true,
           message: "请选择时间",
           trigger: "blur"
         }
       ],
-      processtime: [
+      ProcessTime: [
         {
           required: true,
           message: "请选择时间",
           trigger: "blur"
         }
       ],
-      recovertime: [
+      RecoverTime: [
         {
           required: true,
           message: "请选择时间",
           trigger: "blur"
         }
       ],
-      processpersonId: [
+      ProcessPersonId: [
         {
           required: true,
-          message: "请选择处理人",
-          trigger: "blur"
+          message: "请选择处理人"
         }
       ],
-      processrecord: [
+      ProcessRecord: [
         {
           required: true,
           message: "现场抢修记录不能为空",
@@ -113,7 +105,7 @@ export default {
     };
     return {
       form: {},
-      form1: {},
+      form1: { Status: 0 },
       rules,
       dialogVisible: false,
       loading: false,
@@ -140,48 +132,39 @@ export default {
       ischange: false,
       count: 0,
       selectAssets: [],
-      activeName: "repair"
+      activeName: "repair",
+      processpersonId: []
     };
   },
   computed: {
-    ...mapGetters(["name", "userId", "token"])
+    ...mapGetters(["name", "userId", "token"]),
+    disabled() {
+      return this.form1.Status > 2;
+    }
   },
   created() {
     this.getTenantEmployees();
     let { data, TenantIds } = this.$route.params;
-    this.form1 = data;
+
     this.TenantIds = TenantIds;
     this.getInfo(data);
   },
   methods: {
     // 巡视人员
     getTenantEmployees() {
-      getTenantEmployees({})
-        .then(res => {
-          this.allpatrolusers = res.data;
-          if (this.form.repairtenantid) this.getProcessor();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getTenantEmployees({}).then(res => {
+        this.allpatrolusers = res.data;
+      });
     },
-
+    handleConfirm(data) {
+      this.processpersonId = data.map(v => v.id);
+      this.form.ProcessPersonId = this.processpersonId.join(",");
+    },
     changeTenant() {
       this.ischange = true;
       this.getProcessor();
     },
-    // 消缺人下拉
-    getProcessor() {
-      if (this.ischange) {
-        this.form.chargepersonId = "";
-        this.form.receivepersonId = "";
-      }
-      this.allpatrolusers.forEach(v => {
-        if (v.id == this.form.repairtenantid) {
-          this.processorIds = v.childs;
-        }
-      });
-    },
+
     checkchange(data, checked) {
       if (checked) {
         const target = this.$refs.tree;
@@ -196,28 +179,33 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          receiveId: "",
-          arrivetime: "",
-          processtime: "",
-          recovertime: "",
-          processpersonId: "",
-          processrecord: ""
+          Id: "",
+          ArriveTime: "",
+          ProcessTime: "",
+          RecoverTime: "",
+          ProcessPersonId: "",
+          ProcessRecord: ""
         },
         data
       );
     },
     getInfo(data) {
       this.loading = true;
-      if (data && data.Status > 2) {
-        const { OrderCode } = data;
-        getInfo({ OrderCode })
-          .then(res => {
-            this.reset(res.data);
-          })
-          .finally(v => (this.loading = false));
-      } else {
-        this.loading = false;
-        this.reset(data);
+      if (data) {
+        this.form1 = data;
+        const { Id } = data;
+
+        if (data.Status > 2) {
+          getInfo({ Id })
+            .then(res => {
+              this.processpersonId = res.data.ProcessPersonId.split(",");
+              this.reset(res.data);
+            })
+            .finally(v => (this.loading = false));
+        } else {
+          this.loading = false;
+          this.reset({ Id });
+        }
       }
     },
     handleOpen(data) {
@@ -226,10 +214,6 @@ export default {
         params: {}
       });
     },
-    // 回退
-    handleBack() {},
-    // 发送
-    handleSend() {},
     handleClick(a) {
       const data = this.form1;
       this.$router.push({
@@ -242,11 +226,16 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;
-          let fn = this.form.Id ? update : add;
+          let fn = add;
           fn(this.form)
             .then(res => {
-              this.$message.success(res.msg);
-              this.handleOpen();
+              let Id = res.data.Id;
+              senderOrder({ Id })
+                .then(r => {
+                  this.$message.success("发送成功");
+                  this.handleOpen();
+                })
+                .catch(e => (this.loading = false));
             })
             .catch(r => {
               this.loading = false;

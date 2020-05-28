@@ -60,7 +60,7 @@
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
               </el-button>
               <el-button v-else-if="row.Status==4" type="text" size="mini" @click="handleUpdate(row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看
               </el-button>
               <el-button v-else type="text" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -148,13 +148,9 @@ export default {
     },
     // 巡视单位列表
     getTenants() {
-      getChildrenList()
-        .then(res => {
-          this.TenantIds = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getChildrenList().then(res => {
+        this.TenantIds = res.data;
+      });
     },
     formatterStatus(row) {
       return this.repairOrderKV[row.Status];

@@ -13,29 +13,29 @@
           <el-row>
             <el-col :span="11" :xs="24">
               <el-form-item label="用电单位" prop="SourceTenantId">
-                <el-select v-model="form.SourceTenantId" placeholder="">
+                <el-select v-model="form.SourceTenantId" placeholder="" :disabled="disabled">
                   <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="地址" prop="Address">
-                <el-input v-model="form.Address" placeholder="" />
+                <el-input v-model="form.Address" placeholder="" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="联系人" prop="ContactPerson">
-                <el-input v-model="form.ContactPerson" placeholder="请输入联系人" />
+                <el-input v-model="form.ContactPerson" placeholder="请输入联系人" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="联系电话" prop="ContactPhoneNo">
-                <el-input v-model="form.ContactPhoneNo" placeholder="请输入联系电话" />
+                <el-input v-model="form.ContactPhoneNo" placeholder="请输入联系电话" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="业务来源" prop="BizSource">
-                <el-select v-model="form.BizSource">
+                <el-select v-model="form.BizSource" :disabled="disabled">
                   <el-option label="用户报修" :value="1"></el-option>
                   <el-option label="故障告警" :value="2"></el-option>
                 </el-select>
@@ -44,7 +44,7 @@
 
             <el-col :span="11" :xs="24">
               <el-form-item label="紧急程度" prop="EmergencyLevel">
-                <el-select v-model="form.EmergencyLevel" placeholder="请选择设备">
+                <el-select v-model="form.EmergencyLevel" placeholder="请选择设备" :disabled="disabled">
                   <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -52,7 +52,7 @@
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
                 <el-form-item label="抢修单位" prop="RepairTenantId">
-                  <el-select v-model="form.RepairTenantId" placeholder="">
+                  <el-select v-model="form.RepairTenantId" placeholder="" :disabled="disabled">
                     <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                   </el-select>
                 </el-form-item>
@@ -60,32 +60,34 @@
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="负责人" prop="ChargePersonId">
-                <!-- <el-input v-model="form.assetsIdtext" placeholder="" @focus="getAssets" /> -->
-                <el-select v-model="form.ChargePersonId" placeholder="">
+                <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
+                <!-- <el-input v-model="form.ChargePersonId" placeholder="" @focus="getChargePerson" /> -->
+                <!-- <el-select v-model="form.ChargePersonId" placeholder="">
                   <el-option v-for="(item,index) in personList" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="联系电话" prop="ChargePhoneNo">
-                <el-input v-model="form.ChargePhoneNo" placeholder="请输入负责人联系电话" />
+                <el-input v-model="form.ChargePhoneNo" placeholder="请输入负责人联系电话" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="受理人" prop="ReceivePersonId">
-                <el-select v-model="form.ReceivePersonId" placeholder="">
+                <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="ReceivePersonId" :disabled="disabled" />
+                <!-- <el-select v-model="form.ReceivePersonId" placeholder="">
                   <el-option v-for="(item,index) in personList" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="联系电话" prop="ReceivePhoneNo">
-                <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" />
+                <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
               <el-form-item label="受理时间" prop="ReceiveTime">
-                <el-date-picker v-model="form.ReceiveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                <el-date-picker :disabled="disabled" v-model="form.ReceiveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
@@ -96,7 +98,7 @@
 
             <el-col :span="11" :xs="24">
               <el-form-item label="故障现象" prop="Situation">
-                <el-input type="textarea" :rows="5" v-model="form.Situation" placeholder="请输入故障现象" />
+                <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Situation" placeholder="请输入故障现象" />
               </el-form-item>
             </el-col>
 
@@ -112,13 +114,6 @@
         </div>
       </el-col>
 
-      <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
-        <el-tree :data="allpatrolusers" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleEmpcheck">确 定</el-button>
-          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-        </span>
-      </el-dialog>
     </div>
   </div>
 </template>
@@ -127,7 +122,10 @@
 import { add, update, senderOrder } from "@/api/repairOrder";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
+import TreeSelect from "@/views/components/TreeSelect";
+import { getChildrenList } from "@/api/org";
 export default {
+  components: { TreeSelect },
   data() {
     const rules = {
       SourceTenantId: [
@@ -161,15 +159,13 @@ export default {
       ChargePersonId: [
         {
           required: true,
-          message: "请选择负责人",
-          trigger: "blur"
+          message: "请选择负责人"
         }
       ],
       ReceivePersonId: [
         {
           required: true,
-          message: "请选择受理人",
-          trigger: "blur"
+          message: "请选择受理人"
         }
       ],
       ReceiveTime: [
@@ -193,7 +189,11 @@ export default {
         children: "childs",
         label: "text"
       },
-      ranks: [],
+      ranks: [
+        { name: "一般", id: 1 },
+        { name: "紧急", id: 2 },
+        { name: "严重", id: 3 }
+      ],
       TenantIds: [],
       imageUrl: [],
       dialogImageUrl: "",
@@ -208,7 +208,10 @@ export default {
       ischange: 0,
       count: 0,
       selectAssets: [],
-      activeName: "add"
+      activeName: "add",
+      ChargePersonId: [],
+      ReceivePersonId: [],
+      form1: {}
     };
   },
   computed: {
@@ -216,8 +219,8 @@ export default {
     personList() {
       let list = [];
       if (this.ischange > 1) {
-        this.form.ChargePersonId = "";
-        this.form.ReceivePersonId = "";
+        this.ChargePersonId = [];
+        this.ReceivePersonId = [];
       }
       this.ischange++;
       this.allpatrolusers.forEach(v => {
@@ -226,22 +229,31 @@ export default {
         }
       });
       return list;
+    },
+    disabled() {
+      return this.form1.Status > 1;
     }
   },
   created() {
+    this.getTenants();
     this.getTenantEmployees();
-    let { data, title, TenantIds, ranks } = this.$route.params;
-    this.title = title;
-    this.TenantIds = TenantIds;
-    this.ranks = ranks;
-    // if (data && data.Id) {
-    //   this.getInfo(data);
-    // } else {
-    //   this.reset(data);
-    // }
+    let { data } = this.$route.params;
+    this.form1 = Object.assign({}, data);
     this.reset(data);
   },
   methods: {
+    // 巡视单位列表
+    getTenants() {
+      getChildrenList().then(res => {
+        this.TenantIds = res.data;
+      });
+    },
+    handleConfirm(data) {
+      this.ChargePersonId = data.map(v => v.id);
+    },
+    handleConfirm1(data) {
+      this.ReceivePersonId = data.map(v => v.id);
+    },
     // 巡视人员
     getTenantEmployees() {
       getTenantEmployees({})
@@ -261,9 +273,11 @@ export default {
     // 消缺人下拉
     getProcessor() {
       if (this.ischange) {
-        this.form.chargepersonId = "";
+        this.ChargePersonId = [];
+        console.log(this.ChargePersonId);
         this.form.receivepersonId = "";
       }
+
       this.allpatrolusers.forEach(v => {
         if (v.id == this.form.repairtenantid) {
           this.processorIds = v.childs;
@@ -272,8 +286,8 @@ export default {
     },
 
     // 获取设备列表
-    getAssets() {
-      this.dialogEmployeesVisible = true;
+    getChargePerson() {
+      this.dialogChargePersonVisible = true;
       getTrees()
         .then(res => {
           this.allassetsTree = res.data;
@@ -331,10 +345,6 @@ export default {
 
     // 表单重置
     reset(data) {
-      const now = Date.now();
-      var nowTime = new Date(now);
-      var processdueTime = new Date(now);
-      processdueTime.setMonth(processdueTime.getMonth() + 6);
       this.form = Object.assign(
         {
           Id: "",
@@ -365,6 +375,10 @@ export default {
         },
         data
       );
+      if (this.form.ChargePersonId)
+        this.ChargePersonId = this.form.ChargePersonId.split(",");
+      if (this.form.ReceivePersonId)
+        this.ReceivePersonId = this.form.ReceivePersonId.split(",");
     },
     getInfo(data) {
       this.loading = true;
@@ -397,6 +411,8 @@ export default {
     handleBack() {},
     // 发送
     handleSend() {
+      this.form.ChargePersonId = this.ChargePersonId.join(",");
+      this.form.ReceivePersonId = this.ReceivePersonId.join(",");
       this.$refs["form"].validate(valid => {
         if (valid) {
           let { Id } = this.form;
@@ -419,7 +435,7 @@ export default {
       });
     },
     handleClick(a) {
-      const data = {};
+      const data = this.form1;
       this.$router.push({
         name: "/repairOrder/repair/components/" + a.name,
         params: { data }
@@ -427,6 +443,8 @@ export default {
     },
     /** 提交按钮 */
     handleSubmit() {
+      this.form.ChargePersonId = this.ChargePersonId.join(",");
+      this.form.ReceivePersonId = this.ReceivePersonId.join(",");
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;

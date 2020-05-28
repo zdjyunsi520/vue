@@ -528,12 +528,12 @@ export default {
     display: inline-block;
     background: url("../../../assets/image/userscreen/ic_number_bj.png")
       repeat-x;
-    background-size: 40px 100%;
+    background-size: calc(2608px / 100) 100%;
     color: #fff;
     font-size: 36px;
     font-weight: bold;
-    padding-left: 5px;
-    letter-spacing: 5px;
+    letter-spacing: 6px;
+    text-indent: 1.2px;
   }
 }
 .maincontent {
