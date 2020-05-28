@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "90%"
     },
 
     chartData: {
@@ -93,6 +93,7 @@ export default {
           data: legendData
         },
         color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
+       
         series: [
           {
             name: "用电结构",
@@ -105,13 +106,15 @@ export default {
                 shadowBlur: 5
               }
             },
+            label: {
+                show: true,
+                position: 'center'
+            },
             data: listData,
             labelLine: {
               show: false
             },
-            label: {
-              show: false
-            }
+         
           }
         ]
       });

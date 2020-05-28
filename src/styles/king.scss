@@ -756,3 +756,64 @@
  .el-radio-button:first-child .el-radio-button__inner{
     border-radius: 2px 0 0 2px;
  }
+
+ 
+ .lightimg{
+    position:absolute;
+    left:10px;right:10px;
+    top:12%;
+    text-align:center;
+    img{
+      width:13%;
+        -webkit-animation: move 1s infinite  linear;
+        animation: move 1s infinite  linear;
+      &:nth-child(1){
+        -webkit-animation-delay:0.2s;
+        animation-delay:0.2s;
+      }
+      &:nth-child(2){
+        -webkit-animation-delay:0.8s;
+        animation-delay:0.8s;
+      }
+      &:nth-child(3){
+        -webkit-animation-delay:0.5s;
+        animation-delay:0.5s;
+      }
+      &:nth-child(4){
+        -webkit-animation-delay:0.9s;
+        animation-delay:0.9s;
+      }
+      &:nth-child(5){
+        -webkit-animation-delay:0.3s;
+        animation-delay:0.3s;
+      }
+    }
+    
+  }
+@-webkit-keyframes move{
+    0% {
+      transform:translateY(-20%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform:translateY(100%);
+      opacity: 0;
+    }
+  }
+@keyframes move {
+    0% {
+      transform:translateY(-20%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform:translateY(100%);
+      opacity: 0;
+      
+    }
+}

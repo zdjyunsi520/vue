@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "200px"
+      default: "98%"
     },
     autoResize: {
       type: Boolean,
@@ -61,7 +61,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.setOptions(this.linechartData);
     },
-    setOptions({legendData, highData, averageData, lowData } = {}) {
+    setOptions({ legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 10,
@@ -120,7 +120,7 @@ export default {
           },
           splitLine: {
             lineStyle: {
-              color: "#1b2c5e",
+              color: "#1b2c5e"
             }
           },
           splitArea: {
@@ -135,7 +135,7 @@ export default {
           icon: "circle",
           textStyle: {
             color: "#ffffff",
-            fontSize:12,
+            fontSize: 12
           },
           data: legendData
         },
@@ -175,10 +175,10 @@ export default {
             smooth: true,
             clip: false,
             type: "line",
-            data: highData,
+            data: highData
           },
           {
-            name:legendData[1],
+            name: legendData[1],
             showAllSymbol: true,
             clip: false,
             smooth: true,
@@ -207,10 +207,10 @@ export default {
                 ]) //背景渐变色
               }
             },
-            data: averageData,
+            data: averageData
           },
           {
-            name:legendData[2],
+            name: legendData[2],
             showAllSymbol: true,
             clip: false,
             smooth: true,
@@ -239,7 +239,7 @@ export default {
                 ]) //背景渐变色
               }
             },
-            data: lowData,
+            data: lowData
           }
         ]
       });

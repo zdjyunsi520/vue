@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "100%"
     },
 
     piechartData: {
@@ -91,7 +91,7 @@ export default {
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-          show: true,
+          show: false,
           right: 30,
           bottom: 30,
           data: ["总巡检", "总预警", "总抢修"]
@@ -101,7 +101,8 @@ export default {
           {
             name: "总抢修",
             type: "pie",
-            radius: ["30%", "43%"],
+            hoverAnimation:false,
+            radius: ["40%", "53%"],
             center: ["50%", "50%"],
             label: {
               normal: {
@@ -118,15 +119,15 @@ export default {
                 show: false
               }
             },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
+            // itemStyle: {
+            //   borderColor: "#3e4674"
+            // },
             data: [
               {
                 value: 100,
                 itemStyle: {
                   normal: {
-                    color: "rgba(0,0,0,0)"
+                    color: "rgba(0,0,0,0.1)"
                   }
                 }
               },
@@ -144,7 +145,8 @@ export default {
           {
             name: "总预警",
             type: "pie",
-            radius: ["50%", "63%"],
+            hoverAnimation:false,
+            radius: ["60%", "73%"],
             center: ["50%", "50%"],
             legendHoverLink: false,
             avoidLabelOverlap: false,
@@ -161,9 +163,9 @@ export default {
                 }
               }
             },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
+            // itemStyle: {
+            //   borderColor: "#3e4674"
+            // },
             labelLine: {
               normal: {
                 show: false
@@ -174,7 +176,7 @@ export default {
                 value: 100,
                 itemStyle: {
                   normal: {
-                    color: "rgba(0,0,0,0)"
+                    color: "rgba(0,0,0,0.1)"
                   }
                 }
               },
@@ -192,8 +194,8 @@ export default {
           {
             name: "总巡检",
             type: "pie",
-
-            radius: ["70%", "83%"],
+            hoverAnimation:false,
+            radius: ["80%", "93%"],
             center: ["50%", "50%"],
             label: {
               normal: {
@@ -208,9 +210,9 @@ export default {
                 }
               }
             },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
+            // itemStyle: {
+            //   borderColor: "#3e4674"
+            // },
             labelLine: {
               normal: {
                 show: false
@@ -221,7 +223,7 @@ export default {
                 value: 100,
                 itemStyle: {
                   normal: {
-                    color: "rgba(0,0,0,0)"
+                    color: "rgba(0,0,0,0.1)"
                   }
                 }
               },

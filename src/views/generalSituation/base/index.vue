@@ -521,4 +521,9 @@ h6 {
     padding: 0 8px;
   }
 }
+
+/deep/.el-scrollbar__bar.is-horizontal{
+  display:none;
+}
+
 </style>

@@ -267,7 +267,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .screenbg {
-  background: url(../../../assets/image/largescreen/img_big_data_bj.png)
+  background: url(../../../assets/image/largescreen/img_big_data_bj.jpg)
     no-repeat;
   background-size: 100% 100%;
 }
