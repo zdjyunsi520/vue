@@ -457,10 +457,11 @@ export default {
   background: url(../../../assets/image/largescreen/img_big_data_bj.jpg)
     no-repeat;
   background-size: 100% 100%;
+  padding: 0 15px;
 }
 .tophead {
   position: relative;
-  padding: 40px 0px 20px;
+  padding: 20px 0px 20px;
 
   .img_title_bj {
     width: 100%;
