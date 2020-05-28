@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "350px"
+      default: "100%"
     },
 
     chartData: {
@@ -80,56 +80,53 @@ export default {
       });
     },
 
-    setOptions({ title, listData } = {}) {
+    setOptions({ legendData, listData } = {}) {
       this.chart.setOption({
+        backgroundColor: "rgba(0,0,0,0)",
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c}"
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-
+        legend: {
+          show: true,
+          top: 0,
+          right: 0,
+          itemWidth: 6,
+          itemheight: 6,
+          icon: "circle",
+          data: legendData,
+          textStyle: {
+            color: "#fff"
+          }
+        },
+        color: ["#d2feff", "#2178ff", "#06fdff"],
         series: [
           {
-            name: title,
-
-            splitNumber: 1,
-            title: {
-              offsetCenter: [0, "90%"],
-              color: "#558cf7",
-              fontSize: 18
-            },
-            axisLine: {
-              show: true,
-              lineStyle: {
-                width: 30,
-                color: [
-                  [0.5, "#558cf7"],
-                  [1, "#e3ebff"]
-                ]
-              }
-            },
-
-            axisLabel: {
-              distance: 15,
-              fontSize: 16,
-              color: "#909399"
-            },
-
-            pointer: {
+            name: "用电类型",
+            type: "pie",
+            radius: ["50%", "70%"],
+            center: ["50%", "45%"],
+            labelLine: {
               show: false
             },
-            axisTick: {
-              // show: false
+            label: {
+              show: false,
+              position: "center",
+              formatter: function(params) {
+                return params.value + "%";
+              }
             },
-            //
-            radius: "90%",
-            min: 0,
-            max: 100,
-            type: "gauge",
-            center: ["50%", "50%"],
-            detail: {
-              offsetCenter: [0, "0%"],
-              fontSize: 40,
-              formatter: "{value}%"
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: "20",
+                position: "center",
+                fontWeight: "bold"
+              }
+            },
+            itemStyle: {
+              borderColor: "#3e4674",
+              borderWidth: 1
             },
             data: listData
           }

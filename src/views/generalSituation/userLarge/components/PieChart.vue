@@ -3,85 +3,120 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
-import resize from './mixins/resize'
+import echarts from "echarts";
+require("echarts/theme/macarons"); // echarts theme
+import resize from "./mixins/resize";
 
 export default {
   mixins: [resize],
   props: {
     className: {
       type: String,
-      default: 'chart'
+      default: "chart"
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%"
     },
     height: {
       type: String,
-      default: '300px'
+      default: "333px"
+    },
+
+    chartData: {
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
       chart: null
+    };
+  },
+  watch: {
+    chartData: {
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOption(newVal);
+          } else {
+            this.setOption(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
   mounted() {
     this.$nextTick(() => {
-      this.initChart()
-    })
+      this.initChart();
+    });
   },
   beforeDestroy() {
     if (!this.chart) {
-      return
+      return;
     }
-    this.chart.dispose()
-    this.chart = null
+    this.chart.dispose();
+    this.chart = null;
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+      this.chart = echarts.init(this.$el, "macarons");
+      this.showLoading();
+      if (this.chartData.listData) {
+        this.chart.hideLoading();
+        this.setOptions(this.chartData);
+      }
+    },
+    showLoading() {
+      this.chart.showLoading({
+        text: "Loading",
+        color: "#999999",
+        textColor: "#999",
+        maskColor: "rgba(0, 0, 0, 0)",
+        zlevel: 0
+      });
+    },
 
+    setOptions({ legendData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}户 ({d}%)'
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-          show:true,
-          right: '0',
-          bottom: '10',
-          data: ['商业', '工业', '居民']
+          show: true,
+          left: "center",
+          bottom: 30,
+          data: legendData
         },
-        label:{
-          formatter: '{b} : {d}%',
-        },
-        color : [ '#555', '#777', '#999' ],
+        color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
         series: [
           {
-            name: '用电统计',
-            type: 'pie',
-            radius:['30%', '50%'],
-            center: ['50%', '50%'],
+            name: "用电结构",
+            type: "pie",
+            radius: "55%",
+            center: ["50%", "40%"],
             emphasis: {
-              itemStyle:{
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-                shadowBlur: 10,
+              itemStyle: {
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+                shadowBlur: 5
               }
             },
-            data: [
-              { value: 320, name: '商业' },
-              { value: 240, name: '工业' },
-              { value: 149, name: '居民' },
-            ],
-           
+            data: listData,
+            labelLine: {
+              show: false
+            },
+            label: {
+              show: false
+            }
           }
-        ],
-       
-      })
+        ]
+      });
+      this.chart.hideLoading();
     }
   }
-}
+};
 </script>

@@ -97,12 +97,12 @@ export default {
           {
             name: title,
             type: "pie",
-            radius: ["55%", "80%"],
+            radius: ["60%", "85%"],
             center: ["50%", "50%"],
             emphasis: {
               itemStyle: {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 5
+                shadowBlur: 3
               }
             },
             data: [
@@ -114,8 +114,28 @@ export default {
                     show: true,
                     position: "center",
                     fontSize: 14,
-                    formatter: "{d}%\n\n" + text + ""
+                    formatter:  params => {
+                      return (
+                          '{value| '+params.value+'%}\n{name|' + text + '}'
+                      );
+                    },
+                    // "{d}%\n\n" + text + "",
+                    rich: {
+                       
+                        name: {
+                            fontSize: 12,
+                            padding: [0, 10, 0,0],
+                            color: '#999999'
+                        },
+                        value: {
+                            fontSize: 24,
+                            fontWeight: 'bold',
+                            color: colors[0]
+                        }
+                    }
+                    
                   }
+                  
                 }
               },
               {

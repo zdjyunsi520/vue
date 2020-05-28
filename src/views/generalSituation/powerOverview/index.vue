@@ -387,4 +387,8 @@ export default {
     right: 30px;
   }
 }
+
+/deep/.el-scrollbar__bar.is-horizontal{
+  display:none;
+}
 </style>

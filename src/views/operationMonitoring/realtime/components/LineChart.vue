@@ -61,11 +61,11 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.setOptions(this.chartData);
     },
-    setOptions({ actualData } = {}) {
+    setOptions({ xAxisData, actualData } = {}) {
       this.chart.setOption({
         xAxis: {
           type: "category",
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          data: xAxisData,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -99,7 +99,8 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
-           axisTick: {
+          name: "单位（A）",
+          axisTick: {
             show: false
           },
           axisLine: {
@@ -126,21 +127,21 @@ export default {
           }
         },
         legend: {
-          show:false,
+          show: false
         },
         series: [
           {
-            name: "actual",
+            // name: "",
             smooth: false,
             type: "line",
             itemStyle: {
               normal: {
-                color: "#333",
+                color: "#558cf7",
                 lineStyle: {
                   // 系列级个性化折线样式
-                  width: 2,
+                  width: 1,
                   type: "solid",
-                  color: "#a8c9ff" //折线的颜色
+                  color: "#558cf7" //折线的颜色
                 },
 
                 areaStyle: {
@@ -164,8 +165,19 @@ export default {
               }
             },
             data: actualData,
-            animationDuration: 2800,
-            animationEasing: "quadraticOut"
+
+            markPoint: {
+              symbol: "pin",
+              symbolSize: 40,
+              label: {
+                fontSize: 12,
+                fontWeight: "normal"
+              },
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" }
+              ]
+            }
           }
         ]
       });

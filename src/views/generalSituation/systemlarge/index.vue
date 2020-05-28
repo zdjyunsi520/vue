@@ -1,117 +1,231 @@
 
 <template>
   <div class="app-container screenbg">
-    <el-row class="tophead">
-      <img src="@/assets/image/largescreen/img_title_bj_1.png" class="img_title_bj">
-      <div class="cnt">
-        <span class="left">智能运维 为客户创造价值</span>
-        <img src="@/assets/image/largescreen/img_name.png" class="img_title">
-        <span class="right">
-          <Systime /></span>
-      </div>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span='5' :xs='8' class='count-box'>
-        <p>运维中心</p>
-        <div class="dataCount">
-          <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
+    <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+      <el-row class="tophead">
+        <img src="@/assets/image/largescreen/img_title_bj_1.png" class="img_title_bj">
+        <div class="cnt">
+          <span class="left">智能运维 为客户创造价值</span>
+          <img src="@/assets/image/largescreen/img_name.png" class="img_title">
+          <span class="right">
+            <Systime /></span>
         </div>
-      </el-col>
-      <el-col :span='5' :xs='8' class='count-box'>
-        <p>总用户</p>
-        <div class="dataCount">
-          <countTo :startVal='startVal' :endVal='totalUsers' :duration='3000' separator=''></countTo>
+      </el-row>
+      <el-row :gutter="20">
+        <div style="width:80%;margin:auto">
+          <el-col :span='5' :xs='8' class='count-box'>
+            <p>运维中心</p>
+            <div class="dataCount">
+              <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
+            </div>
+          </el-col>
+          <el-col :span='5' :xs='8' class='count-box'>
+            <p>总用户</p>
+            <div class="dataCount">
+              <countTo :startVal='startVal' :endVal='totalUsers' :duration='3000' separator=''></countTo>
+            </div>
+          </el-col>
+          <el-col :span='4' :xs='8' class='count-box'>
+            <p>总容量(kVA)</p>
+            <div class="dataCount">
+              <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
+            </div>
+          </el-col>
+          <el-col :span='5' :xs='8' class='count-box'>
+            <p>配电房</p>
+            <div class="dataCount">
+              <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
+            </div>
+          </el-col>
+          <el-col :span='5' :xs='8' class='count-box'>
+            <p>安全运行(天)</p>
+            <div class="dataCount">
+              <countTo :startVal='startVal' :endVal='safeRunning' :duration='3000' separator=''></countTo>
+            </div>
+          </el-col>
         </div>
-      </el-col>
-      <el-col :span='4' :xs='8' class='count-box'>
-        <p>总容量(kVA)</p>
-        <div class="dataCount">
-          <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
-        </div>
-      </el-col>
-      <el-col :span='5' :xs='8' class='count-box'>
-        <p>配电房</p>
-        <div class="dataCount">
-          <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
-        </div>
-      </el-col>
-      <el-col :span='5' :xs='8' class='count-box'>
-        <p>安全运行(天)</p>
-        <div class="dataCount">
-          <countTo :startVal='startVal' :endVal='safeRunning' :duration='3000' separator=''></countTo>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter='20' class='maincontent'>
-      <el-col :span='7' :xs='24'>
-        <el-row>
-          <h6>用电类型统计</h6>
-          <div class="chartbox">
-            <powerTypePieChart :chartData='powerTypeData' />
-          </div>
-        </el-row>
-        <el-row>
-          <h6>用电分析</h6>
-          <div class="chartbox">
-            <el-row :gutter='30' class="smbarbox">
-              <el-col :span='8'>
-                <img src='@/assets/image/largescreen/img_energy.png'>
-                <span>6000</span>
-              </el-col>
-              <el-col :span='8'>
-                <img src='@/assets/image/largescreen/img_energy.png'>
-                <span>3000</span>
-              </el-col>
-              <el-col :span='8'>
-                <img src='@/assets/image/largescreen/img_energy.png'>
-                <span>60000</span>
-              </el-col>
-            </el-row>
-          </div>
-        </el-row>
-        <el-row>
-          <h6>用电负荷</h6>
-          <div class="chartbox">
-            <LineChart :linechartData='lineChartData' />
-          </div>
-        </el-row>
-      </el-col>
-      <el-col :span='10' :xs='24'>
-        <el-row>
-          <h6>地图</h6>
-          <div class="chartbox">
+      </el-row>
+      <el-row :gutter='20' class='maincontent'>
+        <el-col :span='7' :xs='24'>
+          <el-row>
+            <h6>用电类型统计</h6>
+            <div class="chartbox boxheight1">
+              <powerTypePieChart :chartData='powerTypeData' />
+            </div>
+          </el-row>
+          <el-row>
+            <h6>用电分析</h6>
+            <div class="chartbox boxheight2">
+              <el-row class="smbarbox">
+                <el-col :span='8'>
+                  <img src='@/assets/image/largescreen/img_energy.png' class='img_energy'>
+                  <div class="lightimg">
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                  </div>
+                  <span>6000</span>
+                </el-col>
+                <el-col :span='8'>
+                  <img src='@/assets/image/largescreen/img_energy.png' class='img_energy'>
+                  <div class="lightimg">
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                  </div>
+                  <span>3000</span>
+                </el-col>
+                <el-col :span='8'>
+                  <img src='@/assets/image/largescreen/img_energy.png' class='img_energy'>
+                  <div class="lightimg">
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                    <img src='@/assets/image/largescreen/img_light.png'>
+                  </div>
+                  <span>60000</span>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="bottomtext">
+              <span>本月(kWh)</span>
+              <span>上月(kWh)</span>
+              <span>年累计(kWh)</span>
+            </div>
 
-          </div>
-        </el-row>
-        <el-row>
-          <h6>预警信息</h6>
-          <div class="chartbox">
+          </el-row>
+          <el-row>
+            <h6>用电负荷</h6>
+            <div class="chartbox boxheight3">
+              <LineChart :linechartData='lineChartData' />
+            </div>
+          </el-row>
+        </el-col>
+        <el-col :span='10' :xs='24'>
+          <el-row>
+            <div class="chartbox mapbox boxheight5">
+              <MapChart />
+            </div>
+          </el-row>
+          <el-row style='margin-top:-70px' class="boxheight4">
+            <h6 class="longbg">预警信息</h6>
+            <div class="warnlistinfo">
+              <div>
+                <span class="smicon"><img src="@/assets/image/ic_notice.png" /></span>
+                <div>
+                  <el-col :span="5">
+                    顺康塑料
+                  </el-col>
+                  <el-col :span="8">
+                    低压进线间隔 67#低压进线间隔
+                  </el-col>
+                  <el-col :span="4">
+                    状态：分闸
+                  </el-col>
+                  <el-col :span="7">
+                    2020-03-20 18:00:08
+                  </el-col>
+                </div>
+              </div>
+              <div>
+                <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
+                <div>
+                  <el-col :span="5">
+                    顺康塑料
+                  </el-col>
+                  <el-col :span="8">
+                    低压进线间隔 67#低压进线间隔
+                  </el-col>
+                  <el-col :span="4">
+                    状态：分闸
+                  </el-col>
+                  <el-col :span="7">
+                    2020-03-20 18:00:08
+                  </el-col>
+                </div>
+              </div>
+              <div>
+                <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
+                <div>
+                  <el-col :span="5">
+                    顺康塑料
+                  </el-col>
+                  <el-col :span="8">
+                    低压进线间隔 67#低压进线间隔
+                  </el-col>
+                  <el-col :span="4">
+                    状态：分闸
+                  </el-col>
+                  <el-col :span="7">
+                    2020-03-20 18:00:08
+                  </el-col>
+                </div>
+              </div>
+            </div>
+          </el-row>
+        </el-col>
+        <el-col :span='7' :xs='24'>
+          <el-row>
+            <h6>运维成果</h6>
+            <div class="chartbox boxheight1">
+              <div class="circlebox circlebox-lx">
+                <div class='circle1'>
+                  <canvas class="js-rotate-04" width="140" height="140"></canvas>
+                </div>
+                <div class='circle2'>
+                  <canvas class="js-rotate-05" width="90" height="90"></canvas>
+                </div>
+                <div class='circle3'>
+                  <canvas class="js-rotate-06" width="50" height="50"></canvas>
+                </div>
+                <!-- <GainPieChart :piechartData='gainChartData' /> -->
+              </div>
+              <div class="ledgebox">
+                <p><i><b class='dot1'></b></i><span>123<label>总巡检(次)</label></span></p>
+                <p><i><b class='dot2'></b></i><span>232<label>总预警(次)</label></span></p>
+                <p><i><b class='dot3'></b></i><span>123<label>总抢修(次)</label></span></p>
+              </div>
+            </div>
+          </el-row>
+          <el-row>
+            <h6>采集情况</h6>
+            <div class="chartbox boxheight2">
+              <div class="circlebox">
+                <div>
+                  <canvas class="js-rotate-01" width="100" height="100"></canvas>
+                  <span>187</span>
+                </div>
+                <div>
+                  <canvas class="js-rotate-02" width="100" height="100"></canvas>
+                  <span>443</span>
+                </div>
+                <div>
+                  <canvas class="js-rotate-03" width="100" height="100"></canvas>
+                  <span>123</span>
+                </div>
+              </div>
+            </div>
+            <div class="bottomtext">
+              <span>采集器(个)</span>
+              <span>表计(个)</span>
+              <span>在线率</span>
+            </div>
 
-          </div>
-        </el-row>
-      </el-col>
-      <el-col :span='7' :xs='24'>
-        <el-row>
-          <h6>运维成果</h6>
-          <div class="chartbox">
-            <BarChart :barchartData='gainChartData' />
-          </div>
-        </el-row>
-        <el-row>
-          <h6>采集情况</h6>
-          <div class="chartbox">
-
-          </div>
-        </el-row>
-        <el-row>
-          <h6>运维跟踪情况</h6>
-          <div class="chartbox">
-            <LineChart :linechartData='tracklineChartData' />
-          </div>
-        </el-row>
-      </el-col>
-    </el-row>
-
+          </el-row>
+          <el-row>
+            <h6>运维跟踪情况</h6>
+            <div class="chartbox boxheight3">
+              <LineChart :linechartData='tracklineChartData' />
+            </div>
+          </el-row>
+        </el-col>
+      </el-row>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -119,104 +233,40 @@
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import { fetchTree } from "@/api/systemManager/organization";
-
-import PieChart from "./components/PieChart";
+// import PieChart from "./components/PieChart";
 import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
+import GainPieChart from "./components/GainPieChart";
 import BarChart from "./components/BarChart";
-
-import PowerBarchart from "./components/PowerBarchart";
-import GaugeChart from "./components/GaugeChart";
-import GaugeLoadChart from "./components/GaugeLoadChart";
+import MapChart from "./components/MapChart";
+import "echarts/map/js/china.js";
+import "echarts/extension-src/bmap/bmap.js";
 
 const powerTypeData = {
   legendData: ["工业", "商业", "居民"],
   listData: [
-    { value: 335, name: "工业" },
-    { value: 310, name: "商业" },
-    { value: 234, name: "居民" }
+    { value: 30, name: "工业" },
+    { value: 60, name: "商业" },
+    { value: 10, name: "居民" }
   ]
 };
-const typeChartData = {
-  title: "电费",
-  ytext: "单位(元)",
-  xAxisData: ["电度", "基本", "力调"],
-  listData: [
-    {
-      name: "电度",
-      value: 56,
-      itemStyle: {
-        color: "#f4a248"
-      }
-    },
-    {
-      name: "基本",
-      value: 12,
-      itemStyle: {
-        color: "#558cf7"
-      }
-    },
-    {
-      name: "力调",
-      value: 34,
-      itemStyle: {
-        color: "#81c7f9"
-      }
-    }
-  ]
-};
-const powerChartData_day = {
-  title: "功率因素",
-  listData: [{ value: 0.5, name: "本日平均" }]
-};
-
-const powerChartData_month = {
-  title: "功率因素",
-  listData: [{ value: 0.3, name: "本月平均" }]
-};
-const loadChartData = {
-  title: "负荷",
-  listData: [{ value: 49, name: "当前负荷" }]
-};
-
 const lineChartData = {
-  legendData:['最高负荷','平均负荷','最低负荷'],
+  legendData: ["最高负荷", "平均负荷", "最低负荷"],
   highData: [100, 120, 161, 134, 105, 160, 165],
   averageData: [42, 435, 23, 122, 445, 545, 54],
   lowData: [120, 82, 91, 154, 162, 140, 145]
 };
 const tracklineChartData = {
-  legendData:['巡视','故障维修','用户报修'],
+  legendData: ["巡视", "故障维修", "用户报修"],
   highData: [100, 120, 161, 134, 105, 160, 165],
   averageData: [42, 435, 23, 122, 445, 545, 54],
   lowData: [120, 82, 91, 154, 162, 140, 145]
 };
 
 const gainChartData = {
-  xAxisData: ["总巡检", "总预警", "总抢修"],
-  listData: [
-    {
-      name: "总巡检(次)",
-      value: 56,
-      itemStyle: {
-        color: "#2178ff"
-      }
-    },
-    {
-      name: "总预警(次)",
-      value: 12,
-      itemStyle: {
-        color: "#07fdff"
-      }
-    },
-    {
-      name: "总抢修(次)",
-      value: 34,
-      itemStyle: {
-        color: "#d2feff"
-      }
-    }
-  ]
+  inspection: 40,
+  warning: 30,
+  repair: 70
 };
 
 export default {
@@ -226,12 +276,10 @@ export default {
     countTo,
     powerTypePieChart,
     BarChart,
-
-    PieChart,
-    LineChart,
-    PowerBarchart,
-    GaugeChart,
-    GaugeLoadChart
+    GainPieChart,
+    // PieChart,
+    MapChart,
+    LineChart
   },
 
   data() {
@@ -246,17 +294,20 @@ export default {
       powerTypeData: powerTypeData,
       lineChartData: lineChartData,
       tracklineChartData: tracklineChartData,
-      gainChartData:gainChartData,
+      gainChartData: gainChartData,
       startVal: 0,
       maintenanceCenter: 3,
       totalUsers: 234,
       totalCapacity: 23333,
       powerRoom: 56,
-      safeRunning: 2311
+      safeRunning: 2311,
+      circles: []
     };
   },
   mounted() {
     this.dragControllerDiv();
+    this.circleCanves();
+    this.renderLoop();
   },
   created() {
     this.getTree();
@@ -276,19 +327,156 @@ export default {
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type];
+    },
+
+    circleCanves() {
+      var _createClass = (function() {
+        function defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
+        return function(Constructor, protoProps, staticProps) {
+          if (protoProps) defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) defineProperties(Constructor, staticProps);
+          return Constructor;
+        };
+      })();
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+        }
+      }
+      var RotatingCircle = (function() {
+        function RotatingCircle(canvas, opts) {
+          _classCallCheck(this, RotatingCircle);
+          this.ctx = canvas.getContext("2d");
+          this.size = Math.min(canvas.clientWidth, canvas.clientHeight);
+          this.radius = opts.radius;
+          this.lineWidth = opts.lineWidth;
+          this.strokeStyle = opts.strokeStyle;
+          this.degreeStart = opts.degreeStart;
+          this.degreeEnd = opts.degreeEnd;
+          this.stepStart = opts.stepStart;
+          this.stepEnd = opts.stepEnd;
+        }
+        _createClass(RotatingCircle, [
+          {
+            key: "render",
+            value: function render() {
+              this.degreeStart = this.degreeStart + this.stepStart;
+              this.degreeEnd = this.degreeEnd + this.stepEnd;
+              if (this.degreeStart - 360 > this.degreeEnd) {
+                this.degreeStart -= 720;
+              }
+              this.ctx.clearRect(0, 0, this.size, this.size);
+              this.ctx.lineWidth = this.lineWidth;
+              this.ctx.beginPath();
+              this.ctx.strokeStyle = this.strokeStyle;
+              this.ctx.arc(
+                this.size / 2,
+                this.size / 2,
+                this.radius - this.lineWidth / 2,
+                ((this.degreeStart < this.degreeEnd
+                  ? this.degreeStart
+                  : this.degreeEnd) *
+                  Math.PI) /
+                  180,
+                ((this.degreeStart < this.degreeEnd
+                  ? this.degreeEnd
+                  : this.degreeStart) *
+                  Math.PI) /
+                  180,
+                false
+              );
+              this.ctx.stroke();
+            }
+          }
+        ]);
+        return RotatingCircle;
+      })();
+
+      this.circles = [
+        new RotatingCircle(document.querySelector(".js-rotate-01"), {
+          radius: 49,
+          lineWidth: 9,
+          strokeStyle: "#d2feff",
+          degreeStart: -90,
+          degreeEnd: 180,
+          stepStart: 3,
+          stepEnd: 1
+        }),
+        new RotatingCircle(document.querySelector(".js-rotate-02"), {
+          radius: 49,
+          lineWidth: 9,
+          strokeStyle: "#07fdff",
+          degreeStart: -50,
+          degreeEnd: 270,
+          stepStart: 3,
+          stepEnd: 1
+        }),
+        new RotatingCircle(document.querySelector(".js-rotate-03"), {
+          radius: 49,
+          lineWidth: 9,
+          strokeStyle: "#2178ff",
+          degreeStart: -70,
+          degreeEnd: 90,
+          stepStart: 3,
+          stepEnd: 2
+        }),
+        new RotatingCircle(document.querySelector(".js-rotate-04"), {
+          radius: 69,
+          lineWidth: 10,
+          strokeStyle: "#2178ff",
+          degreeStart: -70,
+          degreeEnd: 90,
+          stepStart: 3,
+          stepEnd: 2
+        }),
+        new RotatingCircle(document.querySelector(".js-rotate-05"), {
+          radius: 44,
+          lineWidth: 10,
+          strokeStyle: "#07fdff",
+          degreeStart: -20,
+          degreeEnd: 120,
+          stepStart: 3,
+          stepEnd: 1
+        }),
+        new RotatingCircle(document.querySelector(".js-rotate-06"), {
+          radius: 24,
+          lineWidth: 10,
+          strokeStyle: "#d2feff",
+          degreeStart: -90,
+          degreeEnd: 150,
+          stepStart: 4,
+          stepEnd: 2
+        })
+      ];
+    },
+    renderLoop() {
+      this.circles.map(circle => {
+        circle.render();
+      });
+      requestAnimationFrame(() => {
+        this.renderLoop();
+      });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .screenbg {
-  background: url(../../../assets/image/largescreen/img_big_data_bj.png)
+  background: url(../../../assets/image/largescreen/img_big_data_bj.jpg)
     no-repeat;
   background-size: 100% 100%;
 }
 .tophead {
   position: relative;
-  padding: 40px 0px 30px;
+  padding: 40px 0px 20px;
 
   .img_title_bj {
     width: 100%;
@@ -367,9 +555,12 @@ export default {
   padding: 0 30px;
   h6 {
     font-size: 16px;
+    margin: 0;
     color: #68b6ef;
-    margin-bottom: 20px;
+    margin: 20px 0 15px;
     font-weight: normal;
+    display: flex;
+    align-items: baseline;
     &:after {
       content: "";
       background: url(../../../assets/image/largescreen/img_divisio_minimum.png)
@@ -378,7 +569,13 @@ export default {
       width: 70%;
       display: inline-block;
       height: 10px;
-      margin-left: 10px;
+      margin-left: 20px;
+      flex: 1;
+    }
+    &.longbg:after {
+      background: url(../../../assets/image/largescreen/img_divisio_big.png)
+        center no-repeat;
+      background-size: 100% 100%;
     }
   }
 }
@@ -387,16 +584,24 @@ export default {
   background: url("../../../assets/image/userscreen/img_suspension_bj.png")
     no-repeat bottom center;
   background-size: 100%;
+  margin-bottom: 2%;
+}
+.mapbox {
+  background: url("../../../assets/image/largescreen/img_decorate.png") bottom
+    center no-repeat;
+  background-size: 60%;
+  margin-bottom: 2%;
 }
 .smbarbox {
+  padding: 5% 1% 0;
   .el-col {
     position: relative;
   }
-  img {
+  img.img_energy {
     width: 100%;
   }
   span {
-    color: #fff;
+    color: #62d4eb;
     position: absolute;
     top: 25%;
     left: 0;
@@ -404,6 +609,70 @@ export default {
     text-align: center;
     display: block;
     font-size: 20px;
+  }
+}
+
+.warnlistinfo {
+  > div {
+    height: 40px;
+    line-height: 40px;
+    background-color: rgba(6, 253, 255, 0.1);
+    border-radius: 24px;
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 0px 20px;
+    .smicon {
+      display: inline-block;
+      margin-top: 5px;
+      img {
+        width: 22px;
+        display: inline-block;
+      }
+    }
+    &:first-child > div {
+      color: #fff;
+    }
+    > div {
+      flex: 1;
+      color: #68b6ef;
+      text-align: center;
+
+      > div {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+}
+.boxheight1 {
+  height: 17vh;
+}
+.boxheight2 {
+  height: 15vh;
+}
+.boxheight3 {
+  height: 25vh;
+}
+.boxheight5 {
+  height: 60vh;
+}
+
+/deep/.el-scrollbar__bar.is-horizontal {
+  display: none;
+}
+.bottomtext {
+  display: flex;
+  justify-content: space-between;
+  padding: 2% 10% 0;
+  width: 100%;
+  span {
+    font-size: 12px;
+    width: 100px;
+    color: #fefefe;
+    text-align: center;
+    display: block;
   }
 }
 </style>

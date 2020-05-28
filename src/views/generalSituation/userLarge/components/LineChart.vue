@@ -3,30 +3,30 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
-import resize from './mixins/resize'
+import echarts from "echarts";
+require("echarts/theme/macarons"); // echarts theme
+import resize from "./mixins/resize";
 
 export default {
   mixins: [resize],
   props: {
     className: {
       type: String,
-      default: 'chart'
+      default: "chart"
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%"
     },
     height: {
       type: String,
-      default: '234px'
+      default: "200px"
     },
     autoResize: {
       type: Boolean,
       default: true
     },
-    chartData: {
+    linechartData: {
       type: Object,
       required: true
     }
@@ -34,149 +34,216 @@ export default {
   data() {
     return {
       chart: null
-    }
+    };
   },
   watch: {
-    chartData: {
+    linechartData: {
       deep: true,
       handler(val) {
-        this.setOptions(val)
+        this.setOptions(val);
       }
     }
   },
   mounted() {
     this.$nextTick(() => {
-      this.initChart()
-    })
+      this.initChart();
+    });
   },
   beforeDestroy() {
     if (!this.chart) {
-      return
+      return;
     }
-    this.chart.dispose()
-    this.chart = null
+    this.chart.dispose();
+    this.chart = null;
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
+      this.chart = echarts.init(this.$el, "macarons");
+      this.setOptions(this.linechartData);
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 10,
-          right: 30,
-          bottom: 20,
-          top: 30,
+          right: 20,
+          bottom: 30,
+          top: 50,
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'cross'
+            type: "cross"
           },
           padding: [5, 10]
         },
         xAxis: {
-          name:'时间',
-          nameGap:5,
-          boundaryGap:false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          name: "",
+          nameGap: 20,
+          boundaryGap: false,
+          data: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
           axisTick: {
             show: false
           },
-          axisLine:{
-              lineStyle:{
-              color:'#808080',
+          nameTextStyle: {
+            color: "#68b6ef"
+          },
+          axisLabel: {
+            fontSize: 12,
+            color: "#68b6ef",
+            margin: 20
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#1b2c5e"
             }
           }
         },
         yAxis: {
-          name:'负荷',
-          nameGap:10,
+          name: "单位(kW)",
+          nameGap: 20,
           axisTick: {
             show: false
           },
-          axisLine:{
-              lineStyle:{
-              color:'#808080',
+          axisLine: {
+            lineStyle: {
+              color: "#1b2c5e"
             }
+          },
+          nameTextStyle: {
+            color: "#68b6ef"
+          },
+          axisLabel: {
+            fontSize: 12,
+            color: "#68b6ef",
+            margin: 30
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#1b2c5e",
+            }
+          },
+          splitArea: {
+            show: false
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          right: 0,
+          top: "0px",
+          itemWidth: 6,
+          itemHeight: 6,
+          icon: "circle",
+          textStyle: {
+            color: "#ffffff",
+            fontSize:12,
+          },
+          data: legendData
         },
-        series: [{
-          name: 'expected', 
-          showAllSymbol:true,
-          itemStyle: {
-            normal: {
-              color: '#999',
-              lineStyle: {
-                color: '#888',
-                width: 2
+        series: [
+          {
+            name: legendData[0],
+            showAllSymbol: true,
+            itemStyle: {
+              // normal: {
+              color: "#2178ff"
+              // lineStyle: {
+              //   color: "#77c3f9",
+              //   width: 2
+              // }
+              // }
+            },
+
+            lineStyle: {
+              color: "#2178ff",
+              width: 1
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#2178ff" // 0% 处的颜色
+                  },
+
+                  {
+                    offset: 1,
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
+                  }
+                ]) //背景渐变色
               }
-            }
-          },
-          smooth: true,
-          clip: false,
-          type: 'line',
-          data: expectedData,
-          markPoint: {
-            symbolSize:40,
-            label:{
-              fontSize:12,
-              fontWeight:'normal'
             },
-              data: [
-                  {type: 'max', name: '最大值'},
-                  {type: 'min', name: '最小值'}
-              ]
+            smooth: true,
+            clip: false,
+            type: "line",
+            data: highData,
           },
-          // markLine: {
-          //     data: [
-          //         {type: 'average', name: '平均值'}
-          //     ]
-          // },
-          
-        },
-        {
-          name: 'actual',
-          showAllSymbol:true,
-          clip: false,
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#777',
-              lineStyle: {
-                color: '#999',
-                width: 2
-              },
-            
-            }
-          },
-          data: actualData,
-          markPoint: {
-            symbolSize:40,
-            label:{
-              fontSize:12,
-              fontWeight:'normal'
+          {
+            name:legendData[1],
+            showAllSymbol: true,
+            clip: false,
+            smooth: true,
+            type: "line",
+            itemStyle: {
+              normal: {
+                color: "#07fdff",
+                lineStyle: {
+                  color: "#07fdff",
+                  width: 1
+                }
+              }
             },
-              data: [
-                  {type: 'max', name: '最大值'},
-                  {type: 'min', name: '最小值'}
-              ]
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#07fdff" // 0% 处的颜色
+                  },
+
+                  {
+                    offset: 1,
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
+                  }
+                ]) //背景渐变色
+              }
+            },
+            data: averageData,
           },
-          // markLine: {
-          //     data: [
-          //         {type: 'average', name: '平均值'}
-          //     ]
-          // },
-          
-        }]
-      })
+          {
+            name:legendData[2],
+            showAllSymbol: true,
+            clip: false,
+            smooth: true,
+            type: "line",
+            itemStyle: {
+              normal: {
+                color: "#d2feff",
+                lineStyle: {
+                  color: "#d2feff",
+                  width: 1
+                }
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#1b2c5e" // 0% 处的颜色
+                  },
+
+                  {
+                    offset: 1,
+                    color: "rgba(0,0,0,0)" // 100% 处的颜色
+                  }
+                ]) //背景渐变色
+              }
+            },
+            data: lowData,
+          }
+        ]
+      });
     }
   }
-}
+};
 </script>

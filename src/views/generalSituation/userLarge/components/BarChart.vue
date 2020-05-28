@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "250px"
+      default: "180px"
     },
 
     barchartData: {
@@ -67,7 +67,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.barchartData.prevlistData) {
+      if (this.barchartData.listData) {
         this.chart.hideLoading();
         this.setOptions(this.barchartData);
       }
@@ -82,7 +82,7 @@ export default {
       });
     },
 
-    setOptions({ xAxisData, prevlistData, nowlistData } = {}) {
+    setOptions({ xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -91,70 +91,77 @@ export default {
           }
         },
         grid: {
-          top: "40px",
+          top: "30px",
           left: "40px",
           right: "40px",
           bottom: "20px",
           containLabel: true
         },
         legend: {
-          right: 0,
-          top: "0px",
-          itemWidth: 6,
-          itemHeight: 6,
-          icon: "circle",
-          textStyle: {
-            color: "#909399"
+          show:false,
+        },  
+        radiusAxis: {
+          type: 'category',
+          data: xAxisData,
+          boundaryGap: ['20%', '20%'],
+          z: 10,
+          axisTick:{
+            show:false
           },
-          data: ["本月", "上月"]
+          axisLabel:{
+            show:false
+          }, 
+          axisLine:{
+            lineStyle: {
+              color: '#3e4674'
+            }
+           },
+           splitLine:{
+            show:true,
+            lineStyle: {
+              color: '#3e4674'
+            }
+           },
+          splitArea:{
+            show:true
+          },
         },
-        color: ["#558cf7", "#f6cf71"],
-        xAxis: [
-          {
-            type: "category",
-            data: xAxisData,
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "#909399"
-              }
+      
+        polar: {
+        }, 
+        angleAxis: {
+          boundaryGap:['20%','20%'],
+          axisTick:{
+            show:false
+          },
+          axisLabel:{
+            show:false
+          },
+          splitLine:{   
+            show:false,
+            lineStyle: {
+              color: '#3e4674'
             }
-          }
-        ],
-        yAxis: [
-          {
-            name: "单位(kWh)",
-            type: "value",
-            axisLine: {
-              lineStyle: {
-                color: "#909399"
-              }
-            },
-            splitLine: {
-              lineStyle: {
-                color: "#dde4f4",
-                type: "dashed"
-              }
-            },
-            splitArea: {
-              show: false
+          },
+          splitArea:{
+            show:false
+          },
+           axisLine:{
+            lineStyle: {
+              color: '#3e4674'
             }
-          }
-        ],
+           },
+           minorSplitLine:{
+             show:true
+           }
+        },
         series: [
           {
-            name: "本月",
+            // name: title,
             type: "bar",
-            barWidth: "30",
-            data: prevlistData
-          },
-          {
-            name: "上月",
-            type: "bar",
-            barWidth: "30",
-            data: nowlistData
+            barWidth: "10",
+             coordinateSystem: 'polar',
+            data: listData
           }
         ]
       });

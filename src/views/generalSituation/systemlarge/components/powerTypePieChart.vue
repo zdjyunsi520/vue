@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "180px"
+      default: "100%"
     },
 
     chartData: {
@@ -82,7 +82,7 @@ export default {
 
     setOptions({ legendData, listData } = {}) {
       this.chart.setOption({
-        backgroundColor:'rgba(0,0,0,0)',
+        backgroundColor: "rgba(0,0,0,0)",
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -90,13 +90,13 @@ export default {
         legend: {
           show: true,
           top: 0,
-          right:0,
-          itemWidth:6,
-          itemheight:6,
-          icon:'circle',
+          right: 0,
+          itemWidth: 6,
+          itemheight: 6,
+          icon: "circle",
           data: legendData,
-          textStyle:{
-            color:'#fff'
+          textStyle: {
+            color: "#fff"
           }
         },
         color: ["#d2feff", "#2178ff", "#06fdff"],
@@ -105,14 +105,30 @@ export default {
             name: "用电类型",
             type: "pie",
             radius: ["50%", "70%"],
-            center: ["50%", "50%"],
+            center: ["50%", "45%"],
             labelLine: {
               show: false
             },
             label: {
-              show: false
+                show: false,
+                  position: 'center',
+                  formatter: function(params){
+                      return params.value+'%';
+                  },
             },
-            data: listData,
+            emphasis: {
+              label: {
+                  show: true,
+                  fontSize: '20',
+                  position: 'center',
+                  fontWeight: 'bold'
+              }
+            },
+            itemStyle: {
+              borderColor: "#3e4674",
+              borderWidth:1,
+            },
+            data: listData
           }
         ]
       });
