@@ -156,6 +156,7 @@ export default {
       const parentid = this.data.id;
       const tenantid = this.infoData.TenantId;
       const parentId = parentid;
+      console.log(2223,parentid,parentId)
       const switchingroomid = parentid;
       const data = { parentid, parentId, switchingroomid, tenantid };
       const title = "新增";

@@ -87,7 +87,6 @@
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
-          <el-tag type="danger">修改报错50000</el-tag>
         </div>
       </el-col>
     </div>
@@ -166,7 +165,8 @@ export default {
           starttime: "",
           property: "",
           voltlevel: "",
-          ismainline: 1,
+          ismainline: true,
+          parentid:'',
           sortindex: 1
         },
         data
@@ -191,6 +191,7 @@ export default {
           this.form.binddevicetype = deviceType.length
             ? deviceType[0].Type
             : "";
+            this.form.ismainline =  this.form.ismainline?true:false;
           //添加用户
           fn(this.form)
             .then(response => {

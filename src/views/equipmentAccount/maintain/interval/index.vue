@@ -164,8 +164,8 @@ export default {
         binddeviceId,
         binddevicetype,
         sortindex,
-        ismainline
-        //  parentid
+        ismainline,
+        parentid
       };
       const title = "修改";
       this.$router.push({

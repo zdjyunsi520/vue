@@ -60,10 +60,12 @@ export default {
       this.data = data;
       this.closeComponent();
       const target = this.$refs["component" + data.type];
-      target.visible = true;
-      target.showBtn = true;
-      target.infoData = {};
-      target.getInfo(data);
+      if(target){
+        target.visible = true;
+        target.showBtn = true;
+        target.infoData = {};
+        target.getInfo(data);
+      }
     },
     handleCommand(commond) {
       if (commond == "a") {
