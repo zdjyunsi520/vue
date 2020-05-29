@@ -51,14 +51,13 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="缺陷编号" sortable min-width="250" sortable prop="No"></el-table-column>
+        <el-table-column label="缺陷编号" sortable min-width="250" prop="No"></el-table-column>
         <el-table-column label="用电单位" sortable min-width="250" prop="TenantName"></el-table-column>
         <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
         <el-table-column label="缺陷等级" sortable min-width="250" prop="Rank">
           <template slot-scope="scope">
             {{formatterRank(scope.row.Rank)}}
           </template>
-        </el-table-column>
         </el-table-column>
         <el-table-column label="缺陷现象" min-width="250" prop="Description"></el-table-column>
         <el-table-column label="发现时间" min-width="150" prop="DetectTime">
@@ -73,18 +72,17 @@
             <span v-else><i class="red dot"></i>未消缺</span>
           </template>
         </el-table-column>
-        </el-table-column>
         <el-table-column label="状态" sortable min-width="150" prop="Status">
           <template slot-scope="scope">
             {{formatterStatus(scope.row.Status)}}
           </template>
         </el-table-column>
-        </el-table-column>
         <el-table-column label="操作" fixed="right" width="220">
           <template slot-scope="scope">
             <div>
               <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>
+                {{scope.row.Status==1?'消缺':scope.row.Status==2?'验收':scope.row.Status==3?'完成':'编辑'}}
               </el-button>
               <el-button type="text" size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
@@ -124,7 +122,7 @@ export default {
       dataList: null,
       listLoading: true,
       total: 0,
-      tableHeight: 'calc(100% - 120px)',
+      tableHeight: "calc(100% - 120px)",
       ranks: [
         { name: "一般缺陷", id: 1 },
         { name: "紧急缺陷", id: 2 },
@@ -193,7 +191,7 @@ export default {
         return "严重缺陷";
       }
     },
-    
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
@@ -218,17 +216,15 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      const title = "修改缺陷工单";
       const data = row;
-      const TenantIds = this.TenantIds;
-      const ranks = this.ranks;
       // const id = row.Id;
       // const username = row.UserName;
       // const name = row.Name;
       // const mobilephone = row.MobilePhone;
+      let arr = ["add", "repair", "backFile", "backFile"];
       this.$router.push({
-        name: "/defect/orderList/components/add",
-        params: { data, title, TenantIds, ranks }
+        name: "/defect/orderList/components/" + arr[row.Status],
+        params: { data }
       });
     },
     /** 删除按钮操作 */
@@ -295,8 +291,8 @@ export default {
             filterVal.map(j => {
               if (j === "PatrolMemberNames") {
                 return v[j].substring(0, 10);
-              // } else if (j === "Status") {
-              //   return this.formatterStatus(v[j]);
+                // } else if (j === "Status") {
+                //   return this.formatterStatus(v[j]);
               } else {
                 return v[j];
               }

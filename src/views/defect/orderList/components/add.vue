@@ -2,84 +2,67 @@
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
 
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="登记情况" name="0"></el-tab-pane>
-        <el-tab-pane label="消缺情况" name="1"></el-tab-pane>
-        <el-tab-pane label="验收情况" name="2"></el-tab-pane>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="登记情况" name="add"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="repair" v-if="form.Status>1"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="backFile" v-if="form.Status>2"></el-tab-pane>
       </el-tabs>
-
-      <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
-        <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px" v-if='activeName==0'>
+        <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="11" :xs="24">
-              <el-form-item label="用电单位" prop="tenantId">
-                <el-select v-model="form.tenantId" placeholder="请选择用电单位" @change="changeTenant">
+              <el-form-item label="用电单位" prop="TenantId">
+                <el-select :disabled="disabled" v-model="form.TenantId" placeholder="请选择用电单位" @change="changeTenant">
                   <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="设备" prop="assetsIds">
-                <!-- <input type="hidden" v-model="form.assetsIds" /> -->
-                <el-input v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" />
+              <el-form-item label="设备" prop="AssetsIds">
+                <TreeSelect showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm1" :checkedKeys="ChargePersonId1" :disabled="disabled" />
+                <!-- <el-input :disabled="disabled" v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" /> -->
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="缺陷等级" prop="rank">
-                  <el-select v-model="form.rank" placeholder="请选择设备" @change="changeTime">
-                    <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
+                <el-form-item label="缺陷等级" prop="Rank">
+                  <el-select :disabled="disabled" v-model="form.Rank" placeholder="请选择设备" @change="changeTime">
+                    <el-option v-for="(item,index) in Ranks" :key="index" :label="item.name" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="发现人" prop="detecter">
-                <el-input v-model="form.detecter" placeholder="请输入发现人" />
+              <el-form-item label="发现人" prop="Detecter">
+                <el-input :disabled="disabled" v-model="form.Detecter" placeholder="请输入发现人" />
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="发现时间" prop="detecttime">
-                <el-date-picker v-model="form.detecttime" type="date" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+              <el-form-item label="发现时间" prop="DetectTime">
+                <el-date-picker :disabled="disabled" v-model="form.DetectTime" type="date" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="安排消缺人" prop="processorId">
-                <el-select v-model="form.processorId" placeholder="请选择消缺人">
-                  <el-option v-for="(item,index) in processorIds" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+              <el-form-item label="安排消缺人" prop="ProcessorId">
+                <TreeSelect showText="text" :mutiple="false" :data="ProcessorIds" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
+                <!-- <el-select v-model="form.ProcessorId" placeholder="请选择消缺人">
+                  <el-option v-for="(item,index) in ProcessorIds" :key="index" :label="item.text" :value="item.id"></el-option>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="处理期限" prop="processdue">
-                <el-date-picker v-model="form.processdue" type="date" placeholder="请选择处理期限" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+              <el-form-item label="处理期限" prop="ProcessDue">
+                <el-date-picker :disabled="disabled" v-model="form.ProcessDue" type="date" placeholder="请选择处理期限" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="23">
-              <el-form-item label="缺陷内容" prop="description">
-                <el-input v-model="form.description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
+              <el-form-item label="缺陷内容" prop="Description">
+                <el-input :disabled="disabled" v-model="form.Description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
               </el-form-item>
             </el-col>
             <el-col :span="23">
-              <el-form-item label="附件" prop="attachmentkey">
-                <!-- <el-upload
-                  class="avatar-uploader"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload='beforeAvatarUpload'
-                  :on-success="handleAvatarSuccess"
-                  :on-preview="handlePictureCardPreview"
-                  :on-remove="handleRemove"
-
-                >
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-               :before-upload='beforeAvatarUpload' 
-
-                </el-upload> -->
-                <el-upload :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+              <el-form-item label="附件" prop="AttachmentKey">
+                <el-upload :disabled="disabled" :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                   <i class="el-icon-plus"></i>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
                 </el-upload>
@@ -90,7 +73,7 @@
 
               </el-form-item>
             </el-col>
-<!-- 
+            <!-- 
             <el-col :span="11" :xs="24">
               <el-form-item label="缺陷编号" prop="number">
                 <el-input v-model="form.number" disabled placeholder="自动生成" />
@@ -110,8 +93,8 @@
             </el-col>
 
             <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="填报时间" prop="reporttime">
-                <el-date-picker v-model="form.reporttime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
+              <el-form-item label="填报时间" prop="ReportTime">
+                <el-date-picker v-model="form.ReportTime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col> -->
           </el-row>
@@ -120,9 +103,9 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" v-if='activeName==0' @click="handleSubmit" :loading="loading">保 存</el-button>
-          <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button>
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading">发 送</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form.Status<1">保 存</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form.Status<1">发 送</el-button>
+          <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -135,7 +118,7 @@
       </el-dialog>
 
       <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
-        <el-tree :data="processorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        <el-tree :data="ProcessorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleEmpcheck">确 定</el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>
@@ -146,27 +129,30 @@
 </template>
 
 <script>
-import { add, getInfo, update, imageUpload } from "@/api/biz";
+import { add, getInfo, update, imageUpload, senderOrder } from "@/api/biz";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
+import { getChildrenList } from "@/api/org";
+import TreeSelect from "@/views/components/TreeSelect";
 export default {
+  components: { TreeSelect },
   data() {
     const rules = {
-      tenantId: [
+      TenantId: [
         {
           required: true,
           message: "用电单位不能为空",
           trigger: "change"
         }
       ],
-      assetsIds: [
+      AssetsIds: [
         {
           required: true,
           message: "设备不能为空",
           trigger: "change"
         }
       ],
-      rank: [
+      Rank: [
         {
           required: true,
           message: "缺陷等级不能为空",
@@ -174,35 +160,35 @@ export default {
         }
       ],
 
-      detecter: [
+      Detecter: [
         {
           required: true,
           message: "发现人不能为空",
           trigger: "blur"
         }
       ],
-      detecttime: [
+      DetectTime: [
         {
           required: true,
           message: "发现时间不能为空",
           trigger: "change"
         }
       ],
-      processorId: [
+      ProcessorId: [
         {
           required: true,
           message: "消缺人不能为空",
           trigger: "change"
         }
       ],
-      processdue: [
+      ProcessDue: [
         {
           required: true,
           message: "处理期限不能为空",
           trigger: "change"
         }
       ],
-      description: [
+      Description: [
         {
           required: true,
           message: "缺陷内容不能为空",
@@ -212,25 +198,30 @@ export default {
     };
     return {
       form: {},
+      form1: {},
       rules,
       dialogVisible: false,
       loading: false,
       title: "",
       deptType: "",
-      assetsIdss: [],
-      processorIds: [],
+      AssetsIdss: [],
+      ProcessorIds: [],
       defaultProps: {
         children: "childs",
         label: "text"
       },
-      ranks: [],
+      Ranks: [
+        { name: "一般缺陷", id: 1 },
+        { name: "紧急缺陷", id: 2 },
+        { name: "严重缺陷", id: 3 }
+      ],
       TenantIds: [],
       imageUrl: [],
       dialogImageUrl: "",
       dialogVisible: false,
       dialogAssetsVisible: false,
       dialogEmployeesVisible: false,
-      assetsTree: [],
+      // assetsTree: [],
       allassetsTree: [],
       processorTree: [],
       allpatrolusers: [],
@@ -238,56 +229,77 @@ export default {
       ischange: false,
       count: 0,
       selectAssets: [],
-      activeName: "0"
+      activeName: "add",
+      ChargePersonId: [],
+      ChargePersonId1: []
     };
   },
   computed: {
-    ...mapGetters(["name", "userId", "token"])
-  },
-  created() {
-    this.getTenantEmployees();
-    let { data, title, TenantIds, ranks } = this.$route.params;
-    this.title = title;
-    this.TenantIds = TenantIds;
-    this.ranks = ranks;
-    if (data && data.Id) {
-      this.getInfo(data);
-    } else {
-      this.reset(data);
+    ...mapGetters(["name", "userId", "token"]),
+    disabled() {
+      return this.form1.Status > 0;
+    },
+    assetsTree() {
+      const list = this.allassetsTree
+        .filter(v => v.id == this.form.TenantId)
+        .map(v => v.childs);
+      return list.length ? list[0] : [];
     }
   },
+  created() {
+    this.getTenants();
+    this.getTenantEmployees();
+    this.getAssets();
+    let { data } = this.$route.params;
+    this.form1 = Object.assign({}, data);
+    this.reset(data);
+  },
   methods: {
-    // 获取设备列表
-    getAssets() {
-      this.dialogAssetsVisible = true;
-      getTrees()
+    handleClick(a) {
+      const data = this.form1;
+      this.$router.push({
+        name: "/defect/orderList/components/" + a.name,
+        params: { data }
+      });
+    },
+    handleConfirm(data) {
+      this.ChargePersonId = data.map(v => v.id);
+    },
+    handleConfirm1(data) {
+      this.ChargePersonId1 = data.map(v => v.id);
+    },
+    // 巡视单位列表
+    getTenants() {
+      getChildrenList()
         .then(res => {
-          this.allassetsTree = res.data;
-          this.allassetsTree.forEach(v => {
-            if (v.id == this.form.tenantId) {
-              this.assetsTree = v.childs;
-              if (this.form.assetsIds) {
-                this.$refs.tree.setCheckedKeys([this.form.assetsIds]);
-              }
-              return;
-            }
-          });
+          this.TenantIds = res.data;
         })
         .catch(error => {
           console.log(error);
         });
     },
+    // 获取设备列表
+    getAssets() {
+      getTrees().then(res => {
+        this.allassetsTree = res.data;
+        // this.allassetsTree.forEach(v => {
+        //   if (v.id == this.form.TenantId) {
+        //     this.assetsTree = v.childs;
+        //     if (this.form.AssetsIds) {
+        //       this.$refs.tree.setCheckedKeys([this.form.AssetsIds]);
+        //     }
+        //     return;
+        //   }
+        // });
+      });
+    },
 
     // 巡视人员
     getTenantEmployees() {
-      getTenantEmployees({})
-        .then(res => {
-          this.allpatrolusers = res.data;
-          if (this.form.tenantId) this.getProcessor();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getTenantEmployees({}).then(res => {
+        this.allpatrolusers = res.data;
+        if (this.form.TenantId) this.getProcessor();
+      });
     },
 
     changeTenant() {
@@ -297,11 +309,11 @@ export default {
     // 消缺人下拉
     getProcessor() {
       if (this.ischange) {
-        this.form.processorId = "";
+        this.form.ProcessorId = "";
       }
       this.allpatrolusers.forEach(v => {
-        if (v.id == this.form.tenantId) {
-          this.processorIds = v.childs;
+        if (v.id == this.form.TenantId) {
+          this.ProcessorIds = v.childs;
         }
       });
     },
@@ -311,36 +323,13 @@ export default {
         target.setCheckedKeys([data.id]);
       }
     },
-    checkchange1(data, checked, node) {
-      this.count++;
-      if (this.count % 2 === 0) {
-        if (checked) {
-          this.$refs.tree.setCheckedKeys([]);
-          this.$refs.tree.setCheckedKeys([data.id]);
-          this.form.assetsIds = data.id;
-          this.form.assetsIdtext = data.text;
-          this.count = 1;
-          //交叉点击节点
-        } else {
-          this.$refs.tree.setCheckedKeys([]);
-          this.form.assetsIds = "";
-          this.form.assetsIdtext = "";
-          this.count = 0;
-          //点击已经选中的节点，置空
-        }
-      } else {
-        this.form.assetsIds = data.id;
-        this.form.assetsIdtext = data.text;
-        this.count = 1;
-      }
-    },
 
     //设备选择确定
     handlecheck() {
       var arr = this.$refs.tree.getCheckedNodes();
       if (arr.length) {
         this.form.assetsIdtext = arr[0].text;
-        this.form.assetsIds = arr[0].id;
+        this.form.AssetsIds = arr[0].id;
         this.dialogAssetsVisible = false;
       } else {
         this.$message.error("请选择一个设备");
@@ -353,62 +342,57 @@ export default {
 
     // 缺陷关联发现时间
     changeTime() {
-      var d = new Date(this.form.detecttime);
+      var d = new Date(this.form.DetectTime);
       var dtime;
-      if (this.form.rank == 1) {
+      if (this.form.Rank == 1) {
         dtime = d.setMonth(d.getMonth() + 6);
-      } else if (this.form.rank == 2) {
+      } else if (this.form.Rank == 2) {
         dtime = d.setMonth(d.getMonth() + 1);
       } else {
         dtime = d.setDate(d.getDate() + 1);
       }
-      this.form.processdue = d;
+      this.form.ProcessDue = d;
     },
 
     // 表单重置
     reset(data) {
       const now = Date.now();
       var nowTime = new Date(now);
-      var processdueTime = new Date(now);
-      processdueTime.setMonth(processdueTime.getMonth() + 6);
+      var ProcessDueTime = new Date(now);
+      ProcessDueTime.setMonth(ProcessDueTime.getMonth() + 6);
       this.form = Object.assign(
         {
-          tenantId: "",
-          assetsIds: "",
-          rank: 1,
-          detecter: "",
-          detecttime: nowTime,
-          processorId: "",
-          processdue: processdueTime,
-          description: "",
-          attachmentkey: "",
-          attachmenturl: "",
-          reporterId: this.userId,
-          reporttime: nowTime
+          Id: "",
+          TenantId: "",
+          AssetsIds: "",
+          Rank: 1,
+          Detecter: "",
+          DetectTime: nowTime,
+          ProcessorId: "",
+          ProcessDue: ProcessDueTime,
+          Description: "",
+          AttachmentKey: "",
+          AttachmentUrl: "",
+          ReporterId: this.userId,
+          ReportTime: nowTime,
+          Status: 0
         },
         data
       );
-    },
-    getInfo(data) {
-      this.loading = true;
-      if (data) {
-        const id = { id: data.Id };
-        if (id) {
-          getInfo(id)
-            .then(res => {
-              this.reset(data);
-              this.form = res.data;
-              // this.form.StartTime = new Date(res.data.StartTime).getTime();
-            })
-            .finally(v => (this.loading = false));
-        }
-      } else {
-        this.loading = false;
-        this.reset(data);
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate();
+      if (this.form.ProcessorId)
+        this.ChargePersonId = this.form.ProcessorId.split(",");
+      if (this.form.AssetsIds)
+        this.ChargePersonId1 = this.form.AssetsIds.split(",");
+      if (this.form.AttachmentUrl)
+        this.imageUrl = this.form.AttachmentUrl.split(",").map(v => {
+          return {
+            name: v,
+            url: v
+          };
         });
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate();
+      });
     },
     handleOpen(data) {
       this.$router.push({
@@ -419,17 +403,47 @@ export default {
     // 回退
     handleBack() {},
     // 发送
-    handleSend() {},
+    handleSend() {
+      this.form.ProcessorId = this.ChargePersonId.join(",");
+      this.form.AssetsIds = this.ChargePersonId1.join(",");
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          //按钮转圈圈
+          this.loading = true;
+          let fn;
+          let { Id } = this.form;
+          if (this.form.id) fn = update;
+          else fn = add;
+          this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
+          fn(this.form)
+            .then(res => {
+              Id = Id ? Id : res.data.Id;
+              senderOrder({ Id })
+                .then(r => {
+                  this.$message.success("发送成功");
+                  this.handleOpen();
+                })
+                .catch(e => (this.loading = false));
+            })
+            .catch(r => {
+              //取消按钮转圈圈
+              this.loading = false;
+            });
+        }
+      });
+    },
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
+        this.form.ProcessorId = this.ChargePersonId.join(",");
+        this.form.AssetsIds = this.ChargePersonId1.join(",");
         if (valid) {
           //按钮转圈圈
           this.loading = true;
           let fn;
           if (this.form.id) fn = update;
           else fn = add;
-          this.form.attachmenturl = this.imageUrl.map(v => v.uid).join(",");
+          this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
             .then(res => {
               //消息提示
@@ -450,7 +464,7 @@ export default {
     handleAvatarSuccess(res, file, fileList) {
       console.log(file);
       file.uid = res.data.FileUrls[0].Url;
-      this.form.attachmentkey = res.data.AttachmentKey;
+      this.form.AttachmentKey = res.data.AttachmentKey;
       this.imageUrl = fileList;
     },
     // 删除附件
@@ -465,11 +479,10 @@ export default {
     },
     // 附件上传之前判断大小
     beforeAvatarUpload(file) {
-      console.log(file);
       let fd = new FormData();
       fd.append("filekey", file);
       imageUpload(fd).then(r => {
-        this.form.attachmentkey = r.data.AttachmentKey;
+        this.form.AttachmentKey = r.data.AttachmentKey;
         const fileReader = new FileReader();
         fileReader.onload = e => {
           this.imageUrl.push({ src: e.target.result, uid: file.uid });

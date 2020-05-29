@@ -23,6 +23,9 @@ export function deleted(data) {
   return post("/AssetsBug/Remove", data, commonUrl);
 }
 
+export function senderOrder(data) {
+  return post("/AssetsBug/Send", data, commonUrl);
+}
 // 上传附件
 export function imageUpload(data) {
   return postFile("/File/Upload", data, "common");

@@ -379,6 +379,9 @@ export default {
         this.ChargePersonId = this.form.ChargePersonId.split(",");
       if (this.form.ReceivePersonId)
         this.ReceivePersonId = this.form.ReceivePersonId.split(",");
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate();
+      });
     },
     getInfo(data) {
       this.loading = true;
@@ -387,8 +390,7 @@ export default {
         if (id) {
           getInfo(id)
             .then(res => {
-              this.reset(data);
-              this.form = res.data;
+              this.reset(res.data);
               // this.form.StartTime = new Date(res.data.StartTime).getTime();
             })
             .finally(v => (this.loading = false));
@@ -396,9 +398,6 @@ export default {
       } else {
         this.loading = false;
         this.reset(data);
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate();
-        });
       }
     },
     handleOpen(data) {
