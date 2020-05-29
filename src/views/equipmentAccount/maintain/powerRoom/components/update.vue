@@ -150,6 +150,7 @@ export default {
           type: "",
           tenantId: "",
           tenantid: "",
+          parentid:'',
           status: 1,
           starttime: "",
           property: "",
@@ -172,6 +173,7 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
+          console.log(this.form,11)
           const fn = this.form.id ? update : add;
           this.form.tenantid = this.form.tenantId;
           this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");

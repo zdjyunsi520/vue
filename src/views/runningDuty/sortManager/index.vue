@@ -352,24 +352,4 @@ export default {
   font-weight: bold;
   color: #333333;
 }
-.el-dialog__wrapper {
-  .el-drawer__header {
-    background-color: #f7f8fe;
-    border: solid 1px #ebeef5;
-    padding: 0 30px;
-    height: 39px;
-    line-height: 39px;
-    margin-bottom: 20px;
-  }
-  .el-drawer__body {
-    padding: 0 10px 0 20px;
-  }
-  .el-tree-node__content > .el-checkbox:last-of-type {
-    margin-right: 8px;
-  }
-  .dialog-footer {
-    text-align: center;
-    padding-top: 20px;
-  }
-}
 </style>

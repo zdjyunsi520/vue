@@ -206,8 +206,8 @@ export default {
     handleDelete() {
       this.$confirm("确定要删除选中的配电室吗")
         .then(r => {
-          const Ids = [this.data.id];
-          deleted({ Ids }).then(r => {
+          const Id = this.data.id;
+          deleted({ Id }).then(r => {
             this.getList1();
             this.$message.success("删除成功");
           });
