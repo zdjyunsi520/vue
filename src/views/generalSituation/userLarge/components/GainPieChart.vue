@@ -7,6 +7,12 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
 
+var arrName;
+var arrValue;
+var sumValue;
+var objData ;
+var optionData;
+
 export default {
   mixins: [resize],
   props: {
@@ -24,7 +30,7 @@ export default {
     },
 
     piechartData: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
@@ -65,11 +71,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (
-        this.piechartData.inspection ||
-        this.piechartData.warning ||
-        this.piechartData.repair
-      ) {
+      if (this.piechartData) {
         this.chart.hideLoading();
         this.setOptions(this.piechartData);
       }
@@ -84,158 +86,166 @@ export default {
       });
     },
 
+
+getArrayValue(array, key) {
+    var key = key || "value";
+    var res = [];
+    if (array) {
+        array.forEach(function(t) {
+            res.push(t[key]);
+        });
+    }
+    return res;
+},
+
+array2obj(array, key) {
+    var resObj = {};
+    for (var i = 0; i < array.length; i++) {
+        resObj[array[i][key]] = array[i];
+    }
+    return resObj;
+},
+
+ getData(data) {
+    var res = {
+        series: [],
+        yAxis: []
+    };
+    for (let i = 0; i < data.length; i++) {
+        // console.log([70 - i * 15 + '%', 67 - i * 15 + '%']);
+        res.series.push({
+            name: '',
+            type: 'pie',
+            clockWise: false, //顺时加载
+            hoverAnimation: false, //鼠标移入变大
+            radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
+            center: ["50%", "45%"],
+            label: {
+                show: false
+            },
+            itemStyle: {
+                label: {
+                    show: false,
+                },
+                labelLine: {
+                    show: false
+                },
+                borderWidth: 8,
+            },
+            data: [{
+                value: data[i].value,
+                name: data[i].name
+            }, {
+                value: sumValue - data[i].value,
+                name: '',
+                itemStyle: {
+                    color: "rgba(0,0,0,0)",
+                    borderWidth: 0
+                },
+                tooltip: {
+                    show: false
+                },
+                hoverAnimation: false
+            }]
+        });
+        res.series.push({
+            name: '',
+            type: 'pie',
+            silent: true,
+            z: 1,
+            clockWise: false, //顺时加载
+            hoverAnimation: false, //鼠标移入变大
+            radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
+            center: ["50%", "45%"],
+            label: {
+                show: false
+            },
+            itemStyle: {
+                label: {
+                    show: false,
+                },
+                labelLine: {
+                    show: false
+                },
+                borderWidth: 8,
+            },
+            data: [{
+                value: 7.5,
+                itemStyle: {
+                    color: "#04306a",
+                    borderWidth: 0
+                },
+                tooltip: {
+                    show: false
+                },
+                hoverAnimation: false
+            }, {
+                value: 2.5,
+                name: '',
+                itemStyle: {
+                    color: "rgba(0,0,0,0)",
+                    borderWidth: 0
+                },
+                tooltip: {
+                    show: false
+                },
+                hoverAnimation: false
+            }]
+        });
+        res.yAxis.push((data[i].value / sumValue * 100).toFixed(2) + "%");
+    }
+    return res;
+},
+
+
     setOptions({ inspection, warning, repair } = {}) {
+      arrName =  this.getArrayValue(this.piechartData, "name");
+      arrValue =  this.getArrayValue(this.piechartData, "value");
+      sumValue = eval(arrValue.join('+'));
+      objData =  this.array2obj(this.piechartData, "name");
+      optionData = this.getData(this.piechartData)
+
       this.chart.setOption({
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
         legend: {
-          show: true,
-          right: 30,
-          bottom: 30,
-          data: ["总巡检", "总预警", "总抢修"]
+            show: true,
+            icon: "circle",
+            top: '8%',
+            itemWidth: 6,
+            itemHeight: 6,
+            bottom: '53%',
+            left: "50%",
+            data: arrName,
+            width: 40,
+            padding: [0, 15],
+            itemGap: 14,
+            formatter: function(name) {
+                return " {title|" + name + "} {value|" + (objData[name].value) + "}{title|kWh}"
+            },
+            textStyle: {
+                rich: {
+                    title: {
+                        fontSize: 12,
+                        lineHeight: 1,
+                        color: "#fff"
+                    },
+                    value: {
+                        fontSize: 14,
+                        lineHeight: 1,
+                        color: "#fff"
+                    }
+                }
+            },
         },
-        // color: ["#2178ff", "#07fdff", "#d2feff"],
-        series: [
-          {
-            name: "总抢修",
-            type: "pie",
-            radius: ["30%", "43%"],
-            center: ["50%", "50%"],
-            label: {
-              normal: {
-                show: false,
-                position: "center",
-                color: "#fff",
-                formatter: function(params) {
-                  return params.value;
-                }
-              }
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
-            data: [
-              {
-                value: 100,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(0,0,0,0)"
-                  }
-                }
-              },
-              {
-                value: repair,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(210, 254, 255,1)"
-                  }
-                }
-              }
-            ]
-          },
-
-          {
-            name: "总预警",
-            type: "pie",
-            radius: ["50%", "63%"],
-            center: ["50%", "50%"],
-            legendHoverLink: false,
-            avoidLabelOverlap: false,
-            label: {
-              normal: {
-                show: false,
-                position: "center"
-              },
-              emphasis: {
-                show: true,
-                textStyle: {
-                  fontSize: "30",
-                  fontWeight: "bold"
-                }
-              }
-            },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: [
-              {
-                value: 100,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(0,0,0,0)"
-                  }
-                }
-              },
-              {
-                value: warning,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(7, 253, 255,1)"
-                  }
-                }
-              }
-            ]
-          },
-
-          {
-            name: "总巡检",
-            type: "pie",
-
-            radius: ["70%", "83%"],
-            center: ["50%", "50%"],
-            label: {
-              normal: {
-                show: false,
-                position: "center"
-              },
-              emphasis: {
-                show: true,
-                textStyle: {
-                  fontSize: "10",
-                  fontWeight: "bold"
-                }
-              }
-            },
-            itemStyle: {
-              borderColor: "#3e4674"
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: [
-              {
-                value: 100,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(0,0,0,0)"
-                  }
-                }
-              },
-              {
-                value: inspection,
-                itemStyle: {
-                  normal: {
-                    color: "rgba(33, 120, 255,1)"
-                  }
-                }
-              }
-            ]
-          }
-        ]
+        tooltip: {
+            show: true,
+            trigger: "item",
+            formatter: "{a}<br>{b}:{c}({d}%)"
+        },
+        color: ['#2277ff', '#07feff', '#88fffc', '#ffffff'],
+        xAxis: [{
+            show: false
+        }],
+        series: optionData.series
       });
       this.chart.hideLoading();
     }

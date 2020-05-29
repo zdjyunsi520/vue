@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "200px"
+      default: "100%"
     },
     autoResize: {
       type: Boolean,
@@ -64,8 +64,8 @@ export default {
     setOptions({legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
-          left: 10,
-          right: 20,
+          left: 20,
+          right: 0,
           bottom: 30,
           top: 50,
           containLabel: true
