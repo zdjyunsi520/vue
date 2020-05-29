@@ -1,9 +1,9 @@
 <template>
   <el-col>
-    <el-input :disabled="disabled" :value="this.$refs.tree&&this.$refs.tree
+    <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree
           .getCheckedNodes(true)
-          .map(v => v[this.showText]).join(',')" placeholder="" @focus="showTree" />
-    <el-drawer :close="handleClose" :modal="modal" :title="title" direction="rtl" :visible.sync="dialogVisible" :show-close='false' center :size="size">
+          .map(v => v[this.showText]).join(',')}}</el-button>
+    <el-drawer :wrapperClosable="false" :modal="modal" :title="title" direction="rtl" :visible.sync="dialogVisible" :show-close='false' center :size="size">
       <el-scrollbar style="height: 86vh;">
         <el-tree :default-checked-keys="checkedKeys" ref="tree" :node-key="nodeKey" :default-expand-all="true" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
       </el-scrollbar>
@@ -85,7 +85,6 @@ export default {
       }
     },
     handleClose() {
-      console.log(123);
       this.$refs.tree.setCheckedKeys(this.oldKey.map(v => v.id));
       this.$emit("change", this.oldKey);
       this.dialogVisible = false;
@@ -102,4 +101,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-form-item__content {
+  .el-button {
+    width: 100%;
+    text-align: left;
+  }
+}
 </style>
