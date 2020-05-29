@@ -144,38 +144,10 @@ export default {
     handleAdd() {},
 
     handleUpdate() {
-      const id = this.infoData.Id;
-      const serialcode = this.infoData.SerialCode;
-      const attribute = this.infoData.Attribute;
-      const name = this.infoData.Name;
-      const tenantid = this.infoData.TenantId;
-      const starttime = this.infoData.StartTime;
-      const ModelName = this.infoData.ModelName;
-      const factory = this.infoData.Factory;
-      const sortindex = this.infoData.SortIndex;
-      const exfactorydate = this.infoData.ExFactoryDate;
-      const isenable = this.infoData.IsEnable;
-      const parentid = this.infoData.ParentId;
-      const status = this.infoData.Status;
-      const data = {
-        id,
-        serialcode,
-        attribute,
-        name,
-        tenantid,
-        starttime,
-        ModelName,
-        factory,
-        sortindex,
-        exfactorydate,
-        parentid,
-        isenable,
-        status
-      };
       const title = "修改";
       this.$router.push({
         name: "/equipmentAccount/maintain/smoke/components/update",
-        params: { data, title }
+        params: { data: this.infoData, title }
       });
     },
     handleDelete() {
@@ -183,6 +155,7 @@ export default {
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
+            this.$emit("refresh");
             this.$message.success("删除成功");
           });
         })

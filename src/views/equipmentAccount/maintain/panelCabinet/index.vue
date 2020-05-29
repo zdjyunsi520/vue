@@ -151,18 +151,13 @@ export default {
       });
     },
     handleCommand(commond) {
-      const tenantid = this.infoData.TenantId;
-      const tenantId = this.infoData.TenantId;
-      const parentid = this.infoData.ParentId;
-      const parentId = this.infoData.ParentId;
+      const TenantId = this.infoData.TenantId;
+      const ParentId = this.infoData.Id;
       const data = {
-        parentid,
-        parentId,
-        tenantid,
-        tenantId,
+        TenantId,
+        ParentId
       };
       const title = "新增";
-      console.log(99,this.infoData)
       this.$router.push({
         name: commond,
         params: { data, title }
@@ -183,6 +178,7 @@ export default {
       const parentId = this.infoData.ParentId;
       const attribute = this.infoData.Attribute;
       const exfactorydate = this.infoData.ExFactoryDate;
+
       const data = {
         id,
         tenantId,
@@ -208,7 +204,10 @@ export default {
     handleDelete() {
       this.$confirm("确认要进行删除操作吗？").then(r => {
         const id = this.infoData.Id;
-        deleted({ id }).then(r => this.$message.success(r.msg));
+        deleted({ id }).then(r => {
+          this.$emit("refresh");
+          this.$message.success("删除成功");
+        });
       });
     }
   }

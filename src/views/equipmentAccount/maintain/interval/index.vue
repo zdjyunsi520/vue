@@ -139,38 +139,11 @@ export default {
     handleAdd() {},
 
     handleUpdate() {
-      const id = this.infoData.Id;
-      const name = this.infoData.Name;
-      const type = this.infoData.Type;
-      const tenantid = this.infoData.TenantId;
-      const isenable = this.infoData.IsEnable;
-      const starttime = this.infoData.StartTime;
-      const property = this.infoData.Property;
-      const voltlevel = this.infoData.VoltLevel;
-      const binddeviceId = this.infoData.BindDeviceId;
-      const binddevicetype = this.infoData.BindDeviceType;
-      const sortindex = this.infoData.SortIndex;
-      const ismainline = this.infoData.IsMainLine;
-      const parentid = this.infoData.ParentId;
-      const data = {
-        id,
-        name,
-        type,
-        tenantid,
-        isenable,
-        starttime,
-        property,
-        voltlevel,
-        binddeviceId,
-        binddevicetype,
-        sortindex,
-        ismainline,
-        parentid
-      };
       const title = "修改";
+      this.infoData.Tenant = null;
       this.$router.push({
         name: "/equipmentAccount/maintain/interval/components/update",
-        params: { data, title }
+        params: { data: this.infoData, title }
       });
     },
     handleDelete() {
@@ -178,6 +151,7 @@ export default {
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
+            this.$emit("refresh");
             this.$message.success("删除成功");
           });
         })

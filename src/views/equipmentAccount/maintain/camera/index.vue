@@ -195,6 +195,7 @@ export default {
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
+            this.$emit("refresh");
             this.$message.success("删除成功");
           });
         })

@@ -6,21 +6,21 @@
         <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="设备编号" prop="serialcode">
-                <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
+              <el-form-item label="设备编号" prop="SerialCode">
+                <el-input v-model="form.SerialCode" placeholder="请输入设备编号" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="是否启用" prop="isenable">
-                <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="停用">
+              <el-form-item label="是否启用" prop="IsEnable">
+                <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="停用">
                 </el-switch>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入名称" />
+              <el-form-item label="名称" prop="Name">
+                <el-input v-model="form.Name" placeholder="请输入名称" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
@@ -29,21 +29,21 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="tenantid">
-                <el-select v-model="form.tenantid">
+              <el-form-item label="所属单位" prop="TenantId">
+                <el-select v-model="form.TenantId">
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="生产厂家" prop="factory">
-                <el-input v-model="form.factory" placeholder="请输入生产厂家" />
+              <el-form-item label="生产厂家" prop="Factory">
+                <el-input v-model="form.Factory" placeholder="请输入生产厂家" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="status">
-                <el-select v-model="form.status">
+              <el-form-item label="运行状态" prop="Status">
+                <el-select v-model="form.Status">
                   <el-option label="请选择" value></el-option>
                   <el-option label="在运" :value="1" />
                   <el-option label="停运" :value="0" />
@@ -51,23 +51,23 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="出厂日期" prop="exfactorydate">
-                <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
+              <el-form-item label="出厂日期" prop="ExFactoryDate">
+                <el-date-picker v-model="form.ExFactoryDate" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="投运日期" prop="starttime">
-                <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
+              <el-form-item label="投运日期" prop="StartTime">
+                <el-date-picker v-model="form.StartTime" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+              <el-form-item label="排序号" prop="SortIndex">
+                <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="资产属性" prop="attribute">
-                <el-select v-model="form.attribute">
+              <el-form-item label="资产属性" prop="Attribute">
+                <el-select v-model="form.Attribute">
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
@@ -101,15 +101,15 @@ export default {
       }
     ];
     const rules = {
-      name: rule,
-      serialcode: rule,
-      attribute: rule,
+      Name: rule,
+      SerialCode: rule,
+      Attribute: rule,
 
-      isenable: rule,
-      starttime: rule,
-      attribute: rule,
+      IsEnable: rule,
+      StartTime: rule,
+      Attribute: rule,
       voltagelevel: rule,
-      tenantid: rule
+      TenantId: rule
     };
     return {
       form: {},
@@ -141,19 +141,19 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
-          serialcode: "",
-          attribute: "",
-          name: "",
-          tenantid: "",
-          starttime: "",
-          isenable: true,
-          status: 1,
+          Id: "",
+          SerialCode: "",
+          Attribute: "",
+          Name: "",
+          TenantId: "",
+          StartTime: "",
+          IsEnable: true,
+          Status: 1,
           ModelName: "",
-          factory: "",
-          sortindex: 1,
-          parentid:'',
-          exfactorydate: ""
+          Factory: "",
+          SortIndex: 1,
+          ParentId: "",
+          ExFactoryDate: ""
         },
         data
       );
@@ -168,14 +168,14 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          // this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");
-          // this.form.exfactorydate = dateFortmat(
-          //   this.form.exfactorydate,
+          // this.form.StartTime = dateFortmat(this.form.StartTime, "yyyy-MM-dd");
+          // this.form.ExFactoryDate = dateFortmat(
+          //   this.form.ExFactoryDate,
           //   "yyyy-MM-dd"
           // );
           //按钮转圈圈
           this.loading = true;
-          const fn = this.form.id ? update : add;
+          const fn = this.form.Id ? update : add;
           //添加用户
           fn(this.form)
             .then(response => {

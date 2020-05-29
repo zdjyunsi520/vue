@@ -158,44 +158,10 @@ export default {
     },
     handleAdd() {},
     handleUpdate() {
-      // const id = this.infoData.Id;
-      const tenantId = this.infoData.TenantId;
-      const name = this.infoData.Name;
-      const starttime = this.infoData.StartTime;
-      const property = this.infoData.Property;
-      const serialcode = this.infoData.SerialCode;
-      const dataserverId = this.infoData.DataServerId;
-      const isenable = this.infoData.IsEnable;
-      const status = this.infoData.Status;
-      const factory = this.infoData.Factory;
-      const modelname = this.infoData.ModelName;
-      const CTratio = this.infoData.CTRatio;
-      const RTratio = this.infoData.RTRatio;
-      const sortindex = this.infoData.SortIndex;
-      const dataaddress = this.infoData.DataAddress;
-      const parentId = this.infoData.ParentId;
-      const data = {
-        // id,
-        tenantId,
-        name,
-        serialcode,
-        starttime,
-        property,
-        dataserverId,
-        isenable,
-        status,
-        factory,
-        modelname,
-        CTratio,
-        RTratio,
-        sortindex,
-        dataaddress,
-        parentId
-      };
       const title = "修改";
       this.$router.push({
         name: "/equipmentAccount/maintain/clock/components/update",
-        params: { data, title }
+        params: { data: this.infoData, title }
       });
     },
     handleDelete() {
@@ -203,6 +169,7 @@ export default {
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
+            this.$emit("refresh");
             this.$message.success("删除成功");
           });
         })

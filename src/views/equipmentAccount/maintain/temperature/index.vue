@@ -154,48 +154,10 @@ export default {
       return !!state ? "启用" : "停用";
     },
     handleUpdate() {
-      console.log(33,this.infoData)
-      const id = this.infoData.Id;
-      const serialcode = this.infoData.SerialCode;
-      const name = this.infoData.Name;
-      const tenantId = this.infoData.TenantId;
-      const starttime = this.infoData.StartTime;
-      const property = this.infoData.Property;
-      const dataserverId = this.infoData.DataserverId;
-      const modelname = this.infoData.ModelName;
-      const factory = this.infoData.Factory;
-      const CTratio = this.infoData.CTratio;
-      const RTratio = this.infoData.RTratio;
-      const sortindex = this.infoData.SortIndex;
-      const parentId = this.infoData.ParentId;
-      const exfactorydate = this.infoData.ExFactoryDate;
-      const isenable = this.infoData.IsEnable;
-      const status = this.infoData.Status;
-      const dataaddress = this.infoData.DataAddress;
-      const data = {
-        id,
-        serialcode,
-        name,
-        tenantId,
-        starttime,
-        property,
-        dataserverId,
-        modelname,
-        factory,
-        CTratio,
-        RTratio,
-        sortindex,
-        parentId,
-        exfactorydate,
-        isenable,
-        status,
-        dataaddress
-      };
       const title = "修改";
-      // const data = this.infoData;
       this.$router.push({
         name: "/equipmentAccount/maintain/temperature/components/update",
-        params: { data, title }
+        params: { data: this.infoData, title }
       });
     },
     handleDelete() {
@@ -203,6 +165,7 @@ export default {
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
+            this.$emit("refresh");
             this.$message.success("删除成功");
           });
         })

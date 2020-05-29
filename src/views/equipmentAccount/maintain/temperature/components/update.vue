@@ -6,44 +6,44 @@
         <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="设备编号" prop="serialcode">
-                <el-input v-model="form.serialcode" placeholder="请输入设备编号" />
+              <el-form-item label="设备编号" prop="SerialCode">
+                <el-input v-model="form.SerialCode" placeholder="请输入设备编号" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="是否启用" prop="status">
-                <el-switch v-model="form.status" :active-value="1" :inactive-value="0" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+              <el-form-item label="是否启用" prop="Status">
+                <el-switch v-model="form.Status" :active-value="1" :inactive-value="0" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
                 </el-switch>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入名称" />
+              <el-form-item label="名称" prop="Name">
+                <el-input v-model="form.Name" placeholder="请输入名称" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="型号" prop="modelname">
-                <el-input v-model="form.modelname" placeholder="请输入型号" />
+              <el-form-item label="型号" prop="ModelName">
+                <el-input v-model="form.ModelName" placeholder="请输入型号" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="tenantId">
-                <el-select v-model="form.tenantId">
+              <el-form-item label="所属单位" prop="TenantId">
+                <el-select v-model="form.TenantId">
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="生产厂家" prop="factory">
-                <el-input v-model="form.factory" placeholder="请输入生产厂家" />
+              <el-form-item label="生产厂家" prop="Factory">
+                <el-input v-model="form.Factory" placeholder="请输入生产厂家" />
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="isenable">
-                <el-select v-model="form.isenable">
+              <el-form-item label="运行状态" prop="IsEnable">
+                <el-select v-model="form.IsEnable">
                   <el-option label="在运" :value="true" />
                   <el-option label="停运" :value="false" />
                   <!-- <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" /> -->
@@ -51,50 +51,50 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="出厂日期" prop="exfactorydate">
-                <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
+              <el-form-item label="出厂日期" prop="ExFactoryDate">
+                <el-date-picker v-model="form.ExFactoryDate" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="投运日期" prop="starttime">
-                <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期"></el-date-picker>
+              <el-form-item label="投运日期" prop="StartTime">
+                <el-date-picker v-model="form.StartTime" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="CT变化" prop="CTratio">
-                <el-input v-model="form.CTratio" placeholder="请输入CT变化" />
+              <el-form-item label="CT变化" prop="CTRatio">
+                <el-input v-model="form.CTRatio" placeholder="请输入CT变化" />
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="资产属性" prop="property">
-                <el-select v-model="form.property">
+              <el-form-item label="资产属性" prop="Property">
+                <el-select v-model="form.Property">
                   <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="PT变化" prop="RTratio">
-                <el-input v-model="form.RTratio" placeholder="请输入PT变化" />
+              <el-form-item label="PT变化" prop="RTRatio">
+                <el-input v-model="form.RTRatio" placeholder="请输入PT变化" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="通讯主机" prop="dataserverId">
-                <el-select v-model="form.dataserverId">
+              <el-form-item label="通讯主机" prop="DataServerId">
+                <el-select v-model="form.DataServerId">
                   <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in communicationHostType" />
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+              <el-form-item label="排序号" prop="SortIndex">
+                <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="数据源地址" prop="dataaddress">
-                <el-select v-model="form.dataaddress" :disabled="!!form.Id">
+              <el-form-item label="数据源地址" prop="DataAddress">
+                <el-select v-model="form.DataAddress" :disabled="!!form.Id">
                   <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
                 </el-select>
               </el-form-item>
@@ -109,8 +109,6 @@
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
-          <el-tag type="danger">修改50000错误</el-tag>
-
         </div>
       </el-col>
 
@@ -133,14 +131,14 @@ export default {
       }
     ];
     const rules = {
-      serialcode: rule,
-      name: rule,
-      tenantId: rule,
-      starttime: rule,
-      property: rule,
-      dataserverId: rule,
-      isenable: rule,
-      status: rule
+      SerialCode: rule,
+      Name: rule,
+      TenantId: rule,
+      StartTime: rule,
+      Property: rule,
+      DataServerId: rule,
+      IsEnable: rule,
+      Status: rule
     };
     return {
       form: {},
@@ -171,9 +169,9 @@ export default {
   methods: {
     ...mapActions({ communicationHost: "common/communicationHost" }),
     fetechList(data) {
-      const tenantId = data.tenantId || data.TenantId;
-      // const switchingroomid = data.parentId;
-      this.communicationHost({ tenantId }).then(r => {
+      const TenantId = data.TenantId;
+      // const switchingroomid = data.ParentId;
+      this.communicationHost({ TenantId }).then(r => {
         this.communicationHostType = r.data.map(v => {
           const key = v.Id;
           const value = v.Name;
@@ -188,23 +186,23 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-            // id:'',
-            serialcode:'',
-            name:'',
-            tenantId:'',
-            starttime:'',
-            property:'',
-            dataserverId:'',
-            modelname:'',
-            factory:'',
-            CTratio:'',
-            RTratio:'',
-            sortindex:'',
-            parentId:'',
-            exfactorydate:'',
-            isenable:'',
-            status:'',
-            dataaddress:''
+          // Id:'',
+          SerialCode: "",
+          Name: "",
+          TenantId: "",
+          StartTime: "",
+          Property: "",
+          DataServerId: "",
+          ModelName: "",
+          Factory: "",
+          CTRatio: "",
+          RTRatio: "",
+          SortIndex: "",
+          ParentId: "",
+          ExFactoryDate: "",
+          IsEnable: true,
+          Status: 1,
+          DataAddress: ""
         },
         data
       );
