@@ -8,7 +8,7 @@
           <el-form-item label="班次" prop="name">
             <el-input v-model="form.name" placeholder="请输入班次名称" />
           </el-form-item>
-          <el-form-item label="开始时间" prop="starttime" >
+          <el-form-item label="开始时间" prop="starttime">
             <el-time-select v-model="form.starttime" :picker-options="pickerOptions" placeholder="请选择时间" />
           </el-form-item>
           <el-form-item label="间隔天数" prop="period">
@@ -125,7 +125,8 @@ export default {
 /deep/.el-select {
   width: 100%;
 }
-/deep/.el-date-editor.el-input, .el-date-editor.el-input__inner{
+/deep/.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
   width: 100%;
 }
 </style>

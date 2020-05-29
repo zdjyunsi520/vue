@@ -12,7 +12,7 @@
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
             <el-button icon="el-icon-remove-outline" :loading="loading" @click="handleDelete" :disabled="multiple">删除</el-button>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border height="calc(100% - 180px)">
+          <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border height="calc(100% - 130px)">
 
             <template slot="empty">
               <div class="nodata-box">
@@ -20,9 +20,9 @@
                 <p>暂时还没有数据</p>
               </div>
             </template>
-            <el-table-column type="selection" fixed="left" width="55" align="center" />
-            <el-table-column label="班组" align="center" prop="Name" />
-            <el-table-column label="班组人员" align="center" prop="EmployeeNames" />
+            <el-table-column type="selection" fixed="left" width="55" />
+            <el-table-column label="班组" prop="Name" />
+            <el-table-column label="班组人员" prop="EmployeeNames" />
           </el-table>
           <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
@@ -135,8 +135,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .comheight .containerbox {
   height: 100%;
+  padding: 0;
+}
+/deep/.form-smtitle {
+  margin-bottom: 0;
 }
 </style>

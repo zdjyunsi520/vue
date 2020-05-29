@@ -54,15 +54,15 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <!-- <el-table-column type="selection" fixed="left" width="55" align="center" /> -->
-        <el-table-column label="值班班组" align="center"  min-width='200'prop="TeamName" />
-        <el-table-column label="值班人员" align="center" min-width='200' prop="EmployeeNames" />
-        <el-table-column label="班次类型" align="center"  min-width='200'prop="ShiftTypeName" />
-        <el-table-column label="班次" align="center"  min-width='200'prop="ShiftNames" />
-        <el-table-column label="角色类型" align="center" min-width='200' prop="CharaTypeName" />
-        <el-table-column label="角色" align="center" min-width='200' prop="Characters" />
-        <el-table-column label="岗位" align="center"  min-width='200' prop="Positions" />
-        <el-table-column label="操作" min-width='200' align="center">
+        <!-- <el-table-column type="selection" fixed="left" width="55"  /> -->
+        <el-table-column label="值班班组" min-width='200' prop="TeamName" />
+        <el-table-column label="值班人员" min-width='200' prop="EmployeeNames" />
+        <el-table-column label="班次类型" min-width='200' prop="ShiftTypeName" />
+        <el-table-column label="班次" min-width='200' prop="ShiftNames" />
+        <el-table-column label="角色类型" min-width='200' prop="CharaTypeName" />
+        <el-table-column label="角色" min-width='200' prop="Characters" />
+        <el-table-column label="岗位" min-width='200' prop="Positions" />
+        <el-table-column label="操作" min-width='200' fixed="right">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑

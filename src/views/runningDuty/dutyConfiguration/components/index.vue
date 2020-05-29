@@ -55,9 +55,9 @@
             <div class="bg-white containerbox" style="padding:0">
               <el-row class="table-btns">
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-                <el-button :disabled="!disabledSelect" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-                <el-button type="primary"  icon="el-icon-delete" @click="handleSubmit">保存</el-button>
-                <el-button icon="el-icon-delete" @click="handleBack">返回</el-button>
+                <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
+                <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button>
+                <el-button type="info" plain icon="el-icon-delete" @click="handleBack">返回</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
 
@@ -67,10 +67,10 @@
                     <p>暂时还没有数据</p>
                   </div>
                 </template>
-                <el-table-column type="selection" fixed="left" width="55" align="center" />
-                <el-table-column label="岗位名称" align="center" prop="TeamName" />
-                <el-table-column label="班次" align="center" prop="ShiftNames" />
-                <el-table-column label="角色" align="center" prop="Characters" />
+                <el-table-column type="selection" fixed="left" width="55" />
+                <el-table-column label="岗位名称" min-width="100" prop="Name" />
+                <el-table-column label="班次" min-width="100" prop="ShiftName" />
+                <el-table-column label="角色" min-width="100" prop="CharacterName" />
 
               </el-table>
               <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
@@ -79,20 +79,21 @@
         </div>
       </el-col>
     </el-row>
-    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" :charaType="form.CharaType" @getList="getList" />
+    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" :charaType="form.CharaType" :dutyId='dutyId' @getList="getList" />
   </div>
 
 </template>
 
 <script>
 import {
-  fetchList,
   fetchTeam,
   fetchShiftType,
   fetchCharactorType,
   update,
   add
 } from "@/api/runningDuty/dutyConfiguration";
+
+import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/job";
 import addJob from "./components/add";
 export default {
   components: { addJob },
@@ -129,6 +130,7 @@ export default {
       shiftTypeList: [],
       height: "calc(100% - 65px)",
       dialogAddVisible: false,
+      dutyId: "",
       shifts: [
         {
           id: 1,
@@ -157,6 +159,7 @@ export default {
     this.getTeam();
     this.getShiftType();
     this.reset();
+    this.getList();
   },
   computed: {
     addDisabled() {
@@ -181,7 +184,9 @@ export default {
         this.charactorTypeList = r.data;
       });
     },
-    handleSelectionChange() {},
+    handleSelectionChange(selection) {
+      this.ids = selection;
+    },
 
     getList() {
       this.listLoading = true;
@@ -192,6 +197,16 @@ export default {
         .finally(r => (this.listLoading = false));
     },
     handleConfirm() {
+      var shiftIds = this.$refs.add.classTimeList.map(v => v.Id);
+      this.form.ShiftIds = shiftIds.join(",");
+      var shiftnames = this.$refs.add.classTimeList.map(v => v.Name);
+      this.form.shiftnames = shiftnames.join(",");
+
+      var characterIds = this.$refs.add.roleList.map(v => v.Id);
+      this.form.CharacterIds = characterIds.join(",");
+      var characters = this.$refs.add.roleList.map(v => v.Name);
+      this.form.characters = characters.join(",");
+
       this.$refs.form.validate(v => {
         if (v) {
           this.loadingConfirm = true;
@@ -199,6 +214,8 @@ export default {
           fn(this.form)
             .then(r => {
               this.disabledSelect = true;
+              this.dutyId = r.data.Id;
+              this.$message.success("成功新增值班！");
             })
             .finally(r => (this.loadingConfirm = false));
         }
@@ -212,17 +229,18 @@ export default {
           // TenantName: "福建迅腾电力科技有限公司",
           TeamId: "",
           // TeamName: "班组二",
-          EmployeeIds: "",
+          // EmployeeIds: "",
           // EmployeeNames: "京帅",
           ShiftTypeId: "",
           //  ShiftTypeName: "两班制",
           ShiftIds: "",
+          shiftnames: "",
           //  ShiftNames: "夜班,白班",
           CharaType: "",
           //  CharaTypeName: "两班制人员",
           CharacterIds: "",
           //  Characters: "夜班人员",
-          PositionIds: ""
+          characters: ""
           //  Positions: null
         },
         data
@@ -232,9 +250,23 @@ export default {
       const target = this.$refs.add;
       target.handleOpen();
     },
-    handleUpdate() {},
-    handleDelete() {},
-    handleAddCheck() {},
+    handleUpdate() {
+      this.disabledSelect = false;
+    },
+    handleDelete() {
+      this.$confirm("确定要删除选中的岗位吗？")
+        .then(r => {
+          const Ids = this.ids.map(v => v.Id);
+          deleted({ Ids }).then(r => {
+            this.getList();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(e => {});
+    },
+    handleBack() {
+      this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
+    },
     handleSubmit() {
       this.$refs.form.validate(v => {
         if (v) {

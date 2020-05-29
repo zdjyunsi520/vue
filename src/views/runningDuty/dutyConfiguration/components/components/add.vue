@@ -39,6 +39,11 @@ export default {
       type: String,
       required: true,
       default: ""
+    },
+    dutyId: {
+      type: String,
+      required: true,
+      default: ""
     }
   },
   watch: {
@@ -53,6 +58,10 @@ export default {
         fetchList1({ charatypeId, pageno: 1, pagesize: 999999 }).then(r => {
           this.roleList = r.data;
         });
+    },
+    dutyId(dutyId) {
+      this.form.dutyId = dutyId;
+      console.log(this.form.dutyId, dutyId, 333);
     }
   },
   data() {
@@ -99,7 +108,7 @@ export default {
           name: "",
           characterId: "",
           shiftId: "",
-          dutyId: ""
+          dutyId: this.dutyId
         },
         data
       );
