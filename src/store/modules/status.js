@@ -98,9 +98,9 @@ const state = {
   orderResourceKV: null,
   //抢修工单 紧急程度 类型
   urgencyType: [
+    { value: "一般", key: 1 },
     { value: "紧急", key: 2 },
-    { value: "重要", key: 3 },
-    { value: "一般", key: 1 }
+    { value: "重要", key: 3 }
   ],
   urgencyKV: null
 };
@@ -126,7 +126,7 @@ const actions = {
   }
 };
 
-function reduceKV(list) {
+function reduceKV (list) {
   return list.reduce((l, v) => {
     l[v.key] = v.value;
     return l;

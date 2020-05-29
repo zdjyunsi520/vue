@@ -145,8 +145,6 @@ export default {
     this.title = title;
     console.log("data", data);
     this.fetechList(data);
-
-    console.log(data);
     this.reset(data);
   },
   computed: {
@@ -192,7 +190,8 @@ export default {
           RTratio: "",
           id: "",
           sortindex: 1,
-          dataaddress: ""
+          dataaddress: "",
+          parentId:''
         },
         data
       );

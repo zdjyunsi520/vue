@@ -163,6 +163,7 @@ export default {
       const softwareversion = this.infoData.SoftwareVersion;
       const starttime = this.infoData.StartTime;
       const modelname = this.infoData.ModelName;
+      const factory = this.infoData.Factory;
       const exfactorydate = this.infoData.ExFactoryDate;
       const status = this.infoData.Status;
       const SortIndex = this.infoData.SortIndex;
@@ -178,6 +179,7 @@ export default {
         softwareversion,
         starttime,
         modelname,
+        factory,
         exfactorydate,
         status,
         SortIndex

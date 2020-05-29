@@ -156,6 +156,7 @@ export default {
       const parentid = this.data.id;
       const tenantid = this.infoData.TenantId;
       const parentId = parentid;
+      console.log(2223,parentid,parentId)
       const switchingroomid = parentid;
       const data = { parentid, parentId, switchingroomid, tenantid };
       const title = "新增";
@@ -206,8 +207,8 @@ export default {
     handleDelete() {
       this.$confirm("确定要删除选中的配电室吗")
         .then(r => {
-          const Ids = [this.data.id];
-          deleted({ Ids }).then(r => {
+          const Id = this.data.id;
+          deleted({ Id }).then(r => {
             this.getList1();
             this.$message.success("删除成功");
           });

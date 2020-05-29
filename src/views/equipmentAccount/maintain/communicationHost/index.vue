@@ -157,6 +157,7 @@ export default {
       const sortindex = this.infoData.SortIndex;
       const exfactorydate = this.infoData.ExFactoryDate;
       const switchingroomId = this.infoData.SwitchingRoomId;
+      // const parentid = this.infoData.ParentId;
       const data = {
         serialcode,
         name,
@@ -169,7 +170,8 @@ export default {
         Id,
         sortindex,
         exfactorydate,
-        switchingroomId
+        switchingroomId,
+        // parentid
       };
       const title = "修改";
       this.$router.push({

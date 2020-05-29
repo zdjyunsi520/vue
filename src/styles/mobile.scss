@@ -16,5 +16,44 @@
      .dragright {
          width: 100%!important;
      }
-     // .dragresize{width: 0!important;}
- }
+     .mobilewrapper{
+        &.screenbg{padding:20px 0 }
+        &.userwarp{
+            background-size: cover!important;
+        }
+        .topdata{width: 100%;}
+        .count-box{
+            font-size: 12px!important;
+        }
+        .boxheight1{
+            height: 25vh!important;
+            .ledgebox{
+                right: 5%;
+                top: 29%;
+            }
+            .circlebox-lx{
+                top: 10%;
+                left: 16%;
+            }
+        }
+        .smboxheight3{
+            height: 19vh!important;
+        }
+        .ledgeright1{
+            margin-left: -3%!important;
+        }
+        .circlebox{
+            padding: 3% 0% 2%!important;
+        }
+        .commonchart{
+            display: none!important;
+        }
+        .smbarbox span{
+            top: 20%!important;
+        }
+        .img_title{width: 30%;}
+        .tophead{
+            padding: 20px 0px 20px!important;;
+        }
+    }
+}

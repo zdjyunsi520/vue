@@ -37,8 +37,8 @@
         <el-table-column label="设备编码" min-width="200" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
         <el-table-column label="设备类型" sortable min-width="120" prop="Type" />
-        <el-table-column label="添加人员" min-width="100" prop="CreateUser" />
-        <el-table-column label="添加时间" sortable min-width="175" prop="CreateTime">
+        <el-table-column label="添加人员" min-width="130" prop="CreateUser" />
+        <el-table-column label="添加时间" sortable min-width="200" prop="CreateTime">
           <template slot-scope="{row}">
             <i class="el-icon-time" style="margin-right:10px" />{{row.CreateTime}}
           </template>
@@ -98,7 +98,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "0",
+      tableHeight: "auto",
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -233,7 +233,7 @@ export default {
               .finally(v => {
                 compelete++;
                 if (compelete >= l) {
-                  return new Promise();
+                  // return new Promise();
                 }
               });
           });

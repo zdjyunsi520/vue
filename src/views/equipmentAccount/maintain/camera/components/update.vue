@@ -49,7 +49,6 @@
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="生产厂家" prop="factory">
                 <el-input v-model="form.factory" placeholder="请输入生产厂家" />
-                <el-tag>未提供此字段</el-tag>
               </el-form-item>
             </el-col>
 
@@ -196,7 +195,7 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+              this.$message.success('操作成功！');
               //刷新列表
               //this.$emit("getList");
               //关闭窗口

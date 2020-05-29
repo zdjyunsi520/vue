@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "180px"
+      default: "72%"
     },
 
     barchartData: {
@@ -82,7 +82,8 @@ export default {
       });
     },
 
-    setOptions({ xAxisData, listData } = {}) {
+    setOptions({  title, xAxisData, listData } = {}) {
+      const sideData = listData.map(item => item + 4.5);
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -91,79 +92,110 @@ export default {
           }
         },
         grid: {
-          top: "30px",
-          left: "40px",
-          right: "40px",
-          bottom: "20px",
+          top: "10px",
+          left: "10px",
+          right: "10px",
+          bottom: "40px",
           containLabel: true
         },
-        legend: {
-          show:false,
-        },  
-        radiusAxis: {
-          type: 'category',
-          data: xAxisData,
-          boundaryGap: ['20%', '20%'],
-          z: 10,
-          axisTick:{
-            show:false
-          },
-          axisLabel:{
-            show:false
-          }, 
-          axisLine:{
-            lineStyle: {
-              color: '#3e4674'
+
+        xAxis: [
+          {
+            type: "category",
+            data: xAxisData,
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#36435f"
+              }
+            },
+            axisLabel:{
+              color:'#fff'
             }
-           },
-           splitLine:{
-            show:true,
-            lineStyle: {
-              color: '#3e4674'
+          }
+        ],
+        yAxis: [
+          {
+            // name: ytext,
+            type: "value",
+            axisLine: {
+              lineStyle: {
+                color: "#36435f"
+              }
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#36435f",
+                type: "dashed"
+              }
+            },
+            splitArea: {
+              show: false
+            },
+            axisLabel:{
+              color:'#fff'
             }
-           },
-          splitArea:{
-            show:true
-          },
-        },
-      
-        polar: {
-        }, 
-        angleAxis: {
-          boundaryGap:['20%','20%'],
-          axisTick:{
-            show:false
-          },
-          axisLabel:{
-            show:false
-          },
-          splitLine:{   
-            show:false,
-            lineStyle: {
-              color: '#3e4674'
-            }
-          },
-          splitArea:{
-            show:false
-          },
-           axisLine:{
-            lineStyle: {
-              color: '#3e4674'
-            }
-           },
-           minorSplitLine:{
-             show:true
-           }
-        },
+          }
+        ],
         series: [
           {
-            // name: title,
+            name: title,
             type: "bar",
-            barWidth: "10",
-             coordinateSystem: 'polar',
+            barWidth: 16.5,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                        offset: 0,
+                        color: "#0B4EC3" // 0% 处的颜色
+                    }, {
+                        offset: 0.6,
+                        color: "#138CEB" // 60% 处的颜色
+                    }, {
+                        offset: 1,
+                        color: "#17AAFE" // 100% 处的颜色
+                    }], false)
+                }
+            },
             data: listData
-          }
-        ]
+          },{
+            type: 'bar',
+            barWidth: 6,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                        offset: 0,
+                        color: "#09337C" // 0% 处的颜色
+                    }, {
+                        offset: 0.6,
+                        color: "#0761C0" // 60% 处的颜色
+                    }, {
+                        offset: 1,
+                        color: "#0575DE" // 100% 处的颜色
+                    }], false)
+                }
+            },
+            barGap: 0,
+            data: sideData
+        }, {
+            name: 'b',
+            tooltip: {
+                show: false
+            },
+            type: 'pictorialBar',
+            itemStyle: {
+                borderWidth: 1,
+                borderColor: '#0571D5',
+                color: '#1779E0'
+            },
+            symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
+            symbolSize: ['20', '5'],
+            symbolOffset: ['0', '-5'],
+            symbolPosition: 'end',
+            data: listData,
+            z: 3
+        }]
       });
       this.chart.hideLoading();
     }

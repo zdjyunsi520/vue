@@ -1,19 +1,19 @@
 
 <template>
-  <div class="app-container screenbg">
+  <div class="app-container screenbg mobilewrapper">
     <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
       <el-row class="tophead">
         <img src="@/assets/image/largescreen/img_title_bj_1.png" class="img_title_bj">
         <div class="cnt">
-          <span class="left">智能运维 为客户创造价值</span>
+          <span class="left commonchart">智能运维 为客户创造价值</span>
           <img src="@/assets/image/largescreen/img_name.png" class="img_title">
-          <span class="right">
+          <span class="right commonchart">
             <Systime /></span>
         </div>
       </el-row>
       <el-row :gutter="20">
-        <div style="width:80%;margin:auto">
-          <el-col :span='5' :xs='8' class='count-box'>
+        <div class='topdata' >
+          <el-col :span='5' :xs='12' class='count-box'>
             <p>运维中心</p>
             <div class="dataCount">
               <div>
@@ -22,7 +22,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span='5' :xs='8' class='count-box'>
+          <el-col :span='5' :xs='12' class='count-box'>
             <p>总用户</p>
             <div class="dataCount">
               <div>
@@ -31,7 +31,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span='4' :xs='8' class='count-box'>
+          <el-col :span='4' :xs='24' class='count-box'>
             <p>总容量(kVA)</p>
             <div class="dataCount">
               <div>
@@ -40,7 +40,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span='5' :xs='8' class='count-box'>
+          <el-col :span='5' :xs='12' class='count-box'>
             <p>配电房</p>
             <div class="dataCount">
               <div>
@@ -49,7 +49,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span='5' :xs='8' class='count-box'>
+          <el-col :span='5' :xs='12' class='count-box'>
             <p>安全运行(天)</p>
             <div class="dataCount">
               <div>
@@ -114,14 +114,14 @@
             </div>
 
           </el-row>
-          <el-row>
+          <el-row class='commonchart'>
             <h6>用电负荷</h6>
             <div class="chartbox boxheight3">
               <LineChart :linechartData='lineChartData' />
             </div>
           </el-row>
         </el-col>
-        <el-col :span='10' :xs='24'>
+        <el-col :span='10' :xs='24' class='commonchart'>>
           <el-row>
             <div class="chartbox mapbox boxheight5">
               <MapChart />
@@ -232,7 +232,7 @@
             </div>
 
           </el-row>
-          <el-row>
+          <el-row class='commonchart'>
             <h6>运维跟踪情况</h6>
             <div class="chartbox boxheight3">
               <LineChart :linechartData='tracklineChartData' />
@@ -260,9 +260,9 @@ import "echarts/extension-src/bmap/bmap.js";
 const powerTypeData = {
   legendData: ["工业", "商业", "居民"],
   listData: [
-    { value: 30, name: "工业" },
-    { value: 60, name: "商业" },
-    { value: 10, name: "居民" }
+    { value: 44, name: "工业" },
+    { value: 21, name: "商业" },
+    { value: 25, name: "居民" }
   ]
 };
 const lineChartData = {
@@ -519,6 +519,9 @@ export default {
       }
     }
   }
+}
+.topdata{
+width:80%;margin:auto
 }
 .count-box {
   text-align: center;

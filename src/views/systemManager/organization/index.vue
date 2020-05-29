@@ -344,7 +344,7 @@ export default {
               .finally(v => {
                 compelete++;
                 if (compelete >= l) {
-                  return new Promise();
+                  // return new Promise();
                 }
               });
           });

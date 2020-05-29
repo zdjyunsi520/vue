@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "100%"
+      default: "90%"
     },
 
     chartData: {
@@ -105,13 +105,13 @@ export default {
             name: "用电类型",
             type: "pie",
             radius: ["50%", "70%"],
-            center: ["50%", "45%"],
+            center: ["50%", "55%"],
             labelLine: {
-              show: false
+              show: true
             },
             label: {
-              show: false,
-              position: "center",
+              show: true,
+              // position: "center",
               formatter: function(params) {
                 return params.value + "%";
               }

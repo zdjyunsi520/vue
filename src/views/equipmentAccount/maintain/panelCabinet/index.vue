@@ -153,15 +153,16 @@ export default {
     handleCommand(commond) {
       const tenantid = this.infoData.TenantId;
       const tenantId = this.infoData.TenantId;
-      const parentid = this.infoData.Id;
-      const parentId = this.infoData.Id;
+      const parentid = this.infoData.ParentId;
+      const parentId = this.infoData.ParentId;
       const data = {
         parentid,
+        parentId,
         tenantid,
         tenantId,
-        parentId
       };
       const title = "新增";
+      console.log(99,this.infoData)
       this.$router.push({
         name: commond,
         params: { data, title }

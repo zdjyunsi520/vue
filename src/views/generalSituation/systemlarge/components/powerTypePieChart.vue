@@ -106,15 +106,15 @@ export default {
             type: "pie",
             radius: ["50%", "70%"],
             center: ["50%", "45%"],
-            labelLine: {
-              show: false
+              labelLine: {
+              show: true
             },
             label: {
-                show: false,
-                  position: 'center',
-                  formatter: function(params){
-                      return params.value+'%';
-                  },
+              show: true,
+              // position: "center",
+              formatter: function(params) {
+                return params.value + "%";
+              }
             },
             emphasis: {
               label: {

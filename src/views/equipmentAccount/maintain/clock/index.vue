@@ -158,7 +158,7 @@ export default {
     },
     handleAdd() {},
     handleUpdate() {
-      const id = this.infoData.Id;
+      // const id = this.infoData.Id;
       const tenantId = this.infoData.TenantId;
       const name = this.infoData.Name;
       const starttime = this.infoData.StartTime;
@@ -173,11 +173,11 @@ export default {
       const RTratio = this.infoData.RTRatio;
       const sortindex = this.infoData.SortIndex;
       const dataaddress = this.infoData.DataAddress;
+      const parentId = this.infoData.ParentId;
       const data = {
-        id,
+        // id,
         tenantId,
         name,
-
         serialcode,
         starttime,
         property,
@@ -189,7 +189,8 @@ export default {
         CTratio,
         RTratio,
         sortindex,
-        dataaddress
+        dataaddress,
+        parentId
       };
       const title = "修改";
       this.$router.push({

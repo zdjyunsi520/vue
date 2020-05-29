@@ -154,36 +154,45 @@ export default {
       return !!state ? "启用" : "停用";
     },
     handleUpdate() {
-      // const id = this.infoData.Id;
-      // const name = this.infoData.Name;
-      // const type = this.infoData.Type;
-      // const tenantid = this.infoData.TenantId;
-      // const isenable = this.infoData.IsEnable;
-      // const starttime = this.infoData.StartTime;
-      // const property = this.infoData.Property;
-      // const voltlevel = this.infoData.VoltLevel;
-      // const assetsid = this.infoData.AssetsId;
-      // const assetstype = this.infoData.AssetsType;
-      // const sortindex = this.infoData.SortIndex;
-      // const ismainline = this.infoData.IsMainLine;
-      // const parentid = "";
-      // const data = {
-      //   id,
-      //   name,
-      //   type,
-      //   tenantid,
-      //   isenable,
-      //   starttime,
-      //   property,
-      //   voltlevel,
-      //   assetsid,
-      //   assetstype,
-      //   sortindex,
-      //   ismainline,
-      //   parentid
-      // };
+      console.log(33,this.infoData)
+      const id = this.infoData.Id;
+      const serialcode = this.infoData.SerialCode;
+      const name = this.infoData.Name;
+      const tenantId = this.infoData.TenantId;
+      const starttime = this.infoData.StartTime;
+      const property = this.infoData.Property;
+      const dataserverId = this.infoData.DataserverId;
+      const modelname = this.infoData.ModelName;
+      const factory = this.infoData.Factory;
+      const CTratio = this.infoData.CTratio;
+      const RTratio = this.infoData.RTratio;
+      const sortindex = this.infoData.SortIndex;
+      const parentId = this.infoData.ParentId;
+      const exfactorydate = this.infoData.ExFactoryDate;
+      const isenable = this.infoData.IsEnable;
+      const status = this.infoData.Status;
+      const dataaddress = this.infoData.DataAddress;
+      const data = {
+        id,
+        serialcode,
+        name,
+        tenantId,
+        starttime,
+        property,
+        dataserverId,
+        modelname,
+        factory,
+        CTratio,
+        RTratio,
+        sortindex,
+        parentId,
+        exfactorydate,
+        isenable,
+        status,
+        dataaddress
+      };
       const title = "修改";
-      const data = this.infoData;
+      // const data = this.infoData;
       this.$router.push({
         name: "/equipmentAccount/maintain/temperature/components/update",
         params: { data, title }

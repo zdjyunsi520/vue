@@ -152,6 +152,7 @@ export default {
           ModelName: "",
           factory: "",
           sortindex: 1,
+          parentid:'',
           exfactorydate: ""
         },
         data
