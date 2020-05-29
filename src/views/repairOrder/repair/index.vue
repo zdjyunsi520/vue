@@ -41,18 +41,18 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="工单编号" min-width="200" sortable  prop="OrderCode"></el-table-column>
+        <el-table-column label="工单编号" min-width="200" sortable prop="OrderCode"></el-table-column>
         <el-table-column label="业务来源" min-width="150" sortable prop="BizSource" :formatter="formatterOrderResource"></el-table-column>
         <el-table-column label="用电单位" min-width="250" sortable prop="SourceTenantName"></el-table-column>
-        <el-table-column label="故障地址" min-width="150"  prop="Address"></el-table-column>
-        <el-table-column label="故障现象" min-width="250"  prop="Situation"></el-table-column>
+        <el-table-column label="故障地址" min-width="150" prop="Address"></el-table-column>
+        <el-table-column label="故障现象" min-width="250" prop="Situation"></el-table-column>
         <el-table-column label="紧急程度" min-width="150" sortable prop="EmergencyLevel" :formatter="formatterUrgency"></el-table-column>
-        <el-table-column label="受理时间" min-width="200"  prop="ReceiveTime" />
+        <el-table-column label="受理时间" min-width="200" prop="ReceiveTime" />
         <el-table-column label="状态" min-width="150" sortable prop="Status" :formatter="formatterStatus" />
         <el-table-column label="操作" fixed="right" width="260">
           <template slot-scope="{row}">
             <div>
-              <el-button type="text" size="mini" @click="handleUpdate(row)">
+              <el-button type="text" size="mini" @click="handleLook(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看
               </el-button>
               <el-button v-if="row.Status==2" type="text" size="mini" @click="handleUpdate(row)">
@@ -61,10 +61,10 @@
               <el-button v-if="row.Status==3" type="text" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
               </el-button>
-              <el-button type="text"  v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
+              <el-button type="text" v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="text"  v-if="row.Status==1"  size="mini" @click="handleDelete(row)">
+              <el-button type="text" v-if="row.Status==1" size="mini" @click="handleDelete(row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>
@@ -190,6 +190,23 @@ export default {
       const ranks = this.ranks;
 
       let arr = ["add", "add", "repair", "backFile", "backFile"];
+      // const id = row.Id;
+      // const username = row.UserName;
+      // const name = row.Name;
+      // const mobilephone = row.MobilePhone;
+      this.$router.push({
+        name: "/repairOrder/repair/components/" + arr[row.Status],
+        params: { data, title, TenantIds, ranks }
+      });
+    },
+    /** 修改按钮操作 */
+    handleLook(row) {
+      const title = "修改缺陷工单";
+      const data = row;
+      const TenantIds = this.TenantIds;
+      const ranks = this.ranks;
+
+      let arr = ["add", "add", "add", "repair", "backFile", "backFile"];
       // const id = row.Id;
       // const username = row.UserName;
       // const name = row.Name;
