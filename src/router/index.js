@@ -704,6 +704,28 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: true
         }
+      },
+      {
+        name: "/defect/orderList/components/repair",
+        path: "/defect/orderList/components/repair",
+        component: () => import("@/views/defect/orderList/components/repair"),
+        meta: {
+          title: "新增消缺",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/defect/orderList/components/backFile",
+        path: "/defect/orderList/components/backFile",
+        component: () => import("@/views/defect/orderList/components/backFile"),
+        meta: {
+          title: "新增验收",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
       }
     ]
   }

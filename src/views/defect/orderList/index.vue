@@ -80,6 +80,9 @@
         <el-table-column label="操作" fixed="right" width="220">
           <template slot-scope="scope">
             <div>
+              <el-button type="text" size="mini" @click="handleLook(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看
+              </el-button>
               <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>
                 {{scope.row.Status==1?'消缺':scope.row.Status==2?'验收':scope.row.Status==3?'完成':'编辑'}}
@@ -161,13 +164,9 @@ export default {
     },
     // 巡视单位列表
     getTenants() {
-      getChildrenList()
-        .then(res => {
-          this.TenantIds = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getChildrenList().then(res => {
+        this.TenantIds = res.data;
+      });
     },
     formatterStatus(status) {
       if (status == 0) {
@@ -212,6 +211,21 @@ export default {
       this.$router.push({
         name: "/defect/orderList/components/add",
         params: { data: {}, title, TenantIds, ranks }
+      });
+    },
+    /** 修改按钮操作 */
+    handleLook(row) {
+      const title = "修改缺陷工单";
+      const data = row;
+      const ReadOnly = true;
+      let arr = ["add", "add", "repair", "backFile", "backFile"];
+      // const id = row.Id;
+      // const username = row.UserName;
+      // const name = row.Name;
+      // const mobilephone = row.MobilePhone;
+      this.$router.push({
+        name: "/defect/orderList/components/" + arr[row.Status],
+        params: { data, ReadOnly }
       });
     },
     /** 修改按钮操作 */

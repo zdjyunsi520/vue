@@ -3,46 +3,63 @@
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="故障受理" name="add"></el-tab-pane>
-        <el-tab-pane label="故障抢修" name="repair" v-if="form1.Status>1"></el-tab-pane>
-        <el-tab-pane label="故障归档" name="backFile" v-if="form1.Status>2"></el-tab-pane>
+        <el-tab-pane label="登记情况" name="add"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="repair" v-if="form1.Status>0&&(ReadOnly?form1.Status>1:true)"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="backFile" v-if="form1.Status>1&&(ReadOnly?form1.Status>2:true)"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="到达现场时间" prop="ArriveTime">
-                  <el-date-picker :disabled="disabled" v-model="form.ArriveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="故障排除时间" prop="ProcessTime">
-                  <el-date-picker :disabled="disabled" v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="恢复送电时间" prop="RecoverTime">
-                  <el-date-picker :disabled="disabled" v-model="form.RecoverTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="处理人" prop="ProcessPersonId">
-                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="processpersonId" />
-                </el-form-item>
-              </el-col>
-            </el-col>
             <el-col :span="11" :xs="24">
-              <el-form-item label="现场抢修记录" prop="ProcessRecord">
-                <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.ProcessRecord" placeholder="" />
+              <el-form-item label="消缺结果" prop="isprocessed">
+                <el-select :disabled="disabled" v-model="form.isprocessed" placeholder="请选择">
+                  <el-option label="已消缺" :value="true"></el-option>
+                  <el-option label="未消缺" :value="false"></el-option>
+                </el-select>
               </el-form-item>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="消缺设备" prop="assetsids">
+                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="提交验收人" prop="receiverId">
+                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="缺陷原因" prop="reason">
+                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.reason" placeholder="" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="处理说明" prop="statement">
+                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.statement" placeholder="" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="消缺人">
+                  <el-input disabled="disabled" v-model="form1.Processor" placeholder="" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="消缺时间" prop="processtime">
+                  <el-date-picker disabled="disabled" v-model="form.processtime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                </el-form-item>
+              </el-col>
             </el-col>
           </el-row>
         </el-form>
@@ -69,38 +86,35 @@ export default {
   components: { TreeSelect },
   data() {
     const rules = {
-      ArriveTime: [
+      isprocessed: [
         {
           required: true,
-          message: "请选择时间",
-          trigger: "blur"
+          message: "请选择消缺结果"
         }
       ],
-      ProcessTime: [
+      assetsids: [
         {
           required: true,
-          message: "请选择时间",
-          trigger: "blur"
+          message: "请选择消缺设备",
+          trigger: "change"
         }
       ],
-      RecoverTime: [
+      receiverId: [
         {
           required: true,
-          message: "请选择时间",
-          trigger: "blur"
+          message: "请选择提交验收人"
         }
       ],
-      ProcessPersonId: [
+      reason: [
         {
           required: true,
-          message: "请选择处理人"
+          message: "请填写缺陷原因"
         }
       ],
-      ProcessRecord: [
+      statement: [
         {
           required: true,
-          message: "现场抢修记录不能为空",
-          trigger: "blur"
+          message: "请填写处理说明"
         }
       ]
     };
@@ -125,7 +139,6 @@ export default {
       dialogVisible: false,
       dialogAssetsVisible: false,
       dialogEmployeesVisible: false,
-      assetsTree: [],
       allassetsTree: [],
       processorTree: [],
       allpatrolusers: [],
@@ -134,23 +147,45 @@ export default {
       count: 0,
       selectAssets: [],
       activeName: "repair",
-      processpersonId: []
+      processpersonId: [],
+      ReadOnly: false,
+      assetsTreeId: [],
+      processTreeId: []
     };
   },
   computed: {
     ...mapGetters(["name", "userId", "token"]),
     disabled() {
-      return this.form1.Status > 2;
+      return this.form1.Status > 1 || this.ReadOnly;
+    },
+    assetsTree() {
+      const list = this.allassetsTree
+        .filter(v => v.id == this.form1.TenantId)
+        .map(v => v.childs);
+      return list.length ? list[0] : [];
+    },
+    processTree() {
+      const list = this.allpatrolusers
+        .filter(v => v.id == this.form1.TenantId)
+        .map(v => v.childs);
+      return list.length ? list[0] : [];
     }
   },
   created() {
     this.getTenantEmployees();
-    let { data, TenantIds } = this.$route.params;
-
-    this.TenantIds = TenantIds;
-    this.getInfo(data);
+    this.getAssets();
+    let { data, ReadOnly } = this.$route.params;
+    this.ReadOnly = ReadOnly;
+    this.form1 = Object.assign({}, data);
+    data && this.getInfo(data);
   },
   methods: {
+    // 获取设备列表
+    getAssets() {
+      getTrees().then(res => {
+        this.allassetsTree = res.data;
+      });
+    },
     // 巡视人员
     getTenantEmployees() {
       getTenantEmployees({}).then(res => {
@@ -158,8 +193,12 @@ export default {
       });
     },
     handleConfirm(data) {
-      this.processpersonId = data.map(v => v.id);
-      this.form.ProcessPersonId = this.processpersonId.join(",");
+      this.assetsTreeId = data.map(v => v.id);
+      this.form.assetsids = this.assetsTreeId.join(",");
+    },
+    handleConfirm1(data) {
+      this.processTreeId = data.map(v => v.id);
+      this.form.receiverId = this.processTreeId.join(",");
     },
     changeTenant() {
       this.ischange = true;
@@ -181,35 +220,32 @@ export default {
       this.form = Object.assign(
         {
           Id: "",
-          ArriveTime: "",
-          ProcessTime: "",
-          RecoverTime: "",
-          ProcessPersonId: "",
-          ProcessRecord: ""
+          isprocessed: "",
+          assetsids: "",
+          receiverId: "",
+          reason: "",
+          statement: "",
+          processtime: new Date(),
+          processorId: this.userId
         },
         data
       );
     },
     getInfo(data) {
-      this.loading = true;
-      if (data) {
-        this.form1 = data;
+      let { Id } = data;
+      if (data.Status > 1) {
+        this.loading = true;
         const { Id } = data;
-
-        if (data.Status > 1) {
-          getInfo({ Id })
-            .then(res => {
-              this.processpersonId = res.data.ProcessPersonId.split(",");
-              this.reset(res.data);
-            })
-            .finally(v => (this.loading = false));
-        } else {
-          this.loading = false;
-          this.reset({ Id });
-        }
+        getInfo({ Id })
+          .then(res => {
+            this.reset(res.data);
+          })
+          .finally(v => (this.loading = false));
+      } else {
+        this.reset({ Id });
       }
     },
-    handleOpen(data) {
+    handleOpen() {
       this.$router.push({
         name: "/defect/orderList/index",
         params: {}
@@ -217,10 +253,21 @@ export default {
     },
     handleClick(a) {
       const data = this.form1;
+      const ReadOnly = this.ReadOnly;
       this.$router.push({
-        name: "/repairOrder/repair/components/" + a.name,
-        params: { data }
+        name: "/defect/orderList/components/" + a.name,
+        params: { data, ReadOnly }
       });
+    },
+    handleBack() {
+      backOrder(this.form)
+        .then(res => {
+          this.$message.success("回退成功");
+          this.handleOpen();
+        })
+        .catch(r => {
+          this.loading = false;
+        });
     },
     /** 提交按钮 */
     handleSubmit() {
