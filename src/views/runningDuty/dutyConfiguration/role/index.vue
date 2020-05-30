@@ -11,8 +11,7 @@
             <el-button type="primary" icon="el-icon-circle-check" @click="handleAdd" :loading="loading">添加</el-button>
             <el-button :disabled="multiple" icon="el-icon-delete" @click="handleDelete(null)">删除</el-button>
           </el-row>
-          <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 20px)">
-
+          <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 60px)">
             <template slot="empty">
               <div class="nodata-box">
                 <img src="../../../../assets/image/nodata.png" />
@@ -22,11 +21,8 @@
             <el-table-column type="selection" fixed="left" width="55" />
             <el-table-column label="角色类型" prop="Name" />
           </el-table>
-
-          <!-- <pagination v-show="target.total > 0" :total="target.total" :page.sync="target.queryParams.pageno" :limit.sync="target.queryParams.pagesize" @pagination="getList" /> -->
-
+          <pagination v-show="target.total > 0" :total="target.total" :page.sync="target.queryParams.pageno" :limit.sync="target.queryParams.pagesize" @pagination="getList" />
         </div>
-
       </el-col>
       <el-col :xs="{span: 24}" :span="17" class="comheight">
         <div class="comheight">
@@ -36,16 +32,16 @@
               <el-row class="table-btns">
                 <el-button :disabled="single" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd1">新增</el-button>
                 <el-button :disabled="multiple1" icon="el-icon-remove-outline" @click="handleDelete1">删除</el-button>
-                <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button>
+                <!-- <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button> -->
                 <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
               </el-row>
-              <el-table v-loading="target1.listLoading" :data="target1.dataList" @selection-change="handleSelectionChange1" border height="calc(100% - 80px)">
+              <el-table v-loading="target1.listLoading" :data="target1.dataList" @selection-change="handleSelectionChange1" border height="calc(100% - 60px)">
                 <el-table-column type="selection" fixed="left" width="55" />
                 <el-table-column label="角色" prop="Name" />
                 <el-table-column label="最少人数" prop="MinPersonCount" />
                 <el-table-column label="备注" prop="Remark" />
               </el-table>
-              <pagination v-show="target1.total > 0" :total="target1.total" :page.sync="target1.queryParams.pageno" :limit.sync="target1.queryParams.pagesize" @pagination="getList1" />
+              <pagination :total="target1.total" :page.sync="target1.queryParams.pageno" :limit.sync="target1.queryParams.pagesize" @pagination="getList1" />
             </div>
           </div>
         </div>

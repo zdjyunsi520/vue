@@ -195,7 +195,7 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              this.$message.success('操作成功！');
+              this.$message.success("操作成功！");
               //刷新列表
               //this.$emit("getList");
               //关闭窗口

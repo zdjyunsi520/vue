@@ -56,11 +56,10 @@
               <el-row class="table-btns">
                 <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
                 <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
-                <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button>
-                <el-button type="info" plain icon="el-icon-delete" @click="handleBack">返回</el-button>
+                <!-- <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button> -->
+                <el-button type="info" plain icon="el-icon-arrow-left" @click="handleBack">返回</el-button>
               </el-row>
               <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
-
                 <template slot="empty">
                   <div class="nodata-box">
                     <img src="../../../../assets/image/nodata.png" />
