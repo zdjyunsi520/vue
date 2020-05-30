@@ -11,8 +11,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="班组成员" prop="employeeIds">
-              <el-input v-model="form.employeenames" placeholder="请选择班组成员" @focus="getMembers"></el-input>
+          <el-form-item label="班组成员" prop="employeenames">
+            <el-input v-model="form.employeenames" placeholder="请选择班组成员" @focus="getMembers"></el-input>
             <!-- <el-popover placement="bottom-start" width="600" trigger="click">
               <el-scrollbar class="xl-popover">
                 <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange">
@@ -30,17 +30,17 @@
       <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
-    
-      <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
-        <el-scrollbar style="height: 86vh;">
-              <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange"></el-tree>
-          <!-- <el-tree :data="roleList" :props="props" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree> -->
-        </el-scrollbar>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="dialogMemberVisible = false">确 定</el-button>
-          <el-button @click="dialogMemberVisible = false">取 消</el-button>
-        </div>
-      </el-drawer>
+
+    <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
+      <el-scrollbar style="height: 86vh;">
+        <el-tree :default-expand-all="true" :props="props" :data="roleList" show-checkbox @check-change="handleCheckChange"></el-tree>
+        <!-- <el-tree :data="roleList" :props="props" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree> -->
+      </el-scrollbar>
+      <div class="dialog-footer">
+        <el-button type="primary" @click="dialogMemberVisible = false">确 定</el-button>
+        <el-button @click="dialogMemberVisible = false">取 消</el-button>
+      </div>
+    </el-drawer>
 
     <!-- 添加或修改参数配置对话框 end -->
   </el-dialog>
@@ -64,6 +64,12 @@ export default {
           required: true,
           message: "请选择班组成员"
         }
+      ],
+      employeenames: [
+        {
+          required: true,
+          message: "请选择班组成员"
+        }
       ]
     };
     return {
@@ -78,7 +84,7 @@ export default {
         children: "childs"
       },
       employeeIds: [],
-      dialogMemberVisible:false,
+      dialogMemberVisible: false
     };
   },
   created() {
@@ -107,12 +113,9 @@ export default {
         });
       });
     },
-       // 选择人员
+    // 选择人员
     getMembers() {
       this.dialogMemberVisible = true;
-      getTenantEmployees({}).then(response => {
-        this.memberTree = response.data;
-      });
     },
     // 表单重置
     reset(data) {
@@ -147,6 +150,7 @@ export default {
             .then(response => {
               this.msgSuccess(response.msg);
               this.handleOpen();
+              this.$emit("getList");
             })
             .catch(r => {
               this.loading = false;
