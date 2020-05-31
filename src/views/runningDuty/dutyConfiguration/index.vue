@@ -217,7 +217,7 @@ export default {
       const data = { id, username, name, mobilephone };
       const title = "修改用户";
       this.$router.push({
-        name: "/commonManager/user/components/update",
+        name: "/runningDuty/dutyConfiguration/components/index",
         params: { data, title }
       });
     },

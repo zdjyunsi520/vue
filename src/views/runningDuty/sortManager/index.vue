@@ -35,20 +35,17 @@
       </el-row>
       <div class="scheduletitle">- 班组二 2020年04月排班表 -</div>
       <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
-
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="岗位" align="center" fixed="left" prop="TeamName" />
-        <el-table-column label="1号" align="center" prop="TeamName" />
-        <el-table-column label="2号" align="center" prop="TeamName" />
-        <el-table-column label="3号" align="center" prop="TeamName" />
+        <el-table-column label="岗位" fixed="left" prop="PositionName" />
+        <el-table-column v-for="(item,index) in columns" :key="index" :label="item.Time.substring(0,10)" :prop="item.EmployeeName" />
       </el-table>
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
       <el-dialog :title="activeName==1?'人员排班维护':'日期排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
         <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
           <el-form-item label="值班班组" prop="dutyId">
@@ -150,7 +147,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
+      tableHeight: "auto",
       rules: {},
       activeName: "0",
       dialogMemberVisible: false,
@@ -196,7 +193,8 @@ export default {
         timeend: "",
         copybegintime: "",
         count: ""
-      }
+      },
+      columns: []
     };
   },
 
@@ -228,8 +226,26 @@ export default {
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
-          this.dataList = response.data;
+          // this.dataList = response.data;
           this.total = response.total;
+
+          var afterData = [];
+          response.data.forEach(item => {
+            let flag = afterData.find(
+              item1 => item1.PositionName === item.PositionName
+            );
+            if (!flag) {
+              afterData.push({
+                PositionName: item.PositionName,
+                origin: [item]
+              });
+            } else {
+              flag.origin.push(item);
+            }
+          });
+          this.dataList = afterData;
+          this.columns = afterData[0].origin;
+          console.log(afterData);
         })
         .finally(r => {
           this.listLoading = false;

@@ -165,7 +165,7 @@ export default {
       const modelname = this.infoData.ModelName;
       const factory = this.infoData.Factory;
       const exfactorydate = this.infoData.ExFactoryDate;
-      const status = this.infoData.Status;
+      const IsEnable = this.infoData.IsEnable;
       const SortIndex = this.infoData.SortIndex;
       const data = {
         id,
@@ -181,7 +181,7 @@ export default {
         modelname,
         factory,
         exfactorydate,
-        status,
+        IsEnable,
         SortIndex
       };
       const title = "修改";

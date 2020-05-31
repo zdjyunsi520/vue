@@ -67,11 +67,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="status">
-                <el-select v-model="form.status">
+              <el-form-item label="运行状态" prop="IsEnable">
+                <el-select v-model="form.IsEnable">
                   <el-option label="请选择" value></el-option>
-                  <el-option label="在运" :value="1" />
-                  <el-option label="停运" :value="0" />
+                  <el-option label="在运" :value="true" />
+                  <el-option label="停运" :value="false" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -171,7 +171,7 @@ export default {
           starttime: "",
           modelname: "",
           exfactorydate: "",
-          status: 1,
+          IsEnable: 1,
           factory: "",
           SortIndex: 1
         },
