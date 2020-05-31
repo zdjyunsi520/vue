@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="500px" :title="title+'值班记事'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+  <el-dialog :modal="false" width="500px" :title="title+'值班记事'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
 
     <!-- 添加或修改参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
@@ -56,10 +56,38 @@ import { add, update } from "@/api/runningDuty/record/dutyRecord";
 export default {
   data() {
     const rules = {
-      name: [
+      starttime: [
         {
           required: true,
-          message: "请输入角色",
+          message: "请选择起始日期",
+          trigger: "blur"
+        }
+      ],
+      endtime: [
+        {
+          required: true,
+          message: "请选择完成日期",
+          trigger: "blur"
+        }
+      ],
+      tenantId: [
+        {
+          required: true,
+          message: "请选择用电单位",
+          trigger: "blur"
+        }
+      ],
+      type: [
+        {
+          required: true,
+          message: "请选择记事类型",
+          trigger: "blur"
+        }
+      ],
+      issucceed: [
+        {
+          required: true,
+          message: "请输入导入下一班",
           trigger: "blur"
         }
       ]
@@ -111,6 +139,7 @@ export default {
     },
     /** 提交按钮 */
     handleSubmit: function() {
+      this.form.tenantname = "asdasd";
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;

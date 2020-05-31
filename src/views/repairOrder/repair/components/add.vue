@@ -256,14 +256,10 @@ export default {
     },
     // 巡视人员
     getTenantEmployees() {
-      getTenantEmployees({})
-        .then(res => {
-          this.allpatrolusers = res.data;
-          if (this.form.repairtenantid) this.getProcessor();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getTenantEmployees({}).then(res => {
+        this.allpatrolusers = res.data;
+        if (this.form.repairtenantid) this.getProcessor();
+      });
     },
 
     changeTenant() {
