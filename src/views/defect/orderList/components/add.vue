@@ -4,8 +4,8 @@
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="登记情况" name="add"></el-tab-pane>
-        <el-tab-pane label="消缺情况" name="repair" v-if="form.Status>1"></el-tab-pane>
-        <el-tab-pane label="验收情况" name="backFile" v-if="form.Status>2"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="repair" v-if="form1.Status>0&&(ReadOnly?form1.Status>1:true)"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="backFile" v-if="form1.Status>1&&(ReadOnly?form1.Status>2:true)"></el-tab-pane>
       </el-tabs>
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
@@ -231,13 +231,14 @@ export default {
       selectAssets: [],
       activeName: "add",
       ChargePersonId: [],
-      ChargePersonId1: []
+      ChargePersonId1: [],
+      ReadOnly: false
     };
   },
   computed: {
     ...mapGetters(["name", "userId", "token"]),
     disabled() {
-      return this.form1.Status > 0;
+      return this.form1.Status > 0 || this.ReadOnly;
     },
     assetsTree() {
       const list = this.allassetsTree
@@ -246,20 +247,37 @@ export default {
       return list.length ? list[0] : [];
     }
   },
+
   created() {
     this.getTenants();
     this.getTenantEmployees();
     this.getAssets();
-    let { data } = this.$route.params;
+    let { data, ReadOnly } = this.$route.params;
+    this.ReadOnly = ReadOnly;
     this.form1 = Object.assign({}, data);
-    this.reset(data);
+    this.getInfo(data);
   },
   methods: {
+    getInfo(data) {
+      if (data && data.Id) {
+        this.loading = true;
+        this.form1 = data;
+        const { Id } = data;
+        getInfo({ Id })
+          .then(res => {
+            this.reset(res.data);
+          })
+          .finally(v => (this.loading = false));
+      } else {
+        this.reset();
+      }
+    },
     handleClick(a) {
       const data = this.form1;
+      const ReadOnly = this.ReadOnly;
       this.$router.push({
         name: "/defect/orderList/components/" + a.name,
-        params: { data }
+        params: { data, ReadOnly }
       });
     },
     handleConfirm(data) {
@@ -270,30 +288,16 @@ export default {
     },
     // 巡视单位列表
     getTenants() {
-      getChildrenList()
-        .then(res => {
-          this.TenantIds = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      getChildrenList().then(res => {
+        this.TenantIds = res.data;
+      });
     },
     // 获取设备列表
     getAssets() {
       getTrees().then(res => {
         this.allassetsTree = res.data;
-        // this.allassetsTree.forEach(v => {
-        //   if (v.id == this.form.TenantId) {
-        //     this.assetsTree = v.childs;
-        //     if (this.form.AssetsIds) {
-        //       this.$refs.tree.setCheckedKeys([this.form.AssetsIds]);
-        //     }
-        //     return;
-        //   }
-        // });
       });
     },
-
     // 巡视人员
     getTenantEmployees() {
       getTenantEmployees({}).then(res => {
@@ -301,7 +305,6 @@ export default {
         if (this.form.TenantId) this.getProcessor();
       });
     },
-
     changeTenant() {
       this.ischange = true;
       this.getProcessor();
@@ -323,7 +326,6 @@ export default {
         target.setCheckedKeys([data.id]);
       }
     },
-
     //设备选择确定
     handlecheck() {
       var arr = this.$refs.tree.getCheckedNodes();
@@ -353,7 +355,6 @@ export default {
       }
       this.form.ProcessDue = d;
     },
-
     // 表单重置
     reset(data) {
       const now = Date.now();
