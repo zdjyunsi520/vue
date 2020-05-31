@@ -30,27 +30,23 @@
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <el-form-item>
           <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border style='margin-top:20px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' border :row-class-name='totalstyle' style='margin-top:15px'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class='smimg' />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column :label="activeName!=2?'用电单位':'缺陷等级'" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
-        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
+        <el-table-column :label="activeName!=2?'用电单位':'缺陷等级'" fixed="left" min-width="210" prop="Name"></el-table-column>
+        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item"></el-table-column>
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
       <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
@@ -89,7 +85,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: 'calc(100% - 40px)',
+      tableHeight: "calc(100% - 80px)",
       listLoading: true,
 
       ranks: [
@@ -263,7 +259,7 @@ export default {
           smtitle = "-按缺陷等级统计";
           break;
         case "2":
-          data.rank = this.queryParams.rank;
+          data.status = this.queryParams.status;
           fn = bugReportByRate;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
@@ -274,23 +270,33 @@ export default {
       }
       fn(data)
         .then(res => {
-          if (!res.data || !res.data.TenantList || !res.data.RankList) {
-            this.dataList = [];
-            return;
-          }
           switch (this.activeName) {
-            case 0:
+            case "0":
+              if (!res.data || res.data.length == 0) {
+                this.dataList = [];
+                return;
+              }
               this.dataList = res.data;
               break;
-            case 1:
-              this.dataList = res.data.TenantList;
+            case "1":
+              if (!res.data.TenantList || res.data.TenantList.length == 0) {
+                this.dataList = [];
+                return;
+              } else {
+                this.dataList = res.data.TenantList;
+              }
               this.dataList.map(v => {
                 v.Total = v.Emergency + v.Fatal + v.Normal;
                 return v;
               });
               break;
-            case 2:
-              this.dataList = res.data.RankList;
+            case "2":
+              if (!res.data.RankList || res.data.RankList.length == 0) {
+                this.dataList = [];
+                return;
+              } else {
+                this.dataList = res.data.RankList;
+              }
               this.dataList.map(v => {
                 v.TotalEliminated = v.Eliminated + v.NotEliminated;
                 v.RateEliminated =
@@ -314,8 +320,18 @@ export default {
           } else {
             arr = row;
           }
-          this.chartData.listData = this.props.map(v => arr[v]);
-          this.chartData.xAxisData = this.columns;
+
+          if (this.activeName != "0") {
+            var arrprops = this.props.concat();
+            arrprops.pop();
+            this.chartData.listData = arrprops.map(v => arr[v]);
+            var arrcolumns = this.columns.concat();
+            arrcolumns.pop();
+            this.chartData.xAxisData = arrcolumns;
+          } else {
+            this.chartData.listData = this.props.map(v => arr[v]);
+            this.chartData.xAxisData = this.columns;
+          }
           this.chartData.title = arr.Name + smtitle;
 
           this.$nextTick(() => {
@@ -330,6 +346,12 @@ export default {
     // 点击行
     handleRowInfo(row) {
       this.getList(this.activeName, row);
+    },
+    totalstyle({ row, rowIndex }) {
+      if (row.Name === "合计" || row.Name === "总计") {
+        return "total-font";
+      }
+      return "";
     },
     // 导出
     handleExport() {

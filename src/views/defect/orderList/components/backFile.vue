@@ -38,7 +38,7 @@
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
                 <el-form-item label="验收人" prop="receiverId">
-                  <el-input disabled="disabled" v-model="form2.Processor" placeholder="" />
+                  <el-input disabled="disabled" v-model="form.Processor" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-col>

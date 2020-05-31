@@ -413,7 +413,7 @@ export default {
           this.loading = true;
           let fn;
           let { Id } = this.form;
-          if (this.form.id) fn = update;
+          if (this.form.Id) fn = update;
           else fn = add;
           this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
@@ -442,7 +442,7 @@ export default {
           //按钮转圈圈
           this.loading = true;
           let fn;
-          if (this.form.id) fn = update;
+          if (this.form.Id) fn = update;
           else fn = add;
           this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)

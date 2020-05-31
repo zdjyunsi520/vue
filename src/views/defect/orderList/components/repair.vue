@@ -260,8 +260,9 @@ export default {
       });
     },
     handleBack() {
-      backOrder(this.form)
-        .then(res => {
+      const Id = this.form.Id;
+      backOrder({ Id })
+        .then(r => {
           this.$message.success("回退成功");
           this.handleOpen();
         })
