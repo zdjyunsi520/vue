@@ -8,7 +8,7 @@
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="值班班组" prop="dutyId">
           <el-select v-model="queryParams.dutyId" clearable placeholder="请选择值班班组">
-            <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.name" :value="item.id"></el-option>
+            <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="年月" prop="time">
@@ -33,8 +33,8 @@
           </p>
         </div>
       </el-row>
-      <div class="scheduletitle">- 班组二 2020年04月排班表 -</div>
-      <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'">
+      <div class="scheduletitle">- {{dutyName}} {{year}}年{{month}}月排班表 -</div>
+      <el-table v-loading="listLoading" :data="tableList" border :height="dataList?tableHeight:'0'">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -42,7 +42,8 @@
           </div>
         </template>
         <el-table-column label="岗位" fixed="left" prop="PositionName" />
-        <el-table-column v-for="(item,index) in columns" :key="index" :label="item.Time.substring(0,10)" :prop="item.EmployeeName" />
+        <el-table-column v-for="(item,index) in columns" :key="index" :label="item" :prop="item" width="115" />
+
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
@@ -119,7 +120,7 @@
 <script>
 import { fetchList } from "@/api/runningDuty/sortManager";
 import { getTenantEmployees } from "@/api/org";
-
+import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
 export default {
   name: "user",
   data() {
@@ -167,16 +168,7 @@ export default {
         dutyId: "",
         time: ""
       },
-      dutyIds: [
-        {
-          id: 1,
-          name: "班组一"
-        },
-        {
-          id: 2,
-          name: "班组二"
-        }
-      ],
+      dutyIds: [],
       form: {
         dutyId: "",
         time: "",
@@ -194,12 +186,16 @@ export default {
         copybegintime: "",
         count: ""
       },
-      columns: []
+      time: "",
+      year: "",
+      month: "",
+      dutyName: ""
     };
   },
 
   created() {
-    this.getList();
+    this.queryParams.time = this.parseTime(new Date(), "{y}-{m}");
+    this.getDutyTeam();
   },
   mounted() {
     let _this = this;
@@ -210,7 +206,52 @@ export default {
   destroyed() {
     window.onresize = null;
   },
+  computed: {
+    columns() {
+      const list = [];
+
+      if (this.year && this.month) {
+        console.log(this.getMonthDay(this.year, parseInt(this.month)));
+
+        for (
+          let i = 1, l = this.getMonthDay(this.year, parseInt(this.month)) + 1;
+          i < l;
+          i++
+        ) {
+          list.push(`${this.year}-${this.month}-${i < 10 ? "0" + i : i}`);
+        }
+      }
+      return list;
+    },
+    tableList() {
+      return this.dataList
+        ? this.dataList.map(v => {
+            const data = {};
+            data.PositionName = v.PositionName;
+            this.columns.forEach(i => {
+              const list = v.origin.filter(v => {
+                return v.Time.substr(0, 10) == i;
+              });
+              this.$set(data, i, list.length ? list[0].EmployeeName : "");
+            });
+            return data;
+          })
+        : [];
+    }
+  },
   methods: {
+    getDutyTeam() {
+      fetchTeam({}).then(r => {
+        this.dutyIds = r.data;
+        if (this.dutyIds && this.dutyIds.length) {
+          this.queryParams.dutyId = this.dutyIds[0].Id;
+          this.getList();
+        }
+      });
+    },
+    getMonthDay(year, month) {
+      return new Date(year, month, 0).getDate();
+    },
     handleClick(tab, event) {
       // this.resetQuery("queryForm");
       // this.queryParams.patroltimeend = "";
@@ -223,12 +264,21 @@ export default {
 
     /** 查询用户列表 */
     getList() {
+      const time = this.queryParams.time.split("-");
+      if (time.length != 2 || !this.queryParams.dutyId) {
+        return;
+      }
+      this.year = time[0];
+      this.month = time[1];
+      this.dutyName = this.dutyIds.filter(
+        v => v.Id == this.queryParams.dutyId
+      )[0].Name;
+      this.queryParams.dutyId = "";
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
           // this.dataList = response.data;
           this.total = response.total;
-
           var afterData = [];
           response.data.forEach(item => {
             let flag = afterData.find(
@@ -244,7 +294,7 @@ export default {
             }
           });
           this.dataList = afterData;
-          this.columns = afterData[0].origin;
+
           console.log(afterData);
         })
         .finally(r => {
