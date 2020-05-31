@@ -8,7 +8,6 @@
         <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">新增值班</p>
           <el-row class="table-btns">
-            <el-tag type="danger">此处写死用电ID，否则无法添加</el-tag>
             <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loadingConfirm">确 定</el-button>
             <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
