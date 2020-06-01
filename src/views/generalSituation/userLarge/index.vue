@@ -57,29 +57,29 @@
           <el-row>
             <h6>电费情况</h6>
             <div class="chartbox boxheight2">
-               <el-row class="legendbox lx" v-if="radioType==0">
-                  <el-col :span="12">
-                    <p>本月电费(元))<span>800</span></p>
-                  </el-col>
-                  <el-col :span="12">
-                    <p>上月电费(元)<span>700</span></p>
-                  </el-col>
-                </el-row>
-                <BarChart  :barchartData="barChartData" />
+              <el-row class="legendbox lx" v-if="radioType==0">
+                <el-col :span="12">
+                  <p>本月电费(元))<span>800</span></p>
+                </el-col>
+                <el-col :span="12">
+                  <p>上月电费(元)<span>700</span></p>
+                </el-col>
+              </el-row>
+              <BarChart :barchartData="barChartData" />
             </div>
 
-          </el-row> 
+          </el-row>
         </el-col>
         <el-col :span='10' :xs='24' class='commonchart'>
           <el-row>
-            <div class="chartbox mapbox boxheight5">
+            <div class="chartbox mapbox boxheight5" id="zh_globe_container">
             </div>
           </el-row>
-          <el-row style='padding:0 20px' >
+          <el-row style='padding:0 20px'>
             <h6 class="longbg">用电负荷</h6>
             <div class="chartbox boxheight4">
-              <LineChart :linechartData='lineChartData' :width='"75%"' style='display:inline-block'/>
-              <div class="ledgeright" >
+              <LineChart :linechartData='lineChartData' :width='"75%"' style='display:inline-block' />
+              <div class="ledgeright">
                 <p>本日最高(kW)<span>2252</span></p>
                 <p>昨日最高(kW)<span>2252</span></p>
                 <p>本月最高(kW)<span>2252</span></p>
@@ -116,7 +116,7 @@
           <el-row style='margin-top: 2vh;'>
             <h6>运维成果</h6>
             <div class="chartbox boxheight2">
-              <GainPieChart :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block'/>
+              <GainPieChart :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
               <div class="ledgeright ledgeright1">
                 <p>本月(kWh)<span>2252</span></p>
                 <p>上月(kWh)<span>2252</span></p>
@@ -139,14 +139,15 @@ import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
 import GainPieChart from "./components/GainPieChart";
 import BarChart from "./components/BarChart";
-
+import * as THREE from "three";
+import img from "@/assets/image/map.png";
 const powerTypeData = {
   legendData: ["基本电商", "电度电费", "力调电费"],
   listData: [
     { value: 30, name: "基本电商" },
     { value: 60, name: "电度电费" },
     { value: 10, name: "力调电费" }
-  ] 
+  ]
 };
 const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
@@ -156,26 +157,26 @@ const lineChartData = {
 };
 const barChartData = {
   title: "最低负荷",
-  xAxisData: ['01/01','01/02','01/03','01/04','01/05','01/06','01/07'],
+  xAxisData: ["01/01", "01/02", "01/03", "01/04", "01/05", "01/06", "01/07"],
   listData: [120, 82, 91, 154, 162, 140, 145]
 };
-const gainPieChartData = 
- [{
-        name: "尖峰",
-        value: 554
-    },
-    {
-        name: "高峰",
-        value: 311
-    },
-    {
-        name: "平时",
-        value: 200
-    },
-    {
-        name: "低谷",
-        value: 100
-    }
+const gainPieChartData = [
+  {
+    name: "尖峰",
+    value: 554
+  },
+  {
+    name: "高峰",
+    value: 311
+  },
+  {
+    name: "平时",
+    value: 200
+  },
+  {
+    name: "低谷",
+    value: 100
+  }
 ];
 
 export default {
@@ -219,6 +220,52 @@ export default {
   },
   created() {
     this.getTree();
+  },
+  mounted() {
+    function render() {
+      group.rotation.y -= 0.0005;
+      renderer.render(scene, camera);
+    }
+    function animate() {
+      requestAnimationFrame(animate);
+      render();
+    }
+    let container = document.getElementById("zh_globe_container");
+
+    var renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      preserveDrawingBuffer: true,
+      alpha: true
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    var scene = new THREE.Scene();
+    // 设置光线
+    scene.add(new THREE.HemisphereLight("#ffffff", "#ffffff", 1));
+    var camera = new THREE.PerspectiveCamera(
+      45,
+      container.clientWidth / container.clientWidth,
+      1,
+      500
+    );
+    camera.position.set(0, 0, 15);
+    camera.lookAt(0, 0, 0);
+
+    const group = new THREE.Group();
+    scene.add(group);
+    var globeTextureLoader = new THREE.TextureLoader();
+
+    globeTextureLoader.load(img, function(texture) {
+      var globeGgeometry = new THREE.SphereGeometry(5, 32, 32);
+      var globeMaterial = new THREE.MeshStandardMaterial({ map: texture });
+      var globeMesh = new THREE.Mesh(globeGgeometry, globeMaterial);
+      group.add(globeMesh);
+      group.rotation.x = THREE.Math.degToRad(35);
+      group.rotation.y = THREE.Math.degToRad(170);
+    });
+    animate();
   },
   methods: {
     getTree() {
@@ -351,8 +398,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .screenbg {
-  background: url(../../../assets/image/userscreen/img_user_bj.jpg)
-    no-repeat;
+  background: url(../../../assets/image/userscreen/img_user_bj.jpg) no-repeat;
   background-size: 100% 100%;
   padding: 0 15px;
 }
@@ -499,7 +545,7 @@ export default {
 
 .legendbox {
   padding: 15px 10% 10px;
-   p {
+  p {
     color: #1fade3;
     font-size: 12px;
     text-align: center;
@@ -511,10 +557,9 @@ export default {
       font-size: 24px;
     }
   }
-
 }
 .circlebox {
-    padding: 10% 10% 2%;
+  padding: 10% 10% 2%;
 }
 .boxheight1 {
   height: 28vh;
@@ -530,7 +575,7 @@ export default {
 }
 
 .boxheight5 {
-  height:46vh;
+  height: 46vh;
 }
 
 /deep/.el-scrollbar__bar.is-horizontal {
@@ -538,9 +583,9 @@ export default {
 }
 .bottomtext {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   padding: 2% 5% 0;
-  text-align:center;
+  text-align: center;
   width: 100%;
   span {
     font-size: 12px;
@@ -550,24 +595,28 @@ export default {
     display: inline-block;
   }
 }
-.ledgeright{
-  display:inline-block;width:24%;
-  color:#fff;
-  text-align:center;    margin-top: -20px;
-    vertical-align: top;
-  p{
-    color: #1fade3;font-size: 12px;
-    margin-bottom:15px;
-    span{
-color: #ffffff;font-size: 20px;
-line-height:1.5;
-display:block;
+.ledgeright {
+  display: inline-block;
+  width: 24%;
+  color: #fff;
+  text-align: center;
+  margin-top: -20px;
+  vertical-align: top;
+  p {
+    color: #1fade3;
+    font-size: 12px;
+    margin-bottom: 15px;
+    span {
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1.5;
+      display: block;
     }
   }
 }
-.ledgeright1{
-      padding-top: 11%;
-    margin-left: -9%;
-line-height:1.8;
+.ledgeright1 {
+  padding-top: 11%;
+  margin-left: -9%;
+  line-height: 1.8;
 }
 </style>
