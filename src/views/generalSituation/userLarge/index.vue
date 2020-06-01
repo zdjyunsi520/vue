@@ -246,8 +246,8 @@ export default {
     scene.add(new THREE.HemisphereLight("#3ba5ff", "#3ba5ff", 1));
     var camera = new THREE.PerspectiveCamera(
       60,
-      // container.clientWidth / container.clientWidth,
-      1,
+       container.clientWidth / container.clientWidth,
+      // 1,
       1,
       500
     );
