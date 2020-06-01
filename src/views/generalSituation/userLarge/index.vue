@@ -72,10 +72,11 @@
         </el-col>
         <el-col :span='10' :xs='24' class='commonchart'>
           <el-row>
-            <div class="chartbox mapbox boxheight5" id="zh_globe_container">
+            <div class="chartbox mapbox boxheight5">
+              <div id="zh_globe_container" class='zh_globe_container' style=""></div>
             </div>
           </el-row>
-          <el-row style='padding:0 20px'>
+          <el-row style='padding:0 20px;'>
             <h6 class="longbg">用电负荷</h6>
             <div class="chartbox boxheight4">
               <LineChart :linechartData='lineChartData' :width='"75%"' style='display:inline-block' />
@@ -114,7 +115,7 @@
             </div>
           </el-row>
           <el-row style='margin-top: 2vh;'>
-            <h6>运维成果</h6>
+            <h6>用电情况</h6>
             <div class="chartbox boxheight2">
               <GainPieChart :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
               <div class="ledgeright ledgeright1">
@@ -213,17 +214,16 @@ export default {
       circles: []
     };
   },
-  mounted() {
-    this.dragControllerDiv();
-    this.circleCanves();
-    this.renderLoop();
-  },
   created() {
     this.getTree();
   },
   mounted() {
+    this.dragControllerDiv();
+    this.circleCanves();
+    this.renderLoop();
+ 
     function render() {
-      group.rotation.y -= 0.0005;
+      group.rotation.y -= 0.0035;
       renderer.render(scene, camera);
     }
     function animate() {
@@ -231,7 +231,7 @@ export default {
       render();
     }
     let container = document.getElementById("zh_globe_container");
-
+    container.style.height = container.clientWidth + 'px';
     var renderer = new THREE.WebGLRenderer({
       antialias: true,
       preserveDrawingBuffer: true,
@@ -243,7 +243,7 @@ export default {
 
     var scene = new THREE.Scene();
     // 设置光线
-    scene.add(new THREE.HemisphereLight("#ffffff", "#ffffff", 1));
+    scene.add(new THREE.HemisphereLight("#3ba5ff", "#3ba5ff", 1));
     var camera = new THREE.PerspectiveCamera(
       45,
       container.clientWidth / container.clientWidth,
@@ -619,4 +619,5 @@ export default {
   margin-left: -9%;
   line-height: 1.8;
 }
+.zh_globe_container{width:55%;height:100%;margin:0 auto;position: absolute;bottom:4%; left: 0;right: 0;}
 </style>
