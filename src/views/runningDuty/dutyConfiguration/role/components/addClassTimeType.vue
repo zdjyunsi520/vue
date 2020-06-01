@@ -7,7 +7,7 @@
         <el-col :span="24">
           <el-form-item label="角色类型名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入角色类型名称" />
-            <el-tag type="danger">先写死用电ID，不然无法添加</el-tag>
+
           </el-form-item>
         </el-col>
       </el-row>
@@ -48,7 +48,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
+          //  tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
           name: ""
         },
         data

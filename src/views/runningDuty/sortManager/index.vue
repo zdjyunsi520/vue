@@ -47,7 +47,42 @@
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
-      <el-dialog :title="activeName==1?'人员排班维护':'日期排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
+      <el-dialog :title="'人员排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
+        <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
+          <el-form-item label="值班班组" prop="dutyId">
+            <el-select disabled v-model="form.dutyId" clearable placeholder="请选择值班班组" style="width:100%">
+              <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="值班日期" prop="time">
+            <el-date-picker :disabledDate="handleDate" v-model="form.time" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          </el-form-item>
+          <div v-if='activeName==1'>
+            <el-form-item label="人员" prop="memberName">
+              <el-input v-model="form.memberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+            <el-form-item label="岗位" prop="type" v-if='activeName==1'>
+              <el-checkbox-group v-model="form.type">
+                <el-checkbox label="白班值班"></el-checkbox>
+                <el-checkbox label="晚班值班"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </div>
+          <div v-else>
+            <el-form-item label="白班值班" prop="daymemberName">
+              <el-input v-model="form.daymemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+            <el-form-item label="晚班值班" prop="eveningmemberName">
+              <el-input v-model="form.eveningmemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+            </el-form-item>
+          </div>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlecheck">保 存</el-button>
+          <el-button @click="dialogAddVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
+      <!-- <el-dialog title="日期排班维护" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
         <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
           <el-form-item label="值班班组" prop="dutyId">
             <el-select v-model="form.dutyId" clearable placeholder="请选择值班班组" style="width:100%">
@@ -81,7 +116,7 @@
           <el-button type="primary" @click="handlecheck">保 存</el-button>
           <el-button @click="dialogAddVisible = false">取 消</el-button>
         </span>
-      </el-dialog>
+      </el-dialog> -->
       <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="550px" append-to-body>
         <el-form :model="copyform" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
           <el-form-item label="排班日期" prop="timebegin">
@@ -240,6 +275,10 @@ export default {
     }
   },
   methods: {
+    handleDate(date) {
+      console.log(date);
+      return false;
+    },
     getDutyTeam() {
       fetchTeam({}).then(r => {
         this.dutyIds = r.data;

@@ -7,7 +7,6 @@
         <el-col :span="24">
           <el-form-item label="班组名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入班组名称" />
-            <!-- <el-tag type="danger">先写死用电ID，不然无法添加</el-tag> -->
           </el-form-item>
         </el-col>
         <el-col :span="24">
