@@ -77,7 +77,7 @@
             {{formatterStatus(scope.row.Status)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="220">
+        <el-table-column label="操作" fixed="right" min-width="250">
           <template slot-scope="scope">
             <div>
               <el-button type="text" size="mini" @click="handleLook(scope.row)">

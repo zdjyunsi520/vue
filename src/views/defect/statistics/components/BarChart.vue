@@ -114,35 +114,51 @@ export default {
             type: "category",
             data: xAxisData,
             axisTick: {
+              show: true,
               alignWithLabel: true
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 20
             },
             axisLine: {
               lineStyle: {
-                color: "#909399"
+                color: "#dde4f4"
               }
-            },
-            splitLine: {
-              show: true
             }
           }
         ],
         yAxis: [
           {
             type: "value",
+            axisTick: {
+              show: false
+            },
             axisLine: {
               lineStyle: {
-                color: "#909399"
-              },
-
-              splitLine: {
-                lineStyle: {
-                  color: "#dde4f4",
-                  type: "dashed"
-                }
-              },
-              splitArea: {
-                show: false
+                color: "#dde4f4"
               }
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 30
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#dde4f4",
+                type: "dashed"
+              }
+            },
+            splitArea: {
+              show: false
             }
           }
         ],

@@ -113,15 +113,21 @@ export default {
             type: "category",
             data: xAxisData,
             axisTick: {
+              show: false,
               alignWithLabel: true
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 20
             },
             axisLine: {
               lineStyle: {
-                color: "#909399"
+                color: "#dde4f4"
               }
-            },
-            splitLine: {
-              show: true
             }
           }
         ],
@@ -132,6 +138,22 @@ export default {
               lineStyle: {
                 color: "#909399"
               }
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#dde4f4"
+              }
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 30
             },
             splitLine: {
               lineStyle: {
