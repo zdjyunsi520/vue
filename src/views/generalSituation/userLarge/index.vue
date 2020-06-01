@@ -221,7 +221,7 @@ export default {
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
- 
+
     function render() {
       group.rotation.y -= 0.0035;
       renderer.render(scene, camera);
@@ -231,7 +231,7 @@ export default {
       render();
     }
     let container = document.getElementById("zh_globe_container");
-    container.style.height = container.clientWidth + 'px';
+    container.style.height = container.clientWidth + "px";
     var renderer = new THREE.WebGLRenderer({
       antialias: true,
       preserveDrawingBuffer: true,
@@ -245,8 +245,9 @@ export default {
     // 设置光线
     scene.add(new THREE.HemisphereLight("#3ba5ff", "#3ba5ff", 1));
     var camera = new THREE.PerspectiveCamera(
-      45,
-      container.clientWidth / container.clientWidth,
+      60,
+      // container.clientWidth / container.clientWidth,
+      1,
       1,
       500
     );
@@ -262,7 +263,7 @@ export default {
       var globeMaterial = new THREE.MeshStandardMaterial({ map: texture });
       var globeMesh = new THREE.Mesh(globeGgeometry, globeMaterial);
       group.add(globeMesh);
-      group.rotation.x = THREE.Math.degToRad(35);
+      // group.rotation.x = THREE.Math.degToRad(35);
       group.rotation.y = THREE.Math.degToRad(170);
     });
     animate();
@@ -619,5 +620,13 @@ export default {
   margin-left: -9%;
   line-height: 1.8;
 }
-.zh_globe_container{width:55%;height:100%;margin:0 auto;position: absolute;bottom:4%; left: 0;right: 0;}
+.zh_globe_container {
+  width: 55%;
+  height: 100%;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 4%;
+  left: 0;
+  right: 0;
+}
 </style>
