@@ -73,7 +73,8 @@
         <el-col :span='10' :xs='24' class='commonchart'>
           <el-row>
             <div class="chartbox mapbox boxheight5">
-              <div id="zh_globe_container" class='zh_globe_container' style=""></div>
+              <img src='@/assets/image/earth.gif'/>
+              <!-- <div id="zh_globe_container" class='zh_globe_container' style=""></div> -->
             </div>
           </el-row>
           <el-row style='padding:0 20px;'>
@@ -243,9 +244,9 @@ export default {
 
     var scene = new THREE.Scene();
     // 设置光线
-    scene.add(new THREE.HemisphereLight("#3ba5ff", "#3ba5ff", 1));
+    scene.add(new THREE.HemisphereLight("#4eb7ff", "#4eb7ff",1));
     var camera = new THREE.PerspectiveCamera(
-      60,
+      45,
        container.clientWidth / container.clientWidth,
       // 1,
       1,
@@ -263,7 +264,7 @@ export default {
       var globeMaterial = new THREE.MeshStandardMaterial({ map: texture });
       var globeMesh = new THREE.Mesh(globeGgeometry, globeMaterial);
       group.add(globeMesh);
-      // group.rotation.x = THREE.Math.degToRad(35);
+      // group.rotation.x = THREE.Math.degToRad(15);
       group.rotation.y = THREE.Math.degToRad(170);
     });
     animate();

@@ -24,7 +24,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
+      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'auto'" border style='margin-top:20px'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />

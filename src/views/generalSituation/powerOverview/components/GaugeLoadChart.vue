@@ -121,7 +121,7 @@ export default {
               // show: false
             },
             //
-            radius: "90%",
+            radius: "70%",
             min: 0,
             max: 100,
             type: "gauge",
