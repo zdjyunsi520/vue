@@ -247,8 +247,6 @@
 <script>
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
-import { fetchTree } from "@/api/systemManager/organization";
-// import PieChart from "./components/PieChart";
 import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
 import GainPieChart from "./components/GainPieChart";
@@ -325,25 +323,9 @@ export default {
     this.renderLoop();
   },
   created() {
-    this.getTree();
   },
   methods: {
-    getTree() {
-      fetchTree({}).then(r => {
-        this.treeData = r.data;
-        if (r.data.length) this.handleNodeClick(r.data[0]);
-      });
-    },
-    handleNodeClick(data) {
-      // this.queryParams.tenantId = data.id;
-      // this.queryParams.text = data.text;
-      // this.getList();
-    },
-    // 用电负荷 日/月切换
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type];
-    },
-
+  
     circleCanves() {
       var _createClass = (function() {
         function defineProperties(target, props) {

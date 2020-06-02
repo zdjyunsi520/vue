@@ -72,7 +72,7 @@
         </el-col>
         <el-col :span='10' :xs='24' class='commonchart'>
           <el-row>
-            <div class="chartbox mapbox boxheight5">
+            <div class="chartbox mapbox boxheight5" >
               <img src='@/assets/image/earth.gif'/>
               <!-- <div id="zh_globe_container" class='zh_globe_container' style=""></div> -->
             </div>
@@ -135,14 +135,12 @@
 <script>
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
-import { fetchTree } from "@/api/systemManager/organization";
-// import PieChart from "./components/PieChart";
 import powerTypePieChart from "./components/powerTypePieChart";
 import LineChart from "./components/LineChart";
 import GainPieChart from "./components/GainPieChart";
 import BarChart from "./components/BarChart";
-import * as THREE from "three";
-import img from "@/assets/image/map.png";
+// import * as THREE from "three";
+// import img from "@/assets/image/map.png";
 const powerTypeData = {
   legendData: ["基本电商", "电度电费", "力调电费"],
   listData: [
@@ -216,76 +214,59 @@ export default {
     };
   },
   created() {
-    this.getTree();
   },
   mounted() {
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
 
-    function render() {
-      group.rotation.y -= 0.0035;
-      renderer.render(scene, camera);
-    }
-    function animate() {
-      requestAnimationFrame(animate);
-      render();
-    }
-    let container = document.getElementById("zh_globe_container");
-    container.style.height = container.clientWidth + "px";
-    var renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      preserveDrawingBuffer: true,
-      alpha: true
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(renderer.domElement);
+    // function render() {
+    //   group.rotation.y -= 0.0035;
+    //   renderer.render(scene, camera);
+    // }
+    // function animate() {
+    //   requestAnimationFrame(animate);
+    //   render();
+    // }
+    // let container = document.getElementById("zh_globe_container");
+    // container.style.height = container.clientWidth + "px";
+    // var renderer = new THREE.WebGLRenderer({
+    //   antialias: true,
+    //   preserveDrawingBuffer: true,
+    //   alpha: true
+    // });
+    // renderer.setPixelRatio(window.devicePixelRatio);
+    // renderer.setSize(container.clientWidth, container.clientHeight);
+    // container.appendChild(renderer.domElement);
 
-    var scene = new THREE.Scene();
-    // 设置光线
-    scene.add(new THREE.HemisphereLight("#4eb7ff", "#4eb7ff",1));
-    var camera = new THREE.PerspectiveCamera(
-      45,
-       container.clientWidth / container.clientWidth,
-      // 1,
-      1,
-      500
-    );
-    camera.position.set(0, 0, 15);
-    camera.lookAt(0, 0, 0);
+    // var scene = new THREE.Scene();
+    // // 设置光线
+    // scene.add(new THREE.HemisphereLight("#4eb7ff", "#4eb7ff",1));
+    // var camera = new THREE.PerspectiveCamera(
+    //   45,
+    //    container.clientWidth / container.clientWidth,
+    //   // 1,
+    //   1,
+    //   500
+    // );
+    // camera.position.set(0, 0, 15);
+    // camera.lookAt(0, 0, 0);
 
-    const group = new THREE.Group();
-    scene.add(group);
-    var globeTextureLoader = new THREE.TextureLoader();
+    // const group = new THREE.Group();
+    // scene.add(group);
+    // var globeTextureLoader = new THREE.TextureLoader();
 
-    globeTextureLoader.load(img, function(texture) {
-      var globeGgeometry = new THREE.SphereGeometry(5, 32, 32);
-      var globeMaterial = new THREE.MeshStandardMaterial({ map: texture });
-      var globeMesh = new THREE.Mesh(globeGgeometry, globeMaterial);
-      group.add(globeMesh);
-      // group.rotation.x = THREE.Math.degToRad(15);
-      group.rotation.y = THREE.Math.degToRad(170);
-    });
-    animate();
+    // globeTextureLoader.load(img, function(texture) {
+    //   var globeGgeometry = new THREE.SphereGeometry(5, 32, 32);
+    //   var globeMaterial = new THREE.MeshStandardMaterial({ map: texture });
+    //   var globeMesh = new THREE.Mesh(globeGgeometry, globeMaterial);
+    //   group.add(globeMesh);
+    //   // group.rotation.x = THREE.Math.degToRad(15);
+    //   group.rotation.y = THREE.Math.degToRad(170);
+    // });
+    // animate();
   },
   methods: {
-    getTree() {
-      fetchTree({}).then(r => {
-        this.treeData = r.data;
-        if (r.data.length) this.handleNodeClick(r.data[0]);
-      });
-    },
-    handleNodeClick(data) {
-      // this.queryParams.tenantId = data.id;
-      // this.queryParams.text = data.text;
-      // this.getList();
-    },
-    // 用电负荷 日/月切换
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type];
-    },
-
     circleCanves() {
       var _createClass = (function() {
         function defineProperties(target, props) {
@@ -524,6 +505,14 @@ export default {
 .mapbox {
   background: none;
   margin-bottom: 2%;
+  text-align:center;
+  &>img{
+    position:absolute;
+    bottom:10%;
+    left:0;right:0;
+    margin:auto;
+    display:block;
+  }
 }
 .smbarbox {
   padding: 5% 1% 0;
