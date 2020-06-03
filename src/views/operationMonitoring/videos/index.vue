@@ -5,7 +5,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar>
-            <el-tree v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading" :data="treeData" :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+            <el-tree v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading" :data="treeData" draggable @node-drag-start='dragStart' :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -28,8 +28,16 @@
           <div class="" style="margin-top:15px;padding: 0;">
             <div class="videolist">
               <el-row :gutter="15">
+                <!-- <iframe v-if='hasVideo'
+                :src="'https://open.ys7.com/ezopen/h5/iframe?url='+videoUrl+'&autoplay=1&accessToken='+accessToken" 
+                 width="100%" 
+                 height="600px"  
+                 id="ysOpenDevice" 
+                 allowfullscreen>
+                 </iframe> -->
+
                 <el-col v-for="(item,index) in current" :span="current==1?24:(current==4?12:8)" :key='index'>
-                  <div></div>
+                  <div class='videobox'></div>
                 </el-col>
               </el-row>
             </div>
@@ -74,7 +82,10 @@ export default {
         }
       ],
       current: 9,
-      interval: null
+      interval: null,
+      accessToken:'',
+      videoUrl:'',
+      hasVideo:false
     };
   },
   created() {
@@ -121,8 +132,17 @@ export default {
       var id = id;
       getPlayUrl({ id }).then(res => {
         console.log(res);
+        this.hasVideo = false;
+        if(res.data){
+          this.hasVideo = true;
+          this.accessToken = res.data.MonitorUrl.accesstoken;
+          this.videoUrl = res.data.MonitorUrl.hd;
+        }
       });
-    }
+    },
+    dragStart(node,event){
+      console.log(node,event)
+    },
   }
 };
 </script>
