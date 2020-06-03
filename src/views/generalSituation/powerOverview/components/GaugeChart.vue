@@ -38,9 +38,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -101,7 +101,7 @@ export default {
               lineStyle: {
                 width: 18,
                 color: [
-                  [0.5, "#558cf7"],
+                  [listData[0].value, "#558cf7"],
                   [1, "#e3ebff"]
                 ]
               }

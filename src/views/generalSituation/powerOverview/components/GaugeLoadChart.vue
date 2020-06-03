@@ -38,9 +38,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -65,7 +65,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.chartData.listData) {
+      if (this.chartData) {
         this.chart.hideLoading();
         this.setOptions(this.chartData);
       }
@@ -80,29 +80,38 @@ export default {
       });
     },
 
-    setOptions({ title, listData } = {}) {
+    setOptions({ currentLoadRate, currentLoad } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}"
         },
 
+        title: {
+          left: "center",
+          bottom: "12%",
+          text: "当前负荷(kW)",
+          textStyle: {
+            fontSize: 12,
+            color: "#999999"
+          },
+          subtext: "" + currentLoad,
+          subtextStyle: {
+            fontSize: 30,
+            lineHeight: 30,
+            color: "#333333"
+          }
+        },
         series: [
           {
-            name: title,
-
+            name: "负荷",
             splitNumber: 1,
-            title: {
-              offsetCenter: [0, "90%"],
-              color: "#558cf7",
-              fontSize: 18
-            },
             axisLine: {
               show: true,
               lineStyle: {
                 width: 30,
                 color: [
-                  [0.5, "#558cf7"],
+                  [currentLoadRate, "#558cf7"],
                   [1, "#e3ebff"]
                 ]
               }
@@ -128,10 +137,29 @@ export default {
             center: ["50%", "50%"],
             detail: {
               offsetCenter: [0, "0%"],
-              fontSize: 40,
-              formatter: "{value}%"
+              formatter: [
+                "{a| " + currentLoadRate * 100 + "%}",
+                "{b|当前负荷率}"
+              ].join("\n"),
+              rich: {
+                a: {
+                  fontSize: 30,
+                  fontWeight: "bold",
+                  color: "#558cf7"
+                },
+                b: {
+                  fontSize: 12,
+                  lineHeight: 30,
+                  color: "#999999"
+                }
+              }
             },
-            data: listData
+            data: [
+              {
+                value: currentLoad * 100
+                // name: "当前负荷"
+              }
+            ]
           }
         ]
       });

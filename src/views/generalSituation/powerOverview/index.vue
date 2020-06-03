@@ -25,7 +25,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          运行容量(kVA)<b>20,000</b>
+                          运行容量(kVA)<b>{{totalContractCapacity}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -40,7 +40,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          配电房(个)<b>202</b>
+                          配电房(个)<b>{{switchingRoomCount}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -55,7 +55,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          变压器(台)<b>24</b>
+                          变压器(台)<b>{{transformCount}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -74,13 +74,13 @@
                     </div>
                     <el-row :gutter="40" class="legendbox">
                       <el-col :span="8" :push="4">
-                        <p>本月电费(元)<span>50</span></p>
+                        <p>本月电费(元)<span>{{electricFeeSituation.ThisMonthFee}}</span></p>
                       </el-col>
                       <el-col :span="8" :push="4">
-                        <p>上月电费(元)<span>1</span></p>
+                        <p>上月电费(元)<span>{{electricFeeSituation.LastMonthFee}}</span></p>
                       </el-col>
                     </el-row>
-                    <BarChart :barchartData='typeChartData' />
+                    <BarChart ref='barChart' :barchartData='typeChartData' />
                   </div>
                 </el-col>
                 <el-col :span="16" :xs="24">
@@ -91,17 +91,17 @@
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="8" :xs="24" style="padding-top: 4%;">
                         <el-col :span="24" :xs="12">
-                          <p>无功电量(kVarh)<span>100</span></p>
+                          <p>无功电量(kVarh)<span>{{powerFactorSituation.ReactivePower}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>占比<span>89%</span></p>
+                          <p>占比<span>{{powerFactorSituation.Rate}}%</span></p>
                         </el-col>
                       </el-col>
                       <el-col :span="8" :xs="24">
-                        <GaugeChart :chartData='powerChartData_month' />
+                        <GaugeChart ref='gaugeChart1' :chartData='lastMonthAverage' />
                       </el-col>
                       <el-col :span="8" :xs="24">
-                        <GaugeChart :chartData='powerChartData_day' />
+                        <GaugeChart ref='gaugeChart2' :chartData='thisMonthAverage' />
                       </el-col>
                     </el-row>
                   </div>
@@ -200,6 +200,12 @@
 
 <script>
 import { fetchTree } from "@/api/systemManager/organization";
+import {
+  getBaseInfo,
+  getElectricLoad,
+  getElectricQuantity,
+  getElectricSituation
+} from "@/api/generalSituation/situationElectric";
 
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
@@ -215,39 +221,39 @@ const typeChartData = {
   listData: [
     {
       name: "电度",
-      value: 56,
+      value: 0,
       itemStyle: {
         color: "#f4a248"
       }
     },
     {
       name: "基本",
-      value: 12,
+      value: 0,
       itemStyle: {
         color: "#558cf7"
       }
     },
     {
       name: "力调",
-      value: 34,
+      value: 0,
       itemStyle: {
         color: "#81c7f9"
       }
     }
   ]
 };
-const powerChartData_day = {
+const thisMonthAverage = {
   title: "功率因素",
-  listData: [{ value: 0.5, name: "本日平均" }]
+  listData: [{ value: 0, name: "本月平均" }]
 };
 
-const powerChartData_month = {
+const lastMonthAverage = {
   title: "功率因素",
-  listData: [{ value: 0.3, name: "本月平均" }]
+  listData: [{ value: 0, name: "上月平均" }]
 };
 const loadChartData = {
-  title: "负荷",
-  listData: [{ value: 49, name: "当前负荷" }]
+  currentLoad: 0,
+  currentLoadRate: 0
 };
 
 const lineChartData = [
@@ -270,10 +276,10 @@ const PowerbarChartData = {
 const pieChartData = {
   legendData: ["尖峰", "高峰", "平时", "低谷"],
   listData: [
-    { value: 335, name: "尖峰" },
-    { value: 310, name: "高峰" },
-    { value: 234, name: "平时" },
-    { value: 135, name: "低谷" }
+    { value: 0, name: "尖峰" },
+    { value: 0, name: "高峰" },
+    { value: 0, name: "平时" },
+    { value: 0, name: "低谷" }
   ]
 };
 
@@ -298,12 +304,19 @@ export default {
       radioType: 0,
       loading: false,
       typeChartData: typeChartData,
-      powerChartData_month: powerChartData_month,
-      powerChartData_day: powerChartData_day,
+      lastMonthAverage: lastMonthAverage,
+      thisMonthAverage: thisMonthAverage,
       loadChartData: loadChartData,
       lineChartData: lineChartData[0],
       PowerbarChartData: PowerbarChartData,
-      pieChartData: pieChartData
+      pieChartData: pieChartData,
+
+      tenantId: "",
+      totalContractCapacity: 0,
+      switchingRoomCount: 0,
+      transformCount: 0,
+      electricFeeSituation: {},
+      powerFactorSituation: {}
     };
   },
   mounted() {
@@ -317,12 +330,60 @@ export default {
       fetchTree({}).then(r => {
         this.treeData = r.data;
         if (r.data.length) this.handleNodeClick(r.data[0]);
+        this.tenantId = this.treeData[0].id;
+        this.getBaseInfo(this.tenantId);
       });
     },
+    getBaseInfo(tenantId) {
+      var tenantId = tenantId;
+      getBaseInfo({ tenantId }).then(r => {
+        this.totalContractCapacity = r.data.TotalContractCapacity;
+        this.switchingRoomCount = r.data.SwitchingRoomCount;
+        this.transformCount = r.data.TransformCount;
+        this.electricFeeSituation = r.data.ElectricFeeSituation;
+        typeChartData.listData[0].value = r.data.ElectricFeeSituation.DegreeFee;
+        typeChartData.listData[1].value = r.data.ElectricFeeSituation.BaseFee;
+        typeChartData.listData[2].value =
+          r.data.ElectricFeeSituation.PowerAdjustmentFee;
+
+        this.powerFactorSituation = r.data.PowerFactorSituation;
+        lastMonthAverage.listData[0].value =
+          r.data.PowerFactorSituation.LastMonthAverage;
+        thisMonthAverage.listData[0].value =
+          r.data.PowerFactorSituation.ThisMonthAverage;
+
+        this.$nextTick(() => {
+          this.$refs.barChart.initChart();
+          this.$refs.gaugeChart1.initChart();
+          this.$refs.gaugeChart2.initChart();
+        });
+        this.getElectricLoad(tenantId);
+        this.getElectricQuantity(tenantId);
+        this.getElectricSituation(tenantId);
+      });
+    },
+    getElectricLoad(tenantId) {
+      var tenantId = tenantId;
+      getElectricLoad({ tenantId }).then(r => {});
+    },
+    getElectricQuantity(tenantId) {
+      var tenantId = tenantId;
+      getElectricQuantity({ tenantId }).then(r => {
+        console.log(r);
+      });
+    },
+    getElectricSituation(tenantId) {
+      var tenantId = tenantId;
+      getElectricSituation({ tenantId }).then(r => {
+        pieChartData.listData[0].value = r.data.Sharp;
+        pieChartData.listData[1].value = r.data.Peak;
+        pieChartData.listData[2].value = r.data.Flat;
+        pieChartData.listData[3].value = r.data.Valley;
+      });
+    },
+
     handleNodeClick(data) {
-      // this.queryParams.tenantId = data.id;
-      // this.queryParams.text = data.text;
-      // this.getList();
+      this.getBaseInfo(data.id);
     },
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {
@@ -388,7 +449,7 @@ export default {
   }
 }
 
-/deep/.el-scrollbar__bar.is-horizontal{
-  display:none;
+/deep/.el-scrollbar__bar.is-horizontal {
+  display: none;
 }
 </style>
