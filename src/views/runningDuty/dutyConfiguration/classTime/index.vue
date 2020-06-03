@@ -122,7 +122,7 @@ export default {
     handleSelectionChange(selection) {
       this.target.ids = selection;
       this.target1.dataList = [];
-      if (this.target.ids.length >= 1) {
+      if (this.target.ids.length == 1) {
         this.target1.queryParams.shifttypeId = this.target.ids[0].Id;
         this.getList1();
       }

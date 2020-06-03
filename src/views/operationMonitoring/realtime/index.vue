@@ -23,11 +23,15 @@
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
                   <h5>电压(V)</h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataV" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <p @click="handleClick('UA')">A相<span>{{info.UA}}</span></p>
+                  <p @click="handleClick('UB')">B相<span>{{info.UB}}</span></p>
+                  <p @click="handleClick('UC')">C相<span>{{info.UC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5>电流(A)</h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <p @click="handleClick('IA')">A相<span>{{info.IA}}</span></p>
+                  <p @click="handleClick('IB')">B相<span>{{info.IB}}</span></p>
+                  <p @click="handleClick('IC')">C相<span>{{info.IC}}</span></p>
                 </el-col>
 
                 <el-col :span='4' :xs='24'>
@@ -39,8 +43,10 @@
                   <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
-                  <h5 class="smtitleh5">总功率因素<b @click="handleClick(item)">{{dataPF[3]?dataPF[3].Value:''}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in dataPF" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF')">{{info.PF}}</b></h5>
+                  <p @click="handleClick('PFA')">A相<span>{{info.PFA}}</span></p>
+                  <p @click="handleClick('PFB')">B相<span>{{info.PFB}}</span></p>
+                  <p @click="handleClick('PFC')">C相<span>{{info.PFC}}</span></p>
                 </el-col>
               </el-row>
             </div>
@@ -261,7 +267,8 @@ export default {
         beginTime: ""
       },
       interval: null,
-      lineChartData: lineChartData[0]
+      lineChartData: lineChartData[0],
+      info: {}
     };
   },
   created() {
@@ -402,6 +409,7 @@ export default {
       getMeasureData({ intervalId }).then(res => {
         let list = res.data;
         this.baseData = res.data;
+        this.info = res.data.CommonData;
       });
       this.getMeasureDataHistory();
       if (this.interval) {

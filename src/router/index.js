@@ -557,6 +557,18 @@ export const constantRoutes = [
         }
       },
       {
+        name: "/runningDuty/dutyConfiguration/group/components/add",
+        path: "/runningDuty/dutyConfiguration/group/components/add",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/group/components/add"),
+        meta: {
+          title: "+班组配置",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
         name: "/runningDuty/dutyConfiguration/classTime/index",
         path: "/runningDuty/dutyConfiguration/classTime/index",
         component: () =>
@@ -568,11 +580,12 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
+
       {
-        name: "/runningDuty/dutyConfiguration/role/index",
-        path: "/runningDuty/dutyConfiguration/role/index",
+        name: "/runningDuty/dutyConfiguration/role1/index",
+        path: "/runningDuty/dutyConfiguration/role1/index",
         component: () =>
-          import("@/views/runningDuty/dutyConfiguration/role/index"),
+          import("@/views/runningDuty/dutyConfiguration/role1/index"),
         meta: {
           title: "角色",
           icon: "dashboard",
@@ -580,6 +593,7 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
+
       {
         name: "/patrol/PatrolCycle/components/add",
         path: "/patrol/PatrolCycle/components/add",

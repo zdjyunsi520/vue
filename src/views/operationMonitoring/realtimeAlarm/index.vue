@@ -7,8 +7,8 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警类型" prop="alarmType">
-          <el-select v-model="queryParams.alarmType" clearable placeholder="请选择告警类型">
+        <el-form-item label="告警类型" prop="warninglevel">
+          <el-select v-model="queryParams.warninglevel" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in alarmTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { fetchReport } from "@/api/patrol";
+import { fetchList, deleted } from "@/api/operationMonitoring/realtimeAlarm";
 import { getChildrenList } from "@/api/org";
 
 export default {
@@ -86,9 +86,9 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        tenantId: "",
-        alarmType: "",
-        isCheck: ""
+        startdate: "",
+        enddate: "",
+        warninglevel: ""
       },
       alarmTypes: [
         {
@@ -218,10 +218,12 @@ export default {
     /** 查询用户列表 */
     getList() {
       this.listLoading = true;
-      fetchReport(this.queryParams)
+      fetchList(this.queryParams)
         .then(response => {
           // this.dataList = response.data;
           this.total = response.total;
+          this.dataList = response.data;
+          return;
           this.dataList = [
             {
               ReportName: "一般",

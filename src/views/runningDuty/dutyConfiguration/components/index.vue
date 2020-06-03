@@ -3,83 +3,54 @@
   <div class="app-container">
 
     <el-row :gutter="20" class="comheight">
-
-      <el-col :span="6" :xs="{span: 24}" class="comheight">
+      <el-col :span="24" :xs="{span: 24}" class="comheight">
         <div class="search-box onlyform-box" style="border-bottom:none">
-          <p class="form-smtitle">新增值班</p>
-          <el-row class="table-btns">
-            <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loadingConfirm">确 定</el-button>
-            <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
-              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
-            </el-button>
-          </el-row>
-          <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
-            <el-row>
-              <el-col :span="24">
-                <el-form-item label="值班班组" prop="TeamId">
-                  <el-select v-model="form.TeamId" :disabled="disabledSelect">
-                    <el-option label="请选择" value></el-option>
-                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
+          <p class="form-smtitle">值班配置</p>
 
-              <el-col :span="24">
-                <el-form-item label="班次类型" prop="ShiftTypeId">
-                  <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
-                    <el-option label="请选择" value></el-option>
-                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
+          <el-col :span="6" :xs="{span:24}">
+            <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="值班班组" prop="TeamId">
+                    <el-select v-model="form.TeamId" :disabled="disabledSelect">
+                      <el-option label="请选择" value></el-option>
+                      <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
 
-              <el-col :span="24">
-                <el-form-item label="角色类型" prop="CharaType">
-                  <el-select v-model="form.CharaType" :disabled="disabledSelect">
-                    <el-option label="请选择" value></el-option>
-                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
+                <el-col :span="24">
+                  <el-form-item label="班次类型" prop="ShiftTypeId">
+                    <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
+                      <el-option label="请选择" value></el-option>
+                      <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
 
-        </div>
-
-      </el-col>
-      <el-col :xs="{span: 18}" :span="18" class="comheight">
-        <div class="comheight">
-          <div class="search-box onlyform-box" style="border-bottom:none">
-            <p class="form-smtitle">岗位设置</p>
-            <div class="bg-white containerbox" style="padding:0">
-              <el-row class="table-btns">
-                <el-button :disabled="!disabledSelect" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-                <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
-                <!-- <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button> -->
-                <el-button type="info" plain icon="el-icon-arrow-left" @click="handleBack">返回</el-button>
+                <el-col :span="24">
+                  <el-form-item label="角色类型" prop="CharaType">
+                    <el-select v-model="form.CharaType" :disabled="disabledSelect">
+                      <el-option label="请选择" value></el-option>
+                      <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
               </el-row>
-              <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
-                <template slot="empty">
-                  <div class="nodata-box">
-                    <img src="../../../../assets/image/nodata.png" />
-                    <p>暂时还没有数据</p>
-                  </div>
-                </template>
-                <el-table-column type="selection" fixed="left" width="55" />
-                <el-table-column label="岗位名称" min-width="100" prop="Name" />
-                <el-table-column label="班次" min-width="100" prop="ShiftName" />
-                <el-table-column label="角色" min-width="100" prop="CharacterName" />
-
-              </el-table>
-              <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-            </div>
-          </div>
+            </el-form>
+          </el-col>
         </div>
-      </el-col>
-    </el-row>
-    <add-job ref="add" :shiftTypeId="form.ShiftTypeId" :charaType="form.CharaType" :dutyId='dutyId' @getList="getList" />
-  </div>
 
+      </el-col>
+
+    </el-row>
+    <el-col :span="24" :xs='24' class="absolute-bottom">
+      <div class="form-footer">
+        <el-button type="primary" icon="el-icon-check" @click="handleConfirm" :loading="loading">确 定</el-button>
+        <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+      </div>
+    </el-col>
+  </div>
 </template>
 
 <script>
@@ -101,11 +72,7 @@ export default {
       ShiftTypeId: [{ required: true, message: "请选择班次类型" }],
       CharaType: [{ required: true, message: "请选择角色类型" }]
     };
-    const mrules = {
-      TeamName: [{ required: true, message: "请输入岗位名称" }],
-      ShiftNames: [{ required: true, message: "请选择班次" }],
-      Characters: [{ required: true, message: "请选择角色" }]
-    };
+
     return {
       loadingConfirm: false,
       loading: false,
@@ -113,7 +80,6 @@ export default {
       form: {},
       teamform: {},
       rules,
-      mrules,
       listLoading: false,
       dataList: [],
       tableHeight: "0",
@@ -128,27 +94,7 @@ export default {
       shiftTypeList: [],
       height: "calc(100% - 65px)",
       dialogAddVisible: false,
-      dutyId: "",
-      shifts: [
-        {
-          id: 1,
-          name: "白班"
-        },
-        {
-          id: 2,
-          name: "晚班"
-        }
-      ],
-      character: [
-        {
-          id: 1,
-          name: "正值"
-        },
-        {
-          id: 2,
-          name: "副值"
-        }
-      ]
+      dutyId: ""
     };
   },
 
@@ -195,16 +141,6 @@ export default {
         .finally(r => (this.listLoading = false));
     },
     handleConfirm() {
-      var shiftIds = this.$refs.add.classTimeList.map(v => v.Id);
-      this.form.ShiftIds = shiftIds.join(",");
-      var shiftnames = this.$refs.add.classTimeList.map(v => v.Name);
-      this.form.shiftnames = shiftnames.join(",");
-
-      var characterIds = this.$refs.add.roleList.map(v => v.Id);
-      this.form.CharacterIds = characterIds.join(",");
-      var characters = this.$refs.add.roleList.map(v => v.Name);
-      this.form.characters = characters.join(",");
-
       this.$refs.form.validate(v => {
         if (v) {
           this.loadingConfirm = true;
@@ -213,7 +149,7 @@ export default {
             .then(r => {
               this.disabledSelect = true;
               this.dutyId = r.data.Id;
-              this.$message.success("成功新增值班！");
+              this.$message.success("新增值班成功！");
             })
             .finally(r => (this.loadingConfirm = false));
         }
