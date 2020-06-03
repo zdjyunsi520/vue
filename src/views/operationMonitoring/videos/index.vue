@@ -5,7 +5,13 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar>
-            <el-tree v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading" :data="treeData" draggable @node-drag-start='dragStart' :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+            <el-tree v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading" :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false">
+              <template class="custom-tree-node" slot-scope="{ node, data }">
+                <span :class='data.type == 8 ? "custom-node" : ""' draggable="true" @dragstart="dragStart(data)">
+                  <span>{{node.label}}</span>
+                </span>
+              </template>
+            </el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -28,16 +34,13 @@
           <div class="" style="margin-top:15px;padding: 0;">
             <div class="videolist">
               <el-row :gutter="15">
-                <!-- <iframe v-if='hasVideo'
-                :src="'https://open.ys7.com/ezopen/h5/iframe?url='+videoUrl+'&autoplay=1&accessToken='+accessToken" 
-                 width="100%" 
-                 height="600px"  
-                 id="ysOpenDevice" 
-                 allowfullscreen>
-                 </iframe> -->
 
                 <el-col v-for="(item,index) in current" :span="current==1?24:(current==4?12:8)" :key='index'>
-                  <div class='videobox'></div>
+                  <div class='videobox' @dragover="handleAllowDrag" @drop="handleDrop(index)">
+                    <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" height="600px" id="ysOpenDevice" allowfullscreen>
+                    </iframe>
+
+                  </div>
                 </el-col>
               </el-row>
             </div>
@@ -83,9 +86,11 @@ export default {
       ],
       current: 9,
       interval: null,
-      accessToken:'',
-      videoUrl:'',
-      hasVideo:false
+      accessToken: "",
+      videoUrl: "",
+      hasVideo: false,
+      dragTarget: {},
+      playList: []
     };
   },
   created() {
@@ -98,7 +103,11 @@ export default {
     renderContent(h, { node, data, store }) {
       return (
         // 间隔 加class
-        <span class={data.type == 8 ? "custom-node" : ""}>
+        <span
+          class={data.type == 8 ? "custom-node" : ""}
+          draggable="true"
+          ondragstart="alert(1)"
+        >
           <span>{data}</span>
         </span>
       );
@@ -115,34 +124,43 @@ export default {
     changetTab(item) {
       item.isSelect = !item.isSelect;
       this.current = item.val;
-      console.log(this.current);
+      this.playList = [];
     },
 
     handleNodeClick(obj, event) {
-      const id = obj.id;
-      const type = obj.type;
-      if (type == 8) {
-        //摄像头
-        this.id = obj.id;
-        this.getPlayUrl(this.id);
-      }
+      // const id = obj.id;
+      // const type = obj.type;
+      // if (type == 8) {
+      //   //摄像头
+      //   this.id = obj.id;
+      //   this.getPlayUrl(this.id);
+      // }
     },
 
-    getPlayUrl(id) {
-      var id = id;
+    getPlayUrl(id, index) {
+      this.playList[index] = {
+        hasVideo: false,
+        accessToken: "",
+        videoUrl: ""
+      };
       getPlayUrl({ id }).then(res => {
-        console.log(res);
-        this.hasVideo = false;
-        if(res.data){
-          this.hasVideo = true;
-          this.accessToken = res.data.MonitorUrl.accesstoken;
-          this.videoUrl = res.data.MonitorUrl.hd;
+        if (res.data) {
+          this.playList[index].hasVideo = true;
+          this.playList[index].accessToken = res.data.MonitorUrl.accesstoken;
+          this.playList[index].videoUrl = res.data.MonitorUrl.hd;
         }
       });
     },
-    dragStart(node,event){
-      console.log(node,event)
+    dragStart(data) {
+      this.dragTarget = data;
     },
+    handleAllowDrag(e) {
+      e.preventDefault();
+    },
+    handleDrop(index) {
+      //  e.preventDefault();
+      this.getPlayUrl(this.dragTarget.id, index);
+    }
   }
 };
 </script>
