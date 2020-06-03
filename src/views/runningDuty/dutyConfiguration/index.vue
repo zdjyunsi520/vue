@@ -42,7 +42,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="/runningDuty/dutyConfiguration/group/index">设置班组</el-dropdown-item>
             <el-dropdown-item command="/runningDuty/dutyConfiguration/classTime/index">设置班次</el-dropdown-item>
-            <el-dropdown-item command="/runningDuty/dutyConfiguration/role/index">设置角色</el-dropdown-item>
+            <el-dropdown-item command="/runningDuty/dutyConfiguration/role1/index">设置角色</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>

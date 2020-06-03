@@ -159,7 +159,7 @@ export default {
       this.form = Object.assign(
         {
           Id: "",
-          TenantId: "3ad33f15-6456-4263-b417-43286b4f247f",
+          // TenantId: "3ad33f15-6456-4263-b417-43286b4f247f",
           // TenantName: "福建迅腾电力科技有限公司",
           TeamId: "",
           // TeamName: "班组二",
