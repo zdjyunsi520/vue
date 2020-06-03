@@ -47,7 +47,7 @@
     <el-col :span="24" :xs='24' class="absolute-bottom">
       <div class="form-footer">
         <el-button type="primary" icon="el-icon-check" @click="handleConfirm" :loading="loading">确 定</el-button>
-        <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+        <el-button icon="el-icon-arrow-left" @click="handleBack(null)">返 回</el-button>
       </div>
     </el-col>
   </div>

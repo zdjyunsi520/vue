@@ -150,7 +150,7 @@ export default {
 
       const title = "修改";
       this.$router.push({
-        name: "/commonManager/attachment/components/add",
+        name: "/runningDuty/dutyConfiguration/group/components/add",
         params: { data, title }
       });
     },
