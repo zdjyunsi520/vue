@@ -46,7 +46,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="巡视人员" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
+        <el-table-column label="巡视单位" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
@@ -94,7 +94,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "auto",
+      tableHeight: "calc(100% - 80px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },
@@ -146,19 +146,9 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
+ 
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 40;
-    },
+   
     handleClick(tab, event) {
       this.resetQuery();
       this.patrolYear = "";
@@ -285,7 +275,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     // 点击行
@@ -294,7 +283,6 @@ export default {
     },
 
     totalstyle({ row, rowIndex }) {
-      console.log(row);
       if (row.Name === "合计" || row.Name === "总计") {
         return "total-font";
       }

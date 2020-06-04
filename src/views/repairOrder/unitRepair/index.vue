@@ -38,7 +38,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:15px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' :row-class-name='totalstyle' border style='margin-top:15px'>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -46,7 +46,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="巡视人员" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
+        <el-table-column label="巡视单位" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
@@ -65,7 +65,7 @@ import {
   userReportByNature,
   userReportByExecute
 } from "@/api/patrol";
-import BarChart from "../components/BarChart";
+import BarChart from "@/views/patrol/components/BarChart";
 import { getChildrenList } from "@/api/org";
 export default {
   components: {
@@ -73,7 +73,6 @@ export default {
   },
   data() {
     return {
-      downloadLoading: false,
       // 查询参数
       queryParams: {
         pageno: 1,
@@ -88,6 +87,7 @@ export default {
       patrolYear: "",
       timeBegin: "",
       timeEnd: "",
+      downloadLoading: false,
       dataList: null,
       total: 0,
       rules: {},
@@ -146,11 +146,11 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
-  
+ 
   methods: {
-  
+   
     handleClick(tab, event) {
-      this.resetQuery("queryForm");
+      this.resetQuery();
       this.patrolYear = "";
       this.timeBegin = "";
       this.timeEnd = "";
@@ -216,7 +216,7 @@ export default {
     },
     getList(activeName, row) {
       const data = {
-        type: 1,
+        type: 2,
         tenantId: this.queryParams.tenantId,
         patroltimebegin: this.getBeginTime(),
         patroltimeend: this.getEndTime()
@@ -256,7 +256,6 @@ export default {
             this.dataList = [];
             return;
           }
-
           this.dataList = res.data;
           this.total = res.total;
           let arr = [];
@@ -282,6 +281,7 @@ export default {
     handleRowInfo(row) {
       this.getList(this.activeName, row);
     },
+
     totalstyle({ row, rowIndex }) {
       if (row.Name === "合计" || row.Name === "总计") {
         return "total-font";
@@ -302,7 +302,7 @@ export default {
       this.downloadLoading = true;
       import("@/vendor/Export2Excel").then(excel => {
         const tHeader = this.columns.slice(0);
-        const list = this.dataList.slice(0);
+        const list = this.dataList;
         const data = this.formatJson(this.columns, list);
         excel.export_json_to_excel({
           header: tHeader,
