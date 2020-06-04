@@ -294,7 +294,6 @@ export default {
       this.getList(this.activeName, row);
     },
     totalstyle({ row, rowIndex }) {
-      console.log(row);
       if (row.Name === "合计" || row.Name === "总计") {
         return "total-font";
       }
