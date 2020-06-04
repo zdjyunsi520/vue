@@ -139,7 +139,6 @@ export default {
     },
     handleOpen() {
       const data = this.form;
-      console.log(this.form);
       this.$router.push({
         name: "/commonManager/area/index",
         params: { data }
@@ -155,7 +154,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-
+              this.form.key = response.data.Key;
               //关闭窗口
               this.handleOpen();
             })

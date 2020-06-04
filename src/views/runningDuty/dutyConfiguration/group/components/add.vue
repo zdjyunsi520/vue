@@ -7,14 +7,14 @@
           <el-row>
             <el-col>
               <el-col :span="8" :xs="24">
-                <el-form-item label="班组名称" prop="name">
-                  <el-input v-model="form.name" placeholder="请输入班组名称" />
+                <el-form-item label="班组名称" prop="Name">
+                  <el-input v-model="form.Name" placeholder="请输入班组名称" />
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col>
               <el-col :span="8" :xs="24">
-                <el-form-item label="班组成员" prop="employeenames">
+                <el-form-item label="班组成员" prop="EmployeeNames">
                   <TreeSelect showText="text" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="personId" />
 
                 </el-form-item>
@@ -35,9 +35,13 @@
 </template>
 
 <script>
-import { add, update } from "@/api/runningDuty/dutyConfiguration/group";
+import {
+  add,
+  update,
+  getEmployees as getTenantEmployees
+} from "@/api/runningDuty/dutyConfiguration/group";
 import { mapActions } from "vuex";
-import { getTrees, getTenantEmployees } from "@/api/org";
+import { getTrees } from "@/api/org";
 import TreeSelect from "@/views/components/TreeSelect";
 const appNameList = [{ key: 1, value: "用户端" }];
 const forceUpdateList = [
@@ -48,20 +52,20 @@ export default {
   components: { TreeSelect },
   data() {
     const rules = {
-      name: [
+      Name: [
         {
           required: true,
           message: "班组名称不能为空",
           trigger: "blur"
         }
       ],
-      employeeIds: [
+      EmployeeIds: [
         {
           required: true,
           message: "请选择班组成员"
         }
       ],
-      employeenames: [
+      EmployeeNames: [
         {
           required: true,
           message: "请选择班组成员"
@@ -87,6 +91,8 @@ export default {
   },
   created() {
     this.getTenantEmployees();
+    const { data } = this.$route.params;
+    this.reset(data);
   },
   computed: {
     personList() {
@@ -114,21 +120,22 @@ export default {
 
     handleConfirm(data) {
       this.personId = data.map(v => v.id);
-      this.form.employeeIds = this.personId.join(",");
-      this.form.employeenames = data.map(v => v.text).join(",");
-      this.$refs.form.clearValidate("employeenames");
+      this.form.EmployeeIds = this.personId.join(",");
+      this.form.EmployeeNames = data.map(v => v.text).join(",");
+      this.$refs.form.clearValidate("EmployeeNames");
     },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          // tenantId: "cb1618fe-0c4c-4cc9-bfb4-08f3a243d7af",
-          name: "",
-          employeenames: "",
-          employeeIds: ""
+          Name: "",
+          EmployeeNames: "",
+          EmployeeIds: ""
         },
         data
       );
+      if (this.form.EmployeeIds)
+        this.personId = this.form.EmployeeIds.split(",");
     },
 
     handleOpen(data) {

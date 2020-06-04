@@ -3,8 +3,8 @@
     <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
-          <el-scrollbar>
-            <el-tree :data="treeData" node-key="id" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
+          <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+            <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -24,13 +24,32 @@
 <script>
 import { getTrees } from "@/api/org";
 export default {
+  props: {
+    nodeKey: {
+      type: String,
+      default: "id"
+    },
+    currentNode: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    needToScroll: {
+      type: Number,
+      default: 1
+    }
+  },
   data() {
     return {
       treeData: [],
       defaultProps: {
         children: "childs",
         label: "text"
-      }
+      },
+      dataArray: [],
+      count: 0,
+      loading: false
     };
   },
   mounted() {
@@ -39,9 +58,9 @@ export default {
   created() {
     this.getTreeData();
   },
+
   methods: {
     renderContent(h, { node, data, store }) {
-      console.log(node);
       return (
         <span class={data.type > 3 ? "custom-tree-node" : ""}>
           <span>{data}</span>
@@ -51,15 +70,75 @@ export default {
 
     // 获取设备关系树状图
     getTreeData() {
-      getTrees().then(response => {
-        this.treeData = response.data;
-        this.$emit("getInfo", this.treeData[0]);
-      });
+      this.count = 0;
+      this.loading = true;
+      getTrees()
+        .then(response => {
+          this.treeData = response.data;
+          this.dataArray = [];
+          if (this.treeData && this.treeData.length) {
+            this.$emit("getInfo", this.treeData[0]);
+            this.treeData.forEach(v => {
+              this.dataArray.push(v[this.nodeKey]);
+              if (v.childs) {
+                v.childs.forEach(v => {
+                  this.dataArray.push(v[this.nodeKey]);
+                  if (v.childs) {
+                    v.childs.forEach(v => {
+                      this.dataArray.push(v[this.nodeKey]);
+                      if (v.childs) {
+                        v.childs.forEach(v => {
+                          this.dataArray.push(v[this.nodeKey]);
+                          if (v.childs) {
+                            v.childs.forEach(v => {
+                              this.dataArray.push(v[this.nodeKey]);
+                              if (v.childs) {
+                                v.childs.forEach(v => {
+                                  this.dataArray.push(v[this.nodeKey]);
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+            if (!this.currentNode[this.nodeKey]) {
+              this.handleNodeClick(this.treeData[0]);
+            } else {
+              this.handleNodeClick(this.currentNode);
+            }
+
+            if (this.count++ < this.needToScroll) {
+              this.$nextTick(() => {
+                // const scrollTop =
+                //   ((this.$refs.elScrollbar.$refs.wrap.offsetWidth - 20) / 32) *
+                //   this.dataArray.findIndex(v => v == this.currentNode.id);
+                let targetValue = this.currentNode[this.nodeKey];
+
+                const nowIndex =
+                  this.dataArray.findIndex(v => v == targetValue) - 3;
+                const scrollTop = 32 * nowIndex;
+                // console.log(nowIndex);
+                this.$refs.elScrollbar.$refs.wrap.scrollTop = scrollTop;
+              });
+            }
+          }
+        })
+        .finally(() => (this.loading = false));
     },
-    handleNodeClick(obj, event) {
-      const id = obj.id;
-      const type = obj.type;
-      this.$emit("getInfo", { id, type });
+    handleNodeClick(node, event) {
+      if (node[this.nodeKey]) {
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(node[this.nodeKey]);
+        });
+        const id = node.id;
+        const type = node.type;
+        this.$emit("getInfo", { id, type });
+      }
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
 
-  <common-tree @getInfo="getInfo" ref="commonTree">
+  <common-tree @getInfo="getInfo" ref="commonTree" :currentNode="currentNode" :needToScroll="needToScroll">
     <div class="comheight">
       <base-prop ref="component1" />
       <power-room ref="component2" @refresh="refresh" />
@@ -44,11 +44,16 @@ export default {
   data() {
     return {
       operateId: "",
-      loading: true
+      loading: true,
+      currentNode: {},
+      needToScroll: 1
     };
   },
 
-  created() {},
+  created() {
+    const { data } = this.$route.params;
+    this.currentNode = data || {};
+  },
   methods: {
     closeComponent() {
       [1, 2, 3, 8, 11, 4, 7, 6, 5].forEach(v => {
@@ -73,6 +78,7 @@ export default {
       }
     },
     refresh() {
+      this.currentNode = {};
       this.$refs.commonTree.getTreeData();
     },
     handleUpdate() {},

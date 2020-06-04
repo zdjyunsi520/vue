@@ -20,8 +20,8 @@
                 </el-col>
 
                 <el-col :span="24">
-                  <el-form-item label="班次类型" prop="ShiftTypeId">
-                    <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
+                  <el-form-item label="班次类型" prop="ShiftIds">
+                    <el-select v-model="form.ShiftIds" :disabled="disabledSelect">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                     </el-select>
@@ -69,7 +69,7 @@ export default {
   data() {
     const rules = {
       TeamId: [{ required: true, message: "请选择值班班组" }],
-      ShiftTypeId: [{ required: true, message: "请选择班次类型" }],
+      ShiftIds: [{ required: true, message: "请选择班次类型" }],
       CharaType: [{ required: true, message: "请选择角色类型" }]
     };
 
@@ -107,9 +107,7 @@ export default {
   },
   computed: {
     addDisabled() {
-      return (
-        !this.form.teamId || !this.form.shifttypeId || !this.form.charatype
-      );
+      return !this.form.teamId || !this.form.ShiftIds || !this.form.charatype;
     }
   },
   methods: {
@@ -165,16 +163,16 @@ export default {
           // TeamName: "班组二",
           // EmployeeIds: "",
           // EmployeeNames: "京帅",
-          ShiftTypeId: "",
+
           //  ShiftTypeName: "两班制",
           ShiftIds: "",
-          shiftnames: "",
+
           //  ShiftNames: "夜班,白班",
-          CharaType: "",
+          CharaType: ""
           //  CharaTypeName: "两班制人员",
-          CharacterIds: "",
+
           //  Characters: "夜班人员",
-          characters: ""
+
           //  Positions: null
         },
         data

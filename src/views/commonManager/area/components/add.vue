@@ -149,8 +149,12 @@ export default {
         }
       }
     },
-    handleOpen(data) {
-      this.$router.push({ name: "/commonManager/area/index" });
+    handleOpen() {
+      const data = this.form;
+      this.$router.push({
+        name: "/commonManager/area/index",
+        params: { data }
+      });
     },
     /** 提交按钮 */
     handleSubmit: function() {
@@ -172,7 +176,7 @@ export default {
               //消息提示
               this.$message.success(response.msg);
               //刷新列表
-              this.$emit("getList");
+              this.form.key = response.data.Key;
               // this.$emit("getInfo");
               //关闭窗口
               this.handleOpen();

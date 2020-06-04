@@ -28,7 +28,7 @@
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="值班班组" min-width="150" prop="Name" />
-        <el-table-column label="人员" min-width="180" prop="Key" />
+        <el-table-column label="人员" min-width="180" prop="EmployeeNames" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
@@ -163,15 +163,9 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        let count = 0;
-        ids.forEach(id => {
-          deleted({ id }).finally(r => {
-            count++;
-            if (count >= ids.length) {
-              this.msgSuccess("删除成功");
-              this.getList();
-            }
-          });
+        deleted({ ids }).finally(r => {
+          this.msgSuccess("删除成功");
+          this.getList();
         });
       });
     }

@@ -142,8 +142,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-              //刷新列表
-              this.$emit("getList");
+              this.form.id = response.data.id;
               //关闭窗口
               this.handleOpen();
             })

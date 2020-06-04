@@ -56,7 +56,7 @@
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/area";
-import commonTree from "@/views/commonManager/commonTree";
+import commonTree from "@/views/commonManager/commonTree/area";
 export default {
   components: { commonTree },
   data() {

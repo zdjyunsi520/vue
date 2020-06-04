@@ -163,8 +163,12 @@ export default {
         data
       );
     },
-    handleOpen(data) {
-      this.$router.push({ name: "/equipmentAccount/maintain/index" });
+    handleOpen() {
+      const data = this.form;
+      this.$router.push({
+        name: "/equipmentAccount/maintain/index",
+        params: { data }
+      });
     },
     handleMap() {},
     /** 提交按钮 */
@@ -173,7 +177,6 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          console.log(this.form, 11);
           const fn = this.form.id ? update : add;
           this.form.tenantid = this.form.tenantId;
           this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");
@@ -187,6 +190,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
+              this.form.id = response.data ? response.data.Id : this.form.id;
               //关闭窗口
               this.handleOpen();
             })

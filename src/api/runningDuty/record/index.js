@@ -1,12 +1,13 @@
 import { post } from "@/utils/request";
 const commonUrl = "biz";
 
-// 值班信息表
-export function fetchList(data) {
-  return post("/DutyRecord/Gets", data, commonUrl);
+// 270 获取当前用户所在班组的班次信息
+export function GetShifts(data) {
+  return post("/DutySchedule/GetShifts", data, commonUrl);
 }
-export function add(data) {
-  return post("/DutyRecord/Create", data, commonUrl);
+// 271 获取用户选择的排班信息
+export function GetUserPositions(data) {
+  return post("/DutySchedule/GetUserPositions", data, commonUrl);
 }
 export function update(data) {
   return post("/DutyRecord/Modify", data, commonUrl);

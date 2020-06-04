@@ -18,7 +18,8 @@
                 <div>
                   <label>班次：</label>
                   <div>
-                    <el-radio-group v-model="queryParams.ShiftNames">
+                    {{shifts}}
+                    <el-radio-group v-model="form.shiftId">
                       <el-radio label="1">早班 08:00:00-20:00:00</el-radio>
                       <el-radio label="2">晚班 20:00:00-08:00:00</el-radio>
                     </el-radio-group>
@@ -27,6 +28,7 @@
                 <div>
                   <label>人员：</label>
                   <div class="tagbox">
+                    {{userPositions}}
                     <div>
                       <el-tag>正值</el-tag><span>张三</span><span>张三</span><span>张三</span>
                     </div>
@@ -61,7 +63,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getShift as fetchList } from "@/api/runningDuty/record";
+import {
+  getShift as fetchList,
+  GetShifts,
+  GetUserPositions
+} from "@/api/runningDuty/record";
 import dutyRecord from "./dutyRecord";
 import shiftRecord from "./shiftRecord";
 import patrolRecord from "./patrolRecord";
@@ -79,7 +85,8 @@ export default {
       loading: false,
       form: {
         userId: "",
-        date: new Date()
+        date: new Date(),
+        shiftId: ""
       },
       rules,
       assetAttributeType: [{ key: 1, value: "asdas" }],
@@ -91,7 +98,9 @@ export default {
       },
       total: 1,
       disabledSelect: false,
-      activeName: "main"
+      activeName: "main",
+      shifts: [],
+      userPositions: []
     };
   },
 
@@ -106,6 +115,13 @@ export default {
       );
     }
   },
+  watch: {
+    "form.shiftId"(shiftId) {
+      GetUserPositions({ shiftId }).then(r => {
+        this.userPositions = r.data;
+      });
+    }
+  },
   methods: {
     handleClick(tab) {
       console.log(this.activeName);
@@ -113,6 +129,11 @@ export default {
       target.getList();
     },
     getList() {
+      GetShifts({}).then(r => {
+        this.shifts = r.data;
+        if (r.data && r.data.length) this.form.shiftId = r.data[0].ShiftId;
+      });
+
       this.listLoading = true;
       this.form.userId = this.userId;
       fetchList(this.form)

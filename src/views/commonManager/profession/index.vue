@@ -14,15 +14,15 @@
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button type="primary" plain @click="handleUpdate" :disabled="operateId==''">
+          <el-button type="primary" plain @click="handleUpdate" :disabled="!currentNode.key">
             <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
           </el-button>
-          <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="operateId==''">删除</el-button>
+          <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="!currentNode.key">删除</el-button>
         </el-form-item>
       </el-form>
     </div>
 
-    <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
+    <!-- <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
@@ -38,36 +38,41 @@
       </el-col>
       <el-col :xs="{span: 24}" class="comheight dragright">
         <div class="bg-white infobox">
-          <el-scrollbar>
-            <div class="form-smtitle marginBottom30">基础信息 </div>
-            <el-form label-position="top" :model="smform" v-if="data&&data.Key">
-              <el-form-item label="代码">
-                <el-input v-model="smform.Key" disabled></el-input>
-              </el-form-item>
-              <el-form-item label="名称">
-                <el-input v-model="smform.Name" disabled></el-input>
-              </el-form-item>
-              <el-form-item label="排序">
-                <el-input v-model="smform.SortIndex" disabled></el-input>
-              </el-form-item>
-              <el-form-item label="父级" v-if="smform.ParentKey">
-                <el-input v-model="smform.ParentKey" disabled></el-input>
-              </el-form-item>
-            </el-form>
-            <div v-else class="tips">
-              请稍后...
-            </div>
-          </el-scrollbar>
+          <el-scrollbar> -->
+
+    <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
+      <div class="form-smtitle marginBottom30">基础信息 </div>
+      <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+        <el-form-item label="代码">
+          <el-input v-model="smform.Key" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="名称">
+          <el-input v-model="smform.Name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="排序">
+          <el-input v-model="smform.SortIndex" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="父级" v-if="smform.ParentKey">
+          <el-input v-model="smform.ParentKey" disabled></el-input>
+        </el-form-item>
+      </el-form>
+      <div v-else class="tips">
+        请稍后...
+      </div>
+
+    </commonTree>
+    <!-- </el-scrollbar>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
 <script>
 import { fetchList, getInfo, deleted } from "@/api/commonManager/profession";
-
+import commonTree from "@/views/commonManager/commonTree";
 export default {
+  components: { commonTree },
   name: "profession",
   data() {
     return {
@@ -87,10 +92,14 @@ export default {
       addId: "",
       operateId: "",
       smform: {},
-      data: {}
+      data: {},
+      currentNode: {},
+      needToScroll: 1
     };
   },
   created() {
+    const { data } = this.$route.params;
+    this.currentNode = data || {};
     this.getList();
   },
 
@@ -117,13 +126,15 @@ export default {
           });
           // this.dataList = response.data;
           this.loading = false;
-          this.dataList.length &&
-            this.handleNodeClick(this.dataList[0], { level: 1 });
+          // this.dataList.length &&
+          //   this.handleNodeClick(this.dataList[0], { level: 1 });
         })
         .finally(v => (this.loading = false));
     },
-    getInfo() {
-      const key = this.operateId;
+    getInfo(node) {
+      this.currentNode = node;
+      const { key } = this.currentNode;
+      // const key = this.operateId;
       key &&
         getInfo({ key }).then(r => {
           this.data = Object.assign({}, r.data);
@@ -192,9 +203,11 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(v => {
-        const key = this.operateId;
+        const key = this.currentNode.key;
         deleted({ key }).then(r => {
           this.$message.success(r.msg);
+          this.currentNode = {};
+          this.needToScroll++;
           this.getList();
         });
       });

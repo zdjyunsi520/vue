@@ -178,9 +178,12 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      this.form.type = 8;
+      const data = this.form;
       this.$router.push({
-        name: "/equipmentAccount/maintain/index"
+        name: "/equipmentAccount/maintain/index",
+        params: { data }
       });
     },
     handleMap() {},
@@ -196,6 +199,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success("操作成功！");
+              this.form.id = response.data ? response.data.Id : this.form.id;
               //刷新列表
               //this.$emit("getList");
               //关闭窗口

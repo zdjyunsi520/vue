@@ -92,7 +92,7 @@ export default {
           this.dataArray = [];
           data.forEach(v => {
             this.dataArray.push(v[this.nodeKey]);
-            if (v.childs) {
+            if (this.nodeKey != "key" && v.childs) {
               v.childs.forEach(v => {
                 this.dataArray.push(v[this.nodeKey]);
               });
@@ -109,6 +109,9 @@ export default {
             //   ((this.$refs.elScrollbar.$refs.wrap.offsetWidth - 20) / 32) *
             //   this.dataArray.findIndex(v => v == this.currentNode.id);
             let targetValue = this.currentNode[this.nodeKey];
+            if (this.nodeKey == "key") {
+              targetValue = targetValue.substr(0, 2) + "0000";
+            }
 
             const nowIndex =
               this.dataArray.findIndex(v => v == targetValue) - 3;

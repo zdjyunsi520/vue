@@ -207,9 +207,12 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      this.form.type = 6;
+      const data = this.form;
       this.$router.push({
-        name: "/equipmentAccount/maintain/index"
+        name: "/equipmentAccount/maintain/index",
+        params: { data }
       });
     },
     handleMap() {},
@@ -226,7 +229,7 @@ export default {
               //消息提示
               this.$message.success(response.msg);
               //刷新列表
-              //this.$emit("getList");
+              this.form.id = response.data ? response.data.Id : this.form.Id;
               //关闭窗口
               this.handleOpen();
             })

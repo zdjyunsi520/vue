@@ -147,7 +147,7 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-
+              this.form.id = response.data.Id;
               //关闭窗口
               this.handleOpen();
             })

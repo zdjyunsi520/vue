@@ -92,10 +92,11 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      const data = this.form;
       this.$router.push({
         name: "/commonManager/profession/index",
-        params: {}
+        params: { data }
       });
     },
     /** 提交按钮 */
@@ -109,9 +110,9 @@ export default {
             .then(response => {
               //消息提示
               this.$message.success(response.msg);
-
+              this.form.key = response.data.Key;
               //关闭窗口
-              this.handleOpen();
+              this.handleOpen(response.data);
             })
             .catch(r => {
               //取消按钮转圈圈
