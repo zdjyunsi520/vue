@@ -209,10 +209,11 @@ export default {
       var id = row.Id;
       var status = row.Status;
       var type = 1;
-      updateStatus({ id, status, type }).then(r => {
-        this.$message.success("已更新状态！");
-        this.getList();
-      });
+      updateStatus({ id, status, type })
+        .then(r => {
+          this.$message.success("已更新状态！");
+        })
+        .finally(r => this.getList());
     },
 
     /** 导出按钮操作 */
