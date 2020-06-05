@@ -32,7 +32,7 @@
         <el-button type="info" plain icon="el-icon-lock" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button>
       </el-row>
 
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -100,7 +100,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
 
       // 搜索参数
       queryParams: {
@@ -328,7 +328,7 @@ export default {
           this.ids.forEach(v => {
             const id = v.Id;
             deleted({ id })
-              .then(r => this.$message.success('删除成功！'))
+              .then(r => this.$message.success("删除成功！"))
               .finally(v => {
                 compelete++;
                 if (compelete >= l) {

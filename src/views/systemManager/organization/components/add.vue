@@ -130,20 +130,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle"> 附加属性 </p>
+              <p class="smtitle">附加属性&nbsp;
+                <el-checkbox v-model="form.attribute" :true-label="1" :false-label="0">用电</el-checkbox>
+              </p>
             </el-col>
-            <el-col :span="23" :push="1" :xs='24'>
-              <el-col :span="3" :push="1" :xs='12'>
+            <!-- <el-col :span="23" :push="1" :xs='24'>
+            <el-col :span="3" :push="1" :xs='12'>
                 <el-form-item>
                   <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="电务" @change="handleElectron">电务公司</el-radio>
                 </el-form-item>
-              </el-col>
-              <el-col :span="3" :push="1" :xs='12'>
-                <el-form-item>
-                  <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="用电" @change="handleElectron">用电单位</el-radio>
-                </el-form-item>
-              </el-col>
+              </el-col> 
+              <el-col>
             </el-col>
+            </el-col>-->
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="立户日期" prop="starttime">
                 <el-date-picker v-model="form.starttime" type="date" placeholder="选择日期" :disabled="disabled">
@@ -161,6 +160,7 @@
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电分类" prop="maintype">
                 <el-select v-model="form.maintype" :disabled="disabled" @change="handleChange3">
+                                  <el-option label="请选择" value=""  />
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
                 </el-select>
               </el-form-item>
@@ -168,11 +168,9 @@
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
                 <el-select v-model="form.subtype" :disabled="disabled">
-                  <el-option label="大型专变用户" :value="1" v-if="form.maintype == 1" />
-                  <el-option label="中小型专变用户" :value="2" v-if="form.maintype == 1" />
-                  <el-option label="三相一般工商业用户" :value="3" v-if="form.maintype == 2" />
-                  <el-option label="单相一般工商业用户" :value="4" v-if="form.maintype == 2" />
-                  <el-option label="居民用户" :value="5" v-if="form.maintype == 3" />
+                       <el-option label="请选择" value=""  />
+                   <el-option :key="item.key" :label="item.value" :value="item.key" v-if="item.show==form.maintype" v-for="item in electronType1" />
+    
                 </el-select>
               </el-form-item>
             </el-col>
@@ -223,11 +221,11 @@ const electronType = [
   { key: 3, value: "低压居民" }
 ];
 const electronType1 = [
-  { key: 1, value: "大型专变用户" },
-  { key: 2, value: "中小型专变用户" },
-  { key: 3, value: "三相一般工商业用户" },
-  { key: 4, value: "单相一般工商业用户" },
-  { key: 5, value: "居民用户" }
+  { key: 1, value: "大型专变用户",show:1 },
+  { key: 2, value: "中小型专变用户",show:1 },
+  { key: 3, value: "三相一般工商业用户",show:2 },
+  { key: 4, value: "单相一般工商业用户",show:2 },
+  { key: 5, value: "居民用户" ,show:3}
 ];
 
 export default {
@@ -280,7 +278,8 @@ export default {
       keyword: "百度",
       remark123: "",
       remark: "",
-      points: []
+      points: [],
+
     };
   },
   created() {
@@ -312,10 +311,7 @@ export default {
       } else return [];
     },
     disabled() {
-      return (
-        (this.form.attribute == "用电" ? false : true) ||
-        (this.form.id ? true : false)
-      );
+      return this.form.attribute == 1 ? false : true;
     },
     cityList() {
       const list = this.areaList.filter(v => v.key == this.form.province);
@@ -346,7 +342,6 @@ export default {
       const id = data.id;
       getInfo({ id }).then(r => {
         let row = r.data;
-        let attribute = row.Attribute;
         let isenable = row.IsEnable;
         let province = row.Province;
         let city = row.City;
@@ -357,19 +352,25 @@ export default {
         let parentId = row.ParentId;
         let phoneno = row.PhoneNo;
         let creditcode = row.CreditCode;
-        let artificialperson = row.ArtificialPerson;
-        let contractcapacity = row.ContractCapacity;
-        let voltlevel = row.OperatingCapacity;
+        let artificialperson = row.ArtificialPerson ;
+
         let longitude = row.Longitude;
         let latitude = row.Latitude;
         let industry = row.IndustryCode;
         let principleactivity = row.PrincipleActivityCode;
+
+        let attribute = row.Attribute ==1 ?1:0;
+        let starttime = row.StartTime
+        let voltlevel = row.VoltLevelText
+        let maintype = this.electronType.filter(v=>v.value ==row.MainType ).map(v=>v.key).join('')
+        let subtype = this.electronType1.filter(v=>v.value ==row.SubType ).map(v=>v.key).join('')
+        let contractcapacity = row.ContractCapacity
+        let operatingcapacity = row.OperatingCapacity
         if (longitude && latitude) {
           this.center = { lng: longitude, lat: latitude };
           this.points = [this.center];
         }
         data = Object.assign(data, {
-          attribute,
           isenable,
           province,
           city,
@@ -378,15 +379,18 @@ export default {
           contactperson,
           mobilephone,
           phoneno,
-          contractcapacity,
-          voltlevel,
           longitude,
           latitude,
           creditcode,
           artificialperson,
           industry,
           principleactivity,
-          parentId
+          parentId,
+          attribute,
+          voltlevel,
+          contractcapacity,
+operatingcapacity,
+starttime,maintype,subtype
         });
         this.reset(data);
       });
@@ -477,7 +481,7 @@ export default {
           isenable: 1,
           longitude: "",
           latitude: "",
-          attribute: "电务",
+          attribute: 0,
           starttime: "",
           maintype: "",
           subtype: "",
@@ -520,8 +524,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-               var txt = this.form.id? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               //刷新列表
               //this.$emit("getList");
               //关闭窗口

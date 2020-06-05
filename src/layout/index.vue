@@ -107,4 +107,7 @@ export default {
 /deep/.el-table th.gutter {
   display: table-cell !important;
 }
+// /deep/body .el-table th.gutter {
+//   display: table-cell !important;
+// }
 </style>

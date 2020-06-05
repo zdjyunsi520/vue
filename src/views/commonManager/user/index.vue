@@ -100,7 +100,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
       // 搜索参数
       queryParams: {
@@ -227,7 +227,7 @@ export default {
         const islock = !lock;
         ids = ids.join(",");
         locklock({ ids, islock }).then(r => {
-          this.$message.success(!lock?'已解锁':'已锁定');
+          this.$message.success(!lock ? "已解锁" : "已锁定");
           this.getList();
         });
       }
