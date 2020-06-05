@@ -38,18 +38,18 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:20px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:20px'>
 
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" />
+            <img src="../../../assets/image/nodata.png" class="smimg" />
             <p>暂时还没有数据</p>
           </div>
         </template>
         <el-table-column label="巡视人员" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
       <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
@@ -94,7 +94,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 40px)",
+      tableHeight:"calc(100% - 80px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },

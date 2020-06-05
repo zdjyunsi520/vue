@@ -38,11 +38,11 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" @row-click='handleRowInfo' :row-class-name='totalstyle' border style='margin-top:15px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border style='margin-top:15px'>
 
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" />
+            <img src="../../../assets/image/nodata.png" class="smimg"/>
             <p>暂时还没有数据</p>
           </div>
         </template>
@@ -94,7 +94,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight:"calc(100% - 80px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },

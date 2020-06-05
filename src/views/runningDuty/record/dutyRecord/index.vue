@@ -61,7 +61,7 @@
         <el-table-column label="记事时间" prop="UpdateTime" />
         <el-table-column label="导入下一班" prop="IsSucceed" />
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <add ref="add" @getList="getList" />
   </div>

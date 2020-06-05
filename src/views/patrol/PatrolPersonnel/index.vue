@@ -38,11 +38,11 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="dataList?tableHeight:'0'" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:15px'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:15px'>
 
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" />
+            <img src="../../../assets/image/nodata.png" class="smimg"/>
             <p>暂时还没有数据</p>
           </div>
         </template>
