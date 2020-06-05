@@ -29,25 +29,25 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="报告名称" min-width="220" sortable prop="ReportName"></el-table-column>
+        <el-table-column label="报告名称" min-width="300" sortable prop="ReportName"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视日期" width="150" sortable prop="PatrolTime">
+        <el-table-column label="巡视日期" width="120" sortable prop="PatrolTime">
           <template slot-scope="scope">
             {{scope.row.PatrolTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="巡视人员" min-width="140" sortable prop="PatrolUserName"></el-table-column>
-        <el-table-column label="确认人" min-width="140" sortable prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="报告时间" min-width="140" sortable prop="ReportedTime"></el-table-column>
-        <el-table-column label="操作" min-width="200" fixed="right">
+        <el-table-column label="巡视人员" width="120" sortable prop="PatrolUserName"></el-table-column>
+        <el-table-column label="确认人" width="130" sortable prop="ConfirmUserName"></el-table-column>
+        <el-table-column label="报告时间" width="180" sortable prop="ReportedTime"></el-table-column>
+        <el-table-column label="操作" width="130" fixed="right">
           <template slot-scope="scope">
             <div>
-              <el-button type="primary" plain size="mini" @click="handleReport(scope.row)">查看报告</el-button>
+              <el-button type="text" size="mini" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -74,7 +74,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 80px)",
       TenantIds: [],
 
       // 搜索参数

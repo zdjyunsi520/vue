@@ -42,12 +42,12 @@
 
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" class="smimg"/>
+            <img src="../../../assets/image/nodata.png" class="smimg" />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="巡视单位" fixed="left" min-width="120" align='center' prop="Name"></el-table-column>
-        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" align='center' :label="item"></el-table-column>
+        <el-table-column label="巡视单位" fixed="left" min-width="180" prop="Name"></el-table-column>
+        <el-table-column v-for="(item,index) in columns" :key="props[index]" min-width="60" :prop="props[index]" :label="item"></el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
@@ -146,9 +146,8 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
- 
+
   methods: {
-   
     handleClick(tab, event) {
       this.resetQuery();
       this.patrolYear = "";

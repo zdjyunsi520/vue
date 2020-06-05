@@ -24,7 +24,7 @@
         <el-form-item label="更新说明" prop="UpdateDescription">
           <el-input type="textarea" :rows="6" v-model="form.UpdateDescription" placeholder="请输入更新说明" />
         </el-form-item>
-        <el-form-item label="附件" prop="FileUrl">
+        <el-form-item label="上传更新包" prop="FileUrl">
 
           <el-upload class="avatar-wrap" action="http://apicommont.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token,filekey:'appversion'}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess">
             <i v-if="showPlus" class="el-icon-plus avatar-uploader-icon"></i>
@@ -169,7 +169,7 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
               this.$message.success(txt);
 
               //关闭窗口

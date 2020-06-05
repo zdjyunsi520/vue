@@ -43,28 +43,28 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="任务单编号" min-width="220" align='center' sortable prop="No"></el-table-column>
-        <el-table-column label="巡视单位" min-width="250" align='center' sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视性质" width="150" align='center' sortable prop="PtrolNatureText">
+        <el-table-column label="任务单编号" min-width="220" sortable prop="No"></el-table-column>
+        <el-table-column label="巡视单位" min-width="250" sortable prop="TenantName"></el-table-column>
+        <el-table-column label="巡视性质" width="120" sortable prop="PtrolNatureText">
           <!-- <template slot-scope="scope">
             <span>{{ scope.row.PtrolNature==1?"定期巡视":"临时巡视"}}</span>
           </template> -->
         </el-table-column>
-        <el-table-column label="巡视日期" width="130" sortable align='center' prop="PatrolTime">
+        <el-table-column label="巡视日期" width="120" sortable prop="PatrolTime">
           <template slot-scope="scope">
             {{scope.row.PatrolTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="巡视人员" min-width="140" sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="确认人" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="编制人" min-width="140" sortable align='center' prop="CreateUserName"></el-table-column>
-        <el-table-column label="状态" width="140" sortable align='center' prop="IsExecute">
+        <el-table-column label="巡视人员" width="130" sortable prop="PatrolUserName"></el-table-column>
+        <el-table-column label="确认人" width="130" sortable prop="ConfirmUserName"></el-table-column>
+        <el-table-column label="编制人" width="130" sortable prop="CreateUserName"></el-table-column>
+        <el-table-column label="状态" width="100" sortable prop="IsExecute">
           <template slot-scope="scope">
             <span v-if="scope.row.IsExecute"><i class="green dot"></i>已执行</span>
             <span v-else><i class="red dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="250" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
               <el-button type="text" size="mini" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -118,7 +118,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 120px)",
+      tableHeight: "calc(100% - 120px)",
       TenantIds: [],
 
       ptrolnatures,

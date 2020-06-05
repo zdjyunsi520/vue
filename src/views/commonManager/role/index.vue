@@ -55,7 +55,7 @@ export default {
       // 搜索参数
       queryParams: {
         pageno: 1,
-        pagesize: 9999,
+        pagesize: 30,
         name: ""
       },
       rules: {},

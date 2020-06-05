@@ -32,19 +32,19 @@
         </template>
         <el-table-column label="巡视单位" sortable min-width="250" prop="TenantName" />
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
-        <el-table-column label="巡视人员" sortable min-width="150" prop="PatrolUserName" />
-        <el-table-column label="巡视成员" sortable min-width="150" prop="PatrolMemberNames" />
-        <el-table-column label="巡视周期" sortable min-width="150" prop="CycleDay">
+        <el-table-column label="巡视人员" sortable width="130" prop="PatrolUserName" />
+        <el-table-column label="巡视成员" sortable min-width="200" prop="PatrolMemberNames" />
+        <el-table-column label="巡视周期" sortable width="120" prop="CycleDay">
           <template slot-scope="scope">
             {{scope.row.CycleDay}}天
           </template>
         </el-table-column>
-        <el-table-column label="开始时间" sortable min-width="120" prop="StartTime">
+        <el-table-column label="开始时间" sortable width="120" prop="StartTime">
           <template slot-scope="scope">
             {{scope.row.StartTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="230" fixed="right">
+        <el-table-column label="操作" width="170" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -55,7 +55,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -82,7 +82,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       TenantIds: [],
 
       // 搜索参数
