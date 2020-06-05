@@ -1,6 +1,6 @@
 <template>
   <el-dialog width="800px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
-    <!-- 添加或修改参数配置对话框 -->
+    <!-- 添加或编辑参数配置对话框 -->
     <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px">
       <el-col :span="12">
         <el-form-item label="所属单位" prop="name">
@@ -46,10 +46,10 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+      <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
       <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
+    <!-- 添加或编辑参数配置对话框 end -->
   </el-dialog>
 </template>
 
@@ -158,11 +158,11 @@ export default {
           this.loading = true;
           this.form.moduleids = this.form.moduleids.join(",");
           if (this.form.id) {
-            //保存修改
+            //保存编辑
             update(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success(response.msg);
+                this.$message.success('编辑成功！');
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口
@@ -177,7 +177,7 @@ export default {
             add(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success(response.msg);
+                this.$message.success('新增成功！');
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口

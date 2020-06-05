@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       downloadLoading: false,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -94,7 +94,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "0",
+      tableHeight: "calc(100% - 40px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },
@@ -146,19 +146,7 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 40;
-    },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
       this.patrolYear = "";
@@ -286,7 +274,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     // 点击行

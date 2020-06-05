@@ -418,7 +418,7 @@ export default {
               Id = Id ? Id : res.data.Id;
               senderOrder({ Id })
                 .then(r => {
-                  this.$message.success("发送成功");
+                  this.$message.success("发送成功！");
                   this.handleOpen();
                 })
                 .catch(e => (this.loading = false));
@@ -446,7 +446,8 @@ export default {
           let fn = this.form.Id ? update : add;
           fn(this.form)
             .then(res => {
-              this.$message.success(res.msg);
+              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
+              this.$message.success(txt);
               this.handleOpen();
             })
             .catch(r => {

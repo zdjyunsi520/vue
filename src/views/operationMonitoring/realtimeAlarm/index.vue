@@ -31,18 +31,18 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" align="center" />
-        <el-table-column label="告警等级" min-width="220" sortable align='center' prop="ReportName"></el-table-column>
-        <el-table-column label="用电单位" min-width="250" sortable align='center' prop="TenantName"></el-table-column>
-        <el-table-column label="配电房/屏柜" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="设备名称" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="信号名" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警描述" width="150" sortable align='center' prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警时间" min-width="140" sortable align='center' prop="PatrolUserName"></el-table-column>
-        <el-table-column label="告警值" min-width="140" sortable align='center' prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="是否复归" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
-        <el-table-column label="是否确认" min-width="140" sortable align='center' prop="ReportedTime"></el-table-column>
-        <el-table-column label="操作" min-width="250" fixed="right" align="center">
+        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column label="告警等级" min-width="220" sortable prop="ReportName"></el-table-column>
+        <el-table-column label="用电单位" min-width="250" sortable prop="TenantName"></el-table-column>
+        <el-table-column label="配电房/屏柜" width="150" sortable prop="PatrolTime"></el-table-column>
+        <el-table-column label="设备名称" width="150" sortable prop="PatrolTime"></el-table-column>
+        <el-table-column label="信号名" width="150" sortable prop="PatrolTime"></el-table-column>
+        <el-table-column label="告警描述" width="150" sortable prop="PatrolTime"></el-table-column>
+        <el-table-column label="告警时间" min-width="140" sortable prop="PatrolUserName"></el-table-column>
+        <el-table-column label="告警值" min-width="140" sortable prop="ConfirmUserName"></el-table-column>
+        <el-table-column label="是否复归" min-width="140" sortable prop="ReportedTime"></el-table-column>
+        <el-table-column label="是否确认" min-width="140" sortable prop="ReportedTime"></el-table-column>
+        <el-table-column label="操作" min-width="250" fixed="right">
           <template slot-scope="scope">
             <div>
               <el-button type="text" size="mini" @click="handleCheck(scope.row)">确认</el-button>
@@ -79,10 +79,10 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "auto",
+      tableHeight: "calc(100% - 80px)",
       TenantIds: [],
 
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -192,15 +192,6 @@ export default {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
     // 巡视单位列表
     getTenants() {
@@ -212,10 +203,7 @@ export default {
           console.log(error);
         });
     },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
-    },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -253,7 +241,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
 

@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- <el-dialog top="20px" width="80%" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center> -->
 
-    <!-- 添加或修改参数配置对话框 -->
+    <!-- 添加或编辑参数配置对话框 -->
     <div class="search-box onlyform-box">
       <el-scrollbar>
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px">
@@ -191,12 +191,12 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
+    <!-- 添加或编辑参数配置对话框 end -->
     <!-- </el-dialog> -->
   </div>
 </template>
@@ -520,7 +520,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+               var txt = this.form.id? '编辑成功！' : '新增成功！';
+              this.$message.success(txt);
               //刷新列表
               //this.$emit("getList");
               //关闭窗口

@@ -34,7 +34,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
@@ -106,7 +106,7 @@ import { getChildrenList } from "@/api/org";
 export default {
   data() {
     return {
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 10,
@@ -213,9 +213,9 @@ export default {
         params: { data: {}, title, TenantIds, ranks }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleLook(row) {
-      const title = "修改缺陷工单";
+      const title = "编辑缺陷工单";
       const data = row;
       const ReadOnly = true;
       let arr = ["add", "add", "repair", "backFile", "backFile"];
@@ -228,7 +228,7 @@ export default {
         params: { data, ReadOnly }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
       const data = row;
       // const id = row.Id;

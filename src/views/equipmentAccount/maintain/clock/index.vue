@@ -4,7 +4,7 @@
       <el-form :inline="true">
         <el-form-item>
           <el-button type="primary" plain @click="handleUpdate">
-            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
           </el-button>
           <el-button type="info" plain icon="el-icon-delete" @click="handleDelete">删除</el-button>
         </el-form-item>
@@ -158,19 +158,19 @@ export default {
     },
     handleAdd() {},
     handleUpdate() {
-      const title = "修改";
+      const title = "编辑";
       this.$router.push({
         name: "/equipmentAccount/maintain/clock/components/update",
         params: { data: this.infoData, title }
       });
     },
     handleDelete() {
-      this.$confirm("确定要删除选中的电力表计吗")
+      this.$confirm("确定要删除选中的电力表计吗？")
         .then(r => {
           const Id = this.infoData.Id;
           deleted({ Id }).then(r => {
             this.$emit("refresh");
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});

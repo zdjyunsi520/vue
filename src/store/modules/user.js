@@ -39,11 +39,11 @@ const user = {
     }
   },
 
-  //Action提交的是Mutation，不能够直接修改state中的状态，而Mutations是可以直接修改state中状态的；
+  //Action提交的是Mutation，不能够直接编辑state中的状态，而Mutations是可以直接编辑state中状态的；
   //Action是支持异步操作的，而Mutations只能是同步操作。
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
+    Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo)
           .then(res => {
@@ -56,11 +56,11 @@ const user = {
           });
       });
     },
-    SetHome({ commit, state }, data) {
+    SetHome ({ commit, state }, data) {
       Object.assign(state, data);
     },
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetInfo ({ commit, state }) {
       //实例化一个异步请求对象
       return new Promise((resolve, reject) => {
         getInfo1().then(res => {
@@ -117,7 +117,7 @@ const user = {
     //       });
     //   });
     // },
-    LogOut({ commit, state }) {
+    LogOut ({ commit, state }) {
       return new Promise((resolve, reject) => {
         commit("SET_TOKEN", "");
         commit("SET_ROLES", []);
@@ -128,7 +128,7 @@ const user = {
     },
 
     // 前端 登出
-    FedLogOut({ commit }) {
+    FedLogOut ({ commit }) {
       //实例化一个请求方式
       return new Promise(resolve => {
         commit("SET_TOKEN", "");

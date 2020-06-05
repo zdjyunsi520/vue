@@ -182,23 +182,23 @@ export default {
     },
     handleUpdate() {},
     handleDelete() {
-      this.$confirm("确定要删除选中的角色类型吗")
+      this.$confirm("确定要删除选中的角色类型吗？")
         .then(r => {
           const Ids = this.target.ids.map(v => v.Id);
           deleted({ Ids }).then(r => {
             this.getList();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});
     },
     handleDelete1() {
-      this.$confirm("确定要删除选中的角色吗")
+      this.$confirm("确定要删除选中的角色吗？")
         .then(r => {
           const Ids = this.target1.ids.map(v => v.Id);
           deleted1({ Ids }).then(r => {
             this.getList1();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});

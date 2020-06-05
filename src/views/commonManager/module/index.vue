@@ -17,7 +17,7 @@
             </el-dropdown-menu>
           </el-dropdown>
           <el-button type="primary" plain @click="handleUpdate" :disabled="!currentNode.id">
-            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
           </el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="!currentNode.id">删除</el-button>
         </el-form-item>
@@ -68,7 +68,7 @@ export default {
       // 遮罩层
       loading: true,
       dataList: [],
-      // 查询参数
+      // 搜索参数
       queryParams: {
         menuName: undefined,
         visible: undefined
@@ -103,7 +103,7 @@ export default {
         this.handleAddRole();
       }
     },
-    /** 查询菜单列表 */
+    /** 搜索菜单列表 */
     getList() {
       this.loading = true;
       fetchList(this.queryParams)
@@ -171,7 +171,7 @@ export default {
         params: { dataList, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate() {
       let target;
       let data,
@@ -193,7 +193,7 @@ export default {
       url = this.data.Url;
       component = this.data.Component;
       sortindex = this.data.SortIndex;
-      title = "修改信息";
+      title = "编辑信息";
 
       if (type == 1) {
         iconurl = this.data.IconUrl;
@@ -223,7 +223,7 @@ export default {
       }).then(v => {
         const id = this.currentNode.id;
         deleted({ id }).then(r => {
-          this.$message.success(r.msg);
+          this.$message.success("删除成功！");
           this.currentNode = {};
           this.needToScroll++;
           this.getList();

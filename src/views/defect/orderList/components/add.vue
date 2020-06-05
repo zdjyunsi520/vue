@@ -112,7 +112,7 @@
       <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
         <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlecheck">确 定</el-button>
+          <el-button type="primary" @click="handlecheck">保 存</el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>
         </span>
       </el-dialog>
@@ -120,7 +120,7 @@
       <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
         <el-tree :data="ProcessorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleEmpcheck">确 定</el-button>
+          <el-button type="primary" @click="handleEmpcheck">保 存</el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>
         </span>
       </el-dialog>
@@ -448,7 +448,8 @@ export default {
           fn(this.form)
             .then(res => {
               //消息提示
-              this.$message.success(res.msg);
+              var txt = this.form.Id ?'编辑成功！':'新增成功！'
+              this.$message.success(txt);
               //刷新列表
               this.$emit("getList");
               //关闭窗口

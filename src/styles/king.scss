@@ -25,6 +25,8 @@
  .el-table td {
      font-size: 14px;
      height: 40px;
+     position: relative;
+     z-index: 1;
  }
  .el-button--mini{
     font-size: 14px;

@@ -15,7 +15,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -34,21 +34,21 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="用户名" width="200" prop="UserName" />
-        <el-table-column label="姓名" width="160" prop="Name" />
-        <el-table-column label="预留手机号" width="150" prop="MobilePhone" />
-        <el-table-column label="添加时间" min-width="220" prop="CreateTime" sortable="custom">
+        <el-table-column label="用户名" min-width="150" prop="UserName" />
+        <el-table-column label="姓名" min-width="150" prop="Name" />
+        <el-table-column label="预留手机号" width="130" prop="MobilePhone" />
+        <el-table-column label="添加时间" width="190" prop="CreateTime" sortable="custom">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="最后登录时间" min-width="180" prop="LoginTime" sortable="custom">
+        <el-table-column label="最后登录时间" width="190" prop="LoginTime" sortable="custom">
           <template slot-scope="{row}">
             <i v-if="row.LoginTime" class="el-icon-time"></i>&nbsp;{{row.LoginTime}}
           </template>
         </el-table-column>
 
-        <el-table-column label="是否锁定" width="140" prop="IsLock" sortable="custom">
+        <el-table-column label="是否锁定" width="118" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
             <!-- active-text="是"  inactive-text="否" -->
             <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch>
@@ -60,13 +60,13 @@
           </template>
         </el-table-column>
         <el-table-column label="注销状态" width="100" prop="IsCancel" :formatter="filterCancel" />
-        <el-table-column label="操作" min-width="300">
+        <el-table-column label="操作" fixed="right" width="320">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑信息
             </el-button>
             <el-button size="mini" type="text" @click="handleResetPwd(scope.row)">
-              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>修改密码
+              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>编辑密码
             </el-button>
             <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
               <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>设置权限
@@ -100,9 +100,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -117,19 +117,7 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";
     },
@@ -139,7 +127,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -149,7 +137,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */
@@ -176,14 +163,14 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
       const id = row.Id;
       const username = row.UserName;
       const name = row.Name;
       const mobilephone = row.MobilePhone;
       const data = { id, username, name, mobilephone };
-      const title = "修改用户";
+      const title = "编辑用户";
       this.$router.push({
         name: "/commonManager/user/components/update",
         params: { data, title }
@@ -194,7 +181,7 @@ export default {
       const id = row.Id;
       const username = row.UserName;
       const data = { id, username };
-      const title = "修改密码";
+      const title = "编辑密码";
       this.$router.push({
         name: "/commonManager/user/components/password",
         params: { data, title }
@@ -226,10 +213,10 @@ export default {
         })
         .then(() => {
           this.getList();
-          this.msgSuccess("删除成功");
+          this.msgSuccess("删除成功！");
         })
         .catch(function() {
-          this.msgSuccess("操作失败");
+          this.msgSuccess("操作失败！");
         });
     },
     handleLock(row, lock) {
@@ -240,7 +227,7 @@ export default {
         const islock = !lock;
         ids = ids.join(",");
         locklock({ ids, islock }).then(r => {
-          this.$message.success(r.msg);
+          this.$message.success(!lock?'已解锁':'已锁定');
           this.getList();
         });
       }

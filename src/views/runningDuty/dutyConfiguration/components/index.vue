@@ -46,7 +46,7 @@
     </el-row>
     <el-col :span="24" :xs='24' class="absolute-bottom">
       <div class="form-footer">
-        <el-button type="primary" icon="el-icon-check" @click="handleConfirm" :loading="loading">确 定</el-button>
+        <el-button type="primary" icon="el-icon-check" @click="handleConfirm" :loading="loading">保 存</el-button>
         <el-button icon="el-icon-arrow-left" @click="handleBack(null)">返 回</el-button>
       </div>
     </el-col>
@@ -82,7 +82,6 @@ export default {
       rules,
       listLoading: false,
       dataList: [],
-      tableHeight: "0",
       queryParams: {
         pageno: 1,
         pagesize: 30
@@ -92,7 +91,7 @@ export default {
       teamList: [],
       charactorTypeList: [],
       shiftTypeList: [],
-      height: "calc(100% - 65px)",
+      tableHeight: "calc(100% - 65px)",
       dialogAddVisible: false,
       dutyId: ""
     };
@@ -191,7 +190,7 @@ export default {
           const Ids = this.ids.map(v => v.Id);
           deleted({ Ids }).then(r => {
             this.getList();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});
@@ -203,7 +202,7 @@ export default {
       this.$refs.form.validate(v => {
         if (v) {
           add(this.form).then(r => {
-            this.$message.success("操作成功");
+            this.$message.success("提交成功！");
           });
         }
       });

@@ -12,7 +12,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -32,25 +32,25 @@
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="应用名称" min-width="150" prop="TypeName" />
         <el-table-column label="版本名称" min-width="180" prop="VersionName" />
-        <el-table-column label="更新时间" min-width="200" width="170" prop="CreateTime">
+        <el-table-column label="更新时间" width="200" prop="CreateTime">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="版本号" min-width="150" prop="VersionCode" />
+        <el-table-column label="版本号" width="120" prop="VersionCode" />
         <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
-        <el-table-column label="是否强制更新" min-width="150" prop="ForcedUpdate" :formatter="filterCancel" />
+        <el-table-column label="是否强制更新" width="130" prop="ForcedUpdate" :formatter="filterCancel" />
         <el-table-column label="APK文件" min-width="200" prop="FileUrl">
           <template slot-scope="{row}">
             <a href="row.FileUrl" download target="_blank">{{row.VersionName}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="120" prop="IsLock">
+        <el-table-column label="状态" width="100" prop="IsLock">
           <template slot-scope="{row}">
             <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" fixed="right" width="200">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -87,9 +87,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -102,19 +102,8 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
+    
     filterCancel(row) {
       return row.ForcedUpdate ? "是" : "否";
     },
@@ -124,7 +113,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -138,7 +127,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */
@@ -165,7 +153,7 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(data) {
       // const id = row.Id;
       // const username = row.UserName;
@@ -173,7 +161,7 @@ export default {
       // const mobilephone = row.MobilePhone;
       // const data = { id, username, name, mobilephone };
 
-      const title = "修改";
+      const title = "编辑";
       this.$router.push({
         name: "/commonManager/app/components/add",
         params: { data, title }
@@ -184,7 +172,7 @@ export default {
       const id = row.Id;
       const username = row.UserName;
       const data = { id, username };
-      const title = "修改密码";
+      const title = "编辑密码";
       this.$router.push({
         name: "/commonManager/user/components/password",
         params: { data, title }
@@ -212,15 +200,15 @@ export default {
         })
         .then(() => {
           this.getList();
-          this.msgSuccess("删除成功");
+          this.msgSuccess("删除成功！");
         })
         .catch(function() {
-          this.msgSuccess("操作失败");
+          this.msgSuccess("操作失败！");
         });
     },
     handleUpdateStatus(row) {
       updateStatus(row).then(r => {
-        this.$message.success(r.msg);
+        this.$message.success('已更新状态！');
         this.getList();
       });
     },

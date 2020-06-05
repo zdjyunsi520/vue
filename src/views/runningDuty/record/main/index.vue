@@ -104,7 +104,7 @@ export default {
       dataList: null,
       height: "calc(100% - 50px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -148,7 +148,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -179,7 +179,7 @@ export default {
       const target = this.$refs.add;
       target.handleOpen();
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate() {
       const target = this.$refs.add;
       const row = this.ids[0];
@@ -211,7 +211,7 @@ export default {
       const id = row.Id;
       const username = row.UserName;
       const data = { id, username };
-      const title = "修改密码";
+      const title = "编辑密码";
       this.$router.push({
         name: "/commonManager/user/components/password",
         params: { data, title }
@@ -228,34 +228,34 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$confirm("确定要删除选中的数据吗")
+      this.$confirm("确定要删除选中的数据吗？")
         .then(r => {
           const Ids = this.ids.map(v => v.Id);
           deleted({ Ids }).then(r => {
             this.getList();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});
     },
-    handleLock(row, lock) {
-      let ids = row
-        ? (ids = [row.Id])
-        : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
-      if (ids.length) {
-        const islock = !lock;
-        ids = ids.join(",");
-        locklock({ ids, islock }).then(r => {
-          this.$message.success(r.msg);
-          this.getList();
-        });
-      }
-    },
+    // handleLock(row, lock) {
+    //   let ids = row
+    //     ? (ids = [row.Id])
+    //     : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
+    //   if (ids.length) {
+    //     const islock = !lock;
+    //     ids = ids.join(",");
+    //     locklock({ ids, islock }).then(r => {
+    //       this.$message.success(r.msg);
+    //       this.getList();
+    //     });
+    //   }
+    // },
 
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
+      this.$confirm("是否确认导出所有用户数据项？", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

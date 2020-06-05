@@ -19,7 +19,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -33,9 +33,9 @@
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="名称" min-width="110" prop="Name" />
         <el-table-column label="代码" min-width="150" prop="Key" />
-        <el-table-column label="类型" min-width="110" prop="Type" :formatter="filterCancel" />
+        <el-table-column label="类型" width="100" prop="Type" :formatter="filterCancel" />
         <el-table-column label="描述" min-width="250" prop="Description" />
-        <el-table-column label="操作" width="250">
+        <el-table-column label="操作" fixed="right" width="250">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -76,9 +76,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -92,19 +92,7 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
     filterCancel(row) {
       return row.Type == 1 ? "键值" : "枚举";
     },
@@ -114,7 +102,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -128,7 +116,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */
@@ -155,15 +142,15 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(data) {
-      const title = "修改";
+      const title = "编辑";
       this.$router.push({
         name: "/commonManager/settings/components/add",
         params: { data, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleEdit(data) {
       const title = "编辑子项";
       this.$router.push({
@@ -184,10 +171,10 @@ export default {
         })
         .then(() => {
           this.getList();
-          this.msgSuccess("删除成功");
+          this.msgSuccess("删除成功！");
         })
         .catch(function() {
-          this.msgSuccess("操作失败");
+          this.msgSuccess("操作失败！");
         });
     }
   }

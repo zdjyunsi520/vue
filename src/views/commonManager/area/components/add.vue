@@ -46,7 +46,7 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
 
         <div class="form-footer">
-          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button @click="handleOpen(null)">取 消</el-button>
         </div>
       </el-col>
@@ -174,7 +174,7 @@ export default {
           add(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+              this.$message.success("新增成功！");
               //刷新列表
               this.form.key = response.data.Key;
               // this.$emit("getInfo");

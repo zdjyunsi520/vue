@@ -80,7 +80,7 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
 
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -280,11 +280,11 @@ export default {
           //this.form.moduleids = [...new Set(this.form.moduleids)];
 
           if (this.form.id) {
-            //保存修改
+            //保存编辑
             update(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success(response.msg);
+                this.$message.success('编辑成功！');
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口
@@ -299,7 +299,7 @@ export default {
             add(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success(response.msg);
+                this.$message.success('新增成功！');
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口

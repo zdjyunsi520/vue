@@ -28,7 +28,7 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -134,7 +134,9 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+              var txt = this.form.id ?'编辑成功！':'新增成功！'
+              this.$message.success(txt);
+
               this.form.id = response.data.id;
 
               //关闭窗口
