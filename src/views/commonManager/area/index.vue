@@ -15,7 +15,7 @@
             </el-dropdown-menu>
           </el-dropdown>
           <el-button type="primary" plain @click="handleUpdate" :disabled="!currentNode[this.nodeKey]">
-            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+            <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
           </el-button>
           <el-button type="info" icon="el-icon-delete" plain @click="handleDelete" :disabled="!currentNode[this.nodeKey]">删除</el-button>
         </el-form-item>
@@ -64,7 +64,7 @@ export default {
       // 遮罩层
       loading: true,
       dataList: [],
-      // 查询参数
+      // 搜索参数
       queryParams: {
         menuName: undefined,
         visible: undefined
@@ -103,7 +103,7 @@ export default {
         this.handleAddDistract();
       }
     },
-    /** 查询菜单列表 */
+    /** 搜索菜单列表 */
     getList() {
       this.loading = true;
       fetchList(this.queryParams)
@@ -242,7 +242,7 @@ export default {
       }
       target.dataList = this.dataList;
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate() {
       let target;
       let data,
@@ -289,7 +289,7 @@ export default {
         zipCode,
         sortindex
       };
-      const title = "修改地区信息";
+      const title = "编辑地区信息";
       const dataList = this.dataList;
       this.$router.push({
         name: "/commonManager/area/components/update",
@@ -311,7 +311,7 @@ export default {
       }).then(v => {
         const key = this.currentNode[this.nodeKey];
         deleted({ key }).then(r => {
-          this.$message.success(r.msg);
+          this.$message.success("删除成功！");
           this.currentNode = {};
           this.needToScroll++;
           this.getList();

@@ -15,7 +15,7 @@
           <el-date-picker v-model="queryParams.time" type="month" placeholder="请选择年月" value-format="yyyy-MM" format="yyyy-MM"> </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
@@ -143,7 +143,7 @@
           <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleMemberscheck">确 定</el-button>
+          <el-button type="primary" @click="handleMemberscheck">保 存</el-button>
           <el-button @click="dialogMemberVisible = false">取 消</el-button>
         </div>
       </el-drawer>
@@ -183,7 +183,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "auto",
+      tableHeight: "calc(100% - 210px)",
       rules: {},
       activeName: "0",
       dialogMemberVisible: false,
@@ -195,7 +195,7 @@ export default {
         label: "text"
       },
       mrules,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -231,15 +231,6 @@ export default {
   created() {
     this.queryParams.time = this.parseTime(new Date(), "{y}-{m}");
     this.getDutyTeam();
-  },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
   },
   computed: {
     columns() {
@@ -297,11 +288,8 @@ export default {
       // this.getList(this.activeName);
     },
 
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 210;
-    },
 
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       const time = this.queryParams.time.split("-");
       if (time.length != 2 || !this.queryParams.dutyId) {
@@ -338,7 +326,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     // 选择人员
@@ -390,7 +377,7 @@ export default {
     handleDelete(row) {
       const userIds = row.userId || this.ids;
       this.$confirm(
-        '是否确认删除用户编号为"' + userIds + '"的数据项?',
+        '是否确认删除用户编号为"' + userIds + '"的数据项？',
         "警告",
         {
           confirmButtonText: "确定",
@@ -403,10 +390,10 @@ export default {
         })
         .then(() => {
           this.getList();
-          this.msgSuccess("删除成功");
+          this.msgSuccess("删除成功！");
         })
         .catch(function() {
-          this.msgSuccess("操作失败");
+          this.msgSuccess("操作失败！");
         });
     }
   }

@@ -419,7 +419,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/powerRoom/components/update"),
         meta: {
-          title: "新增/修改配电室",
+          title: "新增/编辑配电室",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -431,7 +431,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/panelCabinet/components/update"),
         meta: {
-          title: "新增/修改屏柜",
+          title: "新增/编辑屏柜",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -443,7 +443,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/communicationHost/components/update"),
         meta: {
-          title: "新增/修改交流主机",
+          title: "新增/编辑交流主机",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -455,7 +455,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/camera/components/update"),
         meta: {
-          title: "新增/修改摄像头",
+          title: "新增/编辑摄像头",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -467,7 +467,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/smoke/components/update"),
         meta: {
-          title: "新增/修改烟感",
+          title: "新增/编辑烟感",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -479,7 +479,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/interval/components/update"),
         meta: {
-          title: "新增/修改间隔",
+          title: "新增/编辑间隔",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -491,7 +491,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/temperature/components/update"),
         meta: {
-          title: "新增/修改温感",
+          title: "新增/编辑温感",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -503,7 +503,7 @@ export const constantRoutes = [
         component: () =>
           import("@/views/equipmentAccount/maintain/clock/components/update"),
         meta: {
-          title: "新增/修改电计器",
+          title: "新增/编辑电计器",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true
@@ -525,7 +525,7 @@ export const constantRoutes = [
         path: "/commonManager/area/components/update",
         component: () => import("@/views/commonManager/area/components/update"),
         meta: {
-          title: "修改地区",
+          title: "编辑地区",
           icon: "dashboard",
           noCache: true,
           breadcrumb: true

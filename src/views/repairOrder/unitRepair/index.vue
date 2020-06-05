@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,

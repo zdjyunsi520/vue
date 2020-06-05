@@ -82,10 +82,10 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "auto",
+      tableHeight: "calc(100% - 125px)",
       TenantIds: [],
 
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -100,19 +100,7 @@ export default {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
     // 巡视单位列表
     getTenants() {
       getChildrenList()
@@ -123,7 +111,7 @@ export default {
           console.log(error);
         });
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -133,7 +121,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
 
@@ -162,7 +149,7 @@ export default {
         params: { data: {}, title, TenantIds }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
       const id = row.Id;
       const tenantid = row.TenantId;
@@ -180,7 +167,7 @@ export default {
         patrolmemberids,
         patrolscope
       };
-      const title = "修改巡视周期";
+      const title = "编辑巡视周期";
       const TenantIds = this.TenantIds;
       this.$router.push({
         name: "/patrol/PatrolCycle/components/add",
@@ -198,7 +185,7 @@ export default {
       }).then(v => {
         const id = row.Id;
         deleted({ id }).then(r => {
-          this.$message.success("成功删除!");
+          this.$message.success("成功删除！");
           this.getList();
         });
       });

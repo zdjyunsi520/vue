@@ -9,7 +9,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -66,9 +66,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -80,19 +80,7 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
     filterIsMultiVersion(row) {
       return row.IsMultiVersion ? "多版本" : "单版本";
     },
@@ -102,7 +90,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -113,7 +101,6 @@ export default {
 
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */
@@ -140,7 +127,7 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(data) {
       // const id = row.Id;
       // const username = row.UserName;
@@ -148,7 +135,7 @@ export default {
       // const mobilephone = row.MobilePhone;
       // const data = { id, username, name, mobilephone };
 
-      const title = "修改";
+      const title = "编辑";
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/group/components/add",
         params: { data, title }
@@ -158,13 +145,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       let ids = row ? [row.Id] : this.ids.map(v => v.Id);
-      this.$confirm("是否确认删除选中的数据?", "警告", {
+      this.$confirm("是否确认删除选中的数据？", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
         deleted({ ids }).finally(r => {
-          this.msgSuccess("删除成功");
+          this.msgSuccess("删除成功！");
           this.getList();
         });
       });

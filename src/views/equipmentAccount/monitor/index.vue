@@ -12,7 +12,7 @@
             <el-form-item>
               <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
               <el-button type="primary" @click="handleUpdate">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修改
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
               <el-button type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
             </el-form-item>

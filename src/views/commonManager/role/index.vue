@@ -10,7 +10,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -52,41 +52,28 @@ export default {
       listLoading: false,
       // 总条数
       total: 0,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 9999,
         name: ""
       },
       rules: {},
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       dataList: null
     };
   },
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
-    /** 查询角色列表 */
+    /** 搜索角色列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
           this.dataList = response.data;
           this.total = response.total;
-          this.setTableHeight();
         })
         .finally(r => (this.listLoading = false));
     },
@@ -110,7 +97,7 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
       const target = this.$refs.update;
       const id = row.Id;
@@ -118,7 +105,7 @@ export default {
       const sortindex = row.SortIndex;
       const name = row.Name;
       const data = { id, key, sortindex, name };
-      const title = "修改角色";
+      const title = "编辑角色";
       this.$router.push({
         name: "/commonManager/role/components/update",
         params: { data, title }

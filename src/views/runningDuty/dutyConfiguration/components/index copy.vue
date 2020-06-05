@@ -8,7 +8,7 @@
         <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">新增值班</p>
           <el-row class="table-btns">
-            <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loadingConfirm">确 定</el-button>
+            <el-button :disabled="disabledSelect" type="primary" icon="el-icon-circle-check" @click="handleConfirm" :loading="loadingConfirm">保 存</el-button>
             <el-button :disabled="!disabledSelect" @click="handleUpdate(null)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>修 改
             </el-button>
@@ -58,7 +58,7 @@
                 <!-- <el-button type="primary" icon="el-icon-check" @click="handleBack">保 存</el-button> -->
                 <el-button type="info" plain icon="el-icon-arrow-left" @click="handleBack">返回</el-button>
               </el-row>
-              <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height">
+              <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
                 <template slot="empty">
                   <div class="nodata-box">
                     <img src="../../../../assets/image/nodata.png" />
@@ -116,7 +116,6 @@ export default {
       mrules,
       listLoading: false,
       dataList: [],
-      tableHeight: "0",
       queryParams: {
         pageno: 1,
         pagesize: 30
@@ -126,7 +125,7 @@ export default {
       teamList: [],
       charactorTypeList: [],
       shiftTypeList: [],
-      height: "calc(100% - 65px)",
+      tableHeight: "calc(100% - 65px)",
       dialogAddVisible: false,
       dutyId: "",
       shifts: [
@@ -257,7 +256,7 @@ export default {
           const Ids = this.ids.map(v => v.Id);
           deleted({ Ids }).then(r => {
             this.getList();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});
@@ -269,7 +268,7 @@ export default {
       this.$refs.form.validate(v => {
         if (v) {
           add(this.form).then(r => {
-            this.$message.success("操作成功");
+            this.$message.success("提交成功！");
           });
         }
       });

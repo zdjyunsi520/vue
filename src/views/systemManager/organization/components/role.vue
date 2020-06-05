@@ -44,44 +44,12 @@
               </li>
             </ul>
 
-            <!-- <el-form-item>
-          <el-table :data="moduleList" border :height="moduleList.length>0?tableHeight:'0'">
-            <el-table-column prop="date" label="角色" width="180">
-              <template slot="header">
-                <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
-              </template>
-              <template slot-scope="{row}">
-                <el-checkbox @change="handleChange(row)" v-model="row.IsSelect">{{row.RoleName}}</el-checkbox>
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="name" label="模块配置">
-              <template slot-scope="{row}">
-
-                <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
-                  <el-col :span="24">
-                    <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
-                  </el-col>
-                  <el-row>
-                    <el-col :span="23" :push="1">
-                      <el-row class="el-row-box">
-                        <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-                          <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
-                        </el-col>
-                      </el-row>
-                    </el-col>
-                  </el-row>
-                </el-row>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item> -->
           </el-form>
         </el-scrollbar>
       </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -121,7 +89,6 @@ export default {
       ]
     };
     return {
-      tableHeight: "0",
       form: {
         id: "",
         name: "",
@@ -149,15 +116,6 @@ export default {
   created() {
     const data = this.$route.params.data;
     this.getInfo(data);
-  },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
   },
   methods: {
     setCheck(item, item1, item2) {
@@ -219,7 +177,6 @@ export default {
       getInfo(data)
         .then(({ data }) => {
           this.moduleList = data;
-          this.setTableHeight();
         })
         .finally(v => (this.loading = false));
 
@@ -316,11 +273,11 @@ export default {
           // this.form.powers = [...new Set(this.form.powers)];
           //  this.form.powers = "";
 
-          //保存修改
+          //保存编辑
           update(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+              this.$message.success('编辑成功！');
               //刷新列表
               this.$emit("getList");
               //关闭窗口

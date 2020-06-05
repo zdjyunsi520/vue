@@ -237,7 +237,7 @@ export default {
     handleBack() {
       const Id = this.form1.Id;
       backOrder({ Id }).then(r => {
-        this.$message.success("回退成功");
+        this.$message.success("回退成功！");
         this.handleOpen();
       });
     },
@@ -252,7 +252,7 @@ export default {
               let Id = res.data.Id;
               senderOrder({ Id })
                 .then(r => {
-                  this.$message.success("发送成功");
+                  this.$message.success("发送成功！");
                   this.handleOpen();
                 })
                 .catch(e => (this.loading = false));

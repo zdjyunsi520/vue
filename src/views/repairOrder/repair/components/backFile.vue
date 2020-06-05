@@ -192,7 +192,7 @@ export default {
               let Id = res.data.Id;
               senderOrder({ Id })
                 .then(r => {
-                  this.$message.success("发送成功");
+                  this.$message.success("发送成功！");
                   this.handleOpen();
                 })
                 .catch(e => (this.loading = false));

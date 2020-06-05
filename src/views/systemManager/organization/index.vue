@@ -20,7 +20,7 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <!-- <el-button type="success" icon="el-icon-edit-outline"  :disabled="single" @click="handleUpdate"">修改</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit-outline"  :disabled="single" @click="handleUpdate"">编辑</el-button>
                         <el-button type="warning" icon="el-icon-download"  @click="handleExport"">导出</el-button> -->
         </el-form-item>
       </el-form>
@@ -41,20 +41,20 @@
           </div>
         </template>
         <el-table-column type="selection" width="55" fixed="left" />
-        <el-table-column label="名称" min-width="155" prop="Name" />
+        <el-table-column label="名称" min-width="250" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
-        <el-table-column label="附加属性" sortable min-width="120" prop="Attribute" />
+        <el-table-column label="附加属性" sortable width="120" prop="Attribute" />
         <el-table-column label="行业类别" sortable min-width="120" prop="IndustryName" />
         <el-table-column label="行业分类" sortable min-width="120" prop="PrincipleActivityName" />
-        <el-table-column label="联系人" min-width="120" prop="ContactPerson" />
-        <el-table-column label="联系人手机" min-width="130" prop="MobilePhone" />
-        <el-table-column label="联系电话" min-width="140" prop="PhoneNo" />
-        <el-table-column label="状态" sortable min-width="110" prop="IsEnable">
+        <el-table-column label="联系人" width="140" prop="ContactPerson" />
+        <el-table-column label="联系人手机" width="140" prop="MobilePhone" />
+        <el-table-column label="联系电话" width="140" prop="PhoneNo" />
+        <el-table-column label="状态" sortable width="100" prop="IsEnable">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="200">
+        <el-table-column label="操作" fixed="right" width="200">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -100,8 +100,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "0",
-      // 查询参数
+      tableHeight: "calc(100% - 125px)",
+
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -123,26 +124,14 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = () => {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
     // filterEnable(row) {
     //   return row.IsEnable ? "正常" : "禁用";
     // },
     // showEnable(row) {
     //   return row.IsEnable ? "禁用" : "启用";
     // },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -155,10 +144,9 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
-    /** 查询角色列表 */
+    /** 搜索角色列表 */
     getRoles() {
       listRole().then(response => {
         this.roleOptions = response.data.filter(v => v.status == 0);
@@ -182,7 +170,7 @@ export default {
         const isenable = !lock;
         // Ids = Ids.join(",");
         locklock({ Ids, isenable }).then(r => {
-          this.$message.success(!lock ? "已启用" : "已禁用");
+          this.$message.success(!lock ? "已启用！" : "已禁用！");
           this.getList();
         });
       }
@@ -217,7 +205,7 @@ export default {
         params: { data }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
       const id = row.Id,
         parentId = row.ParentId,
@@ -304,7 +292,7 @@ export default {
         voltlevel,
         operatingcapacity
       });
-      target.title = "修改信息";
+      target.title = "编辑信息";
     },
     /** 重置密码按钮操作 */
     handleSync(row) {
@@ -340,7 +328,7 @@ export default {
           this.ids.forEach(v => {
             const id = v.Id;
             deleted({ id })
-              .then(r => this.$message.success(r.msg))
+              .then(r => this.$message.success('删除成功！'))
               .finally(v => {
                 compelete++;
                 if (compelete >= l) {

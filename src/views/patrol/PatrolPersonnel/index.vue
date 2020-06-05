@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       downloadLoading: false,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,

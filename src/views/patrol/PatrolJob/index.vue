@@ -118,12 +118,12 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "0",
+      tableHeight: "calc(100% - 120px)",
       TenantIds: [],
 
       ptrolnatures,
       isexecutes,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -141,15 +141,6 @@ export default {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
     //获取关联的巡视人员下拉列表
     getPatrolusers() {
@@ -158,9 +149,6 @@ export default {
           this.patrolusers = v.childs;
         }
       });
-    },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 120;
     },
     // 巡视单位列表
     getTenants() {
@@ -172,7 +160,7 @@ export default {
           console.log(error);
         });
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchListJob(this.queryParams)
@@ -182,7 +170,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
 
@@ -212,9 +199,9 @@ export default {
         params: { data: {}, title, TenantIds }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
-      const title = "修改巡视任务单";
+      const title = "编辑巡视任务单";
       const data = { id: row.Id };
 
       const TenantIds = this.TenantIds;
@@ -227,7 +214,7 @@ export default {
     handleBack(row) {
       const id = row.Id;
       fallbackJob({ id }).then(r => {
-        this.$message.success("已回退!");
+        this.$message.success("已成功回退!");
         this.getList();
       });
     },
@@ -249,7 +236,7 @@ export default {
       }).then(v => {
         const id = row.Id;
         deletedJob({ id }).then(r => {
-          this.$message.success("成功删除!");
+          this.$message.success("成功删除！");
           this.getList();
         });
       });

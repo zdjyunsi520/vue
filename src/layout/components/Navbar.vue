@@ -8,8 +8,8 @@
       <!-- <el-breadcrumb separator="|">
         <el-breadcrumb-item>欢迎您：{{name}}</el-breadcrumb-item>
         <el-breadcrumb-item><span class="link-type" @click="logout">登出</span></el-breadcrumb-item>
-        <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">修改密码</span></el-breadcrumb-item>
-      <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">修改密码</span></el-breadcrumb-item>
+        <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">编辑密码</span></el-breadcrumb-item>
+      <el-breadcrumb-item><span class="xl-hand" @click="handleOpen('updatePwd')">编辑密码</span></el-breadcrumb-item>
       </el-breadcrumb> -->
       <!-- <update-pwd ref="updatePwd"></update-pwd> -->
       <template v-if="device!=='mobile'">

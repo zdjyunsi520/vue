@@ -8,11 +8,11 @@ export function fetchList(data) {
 export function add(data) {
   return post("/User/Create", data, commonUrl);
 }
-// 修改用户
+// 编辑用户
 export function update(data) {
   return post("/User/Modify", data, commonUrl);
 }
-// 修改用户
+// 编辑用户
 export function password(data) {
   return post("/User/ModifyForPassword", data, commonUrl);
 }
@@ -22,7 +22,6 @@ export function getRole(data) {
 }
 //设置权限
 export function updateRole(data) {
-  console.log("updateRole");
   return post2("/User/SetPower", data, commonUrl);
 }
 export function locklock(data) {

@@ -14,7 +14,7 @@
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
 
-          <!-- <el-button type="success" icon="el-icon-edit-outline" :disabled="single" @click="handleUpdate"">修改</el-button>
+          <!-- <el-button type="success" icon="el-icon-edit-outline" :disabled="single" @click="handleUpdate"">编辑</el-button>
               <el-button type="warning" icon="el-icon-download" @click="handleExport"">导出</el-button> -->
         </el-form-item>
       </el-form>
@@ -34,16 +34,16 @@
           </div>
         </template>
         <el-table-column type="selection" width="55" fixed="left" />
-        <el-table-column label="设备编码" min-width="200" prop="SerialCode" />
+        <el-table-column label="设备编码" width="200" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
-        <el-table-column label="设备类型" sortable min-width="120" prop="Type" />
-        <el-table-column label="添加人员" min-width="130" prop="CreateUser" />
-        <el-table-column label="添加时间" sortable min-width="200" prop="CreateTime">
+        <el-table-column label="设备类型" sortable width="150" prop="Type" />
+        <el-table-column label="添加人员" width="130" prop="CreateUser" />
+        <el-table-column label="添加时间" sortable width="200" prop="CreateTime">
           <template slot-scope="{row}">
             <i class="el-icon-time" style="margin-right:10px" />{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="同步平台" min-width="100">
+        <el-table-column label="同步平台" width="100">
           <template slot-scope="{row}">
             <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
               <el-switch v-model="row.active" active-color="#56a7ff" inactive-color="#e2ecff" @change="handleSync(row)" />
@@ -53,7 +53,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column label="同步结果" min-width="120" prop="result" />
+        <el-table-column label="同步结果" width="120" prop="result" />
         <el-table-column label="备注" min-width="200" fixed="right" prop="Remark">
           <template slot-scope="{row}">
             <el-row v-if="row.edit">
@@ -98,8 +98,8 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "auto",
-      // 查询参数
+      tableHeight: "calc(100% - 125px)",
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -118,21 +118,12 @@ export default {
   created() {
     this.getList();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
     handleBlur(row) {
       const id = row.Id;
       const remark = row.Remark;
       updateRemark({ id, remark }).then(r => {
-        this.$message.success(r.msg);
+        this.$message.success('已保存！');
         row.edit = false;
       });
     },
@@ -141,10 +132,7 @@ export default {
         row.edit = true;
       }
     },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
-    },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -159,7 +147,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
 
@@ -187,9 +174,9 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
-      const title = "修改设备";
+      const title = "编辑设备";
       const data = row;
       this.$router.push({
         name: "/commonManager/equipment/components/add",
@@ -229,7 +216,7 @@ export default {
           this.ids.forEach(v => {
             const id = v.Id;
             deleted({ id })
-              .then(r => this.$message.success(r.msg))
+              .then(r => this.$message.success("删除成功！"))
               .finally(v => {
                 compelete++;
                 if (compelete >= l) {

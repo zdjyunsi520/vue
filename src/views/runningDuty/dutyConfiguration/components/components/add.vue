@@ -132,7 +132,8 @@ export default {
           const fn = this.form.id ? update : add;
           fn(this.form)
             .then(response => {
-              this.msgSuccess(response.msg);
+               var txt = this.form.id ? '编辑成功！' : '新增成功！';
+              this.$message.success(txt);
               this.$emit("getList");
               this.handleOpen();
             })

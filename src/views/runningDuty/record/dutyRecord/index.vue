@@ -29,7 +29,7 @@
           <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
         </el-form-item>
         <el-form-item>
         </el-form-item>
@@ -38,7 +38,7 @@
     <div class="bg-white containerbox comheight" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-edit" @click="handleUpdate" :disabled="single">修改</el-button>
+        <el-button type="primary" plain icon="el-icon-edit" @click="handleUpdate" :disabled="single">编辑</el-button>
         <el-button type="info" plain icon="el-icon-delete" @click="handleDelete" :disabled="multiple">删除</el-button>
       </el-row>
 
@@ -50,16 +50,16 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" align="center" />
-        <el-table-column label="起始时间" align="center" prop="StartTime" />
-        <el-table-column label="完成时间" align="center" prop="EndTime" />
-        <el-table-column label="用电单位" align="center" prop="TenantName" />
-        <el-table-column label="联系人" align="center" prop="ContactPerson" />
-        <el-table-column label="联系电话" align="center" prop="PhoneNo" />
-        <el-table-column label="记事类型" align="center" prop="Type" />
-        <el-table-column label="记事内容" align="center" prop="RecordContent" />
-        <el-table-column label="记事时间" align="center" prop="UpdateTime" />
-        <el-table-column label="导入下一班" align="center" prop="IsSucceed" />
+        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column label="起始时间" prop="StartTime" />
+        <el-table-column label="完成时间" prop="EndTime" />
+        <el-table-column label="用电单位" prop="TenantName" />
+        <el-table-column label="联系人" prop="ContactPerson" />
+        <el-table-column label="联系电话" prop="PhoneNo" />
+        <el-table-column label="记事类型" prop="Type" />
+        <el-table-column label="记事内容" prop="RecordContent" />
+        <el-table-column label="记事时间" prop="UpdateTime" />
+        <el-table-column label="导入下一班" prop="IsSucceed" />
       </el-table>
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
@@ -86,7 +86,7 @@ export default {
       dataList: null,
       height: "calc(100% - 50px)",
       rules: {},
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -129,7 +129,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -160,7 +160,7 @@ export default {
       const target = this.$refs.add;
       target.handleOpen();
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate() {
       const target = this.$refs.add;
       const row = this.ids[0];
@@ -192,7 +192,7 @@ export default {
       const id = row.Id;
       const username = row.UserName;
       const data = { id, username };
-      const title = "修改密码";
+      const title = "编辑密码";
       this.$router.push({
         name: "/commonManager/user/components/password",
         params: { data, title }
@@ -209,34 +209,34 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$confirm("确定要删除选中的数据吗")
+      this.$confirm("确定要删除选中的数据吗？")
         .then(r => {
           const Ids = this.ids.map(v => v.Id);
           deleted({ Ids }).then(r => {
             this.getList();
-            this.$message.success("删除成功");
+            this.$message.success("删除成功！");
           });
         })
         .catch(e => {});
     },
-    handleLock(row, lock) {
-      let ids = row
-        ? (ids = [row.Id])
-        : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
-      if (ids.length) {
-        const islock = !lock;
-        ids = ids.join(",");
-        locklock({ ids, islock }).then(r => {
-          this.$message.success(r.msg);
-          this.getList();
-        });
-      }
-    },
+    // handleLock(row, lock) {
+    //   let ids = row
+    //     ? (ids = [row.Id])
+    //     : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
+    //   if (ids.length) {
+    //     const islock = !lock;
+    //     ids = ids.join(",");
+    //     locklock({ ids, islock }).then(r => {
+    //       this.$message.success(r.msg);
+    //       this.getList();
+    //     });
+    //   }
+    // },
 
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
+      this.$confirm("是否确认导出所有用户数据项？", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

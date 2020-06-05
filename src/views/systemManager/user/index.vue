@@ -57,22 +57,22 @@
             </template>
             <el-table-column type="selection" width="55" fixed="left" />
             <el-table-column label="姓名" min-width="150" prop="Name" />
-            <el-table-column label="预留手机号" min-width="150" prop="MobilePhone" />
+            <el-table-column label="预留手机号" width="150" prop="MobilePhone" />
             <el-table-column label="用户名" min-width="150" prop="UserName" />
-            <el-table-column label="添加时间" sortable min-width="180" prop="CreateTime">
+            <el-table-column label="添加时间" sortable width="200" prop="CreateTime">
               <template slot-scope="{row}">
                 <i class="el-icon-time" style="margin-right:10px" />{{row.CreateTime}}
               </template>
             </el-table-column>
-            <el-table-column label="岗位状态" sortable min-width="120" prop="Status" :formatter="filterStatus" />
-            <el-table-column label="账号" min-width="100" prop="IsOpenAccount" :formatter="filterAccount" />
-            <el-table-column label="操作" min-width="300">
+            <el-table-column label="岗位状态" sortable width="120" prop="Status" :formatter="filterStatus" />
+            <el-table-column label="账号" width="90" prop="IsOpenAccount" :formatter="filterAccount" />
+            <el-table-column label="操作" fixed="right" width="300">
               <template slot-scope="scope">
                 <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
                   <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
                 </el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">
-                  <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>修改密码
+                  <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>编辑密码
                 </el-button>
                 <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>
                   <svg-icon icon-class='ic_opening' class="tablesvgicon" />开通账号</el-button>
@@ -103,7 +103,7 @@ export default {
       dataList: [],
       // 总条数
       total: 0,
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -123,7 +123,7 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight: "0",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
       multiple: true
     };
@@ -133,15 +133,6 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
-    let _this = this;
-    window.onresize = () => {
-      if (_this.dataList) {
-        _this.setTableHeight();
-      }
-    };
-  },
-  destroyed() {
-    window.onresize = null;
   },
   methods: {
     // 多选框选中数据
@@ -149,9 +140,6 @@ export default {
       this.ids = selection;
       this.single = selection.length != 1;
       this.multiple = !selection.length;
-    },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
     },
     filterStatus(row) {
       return row.Status == 1
@@ -171,7 +159,7 @@ export default {
       const ids = this.ids.map(v => v.Id);
       const status = commond;
       setSts({ ids, status }).then(r => {
-        this.$message.success(r.msg);
+        this.$message.success('状态已更新！');
         this.getList();
       });
     },
@@ -181,7 +169,7 @@ export default {
         if (r.data.length) this.handleNodeClick(r.data[0]);
       });
     },
-    /** 查询菜单列表 */
+    /** 搜索菜单列表 */
     getList() {
       this.loading = true;
       this.listLoading = true;
@@ -200,7 +188,6 @@ export default {
         .finally(v => {
           this.listLoading = false;
           this.loading = false;
-          this.setTableHeight();
         });
     },
     handleNodeClick(data) {
@@ -233,14 +220,14 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(data) {
       let mobilephone, id, name;
       name = data.Name;
       mobilephone = data.MobilePhone;
       id = data.Id;
       data = { id, name, mobilephone };
-      const title = "修改人员信息";
+      const title = "编辑人员信息";
       this.$router.push({
         name: "/systemManager/user/components/add",
         params: { data, title }
@@ -249,7 +236,7 @@ export default {
     handlePassword(data, first) {
       let id = data.Id;
       const oldpassword = first ? "" : "123";
-      const title = "修改密码";
+      const title = "编辑密码";
       data = { id, first, oldpassword };
       this.$router.push({
         name: "/systemManager/user/components/password",
@@ -260,7 +247,7 @@ export default {
     handleUpdateRole(row) {
       const id = row.Id;
       const data = { id, fromUrl: "/systemManager/user/index" };
-      const title = "修改权限";
+      const title = "编辑权限";
       this.$router.push({
         name: "/commonManager/user/components/role",
         params: { data, title }
@@ -275,7 +262,7 @@ export default {
       }).then(v => {
         const id = this.operateId;
         deleted({ id }).then(r => {
-          this.$message.success(r.msg);
+          this.$message.success('删除成功！');
           this.getList();
         });
       });

@@ -1,6 +1,6 @@
 <template>
   <el-dialog :modal="false" width="1000px" :title="title+'交接班记录'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
-    <!-- 添加或修改参数配置对话框 -->
+    <!-- 添加或编辑参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-row>
         <el-col :span="12">
@@ -61,10 +61,10 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+      <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
       <el-button @click="handleOpen(null)">取 消</el-button>
     </div>
-    <!-- 添加或修改参数配置对话框 end -->
+    <!-- 添加或编辑参数配置对话框 end -->
   </el-dialog>
 </template>
 
@@ -240,7 +240,8 @@ export default {
           const fn = this.form.Id ? update : add;
           fn(this.form)
             .then(response => {
-              this.msgSuccess(response.msg);
+              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
+              this.$message.success(txt);
               this.$emit("getList");
               this.handleOpen();
             })

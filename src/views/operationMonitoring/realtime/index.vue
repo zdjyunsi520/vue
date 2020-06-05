@@ -437,7 +437,7 @@ export default {
       // this.$emit("getInfo", { id, type });
     }
 
-    /** 查询菜单列表 */
+    /** 搜索菜单列表 */
     // getList() {
     //   this.loading = true;
     //   fetchList(this.queryParams)

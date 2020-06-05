@@ -90,10 +90,9 @@ export default {
     handleSubmit() {
       this.loading = true;
       var o = update;
-      console.log(11,this.form)
       o(this.form)
         .then(res => {
-          this.$message.success(res.msg);
+          this.$message.success("保存成功！");
         })
         .finally(e => {
           this.loading = false;

@@ -84,7 +84,7 @@ import { getChildrenList } from "@/api/org";
 export default {
   data() {
     return {
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 10,
@@ -182,9 +182,9 @@ export default {
         params: { data: {}, title, TenantIds, ranks }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleUpdate(row) {
-      const title = "修改缺陷工单";
+      const title = "编辑缺陷工单";
       const data = row;
       const TenantIds = this.TenantIds;
       const ranks = this.ranks;
@@ -199,9 +199,9 @@ export default {
         params: { data, title, TenantIds, ranks }
       });
     },
-    /** 修改按钮操作 */
+    /** 编辑按钮操作 */
     handleLook(row) {
-      const title = "修改缺陷工单";
+      const title = "编辑缺陷工单";
       const data = row;
       const TenantIds = this.TenantIds;
       const ranks = this.ranks;
@@ -227,7 +227,7 @@ export default {
         const id = row.Id;
         deleted({ id })
           .then(r => {
-            this.$message.success("成功删除!");
+            this.$message.success("成功删除！");
             this.getList();
           })
           .finally(v => {

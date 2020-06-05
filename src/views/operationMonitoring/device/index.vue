@@ -279,7 +279,7 @@ import { getChildrenList, getTrees } from "@/api/org";
 export default {
   data() {
     return {
-      // 查询参数
+      // 搜索参数
       queryParams: {
         tenantId: "",
         switchroomId: ""

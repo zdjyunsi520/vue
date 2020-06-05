@@ -66,7 +66,7 @@
       <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
         <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlecheck">确 定</el-button>
+          <el-button type="primary" @click="handlecheck">保 存</el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>
         </span>
       </el-dialog>
@@ -95,7 +95,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "auto",
+      tableHeight: "calc(100% - 80px)",
       TenantIds: [],
       downloadLoading: false,
       dialogAssetsVisible: false,
@@ -106,7 +106,7 @@ export default {
         children: "childs",
         label: "text"
       },
-      // 查询参数
+      // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -220,15 +220,6 @@ export default {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    let _this = this;
-    window.onresize = function() {
-      _this.setTableHeight();
-    };
-  },
-  destroyed() {
-    window.onresize = null;
-  },
   methods: {
     // 单位列表
     getTenants() {
@@ -239,9 +230,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-    setTableHeight() {
-      this.tableHeight = this.$refs.containerbox.offsetHeight - 80;
     },
     // 获取设备列表
     getAssets() {
@@ -287,7 +275,7 @@ export default {
       this.getList(this.activeName);
     },
 
-    /** 查询用户列表 */
+    /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
       fetchReport(this.queryParams)
@@ -322,7 +310,6 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
-          this.setTableHeight();
         });
     },
 

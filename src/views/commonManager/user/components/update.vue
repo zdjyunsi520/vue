@@ -22,7 +22,7 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" @click="handleSubmit" :loading="loading">确 定</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -92,7 +92,7 @@ export default {
           update(this.form)
             .then(response => {
               //消息提示
-              this.$message.success(response.msg);
+              this.$message.success('编辑成功！');
               //刷新列表
               this.$emit("getList");
               //关闭窗口
