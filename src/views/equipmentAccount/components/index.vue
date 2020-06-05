@@ -4,7 +4,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
+            <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick"  :highlight-current="true"  :default-expand-all="true" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>

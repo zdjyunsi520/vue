@@ -33,7 +33,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" width="55" fixed="left" />
+        <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="设备编码" width="200" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
         <el-table-column label="设备类型" sortable width="150" prop="Type" />
@@ -54,7 +54,7 @@
           </template>
         </el-table-column>
         <el-table-column label="同步结果" width="120" prop="result" />
-        <el-table-column label="备注" min-width="200" fixed="right" prop="Remark">
+        <el-table-column label="备注" min-width="200" prop="Remark">
           <template slot-scope="{row}">
             <el-row v-if="row.edit">
               <el-input v-model="row.Remark" @blur="handleBlur(row)" />
@@ -65,7 +65,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -98,7 +98,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 125px)",
+      tableHeight:"calc(100% - 125px)",
       // 搜索参数
       queryParams: {
         pageno: 1,

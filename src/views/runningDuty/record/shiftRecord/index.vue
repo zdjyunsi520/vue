@@ -66,7 +66,7 @@
         <el-table-column label="记录内容" prop="IsSucceed" />
         <el-table-column label="注意事项" prop="IsSucceed" />
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <add ref="add" @getList="getList" />
   </div>

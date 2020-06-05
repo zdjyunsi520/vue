@@ -82,7 +82,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+          <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
       </el-col>
     </el-row>
@@ -123,7 +123,7 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight:"calc(100% - 125px)",
       rules: {},
       multiple: true
     };

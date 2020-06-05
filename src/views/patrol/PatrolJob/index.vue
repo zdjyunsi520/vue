@@ -35,7 +35,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
       </el-row>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" border>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -71,9 +71,9 @@
               <el-button type="text" size="mini" icon="el-icon-s-promotion" @click="handleBack(scope.row)">回退</el-button>
             </div>
             <div v-else>
-              <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+              <!-- <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
-              </el-button>
+              </el-button> -->
               <el-button type="text" size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>

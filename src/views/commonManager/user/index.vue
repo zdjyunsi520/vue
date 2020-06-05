@@ -20,7 +20,7 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
+    <div class="bg-white containerbox comheight" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
         <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
@@ -75,7 +75,7 @@
         </el-table-column>
       </el-table>
 
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
   </div>
@@ -100,7 +100,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight:"calc(100% - 125px)",
       rules: {},
       // 搜索参数
       queryParams: {

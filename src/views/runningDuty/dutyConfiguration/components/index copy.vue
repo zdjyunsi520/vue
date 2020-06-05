@@ -71,7 +71,7 @@
                 <el-table-column label="角色" min-width="100" prop="CharacterName" />
 
               </el-table>
-              <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+              <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
             </div>
           </div>
         </div>

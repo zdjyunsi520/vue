@@ -46,7 +46,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'" @sort-change="handleSortChange">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -74,7 +74,7 @@
         </el-table-column>
       </el-table>
 
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
   </div>

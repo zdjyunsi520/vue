@@ -42,7 +42,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" :height="dataList?tableHeight:'0'" border style='margin-top:20px'>
+      <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" border style='margin-top:20px'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -61,7 +61,7 @@
         <el-table-column label="是否复归" min-width="140" sortable  prop="ReportName8"></el-table-column>
 
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
       <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
         <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
@@ -95,7 +95,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight:"calc(100% - 80px)",
       TenantIds: [],
       downloadLoading: false,
       dialogAssetsVisible: false,

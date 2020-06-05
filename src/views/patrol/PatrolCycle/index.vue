@@ -23,7 +23,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :height="dataList?tableHeight:'0'" border :data="dataList" element-loading-text="Loading">
+      <el-table v-loading="listLoading" :height="tableHeight" border :data="dataList" element-loading-text="Loading">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -55,7 +55,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>

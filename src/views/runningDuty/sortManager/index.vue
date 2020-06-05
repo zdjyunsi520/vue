@@ -34,7 +34,7 @@
         </div>
       </el-row>
       <div class="scheduletitle">- {{dutyName}} {{year}}年{{month}}月排班表 -</div>
-      <el-table v-loading="listLoading" :data="tableList" border :height="dataList?tableHeight:'0'">
+      <el-table v-loading="listLoading" :data="tableList" border :height="tableHeight">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -183,7 +183,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 210px)",
+      tableHeight:"calc(100% - 210px)",
       rules: {},
       activeName: "0",
       dialogMemberVisible: false,

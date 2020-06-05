@@ -29,7 +29,7 @@
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange" style='margin-top:20px'>
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" />
+            <img src="../../../assets/image/nodata.png" class="smimg"/>
             <p>暂时还没有数据</p>
           </div>
         </template><!-- <el-table-column type="selection" fixed="left" width="55"  /> -->
@@ -37,7 +37,7 @@
         <el-table-column label="用电单位" prop="EmployeeNames" />
       </el-table>
 
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
       <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
