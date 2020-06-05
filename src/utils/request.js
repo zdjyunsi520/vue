@@ -119,7 +119,15 @@ export function post1(url, data, baseUrl) {
 
   return service({ url, method: "post", data });
 }
+export function post2(url, data, baseUrl) {
+  if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
+  const token = getToken();
+  if (token) {
+    url = `${url}?Token=${token}`;
+  }
 
+  return service({ url, method: "post", data });
+}
 export function put(url, params) {
   return service({ url, method: "put", params });
 }

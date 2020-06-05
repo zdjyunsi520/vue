@@ -1,4 +1,4 @@
-import { post } from "@/utils/request";
+import { post, post2 } from "@/utils/request";
 const commonUrl = "common";
 // 获取用户列表
 export function fetchList(data) {
@@ -22,7 +22,8 @@ export function getRole(data) {
 }
 //设置权限
 export function updateRole(data) {
-  return post("/User/SetPower", data, commonUrl);
+  console.log("updateRole");
+  return post2("/User/SetPower", data, commonUrl);
 }
 export function locklock(data) {
   return post("/User/SetLock", data, commonUrl);
