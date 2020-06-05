@@ -15,7 +15,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
@@ -66,7 +66,7 @@
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑信息
             </el-button>
             <el-button size="mini" type="text" @click="handleResetPwd(scope.row)">
-              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>编辑密码
+              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>修改密码
             </el-button>
             <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
               <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>设置权限
@@ -100,9 +100,9 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight: "0",
       rules: {},
-      // 搜索参数
+      // 查询参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
@@ -117,7 +117,19 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let _this = this;
+    window.onresize = () => {
+      _this.setTableHeight();
+    };
+  },
+  destroyed() {
+    window.onresize = null;
+  },
   methods: {
+    setTableHeight() {
+      this.tableHeight = this.$refs.containerbox.offsetHeight - 125;
+    },
     filterCancel(row) {
       return row.IsCancel ? "已注销" : "正常";
     },
@@ -127,7 +139,7 @@ export default {
       }`;
       this.getList();
     },
-    /** 搜索用户列表 */
+    /** 查询用户列表 */
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)
@@ -137,6 +149,7 @@ export default {
         })
         .finally(r => {
           this.listLoading = false;
+          this.setTableHeight();
         });
     },
     /** 搜索按钮操作 */
@@ -163,14 +176,14 @@ export default {
         params: { data: {}, title }
       });
     },
-    /** 编辑按钮操作 */
+    /** 修改按钮操作 */
     handleUpdate(row) {
       const id = row.Id;
       const username = row.UserName;
       const name = row.Name;
       const mobilephone = row.MobilePhone;
       const data = { id, username, name, mobilephone };
-      const title = "编辑用户";
+      const title = "修改用户";
       this.$router.push({
         name: "/commonManager/user/components/update",
         params: { data, title }
@@ -181,7 +194,7 @@ export default {
       const id = row.Id;
       const username = row.UserName;
       const data = { id, username };
-      const title = "编辑密码";
+      const title = "修改密码";
       this.$router.push({
         name: "/commonManager/user/components/password",
         params: { data, title }
