@@ -261,10 +261,8 @@ lineChartData(){
     let value
     if(this.form.cycleType == 1){
       value = data[1]
-    }else if(this.form.cycleType == 1){
-      value = data[0]
     }else{
-      value = data[0].split('-')[1]
+      value = data[0]
     }
     return {value,value1:v.Value}
   }).forEach(v=>{
