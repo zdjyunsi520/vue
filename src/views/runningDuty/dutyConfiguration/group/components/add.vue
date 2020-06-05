@@ -16,7 +16,6 @@
               <el-col :span="8" :xs="24">
                 <el-form-item label="班组成员" prop="EmployeeNames">
                   <TreeSelect showText="text" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="personId" />
-
                 </el-form-item>
               </el-col>
             </el-col>

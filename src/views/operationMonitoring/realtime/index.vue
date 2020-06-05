@@ -1,11 +1,10 @@
 <template>
   <div class="app-container">
-
     <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="treeData" :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+            <el-tree :data="treeData"  :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -35,12 +34,16 @@
                 </el-col>
 
                 <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 blue">总视在功率(kVA)<b v-if="datakVA[3]" @click="handleClick(datakVA[3])">{{datakVA[3].Value}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in datakVA" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <h5 class="smtitleh5 blue">总视在功率(kVA)<b @click="handleClick('S')">{{info.S}}</b></h5>
+                        <p @click="handleClick('SA')">A相<span>{{info.SA}}</span></p>
+                  <p @click="handleClick('SB')">B相<span>{{info.SB}}</span></p>
+                  <p @click="handleClick('SC')">C相<span>{{info.SC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
-                  <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick(item)">{{datakW[3]?datakW[3].Value:''}}</b></h5>
-                  <p @click="handleClick(item)" v-for="(item,index) in datakW" :key="index" v-show="index<3">{{item.Name}}<span>{{item.Value}}</span></p>
+                  <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick('P')">{{info.P}}</b></h5>
+                   <p @click="handleClick('PA')">A相<span>{{info.PA}}</span></p>
+                  <p @click="handleClick('PB')">B相<span>{{info.PB}}</span></p>
+                  <p @click="handleClick('PC')">C相<span>{{info.PC}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
                   <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF')">{{info.PF}}</b></h5>
@@ -53,53 +56,25 @@
             <div style="margin-top:40px">
               <div class="form-smtitle marginBottom30">其他参数 </div>
               <el-row :gutter="20" class="cellinfo noborder">
-                <el-col :span='5' :xs='12'>
-                  <p class="on">反向无功电度(kVarh)<span>0.55</span></p>
+                <el-col :span='5' :xs='12' v-for="item in otherData">
+                  <p class="on" @click="handleClick(item.Type)">{{item.Name}}({{item.Unit}})<span>{{item.Value}}</span></p>
                 </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh)<span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
-                <el-col :span='5' :xs='12'>
-                  <p>反向无功电度(kVarh) <span>0.55</span></p>
-                </el-col>
+               
               </el-row>
             </div>
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
             <div class="form-smtitle marginBottom30" style="position:relative">历史曲线
-              <el-tag type="danger">form.intervalId=</el-tag>
-              <el-tag>{{form.intervalId}}</el-tag>
-
+  
               <div class="rightradiobox">
                 <b>{{labelName}}</b>
                 <label>日期</label>
                 <el-date-picker v-model="form.beginTime" type="date" size="small" placeholder="选择日期"></el-date-picker>
 
-                <el-radio-group v-model="radioType" @change=handleSetLineChartData size="mini">
-                  <el-radio-button :label="0">15分钟</el-radio-button>
-                  <el-radio-button :label="1">日</el-radio-button>
-                  <el-radio-button :label="2">月</el-radio-button>
+                <el-radio-group v-model="form.cycleType"  size="mini">
+                  <el-radio-button :label="1">15分钟</el-radio-button>
+                  <el-radio-button :label="2">日</el-radio-button>
+                  <el-radio-button :label="3">月</el-radio-button>
                 </el-radio-group>
               </div>
             </div>
@@ -262,13 +237,15 @@ export default {
       labelName: "",
       form: {
         intervalId: "",
-        type: "A",
-        cycleType: 3,
+        type: "UA",
+        cycleType: 1,
         beginTime: ""
       },
       interval: null,
-      lineChartData: lineChartData[0],
-      info: {}
+    //  lineChartData: {xAxisData:[],actualData:[]},
+      info: {},
+      otherData:[],
+      historyData:[]
     };
   },
   created() {
@@ -276,91 +253,42 @@ export default {
     this.getTreeData();
   },
   computed: {
-    dataV() {
-      return [
-        { Name: "A相", Value: "238.6" },
-        { Name: "B相", Value: "239.6" },
-        { Name: "C相", Value: "238.6" }
-      ];
-      const data = this.baseData
-        .filter(v => v.Unit == "V")
-        .map(v => {
-          v.Name = v.Name.replace("电压", "");
-          return v;
-        });
-      if (this.form.type == "" && data.length) this.form.type = data[0].Type;
-      return data;
-    },
-    dataA() {
-      return [
-        { Name: "A相", Value: "33.35" },
-        { Name: "B相", Value: "25.68" },
-        { Name: "C相", Value: "27.6" }
-      ];
-      return this.baseData
-        .filter(v => v.Unit == "A")
-        .map(v => {
-          v.Name = v.Name.replace("电流", "");
-          return v;
-        });
-    },
-    datakW() {
-      return [
-        { Name: "A相", Value: "3" },
-        { Name: "B相", Value: "5" },
-        { Name: "C相", Value: "7.76" },
-        { Name: "C相", Value: "10.8" }
-      ];
-      return this.baseData
-        .filter(v => v.Unit == "KW")
-        .map(v => {
-          v.Name = v.Name.replace("有功功率", "");
-          return v;
-        });
-    },
-    datakVA() {
-      return [
-        { Name: "A相", Value: "8.72" },
-        { Name: "B相", Value: "6.72" },
-        { Name: "C相", Value: "7.76" },
-        { Name: "C相", Value: "16.08" }
-      ];
-      return this.baseData
-        .filter(v => v.Unit == "kVA")
-        .map(v => {
-          v.Name = v.Name.replace("视在功率", "");
-          return v;
-        });
-    },
-    dataPF() {
-      return [
-        { Name: "A相", Value: "8.72" },
-        { Name: "B相", Value: "6.72" },
-        { Name: "C相", Value: "7.76" },
-        { Name: "", Value: "16.08" }
-      ];
-      return this.baseData
-        .filter(v => v.Type.indexOf("PF") > -1)
-        .map(v => {
-          v.Name = v.Name.replace("功率因数", "");
-          return v;
-        });
+lineChartData(){
+  const xAxisData = []
+    const actualData = []
+   this.historyData.map(v=>{
+    const data = v.CreateTime.split(' ')
+    let value
+    if(this.form.cycleType == 1){
+      value = data[1]
+    }else if(this.form.cycleType == 1){
+      value = data[0]
+    }else{
+      value = data[0].split('-')[1]
     }
+    return {value,value1:v.Value}
+  }).forEach(v=>{
+xAxisData.push(v.value)
+actualData.push(v.value1)
+  })
+
+  return {xAxisData,actualData}
+}
   },
   mounted() {
     this.dragControllerDiv();
   },
   watch: {
-    id(id) {
-      if (id) {
-        this.form.intervalId = this.id;
+    'form':{
+      deep:true,
+      handler(){
         this.getMeasureData();
-      }
+        }
     }
   },
   methods: {
     handleClick(data) {
-      console.log(data.Type);
+      this.form.type = data
       this.labelName = data.Name;
     },
     renderContent(h, { node, data, store }) {
@@ -375,9 +303,10 @@ export default {
     // 获取设备关系树状图
     getTreeData() {
       getTrees().then(response => {
+         
         this.loading = false;
         this.treeData = response.data;
-        this.findFistInterval(this.treeData);
+       this.findFistInterval(response.data);
         // this.$emit("getInfo", this.treeData[0]);
       });
     },
@@ -385,9 +314,12 @@ export default {
       if (list) {
         list.forEach(v => {
           this.findFistInterval(v.childs);
-          if (this.id) return;
+          if (this.form.intervalId) return;
           if (v.type == 11) {
-            this.id = v.id;
+            this.form.intervalId = v.id;
+               this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(v.id);
+        });
           }
         });
       }
@@ -405,23 +337,26 @@ export default {
       this.lineChartData = lineChartData[type];
     },
     getMeasureData() {
-      const intervalId = this.id;
-      getMeasureData({ intervalId }).then(res => {
+      this.info ={}
+      this.otherData = []
+      getMeasureData(this.form).then(res => {
         let list = res.data;
-        this.baseData = res.data;
         this.info = res.data.CommonData;
+        this.otherData = res.data.OtherData
       });
       this.getMeasureDataHistory();
       if (this.interval) {
         clearInterval(this.interval);
         this.interval = null;
       }
-      // this.interval = setInterval(() => {
-      //   this.getMeasureDataHistory();
-      // }, 15 * 1000);
+      this.interval = setInterval(() => {
+        this.getMeasureDataHistory();
+      }, 15 * 1000);
     },
     getMeasureDataHistory() {
-      getMeasureDataHistory(this.form).then(r => {});
+      getMeasureDataHistory(this.form).then(r => {
+        this.historyData = r.data
+      });
     },
 
     handleNodeClick(obj, event) {
@@ -429,10 +364,9 @@ export default {
       const type = obj.type;
 
       if (type == 11) {
-        this.id = "";
         this.baseData = [];
-        //间隔
-        this.id = obj.id;
+        this.form.intervalId = obj.id;
+
       }
       // this.$emit("getInfo", { id, type });
     }
