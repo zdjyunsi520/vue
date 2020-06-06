@@ -20,8 +20,8 @@
                 </el-col>
 
                 <el-col :span="24">
-                  <el-form-item label="班次类型" prop="ShiftIds">
-                    <el-select v-model="form.ShiftIds" :disabled="disabledSelect">
+                  <el-form-item label="班次类型" prop="shifttypeId">
+                    <el-select v-model="form.shifttypeId" :disabled="disabledSelect">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                     </el-select>
@@ -29,8 +29,8 @@
                 </el-col>
 
                 <el-col :span="24">
-                  <el-form-item label="角色类型" prop="CharaType">
-                    <el-select v-model="form.CharaType" :disabled="disabledSelect">
+                  <el-form-item label="角色类型" prop="charatypeId">
+                    <el-select v-model="form.charatypeId" :disabled="disabledSelect">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
                     </el-select>
@@ -69,8 +69,8 @@ export default {
   data() {
     const rules = {
       TeamId: [{ required: true, message: "请选择值班班组" }],
-      ShiftIds: [{ required: true, message: "请选择班次类型" }],
-      CharaType: [{ required: true, message: "请选择角色类型" }]
+      shifttypeId: [{ required: true, message: "请选择班次类型" }],
+      charatypeId: [{ required: true, message: "请选择角色类型" }]
     };
 
     return {
@@ -106,7 +106,9 @@ export default {
   },
   computed: {
     addDisabled() {
-      return !this.form.teamId || !this.form.ShiftIds || !this.form.charatype;
+      return (
+        !this.form.teamId || !this.form.shifttypeId || !this.form.charatypeId
+      );
     }
   },
   methods: {
@@ -164,11 +166,11 @@ export default {
           // EmployeeNames: "京帅",
 
           //  ShiftTypeName: "两班制",
-          ShiftIds: "",
+          shifttypeId: "",
 
           //  ShiftNames: "夜班,白班",
-          CharaType: ""
-          //  CharaTypeName: "两班制人员",
+          charatypeId: ""
+          //  charatypeIdName: "两班制人员",
 
           //  Characters: "夜班人员",
 

@@ -58,12 +58,15 @@
         <el-table-column label="值班班组" min-width='130' prop="TeamName" />
         <el-table-column label="值班人员" min-width='220' prop="EmployeeNames" />
         <el-table-column label="班次类型" width='130' prop="ShiftTypeName" />
-        <el-table-column label="班次" min-width='220' prop="ShiftNames" />
+        <el-table-column label="班次" min-width='180' prop="ShiftNames" />
         <el-table-column label="角色类型" width='130' prop="CharaTypeName" />
-        <el-table-column label="角色" min-width='200' prop="Characters" />
-        <el-table-column label="岗位" min-width='150' prop="Positions" />
-        <el-table-column label="操作" width='180' fixed="right">
+        <el-table-column label="角色" min-width='150' prop="Characters" />
+        <!-- <el-table-column label="岗位" min-width='150' prop="Positions" /> -->
+        <el-table-column label="操作" width='270' fixed="right">
           <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="handlePosition(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>岗位设置
+            </el-button>
             <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
@@ -193,6 +196,12 @@ export default {
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/components/index",
         params: { data: {}, title }
+      });
+    },
+    handlePosition() {
+      this.$router.push({
+        name: "/runningDuty/dutyConfiguration/components/index",
+        params: { data: {} }
       });
     },
     /** 编辑按钮操作 */

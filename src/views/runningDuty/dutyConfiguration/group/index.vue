@@ -18,6 +18,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
         <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
         <template slot="empty">
@@ -41,7 +42,7 @@
         </el-table-column>
       </el-table>
 
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
   </div>
@@ -66,7 +67,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight:"calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
       // 搜索参数
       queryParams: {
@@ -112,6 +113,10 @@ export default {
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
+    },
+
+    handleBack() {
+      this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
