@@ -39,7 +39,7 @@
                   <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"' ref='videobox' :style="'height:'+boxheight+'px'" @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
                     <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" :height="boxheight+'px'" id="ysOpenDevice" allowfullscreen>
                     </iframe>
-                    <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete">
+                    <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete(index)">
                       <svg-icon icon-class='ic_delete_lx' class="svgicon"></svg-icon>
                     </div>
                   </div>
@@ -130,7 +130,7 @@ export default {
     changetTab(item) {
       item.isSelect = !item.isSelect;
       this.current = item.val;
-      // this.playList = [];
+      //this.playList = [];
       this.$nextTick(() => {
         this.boxheight = this.$refs.videobox[0].offsetWidth;
       });
@@ -147,21 +147,28 @@ export default {
     },
 
     getPlayUrl(id, index) {
-      this.playList[index] = {
-        hasVideo: false,
-        accessToken: "",
-        videoUrl: ""
-      };
+      // this.playList[index] = {
+      //   hasVideo: false,
+      //   accessToken: "",
+      //   videoUrl: ""
+      // };
       getPlayUrl({ id }).then(res => {
+       
         if (res.data) {
-          this.playList[index].hasVideo = true;
-          this.playList[index].accessToken = res.data.MonitorUrl.accesstoken;
-          this.playList[index].videoUrl = res.data.MonitorUrl.hd;
+         
+          const hasVideo = true;
+          const accessToken = res.data.MonitorUrl.accesstoken;
+         const  videoUrl = res.data.MonitorUrl.hd;
+
+          this.$set(this.playList,index, {
+hasVideo,accessToken,videoUrl
+          })
+ //this.playList.push({hasVideo:true,accessToken:res.data.MonitorUrl.accesstoken,videoUrl:res.data.MonitorUrl.hd})
         }
       });
     },
-    handleDelete() {
-      console.log(11);
+    handleDelete(index) {
+      this.$set(this.playList,index,null)
     },
     dragStart(data) {
       this.dragTarget = data;
