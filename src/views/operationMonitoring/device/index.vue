@@ -21,140 +21,139 @@
       </div>
       <div class="bg-white  datainfo1  marginbottom15" v-if="dataList.length==0">
         <template>
-            这里没有数据~
-          </template>
-          </div>
+          这里没有数据~
+        </template>
+      </div>
       <div class="bg-white  datainfo1  marginbottom15" v-for="item in dataList">
 
         <div class="form-smtitle ">{{item.CabinetName}}</div>
         <el-row :gutter="20">
-        <template v-if="!item.IntervalData||item.IntervalData.length==0">
+          <template v-if="!item.IntervalData||item.IntervalData.length==0">
             这里也没有数据~
           </template>
-          <template  v-for="item1 in item.IntervalData">
-          <el-col :span="8" :xs='24' class="smbsdatabox blue-box"  v-if="item1.Type==2">
-            <div>
-              <div class="tophead">
-                <i>
-                  <svg-icon icon-class='ic_panel_cabinet' /></i>{{item1.Name}}
+          <template v-for="item1 in item.IntervalData">
+            <el-col :span="8" :xs='24' class="smbsdatabox blue-box">
+              <div>
+                <div class="tophead">
+                  <i>
+                    <svg-icon icon-class='ic_panel_cabinet' /></i>{{item1.Name}}
+                </div>
+                <div class="cntbox">
+                  <el-row :gutter="40">
+                    <el-col :span="12">
+                      <p>
+                        <span>Ua</span>
+                        <label>{{item1.Ua}}</label>
+                        <b>V</b>
+                      </p>
+                      <p>
+                        <span>Ub</span>
+                        <label>{{item1.Ub}}</label>
+                        <b>V</b>
+                      </p>
+                      <p>
+                        <span>Uc</span>
+                        <label>{{item1.Uc}}</label>
+                        <b>V</b>
+                      </p>
+                      <p>
+                        <span>p</span>
+                        <label>{{item1.p}}</label>
+                        <b>kW</b>
+                      </p>
+                      <p>
+                        <span>S</span>
+                        <label>{{item1.S}}</label>
+                        <b>kVA</b>
+                      </p>
+                    </el-col>
+                    <el-col :span="12">
+                      <p>
+                        <span>la</span>
+                        <label>{{item1.la}}</label>
+                        <b>A</b>
+                      </p>
+                      <p>
+                        <span>lb</span>
+                        <label>{{item1.lb}}</label>
+                        <b>A</b>
+                      </p>
+                      <p>
+                        <span>lc</span>
+                        <label>{{item1.lc}}</label>
+                        <b>A</b>
+                      </p>
+                      <p>
+                        <span>PF</span>
+                        <label>{{item1.PF}}</label>
+                        <b></b>
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
               </div>
-              <div class="cntbox">
-                <el-row :gutter="40">
-                  <el-col :span="12">
-                    <p>
-                      <span>Ua</span>
-                      <label>{{item1.Ua}}</label>
-                      <b>V</b>
-                    </p>
-                    <p>
-                      <span>Ub</span>
-                      <label>{{item1.Ub}}</label>
-                      <b>V</b>
-                    </p>
-                    <p>
-                      <span>Uc</span>
-                      <label>{{item1.Uc}}</label>
-                      <b>V</b>
-                    </p>
-                    <p>
-                      <span>p</span>
-                      <label>{{item1.p}}</label>
-                      <b>kW</b>
-                    </p>
-                    <p>
-                      <span>S</span>
-                      <label>{{item1.S}}</label>
-                      <b>kVA</b>
-                    </p>
-                  </el-col>
-                  <el-col :span="12">
-                    <p>
-                      <span>la</span>
-                      <label>{{item1.la}}</label>
-                      <b>A</b>
-                    </p>
-                    <p>
-                      <span>lb</span>
-                      <label>{{item1.lb}}</label>
-                      <b>A</b>
-                    </p>
-                    <p>
-                      <span>lc</span>
-                      <label>{{item1.lc}}</label>
-                      <b>A</b>
-                    </p>
-                    <p>
-                      <span>PF</span>
-                      <label>{{item1.PF}}</label>
-                      <b></b>
-                    </p>
-                  </el-col>
-                </el-row>
+            </el-col>
+            <el-col :span="8" :xs='24' class="smbsdatabox lightblue-box">
+              <div>
+                <div class="tophead">
+                  <i>
+                    <svg-icon icon-class='ic_smoke_sensation' /></i>烟感间隔
+                </div>
+                <div class="cntbox">
+                  <el-row :gutter="40">
+                    <el-col :span="24">
+                      <p>
+                        <span>电池低电压</span>
+                        <label>{{item1.R1_STATE}}</label>
+                      </p>
+                      <p>
+                        <span>故障</span>
+                        <label>{{item1.R22_STATE}}</label>
+                      </p>
+                      <p>
+                        <span>火警</span>
+                        <label>{{item1.R3_STATE}}</label>
+                      </p>
+                      <p>
+                        <span>测试</span>
+                        <label>{{item1.R5_STATE}}</label>
+                      </p>
+                      <p>
+                        <span>AC PowerDown</span>
+                        <label>{{item1.R2_STATE}}</label>
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
               </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :xs='24' class="smbsdatabox lightblue-box"  v-if="item1.type==3">
-            <div>
-              <div class="tophead">
-                <i>
-                  <svg-icon icon-class='ic_smoke_sensation' /></i>烟感间隔
+            </el-col>
+            <el-col :span="8" :xs='24' class="smbsdatabox orange-box">
+              <div>
+                <div class="tophead">
+                  <i>
+                    <svg-icon icon-class='ic_temperature_control' /></i>温控间隔
+                </div>
+                <div class="cntbox">
+                  <el-row :gutter="40">
+                    <el-col :span="24">
+                      <p>
+                        <span>温度</span>
+                        <label>{{item1.T}}</label>
+                        <b>℃</b>
+                      </p>
+                      <p>
+                        <span>湿度</span>
+                        <label>{{item1.HR}}</label>
+                        <b>%</b>
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
               </div>
-              <div class="cntbox">
-                <el-row :gutter="40">
-                  <el-col :span="24">
-                    <p>
-                      <span>电池低电压</span>
-                      <label>{{item1.R1_STATE}}</label>
-                    </p>
-                    <p>
-                      <span>故障</span>
-                      <label>{{item1.R22_STATE}}</label>
-                    </p>
-                    <p>
-                      <span>火警</span>
-                      <label>{{item1.R3_STATE}}</label>
-                    </p>
-                    <p>
-                      <span>测试</span>
-                      <label>{{item1.R5_STATE}}</label>
-                    </p>
-                    <p>
-                      <span>AC PowerDown</span>
-                      <label>{{item1.R2_STATE}}</label>
-                    </p>
-                  </el-col>
-                </el-row>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :xs='24' class="smbsdatabox orange-box"  v-if="item1.type==4">
-            <div>
-              <div class="tophead">
-                <i>
-                  <svg-icon icon-class='ic_temperature_control' /></i>温控间隔
-              </div>
-              <div class="cntbox">
-                <el-row :gutter="40">
-                  <el-col :span="24">
-                    <p>
-                      <span>温度</span>
-                      <label>{{item1.T}}</label>
-                      <b>℃</b>
-                    </p>
-                    <p>
-                      <span>湿度</span>
-                      <label>{{item1.HR}}</label>
-                      <b>%</b>
-                    </p>
-                  </el-col>
-                </el-row>
-              </div>
-            </div>
-          </el-col>
+            </el-col>
           </template>
         </el-row>
       </div>
-
 
     </el-scrollbar>
 
