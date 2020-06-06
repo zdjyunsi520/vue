@@ -88,7 +88,8 @@ import {
   fetchList,
   fetchTeam,
   fetchShiftType,
-  fetchCharactorType
+  fetchCharactorType,
+  deleted
 } from "@/api/runningDuty/dutyConfiguration";
 
 export default {
@@ -259,9 +260,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const userIds = row.userId || this.ids;
+    let ids = row ? [row.Id] : this.ids.map(v => v.Id);
       this.$confirm(
-        '是否确认删除用户编号为"' + userIds + '"的数据项？',
+        '是否确认删除选中的数据项？',
         "警告",
         {
           confirmButtonText: "确定",
@@ -270,7 +271,7 @@ export default {
         }
       )
         .then(function() {
-          return delUser(userIds);
+          return deleted({ids});
         })
         .then(() => {
           this.getList();

@@ -1,220 +1,186 @@
 <template>
-
   <div class="app-container">
+    <div class="search-box">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+        <el-form-item label="角色类型" prop="name">
+          <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
 
-    <el-row :gutter="20" class="comheight">
-
-      <el-col :span="7" :xs="{span: 24}" class="comheight">
-        <div class="search-box onlyform-box">
-          <p class="form-smtitle">角色类型</p>
-          <el-row class="table-btns">
-            <el-button type="primary" icon="el-icon-circle-check" @click="handleAdd" :loading="loading">添加</el-button>
-            <el-button :disabled="multiple" icon="el-icon-delete" @click="handleDelete(null)">删除</el-button>
-          </el-row>
-          <el-table v-loading="target.listLoading" :data="target.dataList" @selection-change="handleSelectionChange" border height="calc(100% - 60px)">
-            <template slot="empty">
-              <div class="nodata-box">
-                <img src="../../../../assets/image/nodata.png" />
-                <p>暂时还没有数据</p>
-              </div>
-            </template>
-            <el-table-column type="selection" fixed="left" width="55" />
-            <el-table-column label="角色类型" prop="Name" />
-          </el-table>
-          <pagination v-show="target.total > 0" :total="target.total" :page.sync="target.queryParams.pageno" :limit.sync="target.queryParams.pagesize" @pagination="getList" />
-        </div>
-      </el-col>
-      <el-col :xs="{span: 24}" :span="17" class="comheight">
-        <div class="comheight">
-          <div class="search-box onlyform-box">
-            <p class="form-smtitle">角色</p>
-            <div class="bg-white containerbox" style="padding:0;">
-              <el-row class="table-btns">
-                <el-button :disabled="single" type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd1">新增</el-button>
-                <el-button :disabled="multiple1" icon="el-icon-remove-outline" @click="handleDelete1">删除</el-button>
-                <!-- <el-button type="primary" icon="el-icon-check" @click="handleBack" :loading="loading">保 存</el-button> -->
-                <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
-              </el-row>
-              <el-table v-loading="target1.listLoading" :data="target1.dataList" @selection-change="handleSelectionChange1" border height="calc(100% - 60px)">
-                <el-table-column type="selection" fixed="left" width="55" />
-                <el-table-column label="角色" prop="Name" />
-                <el-table-column label="最少人数" prop="MinPersonCount" />
-                <el-table-column label="备注" prop="Remark" />
-              </el-table>
-              <pagination :total="target1.total" :page.sync="target1.queryParams.pageno" :limit.sync="target1.queryParams.pagesize" @pagination="getList1" />
-            </div>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+        </el-form-item>
+        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
+                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
+        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
+      </el-form>
+    </div>
+    <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
+      <el-row class="table-btns">
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
+      </el-row>
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+        <template slot="empty">
+          <div class="nodata-box">
+            <img src="@/assets/image/nodata.png" />
+            <p>暂时还没有数据</p>
           </div>
-        </div>
-      </el-col>
-    </el-row>
+        </template>
+        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column label="角色类型" min-width="150" prop="Name" />
 
-    <add-class-time-type @getList="getList" ref="addClassTimeType" />
-    <add-class-time @getList="getList1" ref="addClassTime" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+               <el-button size="mini" type="text" @click="handleSet(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>设置角色
+            </el-button>
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
+            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+    </div>
+
   </div>
-
 </template>
 
 <script>
-import {
-  fetchList,
-  deleted
-} from "@/api/runningDuty/dutyConfiguration/roleType";
-import {
-  fetchList as fetchList1,
-  deleted as deleted1
-} from "@/api/runningDuty/dutyConfiguration/role";
-import addClassTimeType from "./components/addClassTimeType";
-import addClassTime from "./components/addClassTime";
+import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/roleType";
 
 export default {
-  components: { addClassTime, addClassTimeType },
+  name: "user",
   data() {
-    const rules = {
-      teamId: [{ required: true, message: "请选择值班班组" }],
-      shifttypeId: [{ required: true, message: "请选择班次类型" }],
-      charatype: [{ required: true, message: "请选择角色类型" }]
-    };
     return {
-      loading: false,
-      form: {
-        teamId: "",
-        shifttypeId: "",
-        charatype: ""
+      // 遮罩层
+      listLoading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 总条数
+      total: 0,
+      // 用户表格数据
+      dataList: null,
+      tableHeight: "calc(100% - 125px)",
+      rules: {},
+      // 搜索参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+
+        name:'',
       },
-      rules,
-      target1: {
-        ids: [],
-        listLoading: false,
-        dataList: null,
-        queryParams: {
-          pageno: 1,
-          pagesize: 30
-        },
-        total: 0
-      },
-      target: {
-        ids: [],
-        listLoading: false,
-        dataList: null,
-        queryParams: {
-          pageno: 1,
-          pagesize: 30,
-          charatypeId: ""
-        },
-        total: 0
-      }
+      shiftTypeList:[],
+      charactorTypeList:[]
     };
   },
 
   created() {
+    const {shiftTypeList, charactorTypeList,dutyId } = this.$route.params
+     this.shiftTypeList = shiftTypeList || []
+          this.charactorTypeList = charactorTypeList || []
+               this.queryParams.dutyId = dutyId || ""
     this.getList();
   },
-  computed: {
-    single() {
-      return this.target.ids.length != 1;
-    },
-    multiple() {
-      return !(this.target.ids.length > 0);
-    },
-    multiple1() {
-      return !(this.target1.ids.length > 0);
-    }
-  },
   methods: {
-    handleSelectionChange(selection) {
-      this.target.ids = selection;
-      this.target1.dataList = [];
-      if (this.target.ids.length >= 1) {
-        this.target1.queryParams.charatypeId = this.target.ids[0].Id;
-        this.getList1();
-      }
+
+    filterIsMultiVersion(row) {
+      return row.IsMultiVersion ? "多版本" : "单版本";
     },
-    handleSelectionChange1(selection) {
-      this.target1.ids = selection;
+    handleSortChange(row) {
+      this.queryParams.orderby = `${row.prop} ${
+        row.order == "ascending" ? "asc" : "desc"
+      }`;
+      this.getList();
     },
+    /** 搜索用户列表 */
     getList() {
-      this.target.listLoading = true;
-      fetchList(this.target.queryParams)
+      this.listLoading = true;
+      fetchList(this.queryParams)
         .then(response => {
-          this.target.dataList = response.data;
-          this.target.total = response.total;
+          this.dataList = response.data;
+          this.total = response.total;
         })
+
         .finally(r => {
-          this.target.listLoading = false;
+          this.listLoading = false;
         });
     },
-    getList1() {
-      this.target1.listLoading1 = true;
-      fetchList1(this.target1.queryParams)
-        .then(response => {
-          this.target1.dataList = response.data;
-          this.target1.total = response.total;
-        })
-        .finally(r => {
-          this.target1.listLoading = false;
-        });
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageno = 1;
+      this.getList();
     },
-    getInfo(data) {
-      this.data = data;
-      this.closeComponent();
-      const target = this.$refs["component" + data.type];
-      target.visible = true;
-      target.showBtn = true;
-      target.getInfo(data);
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
     },
-    handleConfirm() {
-      this.$refs.form.validate(v => {
-        if (v) {
-          this.disabledSelect = true;
-        }
+
+    handleBack() {
+      this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection;
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
+    handleSet(data){
+          const title = "设置角色";
+const charatypeId = data.Id
+        this.$router.push({
+        name: "/runningDuty/dutyConfiguration/role1/components/index",
+        params: { charatypeId, title }
+      });
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      const title = "新增";
+            const shiftTypeList = this.shiftTypeList
+      const charactorTypeList = this.charactorTypeList
+      this.$router.push({
+        name: "/runningDuty/dutyConfiguration/role1/components/add",
+        params: { data: {DutyId:this.queryParams.dutyId}, title,shiftTypeList,charactorTypeList  }
+      });
+    },
+    /** 编辑按钮操作 */
+    handleUpdate(data) {
+      const title = "编辑";
+      const shiftTypeList = this.shiftTypeList
+      const charactorTypeList = this.charactorTypeList
+      this.$router.push({
+        name: "/runningDuty/dutyConfiguration/role1/components/add",
+        params: { data, title,shiftTypeList,charactorTypeList }
       });
     },
 
-    handleAdd() {
-      const target = this.$refs.addClassTimeType;
-      target.handleOpen();
-    },
-    handleAdd1() {
-      const target = this.$refs.addClassTime;
-      target.title = "新增";
-      const charatypeId = this.target.ids[0].Id;
-      target.handleOpen({ charatypeId });
-    },
-    handleUpdate() {},
-    handleDelete() {
-      this.$confirm("确定要删除选中的角色类型吗？")
-        .then(r => {
-          const Ids = this.target.ids.map(v => v.Id);
-          deleted({ Ids }).then(r => {
-            this.getList();
-            this.$message.success("删除成功！");
-          });
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      let ids = row ? [row.Id] : this.ids.map(v => v.Id);
+      this.$confirm("是否确认删除选中的数据？", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        deleted({ ids }).then(r=>{
+          this.msgSuccess("删除成功！");
+           this.getList();
         })
-        .catch(e => {});
-    },
-    handleDelete1() {
-      this.$confirm("确定要删除选中的角色吗？")
-        .then(r => {
-          const Ids = this.target1.ids.map(v => v.Id);
-          deleted1({ Ids }).then(r => {
-            this.getList1();
-            this.$message.success("删除成功！");
-          });
-        })
-        .catch(e => {});
-    },
-    handleBack() {
-      this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
+      });
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.comheight .containerbox {
-  height: 100%;
-}
-/deep/.form-smtitle {
-  margin-bottom: 0;
-}
+<style lang="scss">
 </style>

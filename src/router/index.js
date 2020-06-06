@@ -604,6 +604,42 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
+      {
+        name: "/runningDuty/dutyConfiguration/classTime/components/add",
+        path: "/runningDuty/dutyConfiguration/classTime/components/add",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/classTime/components/add"),
+        meta: {
+          title: "班次+",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/runningDuty/dutyConfiguration/classTime/components/update",
+        path: "/runningDuty/dutyConfiguration/classTime/components/update",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/classTime/components/update"),
+        meta: {
+          title: "班次设置",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/runningDuty/dutyConfiguration/classTime/components/index",
+        path: "/runningDuty/dutyConfiguration/classTime/components/index",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/classTime/components/index"),
+        meta: {
+          title: "班次设置list",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
 
       {
         name: "/runningDuty/dutyConfiguration/role1/index",
@@ -617,7 +653,42 @@ export const constantRoutes = [
           breadcrumb: true
         }
       },
-
+      {
+        name: "/runningDuty/dutyConfiguration/role1/components/add",
+        path: "/runningDuty/dutyConfiguration/role1/components/add",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/role1/components/add"),
+        meta: {
+          title: "角色类型+",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/runningDuty/dutyConfiguration/role1/components/index",
+        path: "/runningDuty/dutyConfiguration/role1/components/index",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/role1/components/index"),
+        meta: {
+          title: "角色设置list",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/runningDuty/dutyConfiguration/role1/components/update",
+        path: "/runningDuty/dutyConfiguration/role1/components/update",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/role1/components/update"),
+        meta: {
+          title: "角色设置",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
       {
         name: "/patrol/PatrolCycle/components/add",
         path: "/patrol/PatrolCycle/components/add",

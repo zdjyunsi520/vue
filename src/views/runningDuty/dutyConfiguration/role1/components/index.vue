@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="班次类型" prop="name">
+        <el-form-item label="角色" prop="name">
           <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
@@ -29,13 +29,12 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="班次类型" min-width="150" prop="Name" />
-
-        <el-table-column label="操作">
+        <el-table-column label="角色" prop="Name" />
+                <el-table-column label="最少人数" prop="MinPersonCount" />
+                <el-table-column label="备注" prop="Remark" />
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-               <el-button size="mini" type="text" @click="handleSet(scope.row)">
-              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>设置班次
-            </el-button>
+     
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
@@ -53,7 +52,7 @@
 </template>
 
 <script>
-import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/classTimeType";
+import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/role";
 
 export default {
   name: "user",
@@ -77,19 +76,17 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-
+charatypeId:'',
         name:'',
       },
-      shiftTypeList:[],
-      charactorTypeList:[]
+
     };
   },
 
   created() {
-    const {shiftTypeList, charactorTypeList,dutyId } = this.$route.params
-     this.shiftTypeList = shiftTypeList || []
-          this.charactorTypeList = charactorTypeList || []
-               this.queryParams.dutyId = dutyId || ""
+    const {charatypeId } = this.$route.params
+
+               this.queryParams.charatypeId = charatypeId || ""
     this.getList();
   },
   methods: {
@@ -128,7 +125,7 @@ export default {
     },
 
     handleBack() {
-      this.$router.push({ name: "/runningDuty/dutyConfiguration/index" });
+      this.$router.push({ name: "/runningDuty/dutyConfiguration/role1/index" });
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -136,32 +133,22 @@ export default {
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
-    handleSet(data){
-          const title = "设置角色";
-const ShiftTypeId = data.Id
-        this.$router.push({
-        name: "/runningDuty/dutyConfiguration/classTime/components/index",
-        params: { ShiftTypeId, title }
-      });
-    },
     /** 新增按钮操作 */
     handleAdd() {
       const title = "新增";
-            const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+
       this.$router.push({
-        name: "/runningDuty/dutyConfiguration/classTime/components/add",
-        params: { data: {DutyId:this.queryParams.dutyId}, title,shiftTypeList,charactorTypeList  }
+        name: "/runningDuty/dutyConfiguration/role1/components/update",
+        params: { data: {charatypeId:this.queryParams.charatypeId}, title  }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
-      const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+data.charatypeId = this.queryParams.charatypeId
       this.$router.push({
-        name: "/runningDuty/dutyConfiguration/role1/components/add",
-        params: { data, title,shiftTypeList,charactorTypeList }
+        name: "/runningDuty/dutyConfiguration/role1/components/update",
+        params: { data, title }
       });
     },
 

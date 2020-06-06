@@ -21,7 +21,7 @@
 
                 <el-col :span="24">
                   <el-form-item label="班次类型" prop="ShiftTypeId">
-                    <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
+                    <el-select v-model="form.ShiftTypeId" >
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                     </el-select>
@@ -30,7 +30,7 @@
 
                 <el-col :span="24">
                   <el-form-item label="角色类型" prop="charatypeId">
-                    <el-select v-model="form.charatypeId" :disabled="disabledSelect">
+                    <el-select v-model="form.charatypeId" >
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
                     </el-select>
@@ -87,7 +87,7 @@ export default {
         pagesize: 30
       },
       total: 1,
-      disabledSelect: false,
+ 
       teamList: [],
       charactorTypeList: [],
       shiftTypeList: [],
@@ -105,10 +105,9 @@ export default {
     this.reset(data);
   },
   computed: {
-    addDisabled() {
-      return (
-        !this.form.teamId || !this.form.ShiftTypeId || !this.form.charatypeId
-      );
+    disabledSelect() {
+      return this.form.Id?true:false
+     
     }
   },
   methods: {
@@ -146,7 +145,7 @@ export default {
           const fn = this.form.Id ? update : add;
           fn(this.form)
             .then(r => {
-              this.$message.success("新增值班成功！");
+              this.$message.success("操作成功！");
               this.handleBack()
             })
             .finally(r => (this.loadingConfirm = false));
@@ -167,9 +166,7 @@ export default {
       const target = this.$refs.add;
       target.handleOpen();
     },
-    handleUpdate() {
-      this.disabledSelect = false;
-    },
+ 
     handleDelete() {
       this.$confirm("确定要删除选中的岗位吗？")
         .then(r => {
