@@ -70,11 +70,10 @@
               <div class="rightradiobox">
                 <b>{{labelName}}</b>&nbsp;&nbsp;
                 <label>日期：</label>
-                <el-date-picker v-model="form.beginTime" v-if="form.cycleType==1" type="datetimerange" size="small" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" style="width:350px">
+                <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetimerange" size="small" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" style="width:350px">
                 </el-date-picker>
 
-                <el-date-picker v-model="form.beginTime" v-else :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择日期"></el-date-picker>
-
+                <el-date-picker v-model="day" v-else :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择时间"></el-date-picker>
                 <el-radio-group v-model="form.cycleType" size="mini">
                   <el-radio-button :label="1">15分钟</el-radio-button>
                   <el-radio-button :label="2">日</el-radio-button>
@@ -243,8 +242,12 @@ export default {
         intervalId: "",
         type: "UA",
         cycleType: 1,
-        beginTime: ""
+        beginTime: "",
+        endTime: ""
       },
+      time: [],
+      day: "",
+      month: "",
       interval: null,
       //  lineChartData: {xAxisData:[],actualData:[]},
       info: {},
@@ -275,8 +278,7 @@ export default {
           xAxisData.push(v.value);
           actualData.push(v.value1);
         });
-      console.log(xAxisData);
-      console.log(actualData);
+
       return { xAxisData, actualData };
     }
   },
@@ -284,12 +286,24 @@ export default {
     this.dragControllerDiv();
   },
   watch: {
-    form: {
-      deep: true,
-      handler() {
-        this.getMeasureData();
-      }
+    "form.intervalId"() {
+      this.getMeasureData();
+    },
+    "form.type"() {
+      this.getMeasureData();
+    },
+    "form.cycleType"() {
+      this.getMeasureData();
+    },
+    time() {
+      this.getMeasureData();
+    },
+    day() {
+      this.getMeasureData();
     }
+  },
+  beforeDestroy() {
+    this.$nextTick(() => clearInterval(this.interval));
   },
   methods: {
     handleClick(data) {
@@ -359,6 +373,28 @@ export default {
       }, 15 * 1000);
     },
     getMeasureDataHistory() {
+      const now = Date.now();
+      if (this.form.cycleType == 1) {
+        this.form.beginTime = this.time[0];
+        this.form.endTime = this.time[1];
+      } else if (this.form.cycleType == 2) {
+        let day = this.day || now;
+        day = this.parseTime(day, "{y}-{m}-{d}");
+        this.form.beginTime = day + " 00:00:00";
+        this.form.endTime = day + " 23:59:59";
+      } else {
+        let day = this.day || now;
+        day = this.parseTime(day, "{y}-{m}-");
+        this.form.beginTime = day + "01 00:00:00";
+        this.form.endTime = day + "31 23:59:59";
+      }
+
+      if (!this.form.beginTime) {
+        this.form.beginTime = new Date(now - 24 * 60 * 60 * 1000);
+      }
+      if (!this.form.endTime) {
+        this.form.endTime = new Date(now);
+      }
       getMeasureDataHistory(this.form).then(r => {
         this.historyData = r.data;
       });
