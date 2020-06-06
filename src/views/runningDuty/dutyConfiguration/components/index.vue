@@ -20,8 +20,8 @@
                 </el-col>
 
                 <el-col :span="24">
-                  <el-form-item label="班次类型" prop="shifttypeId">
-                    <el-select v-model="form.shifttypeId" :disabled="disabledSelect">
+                  <el-form-item label="班次类型" prop="ShiftTypeId">
+                    <el-select v-model="form.ShiftTypeId" :disabled="disabledSelect">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                     </el-select>
@@ -69,7 +69,7 @@ export default {
   data() {
     const rules = {
       TeamId: [{ required: true, message: "请选择值班班组" }],
-      shifttypeId: [{ required: true, message: "请选择班次类型" }],
+      ShiftTypeId: [{ required: true, message: "请选择班次类型" }],
       charatypeId: [{ required: true, message: "请选择角色类型" }]
     };
 
@@ -98,16 +98,16 @@ export default {
   },
 
   created() {
+    const {data} = this.$route.params
     this.getCharactorType();
     this.getTeam();
     this.getShiftType();
-    this.reset();
-    this.getList();
+    this.reset(data);
   },
   computed: {
     addDisabled() {
       return (
-        !this.form.teamId || !this.form.shifttypeId || !this.form.charatypeId
+        !this.form.teamId || !this.form.ShiftTypeId || !this.form.charatypeId
       );
     }
   },
@@ -146,38 +146,22 @@ export default {
           const fn = this.form.Id ? update : add;
           fn(this.form)
             .then(r => {
-              this.disabledSelect = true;
-              this.dutyId = r.data.Id;
               this.$message.success("新增值班成功！");
+              this.handleBack()
             })
             .finally(r => (this.loadingConfirm = false));
         }
       });
     },
     reset(data) {
-      this.form = Object.assign(
-        {
-          Id: "",
-          // TenantId: "3ad33f15-6456-4263-b417-43286b4f247f",
-          // TenantName: "福建迅腾电力科技有限公司",
-          TeamId: "",
-          // TeamName: "班组二",
-          // EmployeeIds: "",
-          // EmployeeNames: "京帅",
+      data = data || {}
+      const {Id,TeamId,ShiftTypeId,CharaType} = data;
+      this.form ={
+          Id,
+          TeamId,
+          ShiftTypeId, charatypeId: CharaType
+        }
 
-          //  ShiftTypeName: "两班制",
-          shifttypeId: "",
-
-          //  ShiftNames: "夜班,白班",
-          charatypeId: ""
-          //  charatypeIdName: "两班制人员",
-
-          //  Characters: "夜班人员",
-
-          //  Positions: null
-        },
-        data
-      );
     },
     handleAdd() {
       const target = this.$refs.add;

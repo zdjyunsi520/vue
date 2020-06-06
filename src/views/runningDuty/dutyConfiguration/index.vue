@@ -198,19 +198,39 @@ export default {
         params: { data: {}, title }
       });
     },
-    handlePosition() {
+    handlePosition(data) {
+         let {ShiftIds,ShiftNames,CharacterIds,Characters,Id} = data
+         const dutyId = Id
+         let shiftTypeList, charactorTypeList
+      if(ShiftIds&&ShiftNames){
+        ShiftIds = ShiftIds.split(',')
+        ShiftNames = ShiftNames.split(',')
+        shiftTypeList = 
+        ShiftIds.map((v,i)=>{
+          const Id = v
+          const Name = ShiftNames[i]
+          return {Id,Name}
+        })
+      }
+       if(CharacterIds&&Characters){
+        CharacterIds = CharacterIds.split(',')
+        Characters = Characters.split(',')
+        charactorTypeList = 
+        CharacterIds.map((v,i)=>{
+          const Id = v
+          const Name = Characters[i]
+          return {Id,Name}
+        })
+      }
+
+
       this.$router.push({
-        name: "/runningDuty/dutyConfiguration/components/index",
-        params: { data: {} }
+        name: "/runningDuty/dutyConfiguration/job/index",
+        params: { shiftTypeList, charactorTypeList,dutyId }
       });
     },
     /** 编辑按钮操作 */
-    handleUpdate(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const name = row.Name;
-      const mobilephone = row.MobilePhone;
-      const data = { id, username, name, mobilephone };
+    handleUpdate(data) {
       const title = "编辑用户";
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/components/index",

@@ -569,6 +569,30 @@ export const constantRoutes = [
         }
       },
       {
+        name: "/runningDuty/dutyConfiguration/job/index",
+        path: "/runningDuty/dutyConfiguration/job/index",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/job/index"),
+        meta: {
+          title: "岗位",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
+        name: "/runningDuty/dutyConfiguration/job/components/add",
+        path: "/runningDuty/dutyConfiguration/job/components/add",
+        component: () =>
+          import("@/views/runningDuty/dutyConfiguration/job/components/add"),
+        meta: {
+          title: "岗位+",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
+      },
+      {
         name: "/runningDuty/dutyConfiguration/classTime/index",
         path: "/runningDuty/dutyConfiguration/classTime/index",
         component: () =>
