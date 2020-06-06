@@ -89,9 +89,10 @@ export default {
     };
   },
   created() {
-    this.getTenantEmployees();
     const { data } = this.$route.params;
     this.reset(data);
+    this.getTenantEmployees();
+
   },
   computed: {
     personList() {
@@ -112,7 +113,7 @@ export default {
     ...mapActions({ employee: "common/employee" }),
 
     getTenantEmployees() {
-      getTenantEmployees({}).then(res => {
+      getTenantEmployees({dutyteamId:this.form.Id}).then(res => {
         this.allpatrolusers = res.data;
       });
     },
@@ -127,6 +128,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
+          Id:'',
           Name: "",
           EmployeeNames: "",
           EmployeeIds: ""
