@@ -41,25 +41,25 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="工单编号" min-width="200" sortable prop="OrderCode"></el-table-column>
-        <el-table-column label="业务来源" min-width="150" sortable prop="BizSource" :formatter="formatterOrderResource"></el-table-column>
-        <el-table-column label="用电单位" min-width="250" sortable prop="SourceTenantName"></el-table-column>
-        <el-table-column label="故障地址" min-width="150" prop="Address"></el-table-column>
+        <el-table-column label="工单编号" width="180" sortable prop="OrderCode"></el-table-column>
+        <el-table-column label="业务来源" width="120" sortable prop="BizSource" :formatter="formatterOrderResource"></el-table-column>
+        <el-table-column label="用电单位" min-width="200" sortable prop="SourceTenantName"></el-table-column>
+        <el-table-column label="故障地址" min-width="220" prop="Address"></el-table-column>
         <el-table-column label="故障现象" min-width="250" prop="Situation"></el-table-column>
-        <el-table-column label="紧急程度" min-width="150" sortable prop="EmergencyLevel" :formatter="formatterUrgency"></el-table-column>
-        <el-table-column label="受理时间" min-width="200" prop="ReceiveTime" />
-        <el-table-column label="状态" min-width="150" sortable prop="Status" :formatter="formatterStatus" />
-        <el-table-column label="操作" fixed="right" width="260">
+        <el-table-column label="紧急程度" width="120" sortable prop="EmergencyLevel" :formatter="formatterUrgency"></el-table-column>
+        <el-table-column label="受理时间" width="180" prop="ReceiveTime" />
+        <el-table-column label="状态" width="100" sortable prop="Status" :formatter="formatterStatus" />
+        <el-table-column label="操作" fixed="right" width="240">
           <template slot-scope="{row}">
             <div>
               <el-button type="text" size="mini" @click="handleLook(row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看
+                <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
               <el-button v-if="row.Status==2" type="text" size="mini" @click="handleUpdate(row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>抢修
+                <svg-icon icon-class='ic_repair' class="tablesvgicon"></svg-icon>抢修
               </el-button>
               <el-button v-if="row.Status==3" type="text" size="mini" @click="handleUpdate(row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>归档
+                <svg-icon icon-class='ic_file' class="tablesvgicon"></svg-icon>归档
               </el-button>
               <el-button type="text" v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -71,7 +71,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
     </div>
   </div>
@@ -99,7 +99,7 @@ export default {
       dataList: null,
       listLoading: true,
       total: 0,
-      tableHeight:"calc(100% - 120px)",
+      tableHeight: "calc(100% - 120px)",
       ranks: [
         { name: "一般", id: 1 },
         { name: "紧急", id: 2 },

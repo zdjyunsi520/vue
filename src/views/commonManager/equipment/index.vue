@@ -26,7 +26,7 @@
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table @cell-click="handleRowClick" v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange" border>
+      <el-table @cell-click="handleRowClick" v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -65,7 +65,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -98,7 +98,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight:"calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       // 搜索参数
       queryParams: {
         pageno: 1,
@@ -123,7 +123,7 @@ export default {
       const id = row.Id;
       const remark = row.Remark;
       updateRemark({ id, remark }).then(r => {
-        this.$message.success('已保存！');
+        this.$message.success("已保存！");
         row.edit = false;
       });
     },

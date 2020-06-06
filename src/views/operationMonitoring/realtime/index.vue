@@ -4,7 +4,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="treeData"  :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
+            <el-tree :data="treeData" :render-content="renderContent" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" default-expand-all node-key="id" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -22,56 +22,60 @@
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
                   <h5>电压(V)</h5>
-                  <p @click="handleClick('UA')">A相<span>{{info.UA}}</span></p>
-                  <p @click="handleClick('UB')">B相<span>{{info.UB}}</span></p>
-                  <p @click="handleClick('UC')">C相<span>{{info.UC}}</span></p>
+                  <p @click="handleClick('UA')"><label>A相</label><span>{{info.UA}}</span></p>
+                  <p @click="handleClick('UB')"><label>B相</label><span>{{info.UB}}</span></p>
+                  <p @click="handleClick('UC')"><label>C相</label><span>{{info.UC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5>电流(A)</h5>
-                  <p @click="handleClick('IA')">A相<span>{{info.IA}}</span></p>
-                  <p @click="handleClick('IB')">B相<span>{{info.IB}}</span></p>
-                  <p @click="handleClick('IC')">C相<span>{{info.IC}}</span></p>
+                  <p @click="handleClick('IA')"><label>A相</label><span>{{info.IA}}</span></p>
+                  <p @click="handleClick('IB')"><label>B相</label><span>{{info.IB}}</span></p>
+                  <p @click="handleClick('IC')"><label>C相</label><span>{{info.IC}}</span></p>
                 </el-col>
 
                 <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 blue">总视在功率(kVA)<b @click="handleClick('S')">{{info.S}}</b></h5>
-                        <p @click="handleClick('SA')">A相<span>{{info.SA}}</span></p>
-                  <p @click="handleClick('SB')">B相<span>{{info.SB}}</span></p>
-                  <p @click="handleClick('SC')">C相<span>{{info.SC}}</span></p>
+                  <h5 class="smtitleh5 ">总视在功率(kVA)<b @click="handleClick('S')">{{info.S}}</b></h5>
+                  <p @click="handleClick('SA')"><label>A相</label><span>{{info.SA}}</span></p>
+                  <p @click="handleClick('SB')"><label>B相</label><span>{{info.SB}}</span></p>
+                  <p @click="handleClick('SC')"><label>C相</label><span>{{info.SC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick('P')">{{info.P}}</b></h5>
-                   <p @click="handleClick('PA')">A相<span>{{info.PA}}</span></p>
-                  <p @click="handleClick('PB')">B相<span>{{info.PB}}</span></p>
-                  <p @click="handleClick('PC')">C相<span>{{info.PC}}</span></p>
+                  <p @click="handleClick('PA')"><label>A相</label><span>{{info.PA}}</span></p>
+                  <p @click="handleClick('PB')"><label>B相</label><span>{{info.PB}}</span></p>
+                  <p @click="handleClick('PC')"><label>C相</label><span>{{info.PC}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
                   <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF')">{{info.PF}}</b></h5>
-                  <p @click="handleClick('PFA')">A相<span>{{info.PFA}}</span></p>
-                  <p @click="handleClick('PFB')">B相<span>{{info.PFB}}</span></p>
-                  <p @click="handleClick('PFC')">C相<span>{{info.PFC}}</span></p>
+                  <p @click="handleClick('PFA')"><label>A相</label><span>{{info.PFA}}</span></p>
+                  <p @click="handleClick('PFB')"><label>B相</label><span>{{info.PFB}}</span></p>
+                  <p @click="handleClick('PFC')"><label>C相</label><span>{{info.PFC}}</span></p>
                 </el-col>
               </el-row>
             </div>
             <div style="margin-top:40px">
               <div class="form-smtitle marginBottom30">其他参数 </div>
-              <el-row :gutter="20" class="cellinfo noborder">
+              <p class="tips" v-if="!otherData||otherData.length==0">暂无其他参数</p>
+              <el-row class="cellinfo noborder databox-lx" v-else>
                 <el-col :span='5' :xs='12' v-for="item in otherData">
-                  <p class="on" @click="handleClick(item.Type)">{{item.Name}}({{item.Unit}})<span>{{item.Value}}</span></p>
+                  <p @click="handleClick(item.Type)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
                 </el-col>
-               
+
               </el-row>
             </div>
           </div>
           <div class="bg-white datainfo " style="margin-top:15px;">
             <div class="form-smtitle marginBottom30" style="position:relative">历史曲线
-  
-              <div class="rightradiobox">
-                <b>{{labelName}}</b>
-                <label>日期</label>
-                <el-date-picker v-model="form.beginTime" type="date" size="small" placeholder="选择日期"></el-date-picker>
 
-                <el-radio-group v-model="form.cycleType"  size="mini">
+              <div class="rightradiobox">
+                <b>{{labelName}}</b>&nbsp;&nbsp;
+                <label>日期：</label>
+                <el-date-picker v-model="form.beginTime" v-if="form.cycleType==1" type="datetimerange" size="small" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" style="width:350px">
+                </el-date-picker>
+
+                <el-date-picker v-model="form.beginTime" v-else :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择日期"></el-date-picker>
+
+                <el-radio-group v-model="form.cycleType" size="mini">
                   <el-radio-button :label="1">15分钟</el-radio-button>
                   <el-radio-button :label="2">日</el-radio-button>
                   <el-radio-button :label="3">月</el-radio-button>
@@ -242,10 +246,10 @@ export default {
         beginTime: ""
       },
       interval: null,
-    //  lineChartData: {xAxisData:[],actualData:[]},
+      //  lineChartData: {xAxisData:[],actualData:[]},
       info: {},
-      otherData:[],
-      historyData:[]
+      otherData: [],
+      historyData: []
     };
   },
   created() {
@@ -253,40 +257,44 @@ export default {
     this.getTreeData();
   },
   computed: {
-lineChartData(){
-  const xAxisData = []
-    const actualData = []
-   this.historyData.map(v=>{
-    const data = v.CreateTime.split(' ')
-    let value
-    if(this.form.cycleType == 1){
-      value = data[1]
-    }else{
-      value = data[0]
+    lineChartData() {
+      const xAxisData = [];
+      const actualData = [];
+      this.historyData
+        .map(v => {
+          const data = v.CreateTime.split(" ");
+          let value;
+          if (this.form.cycleType == 1) {
+            value = data[1];
+          } else {
+            value = data[0];
+          }
+          return { value, value1: v.Value };
+        })
+        .forEach(v => {
+          xAxisData.push(v.value);
+          actualData.push(v.value1);
+        });
+      console.log(xAxisData);
+      console.log(actualData);
+      return { xAxisData, actualData };
     }
-    return {value,value1:v.Value}
-  }).forEach(v=>{
-xAxisData.push(v.value)
-actualData.push(v.value1)
-  })
-
-  return {xAxisData,actualData}
-}
   },
   mounted() {
     this.dragControllerDiv();
   },
   watch: {
-    'form':{
-      deep:true,
-      handler(){
+    form: {
+      deep: true,
+      handler() {
         this.getMeasureData();
-        }
+      }
     }
   },
   methods: {
     handleClick(data) {
-      this.form.type = data
+      console.log(data);
+      this.form.type = data;
       this.labelName = data.Name;
     },
     renderContent(h, { node, data, store }) {
@@ -301,10 +309,9 @@ actualData.push(v.value1)
     // 获取设备关系树状图
     getTreeData() {
       getTrees().then(response => {
-         
         this.loading = false;
         this.treeData = response.data;
-       this.findFistInterval(response.data);
+        this.findFistInterval(response.data);
         // this.$emit("getInfo", this.treeData[0]);
       });
     },
@@ -315,9 +322,9 @@ actualData.push(v.value1)
           if (this.form.intervalId) return;
           if (v.type == 11) {
             this.form.intervalId = v.id;
-               this.$nextTick(() => {
-          this.$refs.tree.setCurrentKey(v.id);
-        });
+            this.$nextTick(() => {
+              this.$refs.tree.setCurrentKey(v.id);
+            });
           }
         });
       }
@@ -335,12 +342,12 @@ actualData.push(v.value1)
       this.lineChartData = lineChartData[type];
     },
     getMeasureData() {
-      this.info ={}
-      this.otherData = []
+      this.info = {};
+      this.otherData = [];
       getMeasureData(this.form).then(res => {
         let list = res.data;
         this.info = res.data.CommonData;
-        this.otherData = res.data.OtherData
+        this.otherData = res.data.OtherData;
       });
       this.getMeasureDataHistory();
       if (this.interval) {
@@ -353,7 +360,7 @@ actualData.push(v.value1)
     },
     getMeasureDataHistory() {
       getMeasureDataHistory(this.form).then(r => {
-        this.historyData = r.data
+        this.historyData = r.data;
       });
     },
 
@@ -364,7 +371,6 @@ actualData.push(v.value1)
       if (type == 11) {
         this.baseData = [];
         this.form.intervalId = obj.id;
-
       }
       // this.$emit("getInfo", { id, type });
     }
@@ -474,7 +480,7 @@ actualData.push(v.value1)
         color: #333333;
         display: block;
       }
-      &.blue {
+      &:hover {
         background-color: #edf4ff;
         border-radius: 2px;
         color: #558cf7;
@@ -489,22 +495,42 @@ actualData.push(v.value1)
     font-size: 14px;
     margin: 0;
     line-height: 30px;
+    label {
+      font-weight: normal;
+      min-width: 50px;
+      display: inline-block;
+    }
     span {
       color: #333;
       display: inline-block;
       margin-left: 20px;
+      min-width: 50px;
     }
-    &.on {
+    &.on,
+    &:hover {
       background-color: #edf4ff;
       border-radius: 2px;
       color: #558cf7;
+
       span {
         color: #558cf7;
       }
     }
   }
 }
-
+.databox-lx {
+  padding: 0 30px;
+  p {
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.tips {
+  height: 60px;
+  line-height: 60px;
+  padding: 0;
+}
 .rightradiobox {
   position: absolute;
   top: 0px;

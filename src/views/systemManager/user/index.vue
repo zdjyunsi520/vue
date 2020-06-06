@@ -47,7 +47,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" border :height="dataList?tableHeight:'0'" @selection-change="handleSelectionChange">
+          <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" @selection-change="handleSelectionChange">
 
             <template slot="empty">
               <div class="nodata-box">
@@ -82,7 +82,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+          <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
       </el-col>
     </el-row>
@@ -123,7 +123,7 @@ export default {
       data: {},
       treeData: [],
       listLoading: true,
-      tableHeight:"calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
       multiple: true
     };
@@ -159,7 +159,7 @@ export default {
       const ids = this.ids.map(v => v.Id);
       const status = commond;
       setSts({ ids, status }).then(r => {
-        this.$message.success('状态已更新！');
+        this.$message.success("状态已更新！");
         this.getList();
       });
     },
@@ -262,7 +262,7 @@ export default {
       }).then(v => {
         const id = this.operateId;
         deleted({ id }).then(r => {
-          this.$message.success('删除成功！');
+          this.$message.success("删除成功！");
           this.getList();
         });
       });

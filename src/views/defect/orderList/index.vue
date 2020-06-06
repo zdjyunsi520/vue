@@ -51,50 +51,56 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="缺陷编号" sortable min-width="250" prop="No"></el-table-column>
-        <el-table-column label="用电单位" sortable min-width="250" prop="TenantName"></el-table-column>
+        <el-table-column label="缺陷编号" sortable width="180" prop="No"></el-table-column>
+        <el-table-column label="用电单位" sortable min-width="230" prop="TenantName"></el-table-column>
         <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
-        <el-table-column label="缺陷等级" sortable min-width="250" prop="Rank">
+        <el-table-column label="缺陷等级" sortable width="120" prop="Rank">
           <template slot-scope="scope">
             {{formatterRank(scope.row.Rank)}}
           </template>
         </el-table-column>
         <el-table-column label="缺陷现象" min-width="250" prop="Description"></el-table-column>
-        <el-table-column label="发现时间" min-width="150" prop="DetectTime">
+        <el-table-column label="发现时间" width="120" prop="DetectTime">
           <template slot-scope="scope">
             {{scope.row.DetectTime.substring(0,10)}}
           </template>
         </el-table-column>
-        <el-table-column label="发现人" min-width="150" sortable prop="Detecter"> </el-table-column>
-        <el-table-column label="消缺结果" sortable width="150" prop="IsProcessed">
+        <el-table-column label="发现人" width="120" sortable prop="Detecter"> </el-table-column>
+        <el-table-column label="消缺结果" sortable width="120" prop="IsProcessed">
           <template slot-scope="scope">
             <span v-if="scope.row.IsProcessed"><i class="green dot"></i>已消缺</span>
             <span v-else><i class="red dot"></i>未消缺</span>
           </template>
         </el-table-column>
-        <el-table-column label="状态" sortable min-width="150" prop="Status">
+        <el-table-column label="状态" sortable width="90" prop="Status">
           <template slot-scope="scope">
             {{formatterStatus(scope.row.Status)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" min-width="250">
+        <el-table-column label="操作" fixed="right" width="240">
           <template slot-scope="scope">
             <div>
+
               <el-button type="text" size="mini" @click="handleLook(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看
+                <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
-              <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>
-                {{scope.row.Status==1?'消缺':scope.row.Status==2?'验收':scope.row.Status==3?'完成':'编辑'}}
+              <el-button type="text" v-if='scope.row.Status==1' size="mini" @click="handleUpdate(scope.row)">
+                <svg-icon icon-class='ic_solve' class="tablesvgicon"></svg-icon>消缺
               </el-button>
-              <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <el-button type="text" v-if='scope.row.Status==2' size="mini" @click="handleUpdate(scope.row)">
+                <svg-icon icon-class='ic_check' class="tablesvgicon"></svg-icon>验收
+              </el-button>
+              <el-button type="text" v-if='scope.row.Status==0' size="mini" @click="handleUpdate(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+              </el-button>
+              <el-button type="text" v-if='scope.row.Status==0' size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
     </div>
   </div>

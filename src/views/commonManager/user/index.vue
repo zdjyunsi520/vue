@@ -134,6 +134,7 @@ export default {
         .then(response => {
           this.dataList = response.data;
           this.total = response.total;
+          // this.tableHeight = "calc(100% - 125px)";
         })
         .finally(r => {
           this.listLoading = false;
