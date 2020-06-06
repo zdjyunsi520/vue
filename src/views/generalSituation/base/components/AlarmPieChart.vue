@@ -21,6 +21,10 @@ export default {
     height: {
       type: String,
       default: "250px"
+    },
+    piechartData: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -43,7 +47,23 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
+      this.showLoading();
+      if (this.piechartData.listData) {
+        this.chart.hideLoading();
+        this.setOptions(this.piechartData);
+      }
+    },
+    showLoading() {
+      this.chart.showLoading({
+        text: "Loading",
+        color: "#999999",
+        textColor: "#999",
+        maskColor: "rgba(0, 0, 0, 0)",
+        zlevel: 0
+      });
+    },
 
+    setOptions({ xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
@@ -60,16 +80,17 @@ export default {
             color: "#909399"
           },
           orient: "vertical",
-          data: [
-            "越上上限",
-            "分闸",
-            "越下限",
-            "告警",
-            "工况异常",
-            "超温",
-            "越上限",
-            "过压"
-          ]
+          data: xAxisData
+          // [
+          //   "越上上限",
+          //   "分闸",
+          //   "越下限",
+          //   "告警",
+          //   "工况异常",
+          //   "超温",
+          //   "越上限",
+          //   "过压"
+          // ]
         },
 
         color: [
@@ -103,40 +124,41 @@ export default {
             },
             radius: ["35%", "100%"],
             center: ["55%", "40%"],
-            data: [
-              {
-                value: 21,
-                name: "分闸"
-              },
-              {
-                value: 34,
-                name: "越上上限"
-              },
-              {
-                value: 43,
-                name: "越下限"
-              },
-              {
-                value: 26,
-                name: "越上限"
-              },
-              {
-                value: 17,
-                name: "超温"
-              },
-              {
-                value: 12,
-                name: "工况异常"
-              },
-              {
-                value: 22,
-                name: "告警"
-              },
-              {
-                value: 12,
-                name: "过压"
-              }
-            ]
+            data: listData
+            //  [
+            //   {
+            //     value: 21,
+            //     name: "分闸"
+            //   },
+            //   {
+            //     value: 34,
+            //     name: "越上上限"
+            //   },
+            //   {
+            //     value: 43,
+            //     name: "越下限"
+            //   },
+            //   {
+            //     value: 26,
+            //     name: "越上限"
+            //   },
+            //   {
+            //     value: 17,
+            //     name: "超温"
+            //   },
+            //   {
+            //     value: 12,
+            //     name: "工况异常"
+            //   },
+            //   {
+            //     value: 22,
+            //     name: "告警"
+            //   },
+            //   {
+            //     value: 12,
+            //     name: "过压"
+            //   }
+            // ]
           }
         ]
       });
