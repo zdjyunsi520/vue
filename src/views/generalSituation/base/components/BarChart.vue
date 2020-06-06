@@ -88,6 +88,17 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function(parms) {
+            return (
+              "用电类型 <br/>" +
+              parms[0].marker +
+              " " +
+              parms[0].name +
+              "：" +
+              parms[0].value +
+              " 户"
+            );
           }
         },
         grid: {

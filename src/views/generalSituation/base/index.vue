@@ -29,25 +29,25 @@
                       <el-col :span="6">
                         <p>
                           <span>
-                            总用户数(户)<br /><b>2</b>
+                            总用户数(户)<br /><b>{{dataInfo.TotalUserCount}}</b>
                           </span>
                         </p>
                       </el-col>
                       <el-col :span="6">
                         <p>
                           <span>
-                            总容量(kVA)<br /><b>20,000</b>
+                            总容量(kVA)<br /><b>{{dataInfo.TotalContractCapacity}}</b>
                           </span>
                         </p>
                       </el-col>
                       <el-col :span="6">
                         <p>
-                          <span>配电房(个)<br /><b>20</b></span>
+                          <span>配电房(个)<br /><b>{{dataInfo.SwitchingRoomCount}}</b></span>
                         </p>
                       </el-col>
                       <el-col :span="6">
                         <p>
-                          <span>安全运行(天)<br /><b>21,900</b></span>
+                          <span>安全运行(天)<br /><b>{{dataInfo.RunningDays}}</b></span>
                         </p>
                       </el-col>
                     </el-row>
@@ -62,17 +62,17 @@
                     <el-row>
                       <el-col :span="8">
                         <p>
-                          <span>运维城市(个)<br /><b>2</b></span>
+                          <span>运维城市(个)<br /><b>{{dataInfo.OperationSituation.OperationCityCount}}</b></span>
                         </p>
                       </el-col>
                       <el-col :span="8">
                         <p>
-                          <span>运维中心(个)<br /><b>21,000</b></span>
+                          <span>运维中心(个)<br /><b>{{dataInfo.OperationSituation.OperationCenterCount}}</b></span>
                         </p>
                       </el-col>
                       <el-col :span="8">
                         <p>
-                          <span>运维人员(个)<br /><b>2</b></span>
+                          <span>运维人员(个)<br /><b>{{dataInfo.OperationSituation.OperationUserCount}}</b></span>
                         </p>
                       </el-col>
                     </el-row>
@@ -87,17 +87,17 @@
                     <el-row>
                       <el-col :span="8">
                         <p>
-                          <span>总巡检(次)<br /><b>27</b></span>
+                          <span>总巡检(次)<br /><b>{{dataInfo.OperationSituation.TotalPatrolCount}}</b></span>
                         </p>
                       </el-col>
                       <el-col :span="8">
                         <p>
-                          <span>总预警(次)<br /><b>27,009</b></span>
+                          <span>总预警(次)<br /><b>{{dataInfo.OperationSituation.TotalWarningCount}}</b></span>
                         </p>
                       </el-col>
                       <el-col :span="8">
                         <p>
-                          <span>总抢修(次)<br /><b>27</b></span>
+                          <span>总抢修(次)<br /><b>{{dataInfo.OperationSituation.TotalRepairCount}}</b></span>
                         </p>
                       </el-col>
                     </el-row>
@@ -225,19 +225,19 @@
 
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="6">
-                        <p>本月累计<span>31次</span></p>
+                        <p>本月累计<span>{{dataInfo.WarningSituation.ThisMonthAddUp}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>本月新增<span>23次</span></p>
+                        <p>本月新增<span>{{dataInfo.WarningSituation.ThisMonthNew}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>上月累计<span>34次</span></p>
+                        <p>上月累计<span>{{dataInfo.WarningSituation.LastMonthAddUp}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>未处理<span>0个</span></p>
+                        <p>未处理<span>{{dataInfo.WarningSituation.UnprocessedCount}}个</span></p>
                       </el-col>
                     </el-row>
-                    <AlarmPieChart />
+                    <AlarmPieChart :piechartData='alarmchartData' />
                   </div>
                 </el-col>
                 <el-col :span="8" :xs="24">
@@ -266,14 +266,8 @@
                       用电类型统计
                     </div>
                     <el-row :gutter="20" class="legendbox">
-                      <el-col :span="8">
-                        <p>商业(户)<span>50</span></p>
-                      </el-col>
-                      <el-col :span="8">
-                        <p>工业(户)<span>1</span></p>
-                      </el-col>
-                      <el-col :span="8">
-                        <p>居民(户)<span>340</span></p>
+                      <el-col :span="8" v-for="(item,index) in electricTypeStatistic" :key="index">
+                        <p>{{item.Text}}(户)<span>{{item.Count}}</span></p>
                       </el-col>
                     </el-row>
                     <BarChart :barchartData='typeChartData' />
@@ -290,6 +284,7 @@
 
 <script>
 import { fetchTree } from "@/api/systemManager/organization";
+import { getBaseInfo } from "@/api/generalSituation/situationSystem";
 
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
@@ -351,6 +346,10 @@ const lineChartData = [
     actualData: [180, 160, 151, 106, 145, 150, 130]
   }
 ];
+const alarmchartData = {
+  xAxisData: [],
+  listData: []
+};
 const structureChartData = {
   ytext: "单位(kWh)",
   xAxisData: ["尖峰", "高峰", "平时", "低谷"],
@@ -391,21 +390,21 @@ const typeChartData = {
   listData: [
     {
       name: "商业",
-      value: 56,
+      value: 0,
       itemStyle: {
         color: "#f4a248"
       }
     },
     {
       name: "工业",
-      value: 12,
+      value: 0,
       itemStyle: {
         color: "#558cf7"
       }
     },
     {
       name: "居民",
-      value: 34,
+      value: 0,
       itemStyle: {
         color: "#81c7f9"
       }
@@ -435,7 +434,12 @@ export default {
       typeChartData: typeChartData,
       repairPieChartData: repairPieChartData,
       patrolPieChartData: patrolPieChartData,
-      collectionPieChartData: collectionPieChartData
+      collectionPieChartData: collectionPieChartData,
+      alarmchartData: alarmchartData,
+      tenantId: "",
+      dataInfo: {},
+      electricTypeStatistic: {},
+      warningTypeSituation: {}
     };
   },
   mounted() {
@@ -449,9 +453,33 @@ export default {
       fetchTree({}).then(r => {
         this.treeData = r.data;
         if (r.data.length) this.handleNodeClick(r.data[0]);
+        this.tenantId = this.treeData[0].id;
+        this.getBaseInfo(this.tenantId);
       });
     },
+    getBaseInfo(tenantId) {
+      var tenantId = tenantId;
+      getBaseInfo({ tenantId }).then(r => {
+        this.dataInfo = r.data;
+        this.electricTypeStatistic = this.dataInfo.ElectricTypeStatistic;
+        typeChartData.xAxisData = [];
+        this.electricTypeStatistic.map((v, i) => {
+          typeChartData.xAxisData.push(v.Text);
+          typeChartData.listData[i].value = v.Count;
+          return typeChartData;
+        });
 
+        this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
+        this.warningTypeSituation.map((v, i) => {
+          alarmchartData.xAxisData.push(v.Text);
+          alarmchartData.listData.push({
+            value: v.Count,
+            name: v.Text
+          });
+          return alarmchartData;
+        });
+      });
+    },
     handleNodeClick(data) {
       // this.queryParams.tenantId = data.id;
       // this.queryParams.text = data.text;
@@ -522,8 +550,7 @@ h6 {
   }
 }
 
-/deep/.el-scrollbar__bar.is-horizontal{
-  display:none;
+/deep/.el-scrollbar__bar.is-horizontal {
+  display: none;
 }
-
 </style>

@@ -36,10 +36,12 @@
               <el-row :gutter="15">
 
                 <el-col v-for="(item,index) in current" :span="current==1?24:(current==4?12:8)" :key='index'>
-                  <div class='videobox' @dragover="handleAllowDrag" @drop="handleDrop(index)">
-                    <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" height="600px" id="ysOpenDevice" allowfullscreen>
+                  <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"' ref='videobox' :style="'height:'+boxheight+'px'" @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
+                    <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" :height="boxheight+'px'" id="ysOpenDevice" allowfullscreen>
                     </iframe>
-
+                    <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete">
+                      <svg-icon icon-class='ic_delete_lx' class="svgicon"></svg-icon>
+                    </div>
                   </div>
                 </el-col>
               </el-row>
@@ -67,6 +69,8 @@ export default {
         label: "text"
       },
       id: null,
+      isDrop: false,
+      dragCurr: "",
       tabbtns: [
         {
           val: 1,
@@ -90,7 +94,8 @@ export default {
       videoUrl: "",
       hasVideo: false,
       dragTarget: {},
-      playList: []
+      playList: [],
+      boxheight: ""
     };
   },
   created() {
@@ -98,24 +103,25 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
+    this.boxheight = this.$refs.videobox[0].offsetWidth;
   },
+
   methods: {
-    renderContent(h, { node, data, store }) {
-      return (
-        // 间隔 加class
-        <span
-          class={data.type == 8 ? "custom-node" : ""}
-          draggable="true"
-          ondragstart="alert(1)"
-        >
-          <span>{data}</span>
-        </span>
-      );
-    },
+    // renderContent(h, { node, data, store }) {
+    //   return (
+    //     // 间隔 加class
+    //     <span
+    //       class={data.type == 8 ? "custom-node" : ""}
+    //       draggable="true"
+    //       ondragstart="alert(1)"
+    //     >
+    //       <span>{data}</span>
+    //     </span>
+    //   );
+    // },
 
     getMonitor() {
       getMonitor({}).then(res => {
-        console.log(res);
         let list = res.data;
         this.treeData = res.data;
         this.loading = false;
@@ -124,7 +130,10 @@ export default {
     changetTab(item) {
       item.isSelect = !item.isSelect;
       this.current = item.val;
-      this.playList = [];
+      // this.playList = [];
+      this.$nextTick(() => {
+        this.boxheight = this.$refs.videobox[0].offsetWidth;
+      });
     },
 
     handleNodeClick(obj, event) {
@@ -151,13 +160,25 @@ export default {
         }
       });
     },
+    handleDelete() {
+      console.log(11);
+    },
     dragStart(data) {
       this.dragTarget = data;
     },
-    handleAllowDrag(e) {
+    handleAllowDrag(index, e) {
+      this.dragCurr = index;
+      this.isDrop = true;
       e.preventDefault();
     },
+    handleDragdragleave(index) {
+      this.dragCurr = index;
+      this.isDrop = false;
+      // e.preventDefault();
+    },
     handleDrop(index) {
+      // this.dragCurr = index;
+      // this.isDrop = true;
       //  e.preventDefault();
       this.getPlayUrl(this.dragTarget.id, index);
     }
@@ -210,9 +231,23 @@ export default {
     box-sizing: border-box;
     margin-bottom: 15px;
     display: inline-block;
-    &:hover {
+    position: relative;
+    &:hover,
+    &.on {
       border: solid 2px #558cf7;
     }
+    .removeicon {
+      position: absolute;
+      bottom: 0;
+      right: 48px;
+      cursor: pointer;
+      .svgicon {
+        font-size: 48px;
+      }
+    }
   }
+}
+/deep/.dragright .el-scrollbar__bar.is-horizontal {
+  display: none;
 }
 </style>
