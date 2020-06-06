@@ -88,7 +88,6 @@ export default {
   created() {
     const { data } = this.$route.params;
     this.currentNode = data || {};
-    console.log("123123", this.currentNode[this.nodeKey]);
     if (this.currentNode[this.nodeKey])
       this.expandKeys = [this.currentNode[this.nodeKey]];
     this.getList();

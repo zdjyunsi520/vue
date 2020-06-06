@@ -66,7 +66,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight:"calc(100% - 125px)",
       rules: {},
       // 搜索参数
       queryParams: {

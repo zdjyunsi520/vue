@@ -55,14 +55,14 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="55"  /> -->
-        <el-table-column label="值班班组" min-width='200' prop="TeamName" />
-        <el-table-column label="值班人员" min-width='200' prop="EmployeeNames" />
-        <el-table-column label="班次类型" min-width='200' prop="ShiftTypeName" />
-        <el-table-column label="班次" min-width='200' prop="ShiftNames" />
-        <el-table-column label="角色类型" min-width='200' prop="CharaTypeName" />
+        <el-table-column label="值班班组" min-width='130' prop="TeamName" />
+        <el-table-column label="值班人员" min-width='220' prop="EmployeeNames" />
+        <el-table-column label="班次类型" width='130' prop="ShiftTypeName" />
+        <el-table-column label="班次" min-width='220' prop="ShiftNames" />
+        <el-table-column label="角色类型" width='130' prop="CharaTypeName" />
         <el-table-column label="角色" min-width='200' prop="Characters" />
-        <el-table-column label="岗位" min-width='200' prop="Positions" />
-        <el-table-column label="操作" min-width='200' fixed="right">
+        <el-table-column label="岗位" min-width='150' prop="Positions" />
+        <el-table-column label="操作" width='180' fixed="right">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -74,7 +74,7 @@
         </el-table-column>
       </el-table>
 
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
   </div>
@@ -104,7 +104,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 130px)",
+      tableHeight: "calc(100% - 130px)",
       rules: {},
       // 搜索参数
       queryParams: {
