@@ -313,7 +313,10 @@ export default {
       powerRoom: 0,
       safeRunning: 0,
       circles: [],
-      dataInfo: {},
+      dataInfo: {
+        OperationSituation: {},
+        CollectSituation: {}
+      },
       mapchartData: {}
     };
   },
@@ -324,8 +327,7 @@ export default {
     this.renderLoop();
     // this.getScreenSystem();
   },
-  created() {
-  },
+  created() {},
   methods: {
     circleCanves() {
       var _createClass = (function() {
