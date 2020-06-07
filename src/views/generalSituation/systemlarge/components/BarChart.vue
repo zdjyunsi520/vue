@@ -40,9 +40,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -98,69 +98,68 @@ export default {
           containLabel: true
         },
         legend: {
-          show:false,
-        },  
-        radiusAxis: {
-          type: 'category',
-          data: xAxisData,
-          boundaryGap: ['20%', '20%'],
-          z: 10,
-          axisTick:{
-            show:false
-          },
-          axisLabel:{
-            show:false
-          }, 
-          axisLine:{
-            lineStyle: {
-              color: '#3e4674'
-            }
-           },
-           splitLine:{
-            show:true,
-            lineStyle: {
-              color: '#3e4674'
-            }
-           },
-          splitArea:{
-            show:true
-          },
+          show: false
         },
-      
-        polar: {
-        }, 
+        radiusAxis: {
+          type: "category",
+          data: xAxisData,
+          boundaryGap: ["20%", "20%"],
+          z: 10,
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#3e4674"
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#3e4674"
+            }
+          },
+          splitArea: {
+            show: true
+          }
+        },
+
+        polar: {},
         angleAxis: {
-          boundaryGap:['20%','20%'],
-          axisTick:{
-            show:false
+          boundaryGap: ["20%", "20%"],
+          axisTick: {
+            show: false
           },
-          axisLabel:{
-            show:false
+          axisLabel: {
+            show: false
           },
-          splitLine:{   
-            show:false,
+          splitLine: {
+            show: false,
             lineStyle: {
-              color: '#3e4674'
+              color: "#3e4674"
             }
           },
-          splitArea:{
-            show:false
+          splitArea: {
+            show: false
           },
-           axisLine:{
+          axisLine: {
             lineStyle: {
-              color: '#3e4674'
+              color: "#3e4674"
             }
-           },
-           minorSplitLine:{
-             show:true
-           }
+          },
+          minorSplitLine: {
+            show: true
+          }
         },
         series: [
           {
             // name: title,
             type: "bar",
             barWidth: "10",
-             coordinateSystem: 'polar',
+            coordinateSystem: "polar",
             data: listData
           }
         ]

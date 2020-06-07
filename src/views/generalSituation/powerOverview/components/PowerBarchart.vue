@@ -40,9 +40,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -68,7 +68,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
       if (this.barchartData.prevlistData) {
-        this.chart.hideLoading();
+        this.hideLoading();
         this.setOptions(this.barchartData);
       }
     },
@@ -82,6 +82,9 @@ export default {
       });
     },
 
+    hideLoading() {
+      this.chart.hideLoading();
+    },
     setOptions({ xAxisData, prevlistData, nowlistData } = {}) {
       this.chart.setOption({
         tooltip: {
@@ -92,8 +95,8 @@ export default {
         },
         grid: {
           top: "40px",
-          left: "40px",
-          right: "40px",
+          left: "30px",
+          right: "30px",
           bottom: "20px",
           containLabel: true
         },
@@ -147,13 +150,13 @@ export default {
           {
             name: "本月",
             type: "bar",
-            barWidth: "30",
+            barWidth: "30%",
             data: prevlistData
           },
           {
             name: "上月",
             type: "bar",
-            barWidth: "30",
+            barWidth: "30%",
             data: nowlistData
           }
         ]

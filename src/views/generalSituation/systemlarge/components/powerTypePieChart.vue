@@ -38,9 +38,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -79,7 +79,9 @@ export default {
         zlevel: 0
       });
     },
-
+    hideLoading() {
+      this.chart.hideLoading();
+    },
     setOptions({ legendData, listData } = {}) {
       this.chart.setOption({
         backgroundColor: "rgba(0,0,0,0)",
@@ -106,7 +108,7 @@ export default {
             type: "pie",
             radius: ["50%", "70%"],
             center: ["50%", "45%"],
-              labelLine: {
+            labelLine: {
               show: true
             },
             label: {
@@ -118,15 +120,15 @@ export default {
             },
             emphasis: {
               label: {
-                  show: true,
-                  fontSize: '20',
-                  position: 'center',
-                  fontWeight: 'bold'
+                show: true,
+                fontSize: "20",
+                position: "center",
+                fontWeight: "bold"
               }
             },
             itemStyle: {
               borderColor: "#3e4674",
-              borderWidth:1,
+              borderWidth: 1
             },
             data: listData
           }

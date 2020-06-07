@@ -22,3 +22,42 @@ export function getPowerRoomByTenantId(data) {
 export function getDutyScheduleReport(data) {
     return post("/DutyScheduleReport/GetReport", data, commonUrl);
 }
+
+// 用户概况-基本信息
+export function getBaseInfo(data) {
+    return post("/SituationElectric/Get", data, commonUrl);
+}
+
+// 用户概况- 负荷
+export function getElectricLoad(data) {
+    return post("/SituationElectric/GetElectricLoad", data, commonUrl);
+}
+
+// 用户概况-用电情况
+export function getElectricQuantity(data) {
+    return post("/SituationElectric/GetElectricQuantity", data, commonUrl);
+}
+// 用户概况- 电量构成
+export function getElectricSituation(data) {
+    return post("/SituationElectric/GetElectricSituation", data, commonUrl);
+}
+
+// 系统总览-基本数据
+export function getSysBaseInfo(data) {
+    return post("/SituationSystem/Get", data, commonUrl);
+}
+
+// 系统总览-负荷
+export function getSysElectricLoad(data) {
+    return post("/SituationSystem/GetElectricLoad", data, commonUrl);
+}
+
+// 系统总览-用电情况
+export function getSysElectricSituation(data) {
+    return post("/SituationSystem/GetElectricSituation", data, commonUrl);
+}
+
+// 系统大屏-基本数据 
+export function getScreenSystem() {
+    return post("/ScreenSystem/Get", {}, commonUrl);
+}

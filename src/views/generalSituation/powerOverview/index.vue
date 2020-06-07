@@ -123,16 +123,16 @@
                         <div class="chart-wrapper">
                           <el-row class="legendbox lx">
                             <el-col :span="6">
-                              <p>今日最高(KW)<span>800</span></p>
+                              <p>今日最高(KW)<span>{{electricLoad.TodayHighest}}</span></p>
                             </el-col>
                             <el-col :span="6">
-                              <p>昨日最高(KW)<span>700</span></p>
+                              <p>昨日最高(KW)<span>{{electricLoad.YesterdayHighest}}</span></p>
                             </el-col>
                             <el-col :span="6">
-                              <p>本月最高(KW)<span>800</span></p>
+                              <p>本月最高(KW)<span>{{electricLoad.ThisMonthHighest}}</span></p>
                             </el-col>
                             <el-col :span="6">
-                              <p>上月最高(KW)<span>700</span></p>
+                              <p>上月最高(KW)<span>{{electricLoad.LastMonthHighest}}</span></p>
                             </el-col>
                           </el-row>
                           <div class="rightradiobox">
@@ -141,7 +141,7 @@
                               <el-radio-button :label="1">月</el-radio-button>
                             </el-radio-group>
                           </div>
-                          <line-chart ref='chart' :linechartData="lineChartData" />
+                          <line-chart ref='lineChart' :linechartData="lineChartData" />
                         </div>
                       </el-col>
                     </el-row>
@@ -161,16 +161,16 @@
                         <div class="chart-wrapper">
                           <el-row class="legendbox lx" style="margin:auto;">
                             <el-col :span="8">
-                              <p>本月最高(KW)<span>800</span></p>
+                              <p>本月最高(KW)<span>{{electricQuantity.ThisMonthHighest}}</span></p>
                             </el-col>
                             <el-col :span="8">
-                              <p>上月最高(KW)<span>700</span></p>
+                              <p>上月最高(KW)<span>{{electricQuantity.LastMonthHighest}}</span></p>
                             </el-col>
                             <el-col :span="8">
-                              <p>本年最高(KW)<span>800</span></p>
+                              <p>本年最高(KW)<span>{{electricQuantity.ThisYearHighest}}</span></p>
                             </el-col>
                           </el-row>
-                          <PowerBarchart ref='PowerBarchart' :barchartData="PowerbarChartData" />
+                          <PowerBarchart ref='PowerBarchart' :barchartData="powerbarChartData" />
                         </div>
                       </el-col>
                     </el-row>
@@ -183,7 +183,7 @@
                       电量构成
                     </div>
                     <div class="chart-wrapper">
-                      <PieChart :chartData='pieChartData' />
+                      <PieChart ref="pieChart" :chartData='pieChartData' />
                     </div>
                   </div>
                 </el-col>
@@ -205,7 +205,7 @@ import {
   getElectricLoad,
   getElectricQuantity,
   getElectricSituation
-} from "@/api/generalSituation/situationElectric";
+} from "@/api/report";
 
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
@@ -258,16 +258,20 @@ const loadChartData = {
 
 const lineChartData = [
   {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+    legendData: ["今日负荷", "昨日负荷"],
+    xAxisData: ["00:00", "01:30", "3:00"],
+    expectedData: [0, 0, 0],
+    actualData: [0, 0, 0]
   },
   {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
+    legendData: ["本月负荷", "上月负荷"],
+    xAxisData: ["01/01", "01/02", "01/03"],
+    expectedData: [0, 0, 0],
+    actualData: [0, 0, 0]
   }
 ];
 
-const PowerbarChartData = {
+const powerbarChartData = {
   xAxisData: ["01", "02", "03"],
   prevlistData: ["100", "133", "233"],
   nowlistData: ["211", "165", "43"]
@@ -308,7 +312,7 @@ export default {
       thisMonthAverage: thisMonthAverage,
       loadChartData: loadChartData,
       lineChartData: lineChartData[0],
-      PowerbarChartData: PowerbarChartData,
+      powerbarChartData: powerbarChartData,
       pieChartData: pieChartData,
 
       tenantId: "",
@@ -316,7 +320,9 @@ export default {
       switchingRoomCount: 0,
       transformCount: 0,
       electricFeeSituation: {},
-      powerFactorSituation: {}
+      powerFactorSituation: {},
+      electricQuantity: {},
+      electricLoad: {}
     };
   },
   mounted() {
@@ -364,21 +370,38 @@ export default {
     },
     getElectricLoad(tenantId) {
       var tenantId = tenantId;
-      getElectricLoad({ tenantId }).then(r => {});
+      this.$refs.lineChart.showLoading();
+      getElectricLoad({ tenantId }).then(r => {
+        this.electricLoad = r.data;
+        lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
+        lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
+        lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
+        lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
+        lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
+        lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
+        this.$refs.lineChart.hideLoading();
+      });
     },
     getElectricQuantity(tenantId) {
       var tenantId = tenantId;
+      this.$refs.PowerBarchart.showLoading();
       getElectricQuantity({ tenantId }).then(r => {
-        console.log(r);
+        this.electricQuantity = r.data;
+        powerbarChartData.xAxisData = this.electricQuantity.MonthCurveXAxis;
+        powerbarChartData.prevlistData = this.electricQuantity.LastMonthCurve;
+        powerbarChartData.nowlistData = this.electricQuantity.ThisMonthCurve;
+        this.$refs.PowerBarchart.hideLoading();
       });
     },
     getElectricSituation(tenantId) {
       var tenantId = tenantId;
+      this.$refs.pieChart.showLoading();
       getElectricSituation({ tenantId }).then(r => {
         pieChartData.listData[0].value = r.data.Sharp;
         pieChartData.listData[1].value = r.data.Peak;
         pieChartData.listData[2].value = r.data.Flat;
         pieChartData.listData[3].value = r.data.Valley;
+        this.$refs.pieChart.hideLoading();
       });
     },
 

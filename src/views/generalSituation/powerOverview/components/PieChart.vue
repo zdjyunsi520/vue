@@ -66,7 +66,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
       if (this.chartData.listData) {
-        this.chart.hideLoading();
+        this.hideLoading();
         this.setOptions(this.chartData);
       }
     },
@@ -78,6 +78,9 @@ export default {
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });
+    },
+    hideLoading() {
+      this.chart.hideLoading();
     },
 
     setOptions({ legendData, listData } = {}) {

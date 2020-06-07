@@ -291,10 +291,10 @@
 <script>
 import { fetchTree } from "@/api/systemManager/organization";
 import {
-  getBaseInfo,
-  getElectricLoad,
-  getElectricSituation
-} from "@/api/generalSituation/situationSystem";
+  getSysBaseInfo,
+  getSysElectricLoad,
+  getSysElectricSituation
+} from "@/api/report";
 
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
@@ -349,15 +349,15 @@ const collectionPieChartData = {
 const lineChartData = [
   {
     legendData: ["今日负荷", "昨日负荷"],
-    xAxisData: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+    xAxisData: ["00:00", "01:30", "3:00"],
+    expectedData: [0, 0, 0],
+    actualData: [0, 0, 0]
   },
   {
     legendData: ["本月负荷", "上月负荷"],
-    xAxisData: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
+    xAxisData: ["01/01", "01/02", "01/03"],
+    expectedData: [0, 0, 0],
+    actualData: [0, 0, 0]
   }
 ];
 const alarmchartData = {
@@ -470,12 +470,12 @@ export default {
         this.treeData = r.data;
         if (r.data.length) this.handleNodeClick(r.data[0]);
         this.tenantId = this.treeData[0].id;
-        this.getBaseInfo(this.tenantId);
+        this.getSysBaseInfo(this.tenantId);
       });
     },
-    getBaseInfo(tenantId) {
+    getSysBaseInfo(tenantId) {
       var tenantId = tenantId;
-      getBaseInfo({ tenantId }).then(r => {
+      getSysBaseInfo({ tenantId }).then(r => {
         this.dataInfo = r.data;
         this.electricTypeStatistic = this.dataInfo.ElectricTypeStatistic;
         typeChartData.xAxisData = [];
@@ -502,14 +502,14 @@ export default {
 
         repairPieChartData.listData[0].value = this.dataInfo.RepairSituation.CompletionRate;
         patrolPieChartData.listData[0].value = this.dataInfo.PatrolSituation.CompletionRate;
-        this.getElectricLoad(tenantId);
-        this.getElectricSituation(tenantId);
+        this.getSysElectricLoad(tenantId);
+        this.getSysElectricSituation(tenantId);
       });
     },
-    getElectricLoad(tenantId) {
+    getSysElectricLoad(tenantId) {
       var tenantId = tenantId;
       this.$refs.linechart.showLoading();
-      getElectricLoad({ tenantId }).then(r => {
+      getSysElectricLoad({ tenantId }).then(r => {
         this.electricLoad = r.data;
         lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
         lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
@@ -521,9 +521,9 @@ export default {
       });
     },
 
-    getElectricSituation(tenantId) {
+    getSysElectricSituation(tenantId) {
       var tenantId = tenantId;
-      getElectricSituation({ tenantId }).then(r => {
+      getSysElectricSituation({ tenantId }).then(r => {
         this.electricSituation = r.data;
         structureChartData.listData[0].value = this.electricSituation.Sharp
           ? this.electricSituation.Sharp
@@ -541,7 +541,7 @@ export default {
     },
 
     handleNodeClick(data) {
-      this.getBaseInfo(data.id);
+      this.getSysBaseInfo(data.id);
     },
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {

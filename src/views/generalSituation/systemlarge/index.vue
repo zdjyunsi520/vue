@@ -12,7 +12,7 @@
         </div>
       </el-row>
       <el-row :gutter="20">
-        <div class='topdata' >
+        <div class='topdata'>
           <el-col :span='5' :xs='12' class='count-box'>
             <p>运维中心</p>
             <div class="dataCount">
@@ -65,7 +65,7 @@
           <el-row>
             <h6>用电类型统计</h6>
             <div class="chartbox boxheight1">
-              <powerTypePieChart :chartData='powerTypeData' />
+              <powerTypePieChart ref="powerTypePieChart" :chartData='powerTypeData' />
             </div>
           </el-row>
           <el-row>
@@ -81,7 +81,7 @@
                     <img src='@/assets/image/largescreen/img_light.png'>
                     <img src='@/assets/image/largescreen/img_light.png'>
                   </div>
-                  <span>6000</span>
+                  <span>{{dataInfo.ThisMonthQuantity}}</span>
                 </el-col>
                 <el-col :span='8'>
                   <img src='@/assets/image/largescreen/img_energy.png' class='img_energy'>
@@ -92,7 +92,7 @@
                     <img src='@/assets/image/largescreen/img_light.png'>
                     <img src='@/assets/image/largescreen/img_light.png'>
                   </div>
-                  <span>3000</span>
+                  <span>{{dataInfo.LastMonthQuantity}}</span>
                 </el-col>
                 <el-col :span='8'>
                   <img src='@/assets/image/largescreen/img_energy.png' class='img_energy'>
@@ -103,7 +103,7 @@
                     <img src='@/assets/image/largescreen/img_light.png'>
                     <img src='@/assets/image/largescreen/img_light.png'>
                   </div>
-                  <span>60000</span>
+                  <span>{{dataInfo.ThisYearQuantity}}</span>
                 </el-col>
               </el-row>
             </div>
@@ -117,14 +117,14 @@
           <el-row class='commonchart'>
             <h6>用电负荷</h6>
             <div class="chartbox boxheight3">
-              <LineChart :linechartData='lineChartData' />
+              <LineChart ref="lineChart" :linechartData='lineChartData' />
             </div>
           </el-row>
         </el-col>
         <el-col :span='10' :xs='24' class='commonchart'>>
           <el-row>
             <div class="chartbox mapbox boxheight5">
-              <MapChart />
+              <MapChart :mapchartData='mapchartData' />
             </div>
           </el-row>
           <el-row style='margin-top:-70px' class="boxheight4">
@@ -201,9 +201,9 @@
                 <!-- <GainPieChart :piechartData='gainChartData' /> -->
               </div>
               <div class="ledgebox">
-                <p><i><b class='dot1'></b></i><span>123<label>总巡检(次)</label></span></p>
-                <p><i><b class='dot2'></b></i><span>232<label>总预警(次)</label></span></p>
-                <p><i><b class='dot3'></b></i><span>123<label>总抢修(次)</label></span></p>
+                <p><i><b class='dot1'></b></i><span>{{dataInfo.OperationSituation.TotalPatrolCount}}<label>总巡检(次)</label></span></p>
+                <p><i><b class='dot2'></b></i><span>{{dataInfo.OperationSituation.TotalWarningCount}}<label>总预警(次)</label></span></p>
+                <p><i><b class='dot3'></b></i><span>{{dataInfo.OperationSituation.TotalRepairCount}}<label>总抢修(次)</label></span></p>
               </div>
             </div>
           </el-row>
@@ -213,15 +213,15 @@
               <div class="circlebox">
                 <div>
                   <canvas class="js-rotate-01" width="100" height="100"></canvas>
-                  <span>187</span>
+                  <span>{{dataInfo.CollectSituation.DataServerCount}}</span>
                 </div>
                 <div>
                   <canvas class="js-rotate-02" width="100" height="100"></canvas>
-                  <span>443</span>
+                  <span>{{dataInfo.CollectSituation.ElectricMeterCount}}</span>
                 </div>
                 <div>
                   <canvas class="js-rotate-03" width="100" height="100"></canvas>
-                  <span>123</span>
+                  <span>{{dataInfo.CollectSituation.OnlineRate}}</span>
                 </div>
               </div>
             </div>
@@ -245,6 +245,8 @@
 </template>
 
 <script>
+import { getScreenSystem } from "@/api/report";
+
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import powerTypePieChart from "./components/powerTypePieChart";
@@ -256,12 +258,8 @@ import "echarts/map/js/china.js";
 import "echarts/extension-src/bmap/bmap.js";
 
 const powerTypeData = {
-  legendData: ["工业", "商业", "居民"],
-  listData: [
-    { value: 44, name: "工业" },
-    { value: 21, name: "商业" },
-    { value: 25, name: "居民" }
-  ]
+  legendData: [],
+  listData: []
 };
 const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
@@ -309,23 +307,26 @@ export default {
       tracklineChartData: tracklineChartData,
       gainChartData: gainChartData,
       startVal: 0,
-      maintenanceCenter: 3,
-      totalUsers: 234,
-      totalCapacity: 23333,
-      powerRoom: 56,
-      safeRunning: 2311,
-      circles: []
+      maintenanceCenter: 0,
+      totalUsers: 0,
+      totalCapacity: 0,
+      powerRoom: 0,
+      safeRunning: 0,
+      circles: [],
+      dataInfo: {},
+      mapchartData: {}
     };
   },
   mounted() {
+    this.getScreenSystem();
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
+    // this.getScreenSystem();
   },
   created() {
   },
   methods: {
-  
     circleCanves() {
       var _createClass = (function() {
         function defineProperties(target, props) {
@@ -461,6 +462,30 @@ export default {
       requestAnimationFrame(() => {
         this.renderLoop();
       });
+    },
+
+    getScreenSystem() {
+      getScreenSystem().then(r => {
+        this.dataInfo = r.data;
+        console.log(this.dataInfo);
+        this.maintenanceCenter = this.dataInfo.OperationSituation.OperationCenterCount;
+        this.totalUsers = this.dataInfo.TotalUserCount;
+        this.totalCapacity = this.dataInfo.TotalContractCapacity;
+        this.powerRoom = this.dataInfo.SwitchingRoomCount;
+        this.safeRunning = this.dataInfo.RunningDays;
+
+        // this.$refs.powerTypePieChart.showLoading();
+        this.dataInfo.ElectricTypeStatistic.map((v, i) => {
+          powerTypeData.legendData.push(v.Text);
+          powerTypeData.listData.push({
+            value: v.Count,
+            name: v.Text
+          });
+          return powerTypeData;
+        });
+        // this.$refs.powerTypePieChart.hideLoading();
+        this.mapchartData = this.dataInfo.ProvinceData;
+      });
     }
   }
 };
@@ -502,8 +527,9 @@ export default {
     }
   }
 }
-.topdata{
-width:80%;margin:auto
+.topdata {
+  width: 80%;
+  margin: auto;
 }
 .count-box {
   text-align: center;
