@@ -38,9 +38,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -86,23 +86,19 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        // legend: {
-        //   show: false,
-        //   right: "0",
-        //   bottom: "10",
-        //   data: legData
-        // },
+
         color: colors,
         series: [
           {
             name: title,
             type: "pie",
             radius: ["60%", "85%"],
-            center: ["50%", "50%"],
+            center: ["55%", "48%"],
+            hoverOffset: 3,
             emphasis: {
               itemStyle: {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
-                shadowBlur: 3
+                shadowBlur: 2
               }
             },
             data: [
@@ -114,32 +110,29 @@ export default {
                     show: true,
                     position: "center",
                     fontSize: 14,
-                    formatter:  params => {
+                    formatter: params => {
                       return (
-                          '{value| '+params.value+'%}\n{name|' + text + '}'
+                        "{value| " + params.value + "%} \n{name|" + text + "}"
                       );
                     },
-                    // "{d}%\n\n" + text + "",
                     rich: {
-                       
-                        name: {
-                            fontSize: 12,
-                            padding: [0, 10, 0,0],
-                            color: '#999999'
-                        },
-                        value: {
-                            fontSize: 24,
-                            fontWeight: 'bold',
-                            color: colors[0]
-                        }
+                      name: {
+                        fontSize: 12,
+                        padding: [0, 0, 0, 0],
+                        lineHeight: 20,
+                        color: "#999999"
+                      },
+                      value: {
+                        fontSize: 24,
+                        fontWeight: "bold",
+                        color: colors[0]
+                      }
                     }
-                    
                   }
-                  
                 }
               },
               {
-                value: listData[1].value,
+                value: 100 - parseInt(listData[0].value),
                 name: listData[1].name,
                 label: {
                   normal: {

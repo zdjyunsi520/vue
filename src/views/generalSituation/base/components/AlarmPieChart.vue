@@ -122,8 +122,8 @@ export default {
             labelLine: {
               show: false
             },
-            radius: ["35%", "100%"],
-            center: ["55%", "40%"],
+            radius: ["25%", "70%"],
+            center: ["55%", "50%"],
             data: listData
             //  [
             //   {

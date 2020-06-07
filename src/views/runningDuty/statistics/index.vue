@@ -35,7 +35,7 @@
           </div>
         </template>
         <el-table-column :label="activeName=='1'?'值班人员':'用电单位'" prop="Name" min-width="210" />
-        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item" width="75" />
+        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item" min-width="75" />
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>

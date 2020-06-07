@@ -113,103 +113,109 @@
                     <div class="chart-wrapper">
                       <el-row class="legendbox lx" v-if="radioType==0">
                         <el-col :span="8">
-                          <p>今日最高(KW)<span>800</span></p>
+                          <p>今日最高(KW)<span>{{electricLoad.TodayHighest}}</span></p>
                         </el-col>
                         <el-col :span="8">
-                          <p>昨日最高(KW)<span>700</span></p>
+                          <p>昨日最高(KW)<span>{{electricLoad.YesterdayHighest}}</span></p>
                         </el-col>
                         <el-col :span="8">
-                          <p>日平均(KW)<span>760</span></p>
+                          <p>日平均(KW)<span>{{electricLoad.DailyAverage}}</span></p>
                         </el-col>
                       </el-row>
                       <el-row class="legendbox lx" v-else>
                         <el-col :span="8">
-                          <p>本月最高(KW)<span>800</span></p>
+                          <p>本月最高(KW)<span>{{electricLoad.ThisMonthHighest}}</span></p>
                         </el-col>
                         <el-col :span="8">
-                          <p>上月最高(KW)<span>700</span></p>
+                          <p>上月最高(KW)<span>{{electricLoad.LastMonthHighest}}</span></p>
                         </el-col>
                         <el-col :span="8">
-                          <p>月平均(KW)<span>760</span></p>
+                          <p>月平均(KW)<span>{{electricLoad.MonthlyAverage}}</span></p>
                         </el-col>
                       </el-row>
                       <div class="rightradiobox">
-                        <el-radio-group v-model="radioType" @change=handleSetLineChartData size="mini">
+                        <el-radio-group v-model="radioType" @change='handleSetLineChartData(radioType)' size="mini">
                           <el-radio-button :label="0">日</el-radio-button>
                           <el-radio-button :label="1">月</el-radio-button>
                         </el-radio-group>
                       </div>
-                      <line-chart ref='chart' :linechartData="lineChartData" />
+                      <line-chart ref='linechart' :linechartData="lineChartData" />
                     </div>
                   </div>
                 </el-col>
               </el-row>
               <el-row :gutter="20" style="margin-top:20px;">
-                <el-col :span="8" :xs="24">
+                <el-col :span="10" :xs="24">
                   <div class="bg-white">
                     <div class="form-smtitle ">
                       抢修情况
                     </div>
                     <el-row :gutter="5" class="legendbox">
-                      <el-col :span="12" :xs="24">
+                      <el-col :span="14" :xs="24">
                         <el-row :gutter="10">
-                          <el-col :span="12">
-                            <p>累计报修(次)<span>45</span></p>
+                          <el-col :span="8">
+                            <p>本月(总)<span>{{dataInfo.RepairSituation.ThisMonthCount}}</span></p>
                           </el-col>
-                          <el-col :span="12">
-                            <p>累计抢修(次)<span>23</span></p>
+                          <el-col :span="8">
+                            <p>累计报修(次)<span>{{dataInfo.RepairSituation.ApplyCount}}</span></p>
+                          </el-col>
+                          <el-col :span="8">
+                            <p>累计抢修(次)<span>{{dataInfo.RepairSituation.DispatchCount}}</span></p>
                           </el-col>
                         </el-row>
                         <el-row :gutter="10">
-                          <el-col :span="12">
-                            <p>已完成(次)<span>50</span></p>
+                          <el-col :span="8">
+                            <p>已完成(次)<span>{{dataInfo.RepairSituation.CompletionCount}}</span></p>
                           </el-col>
-                          <el-col :span="12">
-                            <p>未完成(次)<span>45</span></p>
+                          <el-col :span="8">
+                            <p>未完成(次)<span>{{dataInfo.RepairSituation.InCompletionCount}}</span></p>
+                          </el-col>
+                          <el-col :span="8">
+                            <p>完成率<span>{{dataInfo.RepairSituation.CompletionRate}}%</span></p>
                           </el-col>
                         </el-row>
                       </el-col>
-                      <el-col :span="12" :xs="24">
+                      <el-col :span="10" :xs="24">
                         <PieChart :chartData='repairPieChartData' />
                       </el-col>
                     </el-row>
                   </div>
                 </el-col>
-                <el-col :span="8" :xs="24">
+                <el-col :span="7" :xs="24">
                   <div class="bg-white">
                     <div class="form-smtitle ">
                       巡视情况
                     </div>
                     <el-row :gutter="10" class="legendbox">
-                      <el-col :span="8" :xs="24">
+                      <el-col :span="10" :xs="24">
                         <el-col :span="24" :xs="12">
-                          <p>本月计划巡检(次)<span>100</span></p>
+                          <p>本月计划巡检(次)<span>{{dataInfo.PatrolSituation.PlanCount}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>本月实际巡检(次)<span>89</span></p>
+                          <p>本月实际巡检(次)<span>{{dataInfo.PatrolSituation.ActualCount}}</span></p>
                         </el-col>
                       </el-col>
-                      <el-col :span="16" :xs="24">
+                      <el-col :span="14" :xs="24">
                         <PieChart :chartData='patrolPieChartData' />
                       </el-col>
                     </el-row>
                   </div>
                 </el-col>
-                <el-col :span="8" :xs="24">
+                <el-col :span="7" :xs="24">
                   <div class="bg-white">
                     <div class="form-smtitle ">
                       采集情况
                     </div>
                     <el-row :gutter="10" class="legendbox">
-                      <el-col :span="8" :xs="24">
+                      <el-col :span="10" :xs="24">
                         <el-col :span="24" :xs="12">
-                          <p>采集器(个)<span>100</span></p>
+                          <p>采集器(个)<span>{{dataInfo.CollectSituation.DataServerCount}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>表计(个)<span>89</span></p>
+                          <p>表计(个)<span>{{dataInfo.CollectSituation.ElectricMeterCount}}</span></p>
                         </el-col>
                       </el-col>
-                      <el-col :span="16" :xs="24">
+                      <el-col :span="14" :xs="24">
                         <PieChart :chartData='collectionPieChartData' />
                       </el-col>
                     </el-row>
@@ -248,13 +254,13 @@
 
                     <el-row :gutter="20" class="legendbox">
                       <el-col :span="8">
-                        <p>本月(kWh)<span>80012</span></p>
+                        <p>本月(kWh)<span>{{electricSituation.ThisMonthAddUp}}</span></p>
                       </el-col>
                       <el-col :span="8">
-                        <p>上月(kWh)<span>83012</span></p>
+                        <p>上月(kWh)<span>{{electricSituation.LastMonthAddUp}}</span></p>
                       </el-col>
                       <el-col :span="8">
-                        <p>月平均(kWh)<span>280012</span></p>
+                        <p>累计年(kWh)<span>{{electricSituation.YearAddUp}}</span></p>
                       </el-col>
                     </el-row>
                     <BarChart :barchartData='structureChartData' />
@@ -284,7 +290,11 @@
 
 <script>
 import { fetchTree } from "@/api/systemManager/organization";
-import { getBaseInfo } from "@/api/generalSituation/situationSystem";
+import {
+  getBaseInfo,
+  getElectricLoad,
+  getElectricSituation
+} from "@/api/generalSituation/situationSystem";
 
 import PieChart from "./components/PieChart";
 import LineChart from "./components/LineChart";
@@ -297,11 +307,11 @@ const repairPieChartData = {
   colors: ["#558cf7", "#e3ebff"],
   listData: [
     {
-      value: 11,
+      value: 0,
       name: "已完成"
     },
     {
-      value: 32,
+      value: 100,
       name: "未完成"
     }
   ]
@@ -312,11 +322,11 @@ const patrolPieChartData = {
   colors: ["#81c7f9", "#daf0ff"],
   listData: [
     {
-      value: 11,
+      value: 0,
       name: "本月计划巡检"
     },
     {
-      value: 32,
+      value: 100,
       name: "本月实际巡检"
     }
   ]
@@ -327,21 +337,25 @@ const collectionPieChartData = {
   colors: ["#f4a248", "#ffedda"],
   listData: [
     {
-      value: 11,
-      name: "本月计划巡检"
+      value: 0,
+      name: "在线"
     },
     {
-      value: 32,
-      name: "本月实际巡检"
+      value: 100,
+      name: "离线"
     }
   ]
 };
 const lineChartData = [
   {
+    legendData: ["今日负荷", "昨日负荷"],
+    xAxisData: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
     expectedData: [100, 120, 161, 134, 105, 160, 165],
     actualData: [120, 82, 91, 154, 162, 140, 145]
   },
   {
+    legendData: ["本月负荷", "上月负荷"],
+    xAxisData: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
     expectedData: [200, 192, 120, 144, 160, 130, 140],
     actualData: [180, 160, 151, 106, 145, 150, 130]
   }
@@ -356,28 +370,28 @@ const structureChartData = {
   listData: [
     {
       name: "尖峰",
-      value: 56,
+      value: 0,
       itemStyle: {
         color: "#f4a248"
       }
     },
     {
       name: "高峰",
-      value: 12,
+      value: 0,
       itemStyle: {
         color: "#f6cf71"
       }
     },
     {
       name: "平时",
-      value: 34,
+      value: 0,
       itemStyle: {
         color: "#558cf7"
       }
     },
     {
       name: "低谷",
-      value: 5,
+      value: 0,
       itemStyle: {
         color: "#81c7f9"
       }
@@ -438,6 +452,8 @@ export default {
       alarmchartData: alarmchartData,
       tenantId: "",
       dataInfo: {},
+      electricSituation: {},
+      electricLoad: {},
       electricTypeStatistic: {},
       warningTypeSituation: {}
     };
@@ -478,12 +494,54 @@ export default {
           });
           return alarmchartData;
         });
+
+        collectionPieChartData.listData[0].value =
+          this.dataInfo.CollectSituation.OnlineRate != "NaN"
+            ? this.dataInfo.CollectSituation.OnlineRate
+            : 0;
+
+        repairPieChartData.listData[0].value = this.dataInfo.RepairSituation.CompletionRate;
+        patrolPieChartData.listData[0].value = this.dataInfo.PatrolSituation.CompletionRate;
+        this.getElectricLoad(tenantId);
+        this.getElectricSituation(tenantId);
       });
     },
+    getElectricLoad(tenantId) {
+      var tenantId = tenantId;
+      this.$refs.linechart.showLoading();
+      getElectricLoad({ tenantId }).then(r => {
+        this.electricLoad = r.data;
+        lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
+        lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
+        lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
+        lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
+        lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
+        lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
+        this.$refs.linechart.hideLoading();
+      });
+    },
+
+    getElectricSituation(tenantId) {
+      var tenantId = tenantId;
+      getElectricSituation({ tenantId }).then(r => {
+        this.electricSituation = r.data;
+        structureChartData.listData[0].value = this.electricSituation.Sharp
+          ? this.electricSituation.Sharp
+          : 0;
+        structureChartData.listData[1].value = this.electricSituation.Peak
+          ? this.electricSituation.Peak
+          : 0;
+        structureChartData.listData[2].value = this.electricSituation.Flat
+          ? this.electricSituation.Flat
+          : 0;
+        structureChartData.listData[3].value = this.electricSituation.Valley
+          ? this.electricSituation.Valley
+          : 0;
+      });
+    },
+
     handleNodeClick(data) {
-      // this.queryParams.tenantId = data.id;
-      // this.queryParams.text = data.text;
-      // this.getList();
+      this.getBaseInfo(data.id);
     },
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {

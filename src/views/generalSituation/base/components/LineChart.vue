@@ -59,12 +59,28 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
-      this.setOptions(this.linechartData);
+      this.showLoading();
+      if (this.linechartData) {
+        this.hideLoading();
+        this.setOptions(this.linechartData);
+      }
     },
-    setOptions({ expectedData, actualData } = {}) {
+    showLoading() {
+      this.chart.showLoading({
+        text: "Loading",
+        color: "#999999",
+        textColor: "#999",
+        maskColor: "rgba(0, 0, 0, 0)",
+        zlevel: 0
+      });
+    },
+    hideLoading() {
+      this.chart.hideLoading();
+    },
+    setOptions({ expectedData, xAxisData, actualData, legendData } = {}) {
       this.chart.setOption({
         grid: {
-          left: 10,
+          left: 30,
           right: 10,
           bottom: 20,
           top: 50,
@@ -81,7 +97,7 @@ export default {
           name: "",
           nameGap: 20,
           boundaryGap: false,
-          data: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
+          data: xAxisData,
           axisTick: {
             show: false
           },
@@ -137,11 +153,11 @@ export default {
           textStyle: {
             color: "#909399"
           },
-          data: ["本月负荷", "上月负荷"]
+          data: legendData
         },
         series: [
           {
-            name: "本月负荷",
+            name: legendData[0],
             showAllSymbol: true,
             itemStyle: {
               // normal: {
@@ -190,7 +206,7 @@ export default {
             }
           },
           {
-            name: "上月负荷",
+            name: legendData[1],
             showAllSymbol: true,
             clip: false,
             smooth: false,
