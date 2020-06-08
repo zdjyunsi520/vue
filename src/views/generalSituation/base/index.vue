@@ -154,24 +154,24 @@
                       <el-col :span="14" :xs="24">
                         <el-row :gutter="10">
                           <el-col :span="8">
-                            <p>本月(总)<span>{{dataInfo.RepairSituation.ThisMonthCount}}</span></p>
+                            <p>本月(总)<span>{{dataInfo.RepairThisMonth.ThisMonthCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>累计报修(次)<span>{{dataInfo.RepairSituation.ApplyCount}}</span></p>
+                            <p>累计报修(次)<span>{{dataInfo.RepairThisMonth.UserReportCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>累计抢修(次)<span>{{dataInfo.RepairSituation.DispatchCount}}</span></p>
+                            <p>累计抢修(次)<span>{{dataInfo.RepairThisMonth.DispatchCount}}</span></p>
                           </el-col>
                         </el-row>
                         <el-row :gutter="10">
                           <el-col :span="8">
-                            <p>已完成(次)<span>{{dataInfo.RepairSituation.CompletionCount}}</span></p>
+                            <p>已完成(次)<span>{{dataInfo.RepairThisMonth.CompletionCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>未完成(次)<span>{{dataInfo.RepairSituation.InCompletionCount}}</span></p>
+                            <p>未完成(次)<span>{{dataInfo.RepairThisMonth.TotalCount-dataInfo.RepairThisMonth.ExecuteCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>完成率<span>{{dataInfo.RepairSituation.CompletionRate}}%</span></p>
+                            <p>完成率<span>{{dataInfo.RepairThisMonth.CompletionRate}}%</span></p>
                           </el-col>
                         </el-row>
                       </el-col>
@@ -192,7 +192,7 @@
                           <p>本月计划巡检(次)<span>{{dataInfo.PatrolThisMonth.PlanCount}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>本月实际巡检(次)<span>{{dataInfo.PatrolThisMonth.ActualCount}}</span></p>
+                          <p>本月实际巡检(次)<span>{{dataInfo.PatrolThisMonth.ExecutedCount}}</span></p>
                         </el-col>
                       </el-col>
                       <el-col :span="14" :xs="24">
@@ -231,16 +231,16 @@
 
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="6">
-                        <p>本月累计<span>{{dataInfo.WarningSituation.ThisMonthAddUp}}次</span></p>
+                        <p>本月累计<span>{{dataInfo.WarningThisMonth.AddUpCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>本月新增<span>{{dataInfo.WarningSituation.ThisMonthNew}}次</span></p>
+                        <p>本月新增<span>{{dataInfo.WarningThisMonth.TotalCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>上月累计<span>{{dataInfo.WarningSituation.LastMonthAddUp}}次</span></p>
+                        <p>上月累计<span>{{dataInfo.WarningLastMonth.AddUpCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>未处理<span>{{dataInfo.WarningSituation.UnprocessedCount}}个</span></p>
+                        <p>未处理<span>{{dataInfo.WarningThisMonth.UnprocessedCount}}个</span></p>
                       </el-col>
                     </el-row>
                     <AlarmPieChart :piechartData='alarmchartData' />
@@ -453,10 +453,10 @@ export default {
       tenantId: "",
       dataInfo: {
         OperationSituation:{},
-        RepairSituation:{},
+        RepairThisMonth:{},
         PatrolThisMonth:{},
         CollectSituation:{},
-        WarningSituation:{},
+        WarningThisMonth:{},
         WarningTypeSituation:[]
       },
       electricSituation: {},
@@ -493,24 +493,24 @@ export default {
         });
 
         this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
-        alarmchartData.xAxisData=[];
-        alarmchartData.listData=[];
+        this.alarmchartData.xAxisData=[];
+        this.alarmchartData.listData=[];
         this.warningTypeSituation.map((v, i) => {
-          alarmchartData.xAxisData.push(v.Text);
-          alarmchartData.listData.push({
+          this.alarmchartData.xAxisData.push(v.Text);
+          this.alarmchartData.listData.push({
             value: v.Count,
             name: v.Text
           });
-          return alarmchartData;
+          return this.alarmchartData;
         });
 
-        collectionPieChartData.listData[0].value =
+        this.collectionPieChartData.listData[0].value =
           this.dataInfo.CollectSituation.OnlineRate != "NaN"
             ? this.dataInfo.CollectSituation.OnlineRate
             : 0;
 
-        repairPieChartData.listData[0].value = this.dataInfo.RepairSituation.CompletionRate;
-        patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
+        this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
+        this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
         this.getSysElectricLoad(tenantId);
         this.getSysElectricSituation(tenantId);
       });
