@@ -205,7 +205,7 @@ export default {
       const data = row;
       const TenantIds = this.TenantIds;
       const ranks = this.ranks;
-
+      const ReadOnly = true;
       let arr = ["add", "add", "add", "repair", "backFile", "backFile"];
       // const id = row.Id;
       // const username = row.UserName;
@@ -213,7 +213,7 @@ export default {
       // const mobilephone = row.MobilePhone;
       this.$router.push({
         name: "/repairOrder/repair/components/" + arr[row.Status],
-        params: { data, title, TenantIds, ranks }
+        params: { data, title, TenantIds, ranks, ReadOnly }
       });
     },
     /** 删除按钮操作 */

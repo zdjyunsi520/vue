@@ -1,11 +1,10 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
-
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="登记情况" name="add"></el-tab-pane>
-        <el-tab-pane label="消缺情况" name="repair" v-if="form1.Status>0&&(ReadOnly?form1.Status>1:true)"></el-tab-pane>
-        <el-tab-pane label="验收情况" name="backFile" v-if="form1.Status>1&&(ReadOnly?form1.Status>2:true)"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="repair" v-if="(!ReadOnly&&form1.Status>0)||(ReadOnly&&form1.Status>1)"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="backFile" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
       </el-tabs>
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
@@ -73,57 +72,44 @@
 
               </el-form-item>
             </el-col>
-            <!-- 
-            <el-col :span="11" :xs="24">
-              <el-form-item label="缺陷编号" prop="number">
-                <el-input v-model="form.number" disabled placeholder="自动生成" />
-              </el-form-item>
-            </el-col>
+            <el-col v-if="form.Id">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="缺陷编号" prop="No">
+                  <el-input v-model="form.No" disabled placeholder="自动生成" />
+                </el-form-item>
+              </el-col>
 
-            <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="填报单位" prop="unit">
-                <el-input v-model="form.unit" disabled />
-              </el-form-item>
-            </el-col>
+              <el-col :span="11" :push='1' :xs="24">
+                <el-form-item label="填报单位" prop="ReportTenantName">
+                  <el-input v-model="form.ReportTenantName" disabled />
+                </el-form-item>
+              </el-col>
 
-            <el-col :span="11" :xs="24">
-              <el-form-item label="填报人" prop="reporterName">
-                <el-input v-model="form.reporterName" disabled />
-              </el-form-item>
-            </el-col>
+              <el-col :span="11" :xs="24">
+                <el-form-item label="填报人" prop="Reporter">
+                  <el-input v-model="form.Reporter" disabled />
+                </el-form-item>
+              </el-col>
 
-            <el-col :span="11" :push='1' :xs="24">
-              <el-form-item label="填报时间" prop="ReportTime">
-                <el-date-picker v-model="form.ReportTime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
-              </el-form-item>
-            </el-col> -->
+              <el-col :span="11" :push='1' :xs="24">
+                <el-form-item label="填报时间" prop="ReportTime">
+                  <el-date-picker v-model="form.ReportTime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-col>
           </el-row>
         </el-form>
 
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form.Status<1">保 存</el-button>
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form.Status<1">发 送</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form1.Status<1&&!ReadOnly">保 存</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<1&&!ReadOnly">发 送</el-button>
           <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-      <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
-        <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlecheck">保 存</el-button>
-          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-        </span>
-      </el-dialog>
 
-      <el-dialog title="人员选择" :visible.sync="dialogEmployeesVisible" center width="500px">
-        <el-tree :data="ProcessorIds" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleEmpcheck">保 存</el-button>
-          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
-        </span>
-      </el-dialog>
     </div>
   </div>
 </template>
@@ -232,7 +218,8 @@ export default {
       activeName: "add",
       ChargePersonId: [],
       ChargePersonId1: [],
-      ReadOnly: false
+      ReadOnly: false,
+      Id: ""
     };
   },
   computed: {
@@ -249,22 +236,23 @@ export default {
   },
 
   created() {
+    let { Id, ReadOnly } = this.$route.params;
+    this.Id = Id;
+    this.ReadOnly = ReadOnly;
+    this.getInfo();
+
     this.getTenants();
     this.getTenantEmployees();
     this.getAssets();
-    let { data, ReadOnly } = this.$route.params;
-    this.ReadOnly = ReadOnly;
-    this.form1 = Object.assign({}, data);
-    this.getInfo(data);
   },
   methods: {
-    getInfo(data) {
-      if (data && data.Id) {
+    getInfo() {
+      if (this.Id) {
         this.loading = true;
-        this.form1 = data;
-        const { Id } = data;
+        const Id = this.Id;
         getInfo({ Id })
           .then(res => {
+            this.form1 = Object.assign({}, res.data);
             this.reset(res.data);
           })
           .finally(v => (this.loading = false));
@@ -273,18 +261,22 @@ export default {
       }
     },
     handleClick(a) {
-      const data = this.form1;
+      const Id = this.Id;
       const ReadOnly = this.ReadOnly;
       this.$router.push({
         name: "/defect/orderList/components/" + a.name,
-        params: { data, ReadOnly }
+        params: { Id, ReadOnly }
       });
     },
     handleConfirm(data) {
       this.ChargePersonId = data.map(v => v.id);
+      this.form.ProcessorId = this.ChargePersonId.join(",");
+      this.$refs.form.clearValidate("ProcessorId");
     },
     handleConfirm1(data) {
       this.ChargePersonId1 = data.map(v => v.id);
+      this.form.AssetsIds = this.ChargePersonId1.join(",");
+      this.$refs.form.clearValidate("AssetsIds");
     },
     // 巡视单位列表
     getTenants() {
@@ -405,8 +397,6 @@ export default {
     handleBack() {},
     // 发送
     handleSend() {
-      this.form.ProcessorId = this.ChargePersonId.join(",");
-      this.form.AssetsIds = this.ChargePersonId1.join(",");
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
@@ -459,8 +449,6 @@ export default {
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
-        this.form.ProcessorId = this.ChargePersonId.join(",");
-        this.form.AssetsIds = this.ChargePersonId1.join(",");
         if (valid) {
           //按钮转圈圈
           this.loading = true;
