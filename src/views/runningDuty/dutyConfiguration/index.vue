@@ -273,15 +273,12 @@ export default {
         type: "warning"
       })
         .then(() => {
-          return deleted({ ids });
+          deleted({ ids }).then(r => {
+            this.getList();
+            this.$message.success("删除成功！");
+          });
         })
-        .then(() => {
-          this.getList();
-          this.$message.success("删除成功！");
-        })
-        .catch(() => {
-          this.$message.success("操作失败！");
-        });
+        .catch(() => {});
     },
     // handleLock(row, lock) {
     //   let ids = row

@@ -5,7 +5,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="treeData" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+            <el-tree ref="tree" :data="treeData" node-key="id" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
         </div>
       </el-col>
@@ -125,10 +125,13 @@ export default {
       listLoading: true,
       tableHeight: "calc(100% - 125px)",
       rules: {},
-      multiple: true
+      multiple: true,
+      checkedNode: null
     };
   },
   created() {
+    const { data } = this.$route.params;
+    this.checkedNode = data || null;
     this.getTree();
   },
   mounted() {
@@ -166,7 +169,13 @@ export default {
     getTree() {
       fetchTree({}).then(r => {
         this.treeData = r.data;
-        if (r.data.length) this.handleNodeClick(r.data[0]);
+        if (r.data.length) {
+          let checkedNode = this.checkedNode ? this.checkedNode : r.data[0];
+          this.$nextTick(() => {
+            this.$refs.tree.setCurrentKey(checkedNode.id);
+          });
+          this.handleNodeClick(checkedNode);
+        }
       });
     },
     /** 搜索菜单列表 */
@@ -226,7 +235,9 @@ export default {
       name = data.Name;
       mobilephone = data.MobilePhone;
       id = data.Id;
-      data = { id, name, mobilephone };
+      const tenantId = this.queryParams.tenantId;
+      const text = this.queryParams.text;
+      data = { id, name, mobilephone, tenantId, text };
       const title = "编辑人员信息";
       this.$router.push({
         name: "/systemManager/user/components/add",
@@ -236,8 +247,10 @@ export default {
     handlePassword(data, first) {
       let id = data.Id;
       const oldpassword = first ? "" : "123";
+      const tenantId = this.queryParams.tenantId;
+      const text = this.queryParams.text;
       const title = "编辑密码";
-      data = { id, first, oldpassword };
+      data = { id, first, oldpassword, tenantId, text };
       this.$router.push({
         name: "/systemManager/user/components/password",
         params: { data, title }
@@ -246,7 +259,9 @@ export default {
 
     handleUpdateRole(row) {
       const id = row.Id;
-      const data = { id, fromUrl: "/systemManager/user/index" };
+      const tenantId = this.queryParams.tenantId;
+      const text = this.queryParams.text;
+      const data = { id, fromUrl: "/systemManager/user/index", tenantId, text };
       const title = "编辑权限";
       this.$router.push({
         name: "/commonManager/user/components/role",

@@ -13,16 +13,16 @@
             <el-date-picker v-model="form.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
           </el-form-item>
           <el-form-item label="用电单位" prop="tenantId">
-            <el-select v-model="form.tenantId">
+            <el-select v-model="form.tenantId" @change="hanldeChange">
               <el-option label="请选择" value></el-option>
               <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
             </el-select>
           </el-form-item>
-          <el-form-item label="联系人" prop="contactperson">
-            <el-input v-model="form.contactperson" placeholder="请输入联系人" />
+          <el-form-item label="联系人" prop="ContactPerson">
+            <el-input v-model="form.ContactPerson" placeholder="请输入联系人" />
           </el-form-item>
-          <el-form-item label="联系电话" prop="phoneno">
-            <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
+          <el-form-item label="联系电话" prop="PhoneNo">
+            <el-input v-model="form.PhoneNo" placeholder="请输入联系电话" />
           </el-form-item>
           <el-form-item label="记事类型" prop="type">
             <el-select v-model="form.type">
@@ -53,6 +53,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { add, update } from "@/api/runningDuty/record/dutyRecord";
+import { getInfo } from "@/api/systemManager/organization";
 export default {
   data() {
     const rules = {
@@ -105,10 +106,17 @@ export default {
     ...mapGetters({
       companyType: "status/companyType",
       recordType: "status/recordType",
-      rwType: "status/rwType"
+      rwType: "status/rwType",
+      userId: "userId"
     })
   },
   methods: {
+    hanldeChange() {
+      getInfo({ Id: this.form.tenantId }).then(r => {
+        this.form.ContactPerson = r.data.ContactPerson;
+        this.form.PhoneNo = r.data.PhoneNo;
+      });
+    },
     // 表单重置
     reset(data) {
       this.form = Object.assign(
@@ -117,11 +125,12 @@ export default {
           starttime: "",
           endtime: "",
           tenantId: "",
-          contactperson: "",
-          phoneno: "",
+          ContactPerson: "",
+          PhoneNo: "",
           type: "",
           recordcontent: "",
-          issucceed: ""
+          issucceed: true,
+          userId: this.userId
         },
         data
       );
@@ -146,8 +155,8 @@ export default {
           const fn = this.form.Id ? update : add;
           fn(this.form)
             .then(response => {
-              var txt = this.form.id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               this.$emit("getList");
               this.handleOpen();
             })
