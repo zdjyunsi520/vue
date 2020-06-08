@@ -138,7 +138,7 @@ export default {
             detail: {
               offsetCenter: [0, "0%"],
               formatter: [
-                "{a| " + currentLoadRate * 100 + "%}",
+                "{a| " + currentLoadRate + "%}",
                 "{b|当前负荷率}"
               ].join("\n"),
               rich: {
