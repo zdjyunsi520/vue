@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "223px"
+      default: "184px"
     },
 
     chartData: {

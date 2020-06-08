@@ -42,7 +42,10 @@
         <el-table-column label="操作" width="130" fixed="right">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" size="mini" icon="el-icon-document-remove" @click="handleReport(scope.row)">查看报告</el-button>
+              
+              <el-button type="text" size="mini" @click="handleReport(scope.row)">
+                <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看报告
+              </el-button>
             </div>
           </template>
         </el-table-column>

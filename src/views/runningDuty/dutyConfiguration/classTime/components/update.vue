@@ -16,7 +16,7 @@
          <el-col>
               <el-col :span="8" :xs="24">
             <el-form-item label="开始时间" prop="StartTime">
-            <el-time-select v-model="form.StartTime" :picker-options="pickerOptions" placeholder="请选择时间" />
+            <el-time-select v-model="form.StartTime"  placeholder="请选择时间" />
           </el-form-item>
              </el-col> 
                   </el-col> 
@@ -30,7 +30,7 @@
      <el-col>
               <el-col :span="8" :xs="24">
             <el-form-item label="结束时间" prop="EndTime">
-            <el-time-select v-model="form.EndTime" :picker-options="pickerOptions" placeholder="请选择时间" />
+            <el-time-select v-model="form.EndTime" placeholder="请选择时间" />
           </el-form-item>
              </el-col> 
                   </el-col> 

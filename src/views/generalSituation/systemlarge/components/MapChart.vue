@@ -178,10 +178,10 @@ export default {
   data() {
     return {
       chart: null,
-      chinaGeoCoordMap:this.mapchartData.LatitudeLongitude,
-      chinaDatas:this.mapchartData.PrvoinceValue,
-      Local:this.mapchartData.Local
-    };
+      // chinaGeoCoordMap:this.mapchartData.LatitudeLongitude,
+      // chinaDatas:this.mapchartData.PrvoinceValue,
+      // Local:"福建"
+    }
   },
   watch: {
     // chinaGeoCoordMap:{
@@ -250,7 +250,7 @@ export default {
       var res = [];
       for (var i = 0; i < data.length; i++) {
         var dataItem = data[i];
-        var fromCoord = this.chinaGeoCoordMap[dataItem[0].name];
+        var fromCoord = chinaGeoCoordMap[dataItem[0].name];
         var toCoord = [119.4543, 25.9222];
         if (fromCoord && toCoord) {
           res.push([
@@ -269,13 +269,16 @@ export default {
 
     setOptions() {
       var series = [];
-      [[this.Local, this.chinaDatas]].forEach((item, i) => {
+      [['福建', chinaDatas]].forEach((item, i) => {
         // console.log(item,this.convertData(item[1]))
         series.push(
           {
             type: "lines",
             zlevel: 3,
             symbol: ["none", "circle"],
+            tooltip:{
+              show:false
+            },
             effect: {
               show: true,
               period: 4, //箭头指向速度，值越小速度越快
@@ -302,6 +305,10 @@ export default {
               brushType: "stroke", //波纹绘制方式 stroke, fill
               scale: 4 //波纹圆环最大限制，值越大波纹越大
             },
+            
+            tooltip:{
+              show:false
+            },
             label: {
               normal: {
                 show: true,
@@ -319,7 +326,7 @@ export default {
             },
             symbol: "circle",
             symbolSize: function(val) {
-              return 15 + val[2] * 3; //圆环大小
+              return 8 + val[2] * 3; //圆环大小
             },
             itemStyle: {
               normal: {
@@ -330,7 +337,7 @@ export default {
             data: item[1].map(function(dataItem) {
               return {
                 name: dataItem[0].name,
-                value: this.chinaGeoCoordMap[dataItem[0].name].concat([
+                value: chinaGeoCoordMap[dataItem[0].name].concat([
                   dataItem[0].value
                 ])
               };
@@ -342,6 +349,9 @@ export default {
             coordinateSystem: "geo",
             zlevel: 4,
 
+            tooltip:{
+              show:false
+            },
             rippleEffect: {
               period: 4,
               brushType: "stroke",
@@ -368,7 +378,7 @@ export default {
             data: [
               {
                 name: item[0],
-                value: this.chinaGeoCoordMap[item[0]].concat([10])
+                value: chinaGeoCoordMap[item[0]].concat([10])
               }
             ]
           }

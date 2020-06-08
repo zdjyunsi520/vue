@@ -107,7 +107,7 @@
                 </el-col>
               </el-row>
             </div>
-            <div class="bottomtext">
+            <div class="bottomtext bottomtext1">
               <span>本月(kWh)</span>
               <span>上月(kWh)</span>
               <span>年累计(kWh)</span>
@@ -198,7 +198,7 @@
                 <div class='circle3'>
                   <canvas class="js-rotate-06" width="50" height="50"></canvas>
                 </div>
-                <!-- <GainPieChart :piechartData='gainChartData' /> -->
+             
               </div>
               <div class="ledgebox">
                 <p><i><b class='dot1'></b></i><span>{{dataInfo.OperationSituation.TotalPatrolCount}}<label>总巡检(次)</label></span></p>
@@ -245,7 +245,7 @@
 </template>
 
 <script>
-import { getScreenSystem } from "@/api/report";
+import { getScreenSystem,getScreenElectricLoad,getOperationCurve} from "@/api/report";
 
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
@@ -263,22 +263,19 @@ const powerTypeData = {
 };
 const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
-  highData: [100, 120, 161, 134, 105, 160, 165],
-  averageData: [42, 435, 23, 122, 445, 545, 54],
-  lowData: [120, 82, 91, 154, 162, 140, 145]
+  xAxisData:[],
+  highData: [],
+  averageData: [],
+  lowData: []
 };
 const tracklineChartData = {
   legendData: ["巡视", "故障维修", "用户报修"],
-  highData: [100, 120, 161, 134, 105, 160, 165],
-  averageData: [42, 435, 23, 122, 445, 545, 54],
-  lowData: [120, 82, 91, 154, 162, 140, 145]
+  xAxisData:[],
+  highData: [],
+  averageData: [],
+  lowData: []
 };
 
-const gainChartData = {
-  inspection: 40,
-  warning: 30,
-  repair: 70
-};
 
 export default {
   name: "baseData",
@@ -305,7 +302,6 @@ export default {
       powerTypeData: powerTypeData,
       lineChartData: lineChartData,
       tracklineChartData: tracklineChartData,
-      gainChartData: gainChartData,
       startVal: 0,
       maintenanceCenter: 0,
       totalUsers: 0,
@@ -313,12 +309,20 @@ export default {
       powerRoom: 0,
       safeRunning: 0,
       circles: [],
-      dataInfo: {},
-      mapchartData: {}
+      dataInfo: {
+        OperationSituation: {},
+        CollectSituation: {}
+      },
+      mapchartData: {},
+      sysElectricLoad:{},
+      operationCurve:{}
     };
   },
   mounted() {
     this.getScreenSystem();
+    this.getScreenElectricLoad();
+    this.getOperationCurve();
+
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
@@ -485,7 +489,26 @@ export default {
         // this.$refs.powerTypePieChart.hideLoading();
         this.mapchartData = this.dataInfo.ProvinceData;
       });
-    }
+    },
+    getScreenElectricLoad(){
+      getScreenElectricLoad().then(r => {
+        this.sysElectricLoad = r.data;
+        this.lineChartData.xAxisData = this.sysElectricLoad.CurveXAxis;
+        this.lineChartData.highData = this.sysElectricLoad.HighestCurve;
+        this.lineChartData.averageData = this.sysElectricLoad.AverageCurve;
+        this.lineChartData.lowData = this.sysElectricLoad.LowestCurve;
+      });
+    },
+    getOperationCurve(){
+      getOperationCurve().then(r => {
+        this.operationCurve = r.data;
+        this.tracklineChartData.xAxisData = this.operationCurve.CurveXAxis;
+        this.tracklineChartData.highData = this.operationCurve.PatrolCurve;
+        this.tracklineChartData.averageData = this.operationCurve.BugCurve;
+        this.tracklineChartData.lowData = this.operationCurve.RepairCurve;
+      });
+    },
+    
   }
 };
 </script>
@@ -497,7 +520,7 @@ export default {
 }
 .tophead {
   position: relative;
-  padding: 40px 0px 20px;
+  padding: 10px 0px 20px;
 
   .img_title_bj {
     width: 100%;
@@ -505,7 +528,7 @@ export default {
   .cnt {
     position: absolute;
     left: 0;
-    top: 10px;
+    top: -10px;
     text-align: center;
     right: 0;
     bottom: 0;
@@ -514,7 +537,7 @@ export default {
     & > span {
       display: inline-block;
       width: 33%;
-      vertical-align: super;
+      vertical-align: 1em;
       &.left {
         text-align: right;
         padding-right: 10%;
@@ -644,13 +667,13 @@ export default {
 
 .warnlistinfo {
   > div {
-    height: 40px;
-    line-height: 40px;
+    height: 36px;
+    line-height: 36px;
     background-color: rgba(6, 253, 255, 0.1);
     border-radius: 24px;
     display: flex;
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 0px 20px;
     .smicon {
       display: inline-block;
@@ -683,10 +706,10 @@ export default {
   height: 15vh;
 }
 .boxheight3 {
-  height: 25vh;
+  height: 24vh;
 }
 .boxheight5 {
-  height: 60vh;
+  height: 61vh;
 }
 
 /deep/.el-scrollbar__bar.is-horizontal {
@@ -695,14 +718,20 @@ export default {
 .bottomtext {
   display: flex;
   justify-content: space-between;
-  padding: 2% 10% 0;
+  padding: 2% 8% 0;
   width: 100%;
   span {
     font-size: 12px;
-    width: 100px;
+    width: 125px;
     color: #fefefe;
     text-align: center;
     display: block;
+  }
+}
+.bottomtext1 {
+  padding: 2% 0% 0;
+  span{
+    width: 33%;
   }
 }
 </style>

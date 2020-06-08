@@ -36,14 +36,24 @@ export default {
       chart: null
     };
   },
+ 
   watch: {
     linechartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val);
-      }
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
+
   mounted() {
     this.$nextTick(() => {
       this.initChart();
@@ -61,7 +71,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.setOptions(this.linechartData);
     },
-    setOptions({ legendData, highData, averageData, lowData } = {}) {
+    setOptions({xAxisData, legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 10,
@@ -81,7 +91,7 @@ export default {
           name: "",
           nameGap: 20,
           boundaryGap: false,
-          data: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
+          data: xAxisData,
           axisTick: {
             show: false
           },

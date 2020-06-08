@@ -2,11 +2,8 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组" prop="teamId">
-          <el-select v-model="queryParams.teamId">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
-          </el-select>
+        <el-form-item label="值班班组" prop="teamname">
+          <el-input v-model="queryParams.teamname" placeholder="请输入班组名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="班次类型" prop="shifttypeId">
           <el-select v-model="queryParams.shifttypeId">
@@ -58,7 +55,7 @@
         <el-table-column label="值班班组" min-width='130' prop="TeamName" />
         <el-table-column label="值班人员" min-width='220' prop="EmployeeNames" />
         <el-table-column label="班次类型" width='130' prop="ShiftTypeName" />
-        <el-table-column label="班次" min-width='180' prop="ShiftNames" />
+        <el-table-column label="班次" min-width='220' prop="ShiftNames" />
         <el-table-column label="角色类型" width='130' prop="CharaTypeName" />
         <el-table-column label="角色" min-width='150' prop="Characters" />
         <!-- <el-table-column label="岗位" min-width='150' prop="Positions" /> -->
@@ -114,7 +111,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        teamId: "",
+        teamname: "",
         shifttypeId: "",
         charatypeId: "",
         employeename: ""
@@ -270,15 +267,15 @@ export default {
           type: "warning"
         }
       )
-        .then(function() {
+        .then(() => {
           return deleted({ids});
         })
         .then(() => {
           this.getList();
-          this.msgSuccess("删除成功！");
+          this.$message.success("删除成功！");
         })
-        .catch(function() {
-          this.msgSuccess("操作失败！");
+        .catch(() => {
+          this.$message.success("操作失败！");
         });
     },
     // handleLock(row, lock) {

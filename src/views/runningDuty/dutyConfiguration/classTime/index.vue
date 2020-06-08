@@ -160,7 +160,7 @@ const ShiftTypeId = data.Id
       const shiftTypeList = this.shiftTypeList
       const charactorTypeList = this.charactorTypeList
       this.$router.push({
-        name: "/runningDuty/dutyConfiguration/role1/components/add",
+        name: "/runningDuty/dutyConfiguration/classTime/components/add",
         params: { data, title,shiftTypeList,charactorTypeList }
       });
     },
@@ -174,7 +174,7 @@ const ShiftTypeId = data.Id
         type: "warning"
       }).then(() => {
         deleted({ ids }).then(r=>{
-          this.msgSuccess("删除成功！");
+          this.$message.success("删除成功！");
            this.getList();
         })
       });

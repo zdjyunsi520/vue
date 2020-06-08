@@ -72,7 +72,7 @@
                     <div class="form-smtitle ">
                       电费
                     </div>
-                    <el-row :gutter="40" class="legendbox">
+                    <el-row :gutter="40" class="legendbox" style="padding:0 30px">
                       <el-col :span="8" :push="4">
                         <p>本月电费(元)<span>{{electricFeeSituation.ThisMonthFee}}</span></p>
                       </el-col>
@@ -89,7 +89,7 @@
                       功率因素
                     </div>
                     <el-row :gutter="10" class="legendbox">
-                      <el-col :span="8" :xs="24" style="padding-top: 4%;">
+                      <el-col :span="8" :xs="24" style="padding-top: 2%;">
                         <el-col :span="24" :xs="12">
                           <p>无功电量(kVarh)<span>{{powerFactorSituation.ReactivePower}}</span></p>
                         </el-col>
@@ -114,12 +114,12 @@
                       负荷
                     </div>
                     <el-row :gutter="20">
-                      <el-col :span="8" :xs="24">
+                      <el-col :span="6" :xs="24">
                         <div class="chart-wrapper">
                           <GaugeLoadChart :chartData='loadChartData' />
                         </div>
                       </el-col>
-                      <el-col :span="16" :xs="24">
+                      <el-col :span="18" :xs="24">
                         <div class="chart-wrapper">
                           <el-row class="legendbox lx">
                             <el-col :span="6">
@@ -418,14 +418,13 @@ export default {
 <style lang="scss" scoped>
 @import "../../../styles/tree.scss";
 /deep/.smdatabox {
-  padding: 40px 45px;
+  padding: 20px 25px;
   b {
     display: block;
     padding-top: 20px;
     font-size: 32px;
   }
   i {
-    margin-right: 8px;
     vertical-align: -0.15em;
     width: 80px;
     height: 80px;
@@ -444,7 +443,7 @@ export default {
 }
 
 .legendbox {
-  padding: 15px 30px 10px;
+  padding: 10px 30px 10px;
   &.lx {
     width: 80%;
     padding-top: 0;
@@ -457,6 +456,7 @@ export default {
     span {
       display: block;
       padding-top: 10px;
+      min-height:37px;
       color: #333;
       font-size: 24px;
     }

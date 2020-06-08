@@ -26,7 +26,7 @@ export default {
     },
     height: {
       type: String,
-      default: "333px"
+      default: "100%"
     },
 
     piechartData: {

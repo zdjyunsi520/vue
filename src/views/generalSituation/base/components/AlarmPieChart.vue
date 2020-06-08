@@ -32,6 +32,22 @@ export default {
       chart: null
     };
   },
+  watch: {
+    piechartData: {
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
+    }
+  },
   mounted() {
     this.$nextTick(() => {
       this.initChart();

@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "72%"
+      default: "78%"
     },
 
     barchartData: {
