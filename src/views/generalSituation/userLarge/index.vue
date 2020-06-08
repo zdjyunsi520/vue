@@ -57,12 +57,12 @@
           <el-row>
             <h6>电费情况</h6>
             <div class="chartbox boxheight3">
-              <el-row class="legendbox lx" >
+              <el-row class="legendbox lx">
                 <el-col :span="12">
-                  <p>本月电费(元))<span>{{dataInfo.ElectricFee.ThisMonthFee}}</span></p>
+                  <p>本月电费(元))<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
                 </el-col>
                 <el-col :span="12">
-                  <p>上月电费(元)<span>{{dataInfo.ElectricFee.LastMonthFee}}</span></p>
+                  <p>上月电费(元)<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
                 </el-col>
               </el-row>
               <BarChart :barchartData="barChartData" />
@@ -72,8 +72,8 @@
         </el-col>
         <el-col :span='10' :xs='24' class='commonchart'>
           <el-row>
-            <div class="chartbox mapbox boxheight5" >
-              <img src='@/assets/image/earth.gif'/>
+            <div class="chartbox mapbox boxheight5">
+              <img src='@/assets/image/earth.gif' />
               <!-- <div id="zh_globe_container" class='zh_globe_container' style=""></div> -->
             </div>
           </el-row>
@@ -82,10 +82,10 @@
             <div class="chartbox boxheight4">
               <LineChart :linechartData='lineChartData' :width='"75%"' style='display:inline-block' />
               <div class="ledgeright">
-                <p>本日最高(kW)<span>2252</span></p>
-                <p>昨日最高(kW)<span>2252</span></p>
-                <p>本月最高(kW)<span>2252</span></p>
-                <p>上月最高(kW)<span>2252</span></p>
+                <p>本日最高(kW)<span>{{dataInfo.ElectricLoad.TodayHighest}}</span></p>
+                <p>昨日最高(kW)<span>{{dataInfo.ElectricLoad.YesterdayHighest}}</span></p>
+                <p>本月最高(kW)<span>{{dataInfo.ElectricLoad.ThisMonthHighest}}</span></p>
+                <p>上月最高(kW)<span>{{dataInfo.ElectricLoad.LastMonthHighest}}</span></p>
               </div>
             </div>
           </el-row>
@@ -120,9 +120,9 @@
             <div class="chartbox boxheight2">
               <GainPieChart :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
               <div class="ledgeright ledgeright1">
-                <p>本月(kWh)<span>2252</span></p>
-                <p>上月(kWh)<span>2252</span></p>
-                <p>本年累计(kWh)<span>2252</span></p>
+                <p>本月(kWh)<span>{{dataInfo.ElectricSituation.ThisMonthAddUp}}</span></p>
+                <p>上月(kWh)<span>{{dataInfo.ElectricSituation.LastMonthAddUp}}</span></p>
+                <p>本年累计(kWh)<span>{{dataInfo.ElectricSituation.YearAddUp}}</span></p>
               </div>
             </div>
           </el-row>
@@ -164,19 +164,19 @@ const barChartData = {
 const gainPieChartData = [
   {
     name: "尖峰",
-    value: 554
+    value: 0
   },
   {
     name: "高峰",
-    value: 311
+    value: 0
   },
   {
     name: "平时",
-    value: 200
+    value: 0
   },
   {
     name: "低谷",
-    value: 100
+    value: 0
   }
 ];
 
@@ -210,17 +210,19 @@ export default {
       powerRoom: 0,
       circles: [],
 
-      dataInfo:{
-        ElectricFee:{},
-        PowerFactorSituation:{}
+      dataInfo: {
+        FeeThisMonth: {},
+        FeeLastMonth: {},
+        PowerFactorSituation: {},
+        ElectricLoad: {},
+        ElectricSituation: {}
       }
     };
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.getScreenTenant();
-    
+
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
@@ -381,16 +383,20 @@ export default {
         this.renderLoop();
       });
     },
-    getScreenTenant(){
-      getScreenTenant().then(r=>{
+    getScreenTenant() {
+      getScreenTenant().then(r => {
         this.dataInfo = r.data;
-        this.powerTypeData.listData[0].value=this.dataInfo.ElectricFee.BaseFee;
-        this.powerTypeData.listData[1].value=this.dataInfo.ElectricFee.DegreeFee;
-        this.powerTypeData.listData[2].value=this.dataInfo.ElectricFee.PowerAdjustmentFee;
+        this.powerTypeData.listData[0].value = this.dataInfo.FeeThisMonth.BaseFee;
+        this.powerTypeData.listData[1].value = this.dataInfo.FeeThisMonth.DegreeFee;
+        this.powerTypeData.listData[2].value = this.dataInfo.FeeThisMonth.PowerAdjustmentFee;
         this.maintenanceCenter = this.dataInfo.TransformCount;
         this.totalCapacity = this.dataInfo.TotalContractCapacity;
         this.powerRoom = this.dataInfo.SwitchingRoomCount;
-     })
+        this.gainPieChartData[0].value = this.dataInfo.ElectricSituation.Sharp;
+        this.gainPieChartData[1].value = this.dataInfo.ElectricSituation.Peak;
+        this.gainPieChartData[2].value = this.dataInfo.ElectricSituation.Flat;
+        this.gainPieChartData[3].value = this.dataInfo.ElectricSituation.Valley;
+      });
     }
   }
 };
@@ -521,13 +527,14 @@ export default {
 .mapbox {
   background: none;
   margin-bottom: 2%;
-  text-align:center;
-  &>img{
-    position:absolute;
-    bottom:10%;
-    left:0;right:0;
-    margin:auto;
-    display:block;
+  text-align: center;
+  & > img {
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: block;
   }
 }
 .smbarbox {
