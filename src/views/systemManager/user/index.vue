@@ -37,8 +37,8 @@
           <el-row class="table-btns">
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
             <el-dropdown @command="handleCommand">
-              <el-button type="primary" :disabled="multiple">
-                岗位状态<i class="el-icon-arrow-down el-icon--right"></i>
+              <el-button type="primary" plain :disabled="multiple">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>岗位状态<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="1">在职</el-dropdown-item>

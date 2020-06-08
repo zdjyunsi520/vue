@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: "350px"
+      default: "300px"
     },
 
     chartData: {
@@ -89,7 +89,7 @@ export default {
 
         title: {
           left: "center",
-          bottom: "12%",
+          bottom: "9%",
           text: "当前负荷(kW)",
           textStyle: {
             fontSize: 12,
@@ -130,7 +130,7 @@ export default {
               // show: false
             },
             //
-            radius: "70%",
+            radius: "80%",
             min: 0,
             max: 100,
             type: "gauge",

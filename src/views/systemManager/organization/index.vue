@@ -28,8 +28,16 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-unlock" @click="handleDisabled(null,false)" :disabled="multiple">启用</el-button>
-        <el-button type="info" plain icon="el-icon-lock" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button>
+  
+        <el-button type="primary" plain size="mini"  @click="handleDisabled(null,false)" :disabled="multiple">
+          <svg-icon icon-class='ic_enable' class="tablesvgicon"></svg-icon>启用
+        </el-button>
+        <el-button type="info" plain  size="mini"  @click="handleDisabled(null,true)" :disabled="multiple">
+          <svg-icon icon-class='ic_disable' class="tablesvgicon"></svg-icon>禁用
+        </el-button>
+
+        <!-- <el-button type="primary" plain icon="ic_enable" @click="handleDisabled(null,false)" :disabled="multiple">启用</el-button>
+        <el-button type="info" plain icon="ic_disable" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button> -->
       </el-row>
 
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">

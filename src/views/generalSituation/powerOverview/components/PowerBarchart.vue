@@ -150,13 +150,15 @@ export default {
           {
             name: "本月",
             type: "bar",
-            barWidth: "30%",
+            barWidth: "20%",
+            barMaxWidth:50,
             data: prevlistData
           },
           {
             name: "上月",
             type: "bar",
-            barWidth: "30%",
+            barWidth: "20%",
+            barMaxWidth:50,
             data: nowlistData
           }
         ]

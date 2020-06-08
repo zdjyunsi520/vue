@@ -3,31 +3,32 @@
     <div class="search-box marginbottom15">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
-        <el-tab-pane label="按巡视性质统计" name="1"></el-tab-pane>
+        <el-tab-pane label="按业务来源统计" name="1"></el-tab-pane>
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
       </el-tabs>
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="巡视单位" prop='tenantId'>
+        <el-form-item label="用电单位" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度" v-show="activeName=='0'" prop='patrolYear'>
+        <el-form-item label="年度" v-if="activeName=='0'" prop='patrolYear'>
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="巡视日期" v-show="activeName!='0'" prop='timeBegin'>
+        <el-form-item label="抢修日期" v-else prop='timeBegin'>
           <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           至
           <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="巡视性质" v-show="activeName!='1'" prop='ptrolnature'>
-          <el-select v-model="queryParams.ptrolnature" clearable placeholder="请选择">
-            <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.id"></el-option>
+      
+        <el-form-item label="业务来源" v-if="activeName=='0'"  prop='source'>
+          <el-select v-model="queryParams.source" clearable placeholder="请选择">
+            <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" v-show="activeName!='2'" prop='isexecute'>
+        <el-form-item label="状态"  prop='isexecute'>
           <el-select v-model="queryParams.isexecute" clearable placeholder="请选择">
-            <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.type"></el-option>
+            <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -65,7 +66,7 @@ import {
   userReportByNature,
   userReportByExecute
 } from "@/api/patrol";
-import BarChart from "@/views/patrol/components/BarChart";
+import BarChart from "../components/BarChart";
 import { getChildrenList } from "@/api/org";
 export default {
   components: {
@@ -80,9 +81,9 @@ export default {
         pagesize: 30,
         tenantId: "",
         patrolusername: "",
-        patroltimeend: "",
         patroltimebegin: "",
-        ptrolnature: "",
+        patroltimeend: "",
+        source: "",
         isexecute: ""
       },
       patrolYear: "",
@@ -96,13 +97,15 @@ export default {
       nowDoc: {},
       tableHeight:"calc(100% - 80px)",
       listLoading: true,
-      ptrolnatures: [
-        { name: "定期巡视", id: "1" },
-        { name: "临时巡视", id: "2" }
+      sources: [
+        { name: "全部", id: '' },
+        { name: "用户报修",id: '1'  },
+        { name: "故障报警", id: '2'  }
       ],
       isexecutes: [
-        { name: "已执行", type: true },
-        { name: "未执行", type: false }
+        { name: "全部", id: '' },
+        { name: "未完成",id: '0'  },
+        { name: "已完成", id: '1'  }
       ],
       columns: [],
       columns1: [

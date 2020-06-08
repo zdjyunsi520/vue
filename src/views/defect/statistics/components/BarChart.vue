@@ -106,7 +106,7 @@ export default {
           top: "60px",
           left: "30px",
           right: "30px",
-          bottom: "20px",
+          bottom: "0px",
           containLabel: true
         },
         xAxis: [
@@ -168,7 +168,8 @@ export default {
             name: "巡视",
             type: "bar",
             // stack: 'vistors',
-            barWidth: "50",
+            barWidth: "40%",
+            barMaxWidth:50,
             data: listData
           }
         ]

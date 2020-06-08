@@ -56,13 +56,13 @@
           </el-row>
           <el-row>
             <h6>电费情况</h6>
-            <div class="chartbox boxheight2">
-              <el-row class="legendbox lx" v-if="radioType==0">
+            <div class="chartbox boxheight3">
+              <el-row class="legendbox lx" >
                 <el-col :span="12">
-                  <p>本月电费(元))<span>800</span></p>
+                  <p>本月电费(元))<span>{{dataInfo.ElectricFee.ThisMonthFee}}</span></p>
                 </el-col>
                 <el-col :span="12">
-                  <p>上月电费(元)<span>700</span></p>
+                  <p>上月电费(元)<span>{{dataInfo.ElectricFee.LastMonthFee}}</span></p>
                 </el-col>
               </el-row>
               <BarChart :barchartData="barChartData" />
@@ -93,19 +93,19 @@
         <el-col :span='7' :xs='24'>
           <el-row>
             <h6>功率因素</h6>
-            <div class="chartbox boxheight3 smboxheight3">
+            <div class="chartbox boxheight1 smboxheight3">
               <div class="circlebox">
                 <div>
                   <canvas class="js-rotate-01" width="100" height="100"></canvas>
-                  <span>187</span>
+                  <span>{{dataInfo.PowerFactorSituation.ReactivePower}}</span>
                 </div>
                 <div>
                   <canvas class="js-rotate-02" width="100" height="100"></canvas>
-                  <span>443</span>
+                  <span>{{dataInfo.PowerFactorSituation.LastMonthAverage}}</span>
                 </div>
                 <div>
                   <canvas class="js-rotate-03" width="100" height="100"></canvas>
-                  <span>123</span>
+                  <span>{{dataInfo.PowerFactorSituation.ThisMonthAverage}}</span>
                 </div>
               </div>
             </div>
@@ -133,6 +133,7 @@
 </template>
 
 <script>
+import { getScreenTenant } from "@/api/report";
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import powerTypePieChart from "./components/powerTypePieChart";
@@ -142,11 +143,11 @@ import BarChart from "./components/BarChart";
 // import * as THREE from "three";
 // import img from "@/assets/image/map.png";
 const powerTypeData = {
-  legendData: ["基本电商", "电度电费", "力调电费"],
+  legendData: ["基本电费", "电度电费", "力调电费"],
   listData: [
-    { value: 30, name: "基本电商" },
-    { value: 60, name: "电度电费" },
-    { value: 10, name: "力调电费" }
+    { value: 0, name: "基本电费" },
+    { value: 0, name: "电度电费" },
+    { value: 0, name: "力调电费" }
   ]
 };
 const lineChartData = {
@@ -198,24 +199,28 @@ export default {
         children: "childs",
         label: "text"
       },
-      radioType: 0,
       loading: false,
       powerTypeData: powerTypeData,
       lineChartData: lineChartData,
       barChartData: barChartData,
       gainPieChartData: gainPieChartData,
       startVal: 0,
-      maintenanceCenter: 3,
-      totalUsers: 234,
-      totalCapacity: 23333,
-      powerRoom: 56,
-      safeRunning: 2311,
-      circles: []
+      maintenanceCenter: 0,
+      totalCapacity: 0,
+      powerRoom: 0,
+      circles: [],
+
+      dataInfo:{
+        ElectricFee:{},
+        PowerFactorSituation:{}
+      }
     };
   },
   created() {
   },
   mounted() {
+    this.getScreenTenant();
+    
     this.dragControllerDiv();
     this.circleCanves();
     this.renderLoop();
@@ -375,6 +380,17 @@ export default {
       requestAnimationFrame(() => {
         this.renderLoop();
       });
+    },
+    getScreenTenant(){
+      getScreenTenant().then(r=>{
+        this.dataInfo = r.data;
+        this.powerTypeData.listData[0].value=this.dataInfo.ElectricFee.BaseFee;
+        this.powerTypeData.listData[1].value=this.dataInfo.ElectricFee.DegreeFee;
+        this.powerTypeData.listData[2].value=this.dataInfo.ElectricFee.PowerAdjustmentFee;
+        this.maintenanceCenter = this.dataInfo.TransformCount;
+        this.totalCapacity = this.dataInfo.TotalContractCapacity;
+        this.powerRoom = this.dataInfo.SwitchingRoomCount;
+     })
     }
   }
 };
@@ -544,6 +560,7 @@ export default {
     span {
       display: block;
       padding-top: 10px;
+      min-height: 37px;
       color: #ffffff;
       font-size: 24px;
     }
@@ -553,16 +570,16 @@ export default {
   padding: 10% 10% 2%;
 }
 .boxheight1 {
-  height: 28vh;
+  height: 25vh;
 }
 .boxheight2 {
   height: 34vh;
 }
 .boxheight3 {
-  height: 26vh;
+  height: 36vh;
 }
 .boxheight4 {
-  height: 24vh;
+  height: 23vh;
 }
 
 .boxheight5 {

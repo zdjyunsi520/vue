@@ -5,14 +5,13 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-        <el-col>
-              <el-col :span="8" :xs="24">
-                <el-form-item label="角色类型" prop="Name">
-                  <el-input v-model="form.Name" placeholder="请输入角色类型名称" />
-                </el-form-item>
-              </el-col>
-      
-       </el-col>
+            <el-col>
+                <el-col :span="8" :xs="24">
+                  <el-form-item label="班次类型" prop="Name">
+                    <el-input v-model="form.Name" placeholder="请输入角色类型名称" />
+                  </el-form-item>
+                </el-col>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
@@ -31,7 +30,7 @@
 import {
   add,
   update,
-} from "@/api/runningDuty/dutyConfiguration/classTime";
+} from "@/api/runningDuty/dutyConfiguration/classTimeType";
 
 export default {
   data() {
@@ -39,7 +38,7 @@ export default {
       Name: [
         {
           required: true,
-          message: "角色类型不能为空",
+          message: "班次类型不能为空",
           trigger: "blur"
         }
       ]

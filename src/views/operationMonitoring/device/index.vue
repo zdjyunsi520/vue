@@ -19,10 +19,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="bg-white  datainfo1  marginbottom15" v-if="dataList.length==0">
+      <div class="bg-white datainfo1 " v-if="dataList.length==0">
         <template>
-          <div class="nodata-box">
-            <img src="@/assets/image/nodata.png" />
+          <div class="nodata-box" style='height:calc(100vh - 240px)'>
+            <img src="@/assets/image/nodata.png" style='padding-top: 10%;' />
             <p>暂时还没有数据</p>
           </div>
         </template>

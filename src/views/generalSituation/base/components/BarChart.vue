@@ -147,7 +147,8 @@ export default {
           {
             name: title,
             type: "bar",
-            barWidth: "30",
+            barWidth: "40%",
+            barMaxWidth:'50',
             data: listData
           }
         ]

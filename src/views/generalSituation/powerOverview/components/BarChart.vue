@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "150px"
+      default: "130px"
     },
 
     barchartData: {
@@ -147,7 +147,8 @@ export default {
           {
             name: title,
             type: "bar",
-            barWidth: "30",
+            barWidth: "30%",
+            barMaxWidth:'50',
             data: listData
           }
         ]

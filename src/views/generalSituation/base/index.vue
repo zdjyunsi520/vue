@@ -189,10 +189,10 @@
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="10" :xs="24">
                         <el-col :span="24" :xs="12">
-                          <p>本月计划巡检(次)<span>{{dataInfo.PatrolSituation.PlanCount}}</span></p>
+                          <p>本月计划巡检(次)<span>{{dataInfo.PatrolThisMonth.PlanCount}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>本月实际巡检(次)<span>{{dataInfo.PatrolSituation.ActualCount}}</span></p>
+                          <p>本月实际巡检(次)<span>{{dataInfo.PatrolThisMonth.ActualCount}}</span></p>
                         </el-col>
                       </el-col>
                       <el-col :span="14" :xs="24">
@@ -451,11 +451,18 @@ export default {
       collectionPieChartData: collectionPieChartData,
       alarmchartData: alarmchartData,
       tenantId: "",
-      dataInfo: {},
+      dataInfo: {
+        OperationSituation:{},
+        RepairSituation:{},
+        PatrolThisMonth:{},
+        CollectSituation:{},
+        WarningSituation:{},
+        WarningTypeSituation:[]
+      },
       electricSituation: {},
       electricLoad: {},
       electricTypeStatistic: {},
-      warningTypeSituation: {}
+      warningTypeSituation: []
     };
   },
   mounted() {
@@ -478,14 +485,16 @@ export default {
       getSysBaseInfo({ tenantId }).then(r => {
         this.dataInfo = r.data;
         this.electricTypeStatistic = this.dataInfo.ElectricTypeStatistic;
-        typeChartData.xAxisData = [];
+        this.typeChartData.xAxisData = [];
         this.electricTypeStatistic.map((v, i) => {
-          typeChartData.xAxisData.push(v.Text);
-          typeChartData.listData[i].value = v.Count;
-          return typeChartData;
+          this.typeChartData.xAxisData.push(v.Text);
+          this.typeChartData.listData[i].value = v.Count;
+          return this.typeChartData;
         });
 
         this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
+        alarmchartData.xAxisData=[];
+        alarmchartData.listData=[];
         this.warningTypeSituation.map((v, i) => {
           alarmchartData.xAxisData.push(v.Text);
           alarmchartData.listData.push({
@@ -501,7 +510,7 @@ export default {
             : 0;
 
         repairPieChartData.listData[0].value = this.dataInfo.RepairSituation.CompletionRate;
-        patrolPieChartData.listData[0].value = this.dataInfo.PatrolSituation.CompletionRate;
+        patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
         this.getSysElectricLoad(tenantId);
         this.getSysElectricSituation(tenantId);
       });
@@ -566,7 +575,7 @@ h6 {
 }
 
 .legendbox {
-  padding: 15px 30px 10px;
+  padding: 10px 30px 10px;
   &.lx {
     width: 60%;
     padding-top: 0;
@@ -574,7 +583,7 @@ h6 {
   }
   p {
     color: #999;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
     padding-bottom: 0;
     span {

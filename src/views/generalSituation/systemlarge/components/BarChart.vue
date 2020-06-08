@@ -158,7 +158,8 @@ export default {
           {
             // name: title,
             type: "bar",
-            barWidth: "10",
+            barWidth: "40%",
+            barMaxWidth:'10',
             coordinateSystem: "polar",
             data: listData
           }
