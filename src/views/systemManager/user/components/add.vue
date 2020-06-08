@@ -1,10 +1,10 @@
 <template>
-   <div class="app-container">
-  <div class="search-box onlyform-box">
+  <div class="app-container">
+    <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
-    
+
       <el-scrollbar>
-        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px"  style="width:600px">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" style="width:600px">
 
           <el-form-item label="所属单位" prop="text" v-if="!form.id">
             <el-input v-model="form.text" placeholder="" :disabled="true" />
@@ -35,11 +35,11 @@
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary"  icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -105,7 +105,7 @@ export default {
     };
   },
   created() {
-    let { data , title } = this.$route.params;
+    let { data, title } = this.$route.params;
     this.title = title;
     this.reset(data);
   },
@@ -131,10 +131,11 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
+      const data = { id: this.form.tenantId, text: this.form.text };
       this.$router.push({
         name: "/systemManager/user/index",
-        params: {}
+        params: { data }
       });
     },
     /** 提交按钮 */
@@ -149,8 +150,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-               var txt = this.form.id? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               //刷新列表
               this.$emit("getList");
               //关闭窗口

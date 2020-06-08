@@ -230,13 +230,14 @@ export default {
         data
       );
     },
-    handleOpen(data) {
+    handleOpen() {
       let name = this.form.fromUrl
         ? this.form.fromUrl
         : "/commonManager/user/index";
+      const data = { id: this.form.tenantId, text: this.form.text };
       this.$router.push({
         name: name,
-        params: {}
+        params: { data }
       });
     },
     /** 提交按钮 */
@@ -284,7 +285,7 @@ export default {
             update(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success('编辑成功！');
+                this.$message.success("编辑成功！");
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口
@@ -299,7 +300,7 @@ export default {
             add(this.form)
               .then(response => {
                 //消息提示
-                this.$message.success('新增成功！');
+                this.$message.success("新增成功！");
                 //刷新列表
                 this.$emit("getList");
                 //关闭窗口
