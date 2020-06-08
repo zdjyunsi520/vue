@@ -4,8 +4,8 @@
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="故障受理" name="add"></el-tab-pane>
-        <el-tab-pane label="故障抢修" name="repair" v-if="form.Status>1"></el-tab-pane>
-        <el-tab-pane label="故障归档" name="backFile" v-if="form.Status>2"></el-tab-pane>
+        <el-tab-pane label="故障抢修" name="repair" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
+        <el-tab-pane label="故障归档" name="backFile" v-if="(!ReadOnly&&form1.Status>2)||(ReadOnly&&form1.Status>3)"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
@@ -68,15 +68,17 @@
                 <el-input v-model="form.ChargePhoneNo" placeholder="请输入负责人联系电话" :disabled="disabled" />
               </el-form-item>
             </el-col>
-            <el-col :span="11" :xs="24">
-              <el-form-item label="受理人" prop="ReceivePersonId">
-                <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="ReceivePersonId" :disabled="disabled" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="11" :xs="24">
-              <el-form-item label="联系电话" prop="ReceivePhoneNo">
-                <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" :disabled="disabled" />
-              </el-form-item>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="受理人" prop="ReceivePersonId">
+                  <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="ReceivePersonId" :disabled="disabled" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="11" :xs="24">
+                <el-form-item label="联系电话" prop="ReceivePhoneNo">
+                  <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" :disabled="disabled" />
+                </el-form-item>
+              </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
@@ -102,8 +104,8 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form.Status<2">保 存</el-button>
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form.Status<2">发 送</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form1.Status<2&&!ReadOnly">保 存</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<2&&!ReadOnly">发 送</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -205,7 +207,8 @@ export default {
       activeName: "add",
       ChargePersonId: [],
       ReceivePersonId: [],
-      form1: {}
+      form1: {},
+      ReadOnly: false
     };
   },
   computed: {
@@ -225,13 +228,14 @@ export default {
       return list;
     },
     disabled() {
-      return this.form1.Status > 1;
+      return this.form1.Status > 1 || this.ReadOnly;
     }
   },
   created() {
     this.getTenants();
     this.getTenantEmployees();
-    let { data } = this.$route.params;
+    let { data, ReadOnly } = this.$route.params;
+    this.ReadOnly = ReadOnly;
     this.form1 = Object.assign({}, data);
     this.reset(data);
   },
@@ -244,9 +248,13 @@ export default {
     },
     handleConfirm(data) {
       this.ChargePersonId = data.map(v => v.id);
+      this.form.ChargePersonId = this.ChargePersonId.join(",");
+      this.$refs.form.clearValidate("ChargePersonId");
     },
     handleConfirm1(data) {
       this.ReceivePersonId = data.map(v => v.id);
+      this.form.ReceivePersonId = this.ReceivePersonId.join(",");
+      this.$refs.form.clearValidate("ReceivePersonId");
     },
     // 巡视人员
     getTenantEmployees() {
@@ -264,7 +272,6 @@ export default {
     getProcessor() {
       if (this.ischange) {
         this.ChargePersonId = [];
-        console.log(this.ChargePersonId);
         this.form.receivepersonId = "";
       }
 
@@ -400,8 +407,6 @@ export default {
     handleBack() {},
     // 发送
     handleSend() {
-      this.form.ChargePersonId = this.ChargePersonId.join(",");
-      this.form.ReceivePersonId = this.ReceivePersonId.join(",");
       this.$refs["form"].validate(valid => {
         if (valid) {
           let { Id } = this.form;
@@ -432,8 +437,6 @@ export default {
     },
     /** 提交按钮 */
     handleSubmit() {
-      this.form.ChargePersonId = this.ChargePersonId.join(",");
-      this.form.ReceivePersonId = this.ReceivePersonId.join(",");
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;

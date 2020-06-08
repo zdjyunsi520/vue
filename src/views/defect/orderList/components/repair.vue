@@ -4,16 +4,16 @@
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="登记情况" name="add"></el-tab-pane>
-        <el-tab-pane label="消缺情况" name="repair" v-if="form1.Status>0&&(ReadOnly?form1.Status>1:true)"></el-tab-pane>
-        <el-tab-pane label="验收情况" name="backFile" v-if="form1.Status>1&&(ReadOnly?form1.Status>2:true)"></el-tab-pane>
+        <el-tab-pane label="消缺情况" name="repair" v-if="(!ReadOnly&&form1.Status>0)||(ReadOnly&&form1.Status>1)"></el-tab-pane>
+        <el-tab-pane label="验收情况" name="backFile" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
         <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="11" :xs="24">
-              <el-form-item label="消缺结果" prop="isprocessed">
-                <el-select :disabled="disabled" v-model="form.isprocessed" placeholder="请选择">
+              <el-form-item label="消缺结果" prop="IsProcessed">
+                <el-select disabled v-model="form.IsProcessed" placeholder="请选择">
                   <el-option label="已消缺" :value="true"></el-option>
                   <el-option label="未消缺" :value="false"></el-option>
                 </el-select>
@@ -21,43 +21,43 @@
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="消缺设备" prop="assetsids">
+                <el-form-item label="消缺设备" prop="AssetsIds">
                   <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="提交验收人" prop="receiverId">
+                <el-form-item label="提交验收人" prop="ReceiverId">
                   <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="缺陷原因" prop="reason">
-                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.reason" placeholder="" />
+                <el-form-item label="缺陷原因" prop="Reason">
+                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Reason" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-col>
             <el-col :span="24" :xs="24">
               <el-col :span="11" :xs="24">
-                <el-form-item label="处理说明" prop="statement">
-                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.statement" placeholder="" />
+                <el-form-item label="处理说明" prop="Statement">
+                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Statement" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-col>
-            <el-col :span="24" :xs="24" v-if="form1.Processor">
+            <el-col :span="24" :xs="24" v-if="form1.Status>1">
               <el-col :span="11" :xs="24">
                 <el-form-item label="消缺人">
-                  <el-input disabled="disabled" v-model="form1.Processor" placeholder="" />
+                  <el-input disabled v-model="form.Processor" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-col>
-            <el-col :span="24" :xs="24" v-if="form1.processtime">
+            <el-col :span="24" :xs="24" v-if="form1.ProcessTime">
               <el-col :span="11" :xs="24">
-                <el-form-item label="消缺时间" prop="processtime">
-                  <el-date-picker disabled="disabled" v-model="form.processtime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                <el-form-item label="消缺时间" prop="ProcessTime">
+                  <el-date-picker disabled v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-col>
@@ -67,8 +67,8 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSubmit" :loading="loading" v-if="form1.Status == 1">发 送</el-button>
-          <el-button type="primary" icon="el-icon-s-release"  @click="handleBack" :loading="loading" v-if="form1.Status == 1">回 退</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSubmit" :disabled="!form.IsProcessed" :loading="loading" v-if="form1.Status == 1&&!ReadOnly">发 送</el-button>
+          <el-button type="primary" icon="el-icon-s-release"  @click="handleBack" :loading="loading" v-if="form1.Status == 1&&!ReadOnly">回 退</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { getInfo as getInfoAdd } from "@/api/biz";
 import { getInfo, add, senderOrder, backOrder } from "@/api/biz/solution";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
@@ -86,32 +87,32 @@ export default {
   components: { TreeSelect },
   data() {
     const rules = {
-      isprocessed: [
+      IsProcessed: [
         {
           required: true,
           message: "请选择消缺结果"
         }
       ],
-      assetsids: [
+      AssetsIds: [
         {
           required: true,
           message: "请选择消缺设备",
           trigger: "change"
         }
       ],
-      receiverId: [
+      ReceiverId: [
         {
           required: true,
           message: "请选择提交验收人"
         }
       ],
-      reason: [
+      Reason: [
         {
           required: true,
           message: "请填写缺陷原因"
         }
       ],
-      statement: [
+      Statement: [
         {
           required: true,
           message: "请填写处理说明"
@@ -126,7 +127,7 @@ export default {
       loading: false,
       title: "",
       deptType: "",
-      assetsIdss: [],
+      AssetsIdss: [],
       processorIds: [],
       defaultProps: {
         children: "childs",
@@ -150,7 +151,8 @@ export default {
       processpersonId: [],
       ReadOnly: false,
       assetsTreeId: [],
-      processTreeId: []
+      processTreeId: [],
+      Id: ""
     };
   },
   computed: {
@@ -172,12 +174,13 @@ export default {
     }
   },
   created() {
+    let { Id, ReadOnly } = this.$route.params;
+    this.Id = Id;
+    this.ReadOnly = ReadOnly;
+    this.getInfo();
+
     this.getTenantEmployees();
     this.getAssets();
-    let { data, ReadOnly } = this.$route.params;
-    this.ReadOnly = ReadOnly;
-    this.form1 = Object.assign({}, data);
-    data && this.getInfo(data);
   },
   methods: {
     // 获取设备列表
@@ -194,11 +197,13 @@ export default {
     },
     handleConfirm(data) {
       this.assetsTreeId = data.map(v => v.id);
-      this.form.assetsids = this.assetsTreeId.join(",");
+      this.form.AssetsIds = this.assetsTreeId.join(",");
+      this.$refs.form.clearValidate("AssetsIds");
     },
     handleConfirm1(data) {
       this.processTreeId = data.map(v => v.id);
-      this.form.receiverId = this.processTreeId.join(",");
+      this.form.ReceiverId = this.processTreeId.join(",");
+      this.$refs.form.clearValidate("ReceiverId");
     },
     changeTenant() {
       this.ischange = true;
@@ -220,27 +225,37 @@ export default {
       this.form = Object.assign(
         {
           Id: "",
-          isprocessed: "",
-          assetsids: "",
-          receiverId: "",
-          reason: "",
-          statement: ""
+          IsProcessed: true,
+          AssetsIds: "",
+          ReceiverId: "",
+          Reason: "",
+          Statement: "",
+          ProcessorId: "",
+          ProcessTime: new Date()
         },
         data
       );
+      this.assetsTreeId = this.form.AssetsIds.split(",").filter(v => v);
+      this.processTreeId = this.form.ReceiverId.split(",").filter(v => v);
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate();
+      });
     },
-    getInfo(data) {
-      let { Id } = data;
-      if (data.Status > 1) {
-        this.loading = true;
-        const { Id } = data;
-        getInfo({ Id })
-          .then(res => {
-            this.reset(res.data);
-          })
-          .finally(v => (this.loading = false));
-      } else {
-        this.reset({ Id });
+    getInfo() {
+      let Id = this.Id;
+      if (Id) {
+        getInfoAdd({ Id }).then(r => {
+          this.form1 = Object.assign({}, r.data);
+          if (this.form1.Status > 1) {
+            getInfo({ Id }).then(res => {
+              this.reset(res.data);
+            });
+          } else {
+            let data = { Id };
+            data.ProcessorId = this.form1.ProcessorId;
+            this.reset(data);
+          }
+        });
       }
     },
     handleOpen() {
@@ -250,11 +265,11 @@ export default {
       });
     },
     handleClick(a) {
-      const data = this.form1;
+      const Id = this.Id;
       const ReadOnly = this.ReadOnly;
       this.$router.push({
         name: "/defect/orderList/components/" + a.name,
-        params: { data, ReadOnly }
+        params: { Id, ReadOnly }
       });
     },
     handleBack() {
@@ -276,7 +291,7 @@ export default {
           let fn = add;
           fn(this.form)
             .then(res => {
-              let Id = res.data.Id;
+              let Id = this.Id;
               senderOrder({ Id })
                 .then(r => {
                   this.$message.success("发送成功！");

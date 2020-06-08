@@ -1,11 +1,10 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
-
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="故障受理" name="add"></el-tab-pane>
-        <el-tab-pane label="故障抢修" name="repair" v-if="form1.Status>1"></el-tab-pane>
-        <el-tab-pane label="故障归档" name="backFile" v-if="form1.Status>2"></el-tab-pane>
+        <el-tab-pane label="故障抢修" name="repair" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
+        <el-tab-pane label="故障归档" name="backFile" v-if="(!ReadOnly&&form1.Status>2)||(ReadOnly&&form1.Status>3)"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
@@ -133,19 +132,20 @@ export default {
       count: 0,
       selectAssets: [],
       activeName: "repair",
-      processpersonId: []
+      processpersonId: [],
+      ReadOnly: false
     };
   },
   computed: {
     ...mapGetters(["name", "userId", "token"]),
     disabled() {
-      return this.form1.Status > 2;
+      return this.form1.Status > 2 || this.ReadOnly;
     }
   },
   created() {
     this.getTenantEmployees();
-    let { data, TenantIds } = this.$route.params;
-
+    let { data, TenantIds, ReadOnly } = this.$route.params;
+    this.ReadOnly = ReadOnly;
     this.TenantIds = TenantIds;
     this.getInfo(data);
   },
@@ -159,6 +159,7 @@ export default {
     handleConfirm(data) {
       this.processpersonId = data.map(v => v.id);
       this.form.ProcessPersonId = this.processpersonId.join(",");
+      this.$refs.form.clearValidate("ProcessPersonId");
     },
     changeTenant() {
       this.ischange = true;

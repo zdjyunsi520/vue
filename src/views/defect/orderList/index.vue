@@ -222,34 +222,27 @@ export default {
     /** 编辑按钮操作 */
     handleLook(row) {
       const title = "编辑缺陷工单";
-      const data = row;
+      const Id = row.Id;
       const ReadOnly = true;
       let arr = ["add", "add", "repair", "backFile", "backFile"];
-      // const id = row.Id;
-      // const username = row.UserName;
-      // const name = row.Name;
-      // const mobilephone = row.MobilePhone;
+
       this.$router.push({
         name: "/defect/orderList/components/" + arr[row.Status],
-        params: { data, ReadOnly }
+        params: { Id, ReadOnly }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(row) {
-      const data = row;
-      // const id = row.Id;
-      // const username = row.UserName;
-      // const name = row.Name;
-      // const mobilephone = row.MobilePhone;
+      const Id = row.Id;
+
       let arr = ["add", "repair", "backFile", "backFile"];
       this.$router.push({
         name: "/defect/orderList/components/" + arr[row.Status],
-        params: { data }
+        params: { Id }
       });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log(row);
       this.$confirm("是否确认删除?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

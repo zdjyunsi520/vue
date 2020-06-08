@@ -4,8 +4,8 @@
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="故障受理" name="add"></el-tab-pane>
-        <el-tab-pane label="故障抢修" name="repair" v-if="form1.Status>1"></el-tab-pane>
-        <el-tab-pane label="故障归档" name="backFile" v-if="form1.Status>2"></el-tab-pane>
+        <el-tab-pane label="故障抢修" name="repair" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
+        <el-tab-pane label="故障归档" name="backFile" v-if="(!ReadOnly&&form1.Status>2)||(ReadOnly&&form1.Status>3)"></el-tab-pane>
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar>
@@ -94,20 +94,22 @@ export default {
       count: 0,
       selectAssets: [],
       activeName: "backFile",
-      processpersonId: []
+      processpersonId: [],
+      ReadOnly: false
     };
   },
   computed: {
     ...mapGetters(["name", "userId", "token"]),
     disabled() {
-      return this.form1.Status > 3;
+      return this.form1.Status > 3 || this.ReadOnly;
     }
   },
   created() {
     this.getTenantEmployees();
-    let { data, TenantIds } = this.$route.params;
+    let { data, TenantIds, ReadOnly } = this.$route.params;
     this.form1 = Object.assign({}, data);
     this.TenantIds = TenantIds;
+    this.ReadOnly = ReadOnly;
     this.getInfo(data);
   },
   methods: {
@@ -120,6 +122,7 @@ export default {
     handleConfirm(data) {
       this.processpersonId = data.map(v => v.id);
       this.form.FilePersonId = this.processpersonId.join(",");
+      this.$refs.form.clearValidate("FilePersonId");
     },
     changeTenant() {
       this.ischange = true;
