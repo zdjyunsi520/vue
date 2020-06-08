@@ -6,11 +6,11 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
             <el-col>
-                <el-col :span="8" :xs="24">
-                  <el-form-item label="班次类型" prop="Name">
-                    <el-input v-model="form.Name" placeholder="请输入角色类型名称" />
-                  </el-form-item>
-                </el-col>
+              <el-col :span="8" :xs="24">
+                <el-form-item label="班次类型" prop="Name">
+                  <el-input v-model="form.Name" placeholder="请输入角色类型名称" />
+                </el-form-item>
+              </el-col>
             </el-col>
           </el-row>
         </el-form>
@@ -27,10 +27,7 @@
 </template>
 
 <script>
-import {
-  add,
-  update,
-} from "@/api/runningDuty/dutyConfiguration/classTimeType";
+import { add, update } from "@/api/runningDuty/dutyConfiguration/classTimeType";
 
 export default {
   data() {
@@ -50,43 +47,45 @@ export default {
       loading: false,
       title: "",
 
-      shiftTypeList:[],
-      charactorTypeList:[]
+      shiftTypeList: [],
+      charactorTypeList: []
     };
   },
   created() {
-    const { data,shiftTypeList,charactorTypeList ,dutyId  } = this.$route.params;
-    this.shiftTypeList  = shiftTypeList || []
-        this.charactorTypeList   = charactorTypeList  ||[]
+    const {
+      data,
+      shiftTypeList,
+      charactorTypeList,
+      dutyId
+    } = this.$route.params;
+    this.shiftTypeList = shiftTypeList || [];
+    this.charactorTypeList = charactorTypeList || [];
 
     this.reset(data);
-
   },
-  
+
   methods: {
-
-
-
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          Id:'',
+          Id: "",
           Name: "",
           ShiftId: "",
           CharacterId: "",
-          DutyId:''
+          DutyId: ""
         },
         data
       );
-
     },
 
     handleOpen() {
-     const shiftTypeList = this.shiftTypeList,charactorTypeList = this.charactorTypeList ,dutyId = this.form.DutyId
+      const shiftTypeList = this.shiftTypeList,
+        charactorTypeList = this.charactorTypeList,
+        dutyId = this.form.DutyId;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/classTime/index",
-        params: {shiftTypeList,charactorTypeList ,dutyId}
+        params: { shiftTypeList, charactorTypeList, dutyId }
       });
     },
     /** 提交按钮 */
@@ -100,8 +99,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

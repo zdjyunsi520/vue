@@ -30,11 +30,11 @@
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="角色" prop="Name" />
-                <el-table-column label="最少人数" prop="MinPersonCount" />
-                <el-table-column label="备注" prop="Remark" />
+        <el-table-column label="最少人数" prop="MinPersonCount" />
+        <el-table-column label="备注" prop="Remark" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-     
+
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
@@ -76,21 +76,19 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-charatypeId:'',
-        name:'',
-      },
-
+        charatypeId: "",
+        name: ""
+      }
     };
   },
 
   created() {
-    const {charatypeId } = this.$route.params
+    const { charatypeId } = this.$route.params;
 
-               this.queryParams.charatypeId = charatypeId || ""
+    this.queryParams.charatypeId = charatypeId || "";
     this.getList();
   },
   methods: {
-
     filterIsMultiVersion(row) {
       return row.IsMultiVersion ? "多版本" : "单版本";
     },
@@ -139,13 +137,13 @@ charatypeId:'',
 
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/update",
-        params: { data: {charatypeId:this.queryParams.charatypeId}, title  }
+        params: { data: { charatypeId: this.queryParams.charatypeId }, title }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
-data.charatypeId = this.queryParams.charatypeId
+      data.charatypeId = this.queryParams.charatypeId;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/update",
         params: { data, title }
@@ -160,10 +158,10 @@ data.charatypeId = this.queryParams.charatypeId
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        deleted({ ids }).then(r=>{
+        deleted({ ids }).then(r => {
           this.msgSuccess("删除成功！");
-           this.getList();
-        })
+          this.getList();
+        });
       });
     }
   }

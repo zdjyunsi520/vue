@@ -5,7 +5,7 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-                <el-form-item label="班次" prop="ShiftId">
+        <el-form-item label="班次" prop="ShiftId">
           <el-select v-model="queryParams.ShiftId">
             <el-option label="全部" value=""></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
@@ -41,7 +41,7 @@
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
         <el-table-column label="岗位名称" min-width="150" prop="Name" />
-                <el-table-column label="班次" min-width="150" prop="ShiftName" />
+        <el-table-column label="班次" min-width="150" prop="ShiftName" />
         <el-table-column label="角色" min-width="180" prop="CharacterName" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/job";
+import { fetchJobList, deleted } from "@/api/runningDuty/dutyConfiguration/job";
 
 export default {
   name: "user",
@@ -86,38 +86,28 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        ShiftId:'',
-        CharacterId:'',
-        name:'',
-        dutyId:''
+        ShiftId: "",
+        CharacterId: "",
+        name: "",
+        dutyId: ""
       },
-      shiftTypeList:[],
-      charactorTypeList:[]
+      shiftTypeList: [],
+      charactorTypeList: []
     };
   },
 
   created() {
-    const {shiftTypeList, charactorTypeList,dutyId } = this.$route.params
-     this.shiftTypeList = shiftTypeList || []
-          this.charactorTypeList = charactorTypeList || []
-               this.queryParams.dutyId = dutyId || ""
+    const { shiftTypeList, charactorTypeList, dutyId } = this.$route.params;
+    this.shiftTypeList = shiftTypeList || [];
+    this.charactorTypeList = charactorTypeList || [];
+    this.queryParams.dutyId = dutyId || "";
     this.getList();
   },
   methods: {
-
-    filterIsMultiVersion(row) {
-      return row.IsMultiVersion ? "多版本" : "单版本";
-    },
-    handleSortChange(row) {
-      this.queryParams.orderby = `${row.prop} ${
-        row.order == "ascending" ? "asc" : "desc"
-      }`;
-      this.getList();
-    },
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
-      fetchList(this.queryParams)
+      fetchJobList(this.queryParams)
         .then(response => {
           this.dataList = response.data;
           this.total = response.total;
@@ -150,21 +140,26 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       const title = "新增";
-            const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+      const shiftTypeList = this.shiftTypeList;
+      const charactorTypeList = this.charactorTypeList;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/job/components/add",
-        params: { data: {DutyId:this.queryParams.dutyId}, title,shiftTypeList,charactorTypeList  }
+        params: {
+          data: { DutyId: this.queryParams.dutyId },
+          title,
+          shiftTypeList,
+          charactorTypeList
+        }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
-      const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+      const shiftTypeList = this.shiftTypeList;
+      const charactorTypeList = this.charactorTypeList;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/job/components/add",
-        params: { data, title,shiftTypeList,charactorTypeList }
+        params: { data, title, shiftTypeList, charactorTypeList }
       });
     },
 

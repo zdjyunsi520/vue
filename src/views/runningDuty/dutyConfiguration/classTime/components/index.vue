@@ -29,14 +29,14 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
-                  <el-table-column label="班次" prop="Name" />
-                <el-table-column label="开始时间" prop="StartTime" />
-                <el-table-column label="间隔天数" prop="Period" />
-                <el-table-column label="结束时间" prop="EndTime" />
-                <el-table-column label="备注" prop="Remark" />
+        <el-table-column label="班次" prop="Name" />
+        <el-table-column label="开始时间" prop="StartTime" />
+        <el-table-column label="间隔天数" prop="Period" />
+        <el-table-column label="结束时间" prop="EndTime" />
+        <el-table-column label="备注" prop="Remark" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-     
+
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
@@ -54,7 +54,10 @@
 </template>
 
 <script>
-import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/classTime";
+import {
+  fetchList,
+  deleted
+} from "@/api/runningDuty/dutyConfiguration/classTime";
 
 export default {
   name: "user",
@@ -78,21 +81,19 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-ShiftTypeId:'',
-        name:'',
-      },
-
+        ShiftTypeId: "",
+        name: ""
+      }
     };
   },
 
   created() {
-    const {ShiftTypeId } = this.$route.params
+    const { ShiftTypeId } = this.$route.params;
 
-               this.queryParams.ShiftTypeId = ShiftTypeId || ""
+    this.queryParams.ShiftTypeId = ShiftTypeId || "";
     this.getList();
   },
   methods: {
-
     filterIsMultiVersion(row) {
       return row.IsMultiVersion ? "多版本" : "单版本";
     },
@@ -127,7 +128,9 @@ ShiftTypeId:'',
     },
 
     handleBack() {
-      this.$router.push({ name: "/runningDuty/dutyConfiguration/classTime/index" });
+      this.$router.push({
+        name: "/runningDuty/dutyConfiguration/classTime/index"
+      });
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -141,7 +144,7 @@ ShiftTypeId:'',
 
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/classTime/components/update",
-        params: { data: {ShiftTypeId:this.queryParams.ShiftTypeId}, title  }
+        params: { data: { ShiftTypeId: this.queryParams.ShiftTypeId }, title }
       });
     },
     /** 编辑按钮操作 */
@@ -162,10 +165,10 @@ ShiftTypeId:'',
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        deleted({ ids }).then(r=>{
+        deleted({ ids }).then(r => {
           this.msgSuccess("删除成功！");
-           this.getList();
-        })
+          this.getList();
+        });
       });
     }
   }

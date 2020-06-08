@@ -5,38 +5,38 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
           <el-row>
-        <el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
-                        <el-form-item label="角色" prop="Name">
-                      <el-input v-model="form.Name" placeholder="请输入角色" />
-                    </el-form-item>
-              </el-col>
-      
-       </el-col> 
-         <el-col>
-              <el-col :span="8" :xs="24">
-         <el-form-item label="所属角色类型" prop="charatypeId">
-          <el-select v-model="form.charatypeId">
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
-          </el-select>
-        </el-form-item>
-             </el-col> 
-                  </el-col> 
-          <el-col>
-              <el-col :span="8" :xs="24">
-                 <el-form-item label="最少人数" prop="MinPersonCount">
-            <el-input-number v-model="form.MinPersonCount" :min="1" :max="99" controls-position="right" />
-          </el-form-item>
-     </el-col> 
-        <el-col>
+                <el-form-item label="角色" prop="Name">
+                  <el-input v-model="form.Name" placeholder="请输入角色" />
+                </el-form-item>
               </el-col>
 
- <el-col :span="8" :xs="24">
-                           <el-form-item label="备注" prop="Remark">
-            <el-input v-model="form.Remark" placeholder="" />
-          </el-form-item>
-             </el-col>  
-         </el-col>
+            </el-col>
+            <el-col>
+              <el-col :span="8" :xs="24">
+                <el-form-item label="所属角色类型" prop="charatypeId">
+                  <el-select v-model="form.charatypeId">
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col>
+              <el-col :span="8" :xs="24">
+                <el-form-item label="最少人数" prop="MinPersonCount">
+                  <el-input-number v-model="form.MinPersonCount" :min="1" :max="99" controls-position="right" />
+                </el-form-item>
+              </el-col>
+              <el-col>
+              </el-col>
+
+              <el-col :span="8" :xs="24">
+                <el-form-item label="备注" prop="Remark">
+                  <el-input v-model="form.Remark" placeholder="" />
+                </el-form-item>
+              </el-col>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
@@ -52,18 +52,12 @@
 </template>
 
 <script>
-import {
-  add,
-  update,
-} from "@/api/runningDuty/dutyConfiguration/role";
-import {
-
-  fetchCharactorType
-} from "@/api/runningDuty/dutyConfiguration";
+import { add, update } from "@/api/runningDuty/dutyConfiguration/role";
+import { fetchCharactorType } from "@/api/runningDuty/dutyConfiguration";
 export default {
   data() {
     const rules = {
-        Name: [
+      Name: [
         {
           required: true,
           message: "请输入角色",
@@ -89,17 +83,16 @@ export default {
       dialogVisible: false,
       loading: false,
       title: "",
-      charactorTypeList:[]
+      charactorTypeList: []
     };
   },
   created() {
-    const {data } = this.$route.params
+    const { data } = this.$route.params;
     this.reset(data);
     this.getCharactorType();
   },
-  
-  methods: {
 
+  methods: {
     getCharactorType() {
       fetchCharactorType({}).then(r => {
         this.charactorTypeList = r.data;
@@ -110,22 +103,21 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id:'',
+          Id: "",
           Name: "",
           charatypeId: "",
-          MinPersonCount:1,
-          Remark:''
+          MinPersonCount: 1,
+          Remark: ""
         },
         data
       );
-
     },
 
     handleOpen() {
-     const charatypeId = this.form.charatypeId
+      const charatypeId = this.form.charatypeId;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/index",
-        params: {charatypeId}
+        params: { charatypeId }
       });
     },
     /** 提交按钮 */
@@ -139,8 +131,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

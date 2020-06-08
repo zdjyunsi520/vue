@@ -5,31 +5,33 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-        <el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="岗位名称" prop="Name">
                   <el-input v-model="form.Name" placeholder="请输入岗位名称" />
                 </el-form-item>
               </el-col>
-      
-       </el-col>    <el-col>
+
+            </el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
-                             <el-form-item label="班次" prop="ShiftId">
-          <el-select v-model="form.ShiftId">
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
-          </el-select>
-        </el-form-item>
-     </el-col>    <el-col>
+                <el-form-item label="班次" prop="ShiftId">
+                  <el-select v-model="form.ShiftId">
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col>
               </el-col>
 
- <el-col :span="8" :xs="24">
-                        <el-form-item label="角色" prop="CharacterId">
-          <el-select v-model="form.CharacterId">
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
-          </el-select>
-        </el-form-item>
-             </el-col>  
-         </el-col>
+              <el-col :span="8" :xs="24">
+                <el-form-item label="角色" prop="CharacterId">
+                  <el-select v-model="form.CharacterId">
+                    <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
@@ -45,10 +47,7 @@
 </template>
 
 <script>
-import {
-  add,
-  update,
-} from "@/api/runningDuty/dutyConfiguration/job";
+import { add, update } from "@/api/runningDuty/dutyConfiguration/job";
 
 export default {
   data() {
@@ -80,43 +79,45 @@ export default {
       loading: false,
       title: "",
 
-      shiftTypeList:[],
-      charactorTypeList:[]
+      shiftTypeList: [],
+      charactorTypeList: []
     };
   },
   created() {
-    const { data,shiftTypeList,charactorTypeList ,dutyId  } = this.$route.params;
-    this.shiftTypeList  = shiftTypeList || []
-        this.charactorTypeList   = charactorTypeList  ||[]
+    const {
+      data,
+      shiftTypeList,
+      charactorTypeList,
+      dutyId
+    } = this.$route.params;
+    this.shiftTypeList = shiftTypeList || [];
+    this.charactorTypeList = charactorTypeList || [];
 
     this.reset(data);
-
   },
-  
+
   methods: {
-
-
-
     // 表单重置
     reset(data) {
       this.form = Object.assign(
         {
-          Id:'',
+          Id: "",
           Name: "",
           ShiftId: "",
           CharacterId: "",
-          DutyId:''
+          DutyId: ""
         },
         data
       );
-
     },
 
     handleOpen() {
-     const shiftTypeList = this.shiftTypeList,charactorTypeList = this.charactorTypeList ,dutyId = this.form.DutyId
+      const shiftTypeList = this.shiftTypeList,
+        charactorTypeList = this.charactorTypeList,
+        dutyId = this.form.DutyId;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/job/index",
-        params: {shiftTypeList,charactorTypeList ,dutyId}
+        params: { shiftTypeList, charactorTypeList, dutyId }
       });
     },
     /** 提交按钮 */
@@ -130,8 +131,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

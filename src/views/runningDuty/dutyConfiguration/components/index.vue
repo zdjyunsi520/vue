@@ -21,7 +21,7 @@
 
                 <el-col :span="24">
                   <el-form-item label="班次类型" prop="ShiftTypeId">
-                    <el-select v-model="form.ShiftTypeId" >
+                    <el-select v-model="form.ShiftTypeId">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                     </el-select>
@@ -30,7 +30,7 @@
 
                 <el-col :span="24">
                   <el-form-item label="角色类型" prop="charatypeId">
-                    <el-select v-model="form.charatypeId" >
+                    <el-select v-model="form.charatypeId">
                       <el-option label="请选择" value></el-option>
                       <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
                     </el-select>
@@ -87,18 +87,22 @@ export default {
         pagesize: 30
       },
       total: 1,
- 
+
       teamList: [],
       charactorTypeList: [],
       shiftTypeList: [],
       tableHeight: "calc(100% - 65px)",
       dialogAddVisible: false,
-      dutyId: ""
+      dutyId: "",
+      ifused: false
     };
   },
 
   created() {
-    const {data} = this.$route.params
+    const { data, ifused } = this.$route.params;
+    if (ifused) {
+      this.ifused = true;
+    }
     this.getCharactorType();
     this.getTeam();
     this.getShiftType();
@@ -106,13 +110,16 @@ export default {
   },
   computed: {
     disabledSelect() {
-      return this.form.Id?true:false
-     
+      return this.form.Id ? true : false;
     }
   },
   methods: {
     getTeam() {
-      fetchTeam({}).then(r => {
+      var ifused = "";
+      if (this.ifused) {
+        ifused = this.ifused ? this.ifused : "";
+      }
+      fetchTeam({ ifused }).then(r => {
         this.teamList = r.data;
       });
     },
@@ -146,27 +153,27 @@ export default {
           fn(this.form)
             .then(r => {
               this.$message.success("操作成功！");
-              this.handleBack()
+              this.handleBack();
             })
             .finally(r => (this.loadingConfirm = false));
         }
       });
     },
     reset(data) {
-      data = data || {}
-      const {Id,TeamId,ShiftTypeId,CharaType} = data;
-      this.form ={
-          Id,
-          TeamId,
-          ShiftTypeId, charatypeId: CharaType
-        }
-
+      data = data || {};
+      const { Id, TeamId, ShiftTypeId, CharaType } = data;
+      this.form = {
+        Id,
+        TeamId,
+        ShiftTypeId,
+        charatypeId: CharaType
+      };
     },
     handleAdd() {
       const target = this.$refs.add;
       target.handleOpen();
     },
- 
+
     handleDelete() {
       this.$confirm("确定要删除选中的岗位吗？")
         .then(r => {

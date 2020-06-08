@@ -33,7 +33,7 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-               <el-button size="mini" type="text" @click="handleSet(scope.row)">
+            <el-button size="mini" type="text" @click="handleSet(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>设置角色
             </el-button>
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
@@ -53,7 +53,10 @@
 </template>
 
 <script>
-import { fetchList, deleted } from "@/api/runningDuty/dutyConfiguration/roleType";
+import {
+  fetchList,
+  deleted
+} from "@/api/runningDuty/dutyConfiguration/roleType";
 
 export default {
   name: "user",
@@ -78,31 +81,21 @@ export default {
         pageno: 1,
         pagesize: 30,
 
-        name:'',
+        name: ""
       },
-      shiftTypeList:[],
-      charactorTypeList:[]
+      shiftTypeList: [],
+      charactorTypeList: []
     };
   },
 
   created() {
-    const {shiftTypeList, charactorTypeList,dutyId } = this.$route.params
-     this.shiftTypeList = shiftTypeList || []
-          this.charactorTypeList = charactorTypeList || []
-               this.queryParams.dutyId = dutyId || ""
+    const { shiftTypeList, charactorTypeList, dutyId } = this.$route.params;
+    this.shiftTypeList = shiftTypeList || [];
+    this.charactorTypeList = charactorTypeList || [];
+    this.queryParams.dutyId = dutyId || "";
     this.getList();
   },
   methods: {
-
-    filterIsMultiVersion(row) {
-      return row.IsMultiVersion ? "多版本" : "单版本";
-    },
-    handleSortChange(row) {
-      this.queryParams.orderby = `${row.prop} ${
-        row.order == "ascending" ? "asc" : "desc"
-      }`;
-      this.getList();
-    },
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
@@ -136,10 +129,10 @@ export default {
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
-    handleSet(data){
-          const title = "设置角色";
-const charatypeId = data.Id
-        this.$router.push({
+    handleSet(data) {
+      const title = "设置角色";
+      const charatypeId = data.Id;
+      this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/index",
         params: { charatypeId, title }
       });
@@ -147,36 +140,41 @@ const charatypeId = data.Id
     /** 新增按钮操作 */
     handleAdd() {
       const title = "新增";
-            const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+      const shiftTypeList = this.shiftTypeList;
+      const charactorTypeList = this.charactorTypeList;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/add",
-        params: { data: {DutyId:this.queryParams.dutyId}, title,shiftTypeList,charactorTypeList  }
+        params: {
+          data: { DutyId: this.queryParams.dutyId },
+          title,
+          shiftTypeList,
+          charactorTypeList
+        }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
-      const shiftTypeList = this.shiftTypeList
-      const charactorTypeList = this.charactorTypeList
+      const shiftTypeList = this.shiftTypeList;
+      const charactorTypeList = this.charactorTypeList;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/role1/components/add",
-        params: { data, title,shiftTypeList,charactorTypeList }
+        params: { data, title, shiftTypeList, charactorTypeList }
       });
     },
 
     /** 删除按钮操作 */
     handleDelete(row) {
-      let ids = row ? [row.Id] : this.ids.map(v => v.Id);
+      let ids = row ? [row.Id].join(",") : this.ids.map(v => v.Id).join(",");
       this.$confirm("是否确认删除选中的数据？", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        deleted({ ids }).then(r=>{
+        deleted({ ids }).then(r => {
           this.msgSuccess("删除成功！");
-           this.getList();
-        })
+          this.getList();
+        });
       });
     }
   }

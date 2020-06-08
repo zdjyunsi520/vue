@@ -5,45 +5,45 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
           <el-row>
-        <el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
-                        <el-form-item label="班次" prop="Name">
-                      <el-input v-model="form.Name" placeholder="请输入班次" />
-                    </el-form-item>
+                <el-form-item label="班次" prop="Name">
+                  <el-input v-model="form.Name" placeholder="请输入班次" />
+                </el-form-item>
               </el-col>
-      
-       </el-col> 
-         <el-col>
+
+            </el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
-            <el-form-item label="开始时间" prop="StartTime">
-            <el-time-select v-model="form.StartTime"  placeholder="请选择时间" />
-          </el-form-item>
-             </el-col> 
-                  </el-col> 
-          <el-col>
+                <el-form-item label="开始时间" prop="StartTime">
+                  <el-time-select v-model="form.StartTime" placeholder="请选择时间" />
+                </el-form-item>
+              </el-col>
+            </el-col>
+            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="间隔天数" prop="Period">
-            <el-input-number v-model="form.Period" :min="0" :max="99" controls-position="right" />
-          </el-form-item>
-     </el-col> 
-
-     <el-col>
-              <el-col :span="8" :xs="24">
-            <el-form-item label="结束时间" prop="EndTime">
-            <el-time-select v-model="form.EndTime" placeholder="请选择时间" />
-          </el-form-item>
-             </el-col> 
-                  </el-col> 
-
-        <el-col>
+                  <el-input-number v-model="form.Period" :min="0" :max="99" controls-position="right" />
+                </el-form-item>
               </el-col>
 
- <el-col :span="8" :xs="24">
-                           <el-form-item label="备注" prop="Remark">
-            <el-input v-model="form.Remark" placeholder="" />
-          </el-form-item>
-             </el-col>  
-         </el-col>
+              <el-col>
+                <el-col :span="8" :xs="24">
+                  <el-form-item label="结束时间" prop="EndTime">
+                    <el-time-select v-model="form.EndTime" placeholder="请选择时间" />
+                  </el-form-item>
+                </el-col>
+              </el-col>
+
+              <el-col>
+              </el-col>
+
+              <el-col :span="8" :xs="24">
+                <el-form-item label="备注" prop="Remark">
+                  <el-input v-model="form.Remark" placeholder="" />
+                </el-form-item>
+              </el-col>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
@@ -59,18 +59,12 @@
 </template>
 
 <script>
-import {
-  add,
-  update,
-} from "@/api/runningDuty/dutyConfiguration/classTime";
-import {
-
-  fetchCharactorType
-} from "@/api/runningDuty/dutyConfiguration";
+import { add, update } from "@/api/runningDuty/dutyConfiguration/classTime";
+import { fetchCharactorType } from "@/api/runningDuty/dutyConfiguration";
 export default {
   data() {
     const rules = {
-        Name: [
+      Name: [
         {
           required: true,
           message: "请输入角色",
@@ -83,7 +77,7 @@ export default {
           message: "请选择开始时间"
         }
       ],
-       EndTime: [
+      EndTime: [
         {
           required: true,
           message: "请选择结束时间"
@@ -102,17 +96,16 @@ export default {
       dialogVisible: false,
       loading: false,
       title: "",
-      charactorTypeList:[]
+      charactorTypeList: []
     };
   },
   created() {
-    const {data } = this.$route.params
+    const { data } = this.$route.params;
     this.reset(data);
     this.getCharactorType();
   },
-  
-  methods: {
 
+  methods: {
     getCharactorType() {
       fetchCharactorType({}).then(r => {
         this.charactorTypeList = r.data;
@@ -123,24 +116,23 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id:'',
+          Id: "",
           Name: "",
           ShiftTypeId: "",
-          EndTime:"",
-          Remark:'',
-          StartTime:'',
-                    Period: 0,
+          EndTime: "",
+          Remark: "",
+          StartTime: "",
+          Period: 0
         },
         data
       );
-
     },
 
     handleOpen() {
-     const ShiftTypeId = this.form.ShiftTypeId
+      const ShiftTypeId = this.form.ShiftTypeId;
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/classTime/components/index",
-        params: {ShiftTypeId}
+        params: { ShiftTypeId }
       });
     },
     /** 提交按钮 */
@@ -154,8 +146,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();
