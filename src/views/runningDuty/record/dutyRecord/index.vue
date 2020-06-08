@@ -13,7 +13,7 @@
         <el-form-item label="记事类型：" prop="type">
           <el-select v-model="queryParams.type">
             <el-option label="全部" value=""></el-option>
-            <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in companyType" />
+            <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in recordType" />
           </el-select>
         </el-form-item>
         <el-form-item label="联系人：" prop="contactperson">
@@ -61,7 +61,7 @@
         <el-table-column label="记事时间" prop="UpdateTime" />
         <el-table-column label="导入下一班" prop="IsSucceed" />
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <add ref="add" @getList="getList" />
   </div>
@@ -103,7 +103,8 @@ export default {
   created() {},
   computed: {
     ...mapGetters({
-      companyType: "status/companyType"
+      companyType: "status/companyType",
+      recordType: "status/recordType"
     }),
     single() {
       return this.ids.length != 1;

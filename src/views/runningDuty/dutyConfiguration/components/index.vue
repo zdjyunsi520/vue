@@ -123,11 +123,7 @@ export default {
           }
         ];
       } else {
-        var ifused = "";
-        if (this.ifused) {
-          ifused = this.ifused ? this.ifused : "";
-        }
-        fetchTeam({ ifused }).then(r => {
+        fetchTeam({}).then(r => {
           this.teamList = r.data;
         });
       }

@@ -10,10 +10,10 @@
           </el-select>
 
         </el-form-item>
-        <el-form-item label="值班班组：" prop="teamId">
-          <el-select v-model="queryParams.teamId">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in companyType" />
+        <el-form-item label="值班班组" prop="TeamId">
+          <el-select v-model="queryParams.TeamId">
+            <el-option label="全部" value></el-option>
+            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
           </el-select>
         </el-form-item>
         <el-form-item label="班次：" prop="type">
@@ -66,7 +66,7 @@
         <el-table-column label="记录内容" prop="IsSucceed" />
         <el-table-column label="注意事项" prop="IsSucceed" />
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <add ref="add" @getList="getList" />
   </div>
@@ -75,6 +75,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/runningDuty/record/shiftRecord";
+import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
 import add from "./components/add";
 export default {
   name: "user",
@@ -101,11 +102,14 @@ export default {
         recordcontent: "",
         starttime: "",
         endtime: ""
-      }
+      },
+      teamList: []
     };
   },
 
-  created() {},
+  created() {
+    this.getTeam();
+  },
   computed: {
     ...mapGetters({
       companyType: "status/companyType"
@@ -118,6 +122,11 @@ export default {
     }
   },
   methods: {
+    getTeam() {
+      fetchTeam({ ifused: true }).then(r => {
+        this.teamList = r.data;
+      });
+    },
     handleCommand(commond) {
       this.$router.push({
         name: commond,
