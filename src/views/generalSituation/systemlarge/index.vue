@@ -324,8 +324,7 @@ export default {
     this.renderLoop();
     // this.getScreenSystem();
   },
-  created() {
-  },
+  created() {},
   methods: {
     circleCanves() {
       var _createClass = (function() {

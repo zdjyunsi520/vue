@@ -104,7 +104,7 @@
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form.Status<1">保 存</el-button>
-          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form.Status<1">发 送</el-button>
+          <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form.Id&&form.Status<1">发 送</el-button>
           <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
@@ -448,8 +448,8 @@ export default {
           fn(this.form)
             .then(res => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               //刷新列表
               this.$emit("getList");
               //关闭窗口
