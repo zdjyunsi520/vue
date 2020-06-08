@@ -388,7 +388,7 @@ export default {
         this.imageUrl = this.form.AttachmentUrl.split(",").map(v => {
           return {
             name: v,
-            url: v
+            url: "http://admint.xtioe.com" + v
           };
         });
       this.$nextTick(() => {
@@ -413,10 +413,33 @@ export default {
           this.loading = true;
           let fn;
           let { Id } = this.form;
-          if (this.form.Id) fn = update;
-          else fn = add;
+          let form = {};
           this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
-          fn(this.form)
+          if (this.form.Id) {
+            fn = update;
+            form.Id = this.form.Id;
+            form.TenantId = this.form.TenantId;
+            form.AssetsIds = this.form.AssetsIds;
+            form.Rank = this.form.Rank;
+            form.Detecter = this.form.Detecter;
+            form.DetectTime = this.form.DetectTime;
+            form.ProcessorId = this.form.ProcessorId;
+            form.ProcessDue = this.form.ProcessDue;
+            form.Description = this.form.Description;
+            form.AttachmentKey = this.form.AttachmentKey;
+            form.AttachmentUrl = this.form.AttachmentUrl;
+            form.Status = this.form.Status;
+            // this.form.ReportTenantId = ''
+            // this.form.ReportTenantName = ''
+            // this.form.CreateUserId = ''
+            //  this.form.CreateTime = ''
+            //   this.form.UpdateTime = ''
+            //    this.form.CreateUserId = ''
+          } else {
+            fn = add;
+          }
+
+          fn(form)
             .then(res => {
               Id = Id ? Id : res.data.Id;
               senderOrder({ Id })
@@ -442,14 +465,26 @@ export default {
           //按钮转圈圈
           this.loading = true;
           let fn;
-          if (this.form.Id) fn = update;
-          else fn = add;
+          if (this.form.Id) {
+            fn = update;
+            this.form.ReportTime = "";
+            this.form.ReporterId = "";
+            this.form.Reporter = "";
+            // this.form.ReportTenantId = ''
+            // this.form.ReportTenantName = ''
+            // this.form.CreateUserId = ''
+            //  this.form.CreateTime = ''
+            //   this.form.UpdateTime = ''
+            //    this.form.CreateUserId = ''
+          } else {
+            fn = add;
+          }
           this.form.AttachmentUrl = this.imageUrl.map(v => v.uid).join(",");
           fn(this.form)
             .then(res => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               //刷新列表
               this.$emit("getList");
               //关闭窗口
@@ -464,7 +499,6 @@ export default {
     },
     // 附件上传成功
     handleAvatarSuccess(res, file, fileList) {
-      console.log(file);
       file.uid = res.data.FileUrls[0].Url;
       this.form.AttachmentKey = res.data.AttachmentKey;
       this.imageUrl = fileList;

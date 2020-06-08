@@ -1,5 +1,5 @@
 <template>
-  <el-col>
+  <div>
     <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree
           .getCheckedNodes(true)
           .map(v => v[this.showText]).join(',')}}</el-button>
@@ -12,7 +12,7 @@
         <el-button @click="handleCancel">取 消</el-button>
       </div>
     </el-drawer>
-  </el-col>
+  </div>
 </template>
 
 <script>

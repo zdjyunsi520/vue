@@ -104,9 +104,9 @@ export default {
       this.ifused = true;
     }
     this.getCharactorType();
-    this.getTeam();
     this.getShiftType();
     this.reset(data);
+    this.getTeam();
   },
   computed: {
     disabledSelect() {
@@ -115,13 +115,22 @@ export default {
   },
   methods: {
     getTeam() {
-      var ifused = "";
-      if (this.ifused) {
-        ifused = this.ifused ? this.ifused : "";
+      if (this.form.Id) {
+        this.teamList = [
+          {
+            Id: this.form.TeamId,
+            Name: this.form.TeamName
+          }
+        ];
+      } else {
+        var ifused = "";
+        if (this.ifused) {
+          ifused = this.ifused ? this.ifused : "";
+        }
+        fetchTeam({ ifused }).then(r => {
+          this.teamList = r.data;
+        });
       }
-      fetchTeam({ ifused }).then(r => {
-        this.teamList = r.data;
-      });
     },
     getShiftType() {
       fetchShiftType({}).then(r => {
@@ -161,12 +170,13 @@ export default {
     },
     reset(data) {
       data = data || {};
-      const { Id, TeamId, ShiftTypeId, CharaType } = data;
+      const { Id, TeamId, ShiftTypeId, CharaType, TeamName } = data;
       this.form = {
         Id,
         TeamId,
         ShiftTypeId,
-        charatypeId: CharaType
+        charatypeId: CharaType,
+        TeamName
       };
     },
     handleAdd() {

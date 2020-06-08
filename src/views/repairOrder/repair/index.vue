@@ -87,7 +87,7 @@ export default {
       // 搜索参数
       queryParams: {
         pageno: 1,
-        pagesize: 10,
+        pagesize: 30,
         tenantId: "",
         OrderCode: "",
         BizSource: "",
@@ -218,7 +218,6 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log(row);
       this.$confirm("是否确认删除?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
