@@ -61,10 +61,6 @@
             <el-col :span="11" :xs="24">
               <el-form-item label="负责人" prop="ChargePersonId">
                 <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
-                <!-- <el-input v-model="form.ChargePersonId" placeholder="" @focus="getChargePerson" /> -->
-                <!-- <el-select v-model="form.ChargePersonId" placeholder="">
-                  <el-option v-for="(item,index) in personList" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
@@ -75,9 +71,6 @@
             <el-col :span="11" :xs="24">
               <el-form-item label="受理人" prop="ReceivePersonId">
                 <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="ReceivePersonId" :disabled="disabled" />
-                <!-- <el-select v-model="form.ReceivePersonId" placeholder="">
-                  <el-option v-for="(item,index) in personList" :key="index" :label="item.text" :value="item.id"></el-option>
-                </el-select> -->
               </el-form-item>
             </el-col>
             <el-col :span="11" :xs="24">
@@ -85,17 +78,18 @@
                 <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" :disabled="disabled" />
               </el-form-item>
             </el-col>
-            <el-col :span="11" :xs="24">
-              <el-form-item label="受理时间" prop="ReceiveTime">
-                <el-date-picker :disabled="disabled" v-model="form.ReceiveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-              </el-form-item>
+            <el-col :span="24" :xs="24">
+              <el-col :span="11" :xs="24">
+                <el-form-item label="受理时间" prop="ReceiveTime">
+                  <el-date-picker :disabled="disabled" v-model="form.ReceiveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11" :xs="24" v-if="form.OrderCode">
+                <el-form-item label="工单编号" prop="OrderCode">
+                  <el-input v-model="form.OrderCode" disabled placeholder="" />
+                </el-form-item>
+              </el-col>
             </el-col>
-            <el-col :span="11" :xs="24">
-              <el-form-item label="工单编号" prop="OrderCode">
-                <el-input v-model="form.OrderCode" disabled placeholder="" />
-              </el-form-item>
-            </el-col>
-
             <el-col :span="11" :xs="24">
               <el-form-item label="故障现象" prop="Situation">
                 <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Situation" placeholder="请输入故障现象" />
@@ -446,7 +440,7 @@ export default {
           let fn = this.form.Id ? update : add;
           fn(this.form)
             .then(res => {
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
               this.$message.success(txt);
               this.handleOpen();
             })

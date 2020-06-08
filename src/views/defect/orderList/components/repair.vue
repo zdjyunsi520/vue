@@ -47,14 +47,14 @@
                 </el-form-item>
               </el-col>
             </el-col>
-            <el-col :span="24" :xs="24">
+            <el-col :span="24" :xs="24" v-if="form1.Processor">
               <el-col :span="11" :xs="24">
                 <el-form-item label="消缺人">
                   <el-input disabled="disabled" v-model="form1.Processor" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-col>
-            <el-col :span="24" :xs="24">
+            <el-col :span="24" :xs="24" v-if="form1.processtime">
               <el-col :span="11" :xs="24">
                 <el-form-item label="消缺时间" prop="processtime">
                   <el-date-picker disabled="disabled" v-model="form.processtime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
@@ -224,9 +224,7 @@ export default {
           assetsids: "",
           receiverId: "",
           reason: "",
-          statement: "",
-          processtime: new Date(),
-          processorId: this.userId
+          statement: ""
         },
         data
       );
