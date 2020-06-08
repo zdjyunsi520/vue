@@ -89,6 +89,8 @@ import {
   deleted
 } from "@/api/runningDuty/dutyConfiguration";
 
+import { fetchJobList } from "@/api/runningDuty/dutyConfiguration/job";
+
 export default {
   name: "user",
   data() {
@@ -197,43 +199,50 @@ export default {
       });
     },
     handlePosition(data) {
-         let {ShiftIds,ShiftNames,CharacterIds,Characters,Id} = data
-         const dutyId = Id
-         let shiftTypeList, charactorTypeList
-      if(ShiftIds&&ShiftNames){
-        ShiftIds = ShiftIds.split(',')
-        ShiftNames = ShiftNames.split(',')
-        shiftTypeList = 
-        ShiftIds.map((v,i)=>{
-          const Id = v
-          const Name = ShiftNames[i]
-          return {Id,Name}
-        })
+      let { ShiftIds, ShiftNames, CharacterIds, Characters, Id } = data;
+      const dutyId = Id;
+      let shiftTypeList, charactorTypeList;
+      if (ShiftIds && ShiftNames) {
+        ShiftIds = ShiftIds.split(",");
+        ShiftNames = ShiftNames.split(",");
+        shiftTypeList = ShiftIds.map((v, i) => {
+          const Id = v;
+          const Name = ShiftNames[i];
+          return { Id, Name };
+        });
       }
-       if(CharacterIds&&Characters){
-        CharacterIds = CharacterIds.split(',')
-        Characters = Characters.split(',')
-        charactorTypeList = 
-        CharacterIds.map((v,i)=>{
-          const Id = v
-          const Name = Characters[i]
-          return {Id,Name}
-        })
+      if (CharacterIds && Characters) {
+        CharacterIds = CharacterIds.split(",");
+        Characters = Characters.split(",");
+        charactorTypeList = CharacterIds.map((v, i) => {
+          const Id = v;
+          const Name = Characters[i];
+          return { Id, Name };
+        });
       }
-
 
       this.$router.push({
         name: "/runningDuty/dutyConfiguration/job/index",
-        params: { shiftTypeList, charactorTypeList,dutyId }
+        params: { shiftTypeList, charactorTypeList, dutyId }
       });
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {
-      const title = "编辑用户";
-      this.$router.push({
-        name: "/runningDuty/dutyConfiguration/components/index",
-        params: { data, title }
-      });
+      fetchJobList({ pagesize: 999, pageno: 1, dutyId: data.Id }).then(
+        response => {
+          if (response.total == 0) {
+            const title = "编辑用户";
+            this.$router.push({
+              name: "/runningDuty/dutyConfiguration/components/index",
+              params: { data, title, ifused: true }
+            });
+          } else {
+            this.$message.error(
+              "该班组的值班配置中已存在岗位，请先删除相关岗位！"
+            );
+          }
+        }
+      );
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
@@ -257,18 +266,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-    let ids = row ? [row.Id] : this.ids.map(v => v.Id);
-      this.$confirm(
-        '是否确认删除选中的数据项？',
-        "警告",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      )
+      let ids = row ? [row.Id] : this.ids.map(v => v.Id);
+      this.$confirm("是否确认删除选中的数据项？", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
         .then(() => {
-          return deleted({ids});
+          return deleted({ ids });
         })
         .then(() => {
           this.getList();

@@ -92,7 +92,6 @@ export default {
     const { data } = this.$route.params;
     this.reset(data);
     this.getTenantEmployees();
-
   },
   computed: {
     personList() {
@@ -113,7 +112,7 @@ export default {
     ...mapActions({ employee: "common/employee" }),
 
     getTenantEmployees() {
-      getTenantEmployees({dutyteamId:this.form.Id}).then(res => {
+      getTenantEmployees({ dutyteamId: this.form.Id }).then(res => {
         this.allpatrolusers = res.data;
       });
     },
@@ -128,7 +127,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id:'',
+          Id: "",
           Name: "",
           EmployeeNames: "",
           EmployeeIds: ""
@@ -157,8 +156,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

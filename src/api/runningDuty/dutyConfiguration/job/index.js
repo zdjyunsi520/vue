@@ -2,7 +2,7 @@ import { post } from "@/utils/request";
 const commonUrl = "biz";
 
 // 值班岗位
-export function fetchList(data) {
+export function fetchJobList(data) {
     return post("/DutyPosition/Gets", data, commonUrl);
 }
 export function add(data) {

@@ -82,15 +82,6 @@ export default {
     this.getList();
   },
   methods: {
-    filterIsMultiVersion(row) {
-      return row.IsMultiVersion ? "多版本" : "单版本";
-    },
-    handleSortChange(row) {
-      this.queryParams.orderby = `${row.prop} ${
-        row.order == "ascending" ? "asc" : "desc"
-      }`;
-      this.getList();
-    },
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;

@@ -93,12 +93,16 @@ export default {
       shiftTypeList: [],
       tableHeight: "calc(100% - 65px)",
       dialogAddVisible: false,
-      dutyId: ""
+      dutyId: "",
+      ifused: false
     };
   },
 
   created() {
-    const { data } = this.$route.params;
+    const { data, ifused } = this.$route.params;
+    if (ifused) {
+      this.ifused = true;
+    }
     this.getCharactorType();
     this.getShiftType();
     this.reset(data);
@@ -118,10 +122,15 @@ export default {
             Name: this.form.TeamName
           }
         ];
-      } else
-        fetchTeam({}).then(r => {
+      } else {
+        var ifused = "";
+        if (this.ifused) {
+          ifused = this.ifused ? this.ifused : "";
+        }
+        fetchTeam({ ifused }).then(r => {
           this.teamList = r.data;
         });
+      }
     },
     getShiftType() {
       fetchShiftType({}).then(r => {
