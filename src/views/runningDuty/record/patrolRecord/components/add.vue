@@ -4,58 +4,58 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="用电单位" prop="tenantId">
-                        <el-select v-model="form.tenantId">
+                    <el-form-item label="用电单位" prop="TenantId">
+                        <el-select v-model="form.TenantId">
                             <el-option label="请选择" value></el-option>
                             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="班次" prop="shiftId">
-                        <el-select v-model="form.shiftId">
+                    <el-form-item label="班次" prop="ShiftId">
+                        <el-select v-model="form.ShiftId">
                             <el-option label="请选择" value></el-option>
                             <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="巡视人" prop="patrolId">
+                    <el-form-item label="巡视人" prop="PatrolId">
                         <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="personId" />
                     </el-form-item>
-                    <el-form-item label="巡视开始时间" prop="patrolstarttime">
-                        <el-date-picker v-model="form.patrolstarttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    <el-form-item label="巡视开始时间" prop="PatrolStartTime">
+                        <el-date-picker v-model="form.PatrolStartTime" type="date" placeholder="请选择日期" clearable></el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="记录人" prop="recorderId">
+                    <el-form-item label="记录人" prop="RecorderId">
                         <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="personId1" />
                     </el-form-item>
-                    <el-form-item label="巡视内容" prop="recordcontent">
-                        <el-input v-model="form.recordcontent" type="textarea" :rows="5" placeholder="请输入巡视内容" />
+                    <el-form-item label="巡视内容" prop="RecordContent">
+                        <el-input v-model="form.RecordContent" type="textarea" :rows="5" placeholder="请输入巡视内容" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="值班班组" prop="teamId">
-                        <el-select v-model="form.teamId" @change="getInfo">
+                    <el-form-item label="值班班组" prop="TeamId">
+                        <el-select v-model="form.TeamId" @change="getInfo">
                             <el-option label="请选择" value></el-option>
                             <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="值班时间" prop="starttime">
-                        <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    <el-form-item label="值班时间" prop="StartTime">
+                        <el-date-picker v-model="form.StartTime" type="date" placeholder="请选择日期" clearable></el-date-picker>
                     </el-form-item>
                     <el-form-item label="" prop="endtime">
                         &nbsp;
                     </el-form-item>
 
-                    <el-form-item label="巡视结束时间" prop="patrolendtime">
-                        <el-date-picker v-model="form.patrolendtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    <el-form-item label="巡视结束时间" prop="PatrolEndTime">
+                        <el-date-picker v-model="form.PatrolEndTime" type="date" placeholder="请选择日期" clearable></el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="记录时间" prop="recordtime">
-                        <el-date-picker v-model="form.recordtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    <el-form-item label="记录时间" prop="RecordTime">
+                        <el-date-picker v-model="form.RecordTime" type="date" placeholder="请选择日期" clearable></el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="巡视情况" prop="situation">
-                        <el-input type="textarea" :rows="5" v-model="form.situation" placeholder="请输入巡视情况" />
+                    <el-form-item label="巡视情况" prop="Situation">
+                        <el-input type="textarea" :rows="5" v-model="form.Situation" placeholder="请输入巡视情况" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -87,49 +87,49 @@ export default {
     components: { TreeSelect },
     data() {
         const rules = {
-            tenantId: [
+            TenantId: [
                 {
                     required: true,
                     message: "请选择用电单位",
                     trigger: "blur"
                 }
             ],
-            shiftId: [
+            ShiftId: [
                 {
                     required: true,
                     message: "请选择班次",
                     trigger: "blur"
                 }
             ],
-            patrolId: [
+            PatrolId: [
                 {
                     required: true,
                     message: "请选择巡视人",
                     trigger: "blur"
                 }
             ],
-            patrolstarttime: [
+            PatrolStartTime: [
                 {
                     required: true,
                     message: "请选择巡视开始时间",
                     trigger: "blur"
                 }
             ],
-            teamId: [
+            TeamId: [
                 {
                     required: true,
                     message: "请选择值班班组",
                     trigger: "blur"
                 }
             ],
-            starttime: [
+            StartTime: [
                 {
                     required: true,
                     message: "请选择值班时间",
                     trigger: "blur"
                 }
             ],
-            patrolendtime: [
+            PatrolEndTime: [
                 {
                     required: true,
                     message: "请选择巡视结束时间",
@@ -175,7 +175,7 @@ export default {
                 this.personId2 = [];
             }
             this.ischange++;
-            getInfo({ id: this.form.teamId }).then(r => {
+            getInfo({ id: this.form.TeamId }).then(r => {
                 let name = r.data.EmployeeNames.split(",");
                 let list = r.data.EmployeeIds.split(",")
                     .filter(v => v)
@@ -194,13 +194,13 @@ export default {
         },
         handleConfirm(data) {
             this.personId = data.map(v => v.id);
-            this.form.patrolId = this.personId.join(",");
-            this.$refs.form.clearValidate("patrolId");
+            this.form.PatrolId = this.personId.join(",");
+            this.$refs.form.clearValidate("PatrolId");
         },
         handleConfirm1(data) {
             this.personId1 = data.map(v => v.id);
-            this.form.recorderId = this.personId.join(",");
-            this.$refs.form.clearValidate("recorderId");
+            this.form.RecorderId = this.personId1.join(",");
+            this.$refs.form.clearValidate("RecorderId");
         },
         //弹框选择人员--end
         fetchTeam() {
@@ -216,24 +216,29 @@ export default {
             this.form = Object.assign(
                 {
                     Id: "",
-                    tenantId: "",
-                    tenantname: "1",
-                    teamId: "",
-                    teamname: "TEST",
-                    shiftId: "",
-                    shiftname: "TEST",
-                    patrolId: "",
-                    patrolname: "TEST",
-                    patrolstarttime: "",
-                    patrolendtime: "",
-                    recorderId: "",
-                    recordername: "TEST",
-                    recordtime: "",
-                    recordcontent: "",
-                    situation: ""
+                    TenantId: "",
+                    TeamId: "",
+                    ShiftId: "",
+                    PatrolId: "",
+                    PatrolStartTime: "",
+                    PatrolEndTime: "",
+                    RecorderId: "",
+                    RecordTime: "",
+                    RecordContent: "",
+                    Situation: "",
+                    StartTime: ""
                 },
                 data
             );
+            this.personList = [];
+            if (this.form.Id) {
+                this.getInfo();
+            }
+            this.form.RecorderId = this.form.RecorderId
+                ? this.form.RecorderId
+                : "";
+            this.personId = this.form.PatrolId.split(",").filter(v => v);
+            this.personId1 = this.form.RecorderId.split(",").filter(v => v);
         },
         handleOpen(data) {
             //改变窗口状态

@@ -13,21 +13,21 @@
                 <el-form-item label="值班班组：" prop="teamId">
                     <el-select v-model="queryParams.teamId">
                         <el-option label="全部" value=""></el-option>
-                        <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in companyType" />
+                        <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="班次：" prop="type">
-                    <el-select v-model="queryParams.type">
+                <el-form-item label="班次：" prop="shiftId">
+                    <el-select v-model="queryParams.shiftId">
                         <el-option label="全部" value=""></el-option>
-                        <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in companyType" />
+                        <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
                     </el-select>
                 </el-form-item>
 
                 <el-form-item label="巡视内容：" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="巡视情况：" prop="recordcontent">
-                    <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
+                <el-form-item label="巡视情况：" prop="situation">
+                    <el-input v-model="queryParams.situation" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="值班日期：" prop="starttime">
                     <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
@@ -73,6 +73,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/runningDuty/record/patrolRecord";
+import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
+
 import add from "./components/add";
 export default {
     props: {
@@ -102,16 +104,20 @@ export default {
                 pageno: 1,
                 pagesize: 30,
                 tenantId: "",
-                contactperson: "",
-                charatypeId: "",
+                situation: "",
+                teamId: "",
+                shiftId: "",
                 recordcontent: "",
                 starttime: "",
                 endtime: ""
-            }
+            },
+            teamList: []
         };
     },
 
-    created() {},
+    created() {
+        this.getTeam();
+    },
     computed: {
         ...mapGetters({
             companyType: "status/companyType"
@@ -124,6 +130,11 @@ export default {
         }
     },
     methods: {
+        getTeam() {
+            fetchTeam({ ifused: true }).then(r => {
+                this.teamList = r.data;
+            });
+        },
         handleCommand(commond) {
             this.$router.push({
                 name: commond,
@@ -174,28 +185,7 @@ export default {
         /** 编辑按钮操作 */
         handleUpdate() {
             const target = this.$refs.add;
-            const row = this.ids[0];
-            const Id = row.Id;
-            const starttime = row.StartTime;
-            const endtime = row.EndTime;
-            const tenantId = row.TenantId;
-            const contactperson = row.ContactPerson;
-            const phoneno = row.PhoneNo;
-            const type = row.Type;
-            const recordcontent = row.RecordContent;
-            const issucceed = row.IsSucceed;
-            const data = {
-                name,
-                starttime,
-                endtime,
-                tenantId,
-                contactperson,
-                phoneno,
-                type,
-                recordcontent,
-                issucceed,
-                Id
-            };
+            const data = this.ids[0];
             target.handleOpen(data);
         },
         /** 重置密码按钮操作 */

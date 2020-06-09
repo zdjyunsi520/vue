@@ -26,8 +26,8 @@
                 <el-form-item label="记事内容：" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="注意事项：" prop="recordcontent">
-                    <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
+                <el-form-item label="注意事项：" prop="caution">
+                    <el-input v-model="queryParams.caution" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="值班日期：" prop="starttime">
                     <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
@@ -104,8 +104,8 @@ export default {
                 pageno: 1,
                 pagesize: 30,
                 tenantId: "",
-                contactperson: "",
-                charatypeId: "",
+                TeamId: "",
+                caution: "",
                 recordcontent: "",
                 starttime: "",
                 endtime: "",

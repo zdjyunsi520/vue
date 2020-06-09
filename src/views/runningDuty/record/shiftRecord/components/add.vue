@@ -230,6 +230,7 @@ export default {
                 },
                 data
             );
+            this.personList = [];
             if (this.form.Id) {
                 this.getInfo();
             }
