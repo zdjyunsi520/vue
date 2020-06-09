@@ -88,7 +88,7 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
+          },
         },
         grid: {
           top: "30px",

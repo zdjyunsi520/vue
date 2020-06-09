@@ -1,8 +1,8 @@
-import { request, post, post1 } from "@/utils/request";
+import { request, post } from "@/utils/request";
 const commonUrl = "common";
 // 登录方法
 export function login (data) {
-  return post1("/userlogin/login", data, commonUrl);
+  return post("/userlogin/login", data, commonUrl);
 }
 
 // 获取用户详细信息
