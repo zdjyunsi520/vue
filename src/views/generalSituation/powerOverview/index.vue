@@ -359,7 +359,7 @@ export default {
     },
     getElectricLoad(tenantId) {
       var tenantId = tenantId;
-      this.$refs.lineChart.showLoading();
+      // this.$refs.lineChart.showLoading();
       getElectricLoad({ tenantId }).then(r => {
         this.electricLoad = r.data;
         this.loadChartData.currentLoad = this.electricLoad.CurrentLoad;
@@ -370,29 +370,29 @@ export default {
         lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
         lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
         lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
-        this.$refs.lineChart.hideLoading();
+        // this.$refs.lineChart.hideLoading();
       });
     },
     getElectricQuantity(tenantId) {
       var tenantId = tenantId;
-      this.$refs.PowerBarchart.showLoading();
+      // this.$refs.PowerBarchart.showLoading();
       getElectricQuantity({ tenantId }).then(r => {
         this.electricQuantity = r.data;
         powerbarChartData.xAxisData = this.electricQuantity.MonthCurveXAxis;
         powerbarChartData.prevlistData = this.electricQuantity.LastMonthCurve;
         powerbarChartData.nowlistData = this.electricQuantity.ThisMonthCurve;
-        this.$refs.PowerBarchart.hideLoading();
+        // this.$refs.PowerBarchart.hideLoading();
       });
     },
     getElectricSituation(tenantId) {
       var tenantId = tenantId;
-      this.$refs.pieChart.showLoading();
+      // this.$refs.pieChart.showLoading();
       getElectricSituation({ tenantId }).then(r => {
         pieChartData.listData[0].value = r.data.Sharp;
         pieChartData.listData[1].value = r.data.Peak;
         pieChartData.listData[2].value = r.data.Flat;
         pieChartData.listData[3].value = r.data.Valley;
-        this.$refs.pieChart.hideLoading();
+        // this.$refs.pieChart.hideLoading();
       });
     },
 

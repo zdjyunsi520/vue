@@ -1,24 +1,24 @@
 import { request, post, post1 } from "@/utils/request";
 const commonUrl = "common";
 // 登录方法
-export function login(data) {
+export function login (data) {
   return post1("/userlogin/login", data, commonUrl);
 }
 
 // 获取用户详细信息
-export function getInfo1() {
+export function getInfo1 () {
   return post("/User/GetUser", {}, commonUrl);
 }
 // 获取用户详细信息
-export function getInfo() {
+export function getInfo () {
   return post("/UserModule/Gets", {}, commonUrl);
 }
 // 获取菜单
-export function getSidebar() {
+export function getSidebar () {
   return post("/UserModule/Gets", null, commonUrl);
 }
 // 退出方法
-export function logout() {
+export function logout () {
   return request({
     url: "/system/logout",
     method: "post"
@@ -26,7 +26,7 @@ export function logout() {
 }
 
 // 获取验证码
-export function getCodeImg() {
+export function getCodeImg () {
   return request({
     url: "/system/common/captchaImage",
     // url: '/buyer/start/getOss',
@@ -35,7 +35,7 @@ export function getCodeImg() {
   });
 }
 
-export function updatePassword(data) {
+export function updatePassword (data) {
   return request({
     url:
       "/system/deptLeader/" +
@@ -46,7 +46,7 @@ export function updatePassword(data) {
 }
 
 //获取首页推广信息
-export function getIndexInfo() {
+export function getIndexInfo () {
   return request({
     url: "/system/index/selectDeptStatistics",
     method: "get"
