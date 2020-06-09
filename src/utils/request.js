@@ -94,10 +94,12 @@ export function get(url, params) {
 export function post(url, params, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
+  let headers = {};
   if (token) {
-    params.Token = token;
+    //  params.Token = token;
+    headers = { Token: token };
   }
-  return service({ url, method: "post", params });
+  return service({ url, method: "post", params, headers });
 }
 export function postFile(url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
