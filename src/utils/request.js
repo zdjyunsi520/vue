@@ -99,7 +99,7 @@ export function post (url, params, baseUrl) {
     //  params.Token = token;
     headers.Token = token;
   }
-  return service({ url, method: "post", headers });
+  return service({ url, method: "post", params, headers });
 }
 export function postFile (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
@@ -120,17 +120,16 @@ export function postFile (url, data, baseUrl) {
   // }
   return service({ url, method: "post", data, headers });
 }
-export function post1 (url, data, baseUrl) {
-  if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
-  const token = getToken();
-  let headers = { version: "1.0", fromurl: "system" };
-  if (token) {
-    headers.Token = token;
-    data.fromurl = "system";
-  }
-
-  return service({ url, method: "post", data, headers });
-}
+// export function post1 (url, data, baseUrl) {
+//   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
+//   const token = getToken();
+//   let headers = { version: "1.0", fromurl: "system" };
+//   if (token) {
+//     headers.Token = token;
+//     data.fromurl = "system";
+//   }
+//   return service({ url, method: "post", data, headers });
+// }
 export function post2 (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
