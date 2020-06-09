@@ -3,17 +3,17 @@ const commonUrl = "biz";
 
 // 值班信息表
 export function fetchList(data) {
-  return post("/DutyHandover/Gets", data, commonUrl);
+  return post("/DutyHandoverRecord/Gets", data, commonUrl);
 }
 export function add(data) {
-  return post("/DutyHandover/Create", data, commonUrl);
+  return post("/DutyHandoverRecord/Create", data, commonUrl);
 }
 export function update(data) {
-  return post("/DutyHandover/Modify", data, commonUrl);
+  return post("/DutyHandoverRecord/Modify", data, commonUrl);
 }
 export function deleted(data) {
-  return post("/DutyHandover/Remove", data, commonUrl);
+  return post("/DutyHandoverRecord/Remove", data, commonUrl);
 }
 export function getInfo(data) {
-  return post("/DutyHandover/Get", data, commonUrl);
+  return post("/DutyHandoverRecord/Get", data, commonUrl);
 }

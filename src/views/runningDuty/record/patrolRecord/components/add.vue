@@ -1,265 +1,281 @@
 <template>
-  <el-dialog :modal="false" width="1000px" :title="title+'交接班记录'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
-    <!-- 添加或编辑参数配置对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="用电单位" prop="tenantId">
-            <el-select v-model="form.tenantId">
-              <el-option label="请选择" value></el-option>
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
-            </el-select>
-          </el-form-item>
+    <el-dialog :modal="false" width="1000px" :title="title+'交接班记录'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+        <!-- 添加或编辑参数配置对话框 -->
+        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="用电单位" prop="tenantId">
+                        <el-select v-model="form.tenantId">
+                            <el-option label="请选择" value></el-option>
+                            <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+                        </el-select>
+                    </el-form-item>
 
-          <el-form-item label="班次" prop="shiftId">
-            <el-select v-model="form.shiftId">
-              <el-option label="请选择" value></el-option>
-              <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shiftList" />
-            </el-select>
-          </el-form-item>
+                    <el-form-item label="班次" prop="shiftId">
+                        <el-select v-model="form.shiftId">
+                            <el-option label="请选择" value></el-option>
+                            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
+                        </el-select>
+                    </el-form-item>
 
-          <el-form-item label="巡视人" prop="patrolId">
-            <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="personId" />
-          </el-form-item>
-          <el-form-item label="巡视开始时间" prop="patrolstarttime">
-            <el-date-picker v-model="form.patrolstarttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-          </el-form-item>
+                    <el-form-item label="巡视人" prop="patrolId">
+                        <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="personId" />
+                    </el-form-item>
+                    <el-form-item label="巡视开始时间" prop="patrolstarttime">
+                        <el-date-picker v-model="form.patrolstarttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    </el-form-item>
 
-          <el-form-item label="记录人" prop="recorderId">
-            <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="personId1" />
-          </el-form-item>
-          <el-form-item label="巡视内容" prop="recordcontent">
-            <el-input v-model="form.recordcontent" type="textarea" :rows="5" placeholder="请输入巡视内容" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="值班班组" prop="teamId">
-            <el-select v-model="form.teamId">
-              <el-option label="请选择" value></el-option>
-              <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="值班时间" prop="starttime">
-            <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-          </el-form-item>
-          <el-form-item label="" prop="endtime">
-            &nbsp;
-          </el-form-item>
+                    <el-form-item label="记录人" prop="recorderId">
+                        <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="personId1" />
+                    </el-form-item>
+                    <el-form-item label="巡视内容" prop="recordcontent">
+                        <el-input v-model="form.recordcontent" type="textarea" :rows="5" placeholder="请输入巡视内容" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="值班班组" prop="teamId">
+                        <el-select v-model="form.teamId" @change="getInfo">
+                            <el-option label="请选择" value></el-option>
+                            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="值班时间" prop="starttime">
+                        <el-date-picker v-model="form.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="" prop="endtime">
+                        &nbsp;
+                    </el-form-item>
 
-          <el-form-item label="巡视结束时间" prop="patrolendtime">
-            <el-date-picker v-model="form.patrolendtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-          </el-form-item>
+                    <el-form-item label="巡视结束时间" prop="patrolendtime">
+                        <el-date-picker v-model="form.patrolendtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    </el-form-item>
 
-          <el-form-item label="记录时间" prop="recordtime">
-            <el-date-picker v-model="form.recordtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-          </el-form-item>
+                    <el-form-item label="记录时间" prop="recordtime">
+                        <el-date-picker v-model="form.recordtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    </el-form-item>
 
-          <el-form-item label="巡视情况" prop="situation">
-            <el-input type="textarea" :rows="5" v-model="form.situation" placeholder="请输入巡视情况" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
-    </div>
-    <!-- 添加或编辑参数配置对话框 end -->
-  </el-dialog>
+                    <el-form-item label="巡视情况" prop="situation">
+                        <el-input type="textarea" :rows="5" v-model="form.situation" placeholder="请输入巡视情况" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="handleSubmit" :loading="loading">保 存</el-button>
+            <el-button @click="handleOpen(null)">取 消</el-button>
+        </div>
+        <!-- 添加或编辑参数配置对话框 end -->
+    </el-dialog>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { add, update } from "@/api/runningDuty/record/dutyRecord";
+import { add, update } from "@/api/runningDuty/record/patrolRecord";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { fetchTeam, fetchShiftType } from "@/api/runningDuty/dutyConfiguration";
 import TreeSelect from "@/views/components/TreeSelect";
+import { getInfo } from "@/api/runningDuty/dutyConfiguration/group";
 export default {
-  components: { TreeSelect },
-  data() {
-    const rules = {
-      tenantId: [
-        {
-          required: true,
-          message: "请选择用电单位",
-          trigger: "blur"
+    props: {
+        shifts: {
+            type: Array,
+            default() {
+                return [];
+            }
         }
-      ],
-      shiftId: [
-        {
-          required: true,
-          message: "请选择班次",
-          trigger: "blur"
-        }
-      ],
-      patrolId: [
-        {
-          required: true,
-          message: "请选择巡视人",
-          trigger: "blur"
-        }
-      ],
-      patrolstarttime: [
-        {
-          required: true,
-          message: "请选择巡视开始时间",
-          trigger: "blur"
-        }
-      ],
-      teamId: [
-        {
-          required: true,
-          message: "请选择值班班组",
-          trigger: "blur"
-        }
-      ],
-      starttime: [
-        {
-          required: true,
-          message: "请选择值班时间",
-          trigger: "blur"
-        }
-      ],
-      patrolendtime: [
-        {
-          required: true,
-          message: "请选择巡视结束时间",
-          trigger: "blur"
-        }
-      ]
-    };
-    return {
-      form: {},
-      rules,
-      dialogVisible: false,
-      loading: false,
-      title: "",
-      //弹框选择人员--satrt
-      ProcessorIds: [],
-      allpatrolusers: [],
-      personId: [],
-      personId1: [],
-      personId2: [],
-      //弹框选择人员--end
-      shiftList: [],
-      teamList: []
-    };
-  },
-  created() {
-    this.getTenantEmployees();
-    this.fetchTeam();
-  },
-  computed: {
-    ...mapGetters({
-      companyType: "status/companyType",
-      recordType: "status/recordType",
-      rwType: "status/rwType"
-    }),
-    personList() {
-      let list = [];
-      if (this.ischange > 1) {
-        this.personId = [];
-        this.personId1 = [];
-      }
-      this.ischange++;
-      this.allpatrolusers.forEach(v => {
-        if (v.id == this.form.tenantId) {
-          list = v.childs;
-        }
-      });
-      return list;
-    }
-  },
-  methods: {
-    //弹框选择人员--satrt
-    // 巡视人员
-    getTenantEmployees() {
-      getTenantEmployees({}).then(res => {
-        this.allpatrolusers = res.data;
-      });
     },
-    handleConfirm(data) {
-      this.personId = data.map(v => v.id);
-      this.form.patrolId = this.personId.join(",");
-      this.$refs.form.clearValidate("patrolId");
+    components: { TreeSelect },
+    data() {
+        const rules = {
+            tenantId: [
+                {
+                    required: true,
+                    message: "请选择用电单位",
+                    trigger: "blur"
+                }
+            ],
+            shiftId: [
+                {
+                    required: true,
+                    message: "请选择班次",
+                    trigger: "blur"
+                }
+            ],
+            patrolId: [
+                {
+                    required: true,
+                    message: "请选择巡视人",
+                    trigger: "blur"
+                }
+            ],
+            patrolstarttime: [
+                {
+                    required: true,
+                    message: "请选择巡视开始时间",
+                    trigger: "blur"
+                }
+            ],
+            teamId: [
+                {
+                    required: true,
+                    message: "请选择值班班组",
+                    trigger: "blur"
+                }
+            ],
+            starttime: [
+                {
+                    required: true,
+                    message: "请选择值班时间",
+                    trigger: "blur"
+                }
+            ],
+            patrolendtime: [
+                {
+                    required: true,
+                    message: "请选择巡视结束时间",
+                    trigger: "blur"
+                }
+            ]
+        };
+        return {
+            form: {},
+            rules,
+            dialogVisible: false,
+            loading: false,
+            title: "",
+            //弹框选择人员--satrt
+            ProcessorIds: [],
+            allpatrolusers: [],
+            personId: [],
+            personId1: [],
+            personId2: [],
+            //弹框选择人员--end
+            shiftList: [],
+            teamList: [],
+            ischange: 0,
+            personList: []
+        };
     },
-    handleConfirm1(data) {
-      this.personId1 = data.map(v => v.id);
-      this.form.recorderId = this.personId.join(",");
-      this.$refs.form.clearValidate("recorderId");
+    created() {
+        this.getTenantEmployees();
+        this.fetchTeam();
     },
-    //弹框选择人员--end
-    fetchTeam() {
-      fetchTeam({}).then(r => {
-        this.teamList = r.data;
-      });
-      fetchShiftType({}).then(r => {
-        this.shiftList = r.data;
-      });
+    computed: {
+        ...mapGetters({
+            companyType: "status/companyType",
+            recordType: "status/recordType",
+            rwType: "status/rwType"
+        })
     },
-    // 表单重置
-    reset(data) {
-      this.form = Object.assign(
-        {
-          Id: "",
-          tenantId: "",
-          tenantname: "1",
-          teamId: "",
-          teamname: "TEST",
-          shiftId: "",
-          shiftname: "TEST",
-          patrolId: "",
-          patrolname: "TEST",
-          patrolstarttime: "",
-          patrolendtime: "",
-          recorderId: "",
-          recordername: "TEST",
-          recordtime: "",
-          recordcontent: "",
-          situation: ""
+    methods: {
+        getInfo() {
+            if (this.ischange > 1) {
+                this.personId = [];
+                this.personId1 = [];
+                this.personId2 = [];
+            }
+            this.ischange++;
+            getInfo({ id: this.form.teamId }).then(r => {
+                let name = r.data.EmployeeNames.split(",");
+                let list = r.data.EmployeeIds.split(",")
+                    .filter(v => v)
+                    .map((v, i) => {
+                        return { id: v, text: name[i] };
+                    });
+                this.personList = list;
+            });
         },
-        data
-      );
-    },
-    handleOpen(data) {
-      //改变窗口状态
-      this.dialogVisible = !this.dialogVisible;
-      if (!this.dialogVisible) {
-        //关闭窗口时取消按钮转圈圈
-        this.loading = false;
-        this.$refs.form.clearValidate();
-      }
-      //表单重置
-      this.reset(data);
-    },
-    /** 提交按钮 */
-    handleSubmit: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          this.loading = true;
-          const fn = this.form.Id ? update : add;
-          fn(this.form)
-            .then(response => {
-              var txt = this.form.Id ? '编辑成功！' : '新增成功！';
-              this.$message.success(txt);
-              this.$emit("getList");
-              this.handleOpen();
-            })
-            .catch(r => {
-              this.loading = false;
+        //弹框选择人员--satrt
+        // 巡视人员
+        getTenantEmployees() {
+            getTenantEmployees({}).then(res => {
+                this.allpatrolusers = res.data;
+            });
+        },
+        handleConfirm(data) {
+            this.personId = data.map(v => v.id);
+            this.form.patrolId = this.personId.join(",");
+            this.$refs.form.clearValidate("patrolId");
+        },
+        handleConfirm1(data) {
+            this.personId1 = data.map(v => v.id);
+            this.form.recorderId = this.personId.join(",");
+            this.$refs.form.clearValidate("recorderId");
+        },
+        //弹框选择人员--end
+        fetchTeam() {
+            fetchTeam({ ifused: true }).then(r => {
+                this.teamList = r.data;
+            });
+            fetchShiftType({}).then(r => {
+                this.shiftList = r.data;
+            });
+        },
+        // 表单重置
+        reset(data) {
+            this.form = Object.assign(
+                {
+                    Id: "",
+                    tenantId: "",
+                    tenantname: "1",
+                    teamId: "",
+                    teamname: "TEST",
+                    shiftId: "",
+                    shiftname: "TEST",
+                    patrolId: "",
+                    patrolname: "TEST",
+                    patrolstarttime: "",
+                    patrolendtime: "",
+                    recorderId: "",
+                    recordername: "TEST",
+                    recordtime: "",
+                    recordcontent: "",
+                    situation: ""
+                },
+                data
+            );
+        },
+        handleOpen(data) {
+            //改变窗口状态
+            this.dialogVisible = !this.dialogVisible;
+            if (!this.dialogVisible) {
+                //关闭窗口时取消按钮转圈圈
+                this.loading = false;
+                this.$refs.form.clearValidate();
+            }
+            //表单重置
+            this.reset(data);
+        },
+        /** 提交按钮 */
+        handleSubmit: function() {
+            this.$refs["form"].validate(valid => {
+                if (valid) {
+                    this.loading = true;
+                    const fn = this.form.Id ? update : add;
+                    fn(this.form)
+                        .then(response => {
+                            var txt = this.form.Id
+                                ? "编辑成功！"
+                                : "新增成功！";
+                            this.$message.success(txt);
+                            this.$emit("getList");
+                            this.handleOpen();
+                        })
+                        .catch(r => {
+                            this.loading = false;
+                        });
+                }
             });
         }
-      });
     }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/.el-dialog__body .onlyform-box .el-form .el-form-item {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 /deep/.el-select {
-  width: 100%;
+    width: 100%;
 }
 </style>

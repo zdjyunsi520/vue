@@ -21,3 +21,7 @@ export function getInfo(data) {
 export function getShift(data) {
   return post("/DutySchedule/GetUserSchedule", data, commonUrl);
 }
+//获取当前用户交班表信息
+export function DutyHandoverGetCurrent(data) {
+  return post("/DutyHandover/GetCurrent", data, commonUrl);
+}
