@@ -76,11 +76,12 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#fff",
-        textColor: "#fff",
+        color: "#999",
+        textColor: "#999",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });
+      console.log(1);
     },
     hideLoading() {
       this.chart.hideLoading();

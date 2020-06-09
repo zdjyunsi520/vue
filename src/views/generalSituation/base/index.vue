@@ -139,7 +139,7 @@
                           <el-radio-button :label="1">月</el-radio-button>
                         </el-radio-group>
                       </div>
-                      <line-chart ref='linechart' :linechartData="lineChartData" />
+                      <line-chart ref='loadlinechart' :linechartData="lineChartData" />
                     </div>
                   </div>
                 </el-col>
@@ -468,9 +468,9 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
+    this.getTree();
   },
   created() {
-    this.getTree();
   },
   methods: {
     getTree() {
@@ -523,9 +523,9 @@ export default {
         lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
         lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
         lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
-        //  this.$nextTick(() => {
-        //   this.$refs.lineChart.initChart();
-        // });
+         this.$nextTick(() => {
+          this.$refs.loadlinechart.initChart();
+        });
       });
     },
 
@@ -542,6 +542,8 @@ export default {
 
     handleNodeClick(data) {
       this.getSysBaseInfo(data.id);
+      this.getSysElectricLoad(this.tenantId);
+      this.getSysElectricSituation(this.tenantId);
     },
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {
