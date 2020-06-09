@@ -65,7 +65,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.chartData.listData) {
+      if (this.chartData.listData.length>0) {
         this.chart.hideLoading();
         this.setOptions(this.chartData);
       }
@@ -73,8 +73,8 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#ffffff",
+        textColor: "#ffffff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });

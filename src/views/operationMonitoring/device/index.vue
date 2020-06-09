@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-scrollbar>
-      <div class="search-box marginbottom15">
+      <div class="search-box">
         <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
           <el-form-item label="单位名称" prop='tenantId'>
             <el-select v-model="queryParams.tenantId" clearable placeholder="请选择" @change="handleChangeTenantId">
@@ -21,7 +21,7 @@
       </div>
       <div class="bg-white datainfo1 " v-if="dataList.length==0">
         <template>
-          <div class="nodata-box" style='height:calc(100vh - 240px)'>
+          <div class="nodata-box" style='height:calc(100vh - 225px)'>
             <img src="@/assets/image/nodata.png" style='padding-top: 10%;' />
             <p>暂时还没有数据</p>
           </div>

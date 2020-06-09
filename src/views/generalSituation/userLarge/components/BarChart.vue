@@ -40,9 +40,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -67,7 +67,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.barchartData.listData) {
+      if (this.barchartData.listData.length>0) {
         this.chart.hideLoading();
         this.setOptions(this.barchartData);
       }
@@ -75,15 +75,15 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#ffffff",
+        textColor: "#ffffff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });
     },
 
     setOptions({  title, xAxisData, listData } = {}) {
-      const sideData = listData.map(item => item + 4.5);
+      const sideData = listData.map(item => item + .5);
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -143,6 +143,9 @@ export default {
           {
             name: title,
             type: "bar",
+            tooltip: {
+                show: false
+            },
             barWidth: 16.5,
             itemStyle: {
                 normal: {

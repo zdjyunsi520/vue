@@ -17,7 +17,7 @@
           </el-form-item>
 
           <el-form-item label="组件" prop="component">
-            <el-input v-model="form.component" placeholder="请输入component" />
+            <el-input v-model="form.component" placeholder="请输入组件" />
           </el-form-item>
 
           <el-form-item label="排序号" prop="sortindex">

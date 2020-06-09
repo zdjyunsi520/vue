@@ -25,7 +25,7 @@ const permission = {
     //     });
     //   });
     // }
-    GenerateRoutes({ commit }, res) {
+    GenerateRoutes ({ commit }, res) {
       return new Promise(resolve => {
         // 向后端请求路由数据
         const data = [];
@@ -38,6 +38,10 @@ const permission = {
           if (res.data[0].Childs && res.data[0].Childs.length) {
             Component = res.data[0].Childs[0].Component;
             Name = res.data[0].Childs[0].Url;
+          } else {
+            // 待定
+            Component = res.data[1].Childs[0].Component;
+            Name = res.data[1].Childs[0].Url;
           }
           store.dispatch("SetHome", { IconUrl, Component });
         }
@@ -54,7 +58,7 @@ const permission = {
     }
   }
 };
-function mapRouter(parent, data) {
+function mapRouter (parent, data) {
   data.forEach(v => {
     const component = v.Component ? v.Component : "";
     const node = {
@@ -75,7 +79,7 @@ function mapRouter(parent, data) {
   });
 }
 // 遍历后台传来的路由字符串，转换为组件对象
-function filterAsyncRouter(asyncRouterMap) {
+function filterAsyncRouter (asyncRouterMap) {
   return asyncRouterMap.filter(route => {
     // Layout组件特殊处理
     if (route.component === "") {

@@ -38,9 +38,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -73,8 +73,8 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#ffffff",
+        textColor: "#ffffff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });

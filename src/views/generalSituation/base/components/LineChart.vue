@@ -38,10 +38,18 @@ export default {
   },
   watch: {
     linechartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val);
-      }
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
   mounted() {
@@ -60,7 +68,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.linechartData) {
+      if (this.linechartData.xAxisData.length>0) {
         this.hideLoading();
         this.setOptions(this.linechartData);
       }
@@ -68,8 +76,8 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#fff",
+        textColor: "#fff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });

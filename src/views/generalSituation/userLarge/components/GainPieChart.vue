@@ -44,9 +44,9 @@ export default {
       handler(newVal, oldVal) {
         if (this.chart) {
           if (newVal) {
-            this.setOption(newVal);
+            this.setOptions(newVal);
           } else {
-            this.setOption(oldVal);
+            this.setOptions(oldVal);
           }
         } else {
           this.initChart();
@@ -71,7 +71,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.piechartData) {
+      if (this.piechartData.length>0) {
         this.chart.hideLoading();
         this.setOptions(this.piechartData);
       }
@@ -79,131 +79,131 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#ffffff",
+        textColor: "#ffffff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });
     },
 
 
-getArrayValue(array, key) {
-    var key = key || "value";
-    var res = [];
-    if (array) {
-        array.forEach(function(t) {
-            res.push(t[key]);
-        });
-    }
-    return res;
-},
+    getArrayValue(array, key) {
+        var key = key || "value";
+        var res = [];
+        if (array) {
+            array.forEach(function(t) {
+                res.push(t[key]);
+            });
+        }
+        return res;
+    },
 
-array2obj(array, key) {
-    var resObj = {};
-    for (var i = 0; i < array.length; i++) {
-        resObj[array[i][key]] = array[i];
-    }
-    return resObj;
-},
+    array2obj(array, key) {
+        var resObj = {};
+        for (var i = 0; i < array.length; i++) {
+            resObj[array[i][key]] = array[i];
+        }
+        return resObj;
+    },
 
- getData(data) {
-    var res = {
-        series: [],
-        yAxis: []
-    };
-    for (let i = 0; i < data.length; i++) {
-        // console.log([70 - i * 15 + '%', 67 - i * 15 + '%']);
-        res.series.push({
-            name: '',
-            type: 'pie',
-            clockWise: false, //顺时加载
-            hoverAnimation: false, //鼠标移入变大
-            radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
-            center: ["50%", "45%"],
-            label: {
-                show: false
-            },
-            itemStyle: {
-                label: {
-                    show: false,
-                },
-                labelLine: {
-                    show: false
-                },
-                borderWidth: 8,
-            },
-            data: [{
-                value: data[i].value,
-                name: data[i].name
-            }, {
-                value: sumValue - data[i].value,
+    getData(data) {
+        var res = {
+            series: [],
+            yAxis: []
+        };
+        for (let i = 0; i < data.length; i++) {
+            // console.log([70 - i * 15 + '%', 67 - i * 15 + '%']);
+            res.series.push({
                 name: '',
-                itemStyle: {
-                    color: "rgba(0,0,0,0)",
-                    borderWidth: 0
-                },
-                tooltip: {
-                    show: false
-                },
-                hoverAnimation: false
-            }]
-        });
-        res.series.push({
-            name: '',
-            type: 'pie',
-            silent: true,
-            z: 1,
-            clockWise: false, //顺时加载
-            hoverAnimation: false, //鼠标移入变大
-            radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
-            center: ["50%", "45%"],
-            label: {
-                show: false
-            },
-            itemStyle: {
+                type: 'pie',
+                clockWise: false, //顺时加载
+                hoverAnimation: false, //鼠标移入变大
+                radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
+                center: ["50%", "45%"],
                 label: {
-                    show: false,
-                },
-                labelLine: {
                     show: false
                 },
-                borderWidth: 8,
-            },
-            data: [{
-                value: 7.5,
                 itemStyle: {
-                    color: "#04306a",
-                    borderWidth: 0
+                    label: {
+                        show: false,
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    borderWidth: 8,
                 },
-                tooltip: {
-                    show: false
-                },
-                hoverAnimation: false
-            }, {
-                value: 2.5,
+                data: [{
+                    value: data[i].value,
+                    name: data[i].name
+                }, {
+                    value: sumValue - data[i].value,
+                    name: '',
+                    itemStyle: {
+                        color: "rgba(0,0,0,0)",
+                        borderWidth: 0
+                    },
+                    tooltip: {
+                        show: false
+                    },
+                    hoverAnimation: false
+                }]
+            });
+            res.series.push({
                 name: '',
-                itemStyle: {
-                    color: "rgba(0,0,0,0)",
-                    borderWidth: 0
-                },
-                tooltip: {
+                type: 'pie',
+                silent: true,
+                z: 1,
+                clockWise: false, //顺时加载
+                hoverAnimation: false, //鼠标移入变大
+                radius: [73 - i * 15 + '%', 68 - i * 15 + '%'],
+                center: ["50%", "45%"],
+                label: {
                     show: false
                 },
-                hoverAnimation: false
-            }]
-        });
-        res.yAxis.push((data[i].value / sumValue * 100).toFixed(2) + "%");
-    }
-    return res;
-},
+                itemStyle: {
+                    label: {
+                        show: false,
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    borderWidth: 8,
+                },
+                data: [{
+                    value: 7.5,
+                    itemStyle: {
+                        color: "#04306a",
+                        borderWidth: 0
+                    },
+                    tooltip: {
+                        show: false
+                    },
+                    hoverAnimation: false
+                }, {
+                    value: 2.5,
+                    name: '',
+                    itemStyle: {
+                        color: "rgba(0,0,0,0)",
+                        borderWidth: 0
+                    },
+                    tooltip: {
+                        show: false
+                    },
+                    hoverAnimation: false
+                }]
+            });
+            res.yAxis.push((data[i].value / sumValue * 100).toFixed(2) + "%");
+        }
+        return res;
+    },
 
 
-    setOptions({ inspection, warning, repair } = {}) {
+    setOptions() {
       arrName =  this.getArrayValue(this.piechartData, "name");
       arrValue =  this.getArrayValue(this.piechartData, "value");
-      sumValue = eval(arrValue.join('+'));
+      sumValue = eval(arrValue.join("+"));
       objData =  this.array2obj(this.piechartData, "name");
-      optionData = this.getData(this.piechartData)
+      optionData = this.getData(this.piechartData);
 
       this.chart.setOption({
         legend: {
@@ -248,6 +248,7 @@ array2obj(array, key) {
         series: optionData.series
       });
       this.chart.hideLoading();
+
     }
   }
 };

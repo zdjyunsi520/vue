@@ -236,7 +236,9 @@ export default {
     this.getTenantEmployees();
     let { data, ReadOnly } = this.$route.params;
     this.ReadOnly = ReadOnly;
-    this.form1 = Object.assign({}, data);
+    this.form1 = Object.assign({
+      Status:0
+    }, data);
     this.reset(data);
   },
   methods: {

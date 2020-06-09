@@ -6,7 +6,7 @@ import qs from "qs";
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 const emptyReg = /[\r\n\t\ ]+/g;
 
-function transformRequest(data) {
+function transformRequest (data) {
   if (data) {
     const keys = Object.keys(data);
     keys.forEach(v => {
@@ -29,7 +29,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // 超时
   timeout: 60000,
-  paramsSerializer(params) {
+  paramsSerializer (params) {
     params = transformRequest(params);
     return qs.stringify(params, { arrayFormat: "brackets" });
   }
@@ -87,37 +87,30 @@ service.interceptors.response.use(res => {
   }
 });
 
-export function get(url, params) {
+export function get (url, params) {
   return service({ url, method: "get", params });
 }
 
-export function post(url, params, baseUrl) {
+export function post (url, params, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
   let headers = { version: "1.0", fromurl: "system" };
   if (token) {
-    //  params.Token = token;
     headers.Token = token;
   }
   return service({ url, method: "post", params, headers });
 }
-export function postFile(url, data, baseUrl) {
+export function postFile (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
-
   let headers = {
     version: "1.0",
     fromurl: "system",
     "Content-Type": "multipart/form-data"
   };
   if (token) {
-    //  params.Token = token;
     headers.Token = token;
   }
-
-  // if (token) {
-  //   data.append("Token", token);
-  // }
   return service({ url, method: "post", data, headers });
 }
 // export function post1 (url, data, baseUrl) {
@@ -130,23 +123,24 @@ export function postFile(url, data, baseUrl) {
 //   }
 //   return service({ url, method: "post", data, headers });
 // }
-export function post2(url, data, baseUrl) {
+export function post2 (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
+  let headers = { version: "1.0", fromurl: "system" };
   if (token) {
+    headers.Token = token;
     url = `${url}?Token=${token}`;
   }
-
-  return service({ url, method: "post", data });
+  return service({ url, method: "post", data, headers });
 }
-export function put(url, params) {
+export function put (url, params) {
   return service({ url, method: "put", params });
 }
-export function putJSON(url, data) {
+export function putJSON (url, data) {
   return service({ url, method: "put", data });
 }
 
-export function deleted(url, params) {
+export function deleted (url, params) {
   return service({ url, method: "delete", params });
 }
 

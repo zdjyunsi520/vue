@@ -36,12 +36,21 @@ export default {
       chart: null
     };
   },
+  
   watch: {
     linechartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val);
-      }
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
   mounted() {
@@ -59,14 +68,30 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
-      this.setOptions(this.linechartData);
+      this.showLoading();
+      if (this.linechartData.xAxisData.length>0) {
+        this.chart.hideLoading();
+        this.setOptions(this.linechartData);
+      }
+
     },
-    setOptions({legendData, highData, averageData, lowData } = {}) {
+    
+    showLoading() {
+      this.chart.showLoading({
+        text: "Loading",
+        color: "#ffffff",
+        textColor: "#ffffff",
+        maskColor: "rgba(0, 0, 0, 0)",
+        zlevel: 0
+      });
+    },
+
+    setOptions({xAxisData,legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 20,
-          right: 0,
-          bottom: 30,
+          right:40,
+          bottom: 40,
           top: 50,
           containLabel: true
         },
@@ -81,7 +106,7 @@ export default {
           name: "",
           nameGap: 20,
           boundaryGap: false,
-          data: ["02/09", "02/09", "02/09", "02/09", "02/09", "02/09", "02/09"],
+          data: xAxisData,
           axisTick: {
             show: false
           },

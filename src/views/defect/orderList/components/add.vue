@@ -103,7 +103,7 @@
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading" v-if="form1.Status<1&&!ReadOnly">保 存</el-button>
+          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading1" v-if="form1.Status<1&&!ReadOnly">保 存</el-button>
           <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<1&&!ReadOnly">发 送</el-button>
           <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
@@ -184,10 +184,13 @@ export default {
     };
     return {
       form: {},
-      form1: {},
+      form1: {
+        Status:0
+      },
       rules,
       dialogVisible: false,
       loading: false,
+      loading1: false,
       title: "",
       deptType: "",
       AssetsIdss: [],
@@ -399,7 +402,6 @@ export default {
     handleSend() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          //按钮转圈圈
           this.loading = true;
           let fn;
           let { Id } = this.form;
@@ -450,20 +452,14 @@ export default {
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          //按钮转圈圈
-          this.loading = true;
+          this.loading1 = true;
           let fn;
           if (this.form.Id) {
             fn = update;
             this.form.ReportTime = "";
             this.form.ReporterId = "";
             this.form.Reporter = "";
-            // this.form.ReportTenantId = ''
-            // this.form.ReportTenantName = ''
-            // this.form.CreateUserId = ''
-            //  this.form.CreateTime = ''
-            //   this.form.UpdateTime = ''
-            //    this.form.CreateUserId = ''
+            
           } else {
             fn = add;
           }
@@ -480,7 +476,7 @@ export default {
             })
             .catch(r => {
               //取消按钮转圈圈
-              this.loading = false;
+              this.loading1 = false;
             });
         }
       });

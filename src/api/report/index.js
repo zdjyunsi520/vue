@@ -69,8 +69,27 @@ export function getScreenElectricLoad () {
 export function getOperationCurve () {
     return post("/ScreenSystem/GetOperationCurve", {}, commonUrl);
 }
+// 系统大屏-预警
+export function getWarnings () {
+    return post("/ScreenSystem/GetWarnings", {}, commonUrl);
+}
+
 
 // 用户大屏-基本
 export function getScreenTenant () {
     return post("/ScreenTenant/Get", {}, commonUrl);
+}
+
+// 用户大屏-用电情况
+export function getScreenElectricSituation () {
+    return post("/ScreenTenant/GetElectricSituation", {}, commonUrl);
+}
+// 用户大屏-负荷
+export function getTenantElectricLoad () {
+    return post("/ScreenTenant/GetElectricLoad", {}, commonUrl);
+}
+
+// 用户大屏-电费
+export function getElectricFeeCurve () {
+    return post("/ScreenTenant/GetElectricFeeCurve", {}, commonUrl);
 }

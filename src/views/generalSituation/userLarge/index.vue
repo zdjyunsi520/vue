@@ -48,7 +48,7 @@
           <el-row>
             <h6>本月费用占比</h6>
             <div class="chartbox boxheight1">
-              <powerTypePieChart :chartData='powerTypeData' />
+              <powerTypePieChart ref='powerTypePie' :chartData='powerTypeData' />
             </div>
             <div class="bottomtext">
               <span>电费占比(本月)</span>
@@ -65,7 +65,7 @@
                   <p>上月电费(元)<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
                 </el-col>
               </el-row>
-              <BarChart :barchartData="barChartData" />
+              <BarChart ref='barChart' :barchartData="barChartData" />
             </div>
 
           </el-row>
@@ -80,7 +80,7 @@
           <el-row style='padding:0 20px;'>
             <h6 class="longbg">用电负荷</h6>
             <div class="chartbox boxheight4">
-              <LineChart :linechartData='lineChartData' :width='"75%"' style='display:inline-block' />
+              <LineChart ref='loadLineChart' :linechartData='lineChartData' :width='"78%"' style='display:inline-block' />
               <div class="ledgeright">
                 <p>本日最高(kW)<span>{{dataInfo.ElectricLoad.TodayHighest}}</span></p>
                 <p>昨日最高(kW)<span>{{dataInfo.ElectricLoad.YesterdayHighest}}</span></p>
@@ -118,11 +118,11 @@
           <el-row style='margin-top: 2vh;'>
             <h6>用电情况</h6>
             <div class="chartbox boxheight2">
-              <GainPieChart :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
+              <GainPieChart ref='gainPie' :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
               <div class="ledgeright ledgeright1">
-                <p>本月(kWh)<span>{{dataInfo.ElectricSituation.ThisMonthAddUp}}</span></p>
-                <p>上月(kWh)<span>{{dataInfo.ElectricSituation.LastMonthAddUp}}</span></p>
-                <p>本年累计(kWh)<span>{{dataInfo.ElectricSituation.YearAddUp}}</span></p>
+                <p>本月(kWh)<span>{{electricSituation.ThisMonthAddUp}}</span></p>
+                <p>上月(kWh)<span>{{electricSituation.LastMonthAddUp}}</span></p>
+                <p>本年累计(kWh)<span>{{electricSituation.YearAddUp}}</span></p>
               </div>
             </div>
           </el-row>
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { getScreenTenant } from "@/api/report";
+import { getScreenTenant,getScreenElectricSituation,getTenantElectricLoad ,getElectricFeeCurve} from "@/api/report";
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import powerTypePieChart from "./components/powerTypePieChart";
@@ -152,33 +152,17 @@ const powerTypeData = {
 };
 const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
-  highData: [100, 120, 161, 134, 105, 160, 165],
-  averageData: [42, 435, 23, 122, 445, 545, 54],
-  lowData: [120, 82, 91, 154, 162, 140, 145]
+  xAxisData: [],
+  highData: [],
+  averageData:[],
+  lowData: [],
 };
 const barChartData = {
   title: "最低负荷",
-  xAxisData: ["01/01", "01/02", "01/03", "01/04", "01/05", "01/06", "01/07"],
-  listData: [120, 82, 91, 154, 162, 140, 145]
+  xAxisData: [],
+  listData: [],
 };
-const gainPieChartData = [
-  {
-    name: "尖峰",
-    value: 0
-  },
-  {
-    name: "高峰",
-    value: 0
-  },
-  {
-    name: "平时",
-    value: 0
-  },
-  {
-    name: "低谷",
-    value: 0
-  }
-];
+const gainPieChartData = [];
 
 export default {
   name: "baseData",
@@ -215,13 +199,18 @@ export default {
         FeeLastMonth: {},
         PowerFactorSituation: {},
         ElectricLoad: {},
-        ElectricSituation: {}
-      }
+      },
+      electricSituation:{},
+      tenantElectricLoad:{},
+      electricFeeCurve:{}
     };
   },
   created() {},
   mounted() {
     this.getScreenTenant();
+    this.getScreenElectricSituation();
+    this.getTenantElectricLoad();
+    this.getElectricFeeCurve();
 
     this.dragControllerDiv();
     this.circleCanves();
@@ -389,13 +378,47 @@ export default {
         this.powerTypeData.listData[0].value = this.dataInfo.FeeThisMonth.BaseFee;
         this.powerTypeData.listData[1].value = this.dataInfo.FeeThisMonth.DegreeFee;
         this.powerTypeData.listData[2].value = this.dataInfo.FeeThisMonth.PowerAdjustmentFee;
+        this.$nextTick(() => {
+          this.$refs.powerTypePie.initChart();
+        });
         this.maintenanceCenter = this.dataInfo.TransformCount;
         this.totalCapacity = this.dataInfo.TotalContractCapacity;
         this.powerRoom = this.dataInfo.SwitchingRoomCount;
-        this.gainPieChartData[0].value = this.dataInfo.ElectricSituation.Sharp;
-        this.gainPieChartData[1].value = this.dataInfo.ElectricSituation.Peak;
-        this.gainPieChartData[2].value = this.dataInfo.ElectricSituation.Flat;
-        this.gainPieChartData[3].value = this.dataInfo.ElectricSituation.Valley;
+      });
+    },
+    getScreenElectricSituation(){
+      getScreenElectricSituation().then(r => {
+        this.electricSituation = r.data;
+        this.gainPieChartData.push({ name: "高峰",value: this.electricSituation.Sharp});
+        this.gainPieChartData.push({ name: "尖峰",value: this.electricSituation.Peak});
+        this.gainPieChartData.push({ name: "平时",value: this.electricSituation.Flat});
+        this.gainPieChartData.push({ name: "低谷",value: this.electricSituation.Valley});
+         this.$nextTick(() => {
+          this.$refs.gainPie.initChart();
+        });
+      });
+    },
+    getTenantElectricLoad(){
+      getTenantElectricLoad().then(r => {
+        this.tenantElectricLoad = r.data;
+       this.lineChartData.xAxisData = this.tenantElectricLoad.XAxis;
+       this.lineChartData.highData = this.tenantElectricLoad.Highest;
+       this.lineChartData.averageData = this.tenantElectricLoad.Average;
+       this.lineChartData.lowData = this.tenantElectricLoad.Lowest;
+        this.$nextTick(() => {
+          this.$refs.loadLineChart.initChart();
+        });
+      });
+
+    },
+    getElectricFeeCurve(){
+      getElectricFeeCurve().then(r => {
+       this.electricFeeCurve = r.data;
+       this.barChartData.xAxisData = this.electricFeeCurve.XAxis;
+       this.barChartData.listData = this.electricFeeCurve.Daily;
+        this.$nextTick(() => {
+          this.$refs.barChart.initChart();
+        });
       });
     }
   }
@@ -612,10 +635,10 @@ export default {
 }
 .ledgeright {
   display: inline-block;
-  width: 24%;
+  width: 20%;
   color: #fff;
   text-align: center;
-  margin-top: -20px;
+  margin-top: -25px;
   vertical-align: top;
   p {
     color: #1fade3;
@@ -631,6 +654,7 @@ export default {
 }
 .ledgeright1 {
   padding-top: 11%;
+  width: 24%;
   margin-left: -9%;
   line-height: 1.8;
 }

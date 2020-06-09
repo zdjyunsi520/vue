@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
-    <div class="search-box marginbottom15">
+    <div class="search-box ">
       <el-form :inline="true" ref="queryForm" :model="queryParams">
         <el-form-item label="用电单位" prop="tenantId">
-          <el-select v-model="queryParams.tenantId" placeholder="全部" style="width:240px">
+          <el-select v-model="queryParams.tenantId" placeholder="全部">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
@@ -11,13 +11,13 @@
           <el-input v-model="queryParams.OrderCode"></el-input>
         </el-form-item>
         <el-form-item label="业务来源" prop="BizSource">
-          <el-select v-model="queryParams.BizSource" placeholder="全部" style="max-width:240px">
+          <el-select v-model="queryParams.BizSource" placeholder="全部">
             <el-option label="用户报修" :value="1"></el-option>
             <el-option label="故障告警" :value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
-          <el-select v-model="queryParams.status" placeholder="全部" style="max-width:240px">
+          <el-select v-model="queryParams.status" placeholder="全部">
             <el-option label="故障受理" :value="1"></el-option>
             <el-option label="故障抢修" :value="2"></el-option>
             <el-option label="故障归档" :value="3"></el-option>

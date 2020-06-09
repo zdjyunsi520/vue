@@ -77,8 +77,8 @@ export default {
     showLoading() {
       this.chart.showLoading({
         text: "Loading",
-        color: "#999999",
-        textColor: "#999",
+        color: "#ffffff",
+        textColor: "#ffffff",
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });

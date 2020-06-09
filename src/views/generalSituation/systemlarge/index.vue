@@ -130,54 +130,23 @@
           <el-row style='margin-top:-70px' class="boxheight4">
             <h6 class="longbg">预警信息</h6>
             <div class="warnlistinfo">
-              <div>
-                <span class="smicon"><img src="@/assets/image/ic_notice.png" /></span>
+              <div v-for='(item,index) in waringlist' :key='index'>
+                <span class="smicon">
+                    <img v-if='index==0' src="@/assets/image/ic_notice.png" />
+                    <img v-else src="@/assets/image/ic_tips.png" />
+                  </span>
                 <div>
-                  <el-col :span="5">
-                    顺康塑料
-                  </el-col>
-                  <el-col :span="8">
-                    低压进线间隔 67#低压进线间隔
-                  </el-col>
-                  <el-col :span="4">
-                    状态：分闸
-                  </el-col>
                   <el-col :span="7">
-                    2020-03-20 18:00:08
+                    {{item.TenantName}}
                   </el-col>
-                </div>
-              </div>
-              <div>
-                <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
-                <div>
                   <el-col :span="5">
-                    顺康塑料
+                    {{item.AssetsName}}
                   </el-col>
-                  <el-col :span="8">
-                    低压进线间隔 67#低压进线间隔
+                  <el-col :span="6">
+                    {{item.Description}}
                   </el-col>
-                  <el-col :span="4">
-                    状态：分闸
-                  </el-col>
-                  <el-col :span="7">
-                    2020-03-20 18:00:08
-                  </el-col>
-                </div>
-              </div>
-              <div>
-                <span class="smicon"><img src="@/assets/image/ic_tips.png"></span>
-                <div>
-                  <el-col :span="5">
-                    顺康塑料
-                  </el-col>
-                  <el-col :span="8">
-                    低压进线间隔 67#低压进线间隔
-                  </el-col>
-                  <el-col :span="4">
-                    状态：分闸
-                  </el-col>
-                  <el-col :span="7">
-                    2020-03-20 18:00:08
+                  <el-col :span="6">
+                    {{item.Time}}
                   </el-col>
                 </div>
               </div>
@@ -235,7 +204,7 @@
           <el-row class='commonchart'>
             <h6>运维跟踪情况</h6>
             <div class="chartbox boxheight3">
-              <LineChart ref="tracklineChartData" :linechartData='tracklineChartData' />
+              <LineChart ref="tracklineChart" :linechartData='tracklineChartData' />
             </div>
           </el-row>
         </el-col>
@@ -248,7 +217,8 @@
 import {
   getScreenSystem,
   getScreenElectricLoad,
-  getOperationCurve
+  getOperationCurve,
+  getWarnings
 } from "@/api/report";
 
 import Systime from "../components/systime.vue";
@@ -318,13 +288,15 @@ export default {
       },
       mapchartData: {},
       sysElectricLoad: {},
-      operationCurve: {}
+      operationCurve: {},
+      waringlist:[]
     };
   },
   mounted() {
     this.getScreenSystem();
     this.getScreenElectricLoad();
     this.getOperationCurve();
+    this.getWarnings();
 
     this.dragControllerDiv();
     this.circleCanves();
@@ -479,7 +451,6 @@ export default {
         this.powerRoom = this.dataInfo.SwitchingRoomCount;
         this.safeRunning = this.dataInfo.RunningDays;
 
-        this.$refs.powerTypePieChart.showLoading();
         this.dataInfo.ElectricTypeStatistic.map((v, i) => {
           this.powerTypeData.legendData.push(v.Text);
           this.powerTypeData.listData.push({
@@ -488,32 +459,41 @@ export default {
           });
           return this.powerTypeData;
         });
-        this.$refs.powerTypePieChart.hideLoading();
-
+        this.$nextTick(() => {
+          this.$refs.powerTypePieChart.initChart();
+        });
         this.mapchartData = this.dataInfo.ProvinceData;
       });
     },
     getScreenElectricLoad() {
-      // this.$refs.lineChartData.showLoading();
       getScreenElectricLoad().then(r => {
         this.sysElectricLoad = r.data;
         this.lineChartData.xAxisData = this.sysElectricLoad.XAxis;
         this.lineChartData.highData = this.sysElectricLoad.Highest;
         this.lineChartData.averageData = this.sysElectricLoad.Average;
         this.lineChartData.lowData = this.sysElectricLoad.Lowest;
-        // this.$refs.lineChartData.hideLoading();
+        this.$nextTick(() => {
+          this.$refs.lineChart.initChart();
+        });
       });
     },
     getOperationCurve() {
-      // this.$refs.tracklineChartData.showLoading();
       getOperationCurve().then(r => {
         this.operationCurve = r.data;
         this.tracklineChartData.xAxisData = this.operationCurve.XAxis;
         this.tracklineChartData.highData = this.operationCurve.Patrol;
         this.tracklineChartData.averageData = this.operationCurve.Bug;
         this.tracklineChartData.lowData = this.operationCurve.Repair;
-        // this.$refs.tracklineChartData.hideLoading();
+        this.$nextTick(() => {
+          this.$refs.tracklineChart.initChart();
+        });
       });
+    },
+    getWarnings(){
+      getWarnings().then(r => {
+        this.waringlist = r.data;
+      });
+
     }
   }
 };

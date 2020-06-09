@@ -349,15 +349,15 @@ const collectionPieChartData = {
 const lineChartData = [
   {
     legendData: ["今日负荷", "昨日负荷"],
-    xAxisData: ["00:00", "01:30", "3:00"],
-    expectedData: [0, 0, 0],
-    actualData: [0, 0, 0]
+    xAxisData: [],
+    expectedData: [],
+    actualData: []
   },
   {
     legendData: ["本月负荷", "上月负荷"],
-    xAxisData: ["01/01", "01/02", "01/03"],
-    expectedData: [0, 0, 0],
-    actualData: [0, 0, 0]
+    xAxisData: [],
+    expectedData: [],
+    actualData: []
   }
 ];
 const alarmchartData = {
@@ -479,6 +479,8 @@ export default {
         if (r.data.length) this.handleNodeClick(r.data[0]);
         this.tenantId = this.treeData[0].id;
         this.getSysBaseInfo(this.tenantId);
+        this.getSysElectricLoad(this.tenantId);
+        this.getSysElectricSituation(this.tenantId);
       });
     },
     getSysBaseInfo(tenantId) {
@@ -508,13 +510,11 @@ export default {
         this.collectionPieChartData.listData[0].value = this.dataInfo.CollectSituation.OnlineRate;
         this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
         this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
-        this.getSysElectricLoad(tenantId);
-        this.getSysElectricSituation(tenantId);
+        
       });
     },
     getSysElectricLoad(tenantId) {
       var tenantId = tenantId;
-      this.$refs.linechart.showLoading();
       getSysElectricLoad({ tenantId }).then(r => {
         this.electricLoad = r.data;
         lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
@@ -523,7 +523,9 @@ export default {
         lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
         lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
         lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
-        this.$refs.linechart.hideLoading();
+        //  this.$nextTick(() => {
+        //   this.$refs.lineChart.initChart();
+        // });
       });
     },
 

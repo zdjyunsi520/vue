@@ -57,7 +57,7 @@
               <div class="form-smtitle marginBottom30">其他参数 </div>
               <p class="tips" v-if="!otherData||otherData.length==0">暂无其他参数</p>
               <el-row class="cellinfo noborder databox-lx" v-else>
-                <el-col :span='5' :xs='12' v-for="item in otherData">
+                <el-col :span='5' :xs='12' v-for="item in otherData" :key='index'>
                   <p @click="handleClick(item.Type)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
                 </el-col>
 
