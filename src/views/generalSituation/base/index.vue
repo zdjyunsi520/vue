@@ -461,7 +461,10 @@ export default {
         WarningTypeSituation: []
       },
       electricSituation: {},
-      electricLoad: {},
+      electricLoad: {
+        DayCurve: {},
+        MonthCurve: {}
+      },
       electricTypeStatistic: {},
       warningTypeSituation: []
     };
@@ -517,13 +520,13 @@ export default {
     getSysElectricLoad(tenantId) {
       var tenantId = tenantId;
       getSysElectricLoad({ tenantId }).then(r => {
-        this.electricLoad = r.data;
-        this.lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
-        this.lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
-        this.lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
-        this.lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
-        this.lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
-        this.lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
+        this.electricLoad = Object.assign({}, r.data);
+        lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
+        lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
+        lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
+        lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
+        lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
+        lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
         this.$nextTick(() => {
           this.$refs.loadlinechart.initChart();
         });

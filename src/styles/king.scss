@@ -134,10 +134,12 @@
      line-height: 34px;
  }
  
- .search-box .el-input--medium .el-input__inner {
-     width: 200px;
- }
- 
+ //  .search-box .el-input--medium .el-input__inner {
+ //      width: 200px;
+ //  }
+ //  .onlyform-box .el-input--medium .el-input__inner {
+ //      width: 100%;
+ //  }
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 17px;
