@@ -179,7 +179,9 @@ export default {
               }
 
               this.loading = false;
-              this.$router.push({ path: this.redirect || "/" });
+              location.reload();
+
+              // this.$router.push({ path: this.redirect || "/" });
             })
             .catch(() => {
               this.loading = false;
