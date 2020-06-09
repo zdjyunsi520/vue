@@ -198,7 +198,7 @@
                 <div class='circle3'>
                   <canvas class="js-rotate-06" width="50" height="50"></canvas>
                 </div>
-             
+
               </div>
               <div class="ledgebox">
                 <p><i><b class='dot1'></b></i><span>{{dataInfo.OperationSituation.TotalPatrolCount}}<label>总巡检(次)</label></span></p>
@@ -235,7 +235,7 @@
           <el-row class='commonchart'>
             <h6>运维跟踪情况</h6>
             <div class="chartbox boxheight3">
-              <LineChart :linechartData='tracklineChartData' />
+              <LineChart ref="tracklineChartData" :linechartData='tracklineChartData' />
             </div>
           </el-row>
         </el-col>
@@ -245,7 +245,11 @@
 </template>
 
 <script>
-import { getScreenSystem,getScreenElectricLoad,getOperationCurve} from "@/api/report";
+import {
+  getScreenSystem,
+  getScreenElectricLoad,
+  getOperationCurve
+} from "@/api/report";
 
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
@@ -263,19 +267,18 @@ const powerTypeData = {
 };
 const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
-  xAxisData:[],
+  xAxisData: [],
   highData: [],
   averageData: [],
   lowData: []
 };
 const tracklineChartData = {
   legendData: ["巡视", "故障维修", "用户报修"],
-  xAxisData:[],
+  xAxisData: [],
   highData: [],
   averageData: [],
   lowData: []
 };
-
 
 export default {
   name: "baseData",
@@ -314,8 +317,8 @@ export default {
         CollectSituation: {}
       },
       mapchartData: {},
-      sysElectricLoad:{},
-      operationCurve:{}
+      sysElectricLoad: {},
+      operationCurve: {}
     };
   },
   mounted() {
@@ -470,45 +473,48 @@ export default {
     getScreenSystem() {
       getScreenSystem().then(r => {
         this.dataInfo = r.data;
-        console.log(this.dataInfo);
         this.maintenanceCenter = this.dataInfo.OperationSituation.OperationCenterCount;
         this.totalUsers = this.dataInfo.TotalUserCount;
         this.totalCapacity = this.dataInfo.TotalContractCapacity;
         this.powerRoom = this.dataInfo.SwitchingRoomCount;
         this.safeRunning = this.dataInfo.RunningDays;
 
-        // this.$refs.powerTypePieChart.showLoading();
+        this.$refs.powerTypePieChart.showLoading();
         this.dataInfo.ElectricTypeStatistic.map((v, i) => {
-          powerTypeData.legendData.push(v.Text);
-          powerTypeData.listData.push({
+          this.powerTypeData.legendData.push(v.Text);
+          this.powerTypeData.listData.push({
             value: v.Count,
             name: v.Text
           });
-          return powerTypeData;
+          return this.powerTypeData;
         });
-        // this.$refs.powerTypePieChart.hideLoading();
+        this.$refs.powerTypePieChart.hideLoading();
+
         this.mapchartData = this.dataInfo.ProvinceData;
       });
     },
-    getScreenElectricLoad(){
+    getScreenElectricLoad() {
+      // this.$refs.lineChartData.showLoading();
       getScreenElectricLoad().then(r => {
         this.sysElectricLoad = r.data;
-        this.lineChartData.xAxisData = this.sysElectricLoad.CurveXAxis;
-        this.lineChartData.highData = this.sysElectricLoad.HighestCurve;
-        this.lineChartData.averageData = this.sysElectricLoad.AverageCurve;
-        this.lineChartData.lowData = this.sysElectricLoad.LowestCurve;
+        this.lineChartData.xAxisData = this.sysElectricLoad.XAxis;
+        this.lineChartData.highData = this.sysElectricLoad.Highest;
+        this.lineChartData.averageData = this.sysElectricLoad.Average;
+        this.lineChartData.lowData = this.sysElectricLoad.Lowest;
+        // this.$refs.lineChartData.hideLoading();
       });
     },
-    getOperationCurve(){
+    getOperationCurve() {
+      // this.$refs.tracklineChartData.showLoading();
       getOperationCurve().then(r => {
         this.operationCurve = r.data;
-        this.tracklineChartData.xAxisData = this.operationCurve.CurveXAxis;
-        this.tracklineChartData.highData = this.operationCurve.PatrolCurve;
-        this.tracklineChartData.averageData = this.operationCurve.BugCurve;
-        this.tracklineChartData.lowData = this.operationCurve.RepairCurve;
+        this.tracklineChartData.xAxisData = this.operationCurve.XAxis;
+        this.tracklineChartData.highData = this.operationCurve.Patrol;
+        this.tracklineChartData.averageData = this.operationCurve.Bug;
+        this.tracklineChartData.lowData = this.operationCurve.Repair;
+        // this.$refs.tracklineChartData.hideLoading();
       });
-    },
-    
+    }
   }
 };
 </script>
@@ -730,7 +736,7 @@ export default {
 }
 .bottomtext1 {
   padding: 2% 0% 0;
-  span{
+  span {
     width: 33%;
   }
 }

@@ -154,10 +154,10 @@
                       <el-col :span="14" :xs="24">
                         <el-row :gutter="10">
                           <el-col :span="8">
-                            <p>本月(总)<span>{{dataInfo.RepairThisMonth.ThisMonthCount}}</span></p>
+                            <p>本月(总)<span>{{dataInfo.RepairThisMonth.TotalCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>累计报修(次)<span>{{dataInfo.RepairThisMonth.UserReportCount}}</span></p>
+                            <p>累计报修(次)<span>{{dataInfo.RepairThisMonth.ApplyCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
                             <p>累计抢修(次)<span>{{dataInfo.RepairThisMonth.DispatchCount}}</span></p>
@@ -168,7 +168,7 @@
                             <p>已完成(次)<span>{{dataInfo.RepairThisMonth.CompletionCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
-                            <p>未完成(次)<span>{{dataInfo.RepairThisMonth.TotalCount-dataInfo.RepairThisMonth.ExecuteCount}}</span></p>
+                            <p>未完成(次)<span>{{dataInfo.RepairThisMonth.InCompletionCount}}</span></p>
                           </el-col>
                           <el-col :span="8">
                             <p>完成率<span>{{dataInfo.RepairThisMonth.CompletionRate}}%</span></p>
@@ -231,16 +231,16 @@
 
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="6">
-                        <p>本月累计<span>{{dataInfo.WarningThisMonth.AddUpCount}}次</span></p>
+                        <p>本月累计<span>{{dataInfo.WarningThisMonth.TotalCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>本月新增<span>{{dataInfo.WarningThisMonth.TotalCount}}次</span></p>
+                        <p>本月新增<span>{{dataInfo.WarningThisMonth.AddUpCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>上月累计<span>{{dataInfo.WarningLastMonth.AddUpCount}}次</span></p>
+                        <p>上月累计<span>{{dataInfo.WarningLastMonth.TotalCount}}次</span></p>
                       </el-col>
                       <el-col :span="6">
-                        <p>未处理<span>{{dataInfo.WarningThisMonth.UnprocessedCount}}个</span></p>
+                        <p>未处理<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}个</span></p>
                       </el-col>
                     </el-row>
                     <AlarmPieChart :piechartData='alarmchartData' />
@@ -452,12 +452,13 @@ export default {
       alarmchartData: alarmchartData,
       tenantId: "",
       dataInfo: {
-        OperationSituation:{},
-        RepairThisMonth:{},
-        PatrolThisMonth:{},
-        CollectSituation:{},
-        WarningThisMonth:{},
-        WarningTypeSituation:[]
+        OperationSituation: {},
+        RepairThisMonth: {},
+        PatrolThisMonth: {},
+        CollectSituation: {},
+        WarningThisMonth: {},
+        WarningLastMonth: {},
+        WarningTypeSituation: []
       },
       electricSituation: {},
       electricLoad: {},
@@ -493,8 +494,8 @@ export default {
         });
 
         this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
-        this.alarmchartData.xAxisData=[];
-        this.alarmchartData.listData=[];
+        this.alarmchartData.xAxisData = [];
+        this.alarmchartData.listData = [];
         this.warningTypeSituation.map((v, i) => {
           this.alarmchartData.xAxisData.push(v.Text);
           this.alarmchartData.listData.push({
@@ -504,11 +505,7 @@ export default {
           return this.alarmchartData;
         });
 
-        this.collectionPieChartData.listData[0].value =
-          this.dataInfo.CollectSituation.OnlineRate != "NaN"
-            ? this.dataInfo.CollectSituation.OnlineRate
-            : 0;
-
+        this.collectionPieChartData.listData[0].value = this.dataInfo.CollectSituation.OnlineRate;
         this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
         this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
         this.getSysElectricLoad(tenantId);
@@ -534,18 +531,10 @@ export default {
       var tenantId = tenantId;
       getSysElectricSituation({ tenantId }).then(r => {
         this.electricSituation = r.data;
-        structureChartData.listData[0].value = this.electricSituation.Sharp
-          ? this.electricSituation.Sharp
-          : 0;
-        structureChartData.listData[1].value = this.electricSituation.Peak
-          ? this.electricSituation.Peak
-          : 0;
-        structureChartData.listData[2].value = this.electricSituation.Flat
-          ? this.electricSituation.Flat
-          : 0;
-        structureChartData.listData[3].value = this.electricSituation.Valley
-          ? this.electricSituation.Valley
-          : 0;
+        structureChartData.listData[0].value = this.electricSituation.Sharp;
+        structureChartData.listData[1].value = this.electricSituation.Peak;
+        structureChartData.listData[2].value = this.electricSituation.Flat;
+        structureChartData.listData[3].value = this.electricSituation.Valley;
       });
     },
 

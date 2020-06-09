@@ -25,7 +25,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          运行容量(kVA)<b>{{totalContractCapacity}}</b>
+                          运行容量(kVA)<b>{{dataInfo.TotalContractCapacity}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -40,7 +40,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          配电房(个)<b>{{switchingRoomCount}}</b>
+                          配电房(个)<b>{{dataInfo.SwitchingRoomCount}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -55,7 +55,7 @@
                     <el-row>
                       <el-col :span="18">
                         <span>
-                          变压器(台)<b>{{transformCount}}</b>
+                          变压器(台)<b>{{dataInfo.TransformCount}}</b>
                         </span>
                       </el-col>
                       <el-col :span="6">
@@ -74,10 +74,10 @@
                     </div>
                     <el-row :gutter="40" class="legendbox" style="padding:0 30px">
                       <el-col :span="8" :push="4">
-                        <p>本月电费(元)<span>{{electricFeeSituation.ThisMonthFee}}</span></p>
+                        <p>本月电费(元)<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
                       </el-col>
                       <el-col :span="8" :push="4">
-                        <p>上月电费(元)<span>{{electricFeeSituation.LastMonthFee}}</span></p>
+                        <p>上月电费(元)<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
                       </el-col>
                     </el-row>
                     <BarChart ref='barChart' :barchartData='typeChartData' />
@@ -91,10 +91,10 @@
                     <el-row :gutter="10" class="legendbox">
                       <el-col :span="8" :xs="24" style="padding-top: 2%;">
                         <el-col :span="24" :xs="12">
-                          <p>无功电量(kVarh)<span>{{powerFactorSituation.ReactivePower}}</span></p>
+                          <p>无功电量(kVarh)<span>{{dataInfo.PowerFactorSituation.ReactivePower}}</span></p>
                         </el-col>
                         <el-col :span="24" :xs="12">
-                          <p>占比<span>{{powerFactorSituation.Rate}}%</span></p>
+                          <p>占比<span>{{dataInfo.PowerFactorSituation.Rate}}%</span></p>
                         </el-col>
                       </el-col>
                       <el-col :span="8" :xs="24">
@@ -316,21 +316,22 @@ export default {
       pieChartData: pieChartData,
 
       tenantId: "",
-      totalContractCapacity: 0,
-      switchingRoomCount: 0,
-      transformCount: 0,
-      electricFeeSituation: {},
-      powerFactorSituation: {},
+      dataInfo: {
+        electricFeeSituation: {},
+        FeeThisMonth: {},
+        FeeLastMonth: {},
+        PowerFactorSituation: {}
+      },
+      // PowerFactorSituation: {},
       electricQuantity: {},
       electricLoad: {}
     };
   },
   mounted() {
+    this.getTree();
     this.dragControllerDiv();
   },
-  created() {
-    this.getTree();
-  },
+  created() {},
   methods: {
     getTree() {
       fetchTree({}).then(r => {
@@ -343,26 +344,14 @@ export default {
     getBaseInfo(tenantId) {
       var tenantId = tenantId;
       getBaseInfo({ tenantId }).then(r => {
-        this.totalContractCapacity = r.data.TotalContractCapacity;
-        this.switchingRoomCount = r.data.SwitchingRoomCount;
-        this.transformCount = r.data.TransformCount;
-        this.electricFeeSituation = r.data.ElectricFeeSituation;
-        typeChartData.listData[0].value = r.data.ElectricFeeSituation.DegreeFee;
-        typeChartData.listData[1].value = r.data.ElectricFeeSituation.BaseFee;
-        typeChartData.listData[2].value =
-          r.data.ElectricFeeSituation.PowerAdjustmentFee;
+        this.dataInfo = r.data;
+        this.typeChartData.listData[0].value = this.dataInfo.FeeThisMonth.DegreeFee;
+        this.typeChartData.listData[1].value = this.dataInfo.FeeThisMonth.BaseFee;
+        this.typeChartData.listData[2].value = this.dataInfo.FeeThisMonth.PowerAdjustmentFee;
 
-        this.powerFactorSituation = r.data.PowerFactorSituation;
-        lastMonthAverage.listData[0].value =
-          r.data.PowerFactorSituation.LastMonthAverage;
-        thisMonthAverage.listData[0].value =
-          r.data.PowerFactorSituation.ThisMonthAverage;
+        this.lastMonthAverage.listData[0].value = this.dataInfo.PowerFactorSituation.LastMonthAverage;
+        this.thisMonthAverage.listData[0].value = this.dataInfo.PowerFactorSituation.ThisMonthAverage;
 
-        this.$nextTick(() => {
-          this.$refs.barChart.initChart();
-          this.$refs.gaugeChart1.initChart();
-          this.$refs.gaugeChart2.initChart();
-        });
         this.getElectricLoad(tenantId);
         this.getElectricQuantity(tenantId);
         this.getElectricSituation(tenantId);
@@ -373,6 +362,8 @@ export default {
       this.$refs.lineChart.showLoading();
       getElectricLoad({ tenantId }).then(r => {
         this.electricLoad = r.data;
+        this.loadChartData.currentLoad = this.electricLoad.CurrentLoad;
+        this.loadChartData.currentLoadRate = this.electricLoad.CurrentLoadRate;
         lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
         lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
         lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
@@ -456,7 +447,7 @@ export default {
     span {
       display: block;
       padding-top: 10px;
-      min-height:37px;
+      min-height: 37px;
       color: #333;
       font-size: 24px;
     }

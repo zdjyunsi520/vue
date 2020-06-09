@@ -28,6 +28,7 @@ export default {
       chart: null
     };
   },
+
   mounted() {
     this.$nextTick(() => {
       this.initChart();

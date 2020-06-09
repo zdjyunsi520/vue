@@ -36,7 +36,7 @@ export default {
       chart: null
     };
   },
- 
+
   watch: {
     linechartData: {
       handler(newVal, oldVal) {
@@ -69,9 +69,27 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
-      this.setOptions(this.linechartData);
+      this.showLoading();
+      if (this.linechartData) {
+        this.chart.hideLoading();
+        this.setOptions(this.linechartData);
+      }
     },
-    setOptions({xAxisData, legendData, highData, averageData, lowData } = {}) {
+
+    showLoading() {
+      this.chart.showLoading({
+        text: "Loading",
+        color: "#999999",
+        textColor: "#999",
+        maskColor: "rgba(0, 0, 0, 0)",
+        zlevel: 0
+      });
+    },
+    hideLoading() {
+      this.chart.hideLoading();
+    },
+
+    setOptions({ xAxisData, legendData, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 10,

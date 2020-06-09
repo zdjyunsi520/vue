@@ -36,12 +36,21 @@ export default {
       chart: null
     };
   },
+
   watch: {
     linechartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val);
-      }
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
   mounted() {
