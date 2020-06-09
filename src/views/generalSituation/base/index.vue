@@ -243,7 +243,7 @@
                         <p>未处理<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}个</span></p>
                       </el-col>
                     </el-row>
-                    <AlarmPieChart :piechartData='alarmchartData' />
+                    <AlarmPieChart ref="alarmchartChart" :piechartData='alarmchartData' />
                   </div>
                 </el-col>
                 <el-col :span="8" :xs="24">
@@ -263,7 +263,7 @@
                         <p>累计年(kWh)<span>{{electricSituation.YearAddUp}}</span></p>
                       </el-col>
                     </el-row>
-                    <BarChart :barchartData='structureChartData' />
+                    <BarChart ref='structureBarChart' :barchartData='structureChartData' />
                   </div>
                 </el-col>
                 <el-col :span="8" :xs="24">
@@ -276,7 +276,7 @@
                         <p>{{item.Text}}(户)<span>{{item.Count}}</span></p>
                       </el-col>
                     </el-row>
-                    <BarChart :barchartData='typeChartData' />
+                    <BarChart ref="typeChart" :barchartData='typeChartData' />
                   </div>
                 </el-col>
               </el-row>
@@ -366,7 +366,7 @@ const alarmchartData = {
 };
 const structureChartData = {
   ytext: "单位(kWh)",
-  xAxisData: ["尖峰", "高峰", "平时", "低谷"],
+  xAxisData: [],
   listData: [
     {
       name: "尖峰",
@@ -400,7 +400,7 @@ const structureChartData = {
 };
 const typeChartData = {
   ytext: "单位(kWh)",
-  xAxisData: ["商业", "工业", "居民"],
+  xAxisData: [],
   listData: [
     {
       name: "商业",
@@ -470,8 +470,7 @@ export default {
     this.dragControllerDiv();
     this.getTree();
   },
-  created() {
-  },
+  created() {},
   methods: {
     getTree() {
       fetchTree({}).then(r => {
@@ -492,7 +491,6 @@ export default {
         this.electricTypeStatistic.map((v, i) => {
           this.typeChartData.xAxisData.push(v.Text);
           this.typeChartData.listData[i].value = v.Count;
-          return this.typeChartData;
         });
 
         this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
@@ -504,26 +502,29 @@ export default {
             value: v.Count,
             name: v.Text
           });
-          return this.alarmchartData;
         });
 
         this.collectionPieChartData.listData[0].value = this.dataInfo.CollectSituation.OnlineRate;
         this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
         this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
-        
+
+        this.$nextTick(() => {
+          this.$refs.typeChart.initChart();
+          this.$refs.alarmchartChart.initChart();
+        });
       });
     },
     getSysElectricLoad(tenantId) {
       var tenantId = tenantId;
       getSysElectricLoad({ tenantId }).then(r => {
         this.electricLoad = r.data;
-        lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
-        lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
-        lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
-        lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
-        lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
-        lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
-         this.$nextTick(() => {
+        this.lineChartData[0].xAxisData = this.electricLoad.DayCurve.XAxis;
+        this.lineChartData[0].expectedData = this.electricLoad.DayCurve.Today;
+        this.lineChartData[0].actualData = this.electricLoad.DayCurve.Yesterday;
+        this.lineChartData[1].xAxisData = this.electricLoad.MonthCurve.XAxis;
+        this.lineChartData[1].expectedData = this.electricLoad.MonthCurve.ThisMonth;
+        this.lineChartData[1].actualData = this.electricLoad.MonthCurve.LastMonth;
+        this.$nextTick(() => {
           this.$refs.loadlinechart.initChart();
         });
       });
@@ -533,17 +534,21 @@ export default {
       var tenantId = tenantId;
       getSysElectricSituation({ tenantId }).then(r => {
         this.electricSituation = r.data;
-        structureChartData.listData[0].value = this.electricSituation.Sharp;
-        structureChartData.listData[1].value = this.electricSituation.Peak;
-        structureChartData.listData[2].value = this.electricSituation.Flat;
-        structureChartData.listData[3].value = this.electricSituation.Valley;
+        this.structureChartData.xAxisData = ["尖峰", "高峰", "平时", "低谷"];
+        this.structureChartData.listData[0].value = this.electricSituation.Sharp;
+        this.structureChartData.listData[1].value = this.electricSituation.Peak;
+        this.structureChartData.listData[2].value = this.electricSituation.Flat;
+        this.structureChartData.listData[3].value = this.electricSituation.Valley;
+        this.$nextTick(() => {
+          this.$refs.structureBarChart.initChart();
+        });
       });
     },
 
     handleNodeClick(data) {
       this.getSysBaseInfo(data.id);
-      this.getSysElectricLoad(this.tenantId);
-      this.getSysElectricSituation(this.tenantId);
+      this.getSysElectricLoad(data.id);
+      this.getSysElectricSituation(data.id);
     },
     // 用电负荷 日/月切换
     handleSetLineChartData(type) {

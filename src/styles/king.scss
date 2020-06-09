@@ -131,7 +131,11 @@
  
  .el-input--medium .el-input__inner {
      height: 34px;
-     line-height: 34px;width: 200px;
+     line-height: 34px;
+ }
+ 
+ .search-box .el-input--medium .el-input__inner {
+     width: 200px;
  }
  
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
