@@ -266,14 +266,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      let ids = row ? [row.Id] : this.ids.map(v => v.Id);
+      let Id = row.Id;
       this.$confirm("是否确认删除选中的数据项？", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          deleted({ ids }).then(r => {
+          deleted({ Id }).then(r => {
             this.getList();
             this.$message.success("删除成功！");
           });

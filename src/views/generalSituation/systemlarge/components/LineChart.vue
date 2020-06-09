@@ -71,7 +71,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
       if (this.linechartData) {
-        this.chart.hideLoading();
+        this.hideLoading();
         this.setOptions(this.linechartData);
       }
     },
@@ -81,7 +81,7 @@ export default {
         text: "Loading",
         color: "#999999",
         textColor: "#999",
-        maskColor: "rgba(0, 0, 0, 0)",
+        maskColor: "rgba(0, 0, 0,0)",
         zlevel: 0
       });
     },
@@ -93,7 +93,7 @@ export default {
       this.chart.setOption({
         grid: {
           left: 10,
-          right: 20,
+          right: 40,
           bottom: 30,
           top: 50,
           containLabel: true
