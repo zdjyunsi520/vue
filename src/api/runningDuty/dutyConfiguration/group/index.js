@@ -11,6 +11,9 @@ export function add(data) {
 export function update(data) {
   return post("/DutyTeam/Modify", data, commonUrl);
 }
+export function getInfo(data) {
+  return post("/DutyTeam/Get", data, commonUrl);
+}
 
 export function deleted(data) {
   return post("/DutyTeam/Remove", data, commonUrl);
