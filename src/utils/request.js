@@ -66,11 +66,11 @@ service.interceptors.response.use(res => {
     //     })
     // })
     Notification.error({ title: res.data.msg });
-    setTimeout(() => {
-      store.dispatch("LogOut").then(() => {
-        location.reload(); // 为了重新实例化vue-router对象 避免bug
-      });
-    }, 2000);
+    // setTimeout(() => {
+    //   store.dispatch("LogOut").then(() => {
+    //     location.reload(); // 为了重新实例化vue-router对象 避免bug
+    //   });
+    // }, 2000);
   } else if (code == 50000) {
     Notification.info({ title: res.data.msg });
     return Promise.reject(res.data);
@@ -94,20 +94,30 @@ export function get(url, params) {
 export function post(url, params, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
-  let headers = {};
+  let headers = { version: "1.0", fromurl: "system" };
   if (token) {
     //  params.Token = token;
-    headers = { Token: token };
+    headers.Token = token;
   }
   return service({ url, method: "post", params, headers });
 }
 export function postFile(url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
+
+  let headers = {
+    version: "1.0",
+    fromurl: "system",
+    "Content-Type": "multipart/form-data"
+  };
   if (token) {
-    data.append("Token", token);
+    //  params.Token = token;
+    headers.Token = token;
   }
-  const headers = { "Content-Type": "multipart/form-data" };
+
+  // if (token) {
+  //   data.append("Token", token);
+  // }
   return service({ url, method: "post", data, headers });
 }
 export function post1(url, data, baseUrl) {
