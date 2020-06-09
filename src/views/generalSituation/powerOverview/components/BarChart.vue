@@ -67,7 +67,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.barchartData.listData) {
+      if (this.barchartData.xAxisData.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.barchartData);
       }
@@ -88,7 +88,7 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          },
+          }
         },
         grid: {
           top: "30px",
@@ -148,7 +148,7 @@ export default {
             name: title,
             type: "bar",
             barWidth: "30%",
-            barMaxWidth:'50',
+            barMaxWidth: "50",
             data: listData
           }
         ]
