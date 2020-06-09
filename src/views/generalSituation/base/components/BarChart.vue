@@ -67,7 +67,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.barchartData.listData) {
+      if (this.barchartData.xAxisData.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.barchartData);
       }
@@ -148,7 +148,7 @@ export default {
             name: title,
             type: "bar",
             barWidth: "40%",
-            barMaxWidth:'50',
+            barMaxWidth: "50",
             data: listData
           }
         ]
