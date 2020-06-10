@@ -6,13 +6,13 @@
         <el-tab-pane label="按值班统计" name="2"></el-tab-pane>
       </el-tabs>
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="用电单位" prop="tenantId">
+        <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId">
             <el-option label="请选择" value></el-option>
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="年度" prop="patrolYear">
+        <el-form-item label="年度：" prop="patrolYear">
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
 
         </el-form-item>

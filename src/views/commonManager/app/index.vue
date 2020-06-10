@@ -2,10 +2,10 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="应用名称" prop="versionname">
+        <el-form-item label="应用名称：" prop="versionname">
           <el-input v-model="queryParams.versionname" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="版本号" prop="versioncode">
+        <el-form-item label="版本号：" prop="versioncode">
           <el-input v-model="queryParams.versioncode" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>

@@ -6,12 +6,12 @@
         <el-tab-pane label="按人员展示" name="1"></el-tab-pane>
       </el-tabs>
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组" prop="dutyId">
+        <el-form-item label="值班班组：" prop="dutyId">
           <el-select v-model="queryParams.dutyId" clearable placeholder="请选择值班班组">
             <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年月" prop="time">
+        <el-form-item label="年月：" prop="time">
           <el-date-picker v-model="queryParams.time" type="month" placeholder="请选择年月" value-format="yyyy-MM" format="yyyy-MM"> </el-date-picker>
         </el-form-item>
         <el-form-item>

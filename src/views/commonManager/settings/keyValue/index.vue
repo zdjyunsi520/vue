@@ -2,10 +2,10 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="代码" prop="key">
+        <el-form-item label="代码：" prop="key">
           <el-input v-model="queryParams.key" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>

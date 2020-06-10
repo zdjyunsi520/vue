@@ -2,33 +2,33 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :inline="true" ref="queryForm" :model="queryParams">
-        <el-form-item label="用电单位" prop="tenantId">
+        <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="缺陷编号" prop="No">
+        <el-form-item label="缺陷编号：" prop="No">
           <el-input v-model="queryParams.No"></el-input>
         </el-form-item>
-        <el-form-item label="发现日期" prop="reporttimestart">
+        <el-form-item label="发现日期：" prop="reporttimestart">
           <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           至
           <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="缺陷等级" prop="rank">
+        <el-form-item label="缺陷等级：" prop="rank">
           <el-select v-model="queryParams.rank" placeholder="请选择" >
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="设备名称" prop="assetsname">
+        <el-form-item label="设备名称：" prop="assetsname">
           <el-input v-model="queryParams.assetsname"></el-input>
         </el-form-item>
-        <el-form-item label="消缺结果" prop="IsProcessed">
+        <el-form-item label="消缺结果：" prop="IsProcessed">
           <el-select v-model="queryParams.IsProcessed" placeholder="请选择">
             <el-option v-for="(item,index) in IsProcesseds" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="状态：" prop="status">
           <el-select v-model="queryParams.status" placeholder="请选择">
             <el-option v-for="(item,index) in statuss" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>

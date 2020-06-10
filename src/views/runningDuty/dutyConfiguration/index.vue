@@ -2,22 +2,22 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组" prop="teamname">
+        <el-form-item label="值班班组：" prop="teamname">
           <el-input v-model="queryParams.teamname" placeholder="请输入班组名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="班次类型" prop="shifttypeId">
+        <el-form-item label="班次类型：" prop="shifttypeId">
           <el-select v-model="queryParams.shifttypeId">
             <el-option label="全部" value=""></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="角色类型" prop="charatypeId">
+        <el-form-item label="角色类型：" prop="charatypeId">
           <el-select v-model="queryParams.charatypeId">
             <el-option label="全部" value=""></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="班组人员" prop="employeename">
+        <el-form-item label="班组人员：" prop="employeename">
           <el-input v-model="queryParams.employeename" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>

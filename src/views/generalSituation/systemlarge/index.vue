@@ -249,6 +249,12 @@ const tracklineChartData = {
   averageData: [],
   lowData: []
 };
+const mapchartData={
+  chinaGeoCoordMap:{},
+chinaDatas:[],
+localName:'',
+localCoordinate:[]
+}
 
 export default {
   name: "baseData",
@@ -272,9 +278,9 @@ export default {
       },
       radioType: 0,
       loading: false,
-      powerTypeData: powerTypeData,
-      lineChartData: lineChartData,
-      tracklineChartData: tracklineChartData,
+      powerTypeData,
+      lineChartData,
+      tracklineChartData,
       startVal: 0,
       maintenanceCenter: 0,
       totalUsers: 0,
@@ -286,7 +292,7 @@ export default {
         OperationSituation: {},
         CollectSituation: {}
       },
-      mapchartData: {},
+      mapchartData,
       sysElectricLoad: {},
       operationCurve: {},
       waringlist:[]
@@ -463,6 +469,11 @@ export default {
           this.$refs.powerTypePieChart.initChart();
         });
         this.mapchartData = this.dataInfo.ProvinceData;
+        this.mapchartData.chinaGeoCoordMap = Object.assign({}, this.mapchartData.LatitudeLongitude);
+        this.mapchartData.chinaDatas = this.mapchartData.PrvoinceValue.concat();
+        this.mapchartData.localName = this.mapchartData.Local.Text;
+        this.mapchartData.localCoordinate = this.mapchartData.Local.Coordinate;
+
       });
     },
     getScreenElectricLoad() {

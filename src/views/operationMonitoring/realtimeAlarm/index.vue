@@ -2,17 +2,17 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="用电单位" prop="tenantId">
+        <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警类型" prop="warninglevel">
+        <el-form-item label="告警类型：" prop="warninglevel">
           <el-select v-model="queryParams.warninglevel" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in alarmTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否确认" prop="isCheck">
+        <el-form-item label="是否确认：" prop="isCheck">
           <el-select v-model="queryParams.isCheck" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in isChecks" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>

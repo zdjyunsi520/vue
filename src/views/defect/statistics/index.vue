@@ -7,23 +7,23 @@
         <el-tab-pane label="按消缺率统计" name="2"></el-tab-pane>
       </el-tabs>
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="用电单位" prop='tenantId'>
+        <el-form-item label="用电单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度" v-show="activeName=='0'" prop='patrolYear'>
+        <el-form-item label="年度：" v-show="activeName=='0'" prop='patrolYear'>
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy" format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="年月" v-show="activeName!='0'" prop='patrolMonth'>
+        <el-form-item label="年月：" v-show="activeName!='0'" prop='patrolMonth'>
           <el-date-picker v-model="patrolMonth" clearable type="month" placeholder="请选择年月" value-format="yyyy-MM" format="yyyy-MM"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="缺陷等级" v-show="activeName=='0'" prop='rank'>
+        <el-form-item label="缺陷等级：" v-show="activeName=='0'" prop='rank'>
           <el-select v-model="queryParams.rank" clearable placeholder="请选择">
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" prop='status'>
+        <el-form-item label="状态：" prop='status'>
           <el-select v-model="queryParams.status" clearable placeholder="请选择">
             <el-option v-for="(item,index) in statuss" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>

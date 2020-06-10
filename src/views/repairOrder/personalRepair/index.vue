@@ -7,26 +7,26 @@
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
       </el-tabs>
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="用电单位" prop='tenantId'>
+        <el-form-item label="用电单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度" v-if="activeName=='0'" prop='patrolYear'>
+        <el-form-item label="年度：" v-if="activeName=='0'" prop='patrolYear'>
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="抢修日期" v-else prop='timeBegin'>
+        <el-form-item label="抢修日期：" v-else prop='timeBegin'>
           <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           至
           <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
       
-        <el-form-item label="业务来源" v-if="activeName=='0'"  prop='source'>
+        <el-form-item label="业务来源：" v-if="activeName=='0'"  prop='source'>
           <el-select v-model="queryParams.source" clearable placeholder="请选择">
             <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态"  prop='isexecute'>
+        <el-form-item label="状态："  prop='isexecute'>
           <el-select v-model="queryParams.isexecute" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>

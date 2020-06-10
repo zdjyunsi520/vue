@@ -3,12 +3,12 @@
     <el-scrollbar>
       <div class="search-box">
         <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-          <el-form-item label="单位名称" prop='tenantId'>
+          <el-form-item label="单位名称：" prop='tenantId'>
             <el-select v-model="queryParams.tenantId" clearable placeholder="请选择" @change="handleChangeTenantId">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="配电室" prop='switchroomId'>
+          <el-form-item label="配电室：" prop='switchroomId'>
             <el-select v-model="queryParams.switchroomId" clearable placeholder="请选择">
               <el-option v-for="(item,index) in switchrooms" :key="index" :label="item.Name" :value="item.Id"></el-option>
             </el-select>

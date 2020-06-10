@@ -8,19 +8,19 @@
       </el-tabs>
 
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="用电单位" prop="tenantId">
+        <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="告警类型" prop="alarmType" v-if="activeName==1">
+        <el-form-item label="告警类型：" prop="alarmType" v-if="activeName==1">
           <el-select v-model="queryParams.alarmType" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in alarmTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="告警设备" prop="assetsIds" v-if="activeName==2">
+        <el-form-item label="告警设备：" prop="assetsIds" v-if="activeName==2">
           <el-input v-model="queryParams.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" clearable></el-input>
         </el-form-item>
         <el-form-item label="日期" prop="patroltimebegin">
@@ -29,7 +29,7 @@
           <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
 
-        <el-form-item label="是否复归" prop="isReturn">
+        <el-form-item label="是否复归：" prop="isReturn">
           <el-select v-model="queryParams.isReturn" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isReturns" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>

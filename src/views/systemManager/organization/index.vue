@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" :rules="rules">
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="联系人" prop="contactperson">
+        <el-form-item label="联系人：" prop="contactperson">
           <el-input v-model="queryParams.contactperson" placeholder="请输入联系人" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="手机号" prop="mobilephone">
+        <el-form-item label="手机号：" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item>
@@ -51,7 +51,11 @@
         <el-table-column type="selection" width="55" fixed="left" />
         <el-table-column label="名称" min-width="250" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
-        <el-table-column label="附加属性" sortable width="120" prop="Attribute" />
+        <el-table-column label="附加属性" sortable width="120" prop="Attribute" >
+          <template slot-scope="scope">
+            {{scope.row.Attribute=="0"?'':scope.row.Attribute=="1"?'用电':scope.row.Attribute}}
+          </template>
+          </el-table-column>
         <el-table-column label="行业类别" sortable min-width="120" prop="IndustryName" />
         <el-table-column label="行业分类" sortable min-width="120" prop="PrincipleActivityName" />
         <el-table-column label="联系人" width="140" prop="ContactPerson" />

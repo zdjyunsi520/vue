@@ -37,7 +37,7 @@
                     </el-scrollbar>
                 </div>
             </el-col>
-            <el-col :xs="{span: 18}" :span="18" class=" containerbox ">
+            <el-col :xs="{span: 24}" :span="18" class=" containerbox ">
                 <div class="search-box onlyform-box comflexbox" style="border-bottom:none">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
                         <el-tab-pane label="主记录" name="main"></el-tab-pane>

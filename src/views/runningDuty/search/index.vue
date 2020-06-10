@@ -2,16 +2,16 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="用电单位" prop="tenantId">
+        <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId">
             <el-option label="请选择" value></el-option>
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="值班人员" prop="employeename">
+        <el-form-item label="值班人员：" prop="employeename">
           <el-input v-model="queryParams.employeename" placeholder="" clearable  />
         </el-form-item>
-        <el-form-item label="值班日期" prop="starttime">
+        <el-form-item label="值班日期：" prop="starttime">
           <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
            至
           <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>

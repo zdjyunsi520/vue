@@ -160,7 +160,7 @@
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电分类" prop="maintype">
                 <el-select v-model="form.maintype" :disabled="disabled" @change="handleChange3">
-                                  <el-option label="请选择" value=""  />
+                  <el-option label="请选择" value=""  />
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
                 </el-select>
               </el-form-item>
@@ -168,9 +168,8 @@
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
                 <el-select v-model="form.subtype" :disabled="disabled">
-                       <el-option label="请选择" value=""  />
+                   <el-option label="请选择" value=""  />
                    <el-option :key="item.key" :label="item.value" :value="item.key" v-if="item.show==form.maintype" v-for="item in electronType1" />
-    
                 </el-select>
               </el-form-item>
             </el-col>
@@ -182,6 +181,15 @@
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
                 <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
+              </el-form-item>
+            </el-col>
+            
+            <el-col :span="10" :push="1" :xs='24'>
+              <el-form-item label="用户类型" prop="usertype">
+                <el-select v-model="form.usertype" :disabled="disabled">
+                  <el-option label="请选择" value=""  />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in usertypes" />
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -227,7 +235,11 @@ const electronType1 = [
   { key: 4, value: "单相一般工商业用户",show:2 },
   { key: 5, value: "居民用户" ,show:3}
 ];
-
+const usertypes = [
+  { key: 1, value: "工业" },
+  { key: 2, value: "商业" },
+  { key: 3, value: "居民" }
+];
 export default {
   components: {
     BaiduMap,
@@ -271,6 +283,7 @@ export default {
       professionList: [],
       electronType,
       electronType1,
+      usertypes,
       treeData: [],
       areaList: [],
       map: "",
@@ -362,8 +375,9 @@ export default {
         let attribute = row.Attribute ==1 ?1:0;
         let starttime = row.StartTime
         let voltlevel = row.VoltLevelText
-        let maintype = this.electronType.filter(v=>v.value ==row.MainType ).map(v=>v.key).join('')
-        let subtype = this.electronType1.filter(v=>v.value ==row.SubType ).map(v=>v.key).join('')
+        let maintype = parseInt(this.electronType.filter(v=>v.value ==row.MainType ).map(v=>v.key).join(''));
+        let subtype = parseInt(this.electronType1.filter(v=>v.value ==row.SubType ).map(v=>v.key).join(''));
+        let usertype = parseInt(this.usertypes.filter(v=>v.value ==row.UserType ).map(v=>v.key).join(''));
         let contractcapacity = row.ContractCapacity
         let operatingcapacity = row.OperatingCapacity
         if (longitude && latitude) {
@@ -389,8 +403,8 @@ export default {
           attribute,
           voltlevel,
           contractcapacity,
-operatingcapacity,
-starttime,maintype,subtype
+          operatingcapacity,
+          starttime,maintype,subtype,usertype
         });
         this.reset(data);
       });
@@ -485,6 +499,7 @@ starttime,maintype,subtype
           starttime: "",
           maintype: "",
           subtype: "",
+          usertype:"",
           contractcapacity: "",
           voltlevel: "",
           operatingcapacity: "",

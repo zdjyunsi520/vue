@@ -134,12 +134,17 @@
      line-height: 34px;
  }
  
-  .xl-querybox .el-input--medium .el-input__inner {
-      width: 200px;
+  .xl-querybox { 
+    .el-input--medium .el-input__inner,.el-date-editor.el-input, .el-date-editor.el-input__inner {
+        width: 200px;
+    }
+    .el-form-item__label{
+        min-width: 82px;
+        padding-right:5px ;
+    }
+   
   }
- //  .onlyform-box .el-input--medium .el-input__inner {
- //      width: 100%;
- //  }
+
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 17px;
@@ -223,7 +228,7 @@
  
  .el-form-item__label {
      font-weight: normal;
-     min-width: 68px;
+     
  }
  
  .el-form .el-form-item__error--inline {

@@ -23,7 +23,7 @@
                     </el-select>
                 </el-form-item>
              
-                <el-form-item label="记事内容" prop="recordcontent">
+                <el-form-item label="记事内容：" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="注意事项：" prop="caution">

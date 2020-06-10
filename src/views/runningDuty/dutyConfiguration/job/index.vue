@@ -2,16 +2,16 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="班次" prop="ShiftId">
+        <el-form-item label="班次：" prop="ShiftId">
           <el-select v-model="queryParams.ShiftId">
             <el-option label="全部" value=""></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="角色" prop="CharacterId">
+        <el-form-item label="角色：" prop="CharacterId">
           <el-select v-model="queryParams.CharacterId">
             <el-option label="全部" value=""></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />

@@ -18,13 +18,13 @@
       <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
         <div class="search-box xl-querybox">
           <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-            <el-form-item label="姓名" prop="name">
+            <el-form-item label="姓名：" prop="name">
               <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="用户名" prop="username">
+            <el-form-item label="用户名：" prop="username">
               <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="手机号" prop="mobilephone">
+            <el-form-item label="手机号：" prop="mobilephone">
               <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
