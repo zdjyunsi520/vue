@@ -19,7 +19,7 @@
                 <el-form-item label="岗位：" prop="shiftId">
                     <el-select v-model="queryParams.shiftId">
                         <el-option label="全部" value=""></el-option>
-                        <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
+                        <el-option :key="item.Id" :label="item.PositionName" :value="item.PositionId" v-for="item in userPositions" />
                     </el-select>
                 </el-form-item>
 
@@ -79,6 +79,12 @@ import add from "./components/add";
 export default {
     props: {
         shifts: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        userPositions: {
             type: Array,
             default() {
                 return [];

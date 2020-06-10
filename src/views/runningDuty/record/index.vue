@@ -7,7 +7,8 @@
                 <div style="background:#fff;height:100%">
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
                         <div class="left-box">
-                            <div class="bztitle">城讯电力</div>
+                            <div class="bztitle">{{dutyGroup.Name}}</div>
+                            {{dataList}}
                             <div class="queryform">
                                 <div>
                                     <label>日期：</label>
@@ -47,8 +48,8 @@
                     </el-tabs>
                     <mainComponents ref="main" v-show="activeName == 'main'" />
                     <dutyRecord ref="dutyRecord" v-show="activeName == 'dutyRecord'" />
-                    <shiftRecord ref="shiftRecord" :shifts="shifts" v-show="activeName == 'shiftRecord'" />
-                    <patrolRecord ref="patrolRecord" :shifts="shifts" v-show="activeName == 'patrolRecord'" />
+                    <shiftRecord ref="shiftRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'shiftRecord'" />
+                    <patrolRecord ref="patrolRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'patrolRecord'" />
                 </div>
             </el-col>
         </el-row>
@@ -59,10 +60,10 @@
 <script>
 import { mapGetters } from "vuex";
 import {
-    getShift as fetchList,
-    GetShifts,
     GetUserPositions,
-    DutyHandoverGetCurrent
+    DutyHandoverGetDutyTeam,
+    GetShifts,
+    DutyHandoverGetUserSchedules
 } from "@/api/runningDuty/record";
 import dutyRecord from "./dutyRecord";
 import shiftRecord from "./shiftRecord";
@@ -80,9 +81,9 @@ export default {
             operateId: "",
             loading: false,
             form: {
-                userId: "",
                 date: new Date(),
-                shiftId: ""
+                shiftId: "",
+                userId: ""
             },
             rules,
             assetAttributeType: [{ key: 1, value: "asdas" }],
@@ -96,7 +97,8 @@ export default {
             disabledSelect: false,
             activeName: "main",
             shifts: [],
-            userPositions: []
+            userPositions: [],
+            dutyGroup: {}
         };
     },
 
@@ -116,9 +118,13 @@ export default {
     watch: {
         "form.shiftId"() {
             this.getUserPositions();
+            this.getCurrentDutyHandoverGetUserSchedules();
         },
         "form.date"() {
             this.getUserPositions();
+        },
+        "form.userId"() {
+            this.getCurrentDutyHandoverGetUserSchedules();
         }
     },
     methods: {
@@ -128,12 +134,20 @@ export default {
                     this.userPositions = r.data;
                 });
         },
-
+        getCurrentDutyHandoverGetUserSchedules() {
+            if (this.form.userId && this.form.date)
+                DutyHandoverGetUserSchedules(this.form).then(r => {
+                    this.dataList = r.data;
+                });
+        },
         handleClick(tab) {
             const target = this.$refs[this.activeName];
             target.getList();
         },
         getList() {
+            DutyHandoverGetDutyTeam({}).then(r => {
+                this.dutyGroup = r.data;
+            });
             GetShifts({}).then(r => {
                 this.shifts = r.data;
                 if (r.data && r.data.length) this.form.shiftId = r.data[0].Id;
@@ -141,13 +155,13 @@ export default {
 
             this.listLoading = true;
             this.form.userId = this.userId;
-            fetchList(this.form)
-                .then(response => {
-                    this.dataList = response.data;
-                })
-                .finally(r => {
-                    this.listLoading = false;
-                });
+            // fetchList(this.form)
+            //     .then(response => {
+            //         this.dataList = response.data;
+            //     })
+            //     .finally(r => {
+            //         this.listLoading = false;
+            //     });
         },
         handleSelectionChange() {},
 

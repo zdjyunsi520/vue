@@ -22,34 +22,34 @@
               <el-row :gutter="40" class="cellinfo">
                 <el-col :span='6' :xs='12'>
                   <h5>电压(V)</h5>
-                  <p @click="handleClick('UA')"><label>A相</label><span>{{info.UA}}</span></p>
-                  <p @click="handleClick('UB')"><label>B相</label><span>{{info.UB}}</span></p>
-                  <p @click="handleClick('UC')"><label>C相</label><span>{{info.UC}}</span></p>
+                  <p @click="handleClick('UA','A相电压')"><label>A相</label><span>{{info.UA}}</span></p>
+                  <p @click="handleClick('UB','B相电压')"><label>B相</label><span>{{info.UB}}</span></p>
+                  <p @click="handleClick('UC','C相电压')"><label>C相</label><span>{{info.UC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
                   <h5>电流(A)</h5>
-                  <p @click="handleClick('IA')"><label>A相</label><span>{{info.IA}}</span></p>
-                  <p @click="handleClick('IB')"><label>B相</label><span>{{info.IB}}</span></p>
-                  <p @click="handleClick('IC')"><label>C相</label><span>{{info.IC}}</span></p>
+                  <p @click="handleClick('IA','A相电流')"><label>A相</label><span>{{info.IA}}</span></p>
+                  <p @click="handleClick('IB','B相电流')"><label>B相</label><span>{{info.IB}}</span></p>
+                  <p @click="handleClick('IC','C相电流')"><label>C相</label><span>{{info.IC}}</span></p>
                 </el-col>
 
                 <el-col :span='4' :xs='24'>
-                  <h5 class="smtitleh5 ">总视在功率(kVA)<b @click="handleClick('S')">{{info.S}}</b></h5>
-                  <p @click="handleClick('SA')"><label>A相</label><span>{{info.SA}}</span></p>
-                  <p @click="handleClick('SB')"><label>B相</label><span>{{info.SB}}</span></p>
-                  <p @click="handleClick('SC')"><label>C相</label><span>{{info.SC}}</span></p>
+                  <h5 class="smtitleh5 ">总视在功率(kVA)<b @click="handleClick('S','总视在功率')">{{info.S}}</b></h5>
+                  <p @click="handleClick('SA','A相视在功率')"><label>A相</label><span>{{info.SA}}</span></p>
+                  <p @click="handleClick('SB','B相视在功率')"><label>B相</label><span>{{info.SB}}</span></p>
+                  <p @click="handleClick('SC','C相视在功率')"><label>C相</label><span>{{info.SC}}</span></p>
                 </el-col>
                 <el-col :span='4' :xs='12'>
-                  <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick('P')">{{info.P}}</b></h5>
-                  <p @click="handleClick('PA')"><label>A相</label><span>{{info.PA}}</span></p>
-                  <p @click="handleClick('PB')"><label>B相</label><span>{{info.PB}}</span></p>
-                  <p @click="handleClick('PC')"><label>C相</label><span>{{info.PC}}</span></p>
+                  <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick('P','总有功功率')">{{info.P}}</b></h5>
+                  <p @click="handleClick('PA','A相有功功率')"><label>A相</label><span>{{info.PA}}</span></p>
+                  <p @click="handleClick('PB','B相有功功率')"><label>B相</label><span>{{info.PB}}</span></p>
+                  <p @click="handleClick('PC','C相有功功率')"><label>C相</label><span>{{info.PC}}</span></p>
                 </el-col>
                 <el-col :span='6' :xs='12'>
-                  <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF')">{{info.PF}}</b></h5>
-                  <p @click="handleClick('PFA')"><label>A相</label><span>{{info.PFA}}</span></p>
-                  <p @click="handleClick('PFB')"><label>B相</label><span>{{info.PFB}}</span></p>
-                  <p @click="handleClick('PFC')"><label>C相</label><span>{{info.PFC}}</span></p>
+                  <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF','总功率因素')">{{info.PF}}</b></h5>
+                  <p @click="handleClick('PFA','A相功率因素')"><label>A相</label><span>{{info.PFA}}</span></p>
+                  <p @click="handleClick('PFB','B相功率因素')"><label>B相</label><span>{{info.PFB}}</span></p>
+                  <p @click="handleClick('PFC','C相功率因素')"><label>C相</label><span>{{info.PFC}}</span></p>
                 </el-col>
               </el-row>
             </div>
@@ -58,7 +58,7 @@
               <p class="tips" v-if="!otherData||otherData.length==0">暂无其他参数</p>
               <el-row class="cellinfo noborder databox-lx" v-else>
                 <el-col :span='5' :xs='12' v-for="(item,index) in otherData" :key='index'>
-                  <p @click="handleClick(item.Type)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
+                  <p @click="handleClick(item.Type,item.Name)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
                 </el-col>
 
               </el-row>
@@ -70,10 +70,9 @@
               <div class="rightradiobox">
                 <b>{{labelName}}</b>&nbsp;&nbsp;
                 <label>日期：</label>
-                <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetimerange" size="small" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" style="width:370px">
-                </el-date-picker>
-
-                <el-date-picker v-model="day" v-else :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择时间"></el-date-picker>
+                <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker>至
+                <el-date-picker v-model="time1" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker>
+                <el-date-picker v-model="day" v-show="form.cycleType!=1" :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择时间"></el-date-picker>
                 <el-radio-group v-model="form.cycleType" size="mini">
                   <el-radio-button :label="1">15分钟</el-radio-button>
                   <el-radio-button :label="2">日</el-radio-button>
@@ -237,7 +236,7 @@ export default {
       id: null,
       weight: 0,
       radioType: 0,
-      labelName: "",
+      labelName: "A相电压",
       form: {
         intervalId: "",
         type: "UA",
@@ -245,10 +244,12 @@ export default {
         beginTime: "",
         endTime: ""
       },
-      time: [],
+      time: "",
+      time1: "",
       day: "",
       month: "",
-      interval: null,
+      interval: false,
+      timeout: null,
       //  lineChartData: {xAxisData:[],actualData:[]},
       info: {},
       otherData: [],
@@ -288,28 +289,31 @@ export default {
   watch: {
     "form.intervalId"() {
       this.getMeasureData();
+      this.getMeasureData1();
     },
     "form.type"() {
-      this.getMeasureData();
+      this.getMeasureData1();
     },
     "form.cycleType"() {
-      this.getMeasureData();
+      this.getMeasureData1();
     },
     time() {
-      this.getMeasureData();
+      this.getMeasureData1();
+    },
+    time1() {
+      this.getMeasureData1();
     },
     day() {
-      this.getMeasureData();
+      this.getMeasureData1();
     }
   },
   beforeDestroy() {
-    this.$nextTick(() => clearInterval(this.interval));
+    this.interval = false;
   },
   methods: {
-    handleClick(data) {
-      console.log(data);
-      this.form.type = data;
-      this.labelName = data.Name;
+    handleClick(type, labelName) {
+      this.form.type = type;
+      this.labelName = labelName;
     },
     renderContent(h, { node, data, store }) {
       return (
@@ -358,25 +362,24 @@ export default {
     getMeasureData() {
       this.info = {};
       this.otherData = [];
+      this.labelName = "A相电流";
+      this.type = "UA";
       getMeasureData(this.form).then(res => {
         let list = res.data;
         this.info = res.data.CommonData;
         this.otherData = res.data.OtherData;
       });
+    },
+    getMeasureData1() {
+      this.interval = true;
+      clearTimeout(this.timeout);
       this.getMeasureDataHistory();
-      if (this.interval) {
-        clearInterval(this.interval);
-        this.interval = null;
-      }
-      this.interval = setInterval(() => {
-        this.getMeasureDataHistory();
-      }, 15 * 1000);
     },
     getMeasureDataHistory() {
       const now = Date.now();
       if (this.form.cycleType == 1) {
-        this.form.beginTime = this.time[0];
-        this.form.endTime = this.time[1];
+        this.form.beginTime = this.time;
+        this.form.endTime = this.time1;
       } else if (this.form.cycleType == 2) {
         let day = this.day || now;
         day = this.parseTime(day, "{y}-{m}-{d}");
@@ -398,12 +401,14 @@ export default {
       getMeasureDataHistory(this.form).then(r => {
         this.historyData = r.data;
       });
+      if (this.interval) {
+        this.timeout = setTimeout(this.getMeasureDataHistory, 15000);
+      }
     },
 
     handleNodeClick(obj, event) {
       const id = obj.id;
       const type = obj.type;
-
       if (type == 11) {
         this.baseData = [];
         this.form.intervalId = obj.id;
