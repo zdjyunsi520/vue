@@ -5,15 +5,17 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-              <el-col :span="8" :xs="24">
-                <el-form-item label="班组名称" prop="Name">
-                  <el-input v-model="form.Name" placeholder="请输入班组名称" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="8" :xs="24">
-                <el-form-item label="班组成员" prop="EmployeeNames">
-                  <TreeSelect showText="text" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="personId" />
-                </el-form-item>
+            <el-col :span="8" :xs="24">
+              <el-form-item label="班组名称" prop="Name">
+                <el-input v-model="form.Name" placeholder="请输入班组名称" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8" :xs="24">
+              <el-form-item label="班组成员" prop="EmployeeNames">
+                <TreeSelect showText="text" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="personId" />
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>

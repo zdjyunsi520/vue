@@ -7,9 +7,9 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警类型：" prop="warninglevel">
-          <el-select v-model="queryParams.warninglevel" clearable placeholder="请选择告警类型">
-            <el-option v-for="(item,index) in alarmTypes" :key="index" :label="item.type" :value="item.id"></el-option>
+        <el-form-item label="告警类型：" prop="WarningType">
+          <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
+            <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="是否确认：" prop="isCheck">
@@ -32,33 +32,51 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="告警等级" min-width="220" sortable prop="ReportName"></el-table-column>
+        <el-table-column label="告警等级" width="130" sortable prop="Level" :formatter="levelformatter"></el-table-column>
         <el-table-column label="用电单位" min-width="250" sortable prop="TenantName"></el-table-column>
-        <el-table-column label="配电房/屏柜" width="150" sortable prop="PatrolTime"></el-table-column>
-        <el-table-column label="设备名称" width="150" sortable prop="PatrolTime"></el-table-column>
-        <el-table-column label="信号名" width="150" sortable prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警描述" width="150" sortable prop="PatrolTime"></el-table-column>
-        <el-table-column label="告警时间" min-width="140" sortable prop="PatrolUserName"></el-table-column>
-        <el-table-column label="告警值" min-width="140" sortable prop="ConfirmUserName"></el-table-column>
-        <el-table-column label="是否复归" min-width="140" sortable prop="ReportedTime"></el-table-column>
-        <el-table-column label="是否确认" min-width="140" sortable prop="ReportedTime"></el-table-column>
-        <el-table-column label="操作" min-width="250" fixed="right">
+        <el-table-column label="配电房/屏柜" min-width="300" sortable prop="SwitchRoomName">
+          <template slot-scope="scope">
+            {{scope.row.SwitchRoomName}}/{{scope.row.CabinetName}}
+          </template>
+        </el-table-column>
+        <el-table-column label="设备名称" width="150" sortable prop="AssetsName"></el-table-column>
+        <el-table-column label="信号名" width="120" sortable prop="Signal"></el-table-column>
+        <el-table-column label="告警描述" min-width="250" sortable prop="Description"></el-table-column>
+        <el-table-column label="告警时间" width="180" sortable prop="CreateTime"></el-table-column>
+        <el-table-column label="告警值" width="110" sortable prop="Value"></el-table-column>
+        <el-table-column label="是否复归" width="120" sortable prop="IsRecovery">
+          <template slot-scope="scope">
+            {{scope.row.IsRecovery?'是':'否'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="是否确认" width="120" sortable prop="IsConfirmed">
+          <template slot-scope="scope">
+            {{scope.row.IsConfirmed?'是':'否'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="240" fixed="right">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" size="mini" @click="handleCheck(scope.row)">确认</el-button>
-              <el-button type="text" size="mini" @click="handleDispatch(scope.row)">派单</el-button>
-              <el-button type="text" size="mini" @click="handleMonitor(scope.row)">监控</el-button>
+              <el-button type="text" size="mini" v-if="!scope.row.IsConfirmed" @click="handleCheck(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>确认
+              </el-button>
+              <el-button type="text" size="mini" @click="handleDispatch(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>派单
+              </el-button>
+              <el-button type="text" size="mini" @click="handleMonitor(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>监控
+              </el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
 
 <script>
-import { fetchList, deleted } from "@/api/operationMonitoring/realtimeAlarm";
+import { fetchList, confirm } from "@/api/operationMonitoring/realtimeAlarm";
 import { getChildrenList } from "@/api/org";
 
 export default {
@@ -79,7 +97,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight:"calc(100% - 80px)",
+      tableHeight: "calc(100% - 80px)",
       TenantIds: [],
 
       // 搜索参数
@@ -88,87 +106,88 @@ export default {
         pagesize: 30,
         startdate: "",
         enddate: "",
-        warninglevel: ""
+        WarningType: "",
+        IsConfirmed: false
       },
-      alarmTypes: [
+      WarningTypes: [
         {
           id: "",
           type: "全部"
         },
         {
-          id: "1",
+          id: 1,
           type: "越上上限"
         },
         {
-          id: "2",
+          id: 2,
           type: "越上限"
         },
         {
-          id: "3",
+          id: 3,
           type: "越下限"
         },
         {
-          id: "4",
+          id: 4,
           type: "越下下限"
         },
         {
-          id: "5",
+          id: 5,
           type: "其他告警"
         },
         {
-          id: "6",
+          id: 6,
           type: "过压"
         },
         {
-          id: "7",
+          id: 7,
           type: "欠压"
         },
         {
-          id: "8",
+          id: 8,
           type: "过流"
         },
         {
-          id: "9",
+          id: 9,
           type: "失电"
         },
         {
-          id: "10",
+          id: 10,
           type: "超温"
         },
         {
-          id: "11",
+          id: 11,
           type: "分闸"
         },
         {
-          id: "12",
+          id: 12,
           type: "故障态"
         },
         {
-          id: "13",
+          id: 13,
           type: "工况异常"
         },
         {
-          id: "14",
+          id: 14,
           type: "告警"
         },
         {
-          id: "15",
+          id: 15,
           type: "火警"
         },
         {
-          id: "16",
+          id: 16,
           type: "故障"
         },
         {
-          id: "17",
+          id: 17,
           type: "启动"
         },
         {
-          id: "18",
+          id: 18,
           type: "超温报警"
         },
         {
-          id: "19",
+          id: 19,
           type: "烟雾报警"
         }
       ],
@@ -178,11 +197,11 @@ export default {
           type: "全部"
         },
         {
-          id: "0",
+          id: false,
           type: "未确认"
         },
         {
-          id: "1",
+          id: true,
           type: "已确认"
         }
       ]
@@ -208,51 +227,36 @@ export default {
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
-          // this.dataList = response.data;
           this.total = response.total;
           this.dataList = response.data;
-          return;
-          this.dataList = [
-            {
-              ReportName: "一般",
-              ReportName1: "福建迅腾电力科技有限公司",
-              ReportName2: "配电室1/--",
-              ReportName3: "1#烟感",
-              ReportName4: "故障",
-              ReportName5: "1#烟感 故障 启动",
-              ReportName6: "2020-04-05 15:11:32",
-              ReportName7: "1.0",
-              ReportName8: "是",
-              ReportName9: "是"
-            },
-            {
-              ReportName: "普通",
-              ReportName1: "福建迅腾电力科技有限公司",
-              ReportName2: "配电室1/低压进线间隔",
-              ReportName3: "低压进线间隔",
-              ReportName4: "A相电流",
-              ReportName5: "低压进线间隔 A相电流 过流",
-              ReportName6: "1#烟感 故障 启动",
-              ReportName7: "2020-04-03 14:41:27",
-              ReportName8: "1.0",
-              ReportName9: "是"
-            }
-          ];
         })
         .finally(r => {
           this.listLoading = false;
         });
     },
 
+    levelformatter(row) {
+      var txt = "";
+      if (row.Level == 1) {
+        txt = "一般事件";
+      } else if (row.Level == 2) {
+        txt = "轻微告警";
+      } else if (row.Level == 3) {
+        txt = "普通告警";
+      } else if (row.Level == 4) {
+        txt = "严重";
+      }
+      return txt;
+    },
+
     /** 搜索按钮操作 */
     handleQuery() {
-      this.queryParams.page = 1;
+      this.queryParams.pageno = 1;
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.patroltimeend = "";
       this.handleQuery();
     },
     // 监控
@@ -260,7 +264,13 @@ export default {
     // 派单
     handleDispatch(row) {},
     // 确认
-    handleCheck(row) {}
+    handleCheck(row) {
+      var Id = row.Id;
+      var description = row.Description;
+      confirm({ Id, description }).then(r => {
+        this.getList();
+      });
+    }
   }
 };
 </script>
