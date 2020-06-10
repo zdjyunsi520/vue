@@ -160,7 +160,7 @@ export default {
                 parseInt(Math.random() * 1000000) + ""
             ).padEnd(6, "0");
             this.form.ticket = md5(
-                msgappId + this.code + this.form.mobilePhone
+                msgappId + this.form.randnumber + this.form.mobilePhone
             );
             getMessage(this.form)
                 .then(r => {
@@ -173,10 +173,6 @@ export default {
         handleSubmit() {
             this.$refs.form.validate(v => {
                 if (v) {
-                    if (this.form.code != this.form.randnumber) {
-                        this.$message.error("短信验证码不正确");
-                        return;
-                    }
                     this.loading = true;
                     forgetPwd(this.form)
                         .then(res => {
