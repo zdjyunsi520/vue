@@ -19,10 +19,10 @@
                 <el-form-item label="岗位：" prop="ShiftId">
                     <el-select v-model="queryParams.ShiftId">
                         <el-option label="全部" value=""></el-option>
-                        <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
+                        <el-option :key="item.Id" :label="item.PositionName" :value="item.PositionId" v-for="item in userPositions" />
                     </el-select>
                 </el-form-item>
-             
+
                 <el-form-item label="记事内容：" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -57,8 +57,8 @@
                 <el-table-column label="值班日期" width='180' prop="StartTime" />
                 <el-table-column label="值班班组" width='140' prop="TeamName" />
                 <el-table-column label="岗位" width='100' prop="ShiftName" />
-                <el-table-column label="交班人"width='120' prop="HandoverName" />
-                <el-table-column label="交班时间"  width='180' prop="HandoverTime" />
+                <el-table-column label="交班人" width='120' prop="HandoverName" />
+                <el-table-column label="交班时间" width='180' prop="HandoverTime" />
                 <el-table-column label="接班人" width='110' prop="SuccessorName" />
                 <el-table-column label="接班时间" width='180' prop="SuccessTime" />
                 <el-table-column label="记录内容" min-width='200' prop="RecordContent" />
@@ -79,6 +79,12 @@ import add from "./components/add";
 export default {
     props: {
         shifts: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        userPositions: {
             type: Array,
             default() {
                 return [];
@@ -109,7 +115,7 @@ export default {
                 recordcontent: "",
                 starttime: "",
                 endtime: "",
-                ShiftId: "",
+                ShiftId: ""
                 // jieban:"",
                 // jiaoban:""
             },
