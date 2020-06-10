@@ -103,7 +103,7 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
-    this.boxheight = this.$refs.videobox[0].offsetWidth;
+    this.boxheight = this.$refs.videobox[0].offsetWidth / 2;
   },
 
   methods: {
@@ -132,7 +132,7 @@ export default {
       this.current = item.val;
       //this.playList = [];
       this.$nextTick(() => {
-        this.boxheight = this.$refs.videobox[0].offsetWidth;
+        this.boxheight = this.$refs.videobox[0].offsetWidth / 2;
       });
     },
 
@@ -153,22 +153,22 @@ export default {
       //   videoUrl: ""
       // };
       getPlayUrl({ id }).then(res => {
-       
         if (res.data) {
-         
           const hasVideo = true;
           const accessToken = res.data.MonitorUrl.accesstoken;
-         const  videoUrl = res.data.MonitorUrl.hd;
+          const videoUrl = res.data.MonitorUrl.hd;
 
-          this.$set(this.playList,index, {
-hasVideo,accessToken,videoUrl
-          })
- //this.playList.push({hasVideo:true,accessToken:res.data.MonitorUrl.accesstoken,videoUrl:res.data.MonitorUrl.hd})
+          this.$set(this.playList, index, {
+            hasVideo,
+            accessToken,
+            videoUrl
+          });
+          //this.playList.push({hasVideo:true,accessToken:res.data.MonitorUrl.accesstoken,videoUrl:res.data.MonitorUrl.hd})
         }
       });
     },
     handleDelete(index) {
-      this.$set(this.playList,index,null)
+      this.$set(this.playList, index, null);
     },
     dragStart(data) {
       this.dragTarget = data;

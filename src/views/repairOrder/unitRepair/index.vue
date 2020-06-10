@@ -161,7 +161,7 @@ export default {
 
     /** 搜索按钮操作 */
     handleQuery() {
-      this.queryParams.page = 1;
+      this.queryParams.pageno = 1;
       this.queryParams.patroltimebegin = this.getBeginTime();
       this.queryParams.patroltimeend = this.getEndTime();
       this.getList(this.activeName);
