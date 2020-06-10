@@ -70,7 +70,7 @@
               <div class="rightradiobox">
                 <b>{{labelName}}</b>&nbsp;&nbsp;
                 <label>日期：</label>
-                <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker>至
+                <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker> <span v-if="form.cycleType==1">至</span>
                 <el-date-picker v-model="time1" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker>
                 <el-date-picker v-model="day" v-show="form.cycleType!=1" :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择时间"></el-date-picker>
                 <el-radio-group v-model="form.cycleType" size="mini">
