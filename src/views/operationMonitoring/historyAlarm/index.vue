@@ -366,7 +366,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/deep/.el-checkbox:last-of-type {
-  margin-right: 10px !important;
-}
+// /deep/.el-checkbox:last-of-type {
+//   margin-right: 10px !important;
+// }
 </style>
