@@ -1,18 +1,15 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box">
-      <!-- <p class="form-smtitle">{{title}}附件类型</p> -->
+      <p class="form-smtitle">角色信息</p>
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="角色类型" prop="Name">
                   <el-input v-model="form.Name" placeholder="请输入角色类型名称" />
                 </el-form-item>
               </el-col>
-
-            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>

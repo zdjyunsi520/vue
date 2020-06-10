@@ -16,7 +16,7 @@
         </span>
       </el-col>
       <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
-        <div class="search-box">
+        <div class="search-box xl-querybox">
           <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
             <el-form-item label="姓名" prop="name">
               <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />

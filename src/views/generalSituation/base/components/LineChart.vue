@@ -81,7 +81,6 @@ export default {
         maskColor: "rgba(0, 0, 0, 0)",
         zlevel: 0
       });
-      console.log(1);
     },
     hideLoading() {
       this.chart.hideLoading();

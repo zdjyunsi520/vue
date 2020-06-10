@@ -5,23 +5,18 @@
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="岗位名称" prop="Name">
                   <el-input v-model="form.Name" placeholder="请输入岗位名称" />
                 </el-form-item>
               </el-col>
 
-            </el-col>
-            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="班次" prop="ShiftId">
                   <el-select v-model="form.ShiftId">
                     <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in shiftTypeList" />
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col>
               </el-col>
 
               <el-col :span="8" :xs="24">

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box">
+    <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="用电单位" prop="tenantId">
           <el-select v-model="queryParams.tenantId">
@@ -8,13 +8,12 @@
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="值班人员" prop="teamId">
-          <el-input v-model="queryParams.teamId" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="值班人员" prop="employeename">
+          <el-input v-model="queryParams.employeename" placeholder="" clearable  />
         </el-form-item>
         <el-form-item label="值班日期" prop="starttime">
           <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-        </el-form-item>
-        <el-form-item label="至" prop="endtime">
+           至
           <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
         </el-form-item>
 
@@ -29,21 +28,21 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange" style='margin-top:20px'>
+      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight"  style='margin-top:20px'>
 
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
             <p>暂时还没有数据</p>
           </div>
-        </template><!-- <el-table-column type="selection" fixed="left" width="55"  /> -->
-        <el-table-column label="所属电务公司" prop="TeamName" />
-        <el-table-column label="用电单位" prop="EmployeeNames" />
-        <el-table-column label="值班人员" prop="ShiftTypeName" />
-        <el-table-column label="值班机构" prop="ShiftNames" />
-        <el-table-column label="班次" prop="CharaTypeName" />
-        <el-table-column label="值班开始时间" prop="Characters" />
-        <el-table-column label="值班结束时间" prop="Positions" />
+        </template>
+        <el-table-column label="上级单位" min-width='200' sortable prop="TenantName" />
+        <el-table-column label="用电单位" min-width='200' sortable prop="ParentName" />
+        <el-table-column label="值班人员" min-width='150' prop="EmployeeName" />
+        <el-table-column label="值班班组" min-width='150' prop="DutyTeamName" />
+        <el-table-column label="岗位" width='120' prop="PositionName" />
+        <el-table-column label="值班开始时间" width='180' sortable prop="StartTime" />
+        <el-table-column label="值班结束时间" width='180' sortable prop="EndTime" />
       </el-table>
 
       <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
@@ -78,10 +77,11 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        teamId: "",
-        shifttypeId: "",
-        charatypeId: "",
-        employeename: ""
+        tenantId: "",
+        starttime: "",
+        endtime: "",
+        employeename: "",
+        teamId: ""
       },
     };
   },
@@ -95,21 +95,7 @@ export default {
     })
   },
   methods: {
-    handleCommand(commond) {
-      this.$router.push({
-        name: commond,
-        params: {}
-      });
-    },
-    filterCancel(row) {
-      return row.IsCancel ? "已注销" : "正常";
-    },
-    handleSortChange(row) {
-      this.queryParams.orderby = `${row.prop} ${
-        row.order == "ascending" ? "asc" : "desc"
-      }`;
-      this.getList();
-    },
+   
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
@@ -132,89 +118,6 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection;
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      const title = "新增";
-      this.$router.push({
-        name: "/runningDuty/dutyConfiguration/components/index",
-        params: { data: {}, title }
-      });
-    },
-    /** 编辑按钮操作 */
-    handleUpdate(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const name = row.Name;
-      const mobilephone = row.MobilePhone;
-      const data = { id, username, name, mobilephone };
-      const title = "编辑用户";
-      this.$router.push({
-        name: "/commonManager/user/components/update",
-        params: { data, title }
-      });
-    },
-    /** 重置密码按钮操作 */
-    handleResetPwd(row) {
-      const id = row.Id;
-      const username = row.UserName;
-      const data = { id, username };
-      const title = "编辑密码";
-      this.$router.push({
-        name: "/commonManager/user/components/password",
-        params: { data, title }
-      });
-    },
-    handleUpdateRole(row) {
-      const id = row.Id;
-      const data = { id };
-      const title = "权限设置";
-      this.$router.push({
-        name: "/commonManager/user/components/role",
-        params: { data, title }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const userIds = row.userId || this.ids;
-      this.$confirm(
-        '是否确认删除用户编号为"' + userIds + '"的数据项？',
-        "警告",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      )
-        .then(function() {
-          return delUser(userIds);
-        })
-        .then(() => {
-          this.getList();
-          this.msgSuccess("删除成功！");
-        })
-        .catch(function() {
-          this.msgSuccess("操作失败！");
-        });
-    },
-    // handleLock(row, lock) {
-    //   let ids = row
-    //     ? (ids = [row.Id])
-    //     : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
-    //   if (ids.length) {
-    //     const islock = !lock;
-    //     ids = ids.join(",");
-    //     locklock({ ids, islock }).then(r => {
-    //       this.$message.success(r.msg);
-    //       this.getList();
-    //     });
-    //   }
-    // },
 
     /** 导出按钮操作 */
     handleExport() {

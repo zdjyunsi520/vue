@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box ">
+    <div class="search-box xl-querybox">
       <el-form :inline="true" ref="queryForm" :model="queryParams">
         <el-form-item label="用电单位" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">

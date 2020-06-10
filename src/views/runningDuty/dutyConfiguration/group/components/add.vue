@@ -1,23 +1,19 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box">
-      <!-- <p class="form-smtitle">{{title}}附件类型</p> -->
+      <p class="form-smtitle">班组信息</p>
       <el-scrollbar>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
-            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="班组名称" prop="Name">
                   <el-input v-model="form.Name" placeholder="请输入班组名称" />
                 </el-form-item>
               </el-col>
-            </el-col>
-            <el-col>
               <el-col :span="8" :xs="24">
                 <el-form-item label="班组成员" prop="EmployeeNames">
                   <TreeSelect showText="text" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="personId" />
                 </el-form-item>
-              </el-col>
             </el-col>
           </el-row>
         </el-form>

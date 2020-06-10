@@ -7,7 +7,7 @@
         <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">值班配置</p>
 
-          <el-col :span="6" :xs="{span:24}">
+          <el-col :span="8">
             <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
               <el-row>
                 <el-col :span="24">
@@ -38,7 +38,7 @@
                 </el-col>
               </el-row>
             </el-form>
-          </el-col>
+            </el-col>
         </div>
 
       </el-col>
@@ -211,9 +211,7 @@ export default {
 /deep/.search-box .el-form .el-form-item {
   margin-right: 0;
 }
-/deep/.form-smtitle {
-  margin-bottom: 5px;
-}
+
 .comheight .containerbox {
   height: 100%;
 }

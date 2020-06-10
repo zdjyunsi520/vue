@@ -259,15 +259,15 @@ const loadChartData = {
 const lineChartData = [
   {
     legendData: ["今日负荷", "昨日负荷"],
-    xAxisData: ["00:00", "01:30", "3:00"],
-    expectedData: [0, 0, 0],
-    actualData: [0, 0, 0]
+    xAxisData: [],
+    expectedData: [],
+    actualData: []
   },
   {
     legendData: ["本月负荷", "上月负荷"],
-    xAxisData: ["01/01", "01/02", "01/03"],
-    expectedData: [0, 0, 0],
-    actualData: [0, 0, 0]
+    xAxisData: [],
+    expectedData: [],
+    actualData: []
   }
 ];
 
