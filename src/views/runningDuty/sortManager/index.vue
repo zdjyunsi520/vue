@@ -7,7 +7,7 @@
       </el-tabs>
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="值班班组：" prop="dutyId">
-          <el-select v-model="queryParams.dutyId" clearable placeholder="请选择值班班组">
+          <el-select @change="handleChangeDutyTeam" v-model="queryParams.dutyId" clearable placeholder="请选择值班班组">
             <el-option v-for="(item,index) in dutyIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
@@ -28,8 +28,7 @@
         <div class="timetips">
           <label>值班班次</label>
           <p>
-            <span>白班<b>08:00:00-20:00:00</b></span>
-            <span>晚班<b>20:00:00-08:00:00</b></span>
+            <span :key="index" v-for="(item,index) in shifts">{{item.Name}}<b>{{item.StartTime}}-{{item.EndTime}}</b></span>
           </p>
         </div>
       </el-row>
@@ -156,6 +155,7 @@
 import { fetchList } from "@/api/runningDuty/sortManager";
 import { getTenantEmployees } from "@/api/org";
 import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
+import { GetShifts } from "@/api/runningDuty/record";
 export default {
   name: "user",
   data() {
@@ -183,7 +183,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight:"calc(100% - 210px)",
+      tableHeight: "calc(100% - 210px)",
       rules: {},
       activeName: "0",
       dialogMemberVisible: false,
@@ -224,21 +224,21 @@ export default {
       time: "",
       year: "",
       month: "",
-      dutyName: ""
+      dutyName: "",
+      shifts: []
     };
   },
 
   created() {
     this.queryParams.time = this.parseTime(new Date(), "{y}-{m}");
     this.getDutyTeam();
+    this.getShifts();
   },
   computed: {
     columns() {
       const list = [];
 
       if (this.year && this.month) {
-        console.log(this.getMonthDay(this.year, parseInt(this.month)));
-
         for (
           let i = 1, l = this.getMonthDay(this.year, parseInt(this.month)) + 1;
           i < l;
@@ -266,15 +266,31 @@ export default {
     }
   },
   methods: {
+    handleChangeDutyTeam() {
+      this.form.dutyId = this.queryParams.dutyId;
+      this.form1.dutyId = this.queryParams.dutyId;
+    },
     handleDate(date) {
-      console.log(date);
+      if (
+        date < this.columns[0] ||
+        date > this.columns[this.columns.length - 1]
+      )
+        return true;
+
       return false;
     },
+    getShifts() {
+      GetShifts({}).then(r => {
+        this.shifts = r.data;
+      });
+    },
+
     getDutyTeam() {
-      fetchTeam({}).then(r => {
+      fetchTeam({ ifused: true }).then(r => {
         this.dutyIds = r.data;
         if (this.dutyIds && this.dutyIds.length) {
           this.queryParams.dutyId = this.dutyIds[0].Id;
+          this.handleChangeDutyTeam();
           this.getList();
         }
       });
@@ -288,7 +304,6 @@ export default {
       // this.getList(this.activeName);
     },
 
-
     /** 搜索用户列表 */
     getList() {
       const time = this.queryParams.time.split("-");
@@ -300,7 +315,7 @@ export default {
       this.dutyName = this.dutyIds.filter(
         v => v.Id == this.queryParams.dutyId
       )[0].Name;
-      this.queryParams.dutyId = "";
+
       this.listLoading = true;
       fetchList(this.queryParams)
         .then(response => {
@@ -321,8 +336,6 @@ export default {
             }
           });
           this.dataList = afterData;
-
-          console.log(afterData);
         })
         .finally(r => {
           this.listLoading = false;
