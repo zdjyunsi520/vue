@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box marginbottom15">
+    <div class="search-box xl-querybox marginbottom15">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按人员统计" name="1"></el-tab-pane>
         <el-tab-pane label="按值班统计" name="2"></el-tab-pane>

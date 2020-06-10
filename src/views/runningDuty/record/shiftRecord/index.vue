@@ -1,6 +1,6 @@
 <template>
-    <div class="comheight">
-        <div class="search-box">
+    <div class="comheight comflexbox">
+        <div class="search-box xl-querybox">
             <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
                 <el-form-item label="用电单位：" prop="tenantId">
 
@@ -16,14 +16,14 @@
                         <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="班次：" prop="ShiftId">
+                <el-form-item label="岗位：" prop="ShiftId">
                     <el-select v-model="queryParams.ShiftId">
                         <el-option label="全部" value=""></el-option>
                         <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
                     </el-select>
                 </el-form-item>
-
-                <el-form-item label="记事内容：" prop="recordcontent">
+             
+                <el-form-item label="记事内容" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="注意事项：" prop="caution">
@@ -38,7 +38,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="bg-white containerbox comheight" ref="containerbox">
+        <div class="bg-white containerbox " ref="containerbox">
             <el-row class="table-btns">
                 <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
                 <el-button type="primary" plain icon="el-icon-edit" @click="handleUpdate" :disabled="single">编辑</el-button>
@@ -48,21 +48,21 @@
 
                 <template slot="empty">
                     <div class="nodata-box">
-                        <img src="../../../../assets/image/nodata.png" />
+                        <img src="@/assets/image/nodata.png" />
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
                 <el-table-column type="selection" fixed="left" width="55" />
-                <el-table-column label="用电单位" prop="TenantName" />
-                <el-table-column label="值班日期" prop="StartTime" />
-                <el-table-column label="值班班组" prop="TeamName" />
-                <el-table-column label="班次" prop="ShiftName" />
-                <el-table-column label="交班人" prop="HandoverName" />
-                <el-table-column label="交班时间" prop="HandoverTime" />
-                <el-table-column label="接班人" prop="SuccessorName" />
-                <el-table-column label="接班时间" prop="SuccessTime" />
-                <el-table-column label="记录内容" prop="RecordContent" />
-                <el-table-column label="注意事项" prop="Caution" />
+                <el-table-column label="用电单位" min-width='230' prop="TenantName" />
+                <el-table-column label="值班日期" width='180' prop="StartTime" />
+                <el-table-column label="值班班组" width='140' prop="TeamName" />
+                <el-table-column label="岗位" width='100' prop="ShiftName" />
+                <el-table-column label="交班人"width='120' prop="HandoverName" />
+                <el-table-column label="交班时间"  width='180' prop="HandoverTime" />
+                <el-table-column label="接班人" width='110' prop="SuccessorName" />
+                <el-table-column label="接班时间" width='180' prop="SuccessTime" />
+                <el-table-column label="记录内容" min-width='200' prop="RecordContent" />
+                <el-table-column label="注意事项" min-width='200' prop="Caution" />
             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
@@ -97,7 +97,7 @@ export default {
             total: 0,
             // 用户表格数据
             dataList: null,
-            height: "calc(100% - 50px)",
+            height: "calc(100% - 130px)",
             rules: {},
             // 搜索参数
             queryParams: {
@@ -109,7 +109,9 @@ export default {
                 recordcontent: "",
                 starttime: "",
                 endtime: "",
-                ShiftId: ""
+                ShiftId: "",
+                // jieban:"",
+                // jiaoban:""
             },
             teamList: []
         };

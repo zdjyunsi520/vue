@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box marginbottom15">
+    <div class="search-box xl-querybox marginbottom15">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
         <el-tab-pane label="按缺陷等级统计" name="1"></el-tab-pane>

@@ -134,9 +134,9 @@
      line-height: 34px;
  }
  
- //  .search-box .el-input--medium .el-input__inner {
- //      width: 200px;
- //  }
+  .xl-querybox .el-input--medium .el-input__inner {
+      width: 200px;
+  }
  //  .onlyform-box .el-input--medium .el-input__inner {
  //      width: 100%;
  //  }
@@ -973,3 +973,11 @@
      display: table-cell!important;
      width: 17px!important;
  }
+
+
+ .comflexbox{
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    align-items: stretch;
+}

@@ -38,7 +38,7 @@
                 </div>
             </el-col>
             <el-col :xs="{span: 18}" :span="18" class=" containerbox ">
-                <div class="search-box onlyform-box " style="border-bottom:none">
+                <div class="search-box onlyform-box comflexbox" style="border-bottom:none">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
                         <el-tab-pane label="主记录" name="main"></el-tab-pane>
                         <el-tab-pane label="值班记事" name="dutyRecord"></el-tab-pane>

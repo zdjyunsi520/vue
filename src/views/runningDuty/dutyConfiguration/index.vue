@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box">
+    <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
         <el-form-item label="值班班组" prop="teamname">
           <el-input v-model="queryParams.teamname" placeholder="请输入班组名称" clearable @keyup.enter.native="handleQuery" />
