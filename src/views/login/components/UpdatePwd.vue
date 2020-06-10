@@ -153,7 +153,7 @@ export default {
             if (this.countdown > 0) {
                 return;
             }
-            this.countdown = 60;
+            this.countdown = 30;
             this.handleCountdown();
             const msgappId = "77F29216A67D434A8AE7A85A94A1A463";
             this.form.randnumber = (
