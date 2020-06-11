@@ -29,8 +29,8 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i class="svgcolor1">
-                                                    <svg-icon icon-class="ic_project" /></i>
+                                                <i>
+                                                    <svg-icon icon-class="ic_capacity" /></i>
                                             </el-col>
                                         </el-row>
                                     </div>
@@ -44,8 +44,8 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i class="svgcolor2">
-                                                    <svg-icon icon-class="ic_project" /></i>
+                                                <i>
+                                                    <svg-icon icon-class="ic_distribution" /></i>
                                             </el-col>
                                         </el-row>
                                     </div>
@@ -59,8 +59,8 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i class="svgcolor3">
-                                                    <svg-icon icon-class="ic_project" /></i>
+                                                <i >
+                                                    <svg-icon icon-class="ic_transformer" /></i>
                                             </el-col>
                                         </el-row>
                                     </div>
@@ -423,11 +423,12 @@ export default {
         vertical-align: -0.15em;
         width: 80px;
         height: 80px;
-        background: #fff;
+        background: #eef4fe;
         border-radius: 100%;
         line-height: 80px;
         display: inline-block;
-        font-size: 80px;
+        font-size: 45px;
+        text-align: center;
     }
 }
 /deep/.form-smtitle {

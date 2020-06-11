@@ -129,22 +129,24 @@
      }
  }
  
- .el-input--medium .el-input__inner {
+ .el-input--medium .el-input__inner,
+ .el-input--small .el-input__inner {
      height: 34px;
      line-height: 34px;
  }
  
-  .xl-querybox { 
-    .el-input--medium .el-input__inner,.el-date-editor.el-input, .el-date-editor.el-input__inner {
-        width: 200px;
-    }
-    .el-form-item__label{
-        min-width: 82px;
-        padding-right:5px ;
-    }
-   
-  }
-
+ .xl-querybox {
+     .el-input--medium .el-input__inner,
+     .el-date-editor.el-input,
+     .el-date-editor.el-input__inner {
+         width: 200px;
+     }
+     .el-form-item__label {
+         min-width: 82px;
+         padding-right: 5px;
+     }
+ }
+ 
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 17px;
@@ -228,7 +230,6 @@
  
  .el-form-item__label {
      font-weight: normal;
-     
  }
  
  .el-form .el-form-item__error--inline {
@@ -415,7 +416,6 @@
  
  .el-switch__core:after {
      top: 3px;
-     ;
  }
  
  .el-switch {
@@ -442,9 +442,9 @@
  .el-button--medium {
      padding: 0 15px;
      border-radius: 2px;
-     height: 32px;
+     height: 34px;
      font-size: 14px;
-     line-height: 30px;
+     line-height: 32px;
  }
  
  .el-button--primary.is-plain {
@@ -778,6 +778,17 @@
      border-radius: 2px 0 0 2px;
  }
  
+ .el-radio-button--mini .el-radio-button__inner {
+     padding: 10px 15px;
+ }
+ 
+ .el-button--primary.is-plain.is-disabled,
+ .el-button--primary.is-plain.is-disabled:hover,
+ .el-button--primary.is-plain.is-disabled:focus,
+ .el-button--primary.is-plain.is-disabled:active {
+     color: #418bff;
+ }
+ 
  .lightimg {
      position: absolute;
      left: 10px;
@@ -978,11 +989,10 @@
      display: table-cell!important;
      width: 17px!important;
  }
-
-
- .comflexbox{
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    align-items: stretch;
-}
+ 
+ .comflexbox {
+     display: flex;
+     flex-direction: column;
+     align-content: stretch;
+     align-items: stretch;
+ }

@@ -178,4 +178,7 @@ export default {
   margin-top: -10px;
   width: 100%;
 }
+.switch-mx {
+  width: 70px !important;
+}
 </style>

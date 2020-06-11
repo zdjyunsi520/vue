@@ -28,11 +28,11 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-  
-        <el-button type="primary" plain size="mini"  @click="handleDisabled(null,false)" :disabled="multiple">
+
+        <el-button type="primary" plain size="mini" @click="handleDisabled(null,false)" :disabled="multiple">
           <svg-icon icon-class='ic_enable' class="tablesvgicon"></svg-icon>启用
         </el-button>
-        <el-button type="info" plain  size="mini"  @click="handleDisabled(null,true)" :disabled="multiple">
+        <el-button type="info" plain size="mini" @click="handleDisabled(null,true)" :disabled="multiple">
           <svg-icon icon-class='ic_disable' class="tablesvgicon"></svg-icon>禁用
         </el-button>
 
@@ -51,11 +51,11 @@
         <el-table-column type="selection" width="55" fixed="left" />
         <el-table-column label="名称" min-width="250" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
-        <el-table-column label="附加属性" sortable width="120" prop="Attribute" >
+        <el-table-column label="附加属性" sortable width="120" prop="Attribute">
           <template slot-scope="scope">
             {{scope.row.Attribute=="0"?'':scope.row.Attribute=="1"?'用电':scope.row.Attribute}}
           </template>
-          </el-table-column>
+        </el-table-column>
         <el-table-column label="行业类别" sortable min-width="120" prop="IndustryName" />
         <el-table-column label="行业分类" sortable min-width="120" prop="PrincipleActivityName" />
         <el-table-column label="联系人" width="140" prop="ContactPerson" />
@@ -79,7 +79,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
     <create ref="create" @getList="getList"></create>
@@ -112,7 +112,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight:"calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
 
       // 搜索参数
       queryParams: {

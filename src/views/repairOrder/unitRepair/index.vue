@@ -33,7 +33,11 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
+          <el-button :loading="downloadLoading" @click="handleExport">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+
+            导出
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -42,12 +46,12 @@
 
         <template slot="empty">
           <div class="nodata-box">
-            <img src="../../../assets/image/nodata.png" class="smimg"/>
+            <img src="../../../assets/image/nodata.png" class="smimg" />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="巡视单位" fixed="left" min-width="120"   prop="Name"></el-table-column>
-        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]"   :label="item"></el-table-column>
+        <el-table-column label="巡视单位" fixed="left" min-width="120" prop="Name"></el-table-column>
+        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item"></el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
@@ -94,7 +98,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight:"calc(100% - 80px)",
+      tableHeight: "calc(100% - 80px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },
@@ -146,9 +150,8 @@ export default {
     this.getList(this.activeName);
     this.getTenants();
   },
- 
+
   methods: {
-   
     handleClick(tab, event) {
       this.resetQuery();
       this.patrolYear = "";

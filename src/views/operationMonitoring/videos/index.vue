@@ -205,20 +205,18 @@ export default {
   margin: 0;
 }
 .tabcount {
-  width: 118px;
-  height: 31px;
   position: absolute;
-  right: 20px;
-  top: 10px;
+  right: 10px;
+  top: 6px;
+  padding: 3px 18px;
   background-color: #f7f8fa;
-  border-radius: 15px;
+  border-radius: 51px;
   text-align: center;
-  line-height: 31px;
   span {
     display: inline-block;
     cursor: pointer;
-    margin: 0 6px;
-    font-size: 18px;
+    margin: 0 4px;
+    font-size: 26px;
     .svg-icon {
       color: #d5d8e0;
     }
@@ -233,7 +231,7 @@ export default {
   .el-col > div {
     border: solid 2px #f6f7fa;
     background: url(../../../assets/image/img_monitor_bj.jpg) no-repeat;
-    background-size:100% 100%;
+    background-size: 100% 100%;
     height: 280px;
     width: 100%;
     box-sizing: border-box;

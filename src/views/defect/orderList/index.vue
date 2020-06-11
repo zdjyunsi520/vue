@@ -16,7 +16,7 @@
           <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="缺陷等级：" prop="rank">
-          <el-select v-model="queryParams.rank" placeholder="请选择" >
+          <el-select v-model="queryParams.rank" placeholder="请选择">
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -42,7 +42,10 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
+        <el-button :loading="downloadLoading" @click="handleExport">
+          <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+          导出
+        </el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" element-loading-text="Loading" border fit :height="tableHeight" highlight-current-row>
         <template slot="empty">

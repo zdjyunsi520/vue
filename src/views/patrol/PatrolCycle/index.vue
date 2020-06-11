@@ -11,7 +11,7 @@
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视周期：" prop="cycleday">
-          <el-input v-model="queryParams.cycleday" clearable style="width:80px"></el-input>&nbsp;天
+          <el-input v-model="queryParams.cycleday" clearable style="width:80px" class="sm-input"></el-input>&nbsp;天
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
@@ -193,5 +193,11 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+/deep/.sm-input {
+  width: 80px;
+  &.el-input--medium .el-input__inner {
+    width: 100%;
+  }
+}
 </style>

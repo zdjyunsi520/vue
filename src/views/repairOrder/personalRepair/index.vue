@@ -20,13 +20,13 @@
           至
           <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
-      
-        <el-form-item label="业务来源：" v-if="activeName=='0'"  prop='source'>
+
+        <el-form-item label="业务来源：" v-if="activeName=='0'" prop='source'>
           <el-select v-model="queryParams.source" clearable placeholder="请选择">
             <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态："  prop='isexecute'>
+        <el-form-item label="状态：" prop='isexecute'>
           <el-select v-model="queryParams.isexecute" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -34,7 +34,10 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
+          <el-button :loading="downloadLoading" @click="handleExport">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+            导出
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -47,10 +50,10 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="巡视人员" fixed="left" min-width="120"   prop="Name"></el-table-column>
-        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]"   :label="item"></el-table-column>
+        <el-table-column label="巡视人员" fixed="left" min-width="120" prop="Name"></el-table-column>
+        <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item"></el-table-column>
       </el-table>
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
       <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
@@ -95,17 +98,17 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight:"calc(100% - 80px)",
+      tableHeight: "calc(100% - 80px)",
       listLoading: true,
       sources: [
-        { name: "全部", id: '' },
-        { name: "用户报修",id: '1'  },
-        { name: "故障报警", id: '2'  }
+        { name: "全部", id: "" },
+        { name: "用户报修", id: "1" },
+        { name: "故障报警", id: "2" }
       ],
       isexecutes: [
-        { name: "全部", id: '' },
-        { name: "未完成",id: '0'  },
-        { name: "已完成", id: '1'  }
+        { name: "全部", id: "" },
+        { name: "未完成", id: "0" },
+        { name: "已完成", id: "1" }
       ],
       columns: [],
       columns1: [
