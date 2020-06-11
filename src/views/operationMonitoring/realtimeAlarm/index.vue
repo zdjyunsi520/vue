@@ -64,8 +64,11 @@
               <el-button type="text" size="mini" v-if="!scope.row.IsConfirmed" @click="handleCheck(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>确认
               </el-button>
-              <el-button type="text" size="mini" @click="handleDispatch(scope.row)">
+              <el-button type="text" size="mini" v-if="!scope.row.IsReported" @click="handleDispatch(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>派单
+              </el-button>
+              <el-button type="text" size="mini" v-else  @click="handleToOrder(scope.row)">
+                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看工单
               </el-button>
               <el-button type="text" size="mini" @click="handleMonitor(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>监控
@@ -317,13 +320,27 @@ export default {
     handleMonitor(row) {},
     // 派单
     handleDispatch(row) {},
+
+    // 查看工单
+    handleToOrder(row){
+
+    },
     // 确认
     handleCheck(row) {
-      var Id = row.Id;
-      var description = row.Description;
-      confirm({ Id, description }).then(r => {
-        this.getList();
+      const data = {
+        Id:row.Id,
+        description: row.description
+      }
+       this.$router.push({
+        name: "/operationMonitoring/realtimeAlarm/components/check",
+        params: { data }
       });
+
+      // var Id = row.Id;
+      // var description = row.Description;
+      // confirm({ Id, description }).then(r => {
+      //   this.getList();
+      // });
     }
   }
 };

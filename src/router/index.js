@@ -835,6 +835,17 @@ export const constantRoutes = [
           noCache: true,
           breadcrumb: true
         }
+      },
+      {
+        name: "/operationMonitoring/realtimeAlarm/components/check",
+        path: "/operationMonitoring/realtimeAlarm/components/check",
+        component: () => import("@/views/operationMonitoring/realtimeAlarm/components/check"),
+        meta: {
+          title: "确认描述",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true
+        }
       }
     ]
   }

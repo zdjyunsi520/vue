@@ -22,8 +22,7 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="smdatabox bluebg">
                                         <h6>
-                                            <i>
-                                                <svg-icon icon-class="ic_project" /></i> 概况
+                                            <i class="svgcolor1"><svg-icon icon-class="ic_project"/></i> 概况
                                         </h6>
                                         <el-row>
                                             <el-col :span="6">
@@ -627,5 +626,8 @@ h6 {
 
 /deep/.el-scrollbar__bar.is-horizontal {
     display: none;
+}
+.svgcolor1{
+    color:#999999;
 }
 </style>
