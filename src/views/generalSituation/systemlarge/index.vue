@@ -124,7 +124,7 @@
         <el-col :span='10' :xs='24' class='commonchart'>>
           <el-row>
             <div class="chartbox mapbox boxheight5">
-              <MapChart :mapchartData='mapchartData' />
+              <MapChart ref='mapchart' :mapchartData='mapchartData' />
             </div>
           </el-row>
           <el-row style='margin-top:-70px' class="boxheight4">
@@ -469,11 +469,13 @@ export default {
           this.$refs.powerTypePieChart.initChart();
         });
         this.mapchartData = this.dataInfo.ProvinceData;
-        this.mapchartData.chinaGeoCoordMap = Object.assign({}, this.mapchartData.LatitudeLongitude);
-        this.mapchartData.chinaDatas = this.mapchartData.PrvoinceValue.concat();
-        this.mapchartData.localName = this.mapchartData.Local.Text;
-        this.mapchartData.localCoordinate = this.mapchartData.Local.Coordinate;
-
+        this.mapchartData.chinaGeoCoordMap = Object.assign({}, this.dataInfo.ProvinceData.LatitudeLongitude);
+        this.mapchartData.chinaDatas = this.dataInfo.ProvinceData.PrvoinceValue.concat();
+        this.mapchartData.localName = this.dataInfo.ProvinceData.Local.Text;
+        this.mapchartData.localCoordinate = this.dataInfo.ProvinceData.Local.Coordinate;
+        this.$nextTick(() => {
+          this.$refs.mapchart.initChart();
+        });
       });
     },
     getScreenElectricLoad() {

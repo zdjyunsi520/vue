@@ -44,18 +44,17 @@ export default {
   data() {
     return {
       chart: null,
-
     }
   },
   watch: {
     mapchartData:{
         handler(newVal, oldVal) {
-          // this.mapchartData.chinaGeoCoordMap = Object.assign({}, mapchartData.LatitudeLongitude);
-          // chinaDatas = mapchartData.PrvoinceValue.concat();
-          // localName = mapchartData.Local.Text;
-          // localCoordinate = mapchartData.Local.Coordinate;
             if (this.chart) {
-              this.setOptions();
+              if (newVal) {
+                this.setOptions(newVal);
+              } else {
+                this.setOptions(oldVal);
+              }
             } else {
                 this.initChart();
             }
@@ -86,7 +85,7 @@ export default {
       this.showLoading();
       if (this.mapchartData.chinaDatas.length>0) {
         this.chart.hideLoading();
-        this.setOptions();
+        this.setOptions(this.mapchartData);
       }
     },
     showLoading() {
@@ -98,11 +97,11 @@ export default {
         zlevel: 0
       });
     },
-    convertData(data) {
+    convertData(data,localCoordinate,chinaGeoCoordMap) {
       var res = [];
       for (var i = 0; i < data.length; i++) {
         var dataItem = data[i];
-        var fromCoord = this.mapchartData.chinaGeoCoordMap[dataItem[0].Text];
+        var fromCoord = chinaGeoCoordMap[dataItem[0].Text];
         var toCoord = localCoordinate;
         if (fromCoord && toCoord) {
           res.push([
@@ -119,10 +118,12 @@ export default {
       return res;
     },
 
-    setOptions() {
+    setOptions({ localName, chinaDatas, localCoordinate, chinaGeoCoordMap} = {}) {
       var series = [];
-      [[this.mapchartData.localName, this.mapchartData.chinaDatas]].forEach((item, i) => {
-        // console.log(item,this.convertData(item[1]))
+      [[localName, chinaDatas]].forEach((item, i) => {
+        console.log(item[0])
+        console.log(chinaGeoCoordMap)
+        console.log(chinaGeoCoordMap[item[0]])
         series.push(
           {
             type: "lines",
@@ -145,7 +146,7 @@ export default {
                 curveness: 0.4 //尾迹线条曲直度
               }
             },
-            data: this.convertData(item[1])
+            data: this.convertData(item[1],localCoordinate,chinaGeoCoordMap)
           },
           {
             type: "effectScatter",
@@ -180,17 +181,18 @@ export default {
             symbolSize: function(val) {
               return 8 + val[2] * 3; //圆环大小
             },
-            itemStyle: {
-              normal: {
+
+            itemStyle:{
+             normal: {
                 show: false,
                 color: "#f00"
               }
             },
             data: item[1].map(function(dataItem) {
               return {
-                name: dataItem[0].name,
-                value: this.mapchartData.chinaGeoCoordMap[dataItem[0].name].concat([
-                  dataItem[0].value
+                name: dataItem[0].Text,
+                value: chinaGeoCoordMap[dataItem[0].Text].concat([
+                  dataItem[0].Value
                 ])
               };
             })
@@ -230,7 +232,7 @@ export default {
             data: [
               {
                 name: item[0],
-                value: this.mapchartData.chinaGeoCoordMap[item[0]].concat([10])
+                value: chinaGeoCoordMap[item[0]].concat([10])
               }
             ]
           }
