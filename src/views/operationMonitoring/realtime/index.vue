@@ -579,7 +579,8 @@ export default {
   color: #313033;
   & > b {
     font-size: 16px;
-    margin-right: 10px;    font-weight: normal;
+    margin-right: 10px;
+    font-weight: normal;
   }
   & > label {
     display: inline-block;
@@ -590,5 +591,8 @@ export default {
   .el-radio-button--mini .el-radio-button__inner {
     padding: 9px 15px !important;
   }
+}
+.rightradiobox .el-radio-group {
+  vertical-align: top;
 }
 </style>

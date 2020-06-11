@@ -12,7 +12,7 @@
           至
           <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="告警类型：" prop="WarningType" >
+        <el-form-item label="告警类型：" prop="WarningType">
           <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
@@ -23,7 +23,10 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
+          <el-button :loading="downloadLoading" @click="handleExport">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+            导出
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -270,7 +273,7 @@ export default {
         this.$message.error("请选择一个设备");
       }
     },
-   
+
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;

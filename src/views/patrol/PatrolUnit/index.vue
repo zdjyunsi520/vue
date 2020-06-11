@@ -33,7 +33,10 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download" :loading="downloadLoading" @click="handleExport">导出</el-button>
+          <el-button :loading="downloadLoading" @click="handleExport">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+            导出
+          </el-button>
         </el-form-item>
       </el-form>
     </div>

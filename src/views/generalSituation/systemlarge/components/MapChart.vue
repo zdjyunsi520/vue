@@ -16,9 +16,8 @@ let chinaDatas = [
   //     value: 0.88
   //   }
   // ],
- 
 ];
-let localName = '';
+let localName = "";
 let localCoordinate = [];
 
 export default {
@@ -43,28 +42,27 @@ export default {
   },
   data() {
     return {
-      chart: null,
-    }
+      chart: null
+    };
   },
   watch: {
-    mapchartData:{
-        handler(newVal, oldVal) {
-            if (this.chart) {
-              if (newVal) {
-                this.setOptions(newVal);
-              } else {
-                this.setOptions(oldVal);
-              }
-            } else {
-                this.initChart();
-            }
-    
-        },
-        deep: true //对象内部属性的监听，关键。
+    mapchartData: {
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.setOptions(newVal);
+          } else {
+            this.setOptions(oldVal);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
     }
   },
 
- mounted() {
+  mounted() {
     this.$nextTick(() => {
       this.initChart();
     });
@@ -83,7 +81,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.mapchartData.chinaDatas.length>0) {
+      if (this.mapchartData.chinaDatas.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.mapchartData);
       }
@@ -97,11 +95,11 @@ export default {
         zlevel: 0
       });
     },
-    convertData(data,localCoordinate,chinaGeoCoordMap) {
+    convertData(data, localCoordinate, chinaGeoCoordMap) {
       var res = [];
       for (var i = 0; i < data.length; i++) {
         var dataItem = data[i];
-        console.log(dataItem)
+        console.log(dataItem);
         var fromCoord = chinaGeoCoordMap[dataItem.Text];
         var toCoord = localCoordinate;
         if (fromCoord && toCoord) {
@@ -119,7 +117,12 @@ export default {
       return res;
     },
 
-    setOptions({ localName, chinaDatas, localCoordinate, chinaGeoCoordMap} = {}) {
+    setOptions({
+      localName,
+      chinaDatas,
+      localCoordinate,
+      chinaGeoCoordMap
+    } = {}) {
       var series = [];
       [[localName, chinaDatas]].forEach((item, i) => {
         series.push(
@@ -127,8 +130,8 @@ export default {
             type: "lines",
             zlevel: 3,
             symbol: ["none", "circle"],
-            tooltip:{
-              show:false
+            tooltip: {
+              show: false
             },
             effect: {
               show: true,
@@ -144,7 +147,7 @@ export default {
                 curveness: 0.4 //尾迹线条曲直度
               }
             },
-            data: this.convertData(item[1],localCoordinate,chinaGeoCoordMap)
+            data: this.convertData(item[1], localCoordinate, chinaGeoCoordMap)
           },
           {
             type: "effectScatter",
@@ -156,9 +159,9 @@ export default {
               brushType: "stroke", //波纹绘制方式 stroke, fill
               scale: 4 //波纹圆环最大限制，值越大波纹越大
             },
-            
-            tooltip:{
-              show:true
+
+            tooltip: {
+              show: true
             },
             label: {
               normal: {
@@ -177,11 +180,12 @@ export default {
             },
             symbol: "circle",
             symbolSize: function(val) {
-              return 3 + val[2] * 3; //圆环大小
+              // return 3 + val[2] * 3; //圆环大小
+              return 8; //圆环大小
             },
 
-            itemStyle:{
-             normal: {
+            itemStyle: {
+              normal: {
                 show: false,
                 color: "#f00"
               }
@@ -189,9 +193,7 @@ export default {
             data: item[1].map(function(dataItem) {
               return {
                 name: dataItem.Text,
-                value: chinaGeoCoordMap[dataItem.Text].concat([
-                  dataItem.Value
-                ])
+                value: chinaGeoCoordMap[dataItem.Text].concat([dataItem.Value])
               };
             })
           },
@@ -201,8 +203,8 @@ export default {
             coordinateSystem: "geo",
             zlevel: 4,
 
-            tooltip:{
-              show:false
+            tooltip: {
+              show: false
             },
             rippleEffect: {
               period: 4,
@@ -214,15 +216,15 @@ export default {
                 show: true,
                 position: "right",
                 //offset:[5, 0],
-                color: "#0f0",
+                color: "#06fdff",
                 formatter: "{b}",
                 textStyle: {
-                  color: "#0f0"
+                  color: "#06fdff"
                 }
               },
               emphasis: {
                 show: true,
-                color: "#f60"
+                color: "#06fdff"
               }
             },
             symbol: "pin",
@@ -266,14 +268,7 @@ export default {
           min: 0,
           max: 1,
           calculable: true,
-          color: [
-            "#00ff78",
-            "#ff971b",
-            "#acff43",
-            "#ff73b7",
-            "#ffff46",
-            "#27bbfe"
-          ],
+          color: ["#2178ff", "#d2feff", "#06fdff"],
           textStyle: {
             color: "#fff"
           }

@@ -9,18 +9,21 @@
           </el-select>
         </el-form-item>
         <el-form-item label="值班人员：" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="" clearable  />
+          <el-input v-model="queryParams.employeename" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="值班日期：" prop="starttime">
           <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
-           至
+          至
           <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
         </el-form-item>
 
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button icon="el-icon-download" @click="resetQuery">导出</el-button>
+          <el-button @click="resetQuery">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+            导出
+          </el-button>
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
@@ -28,7 +31,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight"  style='margin-top:20px'>
+      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" style='margin-top:20px'>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -45,7 +48,7 @@
         <el-table-column label="值班结束时间" width='180' sortable prop="EndTime" />
       </el-table>
 
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 
@@ -71,7 +74,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight:"calc(100% - 80px)",
+      tableHeight: "calc(100% - 80px)",
       rules: {},
       // 搜索参数
       queryParams: {
@@ -82,7 +85,7 @@ export default {
         endtime: "",
         employeename: "",
         teamId: ""
-      },
+      }
     };
   },
 
@@ -95,7 +98,6 @@ export default {
     })
   },
   methods: {
-   
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;
