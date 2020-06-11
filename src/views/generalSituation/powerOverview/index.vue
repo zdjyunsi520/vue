@@ -29,7 +29,7 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i>
+                                                <i class="svgcolor1">
                                                     <svg-icon icon-class="ic_project" /></i>
                                             </el-col>
                                         </el-row>
@@ -44,7 +44,7 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i>
+                                                <i class="svgcolor2">
                                                     <svg-icon icon-class="ic_project" /></i>
                                             </el-col>
                                         </el-row>
@@ -59,7 +59,7 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i>
+                                                <i class="svgcolor3">
                                                     <svg-icon icon-class="ic_project" /></i>
                                             </el-col>
                                         </el-row>
@@ -469,5 +469,14 @@ export default {
 
 /deep/.el-scrollbar__bar.is-horizontal {
     display: none;
+}
+.svgcolor1 {
+    color: #558cf7;
+}
+.svgcolor2 {
+    color: #77c3f9;
+}
+.svgcolor3 {
+    color: #f3a248;
 }
 </style>

@@ -22,7 +22,8 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="smdatabox bluebg">
                                         <h6>
-                                            <i class="svgcolor1"><svg-icon icon-class="ic_project"/></i> 概况
+                                            <i class="svgcolor1">
+                                                <svg-icon icon-class="ic_project" /></i> 概况
                                         </h6>
                                         <el-row>
                                             <el-col :span="6">
@@ -55,7 +56,7 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="smdatabox b-bluebg">
                                         <h6>
-                                            <i>
+                                            <i class="svgcolor2">
                                                 <svg-icon icon-class="ic_project" /></i> 运维规模
                                         </h6>
                                         <el-row>
@@ -80,7 +81,7 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="smdatabox orangebg">
                                         <h6>
-                                            <i>
+                                            <i class="svgcolor3">
                                                 <svg-icon icon-class="ic_project" /></i> 运维成果
                                         </h6>
                                         <el-row>
@@ -627,7 +628,13 @@ h6 {
 /deep/.el-scrollbar__bar.is-horizontal {
     display: none;
 }
-.svgcolor1{
-    color:#999999;
+.svgcolor1 {
+    color: #558cf7;
+}
+.svgcolor2 {
+    color: #77c3f9;
+}
+.svgcolor3 {
+    color: #f3a248;
 }
 </style>
