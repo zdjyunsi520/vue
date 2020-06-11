@@ -72,7 +72,7 @@
                         </el-form-item>
                     </div>
                     <div v-else>
-                        <el-form-item label="白班值班" prop="daymemberName">
+                        <el-form-item label="白班值班" prop="daymemberName" v-for="">
                             <el-input v-model="form.daymemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
                         </el-form-item>
                         <el-form-item label="晚班值班" prop="eveningmemberName">
@@ -156,7 +156,12 @@
 </template>
 
 <script>
-import { fetchList } from "@/api/runningDuty/sortManager";
+import {
+    fetchList,
+    addByPosition,
+    addByPersona,
+    add
+} from "@/api/runningDuty/sortManager";
 import { getTenantEmployees } from "@/api/org";
 import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
 import { GetShifts } from "@/api/runningDuty/record";
@@ -210,6 +215,11 @@ export default {
             },
             dutyteamIds: [],
             form: {
+                model: {
+                    dutyteamId: "",
+                    Date: "",
+                    Data: []
+                },
                 dutyteamId: "",
                 time: "",
                 memberName: "",
@@ -397,6 +407,12 @@ export default {
         },
         /** 新增按钮操作 */
         handleAdd() {
+            const dutyteamId = this.form.dutyteamId;
+            if (!dutyteamId) {
+                this.$message.error("请先选择一个班组");
+                return;
+            }
+            addByPosition({ dutyteamId });
             this.dialogAddVisible = true;
         },
         // 复制

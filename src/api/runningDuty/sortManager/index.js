@@ -17,3 +17,9 @@ export function deleted(data) {
 export function getInfo(data) {
   return post("/DutySchedule/Get", data, commonUrl);
 }
+export function addByPosition(data) {
+  return post("/DutySchedule/InitializeCreateByPosition", data, commonUrl);
+}
+export function addByPersonn(data) {
+  return post("/DutySchedule/InitializeCreateByEmployee", data, commonUrl);
+}
