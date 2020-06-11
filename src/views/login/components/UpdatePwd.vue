@@ -225,7 +225,7 @@ export default {
         box-shadow: 0px 0px 5px 0px #96a9ff;
         padding: 60px 0 30px;
         position: absolute;
-        height: 480px;
+        height: 540px;
         top: 0;
         bottom: 0;
         left: 0;

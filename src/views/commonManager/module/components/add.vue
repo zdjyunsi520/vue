@@ -3,26 +3,43 @@
         <div class="search-box  onlyform-box">
             <p class="form-smtitle">{{title}} </p>
             <el-scrollbar>
-                <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="120px" :inline-message="true" style="width:600px">
-                    <el-form-item label="名称" prop="name">
-                        <el-input v-model="form.name" placeholder="请输入名称" />
-                    </el-form-item>
+                <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="120px" :inline-message="true">
+                    <el-col>
+                        <el-col :span='12' :xs='24'>
+                            <el-form-item label="名称" prop="name">
+                                <el-input v-model="form.name" placeholder="请输入名称" />
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
+                    <el-col>
+                        <el-col :span='12' :xs='24'>
+                            <el-form-item label="权限标识" prop="key">
+                                <el-input v-model="form.key" placeholder="请输入权限标识" />
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
+                    <el-col>
 
-                    <el-form-item label="权限标识" prop="key">
-                        <el-input v-model="form.key" placeholder="请输入权限标识" />
-                    </el-form-item>
-
-                    <el-form-item label="url" prop="url">
-                        <el-input v-model="form.url" placeholder="请输入url" />
-                    </el-form-item>
-
-                    <el-form-item label="组件" prop="component">
-                        <el-input v-model="form.component" placeholder="请输入组件" />
-                    </el-form-item>
-
-                    <el-form-item label="排序号" prop="sortindex">
-                        <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
-                    </el-form-item>
+                        <el-col :span='12' :xs='24'>
+                            <el-form-item label="url" prop="url">
+                                <el-input v-model="form.url" placeholder="请输入url" />
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
+                    <el-col>
+                        <el-col :span='12' :xs='24'>
+                            <el-form-item label="组件" prop="component">
+                                <el-input v-model="form.component" placeholder="请输入组件" />
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
+                    <el-col>
+                        <el-col :span='12' :xs='24'>
+                            <el-form-item label="排序号" prop="sortindex">
+                                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
 
                     <!-- <el-form-item label="应用图标">
             <el-popover placement="bottom-start" width="500" trigger="click" @show="$refs['iconSelect'].reset()">
@@ -34,9 +51,13 @@
             </el-popover>
           </el-form-item> -->
 
-                    <el-form-item label="应用图标">
-                        <IconSelect ref="iconSelect" @selected="selected" />
-                    </el-form-item>
+                    <el-col>
+                    <el-col :span='22' :xs='24'>
+                        <el-form-item label="应用图标">
+                            <IconSelect ref="iconSelect" @selected="selected" />
+                        </el-form-item>
+                    </el-col>
+                    </el-col>
                 </el-form>
             </el-scrollbar>
             <el-col :span="24" :xs='24' class="absolute-bottom">

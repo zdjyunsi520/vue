@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="60%" :title="title+'交接班记录'" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
+  <el-dialog width="60%" :title="title+'交接班记录'" :visible.sync="dialogVisible" :modal-append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="true" center>
     <!-- 添加或编辑参数配置对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-row>

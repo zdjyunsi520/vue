@@ -1,9 +1,7 @@
 <template>
   <div>
-    <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree
-          .getCheckedNodes(true)
-          .map(v => v[this.showText]).join(',')}}</el-button>
-    <el-drawer :wrapperClosable="false" :modal="modal" :title="title" direction="rtl" :visible.sync="dialogVisible" :show-close='false' center :size="size">
+    <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(true).map(v => v[this.showText]).join(',')}}</el-button>
+    <el-drawer :wrapperClosable="false"   :modal-append-to-body='true' :title="title" direction="rtl" :visible.sync="drawperdialogVisible" :show-close='false' center :size="size">
       <el-scrollbar style="height: 86vh;">
         <el-tree :default-checked-keys="checkedKeys" ref="tree" :node-key="nodeKey" :default-expand-all="true" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
       </el-scrollbar>
@@ -61,22 +59,20 @@ export default {
   },
   data() {
     return {
-      dialogVisible: true,
-      modal: false,
+      drawperdialogVisible: true,
       size: "0",
       oldKey: []
     };
   },
   mounted() {
-    this.dialogVisible = false;
-    this.modal = true;
+    this.drawperdialogVisible = false;
     setTimeout(() => {
       this.size = "300px";
     }, 1000);
   },
   methods: {
     showTree() {
-      this.dialogVisible = true;
+      this.drawperdialogVisible = true;
       this.oldKey = this.$refs.tree.getCheckedNodes(true).map(v => v);
     },
     handleCheckChange(node, select) {
@@ -87,7 +83,7 @@ export default {
     handleClose() {
       this.$refs.tree.setCheckedKeys(this.oldKey.map(v => v.id));
       this.$emit("change", this.oldKey);
-      this.dialogVisible = false;
+      this.drawperdialogVisible = false;
     },
     handleConfirm() {
       this.oldKey = this.$refs.tree.getCheckedNodes(true);

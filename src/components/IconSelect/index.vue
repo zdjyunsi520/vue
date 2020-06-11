@@ -1,4 +1,3 @@
-<!-- @author zhengjie -->
 <template>
     <!-- <div class="icon-body">
     <el-input v-model="name" style="position: relative;" clearable placeholder="请输入图标名称" @clear="filterIcons" @input.native="filterIcons">
@@ -61,25 +60,26 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .icon-body {
     width: 100%;
-    padding: 10px;
     .icon-list {
-        height: 200px;
-        overflow-y: scroll;
+        // height: 200px;
+        // overflow-y: scroll;
         div {
             height: 60px;
             cursor: pointer;
             width: 60px;
-            float: left;
             &.on {
                 color: #006eff;
-                border-color: #006eff;
+                border-color: #558cf7;
+                background-color: #f1f6ff;
             }
+            box-shadow: 0px 0px 4px 0px #e6efff;
             text-align: center;
             position: relative;
             border: 1px solid #ececec;
-            border-radius: 5px;
-            margin: 20px 0 0 20px;
-            color: #666;
+            border-radius: 2px;
+            margin: 0px 14px 7px 0px;
+            display:inline-block;
+            color: #999999;
         }
         span {
             display: inline-block;

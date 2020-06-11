@@ -54,16 +54,16 @@
                     </div>
                 </template>
                 <el-table-column type="selection" fixed="left" width="55" />
-                <el-table-column label="用电单位" prop="TenantName" />
-                <el-table-column label="值班班组" prop="TeamName" />
-                <el-table-column label="巡视开始时间" prop="PatrolStartTime" />
-                <el-table-column label="巡视结束时间" prop="PatrolEndTime" />
-                <el-table-column label="巡视人员" prop="PatrolName" />
-                <el-table-column label="记录人" prop="RecorderName" />
-                <el-table-column label="记录时间" prop="RecordTime" />
-                <el-table-column label="巡视内容" prop="RecordContent" />
-                <el-table-column label="巡视情况" prop="Situation" />
-            </el-table>
+               <el-table-column label="用电单位" min-width='230' prop="TenantName" />
+                <el-table-column label="值班班组" min-width='150' prop="TeamName" />
+                <el-table-column label="巡视开始时间" width='180' prop="PatrolStartTime" />
+                <el-table-column label="巡视结束时间" width='180' prop="PatrolEndTime" />
+                <el-table-column label="巡视人员" min-width='120'  prop="PatrolName" />
+                <el-table-column label="记录人" width='120' prop="RecorderName" />
+                <el-table-column label="记录时间" width='180' prop="RecordTime" />
+                <el-table-column label="巡视内容" min-width='200' prop="RecordContent" />
+                <el-table-column label="巡视情况" min-width='200' prop="Situation" />
+             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
         <add ref="add" @getList="getList" :shifts="shifts" />

@@ -8,7 +8,6 @@
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
                         <div class="left-box">
                             <div class="bztitle">{{dutyGroup.Name}}</div>
-                            {{dataList}}
                             <div class="queryform">
                                 <div>
                                     <label>日期：</label>

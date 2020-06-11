@@ -86,6 +86,12 @@ export default {
   }
   .el-submenu__title{
       padding-left: 30px!important;
+.svg-icon {
+    margin-right: 10px;
+    font-size: 22px;
+    vertical-align: middle;
+}
   }
+
 }
 </style>

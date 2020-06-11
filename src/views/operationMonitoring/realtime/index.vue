@@ -579,7 +579,7 @@ export default {
   color: #313033;
   & > b {
     font-size: 16px;
-    margin-right: 10px;
+    margin-right: 10px;    font-weight: normal;
   }
   & > label {
     display: inline-block;
