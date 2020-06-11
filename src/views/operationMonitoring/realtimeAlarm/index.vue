@@ -12,9 +12,16 @@
             <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否确认：" prop="isCheck">
-          <el-select v-model="queryParams.isCheck" clearable placeholder="请选择告警类型">
-            <el-option v-for="(item,index) in isChecks" :key="index" :label="item.type" :value="item.id"></el-option>
+        <el-form-item label="是否确认：" prop="IsConfirmed">
+          <el-select v-model="queryParams.IsConfirmed" clearable placeholder="请选择告警类型">
+            <el-option v-for="(item,index) in IsConfirmeds" :key="index" :label="item.type" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="告警时间：" prop="WarningTime">
+          <el-select v-model="WarningTime" clearable placeholder="请选择告警时间" @change='getWarningTime'>
+            <el-option  label="全部" value=""></el-option>
+            <el-option  label="近一个月" value="0"></el-option>
+            <el-option  label="近一周" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -44,16 +51,13 @@
         <el-table-column label="告警描述" min-width="250" sortable prop="Description"></el-table-column>
         <el-table-column label="告警时间" width="180" sortable prop="CreateTime"></el-table-column>
         <el-table-column label="告警值" width="110" sortable prop="Value"></el-table-column>
-        <el-table-column label="是否复归" width="120" sortable prop="IsRecovery">
-          <template slot-scope="scope">
-            {{scope.row.IsRecovery?'是':'否'}}
-          </template>
-        </el-table-column>
         <el-table-column label="是否确认" width="120" sortable prop="IsConfirmed">
           <template slot-scope="scope">
             {{scope.row.IsConfirmed?'是':'否'}}
           </template>
         </el-table-column>
+        <el-table-column label="确认人" width="140" sortable prop="ConfirmPersonName"></el-table-column>
+        <el-table-column label="确认描述" min-width="230" sortable prop="HandleDescription"></el-table-column>
         <el-table-column label="操作" width="240" fixed="right">
           <template slot-scope="scope">
             <div>
@@ -99,15 +103,16 @@ export default {
       rules: {},
       tableHeight: "calc(100% - 80px)",
       TenantIds: [],
+      WarningTime:"",
 
       // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        startdate: "",
-        enddate: "",
         WarningType: "",
-        IsConfirmed: false
+        StartDate:'',
+        EndDate:'',
+        IsConfirmed: ''
       },
       WarningTypes: [
         {
@@ -191,7 +196,7 @@ export default {
           type: "烟雾报警"
         }
       ],
-      isChecks: [
+      IsConfirmeds: [
         {
           id: "",
           type: "全部"
@@ -234,7 +239,54 @@ export default {
           this.listLoading = false;
         });
     },
+    getWarningTime(){  
+      var date = new Date();
+      var list=[];
+      if(this.WarningTime != ''){
+        if(this.WarningTime == '1'){
+          list = this.getDateRange(date,6,true);
+        }else if(this.WarningTime == '0'){
+          list =  this.getDateRange(date,30,true);
+        }
+        this.queryParams.StartDate = list[0];
+        this.queryParams.EndDate = list[1];
+      }else{
+        this.queryParams.StartDate = '';
+        this.queryParams.EndDate = '';
+      }
+    },
 
+    getDateRange(dateNow,intervalDays,bolPastTime){
+        let oneDayTime = 24 * 60 * 60 * 1000;
+        let list = [];
+        let lastDay;
+ 
+        if(bolPastTime == true){
+            lastDay = new Date(dateNow.getTime() - intervalDays * oneDayTime);
+            list.push(this.formateDate(lastDay));
+            list.push(this.formateDate(dateNow));
+        }else{
+            lastDay = new Date(dateNow.getTime() + intervalDays * oneDayTime);
+            list.push(this.formateDate(dateNow));
+            list.push(this.formateDate(lastDay));
+        }
+        return list;
+     },
+     formateDate(time){
+        let year = time.getFullYear()
+        let month = time.getMonth() + 1
+        let day = time.getDate()
+ 
+        if (month < 10) {
+          month = '0' + month
+        }
+ 
+        if (day < 10) {
+          day = '0' + day
+        }
+ 
+        return year + '-' + month + '-' + day + ''
+     },
     levelformatter(row) {
       var txt = "";
       if (row.Level == 1) {
@@ -257,6 +309,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.StartDate = '';
+      this.queryParams.EndDate = '';
       this.handleQuery();
     },
     // 监控

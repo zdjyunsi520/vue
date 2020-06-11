@@ -62,11 +62,7 @@
         <el-table-column label="告警描述" min-width="250" sortable prop="Description"></el-table-column>
         <el-table-column label="告警时间" width="180" sortable prop="CreateTime"></el-table-column>
         <el-table-column label="告警值" width="110" sortable prop="Value"></el-table-column>
-        <el-table-column label="是否复归" width="120" sortable prop="IsRecovery">
-          <template slot-scope="scope">
-            {{scope.row.IsRecovery?'是':'否'}}
-          </template>
-        </el-table-column>
+        
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 

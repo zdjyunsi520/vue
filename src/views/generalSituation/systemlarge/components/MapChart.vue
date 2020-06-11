@@ -101,13 +101,14 @@ export default {
       var res = [];
       for (var i = 0; i < data.length; i++) {
         var dataItem = data[i];
-        var fromCoord = chinaGeoCoordMap[dataItem[0].Text];
+        console.log(dataItem)
+        var fromCoord = chinaGeoCoordMap[dataItem.Text];
         var toCoord = localCoordinate;
         if (fromCoord && toCoord) {
           res.push([
             {
               coord: fromCoord,
-              value: dataItem[0].Value
+              value: dataItem.Value
             },
             {
               coord: toCoord
@@ -121,9 +122,6 @@ export default {
     setOptions({ localName, chinaDatas, localCoordinate, chinaGeoCoordMap} = {}) {
       var series = [];
       [[localName, chinaDatas]].forEach((item, i) => {
-        console.log(item[0])
-        console.log(chinaGeoCoordMap)
-        console.log(chinaGeoCoordMap[item[0]])
         series.push(
           {
             type: "lines",
@@ -160,7 +158,7 @@ export default {
             },
             
             tooltip:{
-              show:false
+              show:true
             },
             label: {
               normal: {
@@ -179,7 +177,7 @@ export default {
             },
             symbol: "circle",
             symbolSize: function(val) {
-              return 8 + val[2] * 3; //圆环大小
+              return 3 + val[2] * 3; //圆环大小
             },
 
             itemStyle:{
@@ -190,9 +188,9 @@ export default {
             },
             data: item[1].map(function(dataItem) {
               return {
-                name: dataItem[0].Text,
-                value: chinaGeoCoordMap[dataItem[0].Text].concat([
-                  dataItem[0].Value
+                name: dataItem.Text,
+                value: chinaGeoCoordMap[dataItem.Text].concat([
+                  dataItem.Value
                 ])
               };
             })
@@ -242,11 +240,11 @@ export default {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          backgroundColor: "rgba(166, 200, 76, 0)",
-          showDelay: 0,
-          hideDelay: 0,
+          // backgroundColor: "rgba(166, 200, 76, 0)",
+          // showDelay: 0,
+          // hideDelay: 0,
           enterable: true,
-          transitionDuration: 0,
+          // transitionDuration: 0,
           extraCssText: "z-index:100",
           formatter: function(params, ticket, callback) {
             //根据业务自己拓展要显示的内容
