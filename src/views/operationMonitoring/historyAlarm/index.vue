@@ -1,38 +1,24 @@
 <template>
   <div class="app-container">
-    <div class="search-box marginbottom15">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="按日期" name="0"></el-tab-pane>
-        <el-tab-pane label="按类型" name="1"></el-tab-pane>
-        <el-tab-pane label="按设备" name="2"></el-tab-pane>
-      </el-tabs>
-
+    <div class="search-box ">
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-
-        <el-form-item label="告警类型：" prop="WarningType" v-if="activeName=='1'">
-          <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
-            <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="告警设备：" prop="AssetsId" v-if="activeName=='2'">
-          <el-input v-model="queryParams.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" clearable></el-input>
-        </el-form-item>
         <el-form-item label="日期" prop="StartDate">
           <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           至
           <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
-
-        <el-form-item label="是否复归：" prop="IsRecovery">
-          <el-select v-model="queryParams.IsRecovery" clearable placeholder="请选择">
-            <el-option v-for="(item,index) in IsRecoverys" :key="index" :label="item.type" :value="item.id"></el-option>
+        <el-form-item label="告警类型：" prop="WarningType" >
+          <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
+            <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="告警设备：" prop="AssetsId">
+          <el-input v-model="queryParams.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" clearable></el-input>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
@@ -62,7 +48,6 @@
         <el-table-column label="告警描述" min-width="250" sortable prop="Description"></el-table-column>
         <el-table-column label="告警时间" width="180" sortable prop="CreateTime"></el-table-column>
         <el-table-column label="告警值" width="110" sortable prop="Value"></el-table-column>
-        
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
@@ -285,12 +270,7 @@ export default {
         this.$message.error("请选择一个设备");
       }
     },
-    handleClick(tab, event) {
-      this.resetQuery("queryForm");
-      this.queryParams.EndDate = "";
-      this.getList(this.activeName);
-    },
-
+   
     /** 搜索用户列表 */
     getList() {
       this.listLoading = true;

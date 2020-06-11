@@ -232,7 +232,8 @@ export default {
 .videolist {
   .el-col > div {
     border: solid 2px #f6f7fa;
-    background: #cccccc;
+    background: url(../../../assets/image/img_monitor_bj.jpg) no-repeat;
+    background-size:100% 100%;
     height: 280px;
     width: 100%;
     box-sizing: border-box;
