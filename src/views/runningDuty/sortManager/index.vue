@@ -33,14 +33,14 @@
                 </div>
             </el-row>
             <div class="scheduletitle">- {{dutyName}} {{year}}年{{month}}月排班表 -</div>
-            <el-table v-loading="listLoading" :data="tableList" border :height="tableHeight">
+            <el-table @row-click="handleRowClick" v-loading="listLoading" :data="tableList" border :height="tableHeight">
                 <template slot="empty">
                     <div class="nodata-box">
                         <img src="../../../assets/image/nodata.png" />
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <el-table-column label="岗位" fixed="left" prop="PositionName" />
+                <el-table-column :label="activeName==1?'人员':'岗位'" fixed="left" prop="name" />
                 <el-table-column align="center" v-for="(item,index) in columns" :key="index" :label="item.sortDate" :prop="item.date" width="115">
                     <template slot="header">
                         <div>{{item.sortDate}}号</div>
@@ -50,89 +50,49 @@
             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
-            <el-dialog :title="'人员排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
+            <el-dialog :title="'排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
                 <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
                     <el-form-item label="值班班组" prop="dutyteamId">
                         <el-select disabled v-model="form.dutyteamId" clearable placeholder="请选择值班班组" style="width:100%">
                             <el-option v-for="(item,index) in dutyteamIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="值班日期" prop="time">
-                        <el-date-picker :disabledDate="handleDate" v-model="form.time" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-form-item label="值班日期" prop="Date">
+                        <el-date-picker :picker-options="pickerOptions" v-model="form.Date" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
-                    <div v-if='activeName==1'>
-                        <el-form-item label="人员" prop="memberName">
-                            <el-input v-model="form.memberName" placeholder="请选择人员" @focus="getMembers"></el-input>
-                        </el-form-item>
-                        <el-form-item label="岗位" prop="type" v-if='activeName==1'>
-                            <el-checkbox-group v-model="form.type">
-                                <el-checkbox label="白班值班"></el-checkbox>
-                                <el-checkbox label="晚班值班"></el-checkbox>
-                            </el-checkbox-group>
+                    <div v-if="type==1">
+                        <el-form-item :label="item.PositionName" :key="index" v-for="(item,index) in Data">
+                            <el-input :value="item.Employees.filter(v=>v.IsSelect).map(v=>v.Name).join(',')" placeholder="请选择人员" @focus="getMembers(item)"></el-input>
                         </el-form-item>
                     </div>
                     <div v-else>
-                        <el-form-item label="白班值班" prop="daymemberName" v-for="">
-                            <el-input v-model="form.daymemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+                        <el-form-item label="人员">
+                            <el-input :value="Employee.EmployeeName" placeholder="请选择人员" @focus="getMembers"></el-input>
                         </el-form-item>
-                        <el-form-item label="晚班值班" prop="eveningmemberName">
-                            <el-input v-model="form.eveningmemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
+                        <el-form-item label="岗位">
+                            <el-checkbox v-model="item.IsSelect" v-for="(item,index) in Employee.Positions" :key="index">{{item.Name}}</el-checkbox>
                         </el-form-item>
                     </div>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="handlecheck">保 存</el-button>
-                    <el-button @click="dialogAddVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="handlecheck" :loading="loading">保 存</el-button>
+                    <el-button @click="dialogAddVisible = false" :loading="loading">取 消</el-button>
                 </span>
             </el-dialog>
-            <!-- <el-dialog title="日期排班维护" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
-        <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
-          <el-form-item label="值班班组" prop="dutyteamId">
-            <el-select v-model="form.dutyteamId" clearable placeholder="请选择值班班组" style="width:100%">
-              <el-option v-for="(item,index) in dutyteamIds" :key="index" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="值班日期" prop="time">
-            <el-date-picker v-model="form.time" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-          </el-form-item>
-          <div v-if='activeName==1'>
-            <el-form-item label="人员" prop="memberName">
-              <el-input v-model="form.memberName" placeholder="请选择人员" @focus="getMembers"></el-input>
-            </el-form-item>
-            <el-form-item label="岗位" prop="type" v-if='activeName==1'>
-              <el-checkbox-group v-model="form.type">
-                <el-checkbox label="白班值班"></el-checkbox>
-                <el-checkbox label="晚班值班"></el-checkbox>
-              </el-checkbox-group>
-            </el-form-item>
-          </div>
-          <div v-else>
-            <el-form-item label="白班值班" prop="daymemberName">
-              <el-input v-model="form.daymemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
-            </el-form-item>
-            <el-form-item label="晚班值班" prop="eveningmemberName">
-              <el-input v-model="form.eveningmemberName" placeholder="请选择人员" @focus="getMembers"></el-input>
-            </el-form-item>
-          </div>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlecheck">保 存</el-button>
-          <el-button @click="dialogAddVisible = false">取 消</el-button>
-        </span>
-      </el-dialog> -->
+
             <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="550px" append-to-body>
-                <el-form :model="copyform" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
-                    <el-form-item label="排班日期" prop="timebegin">
-                        <el-date-picker v-model="copyform.timebegin" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                <el-form :model="copyform" ref="queryCopyForm" class="xl-query" :rules="mrules" label-width="130px">
+                    <el-form-item label="排班日期" prop="starttime">
+                        <el-date-picker :picker-options="pickerOptions" v-model="copyform.starttime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="至" prop="timeend">
-                        <el-date-picker v-model="copyform.timeend" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-form-item label="至" prop="endtime">
+                        <el-date-picker :picker-options="pickerOptions" v-model="copyform.endtime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="复制起始日期" prop="copybegintime">
-                        <el-date-picker v-model="copyform.copybegintime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-form-item label="复制起始日期" prop="copystart">
+                        <el-date-picker :picker-options="pickerOptions" v-model="copyform.copystart" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="复制次数" prop="count">
-                        <el-input-number v-model="copyform.count" controls-position="right" :min="1" />
+                    <el-form-item label="复制次数" prop="copytime">
+                        <el-input-number v-model="copyform.copytime" controls-position="right" :min="1" />
                     </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
@@ -143,13 +103,14 @@
 
             <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
                 <el-scrollbar style="height: 86vh;">
-                    <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+                    <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="Id" ref="tree" show-checkbox :highlight-current="true" @check-change="checkchange" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
                 </el-scrollbar>
                 <div class="dialog-footer">
                     <el-button type="primary" @click="handleMemberscheck">保 存</el-button>
                     <el-button @click="dialogMemberVisible = false">取 消</el-button>
                 </div>
             </el-drawer>
+
         </div>
 
     </div>
@@ -159,8 +120,10 @@
 import {
     fetchList,
     addByPosition,
-    addByPersona,
-    add
+    addByPerson,
+    add,
+    deleted,
+    copycopy
 } from "@/api/runningDuty/sortManager";
 import { getTenantEmployees } from "@/api/org";
 import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
@@ -178,11 +141,16 @@ export default {
         ];
         const mrules = {
             dutyteamId: rule,
-            time: rule
+            Date: rule,
+            starttime: rule,
+            endtime: rule,
+            copystart: rule,
+            copytime: rule
         };
         return {
             // 遮罩层
             listLoading: true,
+            loading: false,
             // 选中数组
             ids: [],
             // 非单个禁用
@@ -192,18 +160,14 @@ export default {
             // 总条数
             total: 0,
             // 用户表格数据
-            dataList: null,
+            dataList: [],
             tableHeight: "calc(100% - 210px)",
             rules: {},
             activeName: "0",
             dialogMemberVisible: false,
             dialogAddVisible: false,
             dialogRotationVisible: false,
-            memberTree: [],
-            defaultProps: {
-                children: "childs",
-                label: "text"
-            },
+
             mrules,
             // 搜索参数
             queryParams: {
@@ -215,33 +179,26 @@ export default {
             },
             dutyteamIds: [],
             form: {
-                model: {
-                    dutyteamId: "",
-                    Date: "",
-                    Data: []
-                },
                 dutyteamId: "",
-                time: "",
-                memberName: "",
-                memberId: "",
-                type: [],
-                daymemberName: "",
-                daymemberId: "",
-                eveningmemberName: "",
-                eveningmemberId: ""
+                Date: ""
             },
-            form1: {},
             copyform: {
-                timebegin: "",
-                timeend: "",
-                copybegintime: "",
-                count: ""
+                starttime: "",
+                endtime: "",
+                copystart: "",
+                copytime: 1,
+                dutyteamId: ""
             },
             time: "",
             year: "",
             month: "",
             dutyName: "",
-            shifts: []
+            shifts: [],
+            memberTree: [],
+            checkPositionId: "",
+            Data: [],
+            type: 1,
+            Employee: {}
         };
     },
 
@@ -251,6 +208,9 @@ export default {
         this.getShifts();
     },
     computed: {
+        defaultProps() {
+            return { children: "childs", label: "Name" };
+        },
         columns() {
             const list = [];
 
@@ -274,6 +234,37 @@ export default {
             return list;
         },
         tableList() {
+            let nameList;
+            let propName;
+            let propName1;
+            if (this.activeName == 1) {
+                propName = "EmployeeName";
+                propName1 = "PositionName";
+            } else {
+                propName = "PositionName";
+                propName1 = "EmployeeName";
+            }
+            nameList = [...new Set(this.dataList.map(v => v[propName]))];
+
+            return nameList.map(v => {
+                const name = v;
+                const data = { name };
+                this.columns.forEach(i => {
+                    const value = this.dataList
+                        .filter(v => {
+                            return (
+                                v.Time.substr(0, 10) == i.date &&
+                                v[propName] == name
+                            );
+                        })
+                        .map(v => v[propName1])
+                        .join(",");
+                    this.$set(data, i.date, value);
+                });
+                return data;
+            });
+        },
+        tableList1() {
             return this.dataList
                 ? this.dataList.map(v => {
                       const data = {};
@@ -291,6 +282,23 @@ export default {
                       return data;
                   })
                 : [];
+        },
+        pickerOptions() {
+            let _this = this;
+            return {
+                disabledDate(date) {
+                    if (
+                        date < new Date(_this.columns[0].date + " 00:00:00") ||
+                        date >
+                            new Date(
+                                _this.columns[_this.columns.length - 1].date +
+                                    " 23:59:59"
+                            )
+                    )
+                        return true;
+                    return false;
+                }
+            };
         }
     },
     methods: {
@@ -308,16 +316,7 @@ export default {
         },
         handleChangeDutyTeam() {
             this.form.dutyteamId = this.queryParams.dutyteamId;
-            this.form1.dutyteamId = this.queryParams.dutyteamId;
-        },
-        handleDate(date) {
-            if (
-                date < this.columns[0] ||
-                date > this.columns[this.columns.length - 1]
-            )
-                return true;
-
-            return false;
+            this.copyform.dutyteamId = this.queryParams.dutyteamId;
         },
         getShifts() {
             GetShifts({}).then(r => {
@@ -338,12 +337,12 @@ export default {
         getMonthDay(year, month) {
             return new Date(year, month, 0).getDate();
         },
-        handleClick(tab, event) {
-            // this.resetQuery("queryForm");
-            // this.queryParams.patroltimeend = "";
-            // this.getList(this.activeName);
+        handleClick(tab, event) {},
+        handleRowClick(tab, event) {
+            if (this.activeName == 1) {
+                this.handleAdd1();
+            }
         },
-
         /** 搜索用户列表 */
         getList() {
             const time = this.queryParams.time.split("-");
@@ -359,8 +358,9 @@ export default {
             this.listLoading = true;
             fetchList(this.queryParams)
                 .then(response => {
-                    // this.dataList = response.data;
+                    this.dataList = response.data || [];
                     this.total = response.total;
+                    return;
                     var afterData = [];
                     response.data.forEach(item => {
                         let flag = afterData.find(
@@ -382,11 +382,15 @@ export default {
                 });
         },
         // 选择人员
-        getMembers() {
+        getMembers(item) {
+            if (this.type == 1) {
+                this.checkPositionId = item.PositionId;
+                this.memberTree = item.Employees;
+            } else {
+                this.memberTree = this.Data;
+            }
+
             this.dialogMemberVisible = true;
-            getTenantEmployees({}).then(response => {
-                this.memberTree = response.data;
-            });
         },
         /** 搜索按钮操作 */
         handleQuery() {
@@ -400,59 +404,178 @@ export default {
         },
 
         checkchange(data, checked) {
+            if (this.type == 1) return;
             if (checked) {
                 const target = this.$refs.tree;
-                target.setCheckedKeys([data.id]);
+                target.setCheckedKeys([data.Id]);
             }
         },
         /** 新增按钮操作 */
         handleAdd() {
+            this.type = 1;
+            this.form.Date = "";
+            this.Data = [];
             const dutyteamId = this.form.dutyteamId;
             if (!dutyteamId) {
                 this.$message.error("请先选择一个班组");
                 return;
             }
-            addByPosition({ dutyteamId });
+            addByPosition({ dutyteamId }).then(r => {
+                this.Data = r.data || [];
+            });
+
+            this.dialogAddVisible = true;
+        },
+        handleAdd1() {
+            this.type = 0;
+            this.form.Date = "";
+            this.Employee = {};
+            this.Data = [];
+            const dutyteamId = this.form.dutyteamId;
+            if (!dutyteamId) {
+                this.$message.error("请先选择一个班组");
+                return;
+            }
+            addByPerson({ dutyteamId }).then(r => {
+                this.Data = r.data || [];
+                this.Data.map(v => {
+                    v.Name = v.EmployeeName;
+                });
+            });
+
             this.dialogAddVisible = true;
         },
         // 复制
         handleCopy() {
             this.dialogRotationVisible = true;
         },
-        handlecheck() {},
-        handleCopyCheck() {},
+        handlecheck() {
+            this.$refs.queryForm.validate(v => {
+                if (v) {
+                    const Data = [];
+                    let error = false;
+                    let error1 = false;
+                    if (this.type == 1) {
+                        this.Data.forEach(v => {
+                            const PositionId = v.PositionId;
+                            const PositionName = v.PositionName;
+                            let list = v.Employees.filter(v => v.IsSelect);
+                            if (list.length == 0) {
+                                error = true;
+                            }
+                            list.forEach(v => {
+                                const EmployeeId = v.Id;
+                                const EmployeeName = v.Name;
+                                Data.push({
+                                    PositionId,
+                                    PositionName,
+                                    EmployeeId,
+                                    EmployeeName
+                                });
+                            });
+                        });
+                    } else {
+                        const EmployeeId = this.Employee.EmployeeId;
+                        if (EmployeeId) {
+                            const EmployeeName = this.Employee.EmployeeName;
+                            this.Employee.Positions.filter(
+                                v => v.IsSelect
+                            ).forEach(v => {
+                                const PositionId = v.Id;
+                                const PositionName = v.Name;
+                                Data.push({
+                                    PositionId,
+                                    PositionName,
+                                    EmployeeId,
+                                    EmployeeName
+                                });
+                            });
+                            if (Data.length == 0) {
+                                error1 = true;
+                            }
+                        } else error = true;
+                    }
+                    if (error) {
+                        this.$message.error("请选择值班人员");
+                        return;
+                    }
+                    if (error1) {
+                        this.$message.error("请选择岗位");
+                        return;
+                    }
+                    this.loading = true;
+                    const dutyteamId = this.form.dutyteamId;
+                    const Date = this.form.Date;
+                    add({
+                        model: {
+                            dutyteamId,
+                            Date,
+                            Data
+                        }
+                    })
+                        .then(r => {
+                            this.getList();
+                            this.$message.success("添加成功");
+                            this.dialogAddVisible = false;
+                        })
+                        .finally(() => (this.loading = false));
+                }
+            });
+        },
+        handleCopyCheck() {
+            this.$refs.queryCopyForm.validate(v => {
+                if (v) {
+                    copycopy(this.copyform).then(r => {
+                        this.getList();
+                        this.$message.success("复制成功");
+                        this.dialogRotationVisible = false;
+                    });
+                }
+            });
+        },
         handleMemberscheck() {
-            var arr = this.$refs.tree.getCheckedNodes();
-            if (arr.length) {
-                this.form.memberName = arr[0].text;
-                this.form.memberId = arr[0].id;
-                this.dialogMemberVisible = false;
+            if (this.type == 1) {
+                var arr = this.$refs.tree.getCheckedKeys();
+                if (arr.length) {
+                    this.Data.forEach(v => {
+                        if (v.PositionId == this.checkPositionId) {
+                            v.Employees.forEach(v => {
+                                v.IsSelect = false;
+                                arr.forEach(i => {
+                                    if (i == v.Id) v.IsSelect = true;
+                                });
+                            });
+                        }
+                    });
+                    this.dialogMemberVisible = false;
+                } else {
+                    this.$message.error("请选择人员");
+                }
             } else {
-                this.$message.error("请选择人员");
+                let node = this.$refs.tree.getCheckedNodes();
+                if (node.length) {
+                    this.Employee = node[0];
+                    this.dialogMemberVisible = false;
+                } else {
+                    this.$message.error("请选择人员");
+                }
             }
         },
 
         /** 删除按钮操作 */
         handleDelete(row) {
-            const userIds = row.userId || this.ids;
-            this.$confirm(
-                '是否确认删除用户编号为"' + userIds + '"的数据项？',
-                "警告",
-                {
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    type: "warning"
-                }
-            )
+            const ids = this.dataList.map(v => v.Id);
+            this.$confirm("是否确认删除排班数据？", "警告", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            })
                 .then(function() {
-                    return delUser(userIds);
+                    return deleted({ ids });
                 })
                 .then(() => {
                     this.getList();
                     this.msgSuccess("删除成功！");
-                })
-                .catch(function() {
-                    this.msgSuccess("操作失败！");
                 });
         }
     }

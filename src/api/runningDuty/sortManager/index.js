@@ -1,4 +1,4 @@
-import { post } from "@/utils/request";
+import { post, post2 } from "@/utils/request";
 const commonUrl = "biz";
 
 // 值班信息表
@@ -6,7 +6,7 @@ export function fetchList(data) {
   return post("/DutySchedule/Gets", data, commonUrl);
 }
 export function add(data) {
-  return post("/DutySchedule/Create", data, commonUrl);
+  return post2("/DutySchedule/Create", data, commonUrl);
 }
 export function update(data) {
   return post("/DutySchedule/Modify", data, commonUrl);
@@ -20,6 +20,9 @@ export function getInfo(data) {
 export function addByPosition(data) {
   return post("/DutySchedule/InitializeCreateByPosition", data, commonUrl);
 }
-export function addByPersonn(data) {
+export function addByPerson(data) {
   return post("/DutySchedule/InitializeCreateByEmployee", data, commonUrl);
+}
+export function copycopy(data) {
+  return post("/DutySchedule/Copy", data, commonUrl);
 }
