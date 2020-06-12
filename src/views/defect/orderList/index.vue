@@ -57,11 +57,7 @@
         <el-table-column label="缺陷编号" sortable width="180" prop="No"></el-table-column>
         <el-table-column label="用电单位" sortable min-width="230" prop="TenantName"></el-table-column>
         <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
-        <el-table-column label="缺陷等级" sortable width="120" prop="Rank">
-          <template slot-scope="scope">
-            {{formatterRank(scope.row.Rank)}}
-          </template>
-        </el-table-column>
+        <el-table-column label="缺陷等级" sortable width="120" prop="RankName"></el-table-column>
         <el-table-column label="缺陷现象" min-width="250" prop="Description"></el-table-column>
         <el-table-column label="发现时间" width="120" prop="DetectTime">
           <template slot-scope="scope">
@@ -75,15 +71,10 @@
             <span v-else><i class="red dot"></i>未消缺</span>
           </template>
         </el-table-column>
-        <el-table-column label="状态" sortable width="90" prop="Status">
-          <template slot-scope="scope">
-            {{formatterStatus(scope.row.Status)}}
-          </template>
-        </el-table-column>
+        <el-table-column label="状态" sortable width="90" prop="BugStatusName"></el-table-column>
         <el-table-column label="操作" fixed="right" width="240">
           <template slot-scope="scope">
             <div>
-
               <el-button type="text" size="mini" @click="handleLook(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
@@ -177,28 +168,28 @@ export default {
         this.TenantIds = res.data;
       });
     },
-    formatterStatus(status) {
-      if (status == 0) {
-        return "登记";
-      } else if (status == 1) {
-        return "消缺";
-      } else if (status == 2) {
-        return "验收";
-      } else if (status == 3) {
-        return "完成";
-      } else if (status == "") {
-        return "全部";
-      }
-    },
-    formatterRank(rank) {
-      if (rank == 1) {
-        return "一般缺陷";
-      } else if (rank == 2) {
-        return "紧急缺陷";
-      } else if (rank == 3) {
-        return "严重缺陷";
-      }
-    },
+    // formatterStatus(status) {
+    //   if (status == 0) {
+    //     return "登记";
+    //   } else if (status == 1) {
+    //     return "消缺";
+    //   } else if (status == 2) {
+    //     return "验收";
+    //   } else if (status == 3) {
+    //     return "完成";
+    //   } else if (status == "") {
+    //     return "全部";
+    //   }
+    // },
+    // formatterRank(rank) {
+    //   if (rank == 1) {
+    //     return "一般缺陷";
+    //   } else if (rank == 2) {
+    //     return "紧急缺陷";
+    //   } else if (rank == 3) {
+    //     return "严重缺陷";
+    //   }
+    // },
 
     /** 搜索按钮操作 */
     handleQuery() {
