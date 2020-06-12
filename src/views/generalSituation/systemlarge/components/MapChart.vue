@@ -165,7 +165,7 @@ export default {
             },
             label: {
               normal: {
-                show: true,
+                show: false,
                 position: "right", //显示位置
                 offset: [5, 0], //偏移设置
                 formatter: function(params) {
@@ -268,7 +268,7 @@ export default {
           min: 0,
           max: 1,
           calculable: true,
-          color: ["#2178ff", "#06fdff", "#d2feff"],
+          color: [ "#06fdff","#2178ff", "#d2feff"],
           textStyle: {
             color: "#fff"
           }

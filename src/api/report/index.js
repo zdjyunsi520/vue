@@ -18,6 +18,18 @@ export function getPowerRoomByTenantId (data) {
     return post("/EntityRelation/GetTenantSwitchRooms", data, "org");
 }
 
+
+// 获取摄像头列表
+export function getMonitor (data) {
+    return post("/VideoMonitor/GetMonitor", data, commonUrl);
+}
+// 获取摄像头播放地址
+export function getPlayUrl (data) {
+    return post("/VideoMonitor/GetPlayUrl", data, commonUrl);
+}
+
+
+
 // 值班统计
 export function getDutyScheduleReport (data) {
     return post("/DutyScheduleReport/GetReport", data, commonUrl);

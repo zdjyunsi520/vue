@@ -55,8 +55,7 @@
 </template>
 
 <script>
-import { getPlayUrl } from "@/api/dev";
-import { getMonitor } from "@/api/org";
+import { getPlayUrl ,getMonitor} from "@/api/report";
 export default {
   name: "components",
   data() {

@@ -11,8 +11,3 @@ export function getServer (data) {
     return post("/DataServer/Get", data, commonUrl);
 }
 
-// 获取摄像头播放地址
-export function getPlayUrl (data) {
-    return post("/Monitor/GetPlayUrl", data, commonUrl);
-}
-

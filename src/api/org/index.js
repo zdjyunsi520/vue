@@ -25,8 +25,3 @@ export function getTenantEmployees () {
     return post("/Employee/GetTenantEmployees", {}, commonUrl);
 }
 
-// 获取摄像头列表
-export function getMonitor (data) {
-    return post("/EntityRelation/GetMonitor", data, commonUrl);
-}
-
