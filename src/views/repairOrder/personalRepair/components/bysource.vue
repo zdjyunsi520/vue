@@ -6,9 +6,66 @@
                 <el-tab-pane label="按业务来源统计" name="1"></el-tab-pane>
                 <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
             </el-tabs>
-            <year></year>
+            <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+                <el-form-item label="用电单位：" prop='tenantid'>
+                    <el-select v-model="queryParams.tenantid" clearable placeholder="请选择">
+                        <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="年度：" v-if="activeName=='0'" prop='patrolYear'>
+                    <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
+                </el-form-item>
+                <el-form-item label="抢修日期：" v-else prop='timeBegin'>
+                    <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    至
+                    <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                </el-form-item>
 
+                <el-form-item label="业务来源：" v-if="activeName!='1'" prop='repairsource'>
+                    <el-select v-model="queryParams.repairsource" clearable placeholder="请选择">
+                        <el-option value="">全部</el-option>
+                        <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="状态：" v-if="activeName!='2'" prop='status'>
+                    <el-select v-model="queryParams.status" clearable placeholder="请选择">
+                        <el-option value="">全部</el-option>
+                        <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
+                    <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+                    <el-button :loading="downloadLoading" @click="handleExport">
+                        <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+                        导出
+                    </el-button>
+                </el-form-item>
+            </el-form>
         </div>
+        <div class="bg-white containerbox marginbottom15" ref="containerbox">
+            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:20px'>
+
+                <template slot="empty">
+                    <div class="nodata-box">
+                        <img src="@/assets/image/nodata.png" class="smimg" />
+                        <p>暂时还没有数据</p>
+                    </div>
+                </template>
+                <el-table-column label="抢修人员" fixed="left" min-width="120" prop="EmployeeName"></el-table-column>
+                <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item">
+                    <template slot-scope="{row}">
+                        {{row.CountByMonth[index]}}
+                    </template>
+                </el-table-column>
+            </el-table>
+            <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+        </div>
+        <div class="bg-white containerbox  chart-wrapper">
+            <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
+            <p v-else class="tips" style="padding-top:13%">暂无数据</p>
+        </div>
+
     </div>
 </template>
 
@@ -18,11 +75,11 @@ import {
     userReportByNature,
     userReportByExecute
 } from "@/api/repairOrder/personalCount";
-import year from "./components/year";
+import BarChart from "../../components/BarChart";
 import { getChildrenList } from "@/api/org";
 export default {
     components: {
-        year
+        BarChart
     },
     data() {
         return {
