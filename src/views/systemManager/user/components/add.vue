@@ -178,7 +178,20 @@ export default {
   margin-top: -10px;
   width: 100%;
 }
-.switch-mx {
+/deep/.switchStyle.switch-mx {
   width: 70px !important;
+}
+/deep/.switchStyle.switch-mx .el-switch__core,
+/deep/.el-switch.switch-mx .el-switch__label,
+/deep/.switch-mx .el-switch__core {
+  width: 80px !important;
+}
+
+/deep/.switch-mx .el-switch__label--left {
+  left: 3px !important;
+}
+/deep/.switch-mx .el-switch__label--right {
+  z-index: 9;
+  left: -20px;
 }
 </style>

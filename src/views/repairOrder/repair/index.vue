@@ -10,8 +10,8 @@
                 <el-form-item label="工单编号：" prop="OrderCode">
                     <el-input v-model="queryParams.OrderCode"></el-input>
                 </el-form-item>
-                <el-form-item label="业务来源：" prop="BizSource">
-                    <el-select v-model="queryParams.BizSource" placeholder="全部">
+                <el-form-item label="业务来源：" prop="RepairSource">
+                    <el-select v-model="queryParams.RepairSource" placeholder="全部">
                         <el-option label="用户报修" :value="1"></el-option>
                         <el-option label="故障告警" :value="2"></el-option>
                     </el-select>
@@ -42,7 +42,8 @@
                     </div>
                 </template>
                 <el-table-column label="工单编号" width="180" sortable prop="OrderCode"></el-table-column>
-                <el-table-column label="业务来源" width="120" sortable prop="BizSource" :formatter="formatterOrderResource"></el-table-column>
+                <el-table-column label="业务来源" width="120" sortable prop="RepairSource" :formatter="formatterOrderResource">
+                </el-table-column>
                 <el-table-column label="用电单位" min-width="200" sortable prop="SourceTenantName"></el-table-column>
                 <el-table-column label="故障地址" min-width="220" prop="Address"></el-table-column>
                 <el-table-column label="故障现象" min-width="250" prop="Situation"></el-table-column>
@@ -90,7 +91,7 @@ export default {
                 pagesize: 30,
                 tenantId: "",
                 OrderCode: "",
-                BizSource: "",
+                RepairSource: "",
                 status: ""
             },
             downloadLoading: false,
@@ -155,7 +156,8 @@ export default {
             return this.repairOrderKV[row.Status];
         },
         formatterOrderResource(row) {
-            return this.orderResourceKV[row.BizSource];
+            // return row.RepairSource==1?'用户报修':'故障告警';
+            return this.orderResourceKV[row.RepairSource];
         },
         formatterUrgency(row) {
             return this.urgencyKV[row.EmergencyLevel];
@@ -179,7 +181,7 @@ export default {
             const TenantIds = this.TenantIds;
             this.$router.push({
                 name: "/repairOrder/repair/components/add",
-                params: { data: { BizSource: 1 }, title, TenantIds, ranks }
+                params: { data: { RepairSource: 1 }, title, TenantIds, ranks }
             });
         },
         /** 编辑按钮操作 */

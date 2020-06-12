@@ -20,24 +20,29 @@
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
-        <el-button type="primary" icon="el-icon-remove-outline" @click="handleBack">返回</el-button>
+        <el-button icon="el-icon-delete" plain @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="dataList?tableHeight:'0'">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
         <el-table-column type="selection" fixed="left" width="55" />
-        <el-table-column label="名称" prop="Name" />
-        <el-table-column label="代码" prop="Key" />
-        <el-table-column label="值" prop="Value" />
-        <el-table-column label="描述" prop="Description" />
-        <el-table-column label="状态" prop="IsLock" v-if="showSwitch">
+        <el-table-column label="名称" width='150' prop="Name" />
+        <el-table-column label="代码"  min-width='150'prop="Key" />
+        <el-table-column label="值"  min-width='160'prop="Value" />
+        <el-table-column label="描述" min-width='200'prop="Description" />
+        <el-table-column label="状态"  min-width='100'prop="IsLock" v-if="showSwitch">
           <template slot-scope="{row}">
             <el-switch v-model="row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
+            </el-button>
+            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
+            </el-button>
+         
           </template>
         </el-table-column>
       </el-table>
@@ -71,7 +76,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 125px)",
+      tableHeight: "calc(100% - 125px)",
       rules: {},
       // 搜索参数
       queryParams: {

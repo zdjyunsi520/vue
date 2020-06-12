@@ -1,40 +1,48 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box">
-      <!-- <p class="form-smtitle">{{title}}附件类型</p> -->
+      <!-- <p class="form-form-smtitle">{{title}}附件类型</p> -->
       <el-scrollbar>
-        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true">
+        <el-form ref="form" label-position="left" :model="form" :rules="rules" :inline-message="true">
           <el-row :gutter="20">
             <el-col :span="24">
-              <p class="smtitle">基础设置</p>
+              <p class="form-smtitle">基础设置</p>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="名称" prop="Name">
+            <el-col :span="12" :xs='24'>
+              <el-form-item label="名称："  label-width='70px' prop="Name">
                 <el-input v-model="form.Name" placeholder="请输入名称" />
               </el-form-item>
-              <el-form-item label="代码" prop="Key">
-                <el-input v-model="form.Key" placeholder="请输入代码" />
-              </el-form-item>
-              <el-form-item class="largelabel" label="是否多版本" prop="IsMultiVersion">
-                <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
-              </el-form-item>
-              <el-form-item class="largelabel" label="版本是否来自压缩包" prop="IsMultiVersionFromPackage">
-                <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
-              </el-form-item>
-              <el-form-item class="largelabel" label="删除数据同时删除文件" prop="IsRemoveFile">
-                <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
+            </el-col>
+            <el-col :span="6"    :xs='24'>
+              <el-form-item label="是否多版本：" label-width='110px'  prop="IsMultiVersion">
+                <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="描述" prop="Description">
+            <el-col :span="6"  :xs='24'>
+              <el-form-item label="版本是否来自压缩包："  label-width='165px' prop="IsMultiVersionFromPackage">
+                <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12"   :xs='24'>
+              <el-form-item label="代码：" label-width='70px' prop="Key">
+                <el-input v-model="form.Key" placeholder="请输入代码" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12"   :xs='24'>
+              <el-form-item label="删除数据同时删除文件：" label-width='180px' prop="IsRemoveFile">
+                <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24"  :xs='24'>
+              <el-form-item label="描述："  label-width='70px' prop="Description">
                 <el-input type="textarea" :rows="5" v-model="form.Description" placeholder="请输入描述" />
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle">附件路径设置</p>
+              <p class="form-smtitle">附件路径设置</p>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="目录组织方式" prop="DirectoryMode">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="目录组织方式：" label-width='120px' prop="DirectoryMode">
                 <el-select v-model="form.DirectoryMode" placeholder="">
                   <el-option label="不分目录" :value="11"></el-option>
                   <el-option label="不分目录保留文件名" :value="12"></el-option>
@@ -45,8 +53,8 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="数据存储方式" prop="StorageMode">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="数据存储方式：" label-width='120px' prop="StorageMode">
                 <el-select v-model="form.StorageMode" placeholder="">
                   <el-option label="目录存储" :value="1"></el-option>
                   <el-option label="数据库存储" :value="2"></el-option>
@@ -55,61 +63,61 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="附件访问方式" prop="AccessMode">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="附件访问方式：" label-width='120px' prop="AccessMode">
                 <el-select v-model="form.AccessMode" placeholder="">
                   <el-option label="普通方式访问" :value="1"></el-option>
                   <el-option label="授权方式访问" :value="2"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="FTP设置" prop="FTPSetting">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="FTP设置：" label-width='85px' prop="FTPSetting">
                 <el-input v-model="form.FTPSetting" placeholder="未使用FTP可不填" />
               </el-form-item>
             </el-col>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle">上传验证设置</p>
+              <p class="form-smtitle">上传验证设置</p>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="有效的文件后缀" prop="FilterFileExtensions">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="有效的文件后缀：" label-width='125px' prop="FilterFileExtensions">
                 <el-input v-model="form.FilterFileExtensions" placeholder='"*"表示所有类型后缀；多个后缀用","隔开' />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="允许文件最大值" prop="MaxFileSize">
-                <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" style="width:calc(100% - 20px)" />&nbsp;&nbsp;kb
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="允许文件最大值(kb)：" label-width='150px' prop="MaxFileSize">
+                <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" />
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle">上传图片设置</p>
+              <p class="form-smtitle">上传图片设置</p>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="是否生成缩略图" prop="IsGenerateThumbnail">
-                <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否" > </el-switch>
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="是否生成缩略图：" prop="IsGenerateThumbnail">
+                <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="文件大于该值时生成缩略图"  class="largelabel"  prop="ThumbnailMaxFileSize">
-                <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" style="width:calc(100% - 20px)" />&nbsp;&nbsp;kb
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="文件大于该值时生成缩略图(kb)：" label-width='220px' prop="ThumbnailMaxFileSize">
+                <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="缩略图规格" prop="ThumbnailSizes">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="缩略图规格：" label-width='100px' prop="ThumbnailSizes">
                 <el-input v-model="form.ThumbnailSizes" placeholder='宽高用"_"隔开,"*"表示自适应;多种规格用","隔开' />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="限制大小规格" prop="LimitSize">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="限制大小规格：" label-width='110px' prop="LimitSize">
                 <el-input v-model="form.LimitSize" placeholder="0时为不限制文件大小" />
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle">水印设置</p>
+              <p class="form-smtitle">水印设置</p>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="水印方式" prop="WatermarkMethod">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="水印方式：" label-width='85px' prop="WatermarkMethod">
                 <el-select v-model="form.WatermarkMethod">
                   <el-option label="请选择" :value="0"></el-option>
                   <el-option label="无水印" :value="1"></el-option>
@@ -118,13 +126,13 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="水印文字" prop="WatermarkText">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="水印文字：" label-width='85px' prop="WatermarkText">
                 <el-input v-model="form.WatermarkText" placeholder="请输入水印文字" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="水印水平对齐方式"   class="largelabel1" prop="WatermarkHorizontalAlign">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="水印水平对齐方式：" label-width='150px' class="largelabel1" prop="WatermarkHorizontalAlign">
                 <el-select v-model="form.WatermarkHorizontalAlign">
                   <el-option label="未设置" value="NotSet"></el-option>
                   <el-option label="居左" value="Left"></el-option>
@@ -134,14 +142,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="水印图片URL" prop="WatermarkImageUrl">
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="水印图片URL：" label-width='115px' prop="WatermarkImageUrl">
                 <el-input v-model="form.WatermarkImageUrl" placeholder="请输入水印图片URL" />
               </el-form-item>
             </el-col>
-            <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="水印水平垂直方式" class="largelabel2" prop="WatermarkVerticalAlign">
-                <el-select v-model="form.WatermarkVerticalAlign" >
+            <el-col :span="12"  :xs='24'>
+              <el-form-item label="水印水平垂直方式：" label-width='150px' class="largelabel2" prop="WatermarkVerticalAlign">
+                <el-select v-model="form.WatermarkVerticalAlign">
                   <el-option label="未设置" value="NotSet"></el-option>
                   <el-option label="顶部" value="Top"></el-option>
                   <el-option label="居中" value="Middle"></el-option>
@@ -269,9 +277,7 @@ export default {
         params: {}
       });
     },
-    handleUpdateStatus(row){
-
-    },
+    handleUpdateStatus(row) {},
     /** 提交按钮 */
     handleSubmit: function() {
       this.$refs["form"].validate(valid => {
@@ -283,8 +289,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
               //关闭窗口
               this.handleOpen();
             })
@@ -311,30 +317,29 @@ export default {
   width: 100%;
 }
 
-/deep/.largelabel{
-
-.el-form-item__label {
+/deep/.largelabel {
+  .el-form-item__label {
     width: 180px !important;
   }
-  .el-form-item__content{
-  margin-left: 180px !important;
+  .el-form-item__content {
+    margin-left: 180px !important;
   }
-} 
+}
 
 /deep/.largelabel1 {
   .el-form-item__label {
     width: 140px !important;
   }
-  .el-form-item__content{
-  margin-left: 140px !important;
+  .el-form-item__content {
+    margin-left: 140px !important;
   }
 }
-/deep/.largelabel2{
+/deep/.largelabel2 {
   .el-form-item__label {
     width: 140px !important;
   }
-  .el-form-item__content{
-  margin-left: 140px !important;;
+  .el-form-item__content {
+    margin-left: 140px !important;
   }
 }
 .avatar {

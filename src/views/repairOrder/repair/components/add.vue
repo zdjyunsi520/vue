@@ -34,8 +34,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="11" :xs="24">
-                            <el-form-item label="业务来源" prop="BizSource">
-                                <el-select v-model="form.BizSource" :disabled="true">
+                            <el-form-item label="业务来源" prop="RepairSource">
+                                <el-select v-model="form.RepairSource" :disabled="true">
                                     <el-option label="用户报修" :value="1"></el-option>
                                     <el-option label="故障告警" :value="2"></el-option>
                                 </el-select>
@@ -131,7 +131,7 @@ export default {
                     trigger: "blur"
                 }
             ],
-            BizSource: [
+            RepairSource: [
                 {
                     required: true,
                     message: "请选择业务来源",
@@ -358,7 +358,7 @@ export default {
                     Address: "",
                     ContactPerson: "",
                     ContactPhoneNo: "",
-                    BizSource: 2,
+                    RepairSource: 2,
                     RepairTenantId: "",
                     //RepairTenantName: "1",
                     ChargePersonId: "",

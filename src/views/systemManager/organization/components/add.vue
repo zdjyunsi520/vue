@@ -8,7 +8,7 @@
         <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px">
           <el-row :gutter="20">
             <el-col :span="24">
-              <p class="smtitle"> 基础信息 </p>
+              <p class="form-smtitle"> 基础信息 </p>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="上级单位" prop="parentId">
@@ -100,7 +100,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle"> 地图定位 </p>
+              <p class="form-smtitle"> 地图定位 </p>
             </el-col>
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="经度" prop="longitude">
@@ -130,19 +130,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" :xs='24'>
-              <p class="smtitle">附加属性&nbsp;
-                <el-checkbox v-model="form.attribute" :true-label="1" :false-label="0">用电</el-checkbox>
+              <p class="form-smtitle">附加属性
               </p>
             </el-col>
-            <!-- <el-col :span="23" :push="1" :xs='24'>
-            <el-col :span="3" :push="1" :xs='12'>
-                <el-form-item>
-                  <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="电务" @change="handleElectron">电务公司</el-radio>
-                </el-form-item>
-              </el-col> 
-              <el-col>
+            <el-col :span="23" :push="1" :xs='24'>
+              <el-form-item>
+                <el-checkbox v-model="form.attribute" :true-label="1" :false-label="0">用电</el-checkbox>
+                <!-- <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="电务" @change="handleElectron">电务公司</el-radio> -->
+              </el-form-item>
             </el-col>
-            </el-col>-->
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="立户日期" prop="starttime">
                 <el-date-picker v-model="form.starttime" type="date" placeholder="选择日期" :disabled="disabled">
@@ -160,7 +156,7 @@
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用电分类" prop="maintype">
                 <el-select v-model="form.maintype" :disabled="disabled" @change="handleChange3">
-                  <el-option label="请选择" value=""  />
+                  <el-option label="请选择" value="" />
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in electronType" />
                 </el-select>
               </el-form-item>
@@ -168,8 +164,8 @@
             <el-col :span="10" :push="2" :xs='24'>
               <el-form-item label="用电小类" prop="subtype">
                 <el-select v-model="form.subtype" :disabled="disabled">
-                   <el-option label="请选择" value=""  />
-                   <el-option :key="item.key" :label="item.value" :value="item.key" v-if="item.show==form.maintype" v-for="item in electronType1" />
+                  <el-option label="请选择" value="" />
+                  <el-option :key="item.key" :label="item.value" :value="item.key" v-if="item.show==form.maintype" v-for="item in electronType1" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -183,11 +179,11 @@
                 <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
               </el-form-item>
             </el-col>
-            
+
             <el-col :span="10" :push="1" :xs='24'>
               <el-form-item label="用户类型" prop="usertype">
                 <el-select v-model="form.usertype" :disabled="disabled">
-                  <el-option label="请选择" value=""  />
+                  <el-option label="请选择" value="" />
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in usertypes" />
                 </el-select>
               </el-form-item>
@@ -229,11 +225,11 @@ const electronType = [
   { key: 3, value: "低压居民" }
 ];
 const electronType1 = [
-  { key: 1, value: "大型专变用户",show:1 },
-  { key: 2, value: "中小型专变用户",show:1 },
-  { key: 3, value: "三相一般工商业用户",show:2 },
-  { key: 4, value: "单相一般工商业用户",show:2 },
-  { key: 5, value: "居民用户" ,show:3}
+  { key: 1, value: "大型专变用户", show: 1 },
+  { key: 2, value: "中小型专变用户", show: 1 },
+  { key: 3, value: "三相一般工商业用户", show: 2 },
+  { key: 4, value: "单相一般工商业用户", show: 2 },
+  { key: 5, value: "居民用户", show: 3 }
 ];
 const usertypes = [
   { key: 1, value: "工业" },
@@ -291,8 +287,7 @@ export default {
       keyword: "百度",
       remark123: "",
       remark: "",
-      points: [],
-
+      points: []
     };
   },
   created() {
@@ -365,21 +360,36 @@ export default {
         let parentId = row.ParentId;
         let phoneno = row.PhoneNo;
         let creditcode = row.CreditCode;
-        let artificialperson = row.ArtificialPerson ;
+        let artificialperson = row.ArtificialPerson;
 
         let longitude = row.Longitude;
         let latitude = row.Latitude;
         let industry = row.IndustryCode;
         let principleactivity = row.PrincipleActivityCode;
 
-        let attribute = row.Attribute ==1 ?1:0;
-        let starttime = row.StartTime
-        let voltlevel = row.VoltLevelText
-        let maintype = parseInt(this.electronType.filter(v=>v.value ==row.MainType ).map(v=>v.key).join(''));
-        let subtype = parseInt(this.electronType1.filter(v=>v.value ==row.SubType ).map(v=>v.key).join(''));
-        let usertype = parseInt(this.usertypes.filter(v=>v.value ==row.UserType ).map(v=>v.key).join(''));
-        let contractcapacity = row.ContractCapacity
-        let operatingcapacity = row.OperatingCapacity
+        let attribute = row.Attribute == 1 ? 1 : 0;
+        let starttime = row.StartTime;
+        let voltlevel = row.VoltLevelText;
+        let maintype = parseInt(
+          this.electronType
+            .filter(v => v.value == row.MainType)
+            .map(v => v.key)
+            .join("")
+        );
+        let subtype = parseInt(
+          this.electronType1
+            .filter(v => v.value == row.SubType)
+            .map(v => v.key)
+            .join("")
+        );
+        let usertype = parseInt(
+          this.usertypes
+            .filter(v => v.value == row.UserType)
+            .map(v => v.key)
+            .join("")
+        );
+        let contractcapacity = row.ContractCapacity;
+        let operatingcapacity = row.OperatingCapacity;
         if (longitude && latitude) {
           this.center = { lng: longitude, lat: latitude };
           this.points = [this.center];
@@ -404,7 +414,10 @@ export default {
           voltlevel,
           contractcapacity,
           operatingcapacity,
-          starttime,maintype,subtype,usertype
+          starttime,
+          maintype,
+          subtype,
+          usertype
         });
         this.reset(data);
       });
@@ -499,7 +512,7 @@ export default {
           starttime: "",
           maintype: "",
           subtype: "",
-          usertype:"",
+          usertype: "",
           contractcapacity: "",
           voltlevel: "",
           operatingcapacity: "",

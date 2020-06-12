@@ -83,7 +83,7 @@ export default {
     },
 
     setOptions({  title, xAxisData, listData } = {}) {
-      const sideData = listData.map(item => item + .5);
+      const sideData = listData.map(item => item + .6);
       this.chart.setOption({
         tooltip: {
           trigger: "axis",

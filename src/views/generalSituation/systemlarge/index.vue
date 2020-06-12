@@ -160,12 +160,15 @@
               <div class="circlebox circlebox-lx">
                 <div class='circle1'>
                   <canvas class="js-rotate-04" width="140" height="140"></canvas>
+                  <span></span>
                 </div>
                 <div class='circle2'>
                   <canvas class="js-rotate-05" width="90" height="90"></canvas>
+                  <span></span>
                 </div>
                 <div class='circle3'>
                   <canvas class="js-rotate-06" width="50" height="50"></canvas>
+                  <span></span>
                 </div>
 
               </div>

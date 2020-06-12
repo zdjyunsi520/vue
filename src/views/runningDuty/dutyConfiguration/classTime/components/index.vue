@@ -18,7 +18,7 @@
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button type="info" plain icon="el-icon-delete"  @click="handleDelete(null)" :disabled="multiple">删除</el-button>
         <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">

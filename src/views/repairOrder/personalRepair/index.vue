@@ -21,12 +21,12 @@
           <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
 
-        <el-form-item label="业务来源：" v-if="activeName=='0'" prop='source'>
+        <el-form-item label="业务来源：" v-if="activeName!='1'" prop='source'>
           <el-select v-model="queryParams.source" clearable placeholder="请选择">
             <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop='isexecute'>
+        <el-form-item label="状态：" v-if="activeName!='2'" prop='isexecute'>
           <el-select v-model="queryParams.isexecute" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>

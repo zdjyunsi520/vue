@@ -27,7 +27,7 @@
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" icon="el-icon-remove-outline" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
+        <el-button type="info" icon="el-icon-delete" plain @click="handleDelete(null)" :disabled="multiple">删除</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
         <template slot="empty">
@@ -46,7 +46,7 @@
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="text" @click="handleSubSettings(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>配置项
             </el-button>
             <el-button type="text" size="mini" @click="handleDelete(scope.row)">
@@ -157,7 +157,7 @@ export default {
       });
     },
     /** 编辑按钮操作 */
-    handleEdit(data) {
+    handleSubSettings(data) {
       const title = "编辑子项";
       this.$router.push({
         name: "/commonManager/settings/keyValue/index",

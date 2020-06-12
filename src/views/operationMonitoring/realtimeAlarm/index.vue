@@ -62,16 +62,16 @@
           <template slot-scope="scope">
             <div>
               <el-button type="text" size="mini" v-if="!scope.row.IsConfirmed" @click="handleCheck(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>确认
+                <svg-icon icon-class='ic_enable' class="tablesvgicon"></svg-icon>确认
               </el-button>
               <el-button type="text" size="mini" v-if="!scope.row.IsReported" @click="handleDispatch(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>派单
+                <svg-icon icon-class='ic_dispatch' class="tablesvgicon"></svg-icon>派单
               </el-button>
               <el-button type="text" size="mini" v-else  @click="handleToOrder(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>查看工单
+                <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看工单
               </el-button>
               <el-button type="text" size="mini" @click="handleMonitor(scope.row)">
-                <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>监控
+                <svg-icon icon-class='ic_video' class="tablesvgicon"></svg-icon>监控
               </el-button>
             </div>
           </template>
