@@ -1,35 +1,23 @@
 <template>
     <div class="app-container">
         <div class="search-box xl-querybox marginbottom15">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
-                <el-tab-pane label="按业务来源统计" name="1"></el-tab-pane>
-                <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
-            </el-tabs>
+
             <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
                 <el-form-item label="用电单位：" prop='tenantid'>
                     <el-select v-model="queryParams.tenantid" clearable placeholder="请选择">
+                        <el-option value="" label="全部"></el-option>
                         <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="年度：" v-if="activeName=='0'" prop='patrolYear'>
-                    <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
-                </el-form-item>
-                <el-form-item label="抢修日期：" v-else prop='timeBegin'>
-                    <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+
+                <el-form-item label="抢修日期：" prop='startdate'>
+                    <el-date-picker v-model="startdate" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                     至
-                    <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                 </el-form-item>
 
-                <el-form-item label="业务来源：" v-if="activeName!='1'" prop='repairsource'>
-                    <el-select v-model="queryParams.repairsource" clearable placeholder="请选择">
-                        <el-option value="">全部</el-option>
-                        <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="状态：" v-if="activeName!='2'" prop='status'>
+                <el-form-item label="状态：" prop='status'>
                     <el-select v-model="queryParams.status" clearable placeholder="请选择">
-                        <el-option value="">全部</el-option>
                         <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -45,19 +33,53 @@
         </div>
         <div class="bg-white containerbox marginbottom15" ref="containerbox">
             <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:20px'>
-
                 <template slot="empty">
                     <div class="nodata-box">
                         <img src="@/assets/image/nodata.png" class="smimg" />
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <el-table-column label="抢修人员" fixed="left" min-width="120" prop="EmployeeName"></el-table-column>
-                <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item">
+                <el-table-column align="center" label="抢修人员" fixed="left" width="200" prop="Name"></el-table-column>
+
+                <el-table-column align="center">
+                    <template slot="header">
+                        <el-row>
+                            <el-col :span="24">用户报修</el-col>
+                            <el-col :span="6">紧急</el-col>
+                            <el-col :span="6">重要</el-col>
+                            <el-col :span="6">一般</el-col>
+                            <el-col :span="6">小计</el-col>
+                        </el-row>
+                    </template>
                     <template slot-scope="{row}">
-                        {{row.CountByMonth[index]}}
+                        <el-row>
+                            <el-col :span="6">{{row.UserFatal}}</el-col>
+                            <el-col :span="6">{{row.UserEmergency}}</el-col>
+                            <el-col :span="6">{{row.UserNormal}}</el-col>
+                            <el-col :span="6">{{row.UserTotal}}</el-col>
+                        </el-row>
                     </template>
                 </el-table-column>
+                <el-table-column align="center">
+                    <template slot="header">
+                        <el-row>
+                            <el-col :span="24">故障报警</el-col>
+                            <el-col :span="6">紧急</el-col>
+                            <el-col :span="6">重要</el-col>
+                            <el-col :span="6">一般</el-col>
+                            <el-col :span="6">小计</el-col>
+                        </el-row>
+                    </template>
+                    <template slot-scope="{row}">
+                        <el-row>
+                            <el-col :span="6">{{row.AssetsFatal}}</el-col>
+                            <el-col :span="6">{{row.AssetsEmergency}}</el-col>
+                            <el-col :span="6">{{row.AssetsNormal}}</el-col>
+                            <el-col :span="6">{{row.AssetsTotal}}</el-col>
+                        </el-row>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="总计" prop="Total" width="200" />
             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
@@ -70,12 +92,8 @@
 </template>
 
 <script>
-import {
-    userReportByYear,
-    userReportByNature,
-    userReportByExecute
-} from "@/api/repairOrder/personalCount";
-import BarChart from "../../components/BarChart";
+import { userReportByNature as userReportByYear } from "@/api/repairOrder/personalCount";
+import BarChart from "./sourceBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
     components: {
@@ -90,12 +108,12 @@ export default {
                 pagesize: 30,
                 tenantid: "",
                 startdate: "",
-                repairsource: "",
+                enddate: "",
                 status: ""
             },
             patrolYear: "",
-            timeBegin: "",
-            timeEnd: "",
+            startdate: "",
+            enddate: "",
             dataList: null,
             total: 0,
             rules: {},
@@ -114,74 +132,70 @@ export default {
                 { name: "未完成", id: "1" },
                 { name: "已完成", id: "4" }
             ],
-            columns: [],
-            columns1: [
-                "1月",
-                "2月",
-                "3月",
-                "4月",
-                "5月",
-                "6月",
-                "7月",
-                "8月",
-                "9月",
-                "10月",
-                "11月",
-                "12月"
+            columns: ["紧急", "重要", "一般", "小计"],
+            props: ["UserFatal", "UserEmergency", "UserNormal", "UserTotal"],
+            props1: [
+                "AssetsFatal",
+                "AssetsEmergency",
+                "AssetsNormal",
+                "AssetsTotal"
             ],
-            columns2: ["总巡视数", "临时巡视", "定期巡视"],
-            columns3: ["总巡视数", "已执行", "未执行"],
-            props: [],
-            prop1: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sept",
-                "Oct",
-                "Nov",
-                "Dec"
-            ],
-            prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
-            prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
-            chartData: {}
+            chartData: {},
+            chartDataInit: {
+                series: [
+                    {
+                        name: "用户报修",
+                        type: "bar",
+                        // stack: 'vistors',
+                        barWidth: "40%",
+                        barMaxWidth: 50,
+                        data: [0, 0, 0, 0]
+                    },
+                    {
+                        name: "故障报警",
+                        type: "bar",
+                        // stack: 'vistors',
+                        barWidth: "40%",
+                        barMaxWidth: 50,
+                        data: [0, 0, 0, 0]
+                    }
+                ],
+                xAxisData: this.columns,
+                title: "总计 - 按业务来源统计"
+            }
         };
     },
 
     created() {
-        this.getList(this.activeName);
+        this.getList();
         this.getTenants();
     },
     methods: {
         handleClick(tab, event) {
             this.resetQuery("queryForm");
             this.patrolYear = "";
-            this.timeBegin = "";
-            this.timeEnd = "";
-            this.queryParams.patroltimebegin = "";
-            this.queryParams.patroltimeend = "";
+            this.startdate = "";
+            this.enddate = "";
+            this.queryParams.patrolstartdate = "";
+            this.queryParams.patrolenddate = "";
             this.getList(this.activeName);
         },
 
         /** 搜索按钮操作 */
         handleQuery() {
             this.queryParams.pageno = 1;
-            this.queryParams.patroltimebegin = this.getBeginTime();
-            this.queryParams.patroltimeend = this.getEndTime();
+            this.queryParams.patrolstartdate = this.getBeginTime();
+            this.queryParams.patrolenddate = this.getEndTime();
             this.getList(this.activeName);
         },
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
             this.patrolYear = "";
-            this.timeBegin = "";
-            this.timeEnd = "";
-            this.queryParams.patroltimebegin = "";
-            this.queryParams.patroltimeend = "";
+            this.startdate = "";
+            this.enddate = "";
+            this.queryParams.patrolstartdate = "";
+            this.queryParams.patrolenddate = "";
             this.handleQuery();
         },
         // 获取开始时间
@@ -192,8 +206,8 @@ export default {
                     begin = this.patrolYear + "-01-01 00:00:00";
                 }
             } else {
-                if (this.timeBegin != "") {
-                    begin = this.timeBegin + " 00:00:00";
+                if (this.startdate != "") {
+                    begin = this.startdate + " 00:00:00";
                 }
             }
             return begin;
@@ -206,89 +220,47 @@ export default {
                     end = this.patrolYear + "-12-31 23:59:59";
                 }
             } else {
-                if (this.timeEnd != "") {
-                    end = this.timeEnd + " 23:59:59";
+                if (this.enddate != "") {
+                    end = this.enddate + " 23:59:59";
                 }
             }
             return end;
         },
         // 巡视单位列表
         getTenants() {
-            getChildrenList()
-                .then(response => {
-                    this.TenantIds = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            getChildrenList().then(response => {
+                this.TenantIds = response.data;
+            });
         },
-        getList(activeName, row) {
-            const data = {
-                type: 1,
-                tenantId: this.queryParams.tenantId,
-                patroltimebegin: this.getBeginTime(),
-                patroltimeend: this.getEndTime()
-            };
-            let smtitle = "";
-
-            let fn;
-            switch (activeName) {
-                case "0":
-                    data.ptrolnature = this.queryParams.ptrolnature;
-                    data.isexecute = this.queryParams.isexecute;
-                    fn = userReportByYear;
-                    this.columns = this.columns1.slice(0);
-                    this.props = this.prop1.slice(0);
-                    smtitle = "-按年度统计";
-                    break;
-                case "1":
-                    data.isexecute = this.queryParams.isexecute;
-                    fn = userReportByNature;
-                    this.columns = this.columns2.slice(0);
-                    this.props = this.prop2.slice(0);
-                    smtitle = "-按巡视性质统计";
-                    break;
-                case "2":
-                    data.ptrolnature = this.queryParams.ptrolnature;
-                    fn = userReportByExecute;
-                    this.columns = this.columns3.slice(0);
-                    this.props = this.prop3.slice(0);
-                    smtitle = "-按完成情况统计";
-                    break;
-                default:
-                    break;
-            }
-            fn(data)
+        getList() {
+            this.chartData = Object.assign({}, this.chartDataInit);
+            userReportByYear(this.queryParams)
                 .then(res => {
                     if (!res.data) {
                         this.dataList = [];
                         return;
                     }
 
-                    this.dataList = res.data.reverse();
+                    this.dataList = res.data;
                     this.total = res.total;
-                    let arr = [];
-                    if (!row) {
-                        arr = this.dataList[this.dataList.length - 1];
-                    } else {
-                        arr = row;
-                    }
-                    this.chartData.listData = this.props.map(v => arr[v]);
-                    this.chartData.xAxisData = this.columns;
-                    this.chartData.title = arr.Name + smtitle;
+                    let arr = this.dataList[this.dataList.length - 1];
 
-                    this.$nextTick(() => {
-                        this.$refs.chart.initChart();
-                        this.$refs.table.doLayout();
-                    });
+                    this.chartData.series[0].data = this.props.map(v => arr[v]);
+                    this.chartData.series[1].data = this.props1.map(
+                        v => arr[v]
+                    );
+                    this.chartData.xAxisData = this.columns;
+                    this.chartData.title = arr.Name + " - 按业务来源统计";
                 })
                 .finally(r => {
                     this.listLoading = false;
                 });
         },
         // 点击行
-        handleRowInfo(row) {
-            this.getList(this.activeName, row);
+        handleRowInfo(arr) {
+            this.chartData.series[0].data = this.props.map(v => arr[v]);
+            this.chartData.series[1].data = this.props1.map(v => arr[v]);
+            this.chartData.title = arr.Name + " - 按业务来源统计";
         },
         totalstyle({ row, rowIndex }) {
             if (row.Name === "合计" || row.Name === "总计") {

@@ -6,23 +6,23 @@
                 <el-tab-pane label="按业务来源统计" name="1"></el-tab-pane>
                 <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
             </el-tabs>
-            <year></year>
-
+            <year v-if="activeName==0"></year>
+            <bysource v-if="activeName==1"></bysource>
+            <bycomplete v-if="activeName==2"></bycomplete>
         </div>
     </div>
 </template>
 
 <script>
-import {
-    userReportByYear,
-    userReportByNature,
-    userReportByExecute
-} from "@/api/repairOrder/personalCount";
 import year from "./components/year";
+import bysource from "./components/bysource";
+import bycomplete from "./components/bycomplete";
 import { getChildrenList } from "@/api/org";
 export default {
     components: {
-        year
+        year,
+        bysource,
+        bycomplete
     },
     data() {
         return {
@@ -96,19 +96,10 @@ export default {
     },
 
     created() {
-        this.getList(this.activeName);
         this.getTenants();
     },
     methods: {
-        handleClick(tab, event) {
-            this.resetQuery("queryForm");
-            this.patrolYear = "";
-            this.timeBegin = "";
-            this.timeEnd = "";
-            this.queryParams.patroltimebegin = "";
-            this.queryParams.patroltimeend = "";
-            this.getList(this.activeName);
-        },
+        handleClick(tab, event) {},
 
         /** 搜索按钮操作 */
         handleQuery() {
@@ -221,7 +212,6 @@ export default {
                     this.chartData.title = arr.Name + smtitle;
 
                     this.$nextTick(() => {
-                        this.$refs.chart.initChart();
                         this.$refs.table.doLayout();
                     });
                 })

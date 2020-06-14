@@ -36,7 +36,7 @@
                     <el-col>
                         <el-col :span='12' :xs='24'>
                             <el-form-item label="排序号" prop="sortindex">
-                                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" />
+                                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
                             </el-form-item>
                         </el-col>
                     </el-col>
@@ -52,11 +52,11 @@
           </el-form-item> -->
 
                     <el-col>
-                    <el-col :span='22' :xs='24'>
-                        <el-form-item label="应用图标">
-                            <IconSelect ref="iconSelect" @selected="selected" />
-                        </el-form-item>
-                    </el-col>
+                        <el-col :span='22' :xs='24'>
+                            <el-form-item label="应用图标">
+                                <IconSelect ref="iconSelect" @selected="selected" />
+                            </el-form-item>
+                        </el-col>
                     </el-col>
                 </el-form>
             </el-scrollbar>
@@ -80,31 +80,34 @@ export default {
         const rules = {
             name: [
                 {
+                    pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,12}$/,
                     required: true,
-                    message: "输入有误",
+                    message: "请输入12位以内的汉字或数字或字母",
                     trigger: "blur"
                 }
             ],
             key: [
                 {
+                    pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
                     required: true,
-                    message: "输入有误",
+                    message: "请输入18位以内的数字或字母或特殊符号",
                     trigger: "blur"
                 }
             ],
             url: [
                 {
+                    pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
                     required: true,
-                    message: "输入有误",
+                    message: "请输入18位以内的数字或字母或特殊符号",
                     trigger: "blur"
                 }
             ],
 
             sortindex: [
                 {
+                    pattern: /^\d{1,4}$/,
                     required: true,
-                    message: "'输入有误",
-                    trigger: "blur"
+                    message: "请输入4位以内的整数"
                 }
             ],
             phonenumber: [

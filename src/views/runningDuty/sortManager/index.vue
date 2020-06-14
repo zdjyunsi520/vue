@@ -145,7 +145,13 @@ export default {
             starttime: rule,
             endtime: rule,
             copystart: rule,
-            copytime: rule
+            copytime: [
+                {
+                    required: true,
+                    message: "请输入2位以内的整数",
+                    trigger: "blur"
+                }
+            ]
         };
         return {
             // 遮罩层

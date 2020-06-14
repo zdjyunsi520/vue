@@ -170,6 +170,35 @@ export default {
                     message: "请选择受理时间",
                     trigger: "blur"
                 }
+            ],
+            Address: [
+                {
+                    pattern: /^.{1,300}$/,
+                    required: true,
+                    message: "请输入300位以内的内容"
+                }
+            ],
+            ContactPerson: [
+                {
+                    pattern: /^[A-Za-z\u4e00-\u9fa5]{1,12}$/,
+                    required: true,
+                    message: "请输入12位以内的汉字或字母",
+                    trigger: "blur"
+                }
+            ],
+            ChargePhoneNo: [
+                {
+                    pattern: /^1\d{10}$/,
+                    required: true,
+                    message: "请输入正确的手机号"
+                }
+            ],
+            Situation: [
+                {
+                    pattern: /^.{1,300}$/,
+                    required: true,
+                    message: "请输入300位以内的内容"
+                }
             ]
         };
         return {
