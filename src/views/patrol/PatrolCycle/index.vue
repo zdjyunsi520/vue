@@ -10,8 +10,8 @@
         <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
-        <el-form-item label="巡视周期：" prop="cycleday">
-          <el-input v-model="queryParams.cycleday" clearable style="width:80px" class="sm-input"></el-input>&nbsp;天
+        <el-form-item label="巡视周期(天)：" prop="cycleday">
+          <el-input v-model="queryParams.cycleday" clearable ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>

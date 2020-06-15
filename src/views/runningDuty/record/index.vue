@@ -4,7 +4,7 @@
 
     <el-row :gutter="20" class="comheight">
       <el-col :span="6" :xs="{span: 24}" class="comheight ">
-        <div style="background:#fff;height:100%">
+        <div style="background:#fff;height:100%;padding:0 10px;">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
             <div class="left-box">
               <div class="bztitle">{{dutyGroup.Name}}</div>

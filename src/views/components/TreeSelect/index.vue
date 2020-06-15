@@ -3,7 +3,7 @@
     <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(true).map(v => v[this.showText]).join(',')}}</el-button>
     <el-drawer :wrapperClosable="false"   :modal-append-to-body='true' :title="title" direction="rtl" :visible.sync="drawperdialogVisible" :show-close='false' center :size="size">
       <el-scrollbar style="height: 86vh;">
-        <el-tree :default-checked-keys="checkedKeys" ref="tree" :node-key="nodeKey" :default-expand-all="true" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
+        <el-tree :default-checked-keys="checkedKeys" ref="tree"  :accordion='true' :node-key="nodeKey" :default-expand-all="false" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
       </el-scrollbar>
       <div class="dialog-footer">
         <el-button type="primary" @click="handleConfirm">保 存</el-button>

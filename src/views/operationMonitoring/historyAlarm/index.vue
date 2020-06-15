@@ -8,9 +8,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="日期" prop="StartDate">
-          <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-          至
-          <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          &nbsp;至&nbsp;
+          <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="告警类型：" prop="WarningType">
           <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
@@ -55,7 +55,7 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
       <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
-        <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="true" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        <el-tree :data="assetsTree" :props="defaultProps"  :accordion='true' :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="false" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handlecheck">保 存</el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>

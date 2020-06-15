@@ -2,19 +2,21 @@
     <div class="comheight comflexbox">
         <div class="search-box xl-querybox marginbottom15">
             <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-                <el-form-item label="用电单位：" prop='tenantid'>
-                    <el-select v-model="queryParams.tenantid" clearable placeholder="请选择">
+                <el-form-item label="用电单位：" prop='tenantId'>
+                    <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
                         <el-option value="" label="全部"></el-option>
                         <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item label="抢修日期：" prop='startdate'>
-                    <el-date-picker v-model="startdate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-                    &nbsp;至&nbsp;
-                    <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                <el-form-item label="年度：" prop='startdate'>
+                    <el-date-picker v-model="queryParams.startdate" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
                 </el-form-item>
 
+                <el-form-item label="业务来源：" prop='repairsource'>
+                    <el-select v-model="queryParams.repairsource" clearable placeholder="请选择">
+                        <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="状态：" prop='status'>
                     <el-select v-model="queryParams.status" clearable placeholder="请选择">
                         <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
@@ -30,37 +32,27 @@
                 </el-form-item>
             </el-form>
         </div>
+
         <div class="bg-white containerbox marginbottom15" ref="containerbox">
-            <p  class="form-smtitle tb-smtitle">抢修业务类型统计 </p>
-            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border >
+            <p  class="form-smtitle tb-smtitle">抢修年度统计 </p>
+            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+
                 <template slot="empty">
                     <div class="nodata-box">
-                        <img src="@/assets/image/nodata.png" class="smimg"  style='width:130px'/>
+                        <img src="@/assets/image/nodata.png" class="smimg" />
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <el-table-column align="center" label="抢修人员" fixed="left" width="200" prop="Name"></el-table-column>
-                <el-table-column align="center" label="用户报修">
-                     <el-table-column prop="UserFatal" label="紧急" ></el-table-column>
-                     <el-table-column prop="UserEmergency" label="重要" ></el-table-column>
-                     <el-table-column prop="UserNormal" label="一般" ></el-table-column>
-                     <el-table-column prop="UserTotal" label="小计" ></el-table-column>
-                </el-table-column>
-                <el-table-column align="center" label="故障报警">
-                     <el-table-column prop="AssetsFatal" label="紧急" ></el-table-column>
-                     <el-table-column prop="AssetsEmergency" label="重要" ></el-table-column>
-                     <el-table-column prop="AssetsNormal" label="一般" ></el-table-column>
-                     <el-table-column prop="AssetsTotal" label="小计" ></el-table-column>
-                </el-table-column>
+                <el-table-column label="抢修人员" fixed="left" min-width="120" prop="Name"></el-table-column>
+                <el-table-column v-for="(item,index) in prop1" :key="index" :label="columns[index]" :prop="item" />
 
-                <el-table-column align="center" fixed='right' label="总计" prop="Total" width="200" />
             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
-        <div class="bg-white containerbox  chart-wrapper">
+        <div class="bg-white containerbox  chart-wrapper" v-if="chartData">
             <p  class="form-smtitle tb-smtitle">{{chartData.title}} </p>
-            <div  class='smchartbox' v-if="dataList&&dataList.length>0" >
-                <BarChart ref="chart" :chartData='chartData'/>
+            <div class='smchartbox' v-if="dataList&&dataList.length>0" >
+                <BarChart ref="chart" :chartData='chartData' />
             </div>
             <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
         </div>
@@ -68,8 +60,12 @@
 </template>
 
 <script>
-import { userReportByNature as userReportByYear } from "@/api/repairOrder/personalCount";
-import BarChart from "./sourceBarChart";
+import {
+    userReportByYear,
+    userReportByNature,
+    userReportByExecute
+} from "@/api/repairOrder/personalCount";
+import BarChart from "./yearBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
     components: {
@@ -82,15 +78,15 @@ export default {
             queryParams: {
                 pageno: 1,
                 pagesize: 30,
-                tenantid: "",
-                startdate: "",
-                enddate: "",
+                tenantId: "",
+                startdate:'',
+                repairsource: "",
                 status: "",
-                type:1
+                type:2
             },
             patrolYear: "",
-            startdate: "",
-            enddate: "",
+            timeBegin: "",
+            timeEnd: "",
             dataList: null,
             total: 0,
             rules: {},
@@ -109,78 +105,93 @@ export default {
                 { name: "未完成", id: "1" },
                 { name: "已完成", id: "4" }
             ],
-            columns: ["紧急", "重要", "一般"],
-            props: ["UserFatal", "UserEmergency", "UserNormal"],
-            props1: [
-                "AssetsFatal",
-                "AssetsEmergency",
-                "AssetsNormal",
+            columns: [
+                "1月",
+                "2月",
+                "3月",
+                "4月",
+                "5月",
+                "6月",
+                "7月",
+                "8月",
+                "9月",
+                "10月",
+                "11月",
+                "12月"
             ],
-            chartData: {},
+            props: [],
+            prop1: [
+                "JanUser",
+                "FebUser",
+                "MarUser",
+                "AprUser",
+                "MayUser",
+                "JunUser",
+                "JulUser",
+                "AugUser",
+                "SeptUser",
+                "OctUser",
+                "NovUser",
+                "DecUser"
+            ],
+            prop2: [
+                "JanAssets",
+                "FebAssets",
+                "MarAssets",
+                "AprAssets",
+                "MayAssets",
+                "JunAssets",
+                "JulAssets",
+                "AugAssets",
+                "SeptAssets",
+                "OctAssets",
+                "NovAssets",
+                "DecAssets"
+            ],
+            prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
+            prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
             chartDataInit: {
                 series: [
                     {
                         name: "故障报警",
                         type: "bar",
-                        // stack: 'vistors',
-                        barWidth: "30%",
+                        stack: 'vistors',
+                        barWidth: "40%",
                         barMaxWidth: 50,
-                        data: [0, 0, 0, 0]
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                     },
                     {
                         name: "用户报修",
                         type: "bar",
-                        // stack: 'vistors',
-                        barWidth: "30%",
+                        stack: 'vistors',
+                        barWidth: "40%",
                         barMaxWidth: 50,
-                        data: [0, 0, 0, 0]
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                     }
                 ],
                 xAxisData: this.columns,
-                title: "总计-抢修业务类型统计图"
-            }
+                title: "总计-抢修年度统计图"
+            },
+            chartData: {}
         };
     },
 
     created() {
-        this.getList();
         this.getTenants();
+        this.getList();
     },
     methods: {
-
         /** 搜索按钮操作 */
         handleQuery() {
             this.queryParams.pageno = 1;
-            this.queryParams.startdate = this.getBeginTime();
-            this.queryParams.enddate = this.getEndTime();
             this.getList();
         },
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
-            this.patrolYear = "";
-            this.startdate = "";
-            this.enddate = "";
-            this.queryParams.startdate = "";
-            this.queryParams.enddate = "";
             this.handleQuery();
         },
-        // 获取开始时间
-        getBeginTime(time) {
-            let begin = "";
-            if (this.startdate != "") {
-                begin = this.startdate + " 00:00:00";
-            }
-            return begin;
-        },
-        // 获取结束时间
-        getEndTime() {
-            let end = "";
-            if (this.enddate != "") {
-                end = this.enddate + " 23:59:59";
-            }
-            return end;
-        },
+
         // 巡视单位列表
         getTenants() {
             getChildrenList().then(response => {
@@ -195,17 +206,13 @@ export default {
                         this.dataList = [];
                         return;
                     }
-
                     this.dataList = res.data;
-                    this.total = res.total;
-                    let arr = this.dataList[this.dataList.length - 1];
-
-                    this.chartData.series[0].data = this.props.map(v => arr[v]);
-                    this.chartData.series[1].data = this.props1.map(
-                        v => arr[v]
-                    );
+                    let row = res.data[res.data.length - 1];
+                    this.chartData.series[0].data = this.prop1.map(v => row[v]);
+                    this.chartData.series[1].data = this.prop2.map(v => row[v]);
+                    this.chartData.title = row.Name + "-抢修年度统计图";
                     this.chartData.xAxisData = this.columns;
-                    this.chartData.title = arr.Name + "-抢修业务类型统计图";
+                    this.total = res.total;
                 })
                 .finally(r => {
                     this.listLoading = false;
@@ -213,9 +220,8 @@ export default {
         },
         // 点击行
         handleRowInfo(arr) {
-            this.chartData.series[0].data = this.props.map(v => arr[v]);
-            this.chartData.series[1].data = this.props1.map(v => arr[v]);
-            this.chartData.title = arr.Name + "-抢修业务类型统计图";
+            this.chartData.series[0].data = this.prop1.map(v => arr[v]);
+            this.chartData.title = arr.Name + "-抢修年度统计图";
         },
         totalstyle({ row, rowIndex }) {
             if (row.Name === "合计" || row.Name === "总计") {
@@ -260,5 +266,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

@@ -1,7 +1,6 @@
 <template>
-    <div class="app-container">
+    <div class="comheight comflexbox">
         <div class="search-box xl-querybox marginbottom15">
-
             <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
                 <el-form-item label="用电单位：" prop='tenantId'>
                     <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
@@ -35,7 +34,8 @@
         </div>
 
         <div class="bg-white containerbox marginbottom15" ref="containerbox">
-            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border style='margin-top:20px'>
+            <p  class="form-smtitle tb-smtitle">抢修年度统计 </p>
+            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
                 <template slot="empty">
                     <div class="nodata-box">
@@ -50,7 +50,11 @@
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
         <div class="bg-white containerbox  chart-wrapper" v-if="chartData">
-            <BarChart ref="chart" :chartData='chartData' />
+            <p  class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+            <div class='smchartbox' v-if="dataList&&dataList.length>0" >
+                <BarChart ref="chart" :chartData='chartData' />
+            </div>
+            <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
         </div>
     </div>
 </template>
@@ -61,7 +65,7 @@ import {
     userReportByNature,
     userReportByExecute
 } from "@/api/repairOrder/personalCount";
-import BarChart from "./sourceBarChart";
+import BarChart from "./yearBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
     components: {
@@ -72,10 +76,13 @@ export default {
             downloadLoading: false,
             // 搜索参数
             queryParams: {
+                pageno: 1,
+                pagesize: 30,
                 tenantId: "",
-                startdate: new Date(),
+                startdate:'',
                 repairsource: "",
-                status: ""
+                status: "",
+                type:1
             },
             patrolYear: "",
             timeBegin: "",
@@ -86,7 +93,7 @@ export default {
             TenantIds: [],
             activeName: "0",
             nowDoc: {},
-            tableHeight: "calc(100% - 80px)",
+            tableHeight: "calc(100% - 110px)",
             listLoading: true,
             sources: [
                 { name: "全部", id: "" },
@@ -112,38 +119,58 @@ export default {
                 "11月",
                 "12月"
             ],
-            columns2: ["总巡视数", "临时巡视", "定期巡视"],
-            columns3: ["总巡视数", "已执行", "未执行"],
             props: [],
             prop1: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sept",
-                "Oct",
-                "Nov",
-                "Dec"
+                "JanUser",
+                "FebUser",
+                "MarUser",
+                "AprUser",
+                "MayUser",
+                "JunUser",
+                "JulUser",
+                "AugUser",
+                "SeptUser",
+                "OctUser",
+                "NovUser",
+                "DecUser"
+            ],
+            prop2: [
+                "JanAssets",
+                "FebAssets",
+                "MarAssets",
+                "AprAssets",
+                "MayAssets",
+                "JunAssets",
+                "JulAssets",
+                "AugAssets",
+                "SeptAssets",
+                "OctAssets",
+                "NovAssets",
+                "DecAssets"
             ],
             prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
             prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
             chartDataInit: {
                 series: [
                     {
-                        // name: "用户报修",
+                        name: "故障报警",
                         type: "bar",
-                        // stack: 'vistors',
+                        stack: 'vistors',
+                        barWidth: "40%",
+                        barMaxWidth: 50,
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    },
+                    {
+                        name: "用户报修",
+                        type: "bar",
+                        stack: 'vistors',
                         barWidth: "40%",
                         barMaxWidth: 50,
                         data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                     }
                 ],
                 xAxisData: this.columns,
-                title: "总计 - 按年度统计"
+                title: "总计-抢修年度统计图"
             },
             chartData: {}
         };
@@ -175,10 +202,15 @@ export default {
             this.chartData = Object.assign({}, this.chartDataInit);
             userReportByYear(this.queryParams)
                 .then(res => {
+                    if (!res.data) {
+                        this.dataList = [];
+                        return;
+                    }
                     this.dataList = res.data;
                     let row = res.data[res.data.length - 1];
                     this.chartData.series[0].data = this.prop1.map(v => row[v]);
-                    this.chartData.title = row.Name + " - 按年度统计";
+                    this.chartData.series[1].data = this.prop2.map(v => row[v]);
+                    this.chartData.title = row.Name + "-抢修年度统计图";
                     this.chartData.xAxisData = this.columns;
                     this.total = res.total;
                 })
@@ -189,7 +221,7 @@ export default {
         // 点击行
         handleRowInfo(arr) {
             this.chartData.series[0].data = this.prop1.map(v => arr[v]);
-            this.chartData.title = arr.Name + " - 按年度统计";
+            this.chartData.title = arr.Name + "-抢修年度统计图";
         },
         totalstyle({ row, rowIndex }) {
             if (row.Name === "合计" || row.Name === "总计") {
@@ -234,5 +266,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

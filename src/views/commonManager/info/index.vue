@@ -165,6 +165,14 @@ export default {
   margin: 20px 0;
 }
 /deep/.search-box{border-bottom:0}
+
+.edui-button.edui-for-135editor .edui-button-wrap .edui-button-body .edui-icon{
+    background-image: url("http://static.135editor.com/img/icons/editor-135-icon.png") !important;
+    background-size: 85%;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+
 </style>
 
 

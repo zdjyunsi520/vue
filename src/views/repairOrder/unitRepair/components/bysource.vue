@@ -86,7 +86,7 @@ export default {
                 startdate: "",
                 enddate: "",
                 status: "",
-                type:1
+                type:2
             },
             patrolYear: "",
             startdate: "",

@@ -1,18 +1,21 @@
 /deep/.el-tree {
+  .el-tree-node:focus > .el-tree-node__content {
+    background: none !important;
+}
   .el-tree-node__label:hover {
     color: #418bff;
   }
 
-  .el-tree-node__content:hover {
+  .el-tree-node__content,.el-tree-node__content:hover {
     min-width: 250px;
-    //  background: none !important;
+     background: none !important;
   }
   .el-tree-node__expand-icon {
     border: 1px solid #dcdfe4;
     width: 14px;
     line-height: 12px;
     height: 14px;
-    margin-right: 8px;
+    margin-right: 5px;
     padding: 0;
     position: relative;
     text-align: center;
@@ -67,7 +70,13 @@
     &.is-current {
       & > .el-tree-node__content {
         min-width: 250px;
-        color: #558cf7;
+        color: #558cf7;    
+        background: none;
+        .el-tree-node__label{
+          background-color: #f1f6fe;
+        
+      }
+
         .is-leaf {
           background: url(../../../assets/image/ic_project_on.png) no-repeat;
           border: none;
@@ -79,6 +88,7 @@
         }
       }
     }
+  
     .is-expanded.is-current.is-focusable {
       color: #666 !important;
     }
@@ -91,6 +101,13 @@
     }
     .el-tree-node__content {
       height: 32px;
+      &>.el-tree-node__label{
+        display: inline-block;
+        height: 26px;
+        padding-left:5px;
+        padding-right:10px;
+        line-height: 26px;
+      }
     }
     &:last-child {
       position: relative;
@@ -159,7 +176,7 @@
 // 拖拽
 .dragbox {
   .dragleft {
-    width: 324px; /*左侧初始化宽度*/
+    width: 224px; /*左侧初始化宽度*/
     //   height: 100%;
     float: left;
   }

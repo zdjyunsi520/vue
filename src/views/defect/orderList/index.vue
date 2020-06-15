@@ -11,9 +11,9 @@
           <el-input v-model="queryParams.No"></el-input>
         </el-form-item>
         <el-form-item label="发现日期：" prop="reporttimestart">
-          <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-          至
-          <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          &nbsp;至&nbsp;
+          <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="缺陷等级：" prop="rank">
           <el-select v-model="queryParams.rank" placeholder="请选择">

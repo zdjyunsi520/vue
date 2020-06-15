@@ -15,9 +15,9 @@
                     <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                 </el-form-item>
 
-                <el-form-item label="状态：" prop='status'>
-                    <el-select v-model="queryParams.status" clearable placeholder="请选择">
-                        <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
+                <el-form-item label="业务来源：" prop='repairsource'>
+                    <el-select v-model="queryParams.repairsource" clearable placeholder="请选择">
+                        <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -31,29 +31,19 @@
             </el-form>
         </div>
         <div class="bg-white containerbox marginbottom15" ref="containerbox">
-            <p  class="form-smtitle tb-smtitle">抢修业务类型统计 </p>
-            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border >
+            <p  class="form-smtitle tb-smtitle">抢修完成类型统计 </p>
+            <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
                 <template slot="empty">
                     <div class="nodata-box">
-                        <img src="@/assets/image/nodata.png" class="smimg"  style='width:130px'/>
+                        <img src="@/assets/image/nodata.png" class="smimg"/>
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <el-table-column align="center" label="抢修人员" fixed="left" width="200" prop="Name"></el-table-column>
-                <el-table-column align="center" label="用户报修">
-                     <el-table-column prop="UserFatal" label="紧急" ></el-table-column>
-                     <el-table-column prop="UserEmergency" label="重要" ></el-table-column>
-                     <el-table-column prop="UserNormal" label="一般" ></el-table-column>
-                     <el-table-column prop="UserTotal" label="小计" ></el-table-column>
-                </el-table-column>
-                <el-table-column align="center" label="故障报警">
-                     <el-table-column prop="AssetsFatal" label="紧急" ></el-table-column>
-                     <el-table-column prop="AssetsEmergency" label="重要" ></el-table-column>
-                     <el-table-column prop="AssetsNormal" label="一般" ></el-table-column>
-                     <el-table-column prop="AssetsTotal" label="小计" ></el-table-column>
-                </el-table-column>
+                <el-table-column align="center" label="抢修人员" fixed="left" prop="Name"></el-table-column>
 
-                <el-table-column align="center" fixed='right' label="总计" prop="Total" width="200" />
+                <el-table-column align="center" label="完成" prop="Complete" />
+                <el-table-column align="center" label="未完成" prop="InComplete" />
+                <el-table-column align="center" fixed='right' label="总计" prop="Total" />
             </el-table>
             <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
         </div>
@@ -64,11 +54,12 @@
             </div>
             <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
         </div>
+
     </div>
 </template>
 
 <script>
-import { userReportByNature as userReportByYear } from "@/api/repairOrder/personalCount";
+import { userReportByExecute as userReportByYear } from "@/api/repairOrder/personalCount";
 import BarChart from "./sourceBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
@@ -85,8 +76,8 @@ export default {
                 tenantid: "",
                 startdate: "",
                 enddate: "",
-                status: "",
-                type:1
+                repairsource: "",
+                type:2
             },
             patrolYear: "",
             startdate: "",
@@ -109,13 +100,11 @@ export default {
                 { name: "未完成", id: "1" },
                 { name: "已完成", id: "4" }
             ],
-            columns: ["紧急", "重要", "一般"],
-            props: ["UserFatal", "UserEmergency", "UserNormal"],
-            props1: [
-                "AssetsFatal",
-                "AssetsEmergency",
-                "AssetsNormal",
-            ],
+            columns: ["总计","完成", "未完成"],
+            props: ["Total", "Complete","InComplete"],
+            props1: ["CompleteUser", "InCompleteUser","TotalUser"],
+            props2: ["CompleteAssets", "InCompleteAssets","TotalAssets"],
+
             chartData: {},
             chartDataInit: {
                 series: [
@@ -137,7 +126,7 @@ export default {
                     }
                 ],
                 xAxisData: this.columns,
-                title: "总计-抢修业务类型统计图"
+                title: "总计-抢修完成类型统计图"
             }
         };
     },
@@ -147,6 +136,13 @@ export default {
         this.getTenants();
     },
     methods: {
+        handleClick(tab, event) {
+            this.resetQuery("queryForm");
+            this.patrolYear = "";
+            this.startdate = "";
+            this.enddate = "";
+            this.getList();
+        },
 
         /** 搜索按钮操作 */
         handleQuery() {
@@ -200,12 +196,13 @@ export default {
                     this.total = res.total;
                     let arr = this.dataList[this.dataList.length - 1];
 
-                    this.chartData.series[0].data = this.props.map(v => arr[v]);
-                    this.chartData.series[1].data = this.props1.map(
+                    this.chartData.series[0].data = this.props1.map(v => arr[v]);
+                    this.chartData.series[1].data = this.props2.map(
                         v => arr[v]
                     );
+
                     this.chartData.xAxisData = this.columns;
-                    this.chartData.title = arr.Name + "-抢修业务类型统计图";
+                    this.chartData.title = arr.Name + "-抢修完成类型统计图";
                 })
                 .finally(r => {
                     this.listLoading = false;
@@ -214,8 +211,7 @@ export default {
         // 点击行
         handleRowInfo(arr) {
             this.chartData.series[0].data = this.props.map(v => arr[v]);
-            this.chartData.series[1].data = this.props1.map(v => arr[v]);
-            this.chartData.title = arr.Name + "-抢修业务类型统计图";
+            this.chartData.title = arr.Name + "-抢修完成类型统计图";
         },
         totalstyle({ row, rowIndex }) {
             if (row.Name === "合计" || row.Name === "总计") {

@@ -85,7 +85,6 @@ export default {
         setOptions({ title, xAxisData, series } = {}) {
             this.chart.setOption({
                 title: {
-                    show:false,
                     text: '单位(次)',
                     left: "20px",
                     top: "15px",
@@ -117,16 +116,17 @@ export default {
                 },
              
                 grid: {
-                    top: "50px",
+                    top: "55px",
                     left: "30px",
-                    right: "75px",
+                    right: "15px",
                     bottom: "15px",
+
                     containLabel: true
                 },
                 xAxis: [
                     {
-                        name:'单位(次)',
-                        type: "value",
+                        type: "category",
+                        data: xAxisData,
                         axisTick: {
                             show: false,
                             alignWithLabel: true
@@ -143,21 +143,12 @@ export default {
                             lineStyle: {
                                 color: "#dde4f4"
                             }
-                        },
-                        splitLine: {
-                            lineStyle: {
-                                color: "#dde4f4",
-                                type: "dashed"
-                            }
-                        },
-                        splitArea: {
-                            show: false
                         }
                     }
                 ],
                 yAxis: [
-                    {  type: "category",
-                        data: xAxisData,
+                    {
+                        type: "value",
                         axisLine: {
                             lineStyle: {
                                 color: "#909399"
@@ -168,9 +159,7 @@ export default {
                         },
                         axisLine: {
                             lineStyle: {
-                                color: "#dde4f4",
-                                type: "dashed"
-
+                                color: "#dde4f4"
                             }
                         },
                         nameTextStyle: {
@@ -180,6 +169,15 @@ export default {
                             fontSize: 12,
                             color: "#909399",
                             margin: 30
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: "#dde4f4",
+                                type: "dashed"
+                            }
+                        },
+                        splitArea: {
+                            show: false
                         }
                     }
                 ],

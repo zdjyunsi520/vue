@@ -24,7 +24,7 @@
 
     <!-- <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-        <div style="background:#fff;height:100%">
+        <div style="background:#fff;height:100%;padding:0 10px;">
           <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
             <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>

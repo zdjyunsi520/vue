@@ -11,9 +11,9 @@
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视日期：" prop="patroltimebegin">
-          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-          至
-          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          &nbsp;至&nbsp;
+          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="巡视性质：" prop="ptrolnature">
           <el-select v-model="queryParams.ptrolnature" placeholder="请选择">

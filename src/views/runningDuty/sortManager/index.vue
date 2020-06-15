@@ -103,7 +103,7 @@
 
             <el-drawer title="人员选择" direction="rtl" :visible.sync="dialogMemberVisible" :show-close='false' center size="300px">
                 <el-scrollbar style="height: 86vh;">
-                    <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="Id" ref="tree" show-checkbox :highlight-current="true" @check-change="checkchange" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
+                    <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="Id" ref="tree" show-checkbox :highlight-current="true" @check-change="checkchange" :default-expand-all="false" :expand-on-click-node="false"></el-tree>
                 </el-scrollbar>
                 <div class="dialog-footer">
                     <el-button type="primary" @click="handleMemberscheck">保 存</el-button>
