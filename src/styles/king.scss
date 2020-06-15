@@ -1005,3 +1005,12 @@
     border: solid 1px #ebeef5;border-radius: 2px;
     margin-bottom:15px;
  }
+
+ .el-input-group__append, .el-input-group__prepend{
+    background-color: #418bff!important;
+    color: #ffffff!important;
+    border: 1px solid #418bff!important;
+ }
+//  .el-button [class*="el-icon-"] + span {
+//     margin-left: 8px;
+// }

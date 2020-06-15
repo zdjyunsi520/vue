@@ -6,7 +6,7 @@
         <el-tree :default-checked-keys="checkedKeys" ref="tree"  :accordion='true' :node-key="nodeKey" :default-expand-all="false" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
       </el-scrollbar>
       <div class="dialog-footer">
-        <el-button type="primary" @click="handleConfirm">保 存</el-button>
+        <el-button type="primary" @click="handleConfirm"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
         <el-button @click="handleCancel">取 消</el-button>
       </div>
     </el-drawer>

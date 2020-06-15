@@ -10,7 +10,7 @@
                         <el-col :span="24">
                             <p class="form-smtitle"> 基础信息 </p>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="上级单位" prop="parentId">
                                 <el-select v-model="form.parentId">
                                     <el-option label="请选择" value=""></el-option>
@@ -18,7 +18,7 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="行业类别" prop="industry">
                                 <el-select v-model="form.industry" @change="handleChange">
                                     <el-option label="请选择" value=""></el-option>
@@ -26,12 +26,12 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="名称" prop="name">
                                 <el-input v-model="form.name" placeholder="请输入名称" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="行业分类" prop="principleactivity">
                                 <el-select v-model="form.principleactivity">
                                     <el-option label="请选择" value=""></el-option>
@@ -39,12 +39,12 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="法人代表" prop="artificialperson">
                                 <el-input v-model="form.artificialperson" placeholder="请输入法人代表" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="省份" prop="province">
                                 <el-select v-model="form.province" @change="handleChange1">
                                     <el-option label="请选择" value=""></el-option>
@@ -52,12 +52,12 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="统一信用代码" prop="creditcode">
                                 <el-input v-model="form.creditcode" placeholder="请输入统一信用代码" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="城市" prop="city">
                                 <el-select v-model="form.city" @change="handleChange2">
                                     <el-option label="请选择" value=""></el-option>
@@ -65,12 +65,12 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="联系电话">
                                 <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="区域/县" prop="area">
                                 <el-select v-model="form.area">
                                     <el-option label="请选择" value=""></el-option>
@@ -78,22 +78,22 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="联系人">
                                 <el-input v-model="form.contactperson" placeholder="请输入联系人" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="详细地址" prop="address">
                                 <el-input v-model="form.address" placeholder="请输入详细地址" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="联系人手机">
                                 <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="是否启用" prop="isenable">
                                 <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
                                 </el-switch>
@@ -102,23 +102,24 @@
                         <el-col :span="24" :xs='24'>
                             <p class="form-smtitle"> 地图定位 </p>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="经度" prop="longitude">
                                 <el-input v-model="form.longitude" placeholder="输入或通过地图点击获取" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="纬度" prop="latitude">
                                 <el-input v-model="form.latitude" placeholder="输入或通过地图点击获取" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="23" :push="1" :xs='24'>
+                        <el-col :span="20" :xs='24'>
                             <el-form-item label="地图搜索" prop="remark">
-                                <el-input v-model="remark" placeholder="请输入内容进行搜索" style="width:70%;margin-right:20px" />
-                                <el-button type="primary" size="medium" icon="el-icon-search" @click="handleMap">搜索</el-button>
+                                <el-input v-model="remark" placeholder="请输入内容进行搜索"  >
+                                <el-button slot="append" type="primary" size="medium" icon="el-icon-search" @click="handleMap">搜索</el-button>
+                                </el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="20" :push="1" :xs='24'>
+                        <el-col :span="20" :xs='24'>
                             <el-form-item>
                                 <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" ak="WdhysOvzhtGHHRWoo8sXqvRnKTABcc1Q">
                                     <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
@@ -133,19 +134,19 @@
                             <p class="form-smtitle">附加属性
                             </p>
                         </el-col>
-                        <el-col :span="23" :push="1" :xs='24'>
+                        <el-col :span="23" :xs='24'>
                             <el-form-item>
                                 <el-checkbox v-model="form.attribute" :true-label="1" :false-label="0">用电</el-checkbox>
                                 <!-- <el-radio v-model="form.attribute" :disabled="form.id?true:false" label="电务" @change="handleElectron">电务公司</el-radio> -->
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="立户日期" prop="starttime">
                                 <el-date-picker v-model="form.starttime" type="date" placeholder="选择日期" :disabled="disabled">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="电压等级" prop="voltlevel">
                                 <el-select v-model="form.voltlevel" :disabled="disabled">
                                     <!-- <el-option label="请选择" value=""></el-option> -->
@@ -153,7 +154,7 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="用电分类" prop="maintype">
                                 <el-select v-model="form.maintype" :disabled="disabled" @change="handleChange3">
                                     <el-option label="请选择" value="" />
@@ -161,7 +162,7 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="用电小类" prop="subtype">
                                 <el-select v-model="form.subtype" :disabled="disabled">
                                     <el-option label="请选择" value="" />
@@ -169,18 +170,18 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="合同容量(kVA)" prop="contractcapacity">
                                 <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
                             </el-form-item>
                         </el-col>
-                        <el-col :span="10" :push="2" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
                                 <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
                             </el-form-item>
                         </el-col>
 
-                        <el-col :span="10" :push="1" :xs='24'>
+                        <el-col :span="10" :xs='24'>
                             <el-form-item label="用户类型" prop="usertype">
                                 <el-select v-model="form.usertype" :disabled="disabled">
                                     <el-option label="请选择" value="" />
@@ -193,7 +194,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs='24' class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+                    <el-button type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
                 </div>
             </el-col>

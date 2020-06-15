@@ -103,7 +103,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading1" v-if="form1.Status<1&&!ReadOnly">保 存</el-button>
+                    <el-button type="primary"   @click="handleSubmit" :loading="loading1" v-if="form1.Status<1&&!ReadOnly"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<1&&!ReadOnly">发 送</el-button>
                     <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>

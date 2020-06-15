@@ -75,7 +75,7 @@
                     </div>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="handlecheck" :loading="loading">保 存</el-button>
+                    <el-button type="primary" @click="handlecheck" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button @click="dialogAddVisible = false" :loading="loading">取 消</el-button>
                 </span>
             </el-dialog>
@@ -96,7 +96,7 @@
                     </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="handleCopyCheck">保 存</el-button>
+                    <el-button type="primary" @click="handleCopyCheck"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button @click="dialogRotationVisible = false">取 消</el-button>
                 </span>
             </el-dialog>
@@ -106,7 +106,7 @@
                     <el-tree :data="memberTree" :props="defaultProps" :check-strictly='true' node-key="Id" ref="tree" show-checkbox :highlight-current="true" @check-change="checkchange" :default-expand-all="false" :expand-on-click-node="false"></el-tree>
                 </el-scrollbar>
                 <div class="dialog-footer">
-                    <el-button type="primary" @click="handleMemberscheck">保 存</el-button>
+                    <el-button type="primary" @click="handleMemberscheck"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button @click="dialogMemberVisible = false">取 消</el-button>
                 </div>
             </el-drawer>
