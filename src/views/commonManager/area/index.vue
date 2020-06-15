@@ -155,7 +155,7 @@ export default {
       const hasprovince = true;
       const hascity = false;
       const title = "城市";
-      const p_parentKey = this.operateId;
+      const p_parentKey = this.currentNode.id;
       const data = { p_parentKey };
       this.$router.push({
         name: "/commonManager/area/components/add",
@@ -171,7 +171,7 @@ export default {
       let parentKey;
       let citydataList = [];
       if (this.level == 1) {
-        p_parentKey = this.operateId;
+        p_parentKey = this.currentNode.id;
       } else if (this.level == 2) {
         for (let j = 0; j < this.dataList.length; j++) {
           const ele = this.dataList[j];
@@ -209,14 +209,14 @@ export default {
         target.hasprovince = true;
         target.hascity = false;
         if (this.level == 1) {
-          const p_parentKey = this.operateId;
+          const p_parentKey = this.currentNode.id;
           target.handleOpen({ p_parentKey });
         } else {
           target.handleOpen();
         }
         target.title = "城市";
       } else {
-        const parentKey = this.operateId;
+        const parentKey = this.currentNode.id;
         let p_parentKey = "";
         target.hascity = true;
         target.hasprovince = true;
@@ -225,7 +225,7 @@ export default {
           if (ele.childs) {
             for (let i = 0; i < ele.childs.length; i++) {
               const ele_i = ele.childs[i];
-              if (ele_i.key == this.operateId) {
+              if (ele_i.key == this.currentNode.id) {
                 p_parentKey = ele.key;
                 target.citydataList = ele.childs;
               }

@@ -167,7 +167,7 @@ export default {
       });
     },
     handleAddClass() {
-      const parentKey = this.addId;
+      const parentKey = this.currentNode.id;
       const type = 2;
       const data = { parentKey, type };
       const title = "新增分类";
@@ -205,7 +205,7 @@ export default {
       }).then(v => {
         const key = this.currentNode.key;
         deleted({ key }).then(r => {
-          this.$message.success('删除成功！');
+          this.$message.success("删除成功！");
           this.currentNode = {};
           this.needToScroll++;
           this.getList();

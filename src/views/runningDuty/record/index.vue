@@ -4,7 +4,7 @@
 
     <el-row :gutter="20" class="comheight">
       <el-col :span="6" :xs="{span: 24}" class="comheight ">
-        <div style="background:#fff;height:100%;padding:0 10px;">
+        <div style="background:#fff;height:100%">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
             <div class="left-box">
               <div class="bztitle">{{dutyGroup.Name}}</div>
@@ -27,7 +27,9 @@
                   <label>人员：</label>
                   <div class="tagbox">
                     <div v-for="(item,index) in userPositions" :key="index">
-                      <el-tag>{{item.PositionName}}</el-tag><span :key="index1" v-for="(item1,index1) in item.EmployeeNames.split(',')">{{item1}}</span>
+                      <el-tag>{{item.PositionName}}</el-tag>
+                      <span :key="index1" v-for="(item1,index1) in item.EmployeeNames.split(',')" v-if="item.EmployeeNames!=''">{{item1}}</span>
+                      <span v-else style="color:#999;font-size:12px;">暂无成员</span>
                     </div>
 
                   </div>
@@ -82,6 +84,7 @@ export default {
       form: {
         date: new Date(),
         shiftId: "",
+        dutyteamId: "",
         userId: ""
       },
       rules,
@@ -135,7 +138,10 @@ export default {
     },
     getCurrentDutyHandoverGetUserSchedules() {
       if (this.form.userId && this.form.date)
-        DutyHandoverGetUserSchedules(this.form).then(r => {
+        DutyHandoverGetUserSchedules({
+          dutyteamId: this.form.dutyteamId,
+          shiftId: this.form.shiftId
+        }).then(r => {
           this.dataList = r.data;
         });
     },
@@ -145,9 +151,10 @@ export default {
     },
     getList() {
       DutyHandoverGetDutyTeam({}).then(r => {
-          if(r.data){
-             this.dutyGroup = r.data;
-          }
+        if (r.data) {
+          this.dutyGroup = r.data;
+          this.form.dutyteamId = this.dutyGroup.Id;
+        }
       });
       GetShifts({}).then(r => {
         this.shifts = r.data;
@@ -239,7 +246,7 @@ export default {
         font-size: 14px;
         color: #333;
         width: 45px;
-        margin-right: 10px;
+        margin-right: 5px;
         padding-top: 5px;
         font-weight: normal;
         margin-bottom: 15px;

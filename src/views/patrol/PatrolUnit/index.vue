@@ -41,8 +41,12 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border style='margin-top:15px'>
-
+      <p class="form-smtitle tb-smtitle">
+        <span v-if="activeName=='0'">单位巡视年度统计</span>
+        <span v-if="activeName=='1'">单位巡视性质统计</span>
+        <span v-if="activeName=='2'">单位巡视完成情况统计</span>
+      </p>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />
@@ -55,8 +59,11 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
-      <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
-      <p v-else class="tips" style="padding-top:13%">暂无数据</p>
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
     </div>
 
   </div>
@@ -97,7 +104,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 110px)",
       listLoading: true,
       ptrolnatures: [
         { name: "定期巡视", id: "1" },
@@ -233,21 +240,21 @@ export default {
           fn = userReportByYear;
           this.columns = this.columns1.slice(0);
           this.props = this.prop1.slice(0);
-          smtitle = "-按年度统计";
+          smtitle = "-年度统计图";
           break;
         case "1":
           data.isexecute = this.queryParams.isexecute;
           fn = userReportByNature;
           this.columns = this.columns2.slice(0);
           this.props = this.prop2.slice(0);
-          smtitle = "-按巡视性质统计";
+          smtitle = "-巡视性质统计图";
           break;
         case "2":
           data.ptrolnature = this.queryParams.ptrolnature;
           fn = userReportByExecute;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
-          smtitle = "-按完成情况统计";
+          smtitle = "-完成情况统计图";
           break;
         default:
           break;

@@ -86,13 +86,12 @@ export default {
     setOptions({ title, xAxisData, listData } = {}) {
       this.chart.setOption({
         title: {
-          text: title,
-          left: "5px",
-          top: "20px",
+          text: "单位(次)",
+          left: "15px",
+          top: "15px",
           textStyle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#333"
+            fontSize: 12,
+            color: "#999"
           }
         },
         tooltip: {
@@ -115,10 +114,10 @@ export default {
           }
         },
         grid: {
-          top: "60px",
-          left: "30px",
-          right: "30px",
-          bottom: "20px",
+          top: "50px",
+          left: "25px",
+          right: "15px",
+          bottom: "15px",
           containLabel: true
         },
         xAxis: [
@@ -126,35 +125,51 @@ export default {
             type: "category",
             data: xAxisData,
             axisTick: {
+              show: true,
               alignWithLabel: true
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 20
             },
             axisLine: {
               lineStyle: {
-                color: "#909399"
+                color: "#dde4f4"
               }
-            },
-            splitLine: {
-              show: true
             }
           }
         ],
         yAxis: [
           {
             type: "value",
+            axisTick: {
+              show: false
+            },
             axisLine: {
               lineStyle: {
-                color: "#909399"
-              },
-
-              splitLine: {
-                lineStyle: {
-                  color: "#dde4f4",
-                  type: "dashed"
-                }
-              },
-              splitArea: {
-                show: false
+                color: "#dde4f4"
               }
+            },
+            nameTextStyle: {
+              color: "#909399"
+            },
+            axisLabel: {
+              fontSize: 12,
+              color: "#909399",
+              margin: 15
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#dde4f4",
+                type: "dashed"
+              }
+            },
+            splitArea: {
+              show: false
             }
           }
         ],
@@ -164,7 +179,8 @@ export default {
             name: "值班",
             type: "bar",
             // stack: 'vistors',
-            barWidth: "50",
+            barWidth: "40%",
+            barMaxWidth: 50,
             data: listData
           }
         ]

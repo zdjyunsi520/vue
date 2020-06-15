@@ -132,9 +132,9 @@
             <div class="warnlistinfo">
               <div v-for='(item,index) in waringlist' :key='index'>
                 <span class="smicon">
-                    <img v-if='index==0' src="@/assets/image/ic_notice.png" />
-                    <img v-else src="@/assets/image/ic_tips.png" />
-                  </span>
+                  <img v-if='index==0' src="@/assets/image/ic_notice.png" />
+                  <img v-else src="@/assets/image/ic_tips.png" />
+                </span>
                 <div>
                   <el-col :span="7">
                     {{item.TenantName}}
@@ -252,12 +252,12 @@ const tracklineChartData = {
   averageData: [],
   lowData: []
 };
-const mapchartData={
-  chinaGeoCoordMap:{},
-chinaDatas:[],
-localName:'',
-localCoordinate:[]
-}
+const mapchartData = {
+  chinaGeoCoordMap: {},
+  chinaDatas: [],
+  localName: "",
+  localCoordinate: []
+};
 
 export default {
   name: "baseData",
@@ -298,7 +298,7 @@ export default {
       mapchartData,
       sysElectricLoad: {},
       operationCurve: {},
-      waringlist:[]
+      waringlist: []
     };
   },
   mounted() {
@@ -472,10 +472,13 @@ export default {
           this.$refs.powerTypePieChart.initChart();
         });
         this.mapchartData = this.dataInfo.ProvinceData;
-        this.mapchartData.chinaGeoCoordMap = Object.assign({}, this.dataInfo.ProvinceData.LatitudeLongitude);
+        this.mapchartData.chinaGeoCoordMap = Object.assign(
+          {},
+          this.dataInfo.ProvinceData.LatitudeLongitude
+        );
         this.mapchartData.chinaDatas = this.dataInfo.ProvinceData.PrvoinceValue.concat();
-        this.mapchartData.localName = this.dataInfo.ProvinceData.Local.Text;
-        this.mapchartData.localCoordinate = this.dataInfo.ProvinceData.Local.Coordinate;
+        // this.mapchartData.localName = this.dataInfo.ProvinceData.Local.Text;
+        // this.mapchartData.localCoordinate = this.dataInfo.ProvinceData.Local.Coordinate;
         this.$nextTick(() => {
           this.$refs.mapchart.initChart();
         });
@@ -505,11 +508,10 @@ export default {
         });
       });
     },
-    getWarnings(){
+    getWarnings() {
       getWarnings().then(r => {
         this.waringlist = r.data;
       });
-
     }
   }
 };
