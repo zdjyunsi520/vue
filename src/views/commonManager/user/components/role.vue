@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
         <el-scrollbar>
-          <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+          <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
             <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
                 <div>
@@ -41,7 +41,11 @@
                 </div>
               </li>
             </ul>
-            <p v-else class="tips">暂无数据</p>
+            <div v-else class="nodata-box" style="padding-top:20%">
+              <img src="@/assets/image/nodata.png" />
+              <p>暂时还没有数据</p>
+            </div>
+            <!-- <p v-else class="tips"> 暂无数据</p> -->
             <!-- <el-form-item>
         <el-table :data="moduleList">
           <el-table-column prop="date" label="角色" width="180">
@@ -80,7 +84,9 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
 
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>

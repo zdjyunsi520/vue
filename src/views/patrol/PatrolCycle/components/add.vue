@@ -4,7 +4,7 @@
             <p class="form-smtitle">{{title}} </p>
 
             <el-scrollbar>
-                <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px" style="width:600px">
+                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px" style="width:600px">
                     <el-form-item label="巡视单位" prop="tenantid">
                         <el-select v-model="form.tenantid" placeholder="请选择巡视单位" style="width:100%" @change="changeTenant">
                             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -33,7 +33,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs='24' class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+                    <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
                 </div>
             </el-col>

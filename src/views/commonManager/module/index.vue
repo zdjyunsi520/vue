@@ -47,7 +47,7 @@
         </el-form-item>
 
         <el-form-item label="图标" v-if="smform.IconUrl">
-          <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" />
+          <svg-icon :icon-class="smform.IconUrl?smform.IconUrl:''" style="font-size: 30px;" />
         </el-form-item>
       </el-form>
       <div v-else class="tips">
@@ -149,14 +149,13 @@ export default {
     handleAddClass() {
       const dataList = this.dataList;
       const title = "新增应用";
-      const parentId = this.addId;
+      const parentId = this.currentNode.id;
       const data = { parentId };
       this.$router.push({
         name: "/commonManager/module/components/update",
-        params: { dataList, title }
+        params: { data, dataList, title }
       });
       // const target = this.$refs.add;
-
       // target.handleOpen({ parentId });
       // target.dataList = this.dataList;
       // target.title = "应用";
@@ -164,11 +163,11 @@ export default {
     handleAddRole() {
       const dataList = this.dataList;
       const title = "新增权限";
-      const parentId = this.addId;
+      const parentId = this.currentNode.id;
       const data = { parentId };
       this.$router.push({
         name: "/commonManager/module/components/role",
-        params: { dataList, title }
+        params: { data, dataList, title }
       });
     },
     /** 编辑按钮操作 */

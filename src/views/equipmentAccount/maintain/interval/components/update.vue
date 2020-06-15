@@ -3,7 +3,7 @@
         <div class="search-box onlyform-box">
             <p class="form-smtitle">{{title}}间隔</p>
             <el-scrollbar>
-                <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
+                <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="110px">
                     <el-row>
                         <el-col :span="10" :push="1" :xs="24">
                             <el-form-item label="名称" prop="Name">
@@ -76,7 +76,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="10" :push="2" :xs="24">
-                            <el-form-item label="排序号" prop="SortIndex">
+                            <el-form-item label="排序号">
                                 <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" :max="9999" />
                             </el-form-item>
                         </el-col>
@@ -85,7 +85,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+                    <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
                 </div>
             </el-col>

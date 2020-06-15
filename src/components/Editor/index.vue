@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 图片上传组件辅助 -->
-    <el-upload class="avatar-uploader quill-img" :http-request="handleUpload" :action="uploadImgUrl" name="file" :headers="headers" :show-file-list="false" :before-upload="quillImgBefore" accept='.jpg,.jpeg,.png,.gif'></el-upload>
+    <el-upload class="avatar-uploader quill-img" :http-request="handleUpload" :action="uploadImgUrl" name="file" :headers="headers" :show-file-list="false" :before-upload="quillImgBefore" accept='.jpg,.jpeg,.png,.gif' style="display: none;"></el-upload>
 
     <!-- 富文本组件 -->
     <quill-editor class="editor" v-model="content" ref="quillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @change="onEditorChange($event)"></quill-editor>
@@ -154,7 +154,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .editor {
   line-height: normal !important;
   height: 192px;

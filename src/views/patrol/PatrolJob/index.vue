@@ -11,9 +11,9 @@
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视日期：" prop="patroltimebegin">
-          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
-          至
-          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:47%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          &nbsp;至&nbsp;
+          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
         </el-form-item>
         <el-form-item label="巡视性质：" prop="ptrolnature">
           <el-select v-model="queryParams.ptrolnature" placeholder="请选择">
@@ -67,14 +67,14 @@
         <el-table-column label="操作" width="200" fixed="right">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
-              
+
               <el-button type="text" size="mini" @click="handleReport(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看报告
               </el-button>
               <el-button type="text" size="mini" @click="handleBack(scope.row)">
                 <svg-icon icon-class='ic_back' class="tablesvgicon"></svg-icon>回退
               </el-button>
-            
+
             </div>
             <div v-else>
               <!-- <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
@@ -124,7 +124,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 120px)",
+      tableHeight: "calc(100% - 125px)",
       TenantIds: [],
 
       ptrolnatures,

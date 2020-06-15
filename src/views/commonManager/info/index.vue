@@ -21,12 +21,12 @@
             </el-scrollbar>
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+                    <el-button type="primary" @click="handleSubmit" :loading="loading">
+                        <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+                    </el-button>
                 </div>
-            </el-col>
-        </div>
 
-    </div>
+        </div>
 </template>
 
 <script>
@@ -162,6 +162,13 @@ export default {
 }
 /deep/.search-box {
     border-bottom: 0;
+}
+
+.edui-button.edui-for-135editor .edui-button-wrap .edui-button-body .edui-icon {
+    background-image: url("http://static.135editor.com/img/icons/editor-135-icon.png") !important;
+    background-size: 85%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 </style>
 

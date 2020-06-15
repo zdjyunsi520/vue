@@ -82,7 +82,7 @@
  
  .treebox {
      .el-tree {
-         padding: 20px;
+         padding: 15px 10px;
          box-sizing: border-box;
      }
  }
@@ -146,9 +146,11 @@
          padding-right: 5px;
      }
  }
- .el-dialog__wrapper .dialog-footer{
-     border-top:none!important;
+ 
+ .el-dialog__wrapper .dialog-footer {
+     border-top: none!important;
  }
+ 
  .el-input-number.is-controls-right[class*=medium] [class*=increase],
  .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
      line-height: 17px;
@@ -189,7 +191,7 @@
  
  .search-box {
      background: #fff;
-     padding: 15px 20px 5px;
+     padding: 15px 15px 5px;
      //  box-shadow: 0px 2px 4px #f5f5f5;
      border-bottom: 1px solid #ebeef5;
      border-radius: 4px 4px 0 0;
@@ -557,14 +559,15 @@
  
  //  权限表格 样式
  .roletable-box {
-     border-top: 1px solid #ebeef5;
-     border-right: 1px solid #ebeef5;
      background-color: #fff;
      margin-right: 10px;
-     height: 95%;
-     border-bottom: 1px solid #ebeef5;
+     height: 99%;
+     border: 1px solid #ebeef5;
      margin-left: 10px;
-     background-color: #f7f8fe;
+     & .el-form>ul {
+         background-color: #f7f8fe;
+         border-left: none;
+     }
      ul {
          display: flex;
          align-items: center;
@@ -765,7 +768,7 @@
          width: 300px;
          margin: 0;
          &.smimg {
-             width: 200px;
+             width: 180px;
          }
      }
      p {
@@ -857,15 +860,14 @@
      justify-content: space-between;
      padding: 3% 10% 2%;
      div {
-        
          width: 100px;
          height: 100px;
          position: relative;
          span {
              position: absolute;
-             line-height: 100px; 
+             line-height: 100px;
              border: 1px solid #3e4674;
-         border-radius: 100%;
+             border-radius: 100%;
              top: 0;
              bottom: 0;
              margin: auto;
@@ -999,3 +1001,25 @@
      align-content: stretch;
      align-items: stretch;
  }
+ 
+ .tb-smtitle {
+     padding: 15px 0;
+     margin: 0
+ }
+ 
+ .smchartbox {
+     border: solid 1px #ebeef5;
+     border-radius: 2px;
+     margin-bottom: 15px;
+ }
+ 
+ .el-input-group__append,
+ .el-input-group__prepend {
+     background-color: #418bff!important;
+     color: #ffffff!important;
+     border: 1px solid #418bff!important;
+ }
+ 
+ //  .el-button [class*="el-icon-"] + span {
+ //     margin-left: 8px;
+ // }

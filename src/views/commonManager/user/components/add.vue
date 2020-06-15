@@ -3,7 +3,7 @@
         <div class="search-box onlyform-box">
             <p class="form-smtitle">{{title}} </p>
 
-            <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+            <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="form.username" placeholder="请输入用户名" />
@@ -29,7 +29,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs='24' class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+                    <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
                 </div>
             </el-col>

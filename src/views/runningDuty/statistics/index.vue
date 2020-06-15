@@ -30,7 +30,11 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' style='margin-top:20px'>
+      <p class="form-smtitle tb-smtitle">
+        <span v-if="activeName=='1'">人员统计</span>
+        <span v-if="activeName=='2'">值班统计</span>
+      </p>
+      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />
@@ -43,8 +47,12 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
-      <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
-      <p v-else class="tips" style="padding-top:13%">暂无数据</p>
+      <p class="form-smtitle tb-smtitle">{{chartData.title}}-值班统计图 </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
+
     </div>
   </div>
 
@@ -84,7 +92,7 @@ export default {
       patrolYear: "",
       activeName: "1",
       chartData: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 110px)",
       columns: [
         "1月",
         "2月",

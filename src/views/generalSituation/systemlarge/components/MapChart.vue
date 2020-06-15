@@ -126,36 +126,36 @@ export default {
       var series = [];
       [[localName, chinaDatas]].forEach((item, i) => {
         series.push(
-          {
-            type: "lines",
-            zlevel: 3,
-            symbol: ["none", "circle"],
-            tooltip: {
-              show: false
-            },
-            effect: {
-              show: true,
-              period: 4, //箭头指向速度，值越小速度越快
-              trailLength: 0.02, //特效尾迹长度[0,1]值越大，尾迹越长重
-              symbol: "arrow", //箭头图标
-              symbolSize: 5 //图标大小
-            },
-            lineStyle: {
-              normal: {
-                width: 1, //尾迹线条宽度
-                opacity: 1, //尾迹线条透明度
-                curveness: 0.4 //尾迹线条曲直度
-              }
-            },
-            data: this.convertData(item[1], localCoordinate, chinaGeoCoordMap)
-          },
+          // {
+          //   type: "lines",
+          //   zlevel: 3,
+          //   symbol: ["none", "circle"],
+          //   tooltip: {
+          //     show: false
+          //   },
+          //   effect: {
+          //     show: true,
+          //     period: 4, //箭头指向速度，值越小速度越快
+          //     trailLength: 0.02, //特效尾迹长度[0,1]值越大，尾迹越长重
+          //     symbol: "arrow", //箭头图标
+          //     symbolSize: 5 //图标大小
+          //   },
+          //   lineStyle: {
+          //     normal: {
+          //       width: 1, //尾迹线条宽度
+          //       opacity: 1, //尾迹线条透明度
+          //       curveness: 0.4 //尾迹线条曲直度
+          //     }
+          //   },
+          //   data: this.convertData(item[1], localCoordinate, chinaGeoCoordMap)
+          // },
           {
             type: "effectScatter",
             coordinateSystem: "geo",
             zlevel: 4,
             rippleEffect: {
               //涟漪特效
-              period: 4, //动画时间，值越小速度越快
+              period: 5, //动画时间，值越小速度越快
               brushType: "stroke", //波纹绘制方式 stroke, fill
               scale: 4 //波纹圆环最大限制，值越大波纹越大
             },
@@ -180,8 +180,8 @@ export default {
             },
             symbol: "circle",
             symbolSize: function(val) {
-              // return 3 + val[2] * 3; //圆环大小
-              return 8; //圆环大小
+              return 5 + val[2] * 0.08; //圆环大小
+              // return 5; //圆环大小
             },
 
             itemStyle: {
@@ -198,44 +198,44 @@ export default {
             })
           },
           //被攻击点
-          {
-            type: "scatter",
-            coordinateSystem: "geo",
-            zlevel: 4,
+          // {
+          //   type: "scatter",
+          //   coordinateSystem: "geo",
+          //   zlevel: 4,
 
-            tooltip: {
-              show: false
-            },
-            rippleEffect: {
-              period: 4,
-              brushType: "stroke",
-              scale: 4
-            },
-            label: {
-              normal: {
-                show: true,
-                position: "right",
-                //offset:[5, 0],
-                color: "#06fdff",
-                formatter: "{b}",
-                textStyle: {
-                  color: "#06fdff"
-                }
-              },
-              emphasis: {
-                show: true,
-                color: "#06fdff"
-              }
-            },
-            symbol: "pin",
-            symbolSize: 30,
-            data: [
-              {
-                name: item[0],
-                value: chinaGeoCoordMap[item[0]].concat([10])
-              }
-            ]
-          }
+          //   tooltip: {
+          //     show: false
+          //   },
+          //   rippleEffect: {
+          //     period: 4,
+          //     brushType: "stroke",
+          //     scale: 4
+          //   },
+          //   label: {
+          //     normal: {
+          //       show: true,
+          //       position: "right",
+          //       //offset:[5, 0],
+          //       color: "#06fdff",
+          //       formatter: "{b}",
+          //       textStyle: {
+          //         color: "#06fdff"
+          //       }
+          //     },
+          //     emphasis: {
+          //       show: true,
+          //       color: "#06fdff"
+          //     }
+          //   },
+          //   symbol: "pin",
+          //   symbolSize: 30,
+          //   data: [
+          //     {
+          //       name: item[0],
+          //       value: chinaGeoCoordMap[item[0]].concat([10])
+          //     }
+          //   ]
+          // }
         );
       });
 
@@ -268,7 +268,8 @@ export default {
           min: 0,
           max: 1,
           calculable: true,
-          color: [ "#06fdff","#2178ff", "#d2feff"],
+          color: [ "#06fdff"],//,"#d2feff", "#2178ff"
+
           textStyle: {
             color: "#fff"
           }

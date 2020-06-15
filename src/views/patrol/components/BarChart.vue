@@ -85,13 +85,12 @@ export default {
     setOptions({ title, xAxisData, listData } = {}) {
       this.chart.setOption({
         title: {
-          text: title,
-          left: "5px",
-          top: "20px",
+          text: "单位(次)",
+          left: "20px",
+          top: "15px",
           textStyle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#333"
+            fontSize: 12,
+            color: "#999"
           }
         },
         tooltip: {
@@ -114,10 +113,10 @@ export default {
           }
         },
         grid: {
-          top: "60px",
-          left: "30px",
-          right: "30px",
-          bottom: "0px",
+          top: "50px",
+          left: "20px",
+          right: "15px",
+          bottom: "15px",
           containLabel: true
         },
         xAxis: [
@@ -165,7 +164,7 @@ export default {
             axisLabel: {
               fontSize: 12,
               color: "#909399",
-              margin: 30
+              margin: 15
             },
             splitLine: {
               lineStyle: {
@@ -185,7 +184,7 @@ export default {
             type: "bar",
             // stack: 'vistors',
             barWidth: "40%",
-            barMaxWidth:50,
+            barMaxWidth: 50,
             data: listData
           }
         ]

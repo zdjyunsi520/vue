@@ -45,7 +45,7 @@
         function(event) {
           console.log(event.data);
           if (typeof event.data !== "string") return;
-          editor.setContent(event.data + "");
+          editor.setContent(event.data, true);
           editor.fireEvent("catchRemoteImage");
           console.log(editor.getContent());
           dialog.close();

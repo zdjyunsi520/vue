@@ -7,7 +7,7 @@
                 <el-tab-pane label="验收情况" name="backFile" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
             </el-tabs>
             <el-scrollbar>
-                <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
+                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px">
                     <el-row>
                         <el-col :span="11" :xs="24">
                             <el-form-item label="用电单位" prop="TenantId">
@@ -103,7 +103,7 @@
             </el-scrollbar>
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading1" v-if="form1.Status<1&&!ReadOnly">保 存</el-button>
+                    <el-button type="primary"   @click="handleSubmit" :loading="loading1" v-if="form1.Status<1&&!ReadOnly"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
                     <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<1&&!ReadOnly">发 送</el-button>
                     <!-- <el-button type="primary" icon="el-icon-s-release" v-else @click="handleBack" :loading="loading">回 退</el-button> -->
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>

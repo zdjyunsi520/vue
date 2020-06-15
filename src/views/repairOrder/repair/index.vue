@@ -50,7 +50,7 @@
                 <el-table-column label="紧急程度" width="120" sortable prop="EmergencyLevel" :formatter="formatterUrgency"></el-table-column>
                 <el-table-column label="受理时间" width="180" prop="ReceiveTime" />
                 <el-table-column label="状态" width="100" sortable prop="Status" :formatter="formatterStatus" />
-                <el-table-column label="操作" fixed="right" width="240">
+                <el-table-column label="操作" fixed="right" width="250">
                     <template slot-scope="{row}">
                         <div>
                             <el-button type="text" size="mini" @click="handleLook(row)">

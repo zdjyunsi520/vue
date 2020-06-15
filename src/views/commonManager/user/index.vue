@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="用户名：" prop="username">
           <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item label="姓名：" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="预留手机号" prop="mobilephone">
+        <el-form-item label="预留手机号：" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>

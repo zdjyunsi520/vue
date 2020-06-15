@@ -5,7 +5,7 @@
       <div class="roletable-box">
         <el-scrollbar>
           <!-- <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;"> -->
-          <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+          <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
 
             <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
@@ -49,7 +49,7 @@
       </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" icon="el-icon-check" @click="handleSubmit" :loading="loading">保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>

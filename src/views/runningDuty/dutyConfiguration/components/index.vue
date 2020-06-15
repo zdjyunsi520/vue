@@ -8,7 +8,7 @@
           <p class="form-smtitle">值班配置</p>
 
           <el-col :span="8">
-            <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
+            <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="88px" style="padding-right: 0px;">
               <el-row>
                 <el-col :span="24">
                   <el-form-item label="值班班组" prop="TeamId">
@@ -46,7 +46,7 @@
     </el-row>
     <el-col :span="24" :xs='24' class="absolute-bottom">
       <div class="form-footer">
-        <el-button type="primary" icon="el-icon-check" @click="handleConfirm" :loading="loading">保 存</el-button>
+        <el-button type="primary"  @click="handleConfirm" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
         <el-button icon="el-icon-arrow-left" @click="handleBack(null)">返 回</el-button>
       </div>
     </el-col>

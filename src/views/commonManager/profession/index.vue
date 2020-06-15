@@ -24,7 +24,7 @@
 
     <!-- <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-        <div style="background:#fff;height:100%">
+        <div style="background:#fff;height:100%;padding:0 10px;">
           <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
             <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
           </el-scrollbar>
@@ -167,7 +167,7 @@ export default {
       });
     },
     handleAddClass() {
-      const parentKey = this.addId;
+      const parentKey = this.currentNode.id;
       const type = 2;
       const data = { parentKey, type };
       const title = "新增分类";
@@ -205,7 +205,7 @@ export default {
       }).then(v => {
         const key = this.currentNode.key;
         deleted({ key }).then(r => {
-          this.$message.success('删除成功！');
+          this.$message.success("删除成功！");
           this.currentNode = {};
           this.needToScroll++;
           this.getList();

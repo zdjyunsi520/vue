@@ -3,9 +3,9 @@
 
         <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-                <div style="background:#fff;height:100%">
+                <div style="background:#fff;height:100%;padding:0 10px;">
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-                        <el-tree ref="tree" :data="treeData" node-key="id" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false"></el-tree>
+                        <el-tree ref="tree" :data="treeData" node-key="id"  :accordion='true' :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false"></el-tree>
                     </el-scrollbar>
                 </div>
             </el-col>

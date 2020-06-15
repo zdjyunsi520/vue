@@ -46,7 +46,7 @@
         <el-table-column label="同步平台" width="100">
           <template slot-scope="{row}">
             <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
-              <el-switch v-model="row.active" active-color="#56a7ff" inactive-color="#e2ecff" @change="handleSync(row)" />
+              <el-switch v-model="row.active" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开启" inactive-text="关闭" @change="handleSync(row)" />
             </el-row>
             <el-row v-else>
               ----

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box xl-querybox marginbottom15">
+    <div class="search-box xl-querybox marginbottom15" style='padding-top:15px'>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按年度统计" name="0"></el-tab-pane>
         <el-tab-pane label="按缺陷等级统计" name="1"></el-tab-pane>
@@ -39,7 +39,12 @@
       </el-form>
     </div>
     <div class="bg-white containerbox marginbottom15" ref="containerbox">
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle' style='margin-top:15px'>
+      <p class="form-smtitle tb-smtitle">
+        <span v-if="activeName=='0'">缺陷年度统计</span>
+        <span v-if="activeName=='1'">缺陷等级统计</span>
+        <span v-if="activeName=='2'">消缺率统计</span>
+      </p>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class='smimg' />
@@ -52,8 +57,12 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
     <div class="bg-white containerbox  chart-wrapper">
-      <BarChart ref="chart" :chartData='chartData' v-if="dataList&&dataList.length>0" />
-      <p v-else class="tips" style="padding-top:13%">暂无数据</p>
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
+
     </div>
 
   </div>
@@ -88,7 +97,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 110px)",
       listLoading: true,
 
       ranks: [
@@ -250,7 +259,7 @@ export default {
           fn = bugReportByYear;
           this.columns = this.columns1.slice(0);
           this.props = this.prop1.slice(0);
-          smtitle = "-按年度统计";
+          smtitle = "-年度统计图";
           break;
         case "1":
           data.status = this.queryParams.status;
@@ -259,14 +268,14 @@ export default {
           this.columns.push("总计");
           this.props = this.prop2.slice(0);
           this.props.push("Total");
-          smtitle = "-按缺陷等级统计";
+          smtitle = "-缺陷等级统计图";
           break;
         case "2":
           data.status = this.queryParams.status;
           fn = bugReportByRate;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
-          smtitle = "-按消缺率统计";
+          smtitle = "-消缺率统计图";
           break;
         default:
           break;
