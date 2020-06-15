@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
 
       <el-scrollbar>
-        <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
           <el-form-item label="父级分类" prop="parentId">
             <el-select v-model="form.parentId" clearable>

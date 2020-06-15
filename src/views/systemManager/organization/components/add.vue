@@ -5,7 +5,7 @@
         <!-- 添加或编辑参数配置对话框 -->
         <div class="search-box onlyform-box">
             <el-scrollbar>
-                <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px">
+                <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px">
                     <el-row :gutter="20">
                         <el-col :span="24">
                             <p class="form-smtitle"> 基础信息 </p>

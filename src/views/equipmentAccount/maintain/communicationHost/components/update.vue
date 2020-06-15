@@ -3,7 +3,7 @@
         <div class="search-box onlyform-box">
             <p class="form-smtitle">{{title}}通讯主机</p>
             <el-scrollbar>
-                <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="110px">
+                <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="110px">
                     <el-row>
                         <el-col :span="10" :push="1" :xs="24">
                             <el-form-item label="设备编号" prop="serialcode">

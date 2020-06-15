@@ -9,7 +9,7 @@
             </el-tabs>
             <!-- <p class="form-smtitle">{{title}}</p> -->
             <el-scrollbar>
-                <el-form :model="form" ref="form" label-position="left" :rules="rules" label-width="110px">
+                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px">
 
                     <el-row>
                         <el-col :span="11" :xs="24">

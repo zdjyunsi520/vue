@@ -3,10 +3,10 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}配置</p>
 
-      <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
         <el-form-item label="类型" prop="Type">
-          <el-select v-model="form.Type">
+          <el-select v-model="form.Type" :disabled='form.Id?true:false'>
             <el-option label="键值" :value="1" />
             <el-option label="枚举" :value="2" />
           </el-select>

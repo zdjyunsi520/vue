@@ -5,7 +5,7 @@
       <div class="roletable-box">
         <el-scrollbar>
           <!-- <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;"> -->
-          <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+          <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
 
             <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">

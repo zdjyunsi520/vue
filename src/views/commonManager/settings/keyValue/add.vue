@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}配置子项</p>
 
-      <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
         <el-form-item label="名称" prop="Name">
           <el-input v-model="form.Name" placeholder="请输入名称" />

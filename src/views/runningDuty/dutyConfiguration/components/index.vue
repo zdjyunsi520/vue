@@ -8,7 +8,7 @@
           <p class="form-smtitle">值班配置</p>
 
           <el-col :span="8">
-            <el-form ref="form" :model="form" label-position="left" :rules="rules" label-width="88px" style="padding-right: 0px;">
+            <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="88px" style="padding-right: 0px;">
               <el-row>
                 <el-col :span="24">
                   <el-form-item label="值班班组" prop="TeamId">

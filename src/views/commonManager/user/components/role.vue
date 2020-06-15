@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
         <el-scrollbar>
-          <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="30px" style="padding:0">
+          <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
             <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
                 <div>

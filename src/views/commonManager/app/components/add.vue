@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}APP</p>
 
-      <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
+      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:600px">
 
         <el-form-item label="应用名称" prop="Type">
           <el-select v-model="form.Type" placeholder="">

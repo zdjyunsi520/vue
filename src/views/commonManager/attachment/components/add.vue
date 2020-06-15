@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <!-- <p class="form-form-smtitle">{{title}}附件类型</p> -->
       <el-scrollbar>
-        <el-form ref="form" label-position="left" :model="form" :rules="rules" :inline-message="true">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" :inline-message="true">
           <el-row :gutter="20">
             <el-col :span="24">
               <p class="form-smtitle">基础设置</p>

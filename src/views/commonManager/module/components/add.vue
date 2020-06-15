@@ -3,7 +3,7 @@
         <div class="search-box  onlyform-box">
             <p class="form-smtitle">{{title}} </p>
             <el-scrollbar>
-                <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="120px" :inline-message="true">
+                <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="120px" :inline-message="true">
                     <el-col>
                         <el-col :span='12' :xs='24'>
                             <el-form-item label="名称" prop="name">
@@ -52,7 +52,7 @@
           </el-form-item> -->
 
                     <el-col>
-                        <el-col :span='22' :xs='24'>
+                        <el-col :span='15' :xs='24'>
                             <el-form-item label="应用图标">
                                 <IconSelect ref="iconSelect" @selected="selected" />
                             </el-form-item>

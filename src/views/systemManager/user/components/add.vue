@@ -4,7 +4,7 @@
             <p class="form-smtitle">{{title}} </p>
 
             <el-scrollbar>
-                <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="110px" style="width:600px">
+                <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" style="width:600px">
 
                     <el-form-item label="所属单位" prop="text" v-if="!form.id">
                         <el-input v-model="form.text" placeholder="" :disabled="true" />

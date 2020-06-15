@@ -1,7 +1,7 @@
 <template>
   <el-dialog width="800px" :title="title" :visible.sync="dialogVisible" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center>
     <!-- 添加或编辑参数配置对话框 -->
-    <el-form ref="form" label-position="left" :model="form" :rules="rules" label-width="100px">
+    <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px">
       <el-col :span="12">
         <el-form-item label="所属单位" prop="name">
           <el-input v-model="form.name" placeholder="请输入角色名称" />
