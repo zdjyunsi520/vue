@@ -43,7 +43,9 @@
             </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button Type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+            <el-button Type="primary" @click="handleSubmit" :loading="loading">
+                <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            </el-button>
             <el-button @click="handleOpen(null)">取 消</el-button>
         </div>
         <!-- 添加或编辑参数配置对话框 end -->
@@ -136,7 +138,6 @@ export default {
     },
     methods: {
         hanldeChange() {
-            console.log("hanldeChange");
             getInfo({ Id: this.form.TenantId }).then(r => {
                 this.form.ContactPerson = r.data.ContactPerson;
                 this.form.PhoneNo = r.data.PhoneNo;
