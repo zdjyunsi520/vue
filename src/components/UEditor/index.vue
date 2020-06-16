@@ -46,7 +46,11 @@ export default {
     mounted() {
         window.UEDITOR_HOME_URL = "/UE/";
         current_editor = UE.getEditor("editor", {
-            initialFrameHeight: 600,
+            autoHeightEnabled: false,
+            autoFloatEnabled: true,
+            initialFrameWidth: "100%",
+            initialFrameHeight: "400",
+            BaseUrl: "",
             focus: true,
             toolbars: [
                 [
@@ -78,7 +82,7 @@ export default {
             ],
             focusInEnd: true
         });
-        current_editor.addListener("contentChange", this.onEditorChange);
+        current_editor.addListener("blur", this.onEditorChange);
     },
     methods: {
         handleUpload(params) {
