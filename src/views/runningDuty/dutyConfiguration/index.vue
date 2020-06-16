@@ -51,7 +51,7 @@
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <!-- <el-table-column type="selection" fixed="left" width="55"  /> -->
+                <!-- <el-table-column type="selection" fixed="left" width="60"  /> -->
                 <el-table-column label="值班班组" min-width='130' prop="TeamName" />
                 <el-table-column label="值班人员" min-width='220' prop="EmployeeNames" />
                 <el-table-column label="班次类型" width='130' prop="ShiftTypeName" />

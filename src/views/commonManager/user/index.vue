@@ -33,7 +33,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="用户名" min-width="150" prop="UserName" />
         <el-table-column label="姓名" min-width="150" prop="Name" />
         <el-table-column label="预留手机号" width="130" prop="MobilePhone" />

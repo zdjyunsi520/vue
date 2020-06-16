@@ -30,7 +30,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="应用名称" min-width="150" prop="TypeName" />
         <el-table-column label="版本名称" min-width="180" prop="VersionName" />
         <el-table-column label="更新时间" width="200" prop="CreateTime">

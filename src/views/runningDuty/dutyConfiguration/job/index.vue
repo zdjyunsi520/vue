@@ -39,7 +39,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="岗位名称" min-width="150" prop="Name" />
         <el-table-column label="班次" min-width="150" prop="ShiftName" />
         <el-table-column label="角色" min-width="180" prop="CharacterName" />

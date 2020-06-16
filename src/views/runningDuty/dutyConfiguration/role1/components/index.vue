@@ -28,7 +28,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="角色" prop="Name" />
         <el-table-column label="最少人数" prop="MinPersonCount" />
         <el-table-column label="备注" prop="Remark" />

@@ -24,7 +24,7 @@
         <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
       <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="名称" width='150' prop="Name" />
         <el-table-column label="代码"  min-width='150'prop="Key" />
         <el-table-column label="值"  min-width='160'prop="Value" />

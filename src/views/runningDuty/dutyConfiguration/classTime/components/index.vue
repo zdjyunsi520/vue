@@ -28,7 +28,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="55" />
+        <el-table-column type="selection" fixed="left" width="60" />
         <el-table-column label="班次" prop="Name" />
         <el-table-column label="开始时间" prop="StartTime" />
         <el-table-column label="间隔天数" prop="Period" />

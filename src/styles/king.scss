@@ -1023,3 +1023,15 @@
  //  .el-button [class*="el-icon-"] + span {
  //     margin-left: 8px;
  // }
+ #edui_fixedlayer {
+     z-index: 10000 !important;
+ }
+ 
+ .edui-dialog.edui-for-135editor {
+     z-index: 10001 !important;
+ }
+ 
+ .el-checkbox__inner {
+     width: 18px!important;
+     height: 18px!important;
+ }
