@@ -13,7 +13,7 @@
                     <el-row>
                         <el-col :span="11" :xs="24">
                             <el-form-item label="用电单位" prop="SourceTenantId">
-                                <el-select v-model="form.SourceTenantId" placeholder="" :disabled="disabled">
+                                <el-select v-model="form.SourceTenantId" placeholder="" :disabled="disabled" @change="hanldeChange">
                                     <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -104,7 +104,9 @@
             </el-scrollbar>
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
-                    <el-button type="primary" @click="handleSubmit" :loading="loading" v-if="form1.Status<2&&!ReadOnly"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+                    <el-button type="primary" @click="handleSubmit" :loading="loading" v-if="form1.Status<2&&!ReadOnly">
+                        <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+                    </el-button>
                     <el-button type="primary" icon="el-icon-s-promotion" @click="handleSend" :loading="loading" v-if="form1.Status<2&&!ReadOnly">发 送</el-button>
                     <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
                 </div>
@@ -120,6 +122,8 @@ import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
 import TreeSelect from "@/views/components/TreeSelect";
 import { getChildrenList } from "@/api/org";
+import { getInfo } from "@/api/systemManager/organization";
+import { getInfo as getEmployeeInfo } from "@/api/systemManager/user";
 export default {
     components: { TreeSelect },
     data() {
@@ -181,7 +185,6 @@ export default {
             ContactPerson: [
                 {
                     pattern: /^[A-Za-z\u4e00-\u9fa5]{1,12}$/,
-                    required: true,
                     message: "请输入12位以内的汉字或字母",
                     trigger: "blur"
                 }
@@ -189,14 +192,24 @@ export default {
             ChargePhoneNo: [
                 {
                     pattern: /^1\d{10}$/,
-                    required: true,
+                    message: "请输入正确的手机号"
+                }
+            ],
+            ReceivePhoneNo: [
+                {
+                    pattern: /^1\d{10}$/,
+                    message: "请输入正确的手机号"
+                }
+            ],
+            ContactPhoneNo: [
+                {
+                    pattern: /^1\d{10}$/,
                     message: "请输入正确的手机号"
                 }
             ],
             Situation: [
                 {
                     pattern: /^.{1,300}$/,
-                    required: true,
                     message: "请输入300位以内的内容"
                 }
             ]
@@ -274,6 +287,20 @@ export default {
         this.reset(data);
     },
     methods: {
+        hanldeChange() {
+            getInfo({ Id: this.form.SourceTenantId }).then(r => {
+                this.form.ContactPerson = r.data.ContactPerson;
+                this.form.ContactPhoneNo = r.data.MobilePhone;
+                this.form.Address = r.data.Address;
+            });
+        },
+        getEmployeeInfo(Id, target) {
+            this.form[target] = "";
+            getEmployeeInfo({ Id }).then(r => {
+                this.form[target] = r.data.MobilePhone;
+            });
+        },
+
         // 巡视单位列表
         getTenants() {
             getChildrenList().then(res => {
@@ -283,11 +310,13 @@ export default {
         handleConfirm(data) {
             this.ChargePersonId = data.map(v => v.id);
             this.form.ChargePersonId = this.ChargePersonId.join(",");
+            this.getEmployeeInfo(this.form.ChargePersonId, "ChargePhoneNo");
             this.$refs.form.clearValidate("ChargePersonId");
         },
         handleConfirm1(data) {
             this.ReceivePersonId = data.map(v => v.id);
             this.form.ReceivePersonId = this.ReceivePersonId.join(",");
+            this.getEmployeeInfo(this.form.ReceivePersonId, "ReceivePhoneNo");
             this.$refs.form.clearValidate("ReceivePersonId");
         },
         // 巡视人员
@@ -415,6 +444,10 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.clearValidate();
             });
+
+            this.form.ReceiveTime = this.form.ReceiveTime
+                ? this.form.ReceiveTime
+                : new Date();
         },
         getInfo(data) {
             this.loading = true;
