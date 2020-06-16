@@ -44,7 +44,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="型号">
+              <el-form-item label="型号" prop="modelname">
                 <el-input v-model="form.modelname" placeholder="请输入型号" />
               </el-form-item>
             </el-col>
@@ -59,7 +59,7 @@
             </el-col>
 
             <el-col :span="10" :push="2" :xs='24'>
-              <el-form-item label="生产厂家">
+              <el-form-item label="生产厂家" prop="factory">
                 <el-input v-model="form.factory" placeholder="请输入生产厂家" />
               </el-form-item>
             </el-col>
@@ -76,7 +76,7 @@
             </el-col>
 
             <el-col :span="10" :push="1" :xs='24'>
-              <el-form-item label="排序号" >
+              <el-form-item label="排序号" prop="sortindex">
                 <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
               </el-form-item>
             </el-col>
@@ -121,7 +121,7 @@ export default {
       modelname: [
         {
           pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
-          required: true,
+          required: false,
           message: "请输入18位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
@@ -129,7 +129,7 @@ export default {
       factory: [
         {
           pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,24}$/,
-          required: true,
+          required: false,
           message: "请输入24位以内的汉字或数字或字母",
           trigger: "blur"
         }
@@ -137,7 +137,7 @@ export default {
       sortindex: [
         {
           pattern: /^\d{1,4}$/,
-          required: true,
+          required: false,
           message: "请输入4位以内的整数"
         }
       ],
@@ -145,7 +145,15 @@ export default {
       tenantId: rule,
       status: rule,
       starttime: rule,
-      property: rule
+      property: rule,
+
+      exfactorydate: [
+        {
+          required: false,
+          message: "此处不能为空",
+          trigger: "blur"
+        }
+      ]
     };
     return {
       form: {},

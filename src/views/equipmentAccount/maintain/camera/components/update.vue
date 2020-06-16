@@ -24,7 +24,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="通道号">
+              <el-form-item label="通道号" prop="channelno">
                 <el-input v-model="form.channelno" placeholder="请输入通道号" />
               </el-form-item>
             </el-col>
@@ -35,7 +35,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="型号">
+              <el-form-item label="型号" prop="modelname">
                 <el-input v-model="form.modelname" placeholder="请输入型号" />
               </el-form-item>
             </el-col>
@@ -62,7 +62,7 @@
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="出厂日期">
+              <el-form-item label="出厂日期" prop="exfactorydate">
                 <el-date-picker v-model="form.exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
@@ -76,7 +76,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="排序号">
+              <el-form-item label="排序号" prop="SortIndex">
                 <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
               </el-form-item>
 
@@ -151,22 +151,30 @@ export default {
       modelname: [
         {
           pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
-          required: true,
+          required: false,
           message: "请输入18位以内的数字或字母或特殊符号",
+          trigger: "blur"
+        }
+      ],
+      factory: [
+        {
+          pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,24}$/,
+          required: false,
+          message: "请输入24位以内的汉字或数字或字母",
           trigger: "blur"
         }
       ],
       channelno: [
         {
           pattern: /^(([1-9]\d)|[1-9])$/,
-          required: true,
+          required: false,
           message: "请输入2位以内的整数"
         }
       ],
-      sortindex: [
+      SortIndex: [
         {
           pattern: /^\d{1,4}$/,
-          required: true,
+          required: false,
           message: "请输入4位以内的整数"
         }
       ],
@@ -174,7 +182,15 @@ export default {
       IsEnable: rule,
       starttime: rule,
       tenantid: rule,
-      attribute: rule
+      attribute: rule,
+
+      exfactorydate: [
+        {
+          required: false,
+          message: "此处不能为空",
+          trigger: "blur"
+        }
+      ]
     };
     return {
       form: {},

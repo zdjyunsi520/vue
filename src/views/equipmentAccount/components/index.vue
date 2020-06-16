@@ -3,30 +3,10 @@
     <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
       <el-col :xs="{ span: 24 }" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding:0 10px;">
-          <el-scrollbar
-            ref="elScrollbar"
-            v-loading="loading"
-            element-loading-text="加载中"
-            element-loading-spinner="el-icon-loading"
-          >
-            <el-tree
-              ref="tree"
-              :current-node-key="currentNode[nodeKey]"
-              :accordion="true"
-              :node-key="nodeKey"
-              :data="treeData"
-              :props="defaultProps"
-              class="comheight"
-              @node-click="handleNodeClick"
-              :highlight-current="true"
-              :default-expand-all="false"
-              :expand-on-click-node="false"
-            >
+          <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+            <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :accordion="true" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all="false" :expand-on-click-node="false">
               <span class="el-tree-node__label" slot-scope="{ node, data }">
-                <svg-icon
-                  
-                  :icon-class="
-                    
+                <svg-icon :icon-class="
                       data.type == 1
                         ? 'gongsi'
                         : data.type == 2
@@ -50,9 +30,7 @@
                         : data.type == 11
                         ? 'jiange'
                         : ''
-                  "
-                  class="tablesvgicon"
-                ></svg-icon>
+                  " class="tablesvgicon"></svg-icon>
                 <!-- <span :class="data.type == 2 ? 'icon-ic_capacity' : ''"></span -->
                 {{ data.text }}
               </span>
@@ -62,14 +40,8 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon
-            icon-class="ic_drag"
-            style="font-size:26px;margin-left:-8px;"
-          />
-          <i
-            class="el-icon-arrow-left"
-            style="font-size:12px;margin-left:-2px;"
-          />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
       <el-col :xs="{ span: 24 }" class="comheight dragright">
