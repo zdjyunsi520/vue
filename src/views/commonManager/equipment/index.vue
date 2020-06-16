@@ -43,17 +43,17 @@
             <i class="el-icon-time" style="margin-right:10px" />{{row.CreateTime}}
           </template>
         </el-table-column>
-        <el-table-column label="同步平台" width="100">
-          <template slot-scope="{row}">
-            <el-row v-if="row.Type=='烟感'||row.Type=='摄像头'">
-              <el-switch v-model="row.active" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开启" inactive-text="关闭" @change="handleSync(row)" />
+        <el-table-column label="同步平台" width="120" prop="IsSyncCloud">
+          <template slot-scope="scope">
+            <el-row v-if="scope.row.Type=='烟感'||scope.row.Type=='摄像头'">
+              <el-switch v-model="scope.row.IsSyncCloud" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开启" inactive-text="关闭" @change="handleSync(scope.row)" />
             </el-row>
             <el-row v-else>
               ----
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column label="同步结果" width="120" prop="SyncResult" />
+        <el-table-column label="同步结果" width="140" prop="SyncResult" />
         <el-table-column label="备注" min-width="200" prop="Remark">
           <template slot-scope="{row}">
             <el-row v-if="row.edit">
@@ -138,8 +138,8 @@ export default {
       fetchList(this.queryParams)
         .then(response => {
           this.dataList = response.data.map(v => {
-            v.SyncResult = "";
-            v.active = false;
+            // v.SyncResult = "";
+            // v.IsSyncCloud = false;
             v.edit = false;
             return v;
           });
@@ -183,23 +183,26 @@ export default {
         params: { data, title }
       });
     },
-    /** 重置密码按钮操作 */
+    /** 同步按钮操作 */
     handleSync(row) {
       let ids =
-        (row && ((row.active = !row.active), (ids = [row]))) || this.ids;
-
+        (row && ((row.IsSyncCloud = !row.IsSyncCloud), (ids = [row]))) ||
+        this.ids;
       ids
         .filter(v => v.Type == "摄像头" || v.Type == "烟感")
         .forEach(row => {
-          const fn = row.active ? cancelEquipment : syncEquipment;
+          const fn = row.IsSyncCloud ? cancelEquipment : syncEquipment;
           const id = row.Id;
           fn({ id })
             .then(r => {
-              row.SyncResult = r.msg;
+              // this.$message.success(!lock ? "已启用！" : "已禁用！");
+              this.getList();
+
+              // row.SyncResult = r.msg;
             })
             .catch(r => {
               row.SyncResult = r.msg;
-              row.active = false;
+              row.IsSyncCloud = false;
             });
         });
     },
