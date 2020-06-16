@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <div class="search-box ">
-
       <el-tabs v-model="activeName">
         <el-tab-pane label="软件许可及服务协议" name="0"></el-tab-pane>
         <el-tab-pane label="隐私政策" name="1"></el-tab-pane>
@@ -9,30 +8,18 @@
         <el-tab-pane label="公司简介" name="3"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="bg-white containerbox " style='position:relative'>
-      <el-scrollbar style="height:calc(100% - 90px)">
-        <editor class="xl-height" @input="handleContent" ref="editors" :value="form.licence"></editor>
-        <!-- <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;">
-          <el-form-item prop="licence" v-show='activeName=="0"'>
-            <editor class="xl-height" @input="handleContent" ref="editors" :value="form.licence"></editor>
+    <div class="bg-white containerbox " style="position:relative">
+      <el-scrollbar style="height:calc(100% - 80px)">
+        <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;">
+          <el-form-item>
+            <editor class="xl-height" @input="handleContent" ref="editors" :value="getValue"></editor>
           </el-form-item>
-          <el-form-item prop="licence" v-show='activeName=="1"'>
-            <editor class="xl-height" @input="handleContent1" ref="editors" :value="form.privacy"></editor>
-          </el-form-item>
-          <el-form-item prop="licence" v-show='activeName=="2"'>
-            <editor class="xl-height" @input="handleContent2" ref="editors" :value="form.cancellation"></editor>
-          </el-form-item>
-          <el-form-item prop="licence" v-show='activeName=="3"'>
-            <editor class="xl-height" @input="handleContent3" ref="editors" :value="form.introduction"></editor>
-          </el-form-item>
-
-        </el-form> -->
-
+        </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs="24" class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class="ic_save" class="tablesvgicon"></svg-icon>保 存
           </el-button>
         </div>
       </el-col>
@@ -66,7 +53,19 @@ export default {
       activeName: "0"
     };
   },
-  computed: {},
+  computed: {
+    getValue() {
+      if (this.activeName == "0") {
+        return this.form.licence;
+      } else if (this.activeName == "1") {
+        return this.form.privacy;
+      } else if (this.activeName == "2") {
+        return this.form.cancellation;
+      } else {
+        return this.form.introduction;
+      }
+    }
+  },
   created() {
     this.getList();
   },
@@ -89,7 +88,15 @@ export default {
       });
     },
     handleContent(content) {
-      this.form.licence = content;
+      if (this.activeName == "0") {
+        this.form.licence = content;
+      } else if (this.activeName == "1") {
+        this.form.privacy = content;
+      } else if (this.activeName == "2") {
+        this.form.cancellation = content;
+      } else {
+        this.form.introduction = content;
+      }
     },
     handleContent1(content) {
       this.form.privacy = content;
@@ -112,8 +119,6 @@ export default {
       );
     },
     handleSubmit() {
-      this.$refs.editors.onEditorChange();
-      //   return;
       if (this.form.licence == "") {
         this.$message.error("软件许可及服务协议不能为空！");
         this.activeName = "0";
@@ -171,11 +176,13 @@ export default {
   border-bottom: 0;
 }
 
+.edui-button.edui-for-135editor .edui-button-wrap .edui-button-body .edui-icon {
+  background-image: url("http://static.135editor.com/img/icons/editor-135-icon.png") !important;
+  background-size: 85%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /deep/.el-form-item--medium .el-form-item__content {
   line-height: 23px;
 }
 </style>
-
-
-
-

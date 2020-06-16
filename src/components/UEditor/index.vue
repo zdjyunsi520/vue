@@ -1,11 +1,12 @@
 <template>
   <div class="uedit">
     <!-- 图片上传组件辅助 -->
-    {{content}}
+
     <!-- 富文本组件 -->
     <!-- <quill-editor class="editor" v-model="content" ref="quillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @change="onEditorChange($event)"></quill-editor> -->
-    <script id="editor" name="content" style="width:1024px;height:300px!important;" type="text/plain"> <p>{{content}}</p> 
-</script>
+    <script id="editor" name="content" style="width:100%;height:300px;" type="text/plain">
+      {{content}}
+    </script>
   </div>
 </template>
 
@@ -31,14 +32,15 @@ export default {
   },
   watch: {
     value: function() {
-      //   this.content = this.value;
+      this.content = this.value;
+      this.current_editor && this.current_editor.setContent(this.value);
     }
   },
   computed: {},
   mounted() {
     window.UEDITOR_HOME_URL = "/UE/";
     this.current_editor = UE.getEditor("editor", {
-      initialFrameHeight: 500,
+      initialFrameHeight: 600,
       focus: true,
       toolbars: [
         [
@@ -70,6 +72,7 @@ export default {
       ],
       focusInEnd: true
     });
+    this.current_editor.addListener("contentChange", this.onEditorChange);
   },
   methods: {
     handleUpload(params) {
@@ -108,7 +111,7 @@ export default {
       //获得焦点事件
     },
     onEditorChange() {
-      this.content = this.current_editor.getContent();
+      console.log("input");
       //内容改变事件
       this.$emit("input", this.current_editor.getContent());
     },
