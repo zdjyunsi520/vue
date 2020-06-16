@@ -34,7 +34,7 @@
       window.onload = function() {
         setTimeout(function() {
           editor135.contentWindow.postMessage(editor.getContent(), "*");
-        }, 3000);
+        }, 1500);
       };
       document.addEventListener("mousewheel", function(event) {
         event.preventDefault();
@@ -43,11 +43,9 @@
       window.addEventListener(
         "message",
         function(event) {
-          console.log(event.data);
           if (typeof event.data !== "string") return;
-          editor.setContent(event.data, true);
+          editor.setContent(event.data, false);
           editor.fireEvent("catchRemoteImage");
-          console.log(editor.getContent());
           dialog.close();
         },
         false

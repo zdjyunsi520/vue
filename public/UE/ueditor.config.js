@@ -9,7 +9,7 @@
  * 当升级编辑器时，可直接使用旧版配置文件替换新版配置文件,不用担心旧版配置文件中因缺少新功能所需的参数而导致脚本报错。
  **************************提示********************************/
 
-(function() {
+(function () {
   /**
    * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
    * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
@@ -28,113 +28,77 @@
     UEDITOR_HOME_URL: URL,
 
     // 服务器统一请求接口路径
-    serverUrl: URL + "asp/controller.asp",
+    serverUrl: "/uploadfiles/ueditor",
+    configUrl: "/js/ueditor/config.js?v=0709",
 
-    //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
+    plat_host: "www.135editor.com",
+    // proof_path: '/Tools/getIfuncunJcJc'
+
+    //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
+
     toolbars: [
       [
-        "135editor",
-        "fullscreen",
-        "source",
-        "|",
-        "undo",
-        "redo",
-        "|",
         "bold",
         "italic",
         "underline",
-        "fontborder",
-        "strikethrough",
-        "superscript",
-        "subscript",
-        "removeformat",
-        "formatmatch",
-        "autotypeset",
-        "blockquote",
-        "pasteplain",
-        "|",
         "forecolor",
+        "shadowcolor",
         "backcolor",
-        "insertorderedlist",
-        "insertunorderedlist",
-        "selectall",
-        "cleardoc",
-        "|",
-        "rowspacingtop",
-        "rowspacingbottom",
-        "lineheight",
-        "|",
-        "customstyle",
-        "paragraph",
-        "fontfamily",
-        "fontsize",
-        "|",
-        "directionalityltr",
-        "directionalityrtl",
-        "indent",
-        "|",
         "justifyleft",
         "justifycenter",
         "justifyright",
+        "imagescenter",
         "justifyjustify",
-        "|",
-        "touppercase",
-        "tolowercase",
-        "|",
-        "link",
-        "unlink",
-        "anchor",
-        "|",
-        "imagenone",
-        "imageleft",
-        "imageright",
-        "imagecenter",
-        "|",
+        "indent",
+        "outpadding",
+        "rowspacingtop",
+        "rowspacingbottom",
+        "lineheight",
+        "letterspacing",
+      ],
+      [
+        "cleardoc",
+        "fontfamily",
+        "fontsize",
+        "strikethrough",
+        "inserttable",
+        "background",
+        "wordimage",
+        "uploadword",
         "simpleupload",
         "insertimage",
-        "emotion",
-        "scrawl",
-        "insertvideo",
         "music",
-        "attachment",
-        "map",
-        "gmap",
-        "insertframe",
-        "insertcode",
-        "webapp",
-        "pagebreak",
-        "template",
-        "background",
-        "|",
+        "insertvideo",
         "horizontal",
-        "date",
-        "time",
+        "removeformat",
+        "formatmatch",
+        "autotypeset",
+      ],
+      [
+        "source",
+        "blockquote",
+        "link",
+        "unlink",
+        "insertparagraph",
+        "remotecontent",
         "spechars",
-        "snapscreen",
-        "wordimage",
-        "|",
-        "inserttable",
-        "deletetable",
-        "insertparagraphbeforetable",
-        "insertrow",
-        "deleterow",
-        "insertcol",
-        "deletecol",
-        "mergecells",
-        "mergeright",
-        "mergedown",
-        "splittocells",
-        "splittorows",
-        "splittocols",
-        "charts",
-        "|",
-        "print",
-        "preview",
+        "emotion",
+        "insertorderedlist",
+        "insertunorderedlist",
+        "directionalityltr",
+        "directionalityrtl",
+        "undo",
+        "redo",
         "searchreplace",
-        "drafts",
-        "help"
-      ]
+        "fullscreen",
+        "message",
+        "imgstyle",
+        "paragraghstyle",
+        "dragdrop",
+        "qmap",
+      ],
     ],
+    // 'simpleupload','pagebreak','touppercase', 'tolowercase',
     //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
     //,labelMap:{
     //    'anchor':'', 'undo':''
@@ -150,10 +114,10 @@
     //,theme:'default'
     //,themePath:URL +"themes/"
 
-    //,zIndex : 900     //编辑器层级的基数,默认是900
+    zIndex: 1, //编辑器层级的基数,默认是900
 
     //针对getAllHtml方法，会在对应的head标签中增加该编码设置。
-    //,charset:"utf-8"
+    charset: "utf-8",
 
     //若实例化编辑器的页面手动修改的domain，此处需要设置为true
     //,customDomain:false
@@ -161,7 +125,7 @@
     //常用配置项目
     //,isShow : true    //默认显示编辑器
 
-    //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
+    textarea: "content", // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
     //,initialContent:'欢迎使用ueditor!'    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
 
@@ -170,31 +134,35 @@
     //,focus:false //初始化时，是否让编辑器获得焦点true或false
 
     //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
-    //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
+    //,initialStyle:'body{font-family:微软雅黑;}p{line-height:1.6em;font-size:16px;}'//编辑器层级的基数,可以用来改变字体等
 
-    //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
-
+    //,iframeJsUrl: '' //给编辑区域的iframe引入一个js文件
     //indentValue
     //首行缩进距离,默认是2em
     //,indentValue:'2em'
 
+    // ,iframeCssUrl: 'https://static.135editor.com/js/ueditor/themes/iframe.css'
+    iframeCssUrl: "/js/ueditor/themes/iframe.css?_=" + Math.random(),
+    //给编辑区域的iframe引入一个css文件
+
     //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-    //,initialFrameHeight:320  //初始化编辑器高度,默认320
+    initialFrameHeight: 800, //初始化编辑器高度,默认320
 
     //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
-    //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
+    //,autoClearEmptyNode : false //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
     //启用自动保存
-    //,enableAutoSave: true
+    enableAutoSave: false,
     //自动保存间隔时间， 单位ms
-    //,saveInterval: 500
+    saveInterval: 60000,
 
     //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
-    //,imagePopup:true      //图片操作的浮层开关，默认打开
+    imagePopup: true, //图片操作的浮层开关，默认打开
 
-    //,autoSyncData:true //自动同步编辑器要提交的数据
+    autoSyncData: true, //自动同步编辑器要提交的数据
+
     //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
 
     //粘贴只保留标签，去除标签所有属性
@@ -233,56 +201,103 @@
 
     //insertorderedlist
     //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
-    //,'insertorderedlist':{
-    //      //自定的样式
-    //        'num':'1,2,3...',
-    //        'num1':'1),2),3)...',
-    //        'num2':'(1),(2),(3)...',
-    //        'cn':'一,二,三....',
-    //        'cn1':'一),二),三)....',
-    //        'cn2':'(一),(二),(三)....',
-    //     //系统自带
-    //     'decimal' : '' ,         //'1,2,3...'
-    //     'lower-alpha' : '' ,    // 'a,b,c...'
-    //     'lower-roman' : '' ,    //'i,ii,iii...'
-    //     'upper-alpha' : '' , lang   //'A,B,C'
-    //     'upper-roman' : ''      //'I,II,III...'
-    //}
+    insertorderedlist: {
+      //自定的样式
+      //                'num':'1,2,3...',
+      //                'num1':'1),2),3)...',
+      //                'num2':'(1),(2),(3)...',
+      //                'cn':'一,二,三....',
+      //                'cn1':'一),二),三)....',
+      //                'cn2':'(一),(二),(三)....',
+      //系统自带
+      decimal: "", //'1,2,3...'
+      "lower-alpha": "", // 'a,b,c...'
+      "lower-roman": "", //'i,ii,iii...'
+      "upper-alpha": "", //lang   //'A,B,C'
+      "upper-roman": "", //'I,II,III...'
+      "cjk-ideographic": "一、二、三、",
+      "lower-greek": "α,β,γ,δ",
+    },
 
     //insertunorderedlist
     //无序列表的下拉配置，值留空时支持多语言自动识别，若配置值，则以此值为准
-    //,insertunorderedlist : { //自定的样式
-    //    'dash' :'— 破折号', //-破折号
-    //    'dot':' 。 小圆圈', //系统自带
-    //    'circle' : '',  // '○ 小圆圈'
-    //    'disc' : '',    // '● 小圆点'
-    //    'square' : ''   //'■ 小方块'
-    //}
-    //,listDefaultPaddingLeft : '30'//默认的左边缩进的基数倍
+    insertunorderedlist: {
+      //自定的样式
+      //'dash' :'— 破折号', //-破折号
+      //'dot':' 。 小圆圈',
+      //系统自带
+      circle: "", // '○ 小圆圈'
+      disc: "", // '● 小圆点'
+      square: "", //'■ 小方块'
+    },
+    listDefaultPaddingLeft: "30", //默认的左边缩进的基数倍
     //,listiconpath : 'http://bs.baidu.com/listicon/'//自定义标号的路径
-    //,maxListLevel : 3 //限制可以tab的级数, 设置-1为不限制
-
-    //,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
+    maxListLevel: -1, //限制可以tab的级数, 设置-1为不限制
+    autoTransWordToList: true, //禁止word中粘贴进来的列表自动变成列表标签
 
     //fontfamily
-    //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准
-    //,'fontfamily':[
-    //    { label:'',name:'songti',val:'宋体,SimSun'},
-    //    { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
-    //    { label:'',name:'yahei',val:'微软雅黑,Microsoft YaHei'},
-    //    { label:'',name:'heiti',val:'黑体, SimHei'},
-    //    { label:'',name:'lishu',val:'隶书, SimLi'},
-    //    { label:'',name:'andaleMono',val:'andale mono'},
-    //    { label:'',name:'arial',val:'arial, helvetica,sans-serif'},
-    //    { label:'',name:'arialBlack',val:'arial black,avant garde'},
-    //    { label:'',name:'comicSansMs',val:'comic sans ms'},
-    //    { label:'',name:'impact',val:'impact,chicago'},
-    //    { label:'',name:'timesNewRoman',val:'times new roman'}
-    //]
+    //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准.不包含有空格的多个单词的字体。
+    fontfamily: [
+      {
+        label: "",
+        name: "yahei",
+        val: "微软雅黑",
+      }, // 微软雅黑,Microsoft YaHei
+      {
+        label: "",
+        name: "songti",
+        val: "宋体,SimSun",
+      },
+      {
+        label: "",
+        name: "kaiti",
+        val: "楷体,楷体_GB2312,SimKai",
+      },
+      {
+        label: "",
+        name: "heiti",
+        val: "黑体,SimHei",
+      },
+      {
+        label: "",
+        name: "lishu",
+        val: "隶书,SimLi",
+      },
+      //{ label:'文泉驿等宽正黑',name:'',val:'文泉驿等宽正黑'},
+      //{ label:'文泉驿等宽微米黑',name:'',val:'文泉驿等宽微米黑'},
+      {
+        label: "站酷高端黑",
+        name: "",
+        val: "站酷高端黑",
+      },
+      {
+        label: "站酷快乐体",
+        name: "",
+        val: "HappyZcool",
+      },
+
+      {
+        label: "仿宋",
+        name: "",
+        val: "仿宋",
+      },
+      //{ label:'思源粗体',name:'',val:'Source Han Sans K Heavy'},
+      //{ label:'思源极细',name:'',val:'Source Han Sans K ExtraLight'},
+
+      {
+        label: "",
+        name: "arial",
+        val: "arial,helvetica,sans-serif",
+      },
+    ],
 
     //fontsize
     //字号
-    //,'fontsize':[10, 11, 12, 14, 16, 18, 20, 24, 36]
+    fontsize: [12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 28, 32, 36],
+    letterspacing: [0, 0.25, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5],
+    //lineheight
+    //行内间距 值和显示的名字相同
+    lineheight: ["1", "1.5", "1.75", "2", "2.5", "3", "4", "5"],
 
     //paragraph
     //段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
@@ -296,28 +311,8 @@
     //段间距 值和显示的名字相同
     //,'rowspacingbottom':['5', '10', '15', '20', '25']
 
-    //lineheight
-    //行内间距 值和显示的名字相同
-    //,'lineheight':['1', '1.5','1.75','2', '3', '4', '5']
-
-    //customstyle
-    //自定义样式，不支持国际化，此处配置值即可最后显示值
-    //block的元素是依据设置段落的逻辑设置的，inline的元素依据BIU的逻辑设置
-    //尽量使用一些常用的标签
-    //参数说明
-    //tag 使用的标签名字
-    //label 显示的名字也是用来标识不同类型的标识符，注意这个值每个要不同，
-    //style 添加的样式
-    //每一个对象就是一个自定义的样式
-    //,'customstyle':[
-    //    {tag:'h1', name:'tc', label:'', style:'border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:center;margin:0 0 20px 0;'},
-    //    {tag:'h1', name:'tl',label:'', style:'border-bottom:#ccc 2px solid;padding:0 4px 0 0;margin:0 0 10px 0;'},
-    //    {tag:'span',name:'im', label:'', style:'font-style:italic;font-weight:bold'},
-    //    {tag:'span',name:'hi', label:'', style:'font-style:italic;font-weight:bold;color:rgb(51, 153, 204)'}
-    //]
-
     //打开右键菜单功能
-    //,enableContextMenu: true
+    enableContextMenu: true,
     //右键菜单的内容，可以参考plugins/contextmenu.js里边的默认菜单的例子，label留空支持国际化，否则以此配置为准
     //,contextMenu:[
     //    {
@@ -332,17 +327,74 @@
     //]
 
     //快捷菜单
-    //,shortcutMenu:["fontfamily", "fontsize", "bold", "italic", "underline", "forecolor", "backcolor", "insertorderedlist", "insertunorderedlist"]
+    shortcutMenu: [
+      "fontfamily",
+      "fontsize",
+      "|",
+      "bold",
+      "italic",
+      "underline",
+      "fontborder",
+      "strikethrough",
+      "forecolor",
+      "shadowcolor",
+      "insertorderedlist",
+      "insertunorderedlist",
+      "superscript",
+      "subscript",
+      "|",
+      "justifyleft",
+      "justifycenter",
+      "justifyright",
+      "justifyjustify",
+      "indent",
+      "rowspacingtop",
+      "rowspacingbottom",
+      "lineheight",
+      "letterspacing",
+    ],
+
+    newShortcutMenu: [
+      "fontfamily",
+      "fontsize",
+      "bold",
+      "italic",
+      "underline",
+      "forecolor",
+      "shadowcolor",
+      "backcolor",
+      "<br>",
+      "indent",
+      "outpadding",
+      "lineheight",
+      "letterspacing",
+      "justifyleft",
+      "justifycenter",
+      "justifyright",
+      "justifyjustify",
+      "strikethrough",
+      "more",
+      "<br>",
+      "insertorderedlist",
+      "insertunorderedlist",
+      "rowspacingtop",
+      "rowspacingbottom",
+      "fontborder",
+      "superscript",
+      "subscript",
+      "link",
+      "unlink",
+    ],
 
     //elementPathEnabled
     //是否启用元素路径，默认是显示
-    //,elementPathEnabled : true
+    elementPathEnabled: false,
 
     //wordCount
-    //,wordCount:true          //是否开启字数统计
+    wordCount: true, //是否开启字数统计
     //,maximumWords:10000       //允许的最大字符数
     //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
-    //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
+    wordCountMsg: "已输入{#count}字{#images}图，预计阅读需{#minute}分钟", //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
     //超出字数限制提示  留空支持多语言自动切换，否则按此配置显示
     //,wordOverFlowMsg:''    //<span style="color:red;">你输入的字符个数已经超出最大允许值，服务器可能会拒绝保存！</span>
 
@@ -354,60 +406,62 @@
     //removeFormat
     //清除格式时可以删除的标签和属性
     //removeForamtTags标签
-    //,removeFormatTags:'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var'
+    removeFormatTags:
+      "a,b,big,code,del,dfn,em,font,i,section,blockquote,pre,fieldset,ins,kbd,q,samp,small,span,label,strike,strong,sub,sup,tt,u,var",
     //removeFormatAttributes属性
-    //,removeFormatAttributes:'class,style,lang,width,height,align,hspace,valign'
+    removeFormatAttributes:
+      "class,style,lang,width,accuse,height,align,hspace,valign,data-width,data-brushtype,opacity,border,title,placeholder",
 
     //undo
     //可以最多回退的次数,默认20
-    //,maxUndoCount:20
+    maxUndoCount: 20,
     //当输入的字符数超过该值时，保存一次现场
     //,maxInputCount:1
 
     //autoHeightEnabled
     // 是否自动长高,默认true
-    //,autoHeightEnabled:true
+    autoHeightEnabled: false,
 
     //scaleEnabled
     //是否可以拉伸长高,默认true(当开启时，自动长高失效)
-    //,scaleEnabled:false
+    scaleEnabled: false,
+    imageScaleEnabled: true,
     //,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
     //,minFrameHeight:220  //编辑器拖动时最小高度,默认220
 
     //autoFloatEnabled
     //是否保持toolbar的位置不动,默认true
-    //,autoFloatEnabled:true
+    autoFloatEnabled: false,
     //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
     //,topOffset:30
     //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
     //,toolbarTopOffset:400
-
+    remoteName: "#remoteName",
+    remoteSummary: "#remoteSummary",
+    remoteCoverimg: "#remoteCoverimg",
     //设置远程图片是否抓取到本地保存
-    //,catchRemoteImageEnable: true //设置是否抓取远程图片
-
-    //pageBreakTag
-    //分页标识符,默认是_ueditor_page_break_tag_
-    //,pageBreakTag:'_ueditor_page_break_tag_'
+    catchRemoteImageEnable: true, //设置是否抓取远程图片
 
     //autotypeset
     //自动排版参数
-    //,autotypeset: {
-    //    mergeEmptyline: true,           //合并空行
-    //    removeClass: true,              //去掉冗余的class
-    //    removeEmptyline: false,         //去掉空行
-    //    textAlign:"left",               //段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
-    //    imageBlockLine: 'center',       //图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
-    //    pasteFilter: false,             //根据规则过滤没事粘贴进来的内容
-    //    clearFontSize: false,           //去掉所有的内嵌字号，使用编辑器默认的字号
-    //    clearFontFamily: false,         //去掉所有的内嵌字体，使用编辑器默认的字体
-    //    removeEmptyNode: false,         // 去掉空节点
-    //    //可以去掉的标签
-    //    removeTagNames: {标签名字:1},
-    //    indent: false,                  // 行首缩进
-    //    indentValue : '2em',            //行首缩进的大小
-    //    bdc2sb: false,
-    //    tobdc: false
-    //}
+    autotypeset: {
+      mergeEmptyline: true, //合并空行
+      removeClass: false, //去掉冗余的class
+      removeEmptyline: false, //去掉空行
+      textAlign: false,
+      //textAlign:"left",               //段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
+      imageBlockLine: false, //图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
+      pasteFilter: false, //根据规则过滤没事粘贴进来的内容
+      clearFontSize: false, //去掉所有的内嵌字号，使用编辑器默认的字号
+      clearFontFamily: false, //去掉所有的内嵌字体，使用编辑器默认的字体
+      removeEmptyNode: false, // 去掉空节点
+      //可以去掉的标签
+      //removeTagNames: {标签名字:1},
+      indent: false, // 行首缩进
+      indentValue: "2em", //行首缩进的大小
+      bdc2sb: false,
+      tobdc: false,
+    },
 
     //tableDragable
     //表格是否可以拖拽
@@ -416,12 +470,15 @@
     //sourceEditor
     //源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
     //注意默认codemirror只能在ie8+和非ie中使用
-    //,sourceEditor:"codemirror"
+    sourceEditor: "codemirror",
     //如果sourceEditor是codemirror，还用配置一下两个参数
     //codeMirrorJsUrl js加载的路径，默认是 URL + "third-party/codemirror/codemirror.js"
-    //,codeMirrorJsUrl:URL + "third-party/codemirror/codemirror.js"
+    //,codeMirrorJsUrl: "http://static.135editor.com/js/ueditor/third-party/codemirror/codemirror.js"
     //codeMirrorCssUrl css加载的路径，默认是 URL + "third-party/codemirror/codemirror.css"
-    //,codeMirrorCssUrl:URL + "third-party/codemirror/codemirror.css"
+    //,codeMirrorCssUrl: "http://static.135editor.com/js/ueditor/third-party/codemirror/codemirror.css"
+    //编辑器初始化完成后是否进入源码模式，默认为否。
+    //,sourceEditorFirst:false
+    //,editorCssUrl:"http://static.135editor.com/js/ueditor/themes/default/css/ueditor.min.css"
     //编辑器初始化完成后是否进入源码模式，默认为否。
     //,sourceEditorFirst:false
 
@@ -438,111 +495,128 @@
     //, webAppKey: ""
 
     //默认过滤规则相关配置项目
-    //,disabledTableInTable:true  //禁止表格嵌套
+    disabledTableInTable: false, //禁止表格嵌套
     //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
-    //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
+    rgb2Hex: true, //默认产出的数据中的color自动从rgb格式变成16进制格式
 
     // xss 过滤是否开启,inserthtml等操作
-    xssFilterRules: true,
+    // xssFilterRules: false,
     //input xss过滤
-    inputXssFilter: true,
+    // inputXssFilter: true,
     //output xss过滤
-    outputXssFilter: true,
+    // outputXssFilter: true,
     // xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
-    whitList: {
-      a: ["target", "href", "title", "class", "style"],
-      abbr: ["title", "class", "style"],
-      address: ["class", "style"],
-      area: ["shape", "coords", "href", "alt"],
-      article: [],
-      aside: [],
-      audio: [
-        "autoplay",
-        "controls",
-        "loop",
-        "preload",
-        "src",
-        "class",
-        "style"
-      ],
-      b: ["class", "style"],
-      bdi: ["dir"],
-      bdo: ["dir"],
-      big: [],
-      blockquote: ["cite", "class", "style"],
-      br: [],
-      caption: ["class", "style"],
-      center: [],
-      cite: [],
-      code: ["class", "style"],
-      col: ["align", "valign", "span", "width", "class", "style"],
-      colgroup: ["align", "valign", "span", "width", "class", "style"],
-      dd: ["class", "style"],
-      del: ["datetime"],
-      details: ["open"],
-      div: ["class", "style"],
-      dl: ["class", "style"],
-      dt: ["class", "style"],
-      em: ["class", "style"],
-      font: ["color", "size", "face"],
-      footer: [],
-      h1: ["class", "style"],
-      h2: ["class", "style"],
-      h3: ["class", "style"],
-      h4: ["class", "style"],
-      h5: ["class", "style"],
-      h6: ["class", "style"],
-      header: [],
-      hr: [],
-      i: ["class", "style"],
-      img: [
-        "src",
-        "alt",
-        "title",
-        "width",
-        "height",
-        "id",
-        "_src",
-        "loadingclass",
-        "class",
-        "data-latex"
-      ],
-      ins: ["datetime"],
-      li: ["class", "style"],
-      mark: [],
-      nav: [],
-      ol: ["class", "style"],
-      p: ["class", "style"],
-      pre: ["class", "style"],
-      s: [],
-      section: [],
-      small: [],
-      span: ["class", "style"],
-      sub: ["class", "style"],
-      sup: ["class", "style"],
-      strong: ["class", "style"],
-      table: ["width", "border", "align", "valign", "class", "style"],
-      tbody: ["align", "valign", "class", "style"],
-      td: ["width", "rowspan", "colspan", "align", "valign", "class", "style"],
-      tfoot: ["align", "valign", "class", "style"],
-      th: ["width", "rowspan", "colspan", "align", "valign", "class", "style"],
-      thead: ["align", "valign", "class", "style"],
-      tr: ["rowspan", "align", "valign", "class", "style"],
-      tt: [],
-      u: [],
-      ul: ["class", "style"],
-      video: [
-        "autoplay",
-        "controls",
-        "loop",
-        "preload",
-        "src",
-        "height",
-        "width",
-        "class",
-        "style"
-      ]
-    }
+    // whitList: {
+    //     a: [ "target", "href", "title", "class", "style" ],
+    //     abbr: [ "title", "class", "style" ],
+    //     address: [ "class", "style" ],
+    //     area: [ "shape", "coords", "href", "alt" ],
+    //     article: [],
+    //     aside: [],
+    //     audio: [
+    //         "autoplay",
+    //         "controls",
+    //         "loop",
+    //         "preload",
+    //         "src",
+    //         "class",
+    //         "style",
+    //     ],
+    //     b: [ "class", "style" ],
+    //     bdi: [ "dir" ],
+    //     bdo: [ "dir" ],
+    //     big: [],
+    //     blockquote: [ "cite", "class", "style" ],
+    //     br: [],
+    //     caption: [ "class", "style" ],
+    //     center: [],
+    //     cite: [],
+    //     code: [ "class", "style" ],
+    //     col: [ "align", "valign", "span", "width", "class", "style" ],
+    //     colgroup: [ "align", "valign", "span", "width", "class", "style" ],
+    //     dd: [ "class", "style" ],
+    //     del: [ "datetime" ],
+    //     details: [ "open" ],
+    //     div: [ "class", "style" ],
+    //     dl: [ "class", "style" ],
+    //     dt: [ "class", "style" ],
+    //     em: [ "class", "style" ],
+    //     font: [ "color", "size", "face" ],
+    //     footer: [],
+    //     h1: [ "class", "style" ],
+    //     h2: [ "class", "style" ],
+    //     h3: [ "class", "style" ],
+    //     h4: [ "class", "style" ],
+    //     h5: [ "class", "style" ],
+    //     h6: [ "class", "style" ],
+    //     header: [],
+    //     hr: [],
+    //     i: [ "class", "style" ],
+    //     img: [
+    //         "src",
+    //         "alt",
+    //         "title",
+    //         "width",
+    //         "height",
+    //         "id",
+    //         "_src",
+    //         "loadingclass",
+    //         "class",
+    //         "data-latex",
+    //         "style",
+    //         "border",
+    //         "data-width",
+    //         "data-w",
+    //         "data-ratio",
+    //         "draggable",
+    //     ],
+    //     ins: [ "datetime" ],
+    //     li: [ "class", "style" ],
+    //     mark: [],
+    //     nav: [],
+    //     ol: [ "class", "style" ],
+    //     p: [ "class", "style" ],
+    //     pre: [ "class", "style" ],
+    //     s: [],
+    //     section: [
+    //         "class",
+    //         "style",
+    //         "role",
+    //         "data-role",
+    //         "data-width",
+    //         "draggable",
+    //         "data-tools",
+    //         "data-id",
+    //         "data-svg-type",
+    //     ],
+    //     small: [],
+    //     span: [ "class", "style" ],
+    //     sub: [ "class", "style" ],
+    //     sup: [ "class", "style" ],
+    //     strong: [ "class", "style" ],
+    //     table: [ "width", "border", "align", "valign", "class", "style" ],
+    //     tbody: [ "align", "valign", "class", "style" ],
+    //     td: [ "width", "rowspan", "colspan", "align", "valign", "class", "style" ],
+    //     tfoot: [ "align", "valign", "class", "style" ],
+    //     th: [ "width", "rowspan", "colspan", "align", "valign", "class", "style" ],
+    //     thead: [ "align", "valign", "class", "style" ],
+    //     tr: [ "rowspan", "align", "valign", "class", "style" ],
+    //     tt: [],
+    //     u: [],
+    //     ul: [ "class", "style" ],
+    //     video: [
+    //         "autoplay",
+    //         "controls",
+    //         "loop",
+    //         "preload",
+    //         "src",
+    //         "height",
+    //         "width",
+    //         "class",
+    //         "style",
+    //         "poster",
+    //     ],
+    // },
   };
 
   function getUEBasePath(docUrl, confUrl) {
@@ -581,10 +655,7 @@
       tmp = null,
       res = [];
 
-    path = path
-      .replace(protocol, "")
-      .split("?")[0]
-      .split("#")[0];
+    path = path.replace(protocol, "").split("?")[0].split("#")[0];
 
     path = path.replace(/\\/g, "/").split(/\//);
 
@@ -602,6 +673,6 @@
   }
 
   window.UE = {
-    getUEBasePath: getUEBasePath
+    getUEBasePath: getUEBasePath,
   };
 })();
