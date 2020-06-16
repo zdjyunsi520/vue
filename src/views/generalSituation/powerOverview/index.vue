@@ -5,7 +5,12 @@
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
                 <div style="background:#fff;height:100%;padding:0 10px;">
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-                        <el-tree ref="tree" node-key="id" :data="treeData"  :accordion='true' :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false"></el-tree>
+                        <el-tree ref="tree" node-key="id" :data="treeData" :accordion='true' :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
+                            <span class="el-tree-node__label" slot-scope="{ node, data }">
+                                <svg-icon icon-class="gongsi" class="tablesvgicon"></svg-icon>
+                                {{ data.text }}
+                            </span>
+                        </el-tree>
                     </el-scrollbar>
                 </div>
             </el-col>
@@ -59,7 +64,7 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i >
+                                                <i>
                                                     <svg-icon icon-class="ic_transformer" /></i>
                                             </el-col>
                                         </el-row>
@@ -411,7 +416,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../styles/tree.scss";
+@import "../../../styles/treeEquipment.scss";
 /deep/.smdatabox {
     padding: 20px 25px;
     b {
