@@ -189,6 +189,11 @@ export default {
                 },
                 data
             );
+            if (!this.form.ArriveTime) {
+                this.form.ArriveTime = new Date();
+                this.form.ProcessTime = new Date();
+                this.form.RecoverTime = new Date();
+            }
         },
         getInfo(data) {
             this.loading = true;
