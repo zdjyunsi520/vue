@@ -53,7 +53,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column label="同步结果" width="120" prop="result" />
+        <el-table-column label="同步结果" width="120" prop="SyncResult" />
         <el-table-column label="备注" min-width="200" prop="Remark">
           <template slot-scope="{row}">
             <el-row v-if="row.edit">
@@ -138,7 +138,7 @@ export default {
       fetchList(this.queryParams)
         .then(response => {
           this.dataList = response.data.map(v => {
-            v.result = "";
+            v.SyncResult = "";
             v.active = false;
             v.edit = false;
             return v;
@@ -195,10 +195,10 @@ export default {
           const id = row.Id;
           fn({ id })
             .then(r => {
-              row.result = r.msg;
+              row.SyncResult = r.msg;
             })
             .catch(r => {
-              row.result = r.msg;
+              row.SyncResult = r.msg;
               row.active = false;
             });
         });

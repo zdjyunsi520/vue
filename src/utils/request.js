@@ -91,14 +91,14 @@ export function get (url, params) {
   return service({ url, method: "get", params });
 }
 
-export function post (url, params, baseUrl) {
+export function post (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
   let headers = { version: "1.0", fromurl: "system" };
   if (token) {
     headers.Token = token;
   }
-  return service({ url, method: "post", params, headers });
+  return service({ url, method: "post", data, headers });
 }
 export function postFile (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;

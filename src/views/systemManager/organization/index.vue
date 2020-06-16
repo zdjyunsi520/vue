@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" :rules="rules">
-        <el-form-item label="名称：" prop="name">
+        <el-form-item label="单位名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="联系人：" prop="contactperson">
