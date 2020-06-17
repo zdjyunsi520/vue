@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style='min-width: 1200px;overflow-x: auto;'>
     <div class="search-box onlyform-box" style="padding-bottom: 123px;">
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box">

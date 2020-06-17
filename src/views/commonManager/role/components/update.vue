@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true" style="width:800px">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true" style="width:115%;max-width:800px;">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>
@@ -21,7 +21,7 @@
               <el-row>
                 <el-col :span="23" :push="1">
                   <el-row class="sm-box">
-                    <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
+                    <el-col :span="6" :xs='12' v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
                       <el-checkbox @change="handleChange(checkbox,item)" v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
                     </el-col>
                   </el-row>
@@ -324,4 +324,11 @@ export default {
     top: -32px;
   }
 }
+ @media screen and (max-width:768px) {
+.sm-box::before {
+  display:none
+  }
+}
+
+
 </style>
