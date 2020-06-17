@@ -34,7 +34,7 @@
         <span v-if="activeName=='1'">人员统计</span>
         <span v-if="activeName=='2'">值班统计</span>
       </p>
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo'>
+      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" class="middletable" :row-class-name='totalstyle' @row-click='handleRowInfo'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />

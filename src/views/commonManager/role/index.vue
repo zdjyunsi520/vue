@@ -38,7 +38,7 @@
         </el-table-column>
       </el-table>
 
-      <pagination  :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
         name: ""
       },
       rules: {},
-      tableHeight:"calc(100% - 125px)",
+      tableHeight: "calc(100% - 115px)",
       dataList: null
     };
   },
