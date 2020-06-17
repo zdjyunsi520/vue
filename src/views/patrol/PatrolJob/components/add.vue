@@ -4,7 +4,7 @@
             <p class="form-smtitle">{{title}} </p>
 
             <el-scrollbar>
-                <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="140px" style="width:600px">
+                <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="140px" style="width:115%;max-width:600px;">
                     <el-form-item label="巡视单位" prop="tenantId">
                         <el-select v-model="form.tenantId" placeholder="请选择巡视单位" @change="handleChangeTenantId">
                             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>

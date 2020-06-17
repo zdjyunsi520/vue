@@ -156,7 +156,7 @@
                             </el-row>
 
                             <el-row :gutter="20" style="margin-top:20px;">
-                                <el-col :span="16">
+                                <el-col :span="16" :xs="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
                                             用电情况

@@ -50,32 +50,32 @@
                         <div>
                             <div class="form-smtitle marginBottom30">实时信息 </div>
                             <el-row :gutter="40" class="cellinfo">
-                                <el-col :span='6' :xs='12'>
+                                <el-col :span='5' :xs='12'>
                                     <h5>电压(V)</h5>
                                     <p @click="handleClick('UA','A相电压')"><label>A相</label><span>{{info.UA}}</span></p>
                                     <p @click="handleClick('UB','B相电压')"><label>B相</label><span>{{info.UB}}</span></p>
                                     <p @click="handleClick('UC','C相电压')"><label>C相</label><span>{{info.UC}}</span></p>
                                 </el-col>
-                                <el-col :span='4' :xs='12'>
+                                <el-col :span='5' :xs='12'>
                                     <h5>电流(A)</h5>
                                     <p @click="handleClick('IA','A相电流')"><label>A相</label><span>{{info.IA}}</span></p>
                                     <p @click="handleClick('IB','B相电流')"><label>B相</label><span>{{info.IB}}</span></p>
                                     <p @click="handleClick('IC','C相电流')"><label>C相</label><span>{{info.IC}}</span></p>
                                 </el-col>
 
-                                <el-col :span='4' :xs='24'>
+                                <el-col :span='4' :xs='12'>
                                     <h5 class="smtitleh5 ">总视在功率(kVA)<b @click="handleClick('S','总视在功率')">{{info.S}}</b></h5>
                                     <p @click="handleClick('SA','A相视在功率')"><label>A相</label><span>{{info.SA}}</span></p>
                                     <p @click="handleClick('SB','B相视在功率')"><label>B相</label><span>{{info.SB}}</span></p>
                                     <p @click="handleClick('SC','C相视在功率')"><label>C相</label><span>{{info.SC}}</span></p>
                                 </el-col>
-                                <el-col :span='4' :xs='12'>
+                                <el-col :span='5' :xs='12'>
                                     <h5 class="smtitleh5">总有功功率(kW)<b @click="handleClick('P','总有功功率')">{{info.P}}</b></h5>
                                     <p @click="handleClick('PA','A相有功功率')"><label>A相</label><span>{{info.PA}}</span></p>
                                     <p @click="handleClick('PB','B相有功功率')"><label>B相</label><span>{{info.PB}}</span></p>
                                     <p @click="handleClick('PC','C相有功功率')"><label>C相</label><span>{{info.PC}}</span></p>
                                 </el-col>
-                                <el-col :span='6' :xs='12'>
+                                <el-col :span='5' :xs='12'>
                                     <h5 class="smtitleh5">总功率因素<b @click="handleClick('PF','总功率因素')">{{info.PF}}</b></h5>
                                     <p @click="handleClick('PFA','A相功率因素')"><label>A相</label><span>{{info.PFA}}</span></p>
                                     <p @click="handleClick('PFB','B相功率因素')"><label>B相</label><span>{{info.PFB}}</span></p>
@@ -87,7 +87,7 @@
                             <div class="form-smtitle marginBottom30">其他参数 </div>
                             <p class="tips" v-if="!otherData||otherData.length==0">暂无其他参数</p>
                             <el-row class="cellinfo noborder databox-lx" v-else>
-                                <el-col :span='5' :xs='12' v-for="(item,index) in otherData" :key='index'>
+                                <el-col :span='5' :xs='24' v-for="(item,index) in otherData" :key='index'>
                                     <p @click="handleClick(item.Type,item.Name)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
                                 </el-col>
 
@@ -96,7 +96,6 @@
                     </div>
                     <div class="bg-white datainfo " style="margin-top:15px;">
                         <div class="form-smtitle marginBottom30" style="position:relative">历史曲线
-
                             <div class="rightradiobox">
                                 <b>{{labelName}}</b>&nbsp;&nbsp;
                                 <label>日期：</label>
@@ -141,111 +140,16 @@ import LineChart from "./components/LineChart";
 
 const lineChartData = [
     {
-        xAxisData: [
-            "08:00",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01",
-            "08:01"
-        ],
-        actualData: [
-            120,
-            82,
-            91,
-            154,
-            162,
-            140,
-            145,
-            120,
-            82,
-            91,
-            154,
-            162,
-            91,
-            154,
-            162
-        ]
+        xAxisData: [],
+        actualData: []
     },
     {
-        xAxisData: [
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01",
-            "01-01"
-        ],
-        actualData: [
-            180,
-            160,
-            151,
-            106,
-            145,
-            150,
-            130,
-            151,
-            106,
-            145,
-            150,
-            130,
-            180,
-            160,
-            151,
-            106,
-            145,
-            150,
-            130,
-            151,
-            106,
-            145,
-            150,
-            130
-        ]
+        xAxisData: [],
+        actualData: []
     },
     {
-        xAxisData: [
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"
-        ],
-        actualData: [180, 560, 151, 146, 145, 180, 560, 151, 146, 145, 30, 130]
+        xAxisData: [],
+        actualData: []
     }
 ];
 export default {
@@ -514,7 +418,6 @@ export default {
     .cellinfo {
         text-align: center;
         .el-col {
-            width: 19%;
             position: relative;
             &:after {
                 content: "";
@@ -631,4 +534,21 @@ export default {
 .rightradiobox .el-radio-group {
     vertical-align: top;
 }
+ @media screen and (max-width:768px) {
+    .rightradiobox {
+        position:relative;text-align:right;right:0;
+        & > b {
+            display:block;margin-bottom:15px;
+        }
+        & > span {
+            display:block;text-align:right;padding:10px 0;
+        }
+        .el-date-editor.el-input, .el-date-editor.el-input__inner {
+            width: 60%;
+        }
+        .el-radio-group {
+            display:block;margin-top:15px;
+        }
+    }
+ }
 </style>
