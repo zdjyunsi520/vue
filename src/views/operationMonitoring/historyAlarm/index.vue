@@ -38,7 +38,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="60" />
+        <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="告警等级" width="130" sortable prop="Level" :formatter="levelformatter"></el-table-column>
         <el-table-column label="用电单位" min-width="250" sortable prop="TenantName"></el-table-column>
         <el-table-column label="配电房/屏柜" min-width="300" sortable prop="SwitchRoomName">

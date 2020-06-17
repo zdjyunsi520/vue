@@ -64,16 +64,15 @@
      left: 2px!important;
  }
  
- .el-table--border th:first-child .cell,
- .el-table--border td:first-child .cell {
-     padding-left: 20px;
-     ;
- }
+//  .el-table--border th:first-child .cell,
+//  .el-table--border td:first-child .cell {
+//      padding-left: 10px;
+//      ;
+//  }
  
  .el-table .cell {
-     padding-left: 20px;
-     padding-right: 20px;
-     ;
+     padding-left: 10px;
+     padding-right: 10px;
  }
  
  .wrapperbox>.el-row {
@@ -1031,7 +1030,14 @@
      z-index: 10001 !important;
  }
  
- .el-checkbox__inner {
-     width: 18px!important;
-     height: 18px!important;
+ .el-table-column--selection  .el-checkbox__inner {
+     width: 16px!important;
+     height: 16px!important;
+ }
+ .el-table-column--selection .el-checkbox__inner::after{
+    left: 5px!important;   
+    top: 2px!important;
+ }
+ .el-table-column--selection .cell{
+     text-align: center;
  }

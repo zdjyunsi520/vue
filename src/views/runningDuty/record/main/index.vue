@@ -2,13 +2,13 @@
   <div class="comheight">
     <el-scrollbar>
       <el-row class="rowbox">
-        <div v-if="currentData.length==0">
+        <!-- <div v-if="currentData.length==0">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" />
             <p>暂时还没有数据</p>
           </div>
-        </div>
-        <div v-else>
+        </div> -->
+        <div>
           <div class="leftcard">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
@@ -42,9 +42,9 @@
                 </el-form>
               </div>
             </el-card>
-            <div class="databtnbox left">
-              <el-button type="primary" circle size="mini">接</el-button>
-              <label>2020-04-29 早班 08:00:00</label>
+            <div :class="isDisabled?'databtnbox left':'databtnbox left blue'">
+              <el-button type="primary" :plain='!isDisabled?false:true' circle size="mini">接</el-button>
+              <label>{{startTime}}</label>
             </div>
           </div>
           <div class="rightcard">
@@ -81,9 +81,9 @@
                 </el-form>
               </div>
             </el-card>
-            <div class="databtnbox right">
-              <label>2020-04-10 早班 18:00:00</label>
-              <el-button type="primary" plain circle disabled size="mini">交</el-button>
+            <div :class="isDisabled?'databtnbox right blue':'databtnbox right '">
+              <label>{{endTime}}</label>
+              <el-button type="primary" :plain='isDisabled?false:true' circle  size="mini">交</el-button>
             </div>
           </div>
         </div>
@@ -106,6 +106,9 @@ export default {
       default() {
         return [];
       }
+    },
+    dataTime: {
+      type: Object
     }
   },
 
@@ -114,7 +117,10 @@ export default {
       rules: {},
       isDisabled: false,
       form: {},
-      form1: {}
+      form1: {},
+      startTime:'',
+      endTime:'',
+      
     };
   },
 
@@ -122,19 +128,20 @@ export default {
   watch: {
     currentData: {
       handler: function(val, oldval) {
-        if (val.length > 0) {
-          if (new Date() > new Date(val[0].StartTime)) {
-            this.isDisabled = true;
-            this.reset(val[0]);
-            this.reset1(val[0]);
-          } else {
-            this.reset();
-            this.getCurrentDate();
-          }
+        var newval  = val.model;
+        this.startTime = val.startTime;
+        this.endTime = val.endTime; 
+        this.reset(newval[0]);
+        this.reset1(newval[0]);
+        if (newval.length > 0) {
+          this.isDisabled = true;
           this.getCurrentDate1();
+        }else{
+            this.isDisabled = false;
+            this.form.StartTime='';
         }
       },
-      deep: true //对象内部的属性监听，也叫深度监听
+      deep: true 
     }
   },
   computed: {
@@ -249,16 +256,15 @@ export default {
   }
   label {
     color: #303133;
-    font-weight: normal;
+    font-weight: normal;display: inline-block;
+    width: 193px;
     font-size: 14px;
     margin: 0 15px;
   }
   &.left {
-    right: -305px;
+    right: -335px;
     top: 42%;
-    label {
-      color: #558cf7;
-    }
+   
     &::before {
       content: "";
       width: 70px;
@@ -269,11 +275,8 @@ export default {
     }
   }
   &.right {
-    left: -305px;
+    left: -335px;
     top: 42%;
-    label {
-      color: #303133;
-    }
     &::after {
       content: "";
       width: 70px;
@@ -282,6 +285,9 @@ export default {
       display: inline-block;
       vertical-align: middle;
     }
+  }
+  &.blue label{
+      color: #558cf7;
   }
 }
 .leftcard {

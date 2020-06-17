@@ -33,7 +33,7 @@
         }
         &.is-leaf {
             background: url(../../../assets/image/ic_project.png) no-repeat;
-            background: none;
+            // background: none;
             border: none;
             background-size: 100%;
             &:before {
@@ -82,7 +82,7 @@
                 }
                 .is-leaf {
                     background: url(../../../assets/image/ic_project_on.png) no-repeat;
-                    background: none;
+                    // background: none;
                     border: none;
                     background-size: 100%;
                     &:before {
@@ -107,7 +107,6 @@
             &>.el-tree-node__label {
                 display: inline-block;
                 height: 26px;
-                padding-left: 5px;
                 padding-right: 10px;
                 line-height: 26px;
             }

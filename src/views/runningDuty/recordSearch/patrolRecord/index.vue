@@ -54,7 +54,7 @@
                         <p>暂时还没有数据</p>
                     </div>
                 </template>
-                <!-- <el-table-column type="selection" fixed="left" width="60" /> -->
+                <!-- <el-table-column type="selection" fixed="left" width="50" /> -->
                 <el-table-column label="用电单位" min-width='230' prop="TenantName" />
                 <el-table-column label="值班班组" min-width='150' prop="TeamName" />
                 <el-table-column label="巡视开始时间" width='180' prop="PatrolStartTime" />

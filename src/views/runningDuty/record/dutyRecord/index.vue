@@ -49,7 +49,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="60" />
+        <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="起始时间" width='180' prop="StartTime" />
         <el-table-column label="完成时间" width='180' prop="EndTime" />
         <el-table-column label="用电单位" min-width='230' prop="TenantName" />

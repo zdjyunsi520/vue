@@ -12,7 +12,7 @@
                 <div>
                   <label>日期：</label>
                   <div>
-                    <el-date-picker disabled v-model="form.date" style="width:100%" type="date" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-date-picker  v-model="form.startdate" style="width:100%" type="date" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                   </div>
                 </div>
                 <div>
@@ -48,7 +48,7 @@
             <el-tab-pane label="交接记录" name="shiftRecord"></el-tab-pane>
             <el-tab-pane label="巡视记录" name="patrolRecord"></el-tab-pane>
           </el-tabs>
-          <mainComponents ref="main" v-show="activeName == 'main'" :currentData='dataList' />
+          <mainComponents ref="main" v-show="activeName == 'main'" :currentData='dataList' :dataTime='dataTime' />
           <dutyRecord ref="dutyRecord" v-show="activeName == 'dutyRecord'" />
           <shiftRecord ref="shiftRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'shiftRecord'" />
           <patrolRecord ref="patrolRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'patrolRecord'" />
@@ -83,16 +83,15 @@ export default {
       operateId: "",
       loading: false,
       form: {
-        date: new Date(),
+        startdate: new Date(),
         shiftId: "",
         dutyteamId: "",
-        userId: ""
       },
       rules,
       assetAttributeType: [{ key: 1, value: "asdas" }],
       listLoading: false,
       dataList: [],
-    //   dataTime:{},
+      dataTime:{},
       queryParams: {
         pageno: 1,
         pagesize: 30
@@ -112,7 +111,6 @@ export default {
     this.getList();
   },
   computed: {
-    ...mapGetters(["userId"]),
     addDisabled() {
       return (
         !this.form.teamId || !this.form.shifttypeId || !this.form.charatype
@@ -124,7 +122,7 @@ export default {
       this.getUserPositions();
       this.getCurrentInfo();
     },
-    "form.date"() {
+    "form.startdate"() {
       this.getUserPositions();
     },
 
@@ -135,17 +133,17 @@ export default {
   },
   methods: {
     getUserPositions() {
-      if (this.form.shiftId && this.form.date && this.form.dutyteamId)
-        GetUserPositions(this.form).then(r => {
+      if (this.form.shiftId && this.form.dutyteamId)
+        GetUserPositions({
+          dutyteamId: this.form.dutyteamId,
+          shiftId: this.form.shiftId,
+        }).then(r => {
           this.userPositions = r.data;
         });
     },
     getCurrentInfo() {
       if (this.form.shiftId && this.form.dutyteamId)
-        getCurrentInfo({
-          dutyteamId: this.form.dutyteamId,
-          shiftId: this.form.shiftId
-        }).then(r => {
+        getCurrentInfo(this.form).then(r => {
           this.dataList = r.data;
         });
     },
@@ -164,13 +162,10 @@ export default {
         this.shifts = r.data;
         if (r.data && r.data.length) {
             this.form.shiftId = r.data[0].Id;
-            // this.dataTime.start=this.form.date+r.data[0].StartTime;
-            // this.dataTime.end=this.form.date+r.data[0].EndTime;
         }
       });
 
       this.listLoading = true;
-      this.form.userId = this.userId;
       // fetchList(this.form)
       //     .then(response => {
       //         this.dataList = response.data;

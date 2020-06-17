@@ -27,7 +27,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="60" />
+        <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="值班班组" min-width="150" prop="Name" />
         <el-table-column label="人员" min-width="180" prop="EmployeeNames" />
         <el-table-column label="操作" width="200">

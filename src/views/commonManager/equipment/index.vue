@@ -33,7 +33,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="60" />
+        <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="设备编码" width="200" prop="SerialCode" />
         <!-- <el-table-column label="设备检验码"  prop="nickName" /> -->
         <el-table-column label="设备类型" sortable width="150" prop="Type" />

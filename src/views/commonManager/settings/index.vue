@@ -36,7 +36,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" fixed="left" width="60" />
+        <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="名称" min-width="110" prop="Name" />
         <el-table-column label="代码" min-width="150" prop="Key" />
         <el-table-column label="类型" width="100" prop="Type" :formatter="filterCancel" />

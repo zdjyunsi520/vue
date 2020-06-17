@@ -48,7 +48,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column type="selection" width="60" fixed="left" />
+        <el-table-column type="selection" width="50" fixed="left" />
         <el-table-column label="名称" min-width="250" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
         <el-table-column label="附加属性" sortable width="120" prop="Attribute">
