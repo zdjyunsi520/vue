@@ -12,7 +12,7 @@
                 <div>
                   <label>日期：</label>
                   <div>
-                    <el-date-picker  v-model="form.startdate" style="width:100%" type="date" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+                    <el-date-picker v-model="form.startdate" style="width:100%" type="date" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
                   </div>
                 </div>
                 <div>
@@ -85,13 +85,13 @@ export default {
       form: {
         startdate: new Date(),
         shiftId: "",
-        dutyteamId: "",
+        dutyteamId: ""
       },
       rules,
       assetAttributeType: [{ key: 1, value: "asdas" }],
       listLoading: false,
-      dataList: [],
-      dataTime:{},
+      dataList: null,
+      dataTime: {},
       queryParams: {
         pageno: 1,
         pagesize: 30
@@ -136,12 +136,13 @@ export default {
       if (this.form.shiftId && this.form.dutyteamId)
         GetUserPositions({
           dutyteamId: this.form.dutyteamId,
-          shiftId: this.form.shiftId,
+          shiftId: this.form.shiftId
         }).then(r => {
           this.userPositions = r.data;
         });
     },
     getCurrentInfo() {
+      this.dataList = null;
       if (this.form.shiftId && this.form.dutyteamId)
         getCurrentInfo(this.form).then(r => {
           this.dataList = r.data;
@@ -161,7 +162,7 @@ export default {
       GetShifts({}).then(r => {
         this.shifts = r.data;
         if (r.data && r.data.length) {
-            this.form.shiftId = r.data[0].Id;
+          this.form.shiftId = r.data[0].Id;
         }
       });
 
