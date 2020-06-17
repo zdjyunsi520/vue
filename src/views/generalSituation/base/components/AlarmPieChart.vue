@@ -112,12 +112,12 @@ export default {
         color: [
           "#4982f7",
           "#588ef7",
-          "#91c5f3",
-          "#badbf4",
-          "#e8a4458",
-          "#ebbc8a",
-          "#f8d687",
-          "#fbe8bf"
+          "#81c7f9",
+          "#c1e2fc",
+          "#f4a248",
+          "#fed3a3",
+          "#f6cf71",
+          "#fbeac1"
         ],
         series: [
           {
