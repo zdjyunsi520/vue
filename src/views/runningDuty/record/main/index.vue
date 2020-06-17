@@ -20,24 +20,24 @@
                     <el-input :value='"岗位："+form.PositionName' disabled />
                   </el-form-item>
                   <el-form-item prop="StartTime">
-                    <el-input :value="'接班时间：'+form.StartTime" disabled />
+                    <el-input :value="'接班时间：'+this.parseTime(form.StartTime, '{y}-{m}-{d} {hh}:{mm}:{ss}')" disabled />
                   </el-form-item>
                   <el-form-item prop="UserName">
                     <el-input :value="'接班人：'+form.UserName" disabled />
                   </el-form-item>
                   <el-form-item prop="Weather">
-                    <el-select v-model="form.Weather" placeholder="请选择天气">
+                    <el-select v-model="form.Weather" placeholder="请选择天气" :disabled='isDisabled'>
                       <el-option label="晴" :value="1"></el-option>
                       <el-option label="阴" :value="2"></el-option>
                       <el-option label="雨" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item prop="Temperature">
-                    <el-input v-model="form.Temperature" placeholder="请输入温度" />
+                    <el-input v-model="form.Temperature" placeholder="请输入温度" :disabled='isDisabled' />
                   </el-form-item>
                   <el-form-item class="cardbtns">
                     <el-button type="primary" size="mini" :disabled='isDisabled' @click="handleAccept">接班</el-button>
-                    <el-button type="info" size="mini" :disabled='isDisabled' plain @click="reset">重置</el-button>
+                    <el-button type="info" size="mini" :disabled='isDisabled' plain @click="handleReset">重置</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -58,7 +58,7 @@
                     <el-input :value='"岗位："+form1.PositionName' disabled />
                   </el-form-item>
                   <el-form-item prop="StartTime">
-                    <el-input :value="'交班时间：'+StartTime" disabled />
+                    <el-input :value="'交班时间：'+ this.parseTime(form1.StartTime, '{y}-{m}-{d} {hh}:{mm}:{ss}')" disabled />
                   </el-form-item>
                   <el-form-item prop="UserName">
                     <el-input :value="'交班人：'+form1.UserName" disabled />
@@ -76,7 +76,7 @@
                   <el-form-item class="cardbtns">
                     <el-button type="primary" size="mini" @click="handleAccept">交班</el-button>
                     <!-- <el-button type="primary" size="mini" plain>召回</el-button> -->
-                    <el-button type="info" size="mini" plain @click="reset">重置</el-button>
+                    <el-button type="info" size="mini" plain @click="handleReset1">重置</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -111,56 +111,87 @@ export default {
 
   data() {
     return {
-     rules: {},
-      isDisabled:false,
+      rules: {},
+      isDisabled: false,
       form: {},
-      form1: {},
+      form1: {}
     };
   },
 
-  created() {
-  
-  },
-  watch:{
-      currentData:{
-        handler:function(val,oldval){
-            if(val.length>0){
-                this.isDisabled = true;
-                this.form.PositionName = val[0].PositionName;
-                this.form.StartTime = val[0].StartTime;
-                this.form.UserName = val[0].UserName;
-                this.form.Weather = val[0].Weather;
-                this.form.Temperature = val[0].Temperature;
-                this.form1.PositionName = val[0].PositionName;
-                this.form1.UserName = val[0].UserName;  
-               
-            }
-        },
-        deep:true//对象内部的属性监听，也叫深度监听
-      }
+  created() {},
+  watch: {
+    currentData: {
+      handler: function(val, oldval) {
+        if (val.length > 0) {
+          if (new Date() > new Date(val[0].StartTime)) {
+            this.isDisabled = true;
+            this.reset(val[0]);
+            this.reset1(val[0]);
+          } else {
+            this.reset();
+            this.getCurrentDate();
+          }
+          this.getCurrentDate1();
+        }
+      },
+      deep: true //对象内部的属性监听，也叫深度监听
+    }
   },
   computed: {
     ...mapGetters({
       companyType: "status/companyType"
-    }),
-   
-    StartTime(){
-        return this.parseTime(new Date(), "{y}-{m}-{d} {hh}:{mm}:{ss}");
-    }
-   
+    })
   },
   methods: {
-    getSysTime(){
-        var dd = this.parseTime(new Date(), "{y}-{m}-{d} {hh}:{mm}:{ss}");
-        return dd;
+    getCurrentDate() {
+      setTimeout(() => {
+        this.form.StartTime = new Date();
+        this.getCurrentDate();
+      }, 1000);
     },
-    
+    getCurrentDate1() {
+      setTimeout(() => {
+        this.form1.StartTime = new Date();
+        this.getCurrentDate1();
+      }, 1000);
+    },
     handleAccept() {},
-    reset() {
-      this.form;
+    handleReset() {
+      this.form.Temperature = "";
+      this.form.Weather = "";
     },
-
-  
+    handleReset1() {
+      this.form1.Temperature = "";
+      this.form1.Weather = "";
+    },
+    reset(data) {
+      this.form = Object.assign(
+        {
+          StartTime: new Date(),
+          UserName: "",
+          Weather: "",
+          Temperature: "",
+          PositionName: ""
+        },
+        data
+      );
+    },
+    reset1(data) {
+      this.form1 = Object.assign(
+        {
+          StartTime: new Date(),
+          UserName: "",
+          Weather: "",
+          Temperature: "",
+          PositionName: ""
+        },
+        data,
+        {
+          Weather: "",
+          Temperature: ""
+        }
+      );
+    }
   }
 };
 </script>
