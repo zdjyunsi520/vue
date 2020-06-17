@@ -46,7 +46,7 @@
         <span v-if="activeName=='1'">人员巡视性质统计</span>
         <span v-if="activeName=='2'">人员巡视完成情况统计</span>
       </p>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
         <template slot="empty">
           <div class="nodata-box">

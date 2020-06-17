@@ -64,12 +64,11 @@
      left: 2px!important;
  }
  
-//  .el-table--border th:first-child .cell,
-//  .el-table--border td:first-child .cell {
-//      padding-left: 10px;
-//      ;
-//  }
- 
+ //  .el-table--border th:first-child .cell,
+ //  .el-table--border td:first-child .cell {
+ //      padding-left: 10px;
+ //      ;
+ //  }
  .el-table .cell {
      padding-left: 10px;
      padding-right: 10px;
@@ -81,7 +80,7 @@
  
  .treebox {
      .el-tree {
-         padding:15px 10px 15px 0;
+         padding: 15px 10px 15px 0;
          box-sizing: border-box;
      }
  }
@@ -1009,7 +1008,7 @@
  .smchartbox {
      border: solid 1px #ebeef5;
      border-radius: 2px;
-     margin-bottom: 15px;
+     //  margin-bottom: 15px;
  }
  
  .el-input-group__append,
@@ -1030,14 +1029,16 @@
      z-index: 10001 !important;
  }
  
- .el-table-column--selection  .el-checkbox__inner {
+ .el-table-column--selection .el-checkbox__inner {
      width: 16px!important;
      height: 16px!important;
  }
- .el-table-column--selection .el-checkbox__inner::after{
-    left: 5px!important;   
-    top: 2px!important;
+ 
+ .el-table-column--selection .el-checkbox__inner::after {
+     left: 5px!important;
+     top: 2px!important;
  }
- .el-table-column--selection .cell{
+ 
+ .el-table-column--selection .cell {
      text-align: center;
  }

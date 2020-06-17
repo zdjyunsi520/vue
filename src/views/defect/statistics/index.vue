@@ -44,7 +44,7 @@
         <span v-if="activeName=='1'">缺陷等级统计</span>
         <span v-if="activeName=='2'">消缺率统计</span>
       </p>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class='smimg' />
