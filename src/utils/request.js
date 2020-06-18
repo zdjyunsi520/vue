@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Notification, MessageBox } from "element-ui";
+import { Notification, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
 import qs from "qs";
@@ -52,6 +52,7 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(res => {
+  console.log(res);
   const code = res.data.code;
   if (code > 10000 && code < 10007) {
     // MessageBox.confirm(
@@ -65,23 +66,42 @@ service.interceptors.response.use(res => {
     //         location.reload() // 为了重新实例化vue-router对象 避免bug
     //     })
     // })
-    Notification.error({ title: res.data.msg });
+    console.log(res.config.url);
+    Message.error({
+      message: res.data.msg + res.config.url,
+      duration: 5000
+    });
+    //Notification.error({ title: res.data.msg, message: res.config.url });
     // setTimeout(() => {
     //   store.dispatch("LogOut").then(() => {
     //     location.reload(); // 为了重新实例化vue-router对象 避免bug
     //   });
     // }, 2000);
   } else if (code == 50000) {
-    Notification.info({ title: res.data.msg + res.config.url });
+    Message.error({
+      message: res.data.msg + res.config.url,
+      duration: 5000
+    });
+    //Notification.info({ title: res.data.msg, message: res.config.url });
     console.log(res.config.url);
     return Promise.reject(res.data);
   } else if (code == 40001) {
-    Notification.warning({ title: res.data.msg });
+    Message.error({
+      message: res.data.msg + res.config.url,
+      duration: 5000
+    });
+    // Notification.warning({
+    //   title: res.data.msg,
+    //   message: res.config.url,
+    //   duration: 1000000000
+    // });
     return Promise.reject(res.data);
   } else if (code !== 0) {
-    Notification.error({
-      title: res.data.msg
+    Message.error({
+      message: res.data.msg + res.config.url,
+      duration: 5000
     });
+    console.log(res.config.url);
     return Promise.reject(res.data);
   } else {
     return res.data;
