@@ -336,4 +336,10 @@ export default {
     padding: 70px 15px;
   }
 }
+ @media screen and (max-width:1366px) {
+     .title{
+            margin: 31% auto 60px;
+     }
+ }
+
 </style>
