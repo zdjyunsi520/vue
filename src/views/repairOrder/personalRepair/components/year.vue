@@ -8,8 +8,8 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" prop='startdate'>
-          <el-date-picker v-model="queryParams.startdate" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
+        <el-form-item label="年度：" prop='patrolYear'>
+          <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
 
         <el-form-item label="业务来源：" prop='repairsource'>
@@ -80,6 +80,7 @@ export default {
         pagesize: 30,
         tenantId: "",
         startdate: "",
+        enddate: "",
         repairsource: "",
         status: "",
         type: 1
@@ -184,12 +185,33 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.startdate = this.getBeginTime();
+      this.queryParams.enddate = this.getEndTime();
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.patrolYear = "";
+      this.queryParams.startdate = "";
+      this.queryParams.enddate = "";
       this.handleQuery();
+    },
+    // 获取开始时间
+    getBeginTime(time) {
+      let begin = "";
+      if (this.patrolYear != "") {
+        begin = this.patrolYear + "-01-01 00:00:00";
+      }
+      return begin;
+    },
+    // 获取结束时间
+    getEndTime() {
+      let end = "";
+      if (this.patrolYear != "") {
+        end = this.patrolYear + "-12-31 23:59:59";
+      }
+      return end;
     },
 
     // 巡视单位列表

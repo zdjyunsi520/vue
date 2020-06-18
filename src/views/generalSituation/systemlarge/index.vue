@@ -120,7 +120,7 @@
           </div>
         </el-row>
       </el-col>
-      <el-col :span='10' :xs='24' class='commonchart'>>
+      <el-col :span='10' :xs='24' class='commonchart'>
         <el-row>
           <div class="chartbox mapbox boxheight5">
             <MapChart ref='mapchart' :mapchartData='mapchartData' />
@@ -305,13 +305,13 @@ export default {
       const oHtml = document.getElementsByTagName("html")[0];
       const width = oHtml.clientHeight;
       this.scale = width / 1080;
-      oHtml.style.fontSize = 12 * (width / 1080) + "px";
+      oHtml.style.fontSize = 19.2 * (width / 1080) + "px";
       this.circleCanves();
     };
     const oHtml = document.getElementsByTagName("html")[0];
     const width = oHtml.clientHeight;
     this.scale = width / 1080;
-    oHtml.style.fontSize = 12 * (width / 1080) + "px";
+    oHtml.style.fontSize = 19.2 * (width / 1080) + "px";
     this.getScreenSystem();
     this.getScreenElectricLoad();
     this.getOperationCurve();
@@ -540,7 +540,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@function px2rem($px, $base-font-size: 12px) {
+@function px2rem($px, $base-font-size: 19.2px) {
   @if (unitless($px)) {
     @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
     @return px2rem($px + 0px); // That may fail.
@@ -563,6 +563,7 @@ export default {
   }
   .img_title {
     height: px2rem(95px);
+    vertical-align: top;
   }
   .cnt {
     position: absolute;
@@ -576,7 +577,7 @@ export default {
     & > span {
       display: inline-block;
       width: 33%;
-      vertical-align: 1em;
+      padding-top: px2rem(56px);
       &.left {
         text-align: right;
         padding-right: 10%;
@@ -714,7 +715,7 @@ export default {
     background-color: rgba(6, 253, 255, 0.1);
     border-radius: px2rem(24px);
     display: flex;
-    font-size: px2rem(14px);
+    font-size: px2rem(16px);
     margin-bottom: px2rem(15px);
     padding: 0px px2rem(20px);
     .smicon {
@@ -745,16 +746,16 @@ export default {
   height: px2rem(200px);
 }
 .boxheight2 {
-  height: px2rem(120px);
+  height: px2rem(140px);
 }
 .boxheight3 {
   height: px2rem(300px);
 }
 .boxheight4 {
-  margin-top: px2rem(-40px);
+  margin-top: px2rem(-60px);
 }
 .boxheight5 {
-  height: 58vh;
+  height: px2rem(695px);
 }
 
 /deep/.el-scrollbar__bar.is-horizontal {

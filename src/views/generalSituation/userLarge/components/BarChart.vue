@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "78%"
+      default: "70%"
     },
 
     barchartData: {
@@ -67,7 +67,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.barchartData.listData.length>0) {
+      if (this.barchartData.listData.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.barchartData);
       }
@@ -82,8 +82,8 @@ export default {
       });
     },
 
-    setOptions({  title, xAxisData, listData } = {}) {
-      const sideData = listData.map(item => item + .6);
+    setOptions({ title, xAxisData, listData } = {}) {
+      const sideData = listData.map(item => item + 0.6);
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -111,8 +111,8 @@ export default {
                 color: "#36435f"
               }
             },
-            axisLabel:{
-              color:'#fff'
+            axisLabel: {
+              color: "#fff"
             }
           }
         ],
@@ -134,8 +134,8 @@ export default {
             splitArea: {
               show: false
             },
-            axisLabel:{
-              color:'#fff'
+            axisLabel: {
+              color: "#fff"
             }
           }
         ],
@@ -144,61 +144,86 @@ export default {
             name: title,
             type: "bar",
             tooltip: {
-                show: false
+              show: false
             },
             barWidth: 16.5,
             itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                        offset: 0,
-                        color: "#0B4EC3" // 0% 处的颜色
-                    }, {
-                        offset: 0.6,
-                        color: "#138CEB" // 60% 处的颜色
-                    }, {
-                        offset: 1,
-                        color: "#17AAFE" // 100% 处的颜色
-                    }], false)
-                }
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  1,
+                  0,
+                  0,
+                  [
+                    {
+                      offset: 0,
+                      color: "#0B4EC3" // 0% 处的颜色
+                    },
+                    {
+                      offset: 0.6,
+                      color: "#138CEB" // 60% 处的颜色
+                    },
+                    {
+                      offset: 1,
+                      color: "#17AAFE" // 100% 处的颜色
+                    }
+                  ],
+                  false
+                )
+              }
             },
             data: listData
-          },{
-            type: 'bar',
+          },
+          {
+            type: "bar",
             barWidth: 6,
             itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                        offset: 0,
-                        color: "#09337C" // 0% 处的颜色
-                    }, {
-                        offset: 0.6,
-                        color: "#0761C0" // 60% 处的颜色
-                    }, {
-                        offset: 1,
-                        color: "#0575DE" // 100% 处的颜色
-                    }], false)
-                }
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  1,
+                  0,
+                  0,
+                  [
+                    {
+                      offset: 0,
+                      color: "#09337C" // 0% 处的颜色
+                    },
+                    {
+                      offset: 0.6,
+                      color: "#0761C0" // 60% 处的颜色
+                    },
+                    {
+                      offset: 1,
+                      color: "#0575DE" // 100% 处的颜色
+                    }
+                  ],
+                  false
+                )
+              }
             },
             barGap: 0,
             data: sideData
-        }, {
-            name: 'b',
+          },
+          {
+            name: "b",
             tooltip: {
-                show: false
+              show: false
             },
-            type: 'pictorialBar',
+            type: "pictorialBar",
             itemStyle: {
-                borderWidth: 1,
-                borderColor: '#0571D5',
-                color: '#1779E0'
+              borderWidth: 1,
+              borderColor: "#0571D5",
+              color: "#1779E0"
             },
-            symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
-            symbolSize: ['20', '5'],
-            symbolOffset: ['0', '-5'],
-            symbolPosition: 'end',
+            symbol: "path://M 0,0 l 120,0 l -30,60 l -120,0 z",
+            symbolSize: ["20", "5"],
+            symbolOffset: ["0", "-5"],
+            symbolPosition: "end",
             data: listData,
             z: 3
-        }]
+          }
+        ]
       });
       this.chart.hideLoading();
     }

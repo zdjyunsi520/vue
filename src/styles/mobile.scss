@@ -28,7 +28,8 @@
      }
      .mobilewrapper {
          &.screenbg {
-             padding: 20px 0
+             padding: 20px 0;
+             overflow: auto;
          }
          &.userwarp {
              background-size: cover!important;
@@ -66,7 +67,8 @@
              top: 20%!important;
          }
          .img_title {
-             width: 30%;
+            width: 51%!important;
+            height: auto!important;
          }
          .tophead {
              padding: 20px 0px 20px!important;

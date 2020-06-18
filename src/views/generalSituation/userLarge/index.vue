@@ -17,7 +17,7 @@
             <p>变压器</p>
             <div class="dataCount">
               <div>
-                {{maintenanceCenter}}
+                <img src="../../../assets/image/userscreen/ic_number_bj.png" alt="" :key="index" v-for="(item,index) in (maintenanceCenter+'').length" />
                 <countTo :startVal='startVal' :endVal='maintenanceCenter' :duration='3000' separator=''></countTo>
               </div>
             </div>
@@ -26,7 +26,7 @@
             <p>运行容量(kVA)</p>
             <div class="dataCount">
               <div>
-                {{totalCapacity}}
+                <img src="../../../assets/image/userscreen/ic_number_bj.png" alt="" :key="index" v-for="(item,index) in (totalCapacity+'').length" />
                 <countTo :startVal='startVal' :endVal='totalCapacity' :duration='3000' separator=''></countTo>
               </div>
             </div>
@@ -35,7 +35,7 @@
             <p>配电房</p>
             <div class="dataCount">
               <div>
-                {{powerRoom}}
+                <img src="../../../assets/image/userscreen/ic_number_bj.png" alt="" :key="index" v-for="(item,index) in (powerRoom+'').length" />
                 <countTo :startVal='startVal' :endVal='powerRoom' :duration='3000' separator=''></countTo>
               </div>
             </div>
@@ -56,7 +56,7 @@
           </el-row>
           <el-row>
             <h6>电费情况</h6>
-            <div class="chartbox boxheight3">
+            <div class="chartbox boxheight2">
               <el-row class="legendbox lx">
                 <el-col :span="12">
                   <p>本月电费(元))<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
@@ -96,15 +96,15 @@
             <div class="chartbox boxheight1 smboxheight3">
               <div class="circlebox">
                 <div>
-                  <canvas class="js-rotate-01" width="100" height="100"></canvas>
+                  <canvas class="js-rotate-01" width="130" height="130"></canvas>
                   <span>{{dataInfo.PowerFactorSituation.ReactivePower}}</span>
                 </div>
                 <div>
-                  <canvas class="js-rotate-02" width="100" height="100"></canvas>
+                  <canvas class="js-rotate-02" width="130" height="130"></canvas>
                   <span>{{dataInfo.PowerFactorSituation.LastMonthAverage}}</span>
                 </div>
                 <div>
-                  <canvas class="js-rotate-03" width="100" height="100"></canvas>
+                  <canvas class="js-rotate-03" width="130" height="130"></canvas>
                   <span>{{dataInfo.PowerFactorSituation.ThisMonthAverage}}</span>
                 </div>
               </div>
@@ -115,7 +115,7 @@
               <span>上月平均</span>
             </div>
           </el-row>
-          <el-row style='margin-top: 2vh;'>
+          <el-row>
             <h6>用电情况</h6>
             <div class="chartbox boxheight2">
               <GainPieChart ref='gainPie' :piechartData='gainPieChartData' :width='"75%"' style='display:inline-block' />
@@ -133,7 +133,12 @@
 </template>
 
 <script>
-import { getScreenTenant,getScreenElectricSituation,getTenantElectricLoad ,getElectricFeeCurve} from "@/api/report";
+import {
+  getScreenTenant,
+  getScreenElectricSituation,
+  getTenantElectricLoad,
+  getElectricFeeCurve
+} from "@/api/report";
 import Systime from "../components/systime.vue";
 import countTo from "vue-count-to";
 import powerTypePieChart from "./components/powerTypePieChart";
@@ -154,13 +159,13 @@ const lineChartData = {
   legendData: ["最高负荷", "平均负荷", "最低负荷"],
   xAxisData: [],
   highData: [],
-  averageData:[],
-  lowData: [],
+  averageData: [],
+  lowData: []
 };
 const barChartData = {
   title: "最低负荷",
   xAxisData: [],
-  listData: [],
+  listData: []
 };
 const gainPieChartData = [];
 
@@ -198,15 +203,28 @@ export default {
         FeeThisMonth: {},
         FeeLastMonth: {},
         PowerFactorSituation: {},
-        ElectricLoad: {},
+        ElectricLoad: {}
       },
-      electricSituation:{},
-      tenantElectricLoad:{},
-      electricFeeCurve:{}
+      electricSituation: {},
+      tenantElectricLoad: {},
+      electricFeeCurve: {},
+      scale: 1
     };
   },
   created() {},
   mounted() {
+    window.onresize = () => {
+      const oHtml = document.getElementsByTagName("html")[0];
+      const width = oHtml.clientHeight;
+      this.scale = width / 1080;
+      oHtml.style.fontSize = 19.2 * (width / 1080) + "px";
+      this.circleCanves();
+    };
+    const oHtml = document.getElementsByTagName("html")[0];
+    const width = oHtml.clientHeight;
+    this.scale = width / 1080;
+    oHtml.style.fontSize = 19.2 * (width / 1080) + "px";
+
     this.getScreenTenant();
     this.getScreenElectricSituation();
     this.getTenantElectricLoad();
@@ -333,11 +351,17 @@ export default {
         ]);
         return RotatingCircle;
       })();
+      document.querySelector(".js-rotate-01").height = 150 * this.scale;
+      document.querySelector(".js-rotate-01").width = 150 * this.scale;
+      document.querySelector(".js-rotate-02").height = 150 * this.scale;
+      document.querySelector(".js-rotate-02").width = 150 * this.scale;
+      document.querySelector(".js-rotate-03").height = 150 * this.scale;
+      document.querySelector(".js-rotate-03").width = 150 * this.scale;
 
       this.circles = [
         new RotatingCircle(document.querySelector(".js-rotate-01"), {
-          radius: 49,
-          lineWidth: 9,
+          radius: 74 * this.scale,
+          lineWidth: 9 * this.scale,
           strokeStyle: "#d2feff",
           degreeStart: -90,
           degreeEnd: 180,
@@ -345,8 +369,8 @@ export default {
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-02"), {
-          radius: 49,
-          lineWidth: 9,
+          radius: 74 * this.scale,
+          lineWidth: 9 * this.scale,
           strokeStyle: "#07fdff",
           degreeStart: -50,
           degreeEnd: 270,
@@ -354,8 +378,8 @@ export default {
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-03"), {
-          radius: 49,
-          lineWidth: 9,
+          radius: 74 * this.scale,
+          lineWidth: 9 * this.scale,
           strokeStyle: "#2178ff",
           degreeStart: -70,
           degreeEnd: 90,
@@ -386,36 +410,47 @@ export default {
         this.powerRoom = this.dataInfo.SwitchingRoomCount;
       });
     },
-    getScreenElectricSituation(){
+    getScreenElectricSituation() {
       getScreenElectricSituation().then(r => {
         this.electricSituation = r.data;
-        this.gainPieChartData.push({ name: "高峰",value: this.electricSituation.Sharp});
-        this.gainPieChartData.push({ name: "尖峰",value: this.electricSituation.Peak});
-        this.gainPieChartData.push({ name: "平时",value: this.electricSituation.Flat});
-        this.gainPieChartData.push({ name: "低谷",value: this.electricSituation.Valley});
-         this.$nextTick(() => {
+        this.gainPieChartData.push({
+          name: "高峰",
+          value: this.electricSituation.Sharp
+        });
+        this.gainPieChartData.push({
+          name: "尖峰",
+          value: this.electricSituation.Peak
+        });
+        this.gainPieChartData.push({
+          name: "平时",
+          value: this.electricSituation.Flat
+        });
+        this.gainPieChartData.push({
+          name: "低谷",
+          value: this.electricSituation.Valley
+        });
+        this.$nextTick(() => {
           this.$refs.gainPie.initChart();
         });
       });
     },
-    getTenantElectricLoad(){
+    getTenantElectricLoad() {
       getTenantElectricLoad().then(r => {
         this.tenantElectricLoad = r.data;
-       this.lineChartData.xAxisData = this.tenantElectricLoad.XAxis;
-       this.lineChartData.highData = this.tenantElectricLoad.Highest;
-       this.lineChartData.averageData = this.tenantElectricLoad.Average;
-       this.lineChartData.lowData = this.tenantElectricLoad.Lowest;
+        this.lineChartData.xAxisData = this.tenantElectricLoad.XAxis;
+        this.lineChartData.highData = this.tenantElectricLoad.Highest;
+        this.lineChartData.averageData = this.tenantElectricLoad.Average;
+        this.lineChartData.lowData = this.tenantElectricLoad.Lowest;
         this.$nextTick(() => {
           this.$refs.loadLineChart.initChart();
         });
       });
-
     },
-    getElectricFeeCurve(){
+    getElectricFeeCurve() {
       getElectricFeeCurve().then(r => {
-       this.electricFeeCurve = r.data;
-       this.barChartData.xAxisData = this.electricFeeCurve.XAxis;
-       this.barChartData.listData = this.electricFeeCurve.Daily;
+        this.electricFeeCurve = r.data;
+        this.barChartData.xAxisData = this.electricFeeCurve.XAxis;
+        this.barChartData.listData = this.electricFeeCurve.Daily;
         this.$nextTick(() => {
           this.$refs.barChart.initChart();
         });
@@ -425,14 +460,24 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@function px2rem($px, $base-font-size: 19.2px) {
+  @if (unitless($px)) {
+    @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+    @return px2rem($px + 0px); // That may fail.
+  } @else if (unit($px) == rem) {
+    @return $px;
+  }
+  @return ($px / $base-font-size) * 1rem;
+}
+
 .screenbg {
   background: url(../../../assets/image/userscreen/img_user_bj.jpg) no-repeat;
   background-size: 100% 100%;
-  padding: 0 15px;
+  padding: 0;
 }
 .tophead {
   position: relative;
-  padding: 0px 0px 20px;
+  padding: 0px 0px px2rem(20px);
 
   .img_title_bj {
     width: 100%;
@@ -440,12 +485,16 @@ export default {
   .cnt {
     position: absolute;
     left: 0;
-    top: 10px;
+    top: px2rem(12px);
     text-align: center;
     right: 0;
     bottom: 0;
-    font-size: 18px;
+    font-size: px2rem(22px);
     color: #9ef4ff;
+    .img_title {
+      padding-top: px2rem(4px);
+      height: px2rem(42px);
+    }
     & > span {
       display: inline-block;
       width: 33%;
@@ -463,15 +512,15 @@ export default {
 }
 .count-box {
   text-align: center;
-  font-size: 16px;
+  font-size: px2rem(16px);
   color: #68b6ef;
   p {
     &:before {
       content: "";
-      width: 40px;
+      width: px2rem(40px);
       vertical-align: super;
-      height: 2px;
-      margin-right: 5px;
+      height: px2rem(2px);
+      margin-right: px2rem(5px);
       display: inline-block;
       background-image: linear-gradient(
         90deg,
@@ -481,10 +530,10 @@ export default {
     }
     &:after {
       content: "";
-      width: 40px;
+      width: px2rem(40px);
       vertical-align: super;
-      height: 2px;
-      margin-left: 5px;
+      height: px2rem(2px);
+      margin-left: px2rem(5px);
       display: inline-block;
       background-image: linear-gradient(
         90deg,
@@ -498,27 +547,31 @@ export default {
   div {
     display: inline-block;
     position: relative;
-    background: url("../../../assets/image/userscreen/ic_number_bj.png")
-      repeat-x;
-    background-size: calc(3103px / 100) 100%;
-    font-size: 36px;
+    // background: url("../../../assets/image/userscreen/ic_number_bj.png")
+    //   repeat-x;
+    // background-size: calc(3103px / 100) 100%;
+    img {
+      width: px2rem(36px);
+    }
+    font-size: px2rem(36px);
     font-weight: bold;
-    letter-spacing: 11px;
+    letter-spacing: px2rem(16px);
     color: transparent;
     span {
       position: absolute;
-      left: calc(11px / 2);
+      // left: calc(11px / 2);
+      left: px2rem(18px/2);
       color: #fff;
     }
   }
 }
 .maincontent {
-  padding: 0 30px;
+  padding: 0 px2rem(30px);
   h6 {
-    font-size: 16px;
+    font-size: px2rem(16px);
     margin: 0;
     color: #68b6ef;
-    margin: 20px 0 15px;
+    margin: px2rem(20px) 0 px2rem(15px);
     font-weight: normal;
     display: flex;
     align-items: baseline;
@@ -529,8 +582,8 @@ export default {
       background-size: 100% 100%;
       width: 70%;
       display: inline-block;
-      height: 10px;
-      margin-left: 20px;
+      height: px2rem(10px);
+      margin-left: px2rem(20px);
       flex: 1;
     }
     &.longbg:after {
@@ -553,11 +606,12 @@ export default {
   text-align: center;
   & > img {
     position: absolute;
-    bottom: 10%;
+    bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     display: block;
+    width: px2rem(500px);
   }
 }
 .smbarbox {
@@ -576,44 +630,55 @@ export default {
     right: 0;
     text-align: center;
     display: block;
-    font-size: 20px;
+    font-size: px2rem(20px);
   }
 }
 
 .legendbox {
-  padding: 15px 10% 10px;
+  padding: px2rem(15px) 10% px2rem(10px);
   p {
     color: #1fade3;
-    font-size: 12px;
+    font-size: px2rem(12px);
     text-align: center;
     padding-bottom: 0;
     span {
       display: block;
-      padding-top: 10px;
-      min-height: 37px;
+      padding-top: px2rem(10px);
+      min-height: px2rem(37px);
       color: #ffffff;
-      font-size: 24px;
+      font-size: px2rem(24px);
     }
   }
 }
 .circlebox {
-  padding: 10% 10% 2%;
+  padding: px2rem(60px) 10% 2%;
+  div {
+    width: px2rem(150px);
+    height: px2rem(150px);
+    span {
+      line-height: px2rem(150px);
+    }
+  }
+  canvas {
+    width: px2rem(150px);
+    height: px2rem(150px);
+  }
 }
 .boxheight1 {
-  height: 25vh;
+  height: px2rem(310px);
 }
 .boxheight2 {
-  height: 34vh;
+  height: px2rem(400px);
 }
 .boxheight3 {
-  height: 36vh;
+  height: px2rem(250px);
 }
 .boxheight4 {
-  height: 23vh;
+  height: px2rem(285px);
 }
 
 .boxheight5 {
-  height: 46vh;
+  height: px2rem(500px);
 }
 
 /deep/.el-scrollbar__bar.is-horizontal {
@@ -626,7 +691,7 @@ export default {
   text-align: center;
   width: 100%;
   span {
-    font-size: 12px;
+    font-size: px2rem(12px);
     width: 33%;
     color: #fefefe;
     text-align: center;
@@ -638,15 +703,15 @@ export default {
   width: 20%;
   color: #fff;
   text-align: center;
-  margin-top: -25px;
+  margin-top: px2rem(-25px);
   vertical-align: top;
   p {
     color: #1fade3;
-    font-size: 12px;
-    margin-bottom: 15px;
+    font-size: px2rem(12px);
+    margin-bottom: px2rem(15px);
     span {
       color: #ffffff;
-      font-size: 20px;
+      font-size: px2rem(20px);
       line-height: 1.5;
       display: block;
     }

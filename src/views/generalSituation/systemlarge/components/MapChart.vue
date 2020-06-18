@@ -196,7 +196,7 @@ export default {
                 value: chinaGeoCoordMap[dataItem.Text].concat([dataItem.Value])
               };
             })
-          },
+          }
           //被攻击点
           // {
           //   type: "scatter",
@@ -268,7 +268,7 @@ export default {
           min: 0,
           max: 1,
           calculable: true,
-          color: [ "#06fdff"],//,"#d2feff", "#2178ff"
+          color: ["#06fdff"], //,"#d2feff", "#2178ff"
 
           textStyle: {
             color: "#fff"
@@ -276,7 +276,7 @@ export default {
         },
         geo: {
           map: "china",
-          zoom: 1.3,
+          zoom: 1.2,
           zlevel: 2,
           label: {
             emphasis: {
