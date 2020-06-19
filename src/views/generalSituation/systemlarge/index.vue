@@ -749,13 +749,13 @@ export default {
   height: px2rem(140px);
 }
 .boxheight3 {
-  height: px2rem(300px);
+  height: px2rem(290px);
 }
 .boxheight4 {
   margin-top: px2rem(-60px);
 }
 .boxheight5 {
-  height: px2rem(695px);
+  height: px2rem(685px);
 }
 
 /deep/.el-scrollbar__bar.is-horizontal {
