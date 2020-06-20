@@ -40,7 +40,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="出厂日期">
-                    <el-input :value="filterDate(infoData.StartTime)" disabled></el-input>
+                    <el-input :value="filterDate(infoData.ExFactoryDate)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">

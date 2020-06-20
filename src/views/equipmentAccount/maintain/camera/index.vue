@@ -153,12 +153,12 @@ export default {
     handleAdd() {},
     handleUpdate() {
       const id = this.infoData.Id;
-      const parentid = this.infoData.ParentId;
+      const parentId = this.infoData.ParentId;
       const serialcode = this.infoData.SerialCode;
       const validatecode = this.infoData.ValidateCode;
       const name = this.infoData.Name;
       const channelno = this.infoData.ChannelNo;
-      const tenantid = this.infoData.TenantId;
+      const tenantId = this.infoData.TenantId;
       const attribute = this.infoData.Attribute;
       const softwareversion = this.infoData.SoftwareVersion;
       const starttime = this.infoData.StartTime;
@@ -169,12 +169,12 @@ export default {
       const SortIndex = this.infoData.SortIndex;
       const data = {
         id,
-        parentid,
+        parentId,
         serialcode,
         validatecode,
         name,
         channelno,
-        tenantid,
+        tenantId,
         attribute,
         softwareversion,
         starttime,

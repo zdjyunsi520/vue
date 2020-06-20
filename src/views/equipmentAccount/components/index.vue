@@ -179,4 +179,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
+.dragbox .dragleft{
+  width:324px;
+}
 </style>

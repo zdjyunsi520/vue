@@ -53,8 +53,8 @@
             </el-col>
 
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="tenantid">
-                <el-select v-model="form.tenantid">
+              <el-form-item label="所属单位" prop="tenantId">
+                <el-select v-model="form.tenantId">
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
@@ -181,7 +181,7 @@ export default {
 
       IsEnable: rule,
       starttime: rule,
-      tenantid: rule,
+      tenantId: rule,
       attribute: rule,
 
       exfactorydate: [
@@ -221,18 +221,18 @@ export default {
       this.form = Object.assign(
         {
           id: "",
-          parentid: "",
+          parentId: "",
           serialcode: "",
           validatecode: "",
           name: "",
           channelno: "",
-          tenantid: "",
+          tenantId: "",
           attribute: "",
           softwareversion: "",
           starttime: "",
           modelname: "",
           exfactorydate: "",
-          IsEnable: 1,
+          IsEnable: "",
           factory: "",
           SortIndex: 1
         },

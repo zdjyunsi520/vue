@@ -87,7 +87,7 @@
 
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="排序号" prop="SortIndex">
-                <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
+                <el-input-number v-model="form.SortIndex" controls-position="right" :min="1" :max="9999" />
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">

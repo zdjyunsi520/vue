@@ -161,8 +161,8 @@ export default {
     ...mapActions({ deviceList: "common/deviceList" }),
     handleElectron(v) {},
     fetchDeviceList() {
-      const tenantId = this.form.TenantId;
-      this.deviceList({ tenantId }).then(r => {
+      const TenantId = this.form.TenantId;
+      this.deviceList({ TenantId }).then(r => {
         this.deviceType = r.data;
       });
     },

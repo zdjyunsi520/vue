@@ -21,22 +21,22 @@
           <el-col>
 
             <el-col :span='12' :xs='24'>
-              <el-form-item label="url" prop="url">
-                <el-input v-model="form.url" placeholder="请输入url" />
+              <el-form-item label="url信息" prop="url">
+                <el-input v-model="form.url" placeholder="请输入url信息" />
               </el-form-item>
             </el-col>
           </el-col>
           <el-col>
             <el-col :span='12' :xs='24'>
-              <el-form-item label="组件" prop="component">
-                <el-input v-model="form.component" placeholder="请输入组件" />
+              <el-form-item label="组件信息" prop="component">
+                <el-input v-model="form.component" placeholder="请输入组件信息" />
               </el-form-item>
             </el-col>
           </el-col>
           <el-col>
             <el-col :span='12' :xs='24'>
               <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
+                <el-input-number v-model="form.sortindex" placeholder="请输入排序号" controls-position="right" :min="1" :max="9999" />
               </el-form-item>
             </el-col>
           </el-col>

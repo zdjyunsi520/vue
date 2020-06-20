@@ -407,6 +407,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
+.dragbox .dragleft{
+  width:324px;
+}
+.dragbox .dragright.mxright{
+   width: calc(100% - 334px);
+}
+
 /deep/.el-tree {
   color: #999 !important;
   font-size: 14px;

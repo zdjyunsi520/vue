@@ -52,8 +52,8 @@
             </el-col>
 
             <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="出厂日期" prop="Exfactorydate">
-                <el-date-picker v-model="form.Exfactorydate" type="date" placeholder="请选择日期"></el-date-picker>
+              <el-form-item label="出厂日期" prop="ExFactoryDate">
+                <el-date-picker v-model="form.ExFactoryDate" type="date" placeholder="请选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
 
@@ -190,7 +190,7 @@ export default {
       Status: rule,
       DataAddress: rule,
 
-      exfactorydate: [
+      ExFactoryDate: [
         {
           required: false,
           message: "此处不能为空",
@@ -256,6 +256,7 @@ export default {
           RTRatio: "",
           Id: "",
           SortIndex: 1,
+          ExFactoryDate:'',
           DataAddress: "",
           ParentId: ""
         },

@@ -79,9 +79,9 @@ export default {
             ],
             Remark: [
                 {
-                    pattern: /^.{1,300}$/,
-                    required: true,
-                    message: "请输入300位以内的内容"
+                    pattern: /^.{1,50}$/,
+                    required: false,
+                    message: "请输入50位以内的内容"
                 }
             ]
         };

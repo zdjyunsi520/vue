@@ -148,7 +148,7 @@ export default {
       const Id = this.infoData.Id;
       const serialcode = this.infoData.SerialCode;
       const name = this.infoData.Name;
-      const tenantid = this.infoData.TenantId;
+      const tenantId = this.infoData.TenantId;
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
       const status = this.infoData.Status;
@@ -161,7 +161,7 @@ export default {
       const data = {
         serialcode,
         name,
-        tenantid,
+        tenantId,
         starttime,
         property,
         status,

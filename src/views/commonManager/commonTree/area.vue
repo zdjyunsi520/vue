@@ -2,9 +2,9 @@
 
   <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
     <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-      <div style="background:#fff;height:100%;padding:0 10px;">
+      <div style="background:#fff;height:100%;">
         <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-          <el-tree :default-expanded-keys="expandKeys"  :accordion='true' :current-node-key="currentNode[nodeKey]" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="expandAll" :node-key="nodeKey" :expand-on-click-node="false"></el-tree>
+          <el-tree :default-expanded-keys="expandKeys" :accordion='true' :current-node-key="currentNode[nodeKey]" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="expandAll" :node-key="nodeKey" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </div>
     </el-col>

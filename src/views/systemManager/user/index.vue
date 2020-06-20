@@ -299,6 +299,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
+.dragbox .dragleft{
+  width:324px;
+}
+.dragbox .dragright.mxright{
+   width: calc(100% - 334px);
+}
 .xl-left {
     width: 300px;
     float: left;

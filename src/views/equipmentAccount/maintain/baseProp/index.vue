@@ -57,7 +57,7 @@
               <el-col :xs="{span: 24}" :span="12">
                 <el-col :span="24">
                   <el-form-item label="上级单位">
-                    <el-input v-model="infoData.ParentId" disabled></el-input>
+                    <el-input v-model="infoData.ParentName" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">

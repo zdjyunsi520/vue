@@ -185,11 +185,10 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          id: "",
+          // id: "",
           name: "",
           type: "",
           tenantId: "",
-          tenantid: "",
           parentid: "",
           status: 1,
           starttime: "",
@@ -218,14 +217,12 @@ export default {
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.id ? update : add;
-          this.form.tenantid = this.form.tenantId;
           this.form.starttime = dateFortmat(this.form.starttime, "yyyy-MM-dd");
           if (this.form.exfactorydate)
             this.form.exfactorydate = dateFortmat(
               this.form.exfactorydate,
               "yyyy-MM-dd"
             );
-          //添加用户
           fn(this.form)
             .then(response => {
               //消息提示

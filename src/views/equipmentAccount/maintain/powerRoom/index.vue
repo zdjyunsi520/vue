@@ -153,11 +153,10 @@ export default {
       return !!state ? "是" : "否";
     },
     handleCommand(name) {
-      const parentid = this.data.id;
-      const tenantid = this.infoData.TenantId;
-      const parentId = parentid;
-      const switchingroomid = parentid;
-      const data = { parentid, parentId, switchingroomid, tenantid };
+      const tenantId = this.infoData.TenantId;
+      const parentId = this.data.id;
+      const switchingroomid = this.data.id;
+      const data = { parentId, switchingroomid, tenantId };
       const title = "新增";
       this.$router.push({
         name,
@@ -170,7 +169,6 @@ export default {
       const id = this.infoData.Id;
       const name = this.infoData.Name;
       const type = this.infoData.Type;
-      const tenantid = this.infoData.TenantId;
       const status = this.infoData.Status;
       const starttime = this.infoData.StartTime;
       const property = this.infoData.Property;
@@ -179,13 +177,12 @@ export default {
       const factory = this.infoData.Factory;
       const sortindex = this.infoData.SortIndex;
       const exfactorydate = this.infoData.ExFactoryDate;
-      const tenantId = tenantid;
-      const parentid = "";
+      const tenantId = this.infoData.TenantId;
+      const parentId = "";
       const data = {
         id,
         name,
         type,
-        tenantid,
         status,
         starttime,
         property,
@@ -194,7 +191,7 @@ export default {
         factory,
         sortindex,
         exfactorydate,
-        parentid,
+        parentId,
         tenantId
       };
       const title = "编辑";

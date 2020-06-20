@@ -29,8 +29,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="tenantid">
-                <el-select v-model="form.tenantid">
+              <el-form-item label="所属单位" prop="tenantId">
+                <el-select v-model="form.tenantId">
                   <el-option label="请选择" value></el-option>
                   <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                 </el-select>
@@ -64,7 +64,7 @@
 
             <el-col :span="10" :push="2" :xs="24">
               <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
+                <el-input-number v-model="form.sortindex" controls-position="right" :min="1" :max="9999" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -136,7 +136,7 @@ export default {
         }
       ],
       type: rule,
-      tenantid: rule,
+      tenantId: rule,
       isenable: rule,
       starttime: rule,
       property: rule,
@@ -183,7 +183,7 @@ export default {
           Id: "",
           serialcode: "",
           name: "",
-          tenantid: "",
+          tenantId: "",
           starttime: "",
           property: "",
           modelname: "",
@@ -214,7 +214,6 @@ export default {
           //按钮转圈圈
           this.loading = true;
           const fn = this.form.Id ? update : add;
-          this.form.tenantId = this.form.tenantid;
           //添加用户
           fn(this.form)
             .then(response => {
