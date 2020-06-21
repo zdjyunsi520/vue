@@ -268,7 +268,7 @@ export default {
           min: 0,
           max: 1,
           calculable: true,
-          color: ["#06fdff"], //,"#d2feff", "#2178ff"
+          color: ["#d2feff"], //,"#d2feff", "#2178ff"
 
           textStyle: {
             color: "#fff"

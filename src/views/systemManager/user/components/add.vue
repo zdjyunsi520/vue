@@ -10,22 +10,22 @@
             <el-input v-model="form.text" placeholder="" :disabled="true" />
           </el-form-item>
 
-          <el-form-item label="姓名" prop="name">
+          <el-form-item label="人员姓名" prop="name">
             <el-input v-model="form.name" placeholder="请输入人员姓名" />
           </el-form-item>
 
-          <el-form-item label="预留手机号" prop="mobilephone">
+          <el-form-item label="手机号" prop="mobilephone">
             <el-input v-model="form.mobilephone" placeholder="请输入人员手机号" />
           </el-form-item>
 
-          <el-form-item label="是否开通账号" prop="isopenaccount" v-if="!form.id">
+          <el-form-item label="开通账号" prop="isopenaccount" v-if="!form.id">
             <el-switch v-model="form.isopenaccount" class="switchStyle switch-mx" style="width:60px" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开通" inactive-text="不开通">
             </el-switch>
           </el-form-item>
           <el-form-item label="用户名" prop="username" v-if="form.isopenaccount">
             <el-input v-model="form.username" placeholder="请输入4-18位数字或字母" />
           </el-form-item>
-          <el-form-item label="密码" prop="password" v-if="form.isopenaccount">
+          <el-form-item label="输入密码" prop="password" v-if="form.isopenaccount">
             <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
           <el-form-item label="确认密码" prop="confirmpassword" v-if="form.isopenaccount">

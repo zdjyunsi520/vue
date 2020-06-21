@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" label-width="100">
+        <el-form-item label="巡视人员：" prop="patrolusername">
+          <el-input v-model="queryParams.patrolusername" clearable></el-input>
+        </el-form-item>
         <el-form-item label="巡视单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="巡视人员：" prop="patrolusername">
-          <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视日期：" prop="patroltimebegin">
           <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
@@ -35,7 +35,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
       </el-row>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" border  @row-dblclick="dbhandleUpdate">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -56,8 +56,8 @@
           </template>
         </el-table-column>
         <el-table-column label="巡视人员" width="130" sortable prop="PatrolUserName"></el-table-column>
-        <el-table-column label="确认人" width="130" sortable prop="ConfirmUserName"></el-table-column>
         <el-table-column label="编制人" width="130" sortable prop="CreateUserName"></el-table-column>
+        <el-table-column label="确认人" width="130" sortable prop="ConfirmUserName"></el-table-column>
         <el-table-column label="状态" width="100" sortable prop="IsExecute">
           <template slot-scope="scope">
             <span v-if="scope.row.IsExecute"><i class="green dot"></i>已执行</span>
@@ -223,6 +223,9 @@ export default {
         this.$message.success("已成功回退!");
         this.getList();
       });
+    },
+    dbhandleUpdate(row) {
+      this.handleReport(row);
     },
     // 查看报告
     handleReport(row) {

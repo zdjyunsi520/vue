@@ -8,8 +8,8 @@
         <el-form-item label="姓名：" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="预留手机号：" prop="mobilephone">
-          <el-input v-model="queryParams.mobilephone" placeholder="请输入预留手机号" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="手机号：" prop="mobilephone">
+          <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -26,7 +26,7 @@
         <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
         <el-button type="info" plain icon="el-icon-unlock" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -36,7 +36,7 @@
         <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="用户名" min-width="150" prop="UserName" />
         <el-table-column label="姓名" min-width="150" prop="Name" />
-        <el-table-column label="预留手机号" width="130" prop="MobilePhone" />
+        <el-table-column label="手机号" width="130" prop="MobilePhone" />
         <el-table-column label="添加时间" width="190" prop="CreateTime" sortable="custom">
           <template slot-scope="{row}">
             <i class="el-icon-time"></i>&nbsp;{{row.CreateTime}}
@@ -60,16 +60,16 @@
           </template>
         </el-table-column>
         <el-table-column label="注销状态" width="100" prop="IsCancel" :formatter="filterCancel" />
-        <el-table-column label="操作" fixed="right" width="320">
+        <el-table-column label="操作" fixed="right" width="230">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
-              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑信息
+              <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
             <el-button size="mini" type="text" @click="handleResetPwd(scope.row)">
-              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>编辑密码
+              <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>密码
             </el-button>
             <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
-              <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>设置权限
+              <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限
             </el-button>
           </template>
         </el-table-column>
@@ -164,6 +164,10 @@ export default {
         params: { data: {}, title }
       });
     },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(row) {
       const id = row.Id;

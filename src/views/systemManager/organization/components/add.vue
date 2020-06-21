@@ -13,7 +13,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="上级单位" prop="parentId">
                                 <el-select v-model="form.parentId">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择上级单位" value=""></el-option>
                                     <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
                                 </el-select>
                             </el-form-item>
@@ -21,7 +21,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="行业类别" prop="industry">
                                 <el-select v-model="form.industry" @change="handleChange">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择行业类别" value=""></el-option>
                                     <el-option :key="index" :label="item.text" :value="item.id" v-for="(item,index) in professionList" />
                                 </el-select>
                             </el-form-item>
@@ -34,7 +34,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="行业分类" prop="principleactivity">
                                 <el-select v-model="form.principleactivity">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择行业分类" value=""></el-option>
                                     <el-option :key="item.key" :label="item.text" :value="item.id" v-for="item in professionChildList" />
                                 </el-select>
                             </el-form-item>
@@ -47,7 +47,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="省份" prop="province">
                                 <el-select v-model="form.province" @change="handleChange1">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择省份" value=""></el-option>
                                     <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                                 </el-select>
                             </el-form-item>
@@ -60,7 +60,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="城市" prop="city">
                                 <el-select v-model="form.city" @change="handleChange2">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择城市" value=""></el-option>
                                     <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
                                 </el-select>
                             </el-form-item>
@@ -73,7 +73,7 @@
                         <el-col :span="10" :xs='24'>
                             <el-form-item label="区域/县" prop="area">
                                 <el-select v-model="form.area">
-                                    <el-option label="请选择" value=""></el-option>
+                                    <el-option label="请选择区域/县" value=""></el-option>
                                     <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
                                 </el-select>
                             </el-form-item>
@@ -171,12 +171,12 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="10" :xs='24'>
-                            <el-form-item label="合同容量(kVA)" prop="contractcapacity">
+                            <el-form-item label="合同容量(kVA)" prop="contractcapacity" label-width="150px">
                                 <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="10" :xs='24'>
-                            <el-form-item label="运行容量(kVA)" prop="operatingcapacity">
+                            <el-form-item label="运行容量(kVA)" prop="operatingcapacity" label-width="150px">
                                 <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
                             </el-form-item>
                         </el-col>

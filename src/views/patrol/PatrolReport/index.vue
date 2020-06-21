@@ -22,7 +22,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" border style='margin-top:20px'>
+      <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" border style='margin-top:20px'  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -42,7 +42,7 @@
         <el-table-column label="操作" width="130" fixed="right">
           <template slot-scope="scope">
             <div>
-              
+
               <el-button type="text" size="mini" @click="handleReport(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看报告
               </el-button>
@@ -129,6 +129,9 @@ export default {
       this.resetForm("queryForm");
       this.queryParams.patroltimeend = "";
       this.handleQuery();
+    },
+    dbhandleUpdate(row) {
+      this.handleReport(row);
     },
     // 查看报告
     handleReport(row) {

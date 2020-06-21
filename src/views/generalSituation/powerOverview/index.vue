@@ -5,7 +5,7 @@
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
                 <div style="background:#fff;height:100%;padding:0 10px;">
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-                        <el-tree ref="tree" node-key="id" :data="treeData" :accordion='true' :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
+                        <el-tree ref="tree" node-key="id" :data="treeData"   :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
                             <span class="el-tree-node__label" slot-scope="{ node, data }">
                                 <svg-icon icon-class="gongsi" class="tablesvgicon"></svg-icon>
                                 {{ data.text }}
@@ -64,7 +64,7 @@
                                                 </span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <i>
+                                                <i style="background: #fcf0e2;">
                                                     <svg-icon icon-class="ic_transformer" /></i>
                                             </el-col>
                                         </el-row>
@@ -75,14 +75,14 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            电费
+                                            电费(元)
                                         </div>
                                         <el-row :gutter="40" class="legendbox" style="padding:0 30px">
                                             <el-col :span="8" :push="4">
-                                                <p>本月电费(元)<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
+                                                <p>本月电费<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
                                             </el-col>
                                             <el-col :span="8" :push="4">
-                                                <p>上月电费(元)<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
+                                                <p>上月电费<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <BarChart ref='barChart' :barchartData='typeChartData' />
@@ -116,7 +116,7 @@
                                 <el-col :span="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            负荷
+                                            负荷(KW)
                                         </div>
                                         <el-row :gutter="20">
                                             <el-col :span="6" :xs="24">
@@ -128,16 +128,16 @@
                                                 <div class="chart-wrapper">
                                                     <el-row class="legendbox lx">
                                                         <el-col :span="6">
-                                                            <p>今日最高(KW)<span>{{electricLoad.TodayHighest}}</span></p>
+                                                            <p>今日最高<span>{{electricLoad.TodayHighest}}</span></p>
                                                         </el-col>
                                                         <el-col :span="6">
-                                                            <p>昨日最高(KW)<span>{{electricLoad.YesterdayHighest}}</span></p>
+                                                            <p>昨日最高<span>{{electricLoad.YesterdayHighest}}</span></p>
                                                         </el-col>
                                                         <el-col :span="6">
-                                                            <p>本月最高(KW)<span>{{electricLoad.ThisMonthHighest}}</span></p>
+                                                            <p>本月最高<span>{{electricLoad.ThisMonthHighest}}</span></p>
                                                         </el-col>
                                                         <el-col :span="6">
-                                                            <p>上月最高(KW)<span>{{electricLoad.LastMonthHighest}}</span></p>
+                                                            <p>上月最高<span>{{electricLoad.LastMonthHighest}}</span></p>
                                                         </el-col>
                                                     </el-row>
                                                     <div class="rightradiobox">
@@ -159,20 +159,20 @@
                                 <el-col :span="16" :xs="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            用电情况
+                                            用电情况(KW)
                                         </div>
                                         <el-row :gutter="20">
                                             <el-col :span="24">
                                                 <div class="chart-wrapper">
                                                     <el-row class="legendbox lx" style="margin:auto;">
                                                         <el-col :span="8">
-                                                            <p>本月最高(KW)<span>{{electricQuantity.ThisMonthHighest}}</span></p>
+                                                            <p>本月最高<span>{{electricQuantity.ThisMonthHighest}}</span></p>
                                                         </el-col>
                                                         <el-col :span="8">
-                                                            <p>上月最高(KW)<span>{{electricQuantity.LastMonthHighest}}</span></p>
+                                                            <p>上月最高<span>{{electricQuantity.LastMonthHighest}}</span></p>
                                                         </el-col>
                                                         <el-col :span="8">
-                                                            <p>本年最高(KW)<span>{{electricQuantity.ThisYearHighest}}</span></p>
+                                                            <p>本年最高<span>{{electricQuantity.ThisYearHighest}}</span></p>
                                                         </el-col>
                                                     </el-row>
                                                     <PowerBarchart ref='PowerBarchart' :barchartData="powerbarChartData" />
@@ -185,7 +185,7 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            电量构成
+                                            电量构成(KW)
                                         </div>
                                         <div class="chart-wrapper">
                                             <PieChart ref="pieChart" :chartData='pieChartData' />
@@ -417,8 +417,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
+.dragbox .dragleft{
+  width:324px;
+}
+.dragbox .dragright.mxright{
+   width: calc(100% - 334px);
+}
+
 /deep/.smdatabox {
-    padding: 20px 25px;
+    padding: 20px 10%;
     b {
         display: block;
         padding-top: 20px;

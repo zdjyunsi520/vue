@@ -105,6 +105,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/camera";
 import { mapGetters } from "vuex";
+import { dateFortmat } from "@/utils";
 
 export default {
   data() {
@@ -229,7 +230,7 @@ export default {
           tenantId: "",
           attribute: "",
           softwareversion: "",
-          starttime: "",
+          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
           modelname: "",
           exfactorydate: "",
           IsEnable: "",

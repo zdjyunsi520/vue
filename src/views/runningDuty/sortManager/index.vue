@@ -625,7 +625,6 @@ export default {
   text-align: center;
   font-size: 20px;
   padding: 20px 0 40px;
-  font-weight: bold;
   color: #333333;
 }
 .el-table th div.cellthbox {

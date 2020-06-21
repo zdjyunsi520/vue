@@ -4,7 +4,7 @@
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
                 <div style="background:#fff;height:100%;padding:0 10px;">
                     <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-                        <el-tree ref="tree" node-key="id" :data="treeData" :accordion='true' :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
+                        <el-tree ref="tree" node-key="id" :data="treeData"   :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
                             <span class="el-tree-node__label" slot-scope="{ node, data }">
                                 <svg-icon icon-class="gongsi" class="tablesvgicon"></svg-icon>
                                 {{ data.text }}
@@ -113,29 +113,29 @@
                                 <el-col :span="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            用电负荷
+                                            用电负荷(KW)
                                         </div>
                                         <div class="chart-wrapper">
                                             <el-row class="legendbox lx" v-if="radioType==0">
                                                 <el-col :span="8">
-                                                    <p>今日最高(KW)<span>{{electricLoad.TodayHighest}}</span></p>
+                                                    <p>今日最高<span>{{electricLoad.TodayHighest}}</span></p>
                                                 </el-col>
                                                 <el-col :span="8">
-                                                    <p>昨日最高(KW)<span>{{electricLoad.YesterdayHighest}}</span></p>
+                                                    <p>昨日最高<span>{{electricLoad.YesterdayHighest}}</span></p>
                                                 </el-col>
                                                 <el-col :span="8">
-                                                    <p>日平均(KW)<span>{{electricLoad.DailyAverage}}</span></p>
+                                                    <p>日平均<span>{{electricLoad.DailyAverage}}</span></p>
                                                 </el-col>
                                             </el-row>
                                             <el-row class="legendbox lx" v-else>
                                                 <el-col :span="8">
-                                                    <p>本月最高(KW)<span>{{electricLoad.ThisMonthHighest}}</span></p>
+                                                    <p>本月最高<span>{{electricLoad.ThisMonthHighest}}</span></p>
                                                 </el-col>
                                                 <el-col :span="8">
-                                                    <p>上月最高(KW)<span>{{electricLoad.LastMonthHighest}}</span></p>
+                                                    <p>上月最高<span>{{electricLoad.LastMonthHighest}}</span></p>
                                                 </el-col>
                                                 <el-col :span="8">
-                                                    <p>月平均(KW)<span>{{electricLoad.MonthlyAverage}}</span></p>
+                                                    <p>月平均<span>{{electricLoad.MonthlyAverage}}</span></p>
                                                 </el-col>
                                             </el-row>
                                             <div class="rightradiobox">
@@ -150,54 +150,44 @@
                                 </el-col>
                             </el-row>
                             <el-row :gutter="20" style="margin-top:20px;">
-                                <el-col :span="10" :xs="24">
+                                <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            抢修情况
+                                            抢修情况(次)
                                         </div>
                                         <el-row :gutter="5" class="legendbox">
-                                            <el-col :span="14" :xs="24">
-                                                <el-row :gutter="10">
-                                                    <el-col :span="8">
-                                                        <p>本月(总)<span>{{dataInfo.RepairThisMonth.TotalCount}}</span></p>
+                                            <el-col :span="11" :xs="24">
+                                                    <el-col :span="12">
+                                                        <p>累计报修<span>{{dataInfo.RepairThisMonth.ApplyCount}}</span></p>
                                                     </el-col>
-                                                    <el-col :span="8">
-                                                        <p>累计报修(次)<span>{{dataInfo.RepairThisMonth.ApplyCount}}</span></p>
+                                                    <el-col :span="12">
+                                                        <p>累计抢修<span>{{dataInfo.RepairThisMonth.DispatchCount}}</span></p>
                                                     </el-col>
-                                                    <el-col :span="8">
-                                                        <p>累计抢修(次)<span>{{dataInfo.RepairThisMonth.DispatchCount}}</span></p>
+                                                    <el-col :span="12">
+                                                        <p>已完成<span>{{dataInfo.RepairThisMonth.CompletionCount}}</span></p>
                                                     </el-col>
-                                                </el-row>
-                                                <el-row :gutter="10">
-                                                    <el-col :span="8">
-                                                        <p>已完成(次)<span>{{dataInfo.RepairThisMonth.CompletionCount}}</span></p>
+                                                    <el-col :span="12">
+                                                        <p>未完成<span>{{dataInfo.RepairThisMonth.InCompletionCount}}</span></p>
                                                     </el-col>
-                                                    <el-col :span="8">
-                                                        <p>未完成(次)<span>{{dataInfo.RepairThisMonth.InCompletionCount}}</span></p>
-                                                    </el-col>
-                                                    <el-col :span="8">
-                                                        <p>完成率<span>{{dataInfo.RepairThisMonth.CompletionRate}}%</span></p>
-                                                    </el-col>
-                                                </el-row>
                                             </el-col>
-                                            <el-col :span="10" :xs="24">
+                                            <el-col :span="13" :xs="24">
                                                 <PieChart :chartData='repairPieChartData' />
                                             </el-col>
                                         </el-row>
                                     </div>
                                 </el-col>
-                                <el-col :span="7" :xs="24">
+                                <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            巡视情况
+                                            巡视情况(次)
                                         </div>
                                         <el-row :gutter="10" class="legendbox">
                                             <el-col :span="10" :xs="24">
                                                 <el-col :span="24" :xs="12">
-                                                    <p>本月计划巡检(次)<span>{{dataInfo.PatrolThisMonth.PlanCount}}</span></p>
+                                                    <p>本月计划巡检<span>{{dataInfo.PatrolThisMonth.PlanCount}}</span></p>
                                                 </el-col>
                                                 <el-col :span="24" :xs="12">
-                                                    <p>本月实际巡检(次)<span>{{dataInfo.PatrolThisMonth.ExecutedCount}}</span></p>
+                                                    <p>本月实际巡检<span>{{dataInfo.PatrolThisMonth.ExecutedCount}}</span></p>
                                                 </el-col>
                                             </el-col>
                                             <el-col :span="14" :xs="24">
@@ -206,18 +196,18 @@
                                         </el-row>
                                     </div>
                                 </el-col>
-                                <el-col :span="7" :xs="24">
+                                <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            采集情况
+                                            采集情况(个)
                                         </div>
                                         <el-row :gutter="10" class="legendbox">
                                             <el-col :span="10" :xs="24">
                                                 <el-col :span="24" :xs="12">
-                                                    <p>采集器(个)<span>{{dataInfo.CollectSituation.DataServerCount}}</span></p>
+                                                    <p>采集器<span>{{dataInfo.CollectSituation.DataServerCount}}</span></p>
                                                 </el-col>
                                                 <el-col :span="24" :xs="12">
-                                                    <p>表计(个)<span>{{dataInfo.CollectSituation.ElectricMeterCount}}</span></p>
+                                                    <p>表计<span>{{dataInfo.CollectSituation.ElectricMeterCount}}</span></p>
                                                 </el-col>
                                             </el-col>
                                             <el-col :span="14" :xs="24">
@@ -231,21 +221,21 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            告警情况
+                                            告警情况(次)
                                         </div>
 
                                         <el-row :gutter="10" class="legendbox">
                                             <el-col :span="6">
-                                                <p>本月累计<span>{{dataInfo.WarningThisMonth.TotalCount}}次</span></p>
+                                                <p>本月累计<span>{{dataInfo.WarningThisMonth.TotalCount}}</span></p>
                                             </el-col>
                                             <el-col :span="6">
-                                                <p>本月新增<span>{{dataInfo.WarningThisMonth.AddUpCount}}次</span></p>
+                                                <p>本月新增<span>{{dataInfo.WarningThisMonth.AddUpCount}}</span></p>
                                             </el-col>
                                             <el-col :span="6">
-                                                <p>上月累计<span>{{dataInfo.WarningLastMonth.TotalCount}}次</span></p>
+                                                <p>上月累计<span>{{dataInfo.WarningLastMonth.TotalCount}}</span></p>
                                             </el-col>
                                             <el-col :span="6">
-                                                <p>未处理<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}个</span></p>
+                                                <p>未处理(个)<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <AlarmPieChart ref="alarmchartChart" :piechartData='alarmchartData' />
@@ -254,18 +244,18 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            用电情况
+                                            用电情况(kWh)
                                         </div>
 
                                         <el-row :gutter="20" class="legendbox">
                                             <el-col :span="8">
-                                                <p>本月(kWh)<span>{{electricSituation.ThisMonthAddUp}}</span></p>
+                                                <p>本月<span>{{electricSituation.ThisMonthAddUp}}</span></p>
                                             </el-col>
                                             <el-col :span="8">
-                                                <p>上月(kWh)<span>{{electricSituation.LastMonthAddUp}}</span></p>
+                                                <p>上月<span>{{electricSituation.LastMonthAddUp}}</span></p>
                                             </el-col>
                                             <el-col :span="8">
-                                                <p>累计年(kWh)<span>{{electricSituation.YearAddUp}}</span></p>
+                                                <p>累计年<span>{{electricSituation.YearAddUp}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <BarChart ref='structureBarChart' :barchartData='structureChartData' />
@@ -274,11 +264,11 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            用电类型统计
+                                            用电类型统计(户)
                                         </div>
                                         <el-row :gutter="20" class="legendbox">
                                             <el-col :span="8" v-for="(item,index) in electricTypeStatistic" :key="index">
-                                                <p>{{item.Text}}(户)<span>{{item.Count}}</span></p>
+                                                <p>{{item.Text}}<span>{{item.Count}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <BarChart ref="typeChart" :barchartData='typeChartData' />
@@ -372,6 +362,7 @@ const alarmchartData = {
 const structureChartData = {
     ytext: "单位(kWh)",
     xAxisData: [],
+    legendData:["尖峰", "高峰", "平时", "低谷"],
     listData: [
         {
             name: "尖峰",
@@ -406,6 +397,7 @@ const structureChartData = {
 const typeChartData = {
     ytext: "单位(kWh)",
     xAxisData: [],
+    legendData:["商业", "工业", "居民"],
     listData: [
         {
             name: "商业",
@@ -574,6 +566,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
+.dragbox .dragleft{
+  width:324px;
+}
+.dragbox .dragright.mxright{
+   width: calc(100% - 334px);
+}
 .app-container {
     font-size: 14px;
 }

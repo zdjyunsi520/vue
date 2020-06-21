@@ -80,7 +80,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-col>
-                        <el-col :span="24" :xs="24">
+                        <el-col :span="24" :xs="24" style="display:none" >
                             <el-col :span="11" :xs="24">
                                 <el-form-item label="受理时间" prop="ReceiveTime">
                                     <el-date-picker :disabled="disabled" v-model="form.ReceiveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
@@ -178,7 +178,7 @@ export default {
             Address: [
                 {
                     pattern: /^.{1,300}$/,
-                    required: true,
+                    required: false,
                     message: "请输入300位以内的内容"
                 }
             ],
@@ -425,7 +425,7 @@ export default {
                     ReceivePersonId: "",
                     // ReceivePersonName: "",
                     ReceivePhoneNo: "",
-                    ReceiveTime: "",
+                    ReceiveTime: new Date(),
                     EmergencyLevel: 1,
                     Situation: "",
                     Status: 0
@@ -445,9 +445,7 @@ export default {
                 this.$refs.form.clearValidate();
             });
 
-            this.form.ReceiveTime = this.form.ReceiveTime
-                ? this.form.ReceiveTime
-                : new Date();
+            this.form.ReceiveTime = new Date();
         },
         getInfo(data) {
             this.loading = true;

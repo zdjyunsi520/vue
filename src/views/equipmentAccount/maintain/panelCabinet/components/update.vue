@@ -99,6 +99,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/panelCabinet";
 import { mapGetters } from "vuex";
+import { dateFortmat } from "@/utils";
 
 export default {
   data() {
@@ -193,7 +194,7 @@ export default {
           modelname: "",
           manufactor: "",
           isenable: "",
-          starttime: "",
+          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
           sortindex: 1,
           parentId: "",
           id: "",

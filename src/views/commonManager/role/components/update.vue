@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true" style="width:115%;max-width:800px;">
-          <el-form-item label="名称" prop="name">
+          <el-form-item label="角色名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>
           <el-form-item label="角色标识" prop="key">
@@ -77,7 +77,7 @@ export default {
       moduleids: [
         {
           required: true,
-          message: "请设置模块权限"
+          message: " "
         }
       ]
     };
@@ -222,6 +222,10 @@ export default {
       //this.form.moduleids = [...new Set(this.form.moduleids)];
       this.form.moduleids = this.form.moduleids.join(",");
 
+      if (this.form.moduleids.length == 0) {
+        this.$message.error("设置模块权限！");
+        return false;
+      }
       this.$refs["form"].validate(valid => {
         if (valid) {
           //按钮转圈圈
@@ -324,11 +328,9 @@ export default {
     top: -32px;
   }
 }
- @media screen and (max-width:768px) {
-.sm-box::before {
-  display:none
+@media screen and (max-width: 768px) {
+  .sm-box::before {
+    display: none;
   }
 }
-
-
 </style>

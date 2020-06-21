@@ -85,6 +85,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/communicationHost";
 import { mapGetters } from "vuex";
+import { dateFortmat } from "@/utils";
 
 export default {
   data() {
@@ -184,7 +185,7 @@ export default {
           serialcode: "",
           name: "",
           tenantId: "",
-          starttime: "",
+          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
           property: "",
           modelname: "",
           factory: "",

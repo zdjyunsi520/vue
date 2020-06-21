@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box onlyform-box">
-      <p class="form-smtitle">{{title}} </p>
+      <p class="form-smtitle">{{smtitle}}{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:115%;max-width:600px;">
 
@@ -11,20 +11,20 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入名称" />
+          <el-form-item :label='title+"名称"' prop="name">
+            <el-input v-model="form.name" :placeholder='"请输入"+title+"名称"' />
           </el-form-item>
 
           <el-form-item label="权限标识" prop="key">
             <el-input v-model="form.key" placeholder="请输入权限标识" />
           </el-form-item>
 
-          <el-form-item label="Url" prop="url">
-            <el-input v-model="form.url" placeholder="请输入url" />
+          <el-form-item label="url信息" prop="url">
+            <el-input v-model="form.url" placeholder="请输入url信息" />
           </el-form-item>
 
-          <el-form-item label="组件" prop="component">
-            <el-input v-model="form.component" placeholder="请输入组件" />
+          <el-form-item label="组件信息" prop="component">
+            <el-input v-model="form.component" placeholder="请输入组件信息" />
           </el-form-item>
 
           <el-form-item label="排序号" prop="sortindex">
@@ -99,16 +99,21 @@ export default {
       // 角色选项
       roleOptions: [],
       deptType: "",
-      dataList: []
+      dataList: [],
+      smtitle: ""
     };
   },
   created() {
     let { data, dataList, title } = this.$route.params;
     this.reset(data);
     this.dataList = dataList;
-    console.log(data);
     // this.form.parentId = data.Id;
     this.title = title;
+    if (data.id) {
+      this.smtitle = "编辑";
+    } else {
+      this.smtitle = "新增";
+    }
   },
   computed: {},
   methods: {

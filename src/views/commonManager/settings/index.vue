@@ -29,7 +29,7 @@
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
         <el-button type="info" icon="el-icon-delete" plain @click="handleDelete(null)" :disabled="multiple">删除</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -66,6 +66,7 @@
 <script>
 import { fetchList, deleted, updateStatus } from "@/api/commonManager/settings";
 
+import { fetchList as keyfetchList } from "@/api/commonManager/settings/keyValue";
 export default {
   name: "user",
   data() {
@@ -148,6 +149,10 @@ export default {
         params: { data: {}, title }
       });
     },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
@@ -167,21 +172,36 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       let ids = row ? [row.Id] : this.ids.map(v => v.Id);
-      this.$confirm("是否确认删除选中的配置?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return deleted({ ids });
-        })
-        .then(() => {
-          this.getList();
-          this.msgSuccess("删除成功！");
-        })
-        .catch(function() {
-          this.msgSuccess("操作失败！");
-        });
+      var keyParms = {
+        pageno: 1,
+        pagesize: 9999,
+        name: "",
+        key: "",
+        SettingId: row.Id,
+        Type: 1
+      };
+      keyfetchList(keyParms).then(res => {
+        if (res.total > 0) {
+          this.$message.error("请删除该配置项下的内容！");
+          return false;
+        } else {
+          this.$confirm("是否确认删除选中的配置?", "警告", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+            .then(function() {
+              return deleted({ ids });
+            })
+            .then(() => {
+              this.getList();
+              this.msgSuccess("删除成功！");
+            })
+            .catch(function() {
+              this.msgSuccess("操作失败！");
+            });
+        }
+      });
     }
   }
 };

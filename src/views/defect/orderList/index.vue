@@ -42,12 +42,12 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button :loading="downloadLoading" @click="handleExport">
+        <el-button :loading="downloadLoading" @click="handleExport" class="floatright">
           <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           导出
         </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" element-loading-text="Loading" border fit :height="tableHeight" highlight-current-row>
+      <el-table v-loading="listLoading" :data="dataList"  @row-dblclick="dbhandleUpdate" element-loading-text="Loading" border fit :height="tableHeight" highlight-current-row>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -225,6 +225,12 @@ export default {
         params: { Id, ReadOnly }
       });
     },
+    dbhandleUpdate(row) {
+      if (row.Status == 0) {
+        this.handleUpdate(row);
+      }
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(row) {
       const Id = row.Id;

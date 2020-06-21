@@ -92,6 +92,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/smoke";
 import { mapGetters } from "vuex";
+import { dateFortmat } from "@/utils";
 
 export default {
   data() {
@@ -183,7 +184,7 @@ export default {
           Attribute: "",
           Name: "",
           TenantId: "",
-          StartTime: "",
+          StartTime: dateFortmat(new Date(), "yyyy-MM-dd"),
           IsEnable: true,
           Status: 1,
           ModelName: "",

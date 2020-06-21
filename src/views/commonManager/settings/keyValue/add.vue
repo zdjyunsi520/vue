@@ -9,25 +9,27 @@
           <el-input v-model="form.Name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="代码" prop="Key">
-          <el-input v-model="form.Key" placeholder="请输入代码" />
+          <el-input v-model="form.Key" placeholder="请输入代码" :disabled='form.Id?true:false' />
         </el-form-item>
         <el-form-item label="值" prop="Value">
           <el-input v-model="form.Value" placeholder="请输入值" />
         </el-form-item>
-        <el-form-item label="排序号" prop="SortIndex" v-if="form.Type==2">
-          <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" />
+        <el-form-item label="排序号" prop="SortIndex" v-if="form.Type==3">
+          <el-input-number v-model="form.SortIndex" controls-position="right" :min="1" />
         </el-form-item>
         <el-form-item label="描述" prop="Description">
           <el-input type="textarea" :rows="6" v-model="form.Description" placeholder="请输入描述" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="IsEnable" v-if="form.Type==2">
+        <el-form-item label="是否启用" prop="IsEnable" v-if="form.Type==3">
           <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
           </el-switch>
         </el-form-item>
       </el-form>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -43,22 +45,40 @@ export default {
     const rules = {
       Name: [
         {
+          pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,18}$/,
           required: true,
-          message: "名称不能为空",
+          message: "请输入18位以内的汉字或数字或字母",
           trigger: "blur"
         }
       ],
       Key: [
         {
+          pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
           required: true,
-          message: "代码不能为空",
+          message: "请输入18位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
       ],
       Value: [
         {
+          pattern: /^\d{1,300}$/,
           required: true,
-          message: "值不能为空",
+          message: "请输入300位以内的数字",
+          trigger: "blur"
+        }
+      ],
+      SortIndex: [
+        {
+          pattern: /^\d{1,4}$/,
+          required: true,
+          message: "请输入4位以内的数字"
+        }
+      ],
+      Description: [
+        {
+          pattern: /^.{1,300}$/,
+          required: false,
+          message: "请输入300位以内的内容",
           trigger: "blur"
         }
       ]
@@ -81,7 +101,7 @@ export default {
     reset(data) {
       this.form = Object.assign(
         {
-          Id: "",
+          // Id: "",
           Type: "",
           SettingId: "",
           Name: "",
@@ -110,13 +130,14 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
+          // this.form.Type = this.form.Type ? 1 : 0;
           const fn = this.form.Id ? update : add;
           //添加用户
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

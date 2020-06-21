@@ -23,7 +23,7 @@
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
 
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -140,6 +140,10 @@ export default {
         params: { data: {}, title }
       });
     },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(data) {
       // const id = row.Id;

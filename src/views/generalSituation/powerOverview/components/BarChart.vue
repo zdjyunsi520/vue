@@ -127,6 +127,7 @@ export default {
           {
             name: ytext,
             type: "value",
+            minInterval: 30,
             axisLine: {
               lineStyle: {
                 color: "#909399"

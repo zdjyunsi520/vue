@@ -15,7 +15,7 @@
           <el-input v-model="form.Name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="代码" prop="Key">
-          <el-input v-model="form.Key" placeholder="请输入代码" />
+          <el-input v-model="form.Key" placeholder="请输入代码" :disabled='form.Id?true:false' />
         </el-form-item>
 
         <el-form-item label="描述" prop="Description">
@@ -25,7 +25,9 @@
       </el-form>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -48,15 +50,26 @@ export default {
       ],
       Name: [
         {
+          pattern: /^.{1,18}$/,
           required: true,
-          message: "名称不能为空",
+          message: "请输入18位以内的内容",
           trigger: "blur"
         }
       ],
       Key: [
         {
+          pattern: /^[^\u4e00-\u9fa5]{1,36}$/,
           required: true,
-          message: "代码不能为空",
+          message: "请输入36位以内的数字或字母或特殊字符",
+          trigger: "blur"
+        }
+      ],
+
+      Description: [
+        {
+          pattern: /^.{1,300}$/,
+          required: false,
+          message: "请输入300位以内的内容",
           trigger: "blur"
         }
       ]
@@ -105,8 +118,8 @@ export default {
           fn(this.form)
             .then(response => {
               //消息提示
-              var txt = this.form.Id ?'编辑成功！':'新增成功！'
-              this.$message.success(txt);
+              var txt = this.form.Id ? "编辑成功！" : "新增成功！";
+              this.$message.success(txt);
 
               //关闭窗口
               this.handleOpen();

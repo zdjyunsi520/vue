@@ -61,7 +61,12 @@
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />
       </div>
-      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
+      <div class="nodata-box" v-else>
+        <img src="../../../assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+
+      <!-- <p  class="tips" style="padding: 7% 0;">暂无数据</p> -->
 
     </div>
 

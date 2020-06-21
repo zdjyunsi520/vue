@@ -36,7 +36,7 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
+                <el-input-number v-model="form.sortindex" placeholder="请输入排序号" controls-position="right" :min="1" :max="9999" />
               </el-form-item>
             </el-col>
 
@@ -84,14 +84,29 @@ export default {
         {
           pattern: /^\d{1,10}$/,
           required: true,
-          message: "请输入10位以内的整数"
+          message: "请输入10位以内的数字"
         }
       ],
       sortindex: [
         {
           pattern: /^\d{1,4}$/,
           required: true,
-          message: "请输入4位以内的整数"
+          message: "请输入4位以内的数字"
+        }
+      ],
+
+      p_parentKey: [
+        {
+          required: true,
+          message: "此处不能为空",
+          trigger: "blur"
+        }
+      ],
+      parentKey: [
+        {
+          required: true,
+          message: "此处不能为空",
+          trigger: "blur"
         }
       ]
     };

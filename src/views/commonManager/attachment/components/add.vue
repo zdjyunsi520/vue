@@ -81,12 +81,12 @@
               <p class="form-smtitle">上传验证设置</p>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="有效的文件后缀：" label-width='125px' prop="FilterFileExtensions">
+              <el-form-item label="有效文件后缀：" label-width='125px' prop="FilterFileExtensions">
                 <el-input v-model="form.FilterFileExtensions" placeholder='"*"表示所有类型后缀；多个后缀用","隔开' />
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="允许文件最大值(kb)：" label-width='150px' prop="MaxFileSize">
+              <el-form-item label="文件最大值(kb)：" label-width='150px' prop="MaxFileSize">
                 <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" />
               </el-form-item>
             </el-col>
@@ -184,15 +184,17 @@ export default {
     const rules = {
       Name: [
         {
+          pattern: /^.{1,18}$/,
           required: true,
-          message: "名称不能为空",
+          message: "请输入18位以内的内容",
           trigger: "blur"
         }
       ],
       Key: [
         {
+          pattern: /^[^\u4e00-\u9fa5]{1,36}$/,
           required: true,
-          message: "代码不能为空",
+          message: "请输入36位以内的数字或字母或特殊字符",
           trigger: "blur"
         }
       ],

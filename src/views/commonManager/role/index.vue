@@ -19,7 +19,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'">
+      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'" @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -96,6 +96,9 @@ export default {
         name: "/commonManager/role/components/update",
         params: { data: {}, title }
       });
+    },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
     },
     /** 编辑按钮操作 */
     handleUpdate(row) {

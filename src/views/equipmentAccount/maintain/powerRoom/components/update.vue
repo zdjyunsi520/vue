@@ -191,7 +191,7 @@ export default {
           tenantId: "",
           parentid: "",
           status: 1,
-          starttime: "",
+          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
           property: "",
           voltlevel: "",
           modelname: "",

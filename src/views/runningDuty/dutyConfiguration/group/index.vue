@@ -20,7 +20,7 @@
         <el-button type="info"  plain icon="el-icon-delete"   @click="handleDelete(null)" :disabled="multiple">删除</el-button>
         <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" />
@@ -122,6 +122,9 @@ export default {
         name: "/runningDuty/dutyConfiguration/group/components/add",
         params: { data: {}, title }
       });
+    },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
     },
     /** 编辑按钮操作 */
     handleUpdate(data) {

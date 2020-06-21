@@ -2,9 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}APP</p>
-
       <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:115%;max-width:600px;">
-
         <el-form-item label="应用名称" prop="Type">
           <el-select v-model="form.Type" placeholder="">
             <el-option v-for="(item,index) in appNameList" :key="index" :label="item.value" :value="item.key"></el-option>
@@ -16,7 +14,7 @@
         <el-form-item label="版本号" prop="VersionCode">
           <el-input v-model="form.VersionCode" placeholder="请输入版本号" />
         </el-form-item>
-        <el-form-item label="是否强制更新" prop="ForcedUpdate">
+        <el-form-item label="强制更新" prop="ForcedUpdate">
           <el-select v-model="form.ForcedUpdate">
             <el-option v-for="(item,index) in forceUpdateList" :key="index" :label="item.value" :value="item.key"></el-option>
           </el-select>
@@ -35,7 +33,8 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -57,22 +56,27 @@ export default {
     const rules = {
       VersionName: [
         {
+          pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,18}$/,
           required: true,
-          message: "版本名称不能为空",
+          message: "请输入18位以内的汉字或数字或字母",
           trigger: "blur"
         }
       ],
+
       VersionCode: [
         {
+          pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
           required: true,
-          message: "版本号不能为空",
+          message: "请输入18位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
       ],
+
       UpdateDescription: [
         {
+          pattern: /^[^\u4e00-\u9fa5]{1,300}$/,
           required: true,
-          message: "更新说明不能为空",
+          message: "请输入300位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
       ],

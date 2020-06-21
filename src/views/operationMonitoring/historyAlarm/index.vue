@@ -55,9 +55,11 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
       <el-dialog title="设备选择" :visible.sync="dialogAssetsVisible" center width="500px">
-        <el-tree :data="assetsTree" :props="defaultProps"  :accordion='true' :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="false" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
+        <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="false" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlecheck"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+          <el-button type="primary" @click="handlecheck">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button @click="dialogAssetsVisible = false">取 消</el-button>
         </span>
       </el-dialog>

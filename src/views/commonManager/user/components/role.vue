@@ -45,39 +45,7 @@
               <img src="@/assets/image/nodata.png" />
               <p>暂时还没有数据</p>
             </div>
-            <!-- <p v-else class="tips"> 暂无数据</p> -->
-            <!-- <el-form-item>
-        <el-table :data="moduleList">
-          <el-table-column prop="date" label="角色" width="180">
-            <template slot="header">
-              <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
-            </template>
-            <template slot-scope="{row}">
-              <el-checkbox @change="handleChange(row)" v-model="row.IsSelect">{{row.RoleName}}</el-checkbox>
-            </template>
-          </el-table-column>
 
-          <el-table-column prop="name" label="模块配置">
-            <template slot-scope="{row}">
-
-              <el-row v-for="item in row.ModuleData" :key="item.ModuleId" class="el-row-box">
-                <el-col :span="24">
-                  <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
-                </el-col>
-                <el-row>
-                  <el-col :span="23" :push="1">
-                    <el-row class="el-row-box">
-                      <el-col :span="6" v-for="checkbox in item.Childs" :key="checkbox.ModuleId">
-                        <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox>
-                      </el-col>
-                    </el-row>
-                  </el-col>
-                </el-row>
-              </el-row>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-form-item> -->
           </el-form>
         </el-scrollbar>
       </div>

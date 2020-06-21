@@ -119,6 +119,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/clock";
 import { mapGetters, mapActions } from "vuex";
+import { dateFortmat } from "@/utils";
 export default {
   data() {
     const rule = [
@@ -245,7 +246,7 @@ export default {
           SerialCode: "",
           Name: "",
           TenantId: "",
-          StartTime: "",
+          StartTime: dateFortmat(new Date(), "yyyy-MM-dd"),
           Property: "",
           DataServerId: "",
           IsEnable: true,
@@ -256,7 +257,7 @@ export default {
           RTRatio: "",
           Id: "",
           SortIndex: 1,
-          ExFactoryDate:'',
+          ExFactoryDate: "",
           DataAddress: "",
           ParentId: ""
         },

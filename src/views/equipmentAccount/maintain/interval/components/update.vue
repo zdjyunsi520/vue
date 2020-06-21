@@ -98,6 +98,7 @@
 <script>
 import { add, update } from "@/api/equipmentAccount/maintain/interval";
 import { mapGetters, mapActions } from "vuex";
+import { dateFortmat } from "@/utils";
 
 export default {
   data() {
@@ -178,7 +179,7 @@ export default {
           Name: "",
           Type: "",
           IsEnable: true,
-          StartTime: "",
+          StartTime: dateFortmat(new Date(), "yyyy-MM-dd"),
           Property: "",
           VoltLevel: "",
           IsMainLine: true,

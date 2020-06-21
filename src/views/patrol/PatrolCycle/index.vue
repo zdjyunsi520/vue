@@ -11,7 +11,7 @@
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视周期(天)：" prop="cycleday">
-          <el-input v-model="queryParams.cycleday" clearable ></el-input>
+          <el-input v-model="queryParams.cycleday" clearable></el-input>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
@@ -23,7 +23,7 @@
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :height="tableHeight" border :data="dataList" element-loading-text="Loading">
+      <el-table v-loading="listLoading" :height="tableHeight" border :data="dataList" element-loading-text="Loading"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -32,8 +32,6 @@
         </template>
         <el-table-column label="巡视单位" sortable min-width="250" prop="TenantName" />
         <el-table-column label="巡视内容" min-width="250" prop="PatrolScope" />
-        <el-table-column label="巡视人员" sortable width="130" prop="PatrolUserName" />
-        <el-table-column label="巡视成员" sortable min-width="200" prop="PatrolMemberNames" />
         <el-table-column label="巡视周期" sortable width="120" prop="CycleDay">
           <template slot-scope="scope">
             {{scope.row.CycleDay}}天
@@ -44,6 +42,8 @@
             {{scope.row.StartTime.substring(0,10)}}
           </template>
         </el-table-column>
+        <el-table-column label="巡视人员" sortable width="130" prop="PatrolUserName" />
+        <el-table-column label="巡视成员" sortable min-width="200" prop="PatrolMemberNames" />
         <el-table-column label="操作" width="170" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
@@ -148,6 +148,9 @@ export default {
         name: "/patrol/PatrolCycle/components/add",
         params: { data: {}, title, TenantIds }
       });
+    },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
     },
     /** 编辑按钮操作 */
     handleUpdate(row) {

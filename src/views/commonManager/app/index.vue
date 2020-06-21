@@ -23,7 +23,7 @@
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除
         </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -39,13 +39,13 @@
           </template>
         </el-table-column>
         <el-table-column label="版本号" width="120" prop="VersionCode" />
-        <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
         <el-table-column label="是否强制更新" width="130" prop="ForcedUpdate" :formatter="filterCancel" />
         <el-table-column label="APK文件" min-width="200" prop="FileUrl">
           <template slot-scope="{row}">
-            <a href="row.FileUrl" download target="_blank">{{row.VersionName}}</a>
+            <a :href="row.FileUrl" download target="_blank" style="color:#418bff">{{row.VersionName}}</a>
           </template>
         </el-table-column>
+        <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
         <el-table-column label="状态" width="100" prop="IsLock">
           <template slot-scope="{row}">
             <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
@@ -153,6 +153,10 @@ export default {
         params: { data: {}, title }
       });
     },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(data) {
       // const id = row.Id;

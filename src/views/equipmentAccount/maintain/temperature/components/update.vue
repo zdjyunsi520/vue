@@ -119,6 +119,7 @@
 import { add, update } from "@/api/equipmentAccount/maintain/temperature";
 import { mapGetters, mapActions } from "vuex";
 import { fetchList } from "@/api/equipmentAccount/maintain/communicationHost";
+import { dateFortmat } from "@/utils";
 export default {
   data() {
     const rule = [
@@ -240,7 +241,7 @@ export default {
           SerialCode: "",
           Name: "",
           TenantId: "",
-          StartTime: "",
+          StartTime: dateFortmat(new Date(), "yyyy-MM-dd"),
           Property: "",
           DataServerId: "",
           ModelName: "",

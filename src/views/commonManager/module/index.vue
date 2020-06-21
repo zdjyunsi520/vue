@@ -84,7 +84,7 @@ export default {
       smform: {},
       currentNode: {},
       needToScroll: 1,
-      updateTitle:'',
+      updateTitle: ""
     };
   },
   created() {
@@ -127,11 +127,11 @@ export default {
           this.data = Object.assign({}, r.data);
           this.smform = Object.assign({}, r.data);
           this.updateTitle =
-              this.smform.Type == 1
-                ? "分类"
-                : this.smform.Type == 2
-                ? "应用"
-                : "权限";
+            this.smform.Type == 1
+              ? "分类"
+              : this.smform.Type == 2
+              ? "应用"
+              : "权限";
         });
     },
 
@@ -141,7 +141,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      const title = "新增类别";
+      const title = "类别";
       this.$router.push({
         name: "/commonManager/module/components/add",
         params: { data: {}, title }
@@ -149,7 +149,7 @@ export default {
     },
     handleAddClass() {
       const dataList = this.dataList;
-      const title = "新增应用";
+      const title = "应用";
       //  const parentId = this.currentNode.lvl ? this.currentNode.id : "";
       const parentId = "";
       const data = { parentId };
@@ -164,7 +164,7 @@ export default {
     },
     handleAddRole() {
       const dataList = this.dataList;
-      const title = "新增权限";
+      const title = "权限";
       //  const parentId = this.currentNode.lvl ? this.currentNode.id : "";
       const parentId = "";
       const data = { parentId };
@@ -195,7 +195,7 @@ export default {
       url = this.data.Url;
       component = this.data.Component;
       sortindex = this.data.SortIndex;
-      title = "编辑"+this.updateTitle+"信息";
+      title = this.updateTitle;
 
       if (type == 1) {
         iconurl = this.data.IconUrl;

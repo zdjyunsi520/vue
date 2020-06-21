@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="名称：" prop="name">
-          <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="名称：" prop="Name">
+          <el-input v-model="queryParams.Name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="代码：" prop="key">
           <el-input v-model="queryParams.key" placeholder="" clearable @keyup.enter.native="handleQuery" />
@@ -23,26 +23,26 @@
         <el-button icon="el-icon-delete" plain @click="handleDelete(null)" :disabled="multiple">删除</el-button>
         <el-button icon="el-icon-arrow-left" @click="handleBack">返 回</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <el-table-column type="selection" fixed="left" width="50" />
         <el-table-column label="名称" width='150' prop="Name" />
-        <el-table-column label="代码"  min-width='150'prop="Key" />
-        <el-table-column label="值"  min-width='160'prop="Value" />
-        <el-table-column label="描述" min-width='200'prop="Description" />
-        <el-table-column label="状态"  min-width='100'prop="IsLock" v-if="showSwitch">
+        <el-table-column label="代码" min-width='150' prop="Key" />
+        <el-table-column label="值" min-width='160' prop="Value" />
+        <el-table-column label="描述" min-width='200' prop="Description" />
+        <el-table-column label="状态" min-width='100' prop="IsLock" v-if="showSwitch">
           <template slot-scope="{row}">
             <el-switch v-model="row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-             <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
             <el-button type="text" size="mini" @click="handleDelete(scope.row)">
               <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
             </el-button>
-         
+
           </template>
         </el-table-column>
       </el-table>
@@ -82,7 +82,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        name: "",
+        Name: "",
         key: "",
         SettingId: "",
         Type: 1
@@ -148,11 +148,19 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       const title = "新增";
+      const SettingId = this.queryParams.SettingId;
+      const Type = this.queryParams.Type == 1 ? 1 : 3; //	1-字符串2-文件项3-枚举
+      const data = { SettingId, Type };
+
       this.$router.push({
         name: "/commonManager/settings/keyValue/add",
-        params: { data: this.queryParams, title }
+        params: { data: data, title }
       });
     },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
+    },
+
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";

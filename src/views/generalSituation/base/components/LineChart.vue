@@ -68,7 +68,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.linechartData.xAxisData.length>0) {
+      if (this.linechartData.xAxisData.length > 0) {
         this.hideLoading();
         this.setOptions(this.linechartData);
       }
@@ -178,7 +178,7 @@ export default {
             },
 
             lineStyle: {
-              color: "#77c3f9",
+              color: "#558cf7",
               width: 2
             },
             areaStyle: {
@@ -186,7 +186,7 @@ export default {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
-                    color: "#9bd0f7" // 0% 处的颜色
+                    color: "#97b9fd" // 0% 处的颜色
                   },
 
                   {
@@ -196,7 +196,7 @@ export default {
                 ]) //背景渐变色
               }
             },
-            smooth: false,
+            smooth: true,
             clip: false,
             type: "line",
             data: expectedData,
@@ -217,13 +217,13 @@ export default {
             name: legendData[1],
             showAllSymbol: true,
             clip: false,
-            smooth: false,
+            smooth: true,
             type: "line",
             itemStyle: {
               normal: {
-                color: "#77c3f9",
+                color: "#80c7f9",
                 lineStyle: {
-                  color: "#558cf7",
+                  color: "#80c7f9",
                   width: 2
                 }
               }
@@ -233,7 +233,7 @@ export default {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
-                    color: "#98bbfd" // 0% 处的颜色
+                    color: "#97cff7" // 0% 处的颜色
                   },
 
                   {

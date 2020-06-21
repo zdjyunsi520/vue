@@ -13,21 +13,21 @@
                         <el-col :span="24" :xs="24">
                             <el-col :span="11" :xs="24">
                                 <el-form-item label="到达现场时间" prop="ArriveTime">
-                                    <el-date-picker :disabled="disabled" v-model="form.ArriveTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                                    <el-date-picker :disabled="disabled" v-model="form.ArriveTime" type="datetime" placeholder="请选择时间" value-format="yyyy-MM-dd  HH:mm:ss" format="yyyy-MM-dd  HH:mm:ss"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                         </el-col>
                         <el-col :span="24" :xs="24">
                             <el-col :span="11" :xs="24">
                                 <el-form-item label="故障排除时间" prop="ProcessTime">
-                                    <el-date-picker :disabled="disabled" v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                                    <el-date-picker :disabled="disabled" v-model="form.ProcessTime" type="datetime" placeholder="请选择时间" value-format="yyyy-MM-dd  HH:mm:ss" format="yyyy-MM-dd  HH:mm:ss"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                         </el-col>
                         <el-col :span="24" :xs="24">
                             <el-col :span="11" :xs="24">
                                 <el-form-item label="恢复送电时间" prop="RecoverTime">
-                                    <el-date-picker :disabled="disabled" v-model="form.RecoverTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                                    <el-date-picker :disabled="disabled" v-model="form.RecoverTime" type="datetime" placeholder="请选择时间" value-format="yyyy-MM-dd  HH:mm:ss" format="yyyy-MM-dd  HH:mm:ss"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                         </el-col>

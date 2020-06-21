@@ -40,7 +40,7 @@
         <el-button type="info" plain icon="ic_disable" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button> -->
       </el-row>
 
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight">
+      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @row-dblclick="dbhandleUpdate">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -216,6 +216,9 @@ export default {
         name: "/systemManager/organization/components/role",
         params: { data }
       });
+    },
+    dbhandleUpdate(row) {
+      this.handleUpdate(row);
     },
     /** 编辑按钮操作 */
     handleUpdate(row) {

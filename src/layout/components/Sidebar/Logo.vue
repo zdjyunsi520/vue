@@ -6,7 +6,7 @@
         <svg-icon icon-class="logo" class="sidebar-logo" />
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <svg-icon icon-class="logo1"  class="sidebar-logo"/>
+        <svg-icon icon-class="logo1" class="sidebar-logo" />
 
         <!-- <img v-if="logo" :src="logo" class="sidebar-logo"> -->
       </router-link>
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import logoImg from '@/assets/logo/logo.png';
-import { mapGetters,mapState } from 'vuex';
+import logoImg from "@/assets/logo/logo.png";
+import { mapGetters, mapState } from "vuex";
 export default {
-  name: 'SidebarLogo',
+  name: "SidebarLogo",
   props: {
     collapse: {
       type: Boolean,
@@ -27,14 +27,14 @@ export default {
   },
   data() {
     return {
-      title: '迅腾电力',
-      logo: require('@/assets/logo/logo.png'),
-      smlogo: require('@/assets/logo/smlogo.png'),
+      title: "迅腾电力",
+      logo: require("@/assets/logo/logo.png"),
+      smlogo: require("@/assets/logo/smlogo.png")
     };
   },
   computed: {
-    ...mapGetters({ path: 'imgOSS/path' }),
-    ...mapState(['user']),
+    ...mapGetters({ path: "imgOSS/path" }),
+    ...mapState(["user"])
     // logo() {
     //    const path = this.user.deptLogo?(this.path+this.user.deptLogo):''
     //   return path
@@ -72,8 +72,8 @@ export default {
 
     & .sidebar-logo {
       vertical-align: middle;
-      width: 89px;
-      height: 31px;
+      width: 180px;
+      height: 50px;
     }
 
     & .sidebar-title {
@@ -90,7 +90,8 @@ export default {
 
   &.collapse {
     .sidebar-logo {
-      width: 28px;margin-right:0px;
+      width: 28px;
+      margin-right: 0px;
       height: 31px;
     }
   }

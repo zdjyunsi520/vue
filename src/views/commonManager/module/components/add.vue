@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="search-box  onlyform-box">
-      <p class="form-smtitle">{{title}} </p>
+      <p class="form-smtitle">{{smtitle}}{{title}} </p>
       <el-scrollbar>
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="120px" :inline-message="true">
           <el-col>
             <el-col :span='12' :xs='24'>
-              <el-form-item label="名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入名称" />
+              <el-form-item :label='title+"名称"' prop="name">
+                <el-input v-model="form.name" :placeholder='"请输入"+title+"名称"' />
               </el-form-item>
             </el-col>
           </el-col>
@@ -142,6 +142,11 @@ export default {
     let { data, title } = this.$route.params;
     this.title = title;
     this.reset(data);
+    if (data.id) {
+      this.smtitle = "编辑";
+    } else {
+      this.smtitle = "新增";
+    }
   },
 
   computed: {},

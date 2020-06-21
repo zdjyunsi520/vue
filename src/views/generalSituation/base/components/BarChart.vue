@@ -82,7 +82,7 @@ export default {
       });
     },
 
-    setOptions({ ytext, title, xAxisData, listData } = {}) {
+    setOptions({ ytext, title, legendData, xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -101,6 +101,14 @@ export default {
             );
           }
         },
+        // legend: {
+        //   right: 10,
+        //   top: 30,
+        //   itemWidth: 6,
+        //   itemheight: 6,
+        //   icon: "circle",
+        //   data: title
+        // },
         grid: {
           top: "30px",
           left: "40px",
@@ -108,7 +116,6 @@ export default {
           bottom: "20px",
           containLabel: true
         },
-
         xAxis: [
           {
             type: "category",

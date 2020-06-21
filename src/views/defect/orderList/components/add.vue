@@ -17,7 +17,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="11" :push='1' :xs="24">
-                            <el-form-item label="设备" prop="AssetsIds">
+                            <el-form-item label="缺陷设备" prop="AssetsIds">
                                 <TreeSelect showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm1" :checkedKeys="ChargePersonId1" :disabled="disabled" />
                                 <!-- <el-input :disabled="disabled" v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" /> -->
                             </el-form-item>
@@ -38,7 +38,7 @@
                         </el-col>
                         <el-col :span="11" :push='1' :xs="24">
                             <el-form-item label="发现时间" prop="DetectTime">
-                                <el-date-picker :disabled="disabled" v-model="form.DetectTime" type="date" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                                <el-date-picker :disabled="disabled" v-model="form.DetectTime" type="datetime" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="11" :xs="24">
@@ -51,7 +51,7 @@
                         </el-col>
                         <el-col :span="11" :push='1' :xs="24">
                             <el-form-item label="处理期限" prop="ProcessDue">
-                                <el-date-picker :disabled="disabled" v-model="form.ProcessDue" type="date" placeholder="请选择处理期限" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                                <el-date-picker :disabled="disabled" v-model="form.ProcessDue" type="datetime" placeholder="请选择处理期限" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="23">
@@ -93,7 +93,7 @@
 
                             <el-col :span="11" :push='1' :xs="24">
                                 <el-form-item label="填报时间" prop="ReportTime">
-                                    <el-date-picker v-model="form.ReportTime" type="date" value-format="yyyy-MM-dd" disabled format="yyyy-MM-dd"></el-date-picker>
+                                    <el-date-picker v-model="form.ReportTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" disabled format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                         </el-col>

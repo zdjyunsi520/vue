@@ -764,7 +764,7 @@ export default {
 .bottomtext {
   display: flex;
   justify-content: space-between;
-  padding: 2% 8% 0;
+  padding: 0 8% 0;
   width: 100%;
   span {
     font-size: px2rem(12px);
@@ -775,7 +775,7 @@ export default {
   }
 }
 .bottomtext1 {
-  padding: 2% 0% 0;
+  padding: 0;
   span {
     width: 33%;
   }
