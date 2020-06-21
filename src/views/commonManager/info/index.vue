@@ -9,7 +9,7 @@
       </el-tabs>
     </div>
     <div class="bg-white containerbox " style="position:relative">
-      <el-scrollbar style="height:calc(100% - 80px)">
+      <el-scrollbar style="height:calc(100% - 80px)" class="marginright-fx">
         <el-col :span="18" :xs="24">
           <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;">
             <el-form-item v-if="show">

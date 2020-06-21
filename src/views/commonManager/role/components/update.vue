@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box onlyform-box" style="padding-bottom: 150px;">
       <p class="form-smtitle">{{title}} </p>
-      <el-scrollbar>
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true" style="width:115%;max-width:800px;">
+      <el-scrollbar class="marginright-fx">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入名称" style="width:90%" />
           </el-form-item>
@@ -14,7 +14,7 @@
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" style="width:90%" :max="9999" />
           </el-form-item>
           <el-form-item label="模块权限" prop="moduleids">
-            <el-row v-for="item in moduleList" :key="item.ModuleId">
+            <el-row v-for="item in moduleList" :key="item.ModuleId" style="width:600px">
               <el-col :span="24" class="medium-box">
                 <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
               </el-col>

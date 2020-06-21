@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:112%;max-width:600px;">
           <el-row>
             <el-col :span="24" v-if="form.type==2||form.type==3">

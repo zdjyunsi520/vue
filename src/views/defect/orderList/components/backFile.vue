@@ -8,8 +8,8 @@
                 <el-tab-pane label="验收情况" name="backFile" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
             </el-tabs>
             <!-- <p class="form-smtitle">{{title}}</p> -->
-            <el-scrollbar>
-                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px">
+            <el-scrollbar class="marginright-fx">
+                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="80px">
 
                     <el-row>
                         <el-col :span="11" :xs="24">

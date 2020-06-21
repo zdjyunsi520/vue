@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box" style="padding-bottom: 123px;">
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box">
-        <el-scrollbar>
+        <el-scrollbar class="marginright-fx">
           <!-- <div class="search-box onlyform-box" ref="containerbox" style="padding-bottom: 150px;"> -->
           <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
 
@@ -49,7 +49,9 @@
       </div>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -277,7 +279,7 @@ export default {
           update(this.form)
             .then(response => {
               //消息提示
-              this.$message.success('编辑成功！');
+              this.$message.success("编辑成功！");
               //刷新列表
               this.$emit("getList");
               //关闭窗口

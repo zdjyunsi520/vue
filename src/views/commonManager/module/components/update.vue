@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{smtitle}}{{title}} </p>
-      <el-scrollbar>
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:115%;max-width:600px;">
+      <el-scrollbar class="marginright-fx">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
 
           <el-form-item label="父级分类" prop="parentId">
             <el-select v-model="form.parentId" clearable>

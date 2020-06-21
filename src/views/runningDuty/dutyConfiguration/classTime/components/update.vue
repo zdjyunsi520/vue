@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">班次信息</p>
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
           <el-row>
             <el-col>

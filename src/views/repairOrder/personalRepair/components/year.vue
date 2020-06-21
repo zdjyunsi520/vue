@@ -8,7 +8,7 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" prop='patrolYear'>
+        <el-form-item label="年度：" prop='patrolYear' label-width="50px">
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
 
@@ -17,7 +17,7 @@
             <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop='status'>
+        <el-form-item label="状态：" prop='status' label-width="50px">
           <el-select v-model="queryParams.status" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -33,9 +33,19 @@
       </el-form>
     </div>
 
-    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+    <div class="bg-white   chart-wrapper marginbottom15" v-if="chartData">
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <div class="nodata-box" v-else>
+        <img src="@/assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+    </div>
+    <div class="bg-white containerbox " ref="containerbox">
       <p class="form-smtitle tb-smtitle">抢修年度统计 </p>
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" :show-summary='false' :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -45,16 +55,8 @@
         </template>
         <el-table-column label="抢修人员" fixed="left" min-width="120" prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in prop1" :key="index" :label="columns[index]" :prop="item" />
-
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-    <div class="bg-white containerbox  chart-wrapper" v-if="chartData">
-      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
-      <div class='smchartbox' v-if="dataList&&dataList.length>0">
-        <BarChart ref="chart" :chartData='chartData' />
-      </div>
-      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
     </div>
   </div>
 </template>
@@ -229,6 +231,11 @@ export default {
             return;
           }
           this.dataList = res.data;
+          // var parms = {
+          //   columns:['总计',...this.columns],
+          //   data:this.dataList.slice(-1);
+          // };
+          // this.getSummaries(parms);
           let row = res.data[res.data.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);
@@ -251,6 +258,34 @@ export default {
       }
       return "";
     },
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "总计";
+          return;
+        }
+        const values = data.map(item => Number(item));
+        sums[index] = values;
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += " 元";
+        } else {
+          sums[index] = "N/A";
+        }
+      });
+
+      return sums;
+    },
+
     // 导出
     handleExport() {
       this.$confirm("是否确认导出表格吗?", "警告", {

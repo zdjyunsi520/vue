@@ -8,7 +8,7 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" prop='startdate'>
+        <el-form-item label="年度：" prop='startdate' label-width="50px">
           <el-date-picker v-model="queryParams.startdate" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
 
@@ -17,7 +17,7 @@
             <el-option v-for="(item,index) in sources" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop='status'>
+        <el-form-item label="状态：" prop='status' label-width="50px">
           <el-select v-model="queryParams.status" clearable placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -33,7 +33,17 @@
       </el-form>
     </div>
 
-    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+    <div class="bg-white containerbox  chart-wrapper marginbottom15" v-if="chartData">
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <div class="nodata-box" v-else>
+        <img src="@/assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+    </div>
+    <div class="bg-white containerbox " ref="containerbox">
       <p class="form-smtitle tb-smtitle">抢修年度统计 </p>
       <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
@@ -48,13 +58,6 @@
 
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-    <div class="bg-white containerbox  chart-wrapper" v-if="chartData">
-      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
-      <div class='smchartbox' v-if="dataList&&dataList.length>0">
-        <BarChart ref="chart" :chartData='chartData' />
-      </div>
-      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
     </div>
   </div>
 </template>

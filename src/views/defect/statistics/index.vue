@@ -12,10 +12,10 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" v-show="activeName=='0'" prop='patrolYear'>
+        <el-form-item label="年度：" v-show="activeName=='0'" prop='patrolYear' label-width="50px">
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy" format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="年月：" v-show="activeName!='0'" prop='patrolMonth'>
+        <el-form-item label="年月：" v-show="activeName!='0'" prop='patrolMonth' label-width="50px">
           <el-date-picker v-model="patrolMonth" clearable type="month" placeholder="请选择年月" value-format="yyyy-MM" format="yyyy-MM"> </el-date-picker>
         </el-form-item>
         <el-form-item label="缺陷等级：" v-show="activeName=='0'" prop='rank'>
@@ -23,7 +23,7 @@
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop='status'>
+        <el-form-item label="状态：" prop='status' label-width="50px">
           <el-select v-model="queryParams.status" clearable placeholder="请选择">
             <el-option v-for="(item,index) in statuss" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -38,7 +38,17 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+    <div class="bg-white chart-wrapper marginbottom15">
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <div class="nodata-box" v-else>
+        <img src="../../../assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+    </div>
+    <div class="bg-white containerbox " ref="containerbox">
       <p class="form-smtitle tb-smtitle">
         <span v-if="activeName=='0'">缺陷年度统计</span>
         <span v-if="activeName=='1'">缺陷等级统计</span>
@@ -55,19 +65,6 @@
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item"></el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-    <div class="bg-white containerbox  chart-wrapper">
-      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
-      <div class='smchartbox' v-if="dataList&&dataList.length>0">
-        <BarChart ref="chart" :chartData='chartData' />
-      </div>
-      <div class="nodata-box" v-else>
-        <img src="../../../assets/image/nodata.png" class='smimg' />
-        <p>暂时还没有数据</p>
-      </div>
-
-      <!-- <p  class="tips" style="padding: 7% 0;">暂无数据</p> -->
-
     </div>
 
   </div>

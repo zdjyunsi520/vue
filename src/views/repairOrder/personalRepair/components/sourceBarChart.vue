@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "300px"
+      default: "214px"
     },
 
     chartData: {
@@ -118,13 +118,13 @@ export default {
         grid: {
           top: "50px",
           left: "30px",
-          right: "75px",
+          right: "15px",
           bottom: "15px",
           containLabel: true
         },
         xAxis: [
           {
-            name: "单位(次)",
+            // name: "单位(次)",
             type: "value",
             axisTick: {
               show: false,

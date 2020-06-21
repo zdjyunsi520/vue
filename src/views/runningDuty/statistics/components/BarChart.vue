@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "300px"
+      default: "214px"
     },
 
     chartData: {
@@ -180,7 +180,7 @@ export default {
             type: "bar",
             // stack: 'vistors',
             barWidth: "40%",
-            barMaxWidth: 50,
+            barMaxWidth: 40,
             data: listData
           }
         ]

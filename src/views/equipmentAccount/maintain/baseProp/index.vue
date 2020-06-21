@@ -17,7 +17,7 @@
     </div>
     <!-- </el-row> -->
     <el-row class="containerbox">
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-row class="smInfoform-box">
           <div class="form-smtitle marginBottom30">基本属性</div>
           <el-form label-position="top" :model="infoData">

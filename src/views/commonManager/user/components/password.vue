@@ -3,21 +3,17 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
 
-      <el-scrollbar>
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:115%;max-width:600px;">
-
+      <el-scrollbar class="marginright-fx">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
           <el-form-item label="旧密码" prop="oldpassword">
             <el-input v-model="form.oldpassword" placeholder="请输入旧密码" type="password" auto-complete="new-password" />
           </el-form-item>
-
           <el-form-item label="新密码" prop="password">
             <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
-
           <el-form-item label="确认密码" prop="confirmpassword">
             <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
           </el-form-item>
-
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">

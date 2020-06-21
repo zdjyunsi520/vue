@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box  onlyform-box">
       <p class="form-smtitle">{{smtitle}}{{title}} </p>
-      <el-scrollbar>
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="120px" :inline-message="true">
+      <el-scrollbar class="marginright-fx">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true">
           <el-col>
             <el-col :span='12' :xs='24'>
               <el-form-item :label='title+"名称"' prop="name">

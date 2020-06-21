@@ -6,59 +6,69 @@
                 <el-tab-pane label="消缺情况" name="repair" v-if="(!ReadOnly&&form1.Status>0)||(ReadOnly&&form1.Status>1)"></el-tab-pane>
                 <el-tab-pane label="验收情况" name="backFile" v-if="(!ReadOnly&&form1.Status>1)||(ReadOnly&&form1.Status>2)"></el-tab-pane>
             </el-tabs>
-            <el-scrollbar>
-                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px">
+            <el-scrollbar class="marginright-fx">
+                <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="100px" >
                     <el-row>
-                        <el-col :span="11" :xs="24">
+                        <!-- <el-col :span="11" :xs="24"> -->
                             <el-form-item label="用电单位" prop="TenantId">
                                 <el-select :disabled="disabled" v-model="form.TenantId" placeholder="请选择用电单位" @change="changeTenant">
                                     <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                                 </el-select>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="11" :push='1' :xs="24">
+                        <!-- </el-col>
+                        <el-col :span="11" :push='1' :xs="24"> -->
                             <el-form-item label="缺陷设备" prop="AssetsIds">
                                 <TreeSelect showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm1" :checkedKeys="ChargePersonId1" :disabled="disabled" />
                                 <!-- <el-input :disabled="disabled" v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" /> -->
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="24">
-                            <el-col :span="11" :xs="24">
+                        <!-- </el-col> -->
+                    </el-row>
+                    <el-row>
+                        <!-- <el-col :span="24">
+                            <el-col :span="11" :xs="24"> -->
                                 <el-form-item label="缺陷等级" prop="Rank">
                                     <el-select :disabled="disabled" v-model="form.Rank" placeholder="请选择设备" @change="changeTime">
                                         <el-option v-for="(item,index) in Ranks" :key="index" :label="item.name" :value="item.id"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                        </el-col>
-                        <el-col :span="11" :xs="24">
+                        <!-- </el-col>
+                        <el-col :span="11" :xs="24"> -->
                             <el-form-item label="发现人" prop="Detecter">
                                 <el-input :disabled="disabled" v-model="form.Detecter" placeholder="请输入发现人" />
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="11" :push='1' :xs="24">
+                        <!-- </el-col> -->
+                    </el-row>
+                    <el-row>
+                        <!-- <el-col :span="11" :push='1' :xs="24"> -->
                             <el-form-item label="发现时间" prop="DetectTime">
                                 <el-date-picker :disabled="disabled" v-model="form.DetectTime" type="datetime" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="11" :xs="24">
+                        <!-- </el-col>
+                        <el-col :span="11" :xs="24"> -->
                             <el-form-item label="安排消缺人" prop="ProcessorId">
                                 <TreeSelect showText="text" :mutiple="false" :data="ProcessorIds" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
                                 <!-- <el-select v-model="form.ProcessorId" placeholder="请选择消缺人">
                   <el-option v-for="(item,index) in ProcessorIds" :key="index" :label="item.text" :value="item.id"></el-option>
                 </el-select> -->
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="11" :push='1' :xs="24">
+                        <!-- </el-col> -->
+                    </el-row>
+                    <el-row>
+                        <!-- <el-col :span="11" :push='1' :xs="24"> -->
                             <el-form-item label="处理期限" prop="ProcessDue">
                                 <el-date-picker :disabled="disabled" v-model="form.ProcessDue" type="datetime" placeholder="请选择处理期限" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="23">
+                    </el-row>
+                    <el-row>
+                        <!-- </el-col>
+                        <el-col :span="23"> -->
                             <el-form-item label="缺陷内容" prop="Description">
                                 <el-input :disabled="disabled" v-model="form.Description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
                             </el-form-item>
-                        </el-col>
+                        <!-- </el-col> -->
+                    </el-row>
+                    <el-row>
                         <el-col :span="23">
                             <el-form-item label="附件" prop="AttachmentKey">
                                 <el-upload :disabled="disabled" :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
@@ -72,6 +82,8 @@
 
                             </el-form-item>
                         </el-col>
+                    </el-row>
+                    <el-row>
                         <el-col v-if="form.Id">
                             <el-col :span="11" :xs="24">
                                 <el-form-item label="缺陷编号" prop="No">
@@ -542,5 +554,10 @@ export default {
 .avatar {
     width: 100%;
     height: 100%;
+}
+/deep/.onlyform-box .el-form .el-form-item{
+    width: 370px;
+    display: inline-block;
+    vertical-align: text-top;
 }
 </style>

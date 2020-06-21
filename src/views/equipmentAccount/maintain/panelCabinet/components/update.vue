@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}屏柜</p>
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="110px">
           <el-row>
             <el-col :span="10" :push="1" :xs="24">
@@ -194,7 +194,7 @@ export default {
           modelname: "",
           manufactor: "",
           isenable: "",
-          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
+          starttime: dateFortmat(new Date(), "yyyy-MM-dd"),
           sortindex: 1,
           parentId: "",
           id: "",

@@ -30,7 +30,17 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <div class="nodata-box" v-else>
+        <img src="@/assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+    </div>
+    <div class="bg-white containerbox " ref="containerbox">
       <p class="form-smtitle tb-smtitle">抢修完成类型统计 </p>
       <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
         <template slot="empty">
@@ -46,16 +56,6 @@
         <el-table-column align="center" fixed='right' label="总计" prop="Total" />
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-    <div class="bg-white containerbox  chart-wrapper">
-      <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
-      <div class='smchartbox' v-if="dataList&&dataList.length>0">
-        <BarChart ref="chart" :chartData='chartData' />
-      </div>
-      <div class="nodata-box" v-else>
-        <img src="../../../assets/image/nodata.png" class='smimg' />
-        <p>暂时还没有数据</p>
-      </div>
     </div>
 
   </div>

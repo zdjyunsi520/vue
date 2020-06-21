@@ -2,20 +2,22 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">确认描述</p>
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
           <el-row>
-              <el-col :span="8" :xs="24">
-                <el-form-item label="确认描述：" prop="description">
-                  <el-input  type="textarea"  :rows="6" v-model="form.description" placeholder="请输入确认描述" />
-                </el-form-item>
-              </el-col>
+            <el-col :span="8" :xs="24">
+              <el-form-item label="确认描述：" prop="description">
+                <el-input type="textarea" :rows="6" v-model="form.description" placeholder="请输入确认描述" />
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
-          <el-button type="primary"  @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="loading">
+            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+          </el-button>
           <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
         </div>
       </el-col>
@@ -43,8 +45,7 @@ export default {
       rules,
       dialogVisible: false,
       loading: false,
-      title: "",
-
+      title: ""
     };
   },
   created() {
@@ -75,13 +76,15 @@ export default {
         if (valid) {
           //按钮转圈圈
           this.loading = true;
-          confirm(this.form).then(r => {
-              this.$message.success('保存成功！');
+          confirm(this.form)
+            .then(r => {
+              this.$message.success("保存成功！");
               this.handleOpen();
-          }).catch(r => {
+            })
+            .catch(r => {
               //取消按钮转圈圈
               this.loading = false;
-          });
+            });
         }
       });
     }
@@ -90,5 +93,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

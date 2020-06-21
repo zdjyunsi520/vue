@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
 
-      <el-scrollbar>
+      <el-scrollbar class="marginright-fx">
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="140px" style="width:115%;max-width:600px;">
           <el-form-item label="巡视单位" prop="tenantId">
             <el-select v-model="form.tenantId" placeholder="请选择巡视单位" @change="handleChangeTenantId">

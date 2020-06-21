@@ -12,9 +12,8 @@
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" prop="patrolYear">
+        <el-form-item label="年度：" prop="patrolYear" label-width="50px">
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
-
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -29,7 +28,17 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox marginbottom15" ref="containerbox">
+    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+      <p class="form-smtitle tb-smtitle">{{chartData.title}}-值班统计图 </p>
+      <div class='smchartbox' v-if="dataList&&dataList.length>0">
+        <BarChart ref="chart" :chartData='chartData' />
+      </div>
+      <div class="nodata-box" v-else>
+        <img src="../../../assets/image/nodata.png" class='smimg' />
+        <p>暂时还没有数据</p>
+      </div>
+    </div>
+    <div class="bg-white containerbox " ref="containerbox">
       <p class="form-smtitle tb-smtitle">
         <span v-if="activeName=='1'">人员统计</span>
         <span v-if="activeName=='2'">值班统计</span>
@@ -45,14 +54,6 @@
         <el-table-column v-for="(item,index) in columns" :key="props[index]" :prop="props[index]" :label="item" min-width="75" />
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
-    </div>
-    <div class="bg-white containerbox  chart-wrapper">
-      <p class="form-smtitle tb-smtitle">{{chartData.title}}-值班统计图 </p>
-      <div class='smchartbox' v-if="dataList&&dataList.length>0">
-        <BarChart ref="chart" :chartData='chartData' />
-      </div>
-      <p v-else class="tips" style="padding: 7% 0;">暂无数据</p>
-
     </div>
   </div>
 

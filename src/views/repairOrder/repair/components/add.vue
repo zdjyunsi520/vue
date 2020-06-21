@@ -8,7 +8,7 @@
                 <el-tab-pane label="故障归档" name="backFile" v-if="(!ReadOnly&&form1.Status>2)||(ReadOnly&&form1.Status>3)"></el-tab-pane>
             </el-tabs>
             <!-- <p class="form-smtitle">{{title}}</p> -->
-            <el-scrollbar>
+            <el-scrollbar class="marginright-fx">
                 <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="110px">
                     <el-row>
                         <el-col :span="11" :xs="24">

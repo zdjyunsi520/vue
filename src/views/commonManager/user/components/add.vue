@@ -2,29 +2,22 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
-
-      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:115%;max-width:600px;">
-
+      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名" />
         </el-form-item>
-
         <el-form-item label="输入密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
         </el-form-item>
-
         <el-form-item label="确认密码" prop="confirmpassword">
           <el-input v-model="form.confirmpassword" placeholder="请输入8-30位数字+字母+特殊符号" type="password" auto-complete="new-password" />
         </el-form-item>
-
         <el-form-item label="用户姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名" auto-complete="off" />
         </el-form-item>
-
         <el-form-item label="手机号" prop="mobilephone">
           <el-input v-model="form.mobilephone" placeholder="请输入手机号" maxlength="11" />
         </el-form-item>
-
       </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
