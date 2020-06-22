@@ -383,8 +383,7 @@ export default {
         this.getScreenSystem();
         this.getScreenElectricLoad();
         this.getOperationCurve();
-        this.getWarnings();
-
+        setTimeout(this.getWarning, 10000);
         this.dragControllerDiv();
         this.circleCanves();
         this.renderLoop();
