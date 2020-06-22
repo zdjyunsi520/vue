@@ -2,20 +2,21 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="应用名称：" prop="versionname">
+        <el-form-item label="关键词：" prop="versionname">
+          <el-input v-model="queryParams.versionname" placeholder="应用名称/版本号" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+
+        <!-- <el-form-item label="应用名称：" prop="versionname">
           <el-input v-model="queryParams.versionname" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="版本号：" prop="versioncode">
           <el-input v-model="queryParams.versioncode" placeholder="" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
-                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
-      </el-form>
+        </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">

@@ -25,7 +25,7 @@
         <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
       </el-form>
     </div>
-    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+    <div class="bg-white   chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}}-值班统计图 </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />

@@ -123,58 +123,29 @@ export default {
           {
             name: "告警情况",
             type: "pie",
-            roseType: "radius",
+            // roseType: "radius",
             label: {
-              show: false,
-              position: "center"
+              show: false
+              // position: "center"
+            }, 
+            labelLine: {
+              show: false
             },
             emphasis: {
               label: {
                 show: true,
                 fontSize: "14",
                 formatter: "{d}次\n{b}"
-              }
+              },
+              labelLine: {
+              show: true
             },
-            labelLine: {
-              show: false
             },
-            radius: ["25%", "70%"],
+           
+            radius: "50%",
+            // radius: ["25%", "70%"],
             center: ["55%", "50%"],
             data: listData
-            //  [
-            //   {
-            //     value: 21,
-            //     name: "分闸"
-            //   },
-            //   {
-            //     value: 34,
-            //     name: "越上上限"
-            //   },
-            //   {
-            //     value: 43,
-            //     name: "越下限"
-            //   },
-            //   {
-            //     value: 26,
-            //     name: "越上限"
-            //   },
-            //   {
-            //     value: 17,
-            //     name: "超温"
-            //   },
-            //   {
-            //     value: 12,
-            //     name: "工况异常"
-            //   },
-            //   {
-            //     value: 22,
-            //     name: "告警"
-            //   },
-            //   {
-            //     value: 12,
-            //     name: "过压"
-            //   }
-            // ]
           }
         ]
       });

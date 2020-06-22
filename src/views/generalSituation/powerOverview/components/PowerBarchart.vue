@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: "250px"
+      default: "217px"
     },
 
     barchartData: {

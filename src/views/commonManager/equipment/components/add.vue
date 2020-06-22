@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="90px" :inline-message="true" style="max-width:370px;">
           <el-form-item label="设备类型" prop="type">
             <el-select v-model="form.type" clearable>
               <el-option label="请选择" value=""></el-option>

@@ -59,7 +59,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .icon-body {
-    width: 100%;
+     width: 800px;
     .icon-list {
         // height: 200px;
         // overflow-y: scroll;

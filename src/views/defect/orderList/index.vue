@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :inline="true" ref="queryForm" :model="queryParams">
-        <el-form-item label="关键词：" prop="name">
-          <el-input v-model="queryParams.name" placeholder="缺陷编号/设备名称" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="关键词：" prop="name">
+          <el-input v-model="queryParams.name" placeholder="缺陷编号/设备名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item label="缺陷编号：" prop="No">
           <el-input v-model="queryParams.No"></el-input>

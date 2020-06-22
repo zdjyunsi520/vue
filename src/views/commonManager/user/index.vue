@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="username" label-width="61px">
+        <el-form-item label="关键词：" prop="username" label-width="68px">
           <el-input v-model="queryParams.username" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item label="用户名：" prop="username">

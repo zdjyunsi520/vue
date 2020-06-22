@@ -36,10 +36,10 @@
         <el-form-item label="权限标识">
           <el-input v-model="smform.Key" disabled></el-input>
         </el-form-item>
-        <el-form-item label="URL" v-if="smform.Type!=3">
+        <el-form-item label="URL" v-if="smtype!=3">
           <el-input v-model="smform.Url" disabled></el-input>
         </el-form-item>
-        <el-form-item label="组件" v-if="smform.Type!=3">
+        <el-form-item label="组件" v-if="smtype!=3">
           <el-input v-model="smform.Component" disabled></el-input>
         </el-form-item>
         <el-form-item label="排序号">
@@ -84,7 +84,8 @@ export default {
       smform: {},
       currentNode: {},
       needToScroll: 1,
-      updateTitle: ""
+      updateTitle: "",
+      smtype:'',
     };
   },
   created() {
@@ -132,6 +133,14 @@ export default {
               : this.smform.Type == 2
               ? "应用"
               : "权限";
+            this.smtype=this.smform.Type;
+            this.smform.Type =
+            this.smform.Type == 1
+              ? "分类"
+              : this.smform.Type == 2
+              ? "应用"
+              : "权限";
+              this.type=this.smform;
         });
     },
 

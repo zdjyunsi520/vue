@@ -223,7 +223,6 @@
                                         <div class="form-smtitle ">
                                             告警情况(次)
                                         </div>
-
                                         <el-row :gutter="10" class="legendbox">
                                             <el-col :span="6">
                                                 <p>本月累计<span>{{dataInfo.WarningThisMonth.TotalCount}}</span></p>
@@ -235,7 +234,7 @@
                                                 <p>上月累计<span>{{dataInfo.WarningLastMonth.TotalCount}}</span></p>
                                             </el-col>
                                             <el-col :span="6">
-                                                <p>未处理(个)<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}</span></p>
+                                                <p>未处理<span>{{dataInfo.WarningThisMonth.UnProcessedCount}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <AlarmPieChart ref="alarmchartChart" :piechartData='alarmchartData' />
@@ -567,10 +566,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
 .dragbox .dragleft{
-  width:324px;
+  width:250px;
 }
 .dragbox .dragright.mxright{
-   width: calc(100% - 334px);
+   width: calc(100% - 260px);
 }
 .app-container {
     font-size: 14px;

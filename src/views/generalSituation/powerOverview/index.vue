@@ -163,7 +163,6 @@
                                         </div>
                                         <el-row :gutter="20">
                                             <el-col :span="24">
-                                                <div class="chart-wrapper">
                                                     <el-row class="legendbox lx" style="margin:auto;">
                                                         <el-col :span="8">
                                                             <p>本月最高<span>{{electricQuantity.ThisMonthHighest}}</span></p>
@@ -175,8 +174,9 @@
                                                             <p>本年最高<span>{{electricQuantity.ThisYearHighest}}</span></p>
                                                         </el-col>
                                                     </el-row>
-                                                    <PowerBarchart ref='PowerBarchart' :barchartData="powerbarChartData" />
-                                                </div>
+                                                    <div >
+                                                        <PowerBarchart ref='PowerBarchart' :barchartData="powerbarChartData" />
+                                                    </div>
                                             </el-col>
                                         </el-row>
 
@@ -187,7 +187,7 @@
                                         <div class="form-smtitle ">
                                             电量构成(KW)
                                         </div>
-                                        <div class="chart-wrapper">
+                                        <div >
                                             <PieChart ref="pieChart" :chartData='pieChartData' />
                                         </div>
                                     </div>
