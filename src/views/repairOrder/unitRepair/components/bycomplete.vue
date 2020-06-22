@@ -38,7 +38,7 @@
     </div>
     <div class="bg-white containerbox " ref="containerbox">
       <div>
-        <p class="form-smtitle tb-smtitle">抢修完成类型统计 </p>
+        <p class="form-smtitle tb-smtitle">抢修完成类型统计</p>
         <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
           <el-button slot="reference" class="downloadbtn">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
