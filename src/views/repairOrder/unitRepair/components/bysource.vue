@@ -53,18 +53,18 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column align="center" label="抢修人员" fixed="left" width="200" prop="Name"></el-table-column>
+        <el-table-column label="抢修人员" fixed="left" min-width="200" prop="Name"></el-table-column>
         <el-table-column align="center" label="用户报修">
-          <el-table-column prop="UserFatal" label="紧急"></el-table-column>
-          <el-table-column prop="UserEmergency" label="重要"></el-table-column>
-          <el-table-column prop="UserNormal" label="一般"></el-table-column>
-          <el-table-column prop="UserTotal" label="小计"></el-table-column>
+          <el-table-column align="center" prop="UserFatal" label="紧急"></el-table-column>
+          <el-table-column align="center" prop="UserEmergency" label="重要"></el-table-column>
+          <el-table-column align="center" prop="UserNormal" label="一般"></el-table-column>
+          <el-table-column align="center" prop="UserTotal" label="小计"></el-table-column>
         </el-table-column>
         <el-table-column align="center" label="故障报警">
-          <el-table-column prop="AssetsFatal" label="紧急"></el-table-column>
-          <el-table-column prop="AssetsEmergency" label="重要"></el-table-column>
-          <el-table-column prop="AssetsNormal" label="一般"></el-table-column>
-          <el-table-column prop="AssetsTotal" label="小计"></el-table-column>
+          <el-table-column align="center" prop="AssetsFatal" label="紧急"></el-table-column>
+          <el-table-column align="center" prop="AssetsEmergency" label="重要"></el-table-column>
+          <el-table-column align="center" prop="AssetsNormal" label="一般"></el-table-column>
+          <el-table-column align="center" prop="AssetsTotal" label="小计"></el-table-column>
         </el-table-column>
 
         <el-table-column align="center" fixed='right' label="总计" prop="Total" width="200" />

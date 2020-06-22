@@ -129,7 +129,7 @@
                 <el-row class="boxheight4">
                     <h6 class="longbg">预警信息</h6>
                     <div class="warnlistinfo">
-                        <el-row class="showdiv" v-if="waringTop">
+                        <el-row class="showdiv newdiv" v-if="waringTop">
                             <el-col :span="2">
                                 <span class="smicon">
                                     <img src="@/assets/image/ic_notice.png" />
@@ -819,13 +819,16 @@ export default {
                 display: inline-block;
             }
         }
-        &:first-child > div {
-            color: #fff;
-        }
+        // &:first-child > div {
+        //     color: #fff;
+        // }
         > div {
             color: #68b6ef;
             text-align: center;
         }
+    }
+    .newdiv> div {
+         color: #fff!important;
     }
 }
 .boxheight1 {

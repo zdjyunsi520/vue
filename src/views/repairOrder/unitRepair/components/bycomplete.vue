@@ -52,11 +52,11 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column align="center" label="抢修人员" fixed="left" prop="Name"></el-table-column>
+        <el-table-column label="抢修人员" fixed="left" min-width="150" prop="Name"></el-table-column>
 
-        <el-table-column align="center" label="完成" prop="Complete" />
-        <el-table-column align="center" label="未完成" prop="InComplete" />
-        <el-table-column align="center" fixed='right' label="总计" prop="Total" />
+        <el-table-column label="完成" prop="Complete" />
+        <el-table-column label="未完成" prop="InComplete" />
+        <el-table-column fixed='right' label="总计" prop="Total" />
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>

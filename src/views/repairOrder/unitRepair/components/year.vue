@@ -57,7 +57,7 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="抢修人员" fixed="left" min-width="120" prop="Name"></el-table-column>
+        <el-table-column label="抢修人员" fixed="left" min-width="200" prop="Name"></el-table-column>
         <el-table-column v-for="(item,index) in prop1" :key="index" :label="columns[index]" :prop="item" />
 
       </el-table>
