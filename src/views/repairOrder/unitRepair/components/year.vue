@@ -202,6 +202,8 @@ export default {
         this.getList();
     },
     methods: {
+        //:summary-method="getSummaries" show-summary dataTable加俩属性
+        // data 加一个propTotal数组
         getSummaries() {
             let data;
             if (this.dataList && this.dataList.length) {
