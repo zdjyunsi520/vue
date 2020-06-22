@@ -9,59 +9,41 @@
       </el-tabs>
       <!-- <p class="form-smtitle">{{title}}</p> -->
       <el-scrollbar class="marginright-fx">
-        <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="80px">
+        <el-form :model="form" ref="form" label-position="right" :rules="rules" label-width="100px">
           <el-row>
-            <el-col :span="11" :xs="24">
-              <el-form-item label="消缺结果" prop="IsProcessed">
-                <el-select disabled v-model="form.IsProcessed" placeholder="请选择">
-                  <el-option label="已消缺" :value="true"></el-option>
-                  <el-option label="未消缺" :value="false"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="消缺设备" prop="AssetsIds">
-                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="提交验收人" prop="ReceiverId">
-                  <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="缺陷原因" prop="Reason">
-                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Reason" placeholder="" />
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="处理说明" prop="Statement">
-                  <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Statement" placeholder="" />
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24" v-if="form1.Status>1">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="消缺人">
-                  <el-input disabled v-model="form.Processor" placeholder="" />
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="24" :xs="24" v-if="form1.ProcessTime">
-              <el-col :span="11" :xs="24">
-                <el-form-item label="消缺时间" prop="ProcessTime">
-                  <el-date-picker disabled v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-col>
+            <el-form-item label="消缺结果" prop="IsProcessed">
+              <el-select disabled v-model="form.IsProcessed" placeholder="请选择">
+                <el-option label="已消缺" :value="true"></el-option>
+                <el-option label="未消缺" :value="false"></el-option>
+              </el-select>
+            </el-form-item>
           </el-row>
+          <el-row>
+            <el-form-item label="消缺设备" prop="AssetsIds">
+              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="提交验收人" prop="ReceiverId">
+              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="缺陷原因" prop="Reason">
+              <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Reason" placeholder="" />
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="处理说明" prop="Statement">
+              <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.Statement" placeholder="" />
+            </el-form-item>
+          </el-row>
+          <el-form-item label="消缺人" style="display:none">
+            <el-input disabled v-model="form.Processor" placeholder="" />
+          </el-form-item>
+          <el-form-item label="消缺时间" prop="ProcessTime" style="display:none">
+            <el-date-picker disabled v-model="form.ProcessTime" type="date" placeholder="请选择时间" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+          </el-form-item>
         </el-form>
 
       </el-scrollbar>
@@ -322,5 +304,10 @@ export default {
 .avatar {
   width: 100%;
   height: 100%;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
+  display: inline-block;
+  vertical-align: text-top;
 }
 </style>

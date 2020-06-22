@@ -23,7 +23,11 @@
       <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
         <div class="search-box xl-querybox">
           <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-            <el-form-item label="人员姓名：" prop="name">
+            <el-form-item label="关键词：" prop="name" label-width="61px">
+              <el-input v-model="queryParams.name" placeholder="姓名/用户名/手机号" clearable @keyup.enter.native="handleQuery" />
+            </el-form-item>
+
+            <!-- <el-form-item label="人员姓名：" prop="name">
               <el-input v-model="queryParams.name" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item label="用户名：" prop="username">
@@ -31,7 +35,7 @@
             </el-form-item>
             <el-form-item label="手机号：" prop="mobilephone">
               <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
               <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
@@ -73,15 +77,15 @@
             <el-table-column label="用户名" min-width="150" prop="UserName" />
             <el-table-column label="操作" fixed="right" width="230">
               <template slot-scope="scope">
-                <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+                <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
                   <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
                 </el-button>
-                <el-button size="mini" type="text" @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">
+                <el-button size="mini" type="primary" plain @click="handlePassword(scope.row,true)" v-if="scope.row.IsOpenAccount">
                   <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>密码
                 </el-button>
-                <el-button size="mini" type="text" @click="handlePassword(scope.row,false)" v-else>
+                <el-button size="mini" type="primary" plain @click="handlePassword(scope.row,false)" v-else>
                   <svg-icon icon-class='ic_opening' class="tablesvgicon" />账号</el-button>
-                <el-button size="mini" v-if="scope.row.IsOpenAccount" type="text" @click="handleUpdateRole(scope.row)">
+                <el-button size="mini" v-if="scope.row.IsOpenAccount" type="primary" plain @click="handleUpdateRole(scope.row)">
                   <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限
                 </el-button>
               </template>

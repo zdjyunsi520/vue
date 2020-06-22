@@ -53,19 +53,19 @@
         <el-table-column label="操作" fixed="right" width="230">
           <template slot-scope="{row}">
             <div>
-              <el-button type="text" size="mini" @click="handleLook(row)">
+              <el-button type="primary" plain size="mini" @click="handleLook(row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
-              <el-button v-if="row.Status==2" type="text" size="mini" @click="handleUpdate(row)">
+              <el-button v-if="row.Status==2" type="primary" plain size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_repair' class="tablesvgicon"></svg-icon>抢修
               </el-button>
-              <el-button v-if="row.Status==3" type="text" size="mini" @click="handleUpdate(row)">
+              <el-button v-if="row.Status==3" type="primary" plain size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_file' class="tablesvgicon"></svg-icon>归档
               </el-button>
-              <el-button type="text" v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
+              <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="text" v-if="row.Status==1" size="mini" @click="handleDelete(row)">
+              <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleDelete(row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>

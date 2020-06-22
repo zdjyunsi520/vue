@@ -2,6 +2,7 @@
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox" style="padding: 15px 0 0;">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+
         <el-form-item label="用电单位：" prop="tenantId">
 
           <el-select v-model="queryParams.tenantId">
@@ -16,12 +17,15 @@
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in recordType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="联系人：" prop="contactperson">
+        <el-form-item label="关键词：" prop="name" label-width="61px">
+          <el-input v-model="queryParams.name" placeholder="联系人/记事内容" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <!-- <el-form-item label="联系人：" prop="contactperson">
           <el-input v-model="queryParams.contactperson" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="记事内容：" prop="recordcontent">
           <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="记事日期：" prop="starttime">
           <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
           至

@@ -33,14 +33,11 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button :loading="downloadLoading" @click="handleExport">
-            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
-            导出
-          </el-button>
+
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+    <div class="bg-white chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />
@@ -51,11 +48,19 @@
       </div>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <p class="form-smtitle tb-smtitle">
-        <span v-if="activeName=='0'">人员巡视年度统计</span>
-        <span v-if="activeName=='1'">人员巡视性质统计</span>
-        <span v-if="activeName=='2'">人员巡视完成情况统计</span>
-      </p>
+      <div>
+        <p class="form-smtitle tb-smtitle">
+          <span v-if="activeName=='0'">人员巡视年度统计</span>
+          <span v-if="activeName=='1'">人员巡视性质统计</span>
+          <span v-if="activeName=='2'">人员巡视完成情况统计</span>
+        </p>
+        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+          </el-button>
+        </el-popover>
+      </div>
+
       <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">

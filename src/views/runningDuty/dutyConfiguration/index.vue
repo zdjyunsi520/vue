@@ -2,9 +2,13 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="值班班组：" prop="teamname">
-          <el-input v-model="queryParams.teamname" placeholder="请输入班组名称" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="name" label-width="61px">
+          <el-input v-model="queryParams.name" placeholder="值班班组/班组人员" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
+
+        <!-- <el-form-item label="值班班组：" prop="teamname">
+          <el-input v-model="queryParams.teamname" placeholder="请输入班组名称" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item> -->
         <el-form-item label="班次类型：" prop="shifttypeId">
           <el-select v-model="queryParams.shifttypeId">
             <el-option label="全部" value=""></el-option>
@@ -17,9 +21,9 @@
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in charactorTypeList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="班组人员：" prop="employeename">
-          <el-input v-model="queryParams.employeename" placeholder="" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        <!-- <el-form-item label="班组人员：" prop="employeename">
+          <el-input v-model="queryParams.employeename" placeholder="请输入班组人员" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
@@ -61,13 +65,13 @@
         <!-- <el-table-column label="岗位" min-width='150' prop="Positions" /> -->
         <el-table-column label="操作" width='270' fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="mini" @click="handlePosition(scope.row)">
+            <el-button type="primary" plain size="mini" @click="handlePosition(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>岗位设置
             </el-button>
-            <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
+            <el-button type="primary" plain size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
-            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+            <el-button type="primary" plain size="mini" @click="handleDelete(scope.row)">
               <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
             </el-button>
           </template>

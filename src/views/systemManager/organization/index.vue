@@ -2,7 +2,11 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" ref="queryForm" :inline="true" :rules="rules">
-        <el-form-item label="单位名称：" prop="name">
+        <el-form-item label="关键词：" prop="name" label-width="61px">
+          <el-input v-model="queryParams.name" placeholder="单位名称/联系人/手机" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+
+        <!-- <el-form-item label="单位名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="请输入名称" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="联系人：" prop="contactperson">
@@ -11,12 +15,7 @@
         <el-form-item label="手机号：" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="请输入联系人手机" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <!-- <el-form-item>
-            <el-select v-model="queryParams.type" clearable >
-              <el-option label="设备类型" value="" />
-              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in equipmentType" />
-            </el-select>
-          </el-form-item> -->
+     -->
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
@@ -66,14 +65,14 @@
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="200">
+        <el-table-column label="操作" fixed="right" width="160">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
             <!-- <el-button size="mini" type="text" @click="handleDisabled(scope.row,scope.row.IsEnable)">{{showEnable(scope.row)}}</el-button> -->
-            <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
-              <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限编辑
+            <el-button size="mini" type="primary" plain @click="handleUpdateRole(scope.row)">
+              <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限
             </el-button>
             <!-- <el-button size="mini" type="text" @click="handleLogin(scope.row)">模拟登陆</el-button> -->
           </template>

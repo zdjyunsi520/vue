@@ -19,9 +19,9 @@
         </el-form-item>
         <el-form-item label="告警时间：" prop="WarningTime">
           <el-select v-model="WarningTime" clearable placeholder="请选择告警时间" @change='getWarningTime'>
-            <el-option  label="全部" value=""></el-option>
-            <el-option  label="近一个月" value="0"></el-option>
-            <el-option  label="近一周" value="1"></el-option>
+            <el-option label="全部" value=""></el-option>
+            <el-option label="近一个月" value="0"></el-option>
+            <el-option label="近一周" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -61,16 +61,16 @@
         <el-table-column label="操作" width="240" fixed="right">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" size="mini" v-if="!scope.row.IsConfirmed" @click="handleCheck(scope.row)">
+              <el-button type="primary" plain size="mini" v-if="!scope.row.IsConfirmed" @click="handleCheck(scope.row)">
                 <svg-icon icon-class='ic_enable' class="tablesvgicon"></svg-icon>确认
               </el-button>
-              <el-button type="text" size="mini" v-if="!scope.row.IsReported" @click="handleDispatch(scope.row)">
+              <el-button type="primary" plain size="mini" v-if="!scope.row.IsReported" @click="handleDispatch(scope.row)">
                 <svg-icon icon-class='ic_dispatch' class="tablesvgicon"></svg-icon>派单
               </el-button>
-              <el-button type="text" size="mini" v-else  @click="handleToOrder(scope.row)">
+              <el-button type="primary" plain size="mini" v-else @click="handleToOrder(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看工单
               </el-button>
-              <el-button type="text" size="mini" @click="handleMonitor(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleMonitor(scope.row)">
                 <svg-icon icon-class='ic_video' class="tablesvgicon"></svg-icon>监控
               </el-button>
             </div>
@@ -106,16 +106,16 @@ export default {
       rules: {},
       tableHeight: "calc(100% - 80px)",
       TenantIds: [],
-      WarningTime:"",
+      WarningTime: "",
 
       // 搜索参数
       queryParams: {
         pageno: 1,
         pagesize: 30,
         WarningType: "",
-        StartDate:'',
-        EndDate:'',
-        IsConfirmed: ''
+        StartDate: "",
+        EndDate: "",
+        IsConfirmed: ""
       },
       WarningTypes: [
         {
@@ -242,54 +242,54 @@ export default {
           this.listLoading = false;
         });
     },
-    getWarningTime(){  
+    getWarningTime() {
       var date = new Date();
-      var list=[];
-      if(this.WarningTime != ''){
-        if(this.WarningTime == '1'){
-          list = this.getDateRange(date,6,true);
-        }else if(this.WarningTime == '0'){
-          list =  this.getDateRange(date,30,true);
+      var list = [];
+      if (this.WarningTime != "") {
+        if (this.WarningTime == "1") {
+          list = this.getDateRange(date, 6, true);
+        } else if (this.WarningTime == "0") {
+          list = this.getDateRange(date, 30, true);
         }
         this.queryParams.StartDate = list[0];
         this.queryParams.EndDate = list[1];
-      }else{
-        this.queryParams.StartDate = '';
-        this.queryParams.EndDate = '';
+      } else {
+        this.queryParams.StartDate = "";
+        this.queryParams.EndDate = "";
       }
     },
 
-    getDateRange(dateNow,intervalDays,bolPastTime){
-        let oneDayTime = 24 * 60 * 60 * 1000;
-        let list = [];
-        let lastDay;
- 
-        if(bolPastTime == true){
-            lastDay = new Date(dateNow.getTime() - intervalDays * oneDayTime);
-            list.push(this.formateDate(lastDay));
-            list.push(this.formateDate(dateNow));
-        }else{
-            lastDay = new Date(dateNow.getTime() + intervalDays * oneDayTime);
-            list.push(this.formateDate(dateNow));
-            list.push(this.formateDate(lastDay));
-        }
-        return list;
-     },
-     formateDate(time){
-        let year = time.getFullYear()
-        let month = time.getMonth() + 1
-        let day = time.getDate()
- 
-        if (month < 10) {
-          month = '0' + month
-        }
- 
-        if (day < 10) {
-          day = '0' + day
-        }
- 
-        return year + '-' + month + '-' + day + ''
-     },
+    getDateRange(dateNow, intervalDays, bolPastTime) {
+      let oneDayTime = 24 * 60 * 60 * 1000;
+      let list = [];
+      let lastDay;
+
+      if (bolPastTime == true) {
+        lastDay = new Date(dateNow.getTime() - intervalDays * oneDayTime);
+        list.push(this.formateDate(lastDay));
+        list.push(this.formateDate(dateNow));
+      } else {
+        lastDay = new Date(dateNow.getTime() + intervalDays * oneDayTime);
+        list.push(this.formateDate(dateNow));
+        list.push(this.formateDate(lastDay));
+      }
+      return list;
+    },
+    formateDate(time) {
+      let year = time.getFullYear();
+      let month = time.getMonth() + 1;
+      let day = time.getDate();
+
+      if (month < 10) {
+        month = "0" + month;
+      }
+
+      if (day < 10) {
+        day = "0" + day;
+      }
+
+      return year + "-" + month + "-" + day + "";
+    },
     levelformatter(row) {
       var txt = "";
       if (row.Level == 1) {
@@ -312,8 +312,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.StartDate = '';
-      this.queryParams.EndDate = '';
+      this.queryParams.StartDate = "";
+      this.queryParams.EndDate = "";
       this.handleQuery();
     },
     // 监控
@@ -322,16 +322,14 @@ export default {
     handleDispatch(row) {},
 
     // 查看工单
-    handleToOrder(row){
-
-    },
+    handleToOrder(row) {},
     // 确认
     handleCheck(row) {
       const data = {
-        Id:row.Id,
+        Id: row.Id,
         description: row.description
-      }
-       this.$router.push({
+      };
+      this.$router.push({
         name: "/operationMonitoring/realtimeAlarm/components/check",
         params: { data }
       });

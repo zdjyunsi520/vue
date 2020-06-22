@@ -2,7 +2,10 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="用户名：" prop="username">
+        <el-form-item label="关键词：" prop="username" label-width="61px">
+          <el-input v-model="queryParams.username" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <!-- <el-form-item label="用户名：" prop="username">
           <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="姓名：" prop="name">
@@ -10,7 +13,7 @@
         </el-form-item>
         <el-form-item label="手机号：" prop="mobilephone">
           <el-input v-model="queryParams.mobilephone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
@@ -62,13 +65,13 @@
         <el-table-column label="注销状态" width="100" prop="IsCancel" :formatter="filterCancel" />
         <el-table-column label="操作" fixed="right" width="230">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
-            <el-button size="mini" type="text" @click="handleResetPwd(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleResetPwd(scope.row)">
               <svg-icon icon-class='ic_password' class="tablesvgicon"></svg-icon>密码
             </el-button>
-            <el-button size="mini" type="text" @click="handleUpdateRole(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleUpdateRole(scope.row)">
               <svg-icon icon-class='ic_jurisdiction' class="tablesvgicon"></svg-icon>权限
             </el-button>
           </template>

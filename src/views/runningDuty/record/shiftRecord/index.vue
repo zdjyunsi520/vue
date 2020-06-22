@@ -22,13 +22,16 @@
             <el-option :key="item.Id" :label="item.PositionName" :value="item.PositionId" v-for="item in userPositions" />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="关键词：" prop="name" label-width="61px">
+          <el-input v-model="queryParams.name" placeholder="记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <!-- 
         <el-form-item label="记事内容：" prop="recordcontent">
           <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="注意事项：" prop="caution">
           <el-input v-model="queryParams.caution" placeholder="" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="值班日期：" prop="starttime">
           <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
           至 <el-date-picker v-model="queryParams.endtime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>

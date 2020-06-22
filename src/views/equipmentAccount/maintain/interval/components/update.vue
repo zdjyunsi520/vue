@@ -3,83 +3,68 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}间隔</p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="110px">
+        <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="80px">
           <el-row>
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="名称" prop="Name">
-                <el-input v-model="form.Name" placeholder="请输入名称" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="资产属性" prop="Property">
-                <el-select v-model="form.Property">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="间隔类型" prop="Type">
-                <el-select v-model="form.Type">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
-                </el-select>
+            <el-form-item label="名称" prop="Name">
+              <el-input v-model="form.Name" placeholder="请输入名称" />
+            </el-form-item>
+            <el-form-item label="资产属性" prop="Property">
+              <el-select v-model="form.Property">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key+''+index" :label="item.value" :value="item.key" v-for="(item,index) in assetAttributeType" />
+              </el-select>
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="间隔类型" prop="Type">
+              <el-select v-model="form.Type">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in powerRoomType" />
+              </el-select>
 
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="关联设备" prop="BindDeviceId">
-                <el-select v-model="form.BindDeviceId">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in deviceType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="所属单位" prop="TenantId">
-                <el-select v-model="form.TenantId">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="电压等级" prop="VoltLevel">
-                <el-select v-model="form.VoltLevel">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="运行状态" prop="IsEnable">
-                <el-select v-model="form.IsEnable">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="是否总进线" prop="IsMainLine">
-                <el-select v-model="form.IsMainLine">
-                  <el-option label="请选择" value></el-option>
-                  <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in rwType" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="10" :push="1" :xs="24">
-              <el-form-item label="投运日期" prop="StartTime">
-                <el-date-picker v-model="form.StartTime" type="date" placeholder="请选择日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :push="2" :xs="24">
-              <el-form-item label="排序号" prop="SortIndex">
-                <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" :max="9999" />
-              </el-form-item>
-            </el-col>
+            </el-form-item>
+            <el-form-item label="关联设备" prop="BindDeviceId">
+              <el-select v-model="form.BindDeviceId">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in deviceType" />
+              </el-select>
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="所属单位" prop="TenantId">
+              <el-select v-model="form.TenantId">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="电压等级" prop="VoltLevel">
+              <el-select v-model="form.VoltLevel">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in voltageLevelType" />
+              </el-select>
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="运行状态" prop="IsEnable">
+              <el-select v-model="form.IsEnable">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="是否总进线" prop="IsMainLine">
+              <el-select v-model="form.IsMainLine">
+                <el-option label="请选择" value></el-option>
+                <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in rwType" />
+              </el-select>
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-form-item label="投运日期" prop="StartTime">
+              <el-date-picker v-model="form.StartTime" type="date" placeholder="请选择日期"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="排序号" prop="SortIndex">
+              <el-input-number v-model="form.SortIndex" controls-position="right" :min="0" :max="9999" />
+            </el-form-item>
           </el-row>
         </el-form>
       </el-scrollbar>
@@ -238,5 +223,10 @@ export default {
 .bm-view {
   width: 100%;
   height: 300px;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
+  display: inline-block;
+  vertical-align: text-top;
 }
 </style>

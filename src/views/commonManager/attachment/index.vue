@@ -2,12 +2,16 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="名称：" prop="name">
+        <el-form-item label="关键词：" prop="name" label-width="61px">
+          <el-input v-model="queryParams.name" placeholder="名称/代码" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
+
+        <!-- <el-form-item label="名称：" prop="name">
           <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="代码：" prop="key">
           <el-input v-model="queryParams.key" placeholder="" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
@@ -40,10 +44,10 @@
         <el-table-column label="文件后缀" min-width="150" prop="FilterFileExtensions" />
         <el-table-column label="操作" fixed="right" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
-            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+            <el-button type="primary" plain size="mini" @click="handleDelete(scope.row)">
               <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
             </el-button>
           </template>

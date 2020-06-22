@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
 
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="110px" :inline-message="true" style="width:112%;max-width:600px;">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="width:370px;">
 
           <el-form-item label="用户名" prop="username" v-if="!form.first">
             <el-input v-model="form.username" placeholder="请输入4-18位数字或字母" />

@@ -8,7 +8,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="巡视人员：" prop="patrolusername">
-          <el-input v-model="queryParams.patrolusername" clearable></el-input>
+          <el-input v-model="queryParams.patrolusername" placeholder="请输入巡视人员" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视日期：">
           <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
@@ -43,7 +43,7 @@
           <template slot-scope="scope">
             <div>
 
-              <el-button type="text" size="mini" @click="handleReport(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleReport(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看报告
               </el-button>
             </div>

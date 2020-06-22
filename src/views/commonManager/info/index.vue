@@ -11,7 +11,7 @@
     <div class="bg-white containerbox " style="position:relative">
       <el-scrollbar style="height:calc(100% - 80px)" class="marginright-fx">
         <el-col :span="18" :xs="24">
-          <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;">
+          <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;width:1000px">
             <el-form-item v-if="show">
               <editor class="xl-height" @input="handleContent" ref="editors" :value="getValue"></editor>
             </el-form-item>

@@ -2,14 +2,17 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :inline="true" ref="queryForm" :model="queryParams">
+        <el-form-item label="关键词：" prop="name">
+          <el-input v-model="queryParams.name" placeholder="缺陷编号/设备名称" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item>
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="缺陷编号：" prop="No">
+        <!-- <el-form-item label="缺陷编号：" prop="No">
           <el-input v-model="queryParams.No"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="发现日期：" prop="reporttimestart">
           <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
@@ -20,9 +23,9 @@
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="设备名称：" prop="assetsname">
+        <!-- <el-form-item label="设备名称：" prop="assetsname">
           <el-input v-model="queryParams.assetsname"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="消缺结果：" prop="IsProcessed">
           <el-select v-model="queryParams.IsProcessed" placeholder="请选择">
             <el-option v-for="(item,index) in IsProcesseds" :key="index" :label="item.name" :value="item.id"></el-option>
@@ -42,10 +45,12 @@
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button :loading="downloadLoading" @click="handleExport" class="floatright">
-          <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
-          导出
-        </el-button>
+        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " style="margin:0;margin-top:5px" popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+          </el-button>
+        </el-popover>
+
       </el-row>
       <el-table v-loading="listLoading" :data="dataList"  @row-dblclick="dbhandleUpdate" element-loading-text="Loading" border fit :height="tableHeight" highlight-current-row>
         <template slot="empty">
@@ -75,19 +80,19 @@
         <el-table-column label="操作" fixed="right" width="250">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" size="mini" @click="handleLook(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleLook(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
-              <el-button type="text" v-if='scope.row.Status==1' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==1' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_solve' class="tablesvgicon"></svg-icon>消缺
               </el-button>
-              <el-button type="text" v-if='scope.row.Status==2' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==2' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_check' class="tablesvgicon"></svg-icon>验收
               </el-button>
-              <el-button type="text" v-if='scope.row.Status==0' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==0' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="text" v-if='scope.row.Status==0' size="mini" @click="handleDelete(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==0' size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>

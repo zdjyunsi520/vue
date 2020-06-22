@@ -42,7 +42,7 @@
 
     <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
       <div class="form-smtitle marginBottom30">基础信息 </div>
-      <el-form label-position="top" :model="smform" v-if="data&&data.Key">
+      <el-form label-position="top" :model="smform" v-if="data&&data.Key" style="padding-right: 20px;">
         <el-form-item label="代码">
           <el-input v-model="smform.Key" disabled></el-input>
         </el-form-item>

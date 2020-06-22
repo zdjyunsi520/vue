@@ -68,10 +68,10 @@
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
 
-              <el-button type="text" size="mini" @click="handleReport(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleReport(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看报告
               </el-button>
-              <el-button type="text" size="mini" @click="handleBack(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleBack(scope.row)">
                 <svg-icon icon-class='ic_back' class="tablesvgicon"></svg-icon>回退
               </el-button>
 

@@ -31,10 +31,6 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button :loading="downloadLoading" @click="handleExport">
-            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
-            导出
-          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -49,11 +45,19 @@
       </div>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
-      <p class="form-smtitle tb-smtitle">
-        <span v-if="activeName=='0'">缺陷年度统计</span>
-        <span v-if="activeName=='1'">缺陷等级统计</span>
-        <span v-if="activeName=='2'">消缺率统计</span>
-      </p>
+      <div>
+        <p class="form-smtitle tb-smtitle">
+          <span v-if="activeName=='0'">缺陷年度统计</span>
+          <span v-if="activeName=='1'">缺陷等级统计</span>
+          <span v-if="activeName=='2'">消缺率统计</span>
+        </p>
+        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+          </el-button>
+        </el-popover>
+      </div>
+
       <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
         <template slot="empty">
           <div class="nodata-box">

@@ -7,12 +7,11 @@
         </div>
 
       </li>
-      <li @click="handleClickHome" style="width:38px;font-size: 21px;font-weight: bold;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
+      <!-- <li @click="handleClickHome" style="width:38px;font-size: 21px;font-weight: bold;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
         <div class="smbox">
-          <!-- <svg-icon icon-class="ic_home" /> -->
           <svg-icon :icon-class="IconUrl" style='font-size: 14px;vertical-align: baseline;'  />
         </div>
-      </li>
+      </li> -->
       <li>
         <div class="smbox">
           <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll">
@@ -165,7 +164,7 @@ export default {
         }
       }
 
-      &:nth-of-type(3) {
+      &:nth-of-type(2) {
         flex-grow: 1;
         width: calc(100% - 100px);
         cursor: auto;

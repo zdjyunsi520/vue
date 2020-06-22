@@ -18,11 +18,16 @@
     color: #565656 !important;
     //  padding: 18px 0!important;
     font-size: 14px;
-    height: 50px;
+    height: 40px;
     font-weight: normal;
-    background-color: #f7f8fe !important;
+    background-color: #f2f2f2 !important;
 }
-
+.downloadpop{
+    padding: 10px!important;
+    min-width: 50px;
+}
+.downloadbtn{padding: 0 10px!important;    height: 28px!important;
+    line-height: 28px!important;}
 .el-table td {
     font-size: 14px;
     height: 40px;
@@ -32,6 +37,17 @@
 
 .el-button--mini {
     font-size: 14px;
+}
+.el-table__row{
+   .el-button--primary{
+    padding: 2px 5px 2px 3px !important;
+}
+.el-button--mini {
+        font-size: 12px;
+    }
+    .tablesvgicon {
+        vertical-align: -0.23em !important;
+    }
 }
 
 .el-table--medium th,
@@ -345,7 +361,7 @@
 }
 
 .cell .el-button+.el-button {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .form-smtitle {
@@ -756,7 +772,7 @@
 }
 
 .floatright {
-    float: right;
+    float: right;margin: 10px 0;
 }
 
 .el-dialog__header {
@@ -1026,6 +1042,7 @@
 .tb-smtitle {
     padding: 15px 0;
     margin: 0;
+    display: inline-block;
 }
 
 .smchartbox {
@@ -1047,7 +1064,7 @@
 }
 
 .el-table__fixed-right-patch {
-    background: #f7f8fe!important;
+    background: #f2f2f2!important;
 }
 
 //  .el-button [class*="el-icon-"] + span {

@@ -1040,6 +1040,7 @@
 .tb-smtitle {
   padding: 15px 0;
   margin: 0;
+  display: inline-block;
 }
 
 .smchartbox {

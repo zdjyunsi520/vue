@@ -33,13 +33,13 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleSet(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleSet(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>设置班次
             </el-button>
-            <el-button size="mini" type="text" @click="handleUpdate(scope.row)">
+            <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
             </el-button>
-            <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+            <el-button type="primary" plain size="mini" @click="handleDelete(scope.row)">
               <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
             </el-button>
           </template>

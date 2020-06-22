@@ -13,7 +13,7 @@
       <temperature ref="component6" />
       <clock ref="component5" />
     </div>
-   
+
   </common-tree>
 
 </template>
