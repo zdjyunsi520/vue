@@ -334,8 +334,7 @@ export default {
         GainPieChart,
         // PieChart,
         MapChart,
-        LineChart,
-        waringTop: null
+        LineChart
     },
 
     data() {
@@ -365,7 +364,9 @@ export default {
             sysElectricLoad: {},
             operationCurve: {},
             waringlist: [],
-            scale: 1
+            scale: 1,
+            timeout: true,
+            waringTop: null
         };
     },
     mounted() {
@@ -383,11 +384,14 @@ export default {
         this.getScreenSystem();
         this.getScreenElectricLoad();
         this.getOperationCurve();
-        setTimeout(this.getWarning, 10000);
+        this.getWarnings();
         this.dragControllerDiv();
         this.circleCanves();
         this.renderLoop();
         // this.getScreenSystem();
+    },
+    destroyed() {
+        this.timeout = false;
     },
     created() {},
     methods: {
@@ -617,6 +621,7 @@ export default {
                     this.waringlist = [];
                 }
             });
+            if (this.timeout) setTimeout(this.getWarnings, 10000);
         }
     }
 };
