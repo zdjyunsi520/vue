@@ -45,14 +45,14 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' show-summary :summary-method="getSummaries" @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="抢修人员" fixed="left" min-width="150" prop="Name"></el-table-column>
+        <el-table-column label="抢修单位" fixed="left" min-width="150" prop="Name"></el-table-column>
 
         <el-table-column label="完成" prop="Complete" />
         <el-table-column label="未完成" prop="InComplete" />
@@ -89,6 +89,7 @@ export default {
       startdate: "",
       enddate: "",
       dataList: null,
+      xsdataList: null,
       total: 0,
       rules: {},
       TenantIds: [],
@@ -110,7 +111,7 @@ export default {
       props: ["Total", "Complete", "InComplete"],
       props1: ["CompleteUser", "InCompleteUser", "TotalUser"],
       props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
-
+      propTotal: ["Complete", "InComplete", "Total"],
       chartData: {},
       chartDataInit: {
         series: [
@@ -141,13 +142,23 @@ export default {
     this.getList();
     this.getTenants();
   },
+  mounted() {
+    // let self = this;
+    // let table = document.querySelector(".el-table__footer-wrapper>table");
+    // this.$nextTick(() => {
+    //   table.rows[0].onclick = function() {
+    //     self.handleRowInfo(table.rows[0]);
+    //   };
+    // });
+  },
   methods: {
-    handleClick(tab, event) {
-      this.resetQuery("queryForm");
-      this.patrolYear = "";
-      this.startdate = "";
-      this.enddate = "";
-      this.getList();
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
     },
 
     /** 搜索按钮操作 */
@@ -198,15 +209,18 @@ export default {
             return;
           }
 
-          this.dataList = res.data;
+          this.xsdataList = res.data;
+          this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];
-
           this.chartData.series[0].data = this.props1.map(v => arr[v]);
           this.chartData.series[1].data = this.props2.map(v => arr[v]);
-
           this.chartData.xAxisData = this.columns;
           this.chartData.title = arr.Name + "-抢修完成类型统计图";
+
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(r => {
           this.listLoading = false;
@@ -214,6 +228,7 @@ export default {
     },
     // 点击行
     handleRowInfo(arr) {
+      console.log(arr);
       this.chartData.series[0].data = this.props.map(v => arr[v]);
       this.chartData.title = arr.Name + "-抢修完成类型统计图";
     },

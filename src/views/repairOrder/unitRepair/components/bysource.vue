@@ -46,14 +46,14 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border show-summary :summary-method="getSummaries">
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" style='width:130px' />
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="抢修人员" fixed="left" min-width="200" prop="Name"></el-table-column>
+        <el-table-column label="抢修单位" fixed="left" min-width="200" prop="Name"></el-table-column>
         <el-table-column align="center" label="用户报修">
           <el-table-column align="center" prop="UserFatal" label="紧急"></el-table-column>
           <el-table-column align="center" prop="UserEmergency" label="重要"></el-table-column>
@@ -99,6 +99,7 @@ export default {
       startdate: "",
       enddate: "",
       dataList: null,
+      xsdataList: null,
       total: 0,
       rules: {},
       TenantIds: [],
@@ -119,6 +120,17 @@ export default {
       columns: ["紧急", "重要", "一般"],
       props: ["UserFatal", "UserEmergency", "UserNormal"],
       props1: ["AssetsFatal", "AssetsEmergency", "AssetsNormal"],
+      propTotal: [
+        "UserFatal",
+        "UserEmergency",
+        "UserNormal",
+        "UserTotal",
+        "AssetsFatal",
+        "AssetsEmergency",
+        "AssetsNormal",
+        "AssetsTotal",
+        "Total"
+      ],
       chartData: {},
       chartDataInit: {
         series: [
@@ -150,6 +162,15 @@ export default {
     this.getTenants();
   },
   methods: {
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
@@ -198,7 +219,8 @@ export default {
             return;
           }
 
-          this.dataList = res.data;
+          this.xsdataList = res.data;
+          this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];
 
@@ -206,6 +228,9 @@ export default {
           this.chartData.series[1].data = this.props1.map(v => arr[v]);
           this.chartData.xAxisData = this.columns;
           this.chartData.title = arr.Name + "-抢修业务类型统计图";
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(r => {
           this.listLoading = false;
