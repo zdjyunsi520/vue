@@ -58,7 +58,7 @@
         </el-popover>
       </div>
 
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table'  show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class='smimg' />
@@ -98,6 +98,8 @@ export default {
       patrolMonth: "",
       downloadLoading: false,
       dataList: null,
+      xsdataList: null,
+      totalrow:{},
       total: 0,
       rules: {},
       TenantIds: [],
@@ -163,6 +165,29 @@ export default {
         "Eliminated",
         "RateEliminated"
       ],
+       propTotal:[],
+      propTotal1: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      propTotal2: ["Normal", "Emergency", "Fatal"],
+      propTotal3: [
+        "TotalEliminated",
+        "NotEliminated",
+        "Eliminated",
+        "RateEliminated"
+      ],
+
       chartData: {}
     };
   },
@@ -172,7 +197,26 @@ export default {
     this.getTenants();
   },
 
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
+    
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
       this.patrolYear = "";
@@ -265,6 +309,7 @@ export default {
           fn = bugReportByYear;
           this.columns = this.columns1.slice(0);
           this.props = this.prop1.slice(0);
+          this.propTotal = this.propTotal1.slice(0);
           smtitle = "-年度统计图";
           break;
         case "1":
@@ -273,6 +318,7 @@ export default {
           this.columns = this.columns2.slice(0);
           this.columns.push("总计");
           this.props = this.prop2.slice(0);
+          this.propTotal = this.propTotal2.slice(0);
           this.props.push("Total");
           smtitle = "-缺陷等级统计图";
           break;
@@ -281,6 +327,7 @@ export default {
           fn = bugReportByRate;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
+          this.propTotal = this.propTotal3.slice(0);
           smtitle = "-消缺率统计图";
           break;
         default:
@@ -294,14 +341,19 @@ export default {
                 this.dataList = [];
                 return;
               }
-              this.dataList = res.data;
+              this.xsdataList = res.data;
+              this.totalrow = this.xsdataList[this.xsdataList.length-1];
+              this.dataList = res.data.slice(0, res.data.length - 1);
               break;
             case "1":
               if (!res.data.TenantList || res.data.TenantList.length == 0) {
                 this.dataList = [];
                 return;
               } else {
-                this.dataList = res.data.TenantList;
+                // this.dataList = res.data.TenantList;
+              this.xsdataList = res.data.TenantList;
+              this.totalrow = this.xsdataList[this.xsdataList.length-1];
+              this.dataList = res.data.TenantList.slice(0, res.data.TenantList.length - 1);
               }
               this.dataList.map(v => {
                 v.Total = v.Emergency + v.Fatal + v.Normal;
@@ -313,7 +365,10 @@ export default {
                 this.dataList = [];
                 return;
               } else {
-                this.dataList = res.data.RankList;
+                // this.dataList = res.data.RankList;
+                this.xsdataList = res.data.RankList;
+                this.totalrow = this.xsdataList[this.xsdataList.length-1];
+                this.dataList = res.data.RankList.slice(0, res.data.RankList.length - 1);
               }
               this.dataList.map(v => {
                 v.TotalEliminated = v.Eliminated + v.NotEliminated;

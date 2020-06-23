@@ -62,7 +62,7 @@
         </el-popover>
       </div>
 
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table'  show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />
@@ -114,6 +114,7 @@ export default {
       nowDoc: {},
       tableHeight: "calc(100% - 110px)",
       listLoading: true,
+      xsdataList: [],
       ptrolnatures: [
         { name: "定期巡视", id: "1" },
         { name: "临时巡视", id: "2" }
@@ -156,6 +157,24 @@ export default {
       ],
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
+      totalrow:{},
+      propTotal:[],
+      propTotal1: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      propTotal2: ["TotalCount", "TemporaryCount", "RegularCount"],
+      propTotal3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
       chartData: {}
     };
   },
@@ -165,7 +184,27 @@ export default {
     this.getTenants();
   },
 
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
+    
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
+
     handleClick(tab, event) {
       this.resetQuery();
       this.patrolYear = "";
@@ -248,6 +287,7 @@ export default {
           fn = userReportByYear;
           this.columns = this.columns1.slice(0);
           this.props = this.prop1.slice(0);
+          this.propTotal = this.propTotal1.slice(0);
           smtitle = "-年度统计图";
           break;
         case "1":
@@ -255,6 +295,7 @@ export default {
           fn = userReportByNature;
           this.columns = this.columns2.slice(0);
           this.props = this.prop2.slice(0);
+          this.propTotal = this.propTotal2.slice(0);
           smtitle = "-巡视性质统计图";
           break;
         case "2":
@@ -262,6 +303,7 @@ export default {
           fn = userReportByExecute;
           this.columns = this.columns3.slice(0);
           this.props = this.prop3.slice(0);
+          this.propTotal = this.propTotal3.slice(0);
           smtitle = "-完成情况统计图";
           break;
         default:
@@ -273,7 +315,10 @@ export default {
             this.dataList = [];
             return;
           }
-          this.dataList = res.data;
+           this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.dataList = res.data.slice(0, res.data.length - 1);
+
           this.total = res.total;
           let arr = [];
           if (!row) {

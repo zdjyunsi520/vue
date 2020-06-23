@@ -117,6 +117,7 @@ export default {
         { name: "未完成", id: "1" },
         { name: "已完成", id: "4" }
       ],
+      totalrow:{},
       columns: ["紧急", "重要", "一般"],
       props: ["UserFatal", "UserEmergency", "UserNormal"],
       props1: ["AssetsFatal", "AssetsEmergency", "AssetsNormal"],
@@ -161,6 +162,16 @@ export default {
     this.getList();
     this.getTenants();
   },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
     getSummaries() {
       let data;
@@ -220,6 +231,7 @@ export default {
           }
 
           this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];

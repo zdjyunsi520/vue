@@ -170,6 +170,7 @@ export default {
       ],
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
+      totalrow:{},
       chartDataInit: {
         series: [
           {
@@ -200,6 +201,17 @@ export default {
     this.getTenants();
     this.getList();
   },
+  
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
     //:summary-method="getSummaries" show-summary dataTable加俩属性
     // data 加一个propTotal数组
@@ -209,6 +221,7 @@ export default {
         //获取统计的data数据
         data = this.xsdataList[this.xsdataList.length - 1];
       }
+      console.log(333,data)
       //this.propTotal统计的数据对应的属性
       if (data) return ["总计", ...this.propTotal.map(v => data[v])];
       else return ["总计", ...this.propTotal.map(v => 0)];
@@ -239,7 +252,9 @@ export default {
             return;
           }
           this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
           this.dataList = res.data.slice(0, res.data.length - 1);
+
           let row = res.data[res.data.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);

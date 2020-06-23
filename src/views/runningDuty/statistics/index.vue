@@ -41,14 +41,14 @@
           <span v-if="activeName=='1'">人员统计</span>
           <span v-if="activeName=='2'">值班统计</span>
         </p>
-        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+        <el-popover placement="bottom-end"   @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
           <el-button slot="reference" class="downloadbtn">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>
       </div>
 
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" class="middletable" :row-class-name='totalstyle' @row-click='handleRowInfo'>
+      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" class="middletable" show-summary :summary-method="getSummaries"  ref='table' :row-class-name='totalstyle' @row-click='handleRowInfo'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />
@@ -85,6 +85,8 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
+      xsdataList: null,
+      totalrow:{},
       rules: {},
       // 搜索参数
       queryParams: {
@@ -126,7 +128,21 @@ export default {
         "Oct",
         "Nov",
         "Dec"
-      ]
+      ],
+       propTotal: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
     };
   },
 
@@ -138,7 +154,25 @@ export default {
       companyType: "status/companyType"
     })
   },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
       this.patrolYear = "";
@@ -153,7 +187,11 @@ export default {
       this.listLoading = true;
       getDutyScheduleReport(this.queryParams)
         .then(response => {
-          this.dataList = response.data;
+
+          this.xsdataList = response.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.dataList = response.data.slice(0, response.data.length - 1);
+
           this.total = response.total;
           let arr = [];
           if (!row) {
@@ -167,6 +205,7 @@ export default {
 
           this.$nextTick(() => {
             this.$refs.chart.initChart();
+            this.$refs.table.doLayout();
           });
         })
         .finally(r => {

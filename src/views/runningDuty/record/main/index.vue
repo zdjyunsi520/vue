@@ -141,8 +141,14 @@ export default {
         };
         return {
             rules,
-            form: {},
-            form1: {},
+            form: {
+                PositionName:'',
+                UserName:''
+            },
+            form1: {
+                PositionName:'',
+                UserName:''
+                },
             startTime: "",
             endTime: "",
             StartTime: "",

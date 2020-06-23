@@ -49,7 +49,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :show-summary='false' :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" show-summary :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -94,7 +94,8 @@ export default {
       patrolYear: "",
       timeBegin: "",
       timeEnd: "",
-      dataList: null,
+      dataList: [],
+      xsdataList: [],
       total: 0,
       rules: {},
       TenantIds: [],
@@ -155,8 +156,23 @@ export default {
         "NovAssets",
         "DecAssets"
       ],
+      propTotal: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
+      totalrow:{},
       chartDataInit: {
         series: [
           {
@@ -187,7 +203,30 @@ export default {
     this.getTenants();
     this.getList();
   },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+
   methods: {
+    //:summary-method="getSummaries" show-summary dataTable加俩属性
+    // data 加一个propTotal数组
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        //获取统计的data数据
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      //this.propTotal统计的数据对应的属性
+      console.log(222,data)
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
@@ -234,18 +273,19 @@ export default {
             this.dataList = [];
             return;
           }
-          this.dataList = res.data;
-          // var parms = {
-          //   columns:['总计',...this.columns],
-          //   data:this.dataList.slice(-1);
-          // };
-          // this.getSummaries(parms);
+          this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.dataList = res.data.slice(0, res.data.length - 1);
+        
           let row = res.data[res.data.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);
           this.chartData.title = row.Name + "-抢修年度统计图";
           this.chartData.xAxisData = this.columns;
-          this.total = res.total;
+          this.total = res.total;  
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(r => {
           this.listLoading = false;
@@ -262,33 +302,7 @@ export default {
       }
       return "";
     },
-    getSummaries(param) {
-      const { columns, data } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总计";
-          return;
-        }
-        const values = data.map(item => Number(item));
-        sums[index] = values;
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr);
-            if (!isNaN(value)) {
-              return prev + curr;
-            } else {
-              return prev;
-            }
-          }, 0);
-          sums[index] += " 元";
-        } else {
-          sums[index] = "N/A";
-        }
-      });
-
-      return sums;
-    },
+   
 
     // 导出
     handleExport() {

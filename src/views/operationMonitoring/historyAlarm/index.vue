@@ -92,7 +92,7 @@ export default {
       // 用户表格数据
       dataList: null,
       rules: {},
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 110px)",
       TenantIds: [],
       downloadLoading: false,
       dialogAssetsVisible: false,

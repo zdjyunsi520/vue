@@ -20,11 +20,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-            <el-button slot="reference" class="downloadbtn">
-              <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
-            </el-button>
-          </el-popover>
+         
         </el-form-item>
         <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
                       <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
@@ -32,6 +28,14 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
+      
+      <div>
+        <el-popover placement="bottom-end"  @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn">
+            <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
+          </el-button>
+        </el-popover>
+      </div>
       <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" style='margin-top:20px'>
 
         <template slot="empty">
@@ -75,7 +79,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: null,
-      tableHeight: "calc(100% - 80px)",
+      tableHeight: "calc(100% - 110px)",
       rules: {},
       // 搜索参数
       queryParams: {

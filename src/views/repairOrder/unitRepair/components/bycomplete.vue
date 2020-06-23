@@ -113,6 +113,7 @@ export default {
       props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
       propTotal: ["Complete", "InComplete", "Total"],
       chartData: {},
+      totalrow:{},
       chartDataInit: {
         series: [
           {
@@ -133,7 +134,7 @@ export default {
           }
         ],
         xAxisData: this.columns,
-        title: "总计-抢修完成类型统计图"
+        title: "总计-抢修完成类型统计图",
       }
     };
   },
@@ -143,13 +144,13 @@ export default {
     this.getTenants();
   },
   mounted() {
-    // let self = this;
-    // let table = document.querySelector(".el-table__footer-wrapper>table");
-    // this.$nextTick(() => {
-    //   table.rows[0].onclick = function() {
-    //     self.handleRowInfo(table.rows[0]);
-    //   };
-    // });
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
   },
   methods: {
     getSummaries() {
@@ -210,6 +211,7 @@ export default {
           }
 
           this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];

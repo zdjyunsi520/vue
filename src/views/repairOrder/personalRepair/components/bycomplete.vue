@@ -45,7 +45,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' show-summary :summary-method="getSummaries"  :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" />
@@ -110,8 +110,11 @@ export default {
       props: ["Total", "Complete", "InComplete"],
       props1: ["CompleteUser", "InCompleteUser", "TotalUser"],
       props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
+      propTotal: ["Complete", "InComplete", "Total"],
 
+      xsdataList: null,
       chartData: {},
+      totalrow:{},
       chartDataInit: {
         series: [
           {
@@ -141,7 +144,24 @@ export default {
     this.getList();
     this.getTenants();
   },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
   methods: {
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
       this.patrolYear = "";
@@ -198,7 +218,9 @@ export default {
             return;
           }
 
-          this.dataList = res.data;
+          this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];
 
@@ -207,6 +229,9 @@ export default {
 
           this.chartData.xAxisData = this.columns;
           this.chartData.title = arr.Name + "-抢修完成类型统计图";
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(r => {
           this.listLoading = false;
