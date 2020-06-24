@@ -265,12 +265,18 @@
                                         <div class="form-smtitle ">
                                             用电类型统计(户)
                                         </div>
-                                        <el-row :gutter="20" class="legendbox">
-                                            <el-col :span="8" v-for="(item,index) in electricTypeStatistic" :key="index">
-                                                <p>{{item.Text}}<span>{{item.Count}}</span></p>
-                                            </el-col>
-                                        </el-row>
-                                        <BarChart ref="typeChart" :barchartData='typeChartData' />
+                                        <div v-if='!nodatabox'>
+                                            <el-row :gutter="20" class="legendbox">
+                                                <el-col :span="8" v-for="(item,index) in electricTypeStatistic" :key="index">
+                                                    <p>{{item.Text}}<span>{{item.Count}}</span></p>
+                                                </el-col>
+                                            </el-row>
+                                            <BarChart ref="typeChart" :barchartData='typeChartData' />
+                                        </div>
+                                        <div class="nodata-box" v-else style='height:350px;padding: 100px 0;'>
+                                                <img src="@/assets/image/nodata.png" class='smimg' />
+                                                <p>暂时还没有数据</p>
+                                        </div>
                                     </div>
                                 </el-col>
                             </el-row>
@@ -462,7 +468,8 @@ export default {
                 MonthCurve: {}
             },
             electricTypeStatistic: {},
-            warningTypeSituation: []
+            warningTypeSituation: [],
+            nodatabox:false,
         };
     },
     mounted() {
@@ -488,11 +495,16 @@ export default {
             getSysBaseInfo({ tenantId }).then(r => {
                 this.dataInfo = r.data;
                 this.electricTypeStatistic = this.dataInfo.ElectricTypeStatistic;
-                this.typeChartData.xAxisData = [];
-                this.electricTypeStatistic.map((v, i) => {
-                    this.typeChartData.xAxisData.push(v.Text);
-                    this.typeChartData.listData[i].value = v.Count;
-                });
+                if(this.electricTypeStatistic.length>0){
+
+                    this.typeChartData.xAxisData = [];
+                    this.electricTypeStatistic.map((v, i) => {
+                        this.typeChartData.xAxisData.push(v.Text);
+                        this.typeChartData.listData[i].value = v.Count;
+                    });
+                }else{
+                    this.nodatabox=true;
+                }
 
                 this.warningTypeSituation = this.dataInfo.WarningTypeSituation;
                 this.alarmchartData.xAxisData = [];
@@ -504,6 +516,9 @@ export default {
                         name: v.Text
                     });
                 });
+                this.$nextTick(() => {
+                    this.$refs.alarmchartChart.initChart();
+                });
 
                 this.collectionPieChartData.listData[0].value = this.dataInfo.CollectSituation.OnlineRate;
                 this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
@@ -511,7 +526,6 @@ export default {
 
                 this.$nextTick(() => {
                     this.$refs.typeChart.initChart();
-                    this.$refs.alarmchartChart.initChart();
                 });
             });
         },

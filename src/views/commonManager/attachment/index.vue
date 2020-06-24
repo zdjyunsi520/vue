@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="名称/代码" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="MultiWord" >
+          <el-input v-model="queryParams.MultiWord" placeholder="名称/代码" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <!-- <el-form-item label="名称：" prop="name">
@@ -85,8 +85,9 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        name: "",
-        key: ""
+        MultiWord:'',
+        // name: "",
+        // key: ""
       }
     };
   },

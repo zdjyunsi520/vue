@@ -28,11 +28,11 @@
                     <el-input v-model="infoData.Name" disabled></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="24">
+                <!-- <el-col :span="24">
                   <el-form-item label="运行状态">
                     <el-input v-model="infoData.IsEnable" disabled></el-input>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="24">
                   <el-form-item label="联系人">
                     <el-input v-model="infoData.ContactPerson" disabled></el-input>

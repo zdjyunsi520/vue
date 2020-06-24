@@ -22,8 +22,8 @@
             <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
           </el-select>
         </el-form-item>
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="巡视人/记录人/巡视内容/巡视情况" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="keyword" label-width="61px">
+          <el-input v-model="queryParams.keyword" placeholder="巡视人/记录人/巡视内容/巡视情况" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <!-- <el-form-item label="巡视人：" prop="patrolname">
@@ -45,6 +45,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -112,6 +113,7 @@ export default {
         starttime: "",
         endtime: "",
         patrolname: "",
+        keyword:"",
         recordname: ""
       },
       teamList: []

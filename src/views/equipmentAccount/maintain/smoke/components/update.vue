@@ -99,9 +99,9 @@ export default {
       ],
       SerialCode: [
         {
-          pattern: /^[A-Za-z0-9]{1,18}$/,
+          pattern: /^[A-Za-z0-9]{1,42}$/,
           required: true,
-          message: "请输入18位以内的数字或字母",
+          message: "请输入42位以内的数字或字母",
           trigger: "blur"
         }
       ],

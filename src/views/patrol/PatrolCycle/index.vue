@@ -2,19 +2,19 @@
   <div class="app-container">
     <div class="search-box xl-querybox">
       <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="巡视人员/巡视周期(天)" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        <!-- <el-form-item label="关键词：" prop="MultiWord" label-width="61px">
+          <el-input v-model="queryParams.MultiWord" placeholder="巡视人员/巡视周期(天)" clearable @keyup.enter.native="handleQuery" />
+        </el-form-item> -->
 
         <el-form-item label="巡视单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="巡视人员：" prop="patrolusername">
+         <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
-        <el-form-item label="巡视周期(天)：" prop="cycleday" label-width="110px">
+        <!--<el-form-item label="巡视周期(天)：" prop="cycleday" label-width="110px">
           <el-input v-model="queryParams.cycleday" clearable></el-input>
         </el-form-item> -->
         <el-form-item>
@@ -93,6 +93,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
+        MultiWord:'',
         tenantId: "",
         patrolusername: "",
         cycleday: ""

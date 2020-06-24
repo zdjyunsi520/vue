@@ -17,8 +17,8 @@
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in recordType" />
           </el-select>
         </el-form-item>
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="联系人/记事内容" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="keyword" label-width="61px">
+          <el-input v-model="queryParams.keyword" placeholder="联系人/记事内容" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item label="联系人：" prop="contactperson">
           <el-input v-model="queryParams.contactperson" placeholder="" clearable @keyup.enter.native="handleQuery" />
@@ -33,6 +33,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
         <el-form-item>
         </el-form-item>
@@ -96,6 +97,7 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
+        keyword:"",
         contactperson: "",
         recordcontent: "",
         starttime: "",

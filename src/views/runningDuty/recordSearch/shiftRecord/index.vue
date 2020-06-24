@@ -22,16 +22,16 @@
             <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
           </el-select>
         </el-form-item>
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="交班人/接班人/记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="keyword" label-width="61px">
+          <el-input v-model="queryParams.keyword" placeholder="记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <!-- <el-form-item label="交班人：" prop="jiaoban">
-                    <el-input v-model="queryParams.jiaoban" placeholder="" clearable @keyup.enter.native="handleQuery" />
+         <!--  <el-form-item label="交班人：" prop="jiaoban">
+                    <el-input v-model="queryParams.jiaoban" placeholder="请输入交班人" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="接班人：" prop="jieban">
-                    <el-input v-model="queryParams.jieban" placeholder="" clearable @keyup.enter.native="handleQuery" />
+                    <el-input v-model="queryParams.jieban" placeholder="请输入交班人" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="记事内容：" prop="recordcontent">
+              <el-form-item label="记事内容：" prop="recordcontent">
                     <el-input v-model="queryParams.recordcontent" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="注意事项：" prop="caution">
@@ -43,6 +43,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -104,6 +105,7 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
+        keyword:"",
         TeamId: "",
         caution: "",
         recordcontent: "",

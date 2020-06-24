@@ -64,7 +64,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.piechartData.listData.length > 0) {
+      if (this.piechartData.xAxisData.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.piechartData);
       }

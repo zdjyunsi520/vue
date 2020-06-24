@@ -296,6 +296,8 @@ export default {
     getList(activeName, row) {
       this.listLoading = true;
       const data = {
+        pageno: 1,
+        pagesize: 30,
         tenantId: this.queryParams.tenantId,
         patroltimebegin: this.getBeginTime(),
         patroltimeend: this.getEndTime()

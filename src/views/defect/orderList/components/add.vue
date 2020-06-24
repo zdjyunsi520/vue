@@ -54,7 +54,7 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="附件" prop="AttachmentKey">
+            <el-form-item label="附件" prop="AttachmentKey" class='xswidth'>
               <el-upload :disabled="disabled" :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
@@ -74,6 +74,8 @@
               <el-input v-model="form.ReportTenantName" disabled />
             </el-form-item>
 
+          </el-row>
+          <el-row>
             <el-form-item label="填报人" prop="Reporter">
               <el-input v-model="form.Reporter" disabled />
             </el-form-item>
@@ -528,4 +530,14 @@ export default {
   display: inline-block;
   vertical-align: text-top;
 }
+.xswidth{
+  width:800px !important;
+}
+
+ @media screen and (max-width:768px) {
+.xswidth{
+  width:auto !important;
+}
+
+ }
 </style>

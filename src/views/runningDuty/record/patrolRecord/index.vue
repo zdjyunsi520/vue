@@ -22,8 +22,8 @@
             <el-option :key="item.Id" :label="item.PositionName" :value="item.PositionId" v-for="item in userPositions" />
           </el-select>
         </el-form-item>
-        <el-form-item label="关键词：" prop="name" label-width="61px">
-          <el-input v-model="queryParams.name" placeholder="巡视内容/巡视情况" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="keyword" label-width="61px">
+          <el-input v-model="queryParams.keyword" placeholder="巡视内容/巡视情况" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <!-- <el-form-item label="巡视内容：" prop="recordcontent">
@@ -39,6 +39,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -118,6 +119,7 @@ export default {
         situation: "",
         teamId: "",
         shiftId: "",
+        keyword:'',
         recordcontent: "",
         starttime: "",
         endtime: ""

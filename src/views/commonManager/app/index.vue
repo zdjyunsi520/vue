@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="versionname">
-          <el-input v-model="queryParams.versionname" placeholder="应用名称/版本号" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="multiword">
+          <el-input v-model="queryParams.multiword" placeholder="应用名称/版本号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <!-- <el-form-item label="应用名称：" prop="versionname">
@@ -43,7 +43,8 @@
         <el-table-column label="是否强制更新" width="130" prop="ForcedUpdate" :formatter="filterCancel" />
         <el-table-column label="APK文件" min-width="200" prop="FileUrl">
           <template slot-scope="{row}">
-            <a :href="row.FileUrl" download target="_blank" style="color:#418bff">{{row.VersionName}}</a>
+            <el-link type="primary" :href="'http://admint.xtioe.com'+row.FileUrl">{{row.VersionName}}</el-link>
+            <!-- <el-link type="primary" :href="'http://admint.xtioe.com'+row.FileUrl.substring(0, row.FileUrl.indexOf('?'))">{{row.VersionName}}</el-link> -->
           </template>
         </el-table-column>
         <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
@@ -95,6 +96,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
+        multiword:"",
         versioncode: "",
         versionname: ""
       }

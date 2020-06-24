@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="username" label-width="68px">
-          <el-input v-model="queryParams.username" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
+        <el-form-item label="关键词：" prop="multiword" >
+          <el-input v-model="queryParams.multiword" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item label="用户名：" prop="username">
           <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable @keyup.enter.native="handleQuery" />
@@ -17,11 +17,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
-                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
-      </el-form>
+        </el-form-item></el-form>
     </div>
     <div class="bg-white containerbox comheight" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
@@ -109,6 +105,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
+        multiword:'',
         username: "",
         name: "",
         mobilephone: "",
