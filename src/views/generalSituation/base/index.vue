@@ -254,7 +254,7 @@
                                                 <p>上月<span>{{electricSituation.LastMonthAddUp}}</span></p>
                                             </el-col>
                                             <el-col :span="8">
-                                                <p>累计年<span>{{electricSituation.YearAddUp}}</span></p>
+                                                <p>累计(年)<span>{{electricSituation.YearAddUp}}</span></p>
                                             </el-col>
                                         </el-row>
                                         <BarChart ref='structureBarChart' :barchartData='structureChartData' />
@@ -502,6 +502,9 @@ export default {
                         this.typeChartData.xAxisData.push(v.Text);
                         this.typeChartData.listData[i].value = v.Count;
                     });
+                    this.$nextTick(() => {
+                        this.$refs.typeChart.initChart();
+                    });
                 }else{
                     this.nodatabox=true;
                 }
@@ -524,9 +527,6 @@ export default {
                 this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
                 this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
 
-                this.$nextTick(() => {
-                    this.$refs.typeChart.initChart();
-                });
             });
         },
         getSysElectricLoad(tenantId) {

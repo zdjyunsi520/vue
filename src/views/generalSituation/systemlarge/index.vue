@@ -193,30 +193,7 @@
                             </el-carousel-item>
                         </el-carousel>
                     </div>
-                    <!-- <div class="warnlistinfo">
-                        <div v-for='(item,index) in waringlist' :key='index'>
-                            <div>
-                                <span class="smicon">
-                                    <img v-if='index==0' src="@/assets/image/ic_notice.png" />
-                                    <img v-else src="@/assets/image/ic_tips.png" />
-                                </span>
-                                <div>
-                                    <el-col :span="7">
-                                        {{item.TenantName}}
-                                    </el-col>
-                                    <el-col :span="5">
-                                        {{item.AssetsName}}
-                                    </el-col>
-                                    <el-col :span="6">
-                                        {{item.Description}}
-                                    </el-col>
-                                    <el-col :span="6">
-                                        {{item.Time}}
-                                    </el-col>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                    
                 </el-row>
             </el-col>
             <el-col :span='7' :xs='24'>

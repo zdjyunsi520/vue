@@ -774,6 +774,12 @@
 .floatright {
     float: right;margin: 10px 0;
 }
+.tabpopover {
+    max-width: 500px;
+    p{
+        margin:0
+    }
+  }
 
 .el-dialog__header {
     background-color: #f7f8fe;

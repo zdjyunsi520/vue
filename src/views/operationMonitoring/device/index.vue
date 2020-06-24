@@ -270,10 +270,14 @@ export default {
 <style lang="scss" >
 .datainfo1 {
   padding: 20px;
+  .el-row{
+    margin-bottom:-15px;
+  }
 }
 .smbsdatabox {
   & > div {
     border: solid 1px #f1f1f1;
+    margin-bottom:15px;
   }
   .tophead {
     margin: -1px;

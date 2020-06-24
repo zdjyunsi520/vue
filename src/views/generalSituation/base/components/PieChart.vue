@@ -112,7 +112,7 @@ export default {
                     fontSize: 14,
                     formatter: params => {
                       return (
-                        "{value| " + params.value + "%} \n{name|" + text + "}"
+                        "{value| " + params.value.toFixed(1) + "%} \n{name|" + text + "}"
                       );
                     },
                     rich: {
@@ -124,6 +124,7 @@ export default {
                       },
                       value: {
                         fontSize: 24,
+                        padding: [0, 0, 10, 0],
                         fontWeight: "bold",
                         color: colors[0]
                       }

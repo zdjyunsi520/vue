@@ -80,7 +80,7 @@
               <!-- <el-button type="text" size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button> -->
-              <el-button type="text" size="mini" @click="handleDelete(scope.row)">
+              <el-button type="primary" plain size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>

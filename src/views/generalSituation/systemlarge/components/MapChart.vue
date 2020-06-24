@@ -161,16 +161,17 @@ export default {
             },
 
             tooltip: {
-              show: true
+              show: false
             },
             label: {
               normal: {
-                show: false,
+                show: true,
                 position: "right", //显示位置
                 offset: [5, 0], //偏移设置
                 formatter: function(params) {
+                  
                   //圆环显示文字
-                  return params.data.name;
+                  return params.data.value[2]==0?"":params.data.name;
                 },
                 fontSize: 13
               },

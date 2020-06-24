@@ -49,7 +49,17 @@
         <el-table-column label="受理时间" width="180" prop="ReceiveTime" />
         <el-table-column label="状态" width="100" sortable prop="Status" :formatter="formatterStatus" />
         <el-table-column label="故障地址" min-width="220" prop="Address"></el-table-column>
-        <el-table-column label="故障现象" min-width="250" prop="Situation"></el-table-column>
+        <el-table-column label="故障现象" min-width="250" prop="Situation">
+           <template slot-scope="scope">
+            <el-popover trigger="hover" placement="bottom" effect="light"  popper-class='tabpopover' v-if="scope.row.Situation&&scope.row.Situation.length>30">
+              <p>{{ scope.row.Situation}}</p>
+              <div slot="reference" class="name-wrapper">
+                {{scope.row.Situation.substring(0,30)+'...'}}
+              </div>
+            </el-popover>
+            <div v-else>{{scope.row.Situation }}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" fixed="right" width="230">
           <template slot-scope="{row}">
             <div>

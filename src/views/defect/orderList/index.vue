@@ -63,7 +63,18 @@
         <el-table-column label="用电单位" sortable min-width="230" prop="TenantName"></el-table-column>
         <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
         <el-table-column label="缺陷等级" sortable width="120" prop="RankName"></el-table-column>
-        <el-table-column label="缺陷现象" min-width="250" prop="Description"></el-table-column>
+        <el-table-column label="缺陷现象" min-width="250" prop="Description">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="bottom" effect="light"  popper-class='tabpopover' v-if="scope.row.Description&&scope.row.Description.length>30">
+              <p>{{ scope.row.Description}}</p>
+              <div slot="reference" class="name-wrapper">
+                {{scope.row.Description.substring(0,30)+'...'}}
+              </div>
+            </el-popover>
+            <div v-else>{{scope.row.Description }}</div>
+          </template>
+
+        </el-table-column>
         <el-table-column label="发现时间" width="120" prop="DetectTime">
           <template slot-scope="scope">
             {{scope.row.DetectTime.substring(0,10)}}

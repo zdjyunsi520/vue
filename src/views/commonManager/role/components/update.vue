@@ -223,7 +223,7 @@ export default {
       this.form.moduleids = this.form.moduleids.join(",");
 
       if (this.form.moduleids.length == 0) {
-        this.$message.error("设置模块权限！");
+        this.$message.error("请设置模块权限！");
         return false;
       }
       this.$refs["form"].validate(valid => {
