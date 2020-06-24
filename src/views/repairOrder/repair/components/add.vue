@@ -229,7 +229,8 @@ export default {
             ChargePersonId: [],
             ReceivePersonId: [],
             form1: {},
-            ReadOnly: false
+            ReadOnly: false,
+            fromUrl: false
         };
     },
     computed: {
@@ -255,8 +256,9 @@ export default {
     created() {
         this.getTenants();
         this.getTenantEmployees();
-        let { data, ReadOnly } = this.$route.params;
+        let { data, ReadOnly, fromUrl } = this.$route.params;
         this.ReadOnly = ReadOnly;
+        this.fromUrl = fromUrl;
         this.form1 = Object.assign(
             {
                 Status: 0
@@ -425,6 +427,7 @@ export default {
             });
 
             this.form.ReceiveTime = new Date();
+            if (!this.form.Id && this.form.SourceTenantId) this.hanldeChange();
         },
         getInfo(data) {
             this.loading = true;
@@ -443,9 +446,12 @@ export default {
                 this.reset(data);
             }
         },
-        handleOpen(data) {
+        handleOpen() {
+            let url = this.fromUrl
+                ? "/operationMonitoring/realtimeAlarm/index"
+                : "/repairOrder/repair/index";
             this.$router.push({
-                name: "/repairOrder/repair/index",
+                name: url,
                 params: {}
             });
         },

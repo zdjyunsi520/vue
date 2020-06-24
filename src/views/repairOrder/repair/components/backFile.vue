@@ -72,7 +72,7 @@ export default {
                 label: "text"
             },
             ranks: [],
-            TenantIds: [],
+
             imageUrl: [],
             dialogImageUrl: "",
             dialogVisible: false,
@@ -88,7 +88,8 @@ export default {
             selectAssets: [],
             activeName: "backFile",
             processpersonId: [],
-            ReadOnly: false
+            ReadOnly: false,
+            fromUrl: false
         };
     },
     computed: {
@@ -99,10 +100,11 @@ export default {
     },
     created() {
         this.getTenantEmployees();
-        let { data, TenantIds, ReadOnly } = this.$route.params;
-        this.form1 = Object.assign({}, data);
-        this.TenantIds = TenantIds;
+        let { data, ReadOnly, fromUrl } = this.$route.params;
         this.ReadOnly = ReadOnly;
+        this.fromUrl = fromUrl;
+        this.form1 = Object.assign({}, data);
+
         this.getInfo(data);
     },
     methods: {
@@ -167,9 +169,12 @@ export default {
                 }
             }
         },
-        handleOpen(data) {
+        handleOpen() {
+            let url = this.fromUrl
+                ? "/operationMonitoring/realtimeAlarm/index"
+                : "/repairOrder/repair/index";
             this.$router.push({
-                name: "/repairOrder/repair/index",
+                name: url,
                 params: {}
             });
         },
