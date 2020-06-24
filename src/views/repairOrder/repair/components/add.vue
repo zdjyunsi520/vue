@@ -156,7 +156,7 @@ export default {
             ],
             Address: [
                 {
-                    pattern: /^.{1,300}$/,
+                    pattern: /^[\s\S]{1,300}$/,
                     required: false,
                     message: "请输入300位以内的内容"
                 }
@@ -188,7 +188,7 @@ export default {
             ],
             Situation: [
                 {
-                    pattern: /^.{1,300}$/,
+                    pattern: /^[\s\S]{1,300}$/,
                     message: "请输入300位以内的内容"
                 }
             ]

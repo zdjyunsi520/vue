@@ -1,7 +1,6 @@
 import { post } from "@/utils/request";
 const commonUrl = "biz";
 
-// 实时监控数据
 export function getInfo(data) {
   return post("/RepairOrderProcess/Get", data, commonUrl);
 }

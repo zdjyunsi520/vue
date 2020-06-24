@@ -81,7 +81,7 @@ export default {
             ],
             ProcessRecord: [
                 {
-                    pattern: /^.{1,300}$/,
+                    pattern: /^[\s\S]{1,300}$/,
                     required: true,
                     message: "请输入300位以内的内容"
                 }

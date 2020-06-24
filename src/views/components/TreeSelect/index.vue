@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(true).map(v => v[this.showText]).join(',')}}</el-button>
+        <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(this.getCheckedNodes).map(v => v[this.showText]).join(',')}}</el-button>
         <el-drawer :wrapperClosable="false" :modal-append-to-body='true' :title="title" direction="rtl" :visible.sync="drawperdialogVisible" :show-close='false' center :size="size">
             <el-scrollbar style="height: 86vh;" class="marginright-fx">
                 <el-tree :default-checked-keys="checkedKeys" ref="tree" :node-key="nodeKey" :default-expand-all="false" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
@@ -57,6 +57,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        getCheckedNodes: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -75,13 +79,27 @@ export default {
     methods: {
         showTree() {
             this.drawperdialogVisible = true;
-            this.oldKey = this.$refs.tree.getCheckedNodes(true).map(v => v);
+            this.oldKey = this.$refs.tree
+                .getCheckedNodes(this.getCheckedNodes)
+                .map(v => v);
         },
         handleCheckChange(node, select) {
             if (!this.mutiple && select) {
                 this.$refs.tree.setCheckedKeys([node.id]);
             }
-            this.$emit("change", this.$refs.tree.getCheckedNodes(true));
+            console.log(
+                this.$refs.tree.getCheckedNodes(
+                    this.getCheckedNodes,
+                    !this.getCheckedNodes
+                )
+            );
+            this.$emit(
+                "change",
+                this.$refs.tree.getCheckedNodes(
+                    this.getCheckedNodes,
+                    !this.getCheckedNodes
+                )
+            );
         },
         handleClose() {
             this.$refs.tree.setCheckedKeys(this.oldKey.map(v => v.id));
@@ -89,7 +107,10 @@ export default {
             this.drawperdialogVisible = false;
         },
         handleConfirm() {
-            this.oldKey = this.$refs.tree.getCheckedNodes(true);
+            this.oldKey = this.$refs.tree.getCheckedNodes(
+                this.getCheckedNodes,
+                !this.getCheckedNodes
+            );
             this.handleClose();
         },
         handleCancel() {
