@@ -3,14 +3,14 @@
   <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
     <el-col :xs="{span: 24}" class="treebox comheight dragleft">
       <div style="background:#fff;height:100%;">
-        <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+        <el-scrollbar ref="elScrollbar" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
           <el-tree :default-expanded-keys="expandKeys" :current-node-key="currentNode[nodeKey]" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="expandAll" :node-key="nodeKey" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </div>
     </el-col>
     <el-col class="dragresize">
       <span class="iconslider">
-        <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+        <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
         <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
       </span>
     </el-col>

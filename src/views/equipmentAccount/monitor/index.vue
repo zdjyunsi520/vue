@@ -9,8 +9,10 @@
         <router-view />
         <div class="bg-white comheight">
           <el-form :inline="true">
-            <el-form-item>
-              <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
+            <el-form-item> 
+              <el-button type="primary"  @click="handleAdd">
+                <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+              </el-button>
               <el-button type="primary" @click="handleUpdate">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>

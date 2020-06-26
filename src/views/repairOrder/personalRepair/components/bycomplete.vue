@@ -45,7 +45,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' show-summary :summary-method="getSummaries"  :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' show-summary :summary-method="getSummaries" :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" />
@@ -114,7 +114,7 @@ export default {
 
       xsdataList: null,
       chartData: {},
-      totalrow:{},
+      totalrow: {},
       chartDataInit: {
         series: [
           {
@@ -219,7 +219,7 @@ export default {
           }
 
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];

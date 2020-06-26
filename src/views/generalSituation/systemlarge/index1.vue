@@ -1,7 +1,7 @@
 
 <template>
     <div class="app-container screenbg mobilewrapper">
-        <el-scrollbar ref="elScrollbar" v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading" class="marginright-fx">
+        <el-scrollbar ref="elScrollbar" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading" class="marginright-fx">
             <el-row class="tophead">
                 <img src="@/assets/image/largescreen/img_title_bj_1.png" class="img_title_bj">
                 <div class="cnt">

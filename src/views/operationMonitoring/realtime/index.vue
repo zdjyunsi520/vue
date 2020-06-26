@@ -3,8 +3,8 @@
     <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding:0 10px;">
-          <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree :data="treeData"   :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' node-key="id" :expand-on-click-node="false">
+          <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading">
+            <el-tree :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' node-key="id" :expand-on-click-node="false">
               <span class="el-tree-node__label" slot-scope="{ node, data }">
                 <svg-icon :icon-class="
                     
@@ -40,7 +40,7 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
           <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
@@ -407,11 +407,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
-.dragbox .dragleft{
-  width:324px;
+.dragbox .dragleft {
+  width: 324px;
 }
-.dragbox .dragright.mxright{
-   width: calc(100% - 334px);
+.dragbox .dragright.mxright {
+  width: calc(100% - 334px);
 }
 
 /deep/.el-tree {

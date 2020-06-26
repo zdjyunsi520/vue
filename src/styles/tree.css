@@ -10,11 +10,11 @@
 /deep/.el-tree .el-tree-node__expand-icon {
     border: 1px solid #dcdfe4;
     width: 14px;
-    line-height: 12px;
+    line-height: 11px;
     height: 14px;
     margin-right: 8px;
-    padding: 0;
     position: relative;
+    padding: 1px;
     text-align: center;
     border-radius: 3px;
     display: block;
@@ -38,6 +38,7 @@
 
 /deep/.el-tree .el-tree-node__expand-icon.expanded {
     transform: rotate(0);
+    padding: 6px;
 }
 
 /deep/.el-tree .el-tree-node__expand-icon.expanded:before {
@@ -179,11 +180,11 @@
     margin-left: -10px;
     padding-right: 20px;
     height: 100%;
-    background: #f0f2f6;
+    background: #dfe6f3;
 }
 
 .dragbox .dragresize:hover {
-    background: #dfe6f3 !important;
+    background: #ced4e1 !important;
 }
 
 .dragbox .dragright {

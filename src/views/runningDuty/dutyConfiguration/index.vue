@@ -34,8 +34,11 @@
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
-      <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增值班</el-button>
+      <el-row class="table-btns"> 
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增值班
+        </el-button>
+
         <el-dropdown @command="handleCommand">
           <el-button type="primary" icon=" el-icon-circle-plus-outline">
             设置<i class="el-icon-arrow-down el-icon--right"></i>
@@ -47,7 +50,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange" @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange" @row-dblclick="dbhandleUpdate">
 
         <template slot="empty">
           <div class="nodata-box">

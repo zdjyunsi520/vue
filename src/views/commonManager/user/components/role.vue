@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box" style="padding-bottom: 130px;">
       <p class="form-smtitle">{{title}} </p>
       <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
-        <el-scrollbar class="marginright-fx">
+        <el-scrollbar>
           <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
             <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
               <li class="first-box">
@@ -14,9 +14,11 @@
               <li style="background-color: #fff;">
                 <div v-for="(item,index) in moduleList" :key="index">
                   <ul>
-                    <li style="width:180px">
+                    <li style="width:220px">
                       <div>
                         <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
+
+                        <div class="downbox" @click="setDown(item)">{{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
                       </div>
                     </li>
                     <li>
@@ -53,9 +55,11 @@
 
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-button @click="handleOpen(null)">
+            <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
+          </el-button>
         </div>
       </el-col>
 
@@ -123,6 +127,10 @@ export default {
     this.getInfo(data);
   },
   methods: {
+    setDown(item) {
+      item.Isdown = !item.Isdown;
+      console.log(item.Isdown);
+    },
     setCheck(item, item1, item2) {
       item.IsSelect = !item.IsSelect;
       if (item.IsSelect) {
@@ -184,6 +192,9 @@ export default {
         getInfo({ id })
           .then(({ data }) => {
             this.moduleList = data;
+            this.moduleList.forEach(v => {
+              v.Isdown = true;
+            });
           })
           .finally(v => (this.loading = false));
       } else {
@@ -311,5 +322,12 @@ export default {
   .el-checkbox__input.is-focus .el-checkbox__inner {
     border-color: #f00;
   }
+}
+.downbox {
+  display: inline-block;
+  margin-left: 20px;
+  font-size: 12px;
+  color: #558cf7;
+  cursor: pointer;
 }
 </style>

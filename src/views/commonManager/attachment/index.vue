@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="MultiWord" >
+        <el-form-item label="关键词：" prop="MultiWord">
           <el-input v-model="queryParams.MultiWord" placeholder="名称/代码" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
@@ -23,11 +23,15 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+          <i class="el-icon-arrow-down"></i>
+        </el-button>
+
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
 
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -85,7 +89,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        MultiWord:'',
+        MultiWord: ""
         // name: "",
         // key: ""
       }

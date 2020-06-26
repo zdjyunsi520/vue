@@ -9,7 +9,7 @@
       </el-tabs>
     </div>
     <div class="bg-white containerbox " style="position:relative">
-      <el-scrollbar style="height:calc(100% - 80px)" class="marginright-fx">
+      <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading" style="height:calc(100% - 80px)" class="marginright-fx">
         <el-col :span="18" :xs="24">
           <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;width:1000px">
             <el-form-item v-if="show">
@@ -85,12 +85,14 @@ export default {
       } else this.getList(data);
     },
     getList() {
+      this.loading = true;
       fetchList({}).then(r => {
         let form = r.data;
         this.form.licence = form.Licence;
         this.form.privacy = form.Privacy;
         this.form.cancellation = form.Cancellation;
         this.form.introduction = form.Introduction;
+        this.loading = false;
 
         this.reset(this.form);
       });

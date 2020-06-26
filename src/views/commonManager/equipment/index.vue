@@ -21,12 +21,16 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+          <i class="el-icon-arrow-down"></i>
+        </el-button>
+
         <el-button type="info" icon="el-icon-delete" plain :disabled="multiple" @click="handleDelete">删除</el-button>
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table @cell-click="handleRowClick" v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
+      <el-table @cell-click="handleRowClick" v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.5)" element-loading-text="Loading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -46,7 +50,7 @@
         <el-table-column label="同步平台" width="120" prop="IsSyncCloud">
           <template slot-scope="scope">
             <el-row v-if="scope.row.Type=='烟感'||scope.row.Type=='摄像头'">
-              <el-switch v-model="scope.row.IsSyncCloud" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开启" inactive-text="关闭" @change="handleSync(scope.row)" />
+              <el-switch v-model="scope.row.IsSyncCloud" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="开启" inactive-text="关闭" @change="handleSync(scope.row)" />
             </el-row>
             <el-row v-else>
               ----

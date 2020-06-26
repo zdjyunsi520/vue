@@ -4,26 +4,25 @@
       <p class="form-smtitle">{{smtitle}}{{title}} </p>
       <el-scrollbar class="marginright-fx">
         <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style='width:370px'>
-              <el-form-item :label='title+"名称"' prop="name">
-                <el-input v-model="form.name" :placeholder='"请输入"+title+"名称"' />
-              </el-form-item>
-       
-              <el-form-item label="权限标识" prop="key">
-                <el-input v-model="form.key" placeholder="请输入权限标识" />
-              </el-form-item>
-          
-              <el-form-item label="url信息" prop="url">
-                <el-input v-model="form.url" placeholder="请输入url信息" />
-              </el-form-item>
-          
-              <el-form-item label="组件信息" prop="component">
-                <el-input v-model="form.component" placeholder="请输入组件信息" />
-              </el-form-item>
-          
-              <el-form-item label="排序号" prop="sortindex">
-                <el-input-number v-model="form.sortindex" placeholder="请输入排序号" controls-position="right" :min="1" :max="9999" />
-              </el-form-item>
-            
+          <el-form-item :label='title+"名称"' prop="name">
+            <el-input v-model="form.name" :placeholder='"请输入"+title+"名称"' />
+          </el-form-item>
+
+          <el-form-item label="权限标识" prop="key">
+            <el-input v-model="form.key" placeholder="请输入权限标识" />
+          </el-form-item>
+
+          <el-form-item label="url信息" prop="url">
+            <el-input v-model="form.url" placeholder="请输入url信息" />
+          </el-form-item>
+
+          <el-form-item label="组件信息" prop="component">
+            <el-input v-model="form.component" placeholder="请输入组件信息" />
+          </el-form-item>
+
+          <el-form-item label="排序号" prop="sortindex">
+            <el-input-number v-model="form.sortindex" placeholder="请输入排序号" controls-position="right" :min="1" :max="9999" />
+          </el-form-item>
 
           <!-- <el-form-item label="应用图标">
             <el-popover placement="bottom-start" width="500" trigger="click" @show="$refs['iconSelect'].reset()">
@@ -35,19 +34,20 @@
             </el-popover>
           </el-form-item> -->
 
-        
-              <el-form-item label="应用图标" prop="iconurl">
-                <IconSelect ref="iconSelect" @selected="selected" />
-              </el-form-item>
-           
+          <el-form-item label="应用图标" prop="iconurl">
+            <IconSelect ref="iconSelect" @selected="selected" />
+          </el-form-item>
+
         </el-form>
       </el-scrollbar>
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-button @click="handleOpen(null)">
+            <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
+          </el-button>
         </div>
       </el-col>
 
@@ -117,7 +117,8 @@ export default {
       title: "",
       // 角色选项
       roleOptions: [],
-      deptType: ""
+      deptType: "",
+      smtitle: ""
     };
   },
   mounted() {

@@ -24,9 +24,11 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-button @click="handleOpen(null)">
+            <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
+          </el-button>
         </div>
       </el-col>
     </div>

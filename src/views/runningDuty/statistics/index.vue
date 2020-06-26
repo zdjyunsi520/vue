@@ -48,7 +48,7 @@
         </el-popover>
       </div>
 
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" class="middletable" show-summary :summary-method="getSummaries"  ref='table' :row-class-name='totalstyle' @row-click='handleRowInfo'>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" border :height="tableHeight" class="middletable" show-summary :summary-method="getSummaries"  ref='table' :row-class-name='totalstyle' @row-click='handleRowInfo'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />

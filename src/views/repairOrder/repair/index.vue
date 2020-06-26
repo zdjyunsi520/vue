@@ -32,9 +32,11 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary"  @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" element-loading-text="Loading" border fit :height="tableHeight"  @row-dblclick="dbhandleUpdate" highlight-current-row>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" border fit :height="tableHeight"  @row-dblclick="dbhandleUpdate" highlight-current-row>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -50,8 +52,8 @@
         <el-table-column label="状态" width="100" sortable prop="Status" :formatter="formatterStatus" />
         <el-table-column label="故障地址" min-width="220" prop="Address"></el-table-column>
         <el-table-column label="故障现象" min-width="250" prop="Situation">
-           <template slot-scope="scope">
-            <el-popover trigger="hover" placement="bottom" effect="light"  popper-class='tabpopover' v-if="scope.row.Situation&&scope.row.Situation.length>30">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="bottom" effect="light" popper-class='tabpopover' v-if="scope.row.Situation&&scope.row.Situation.length>30">
               <p>{{ scope.row.Situation}}</p>
               <div slot="reference" class="name-wrapper">
                 {{scope.row.Situation.substring(0,30)+'...'}}

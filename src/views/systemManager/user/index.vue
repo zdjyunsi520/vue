@@ -16,7 +16,7 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
           <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>
@@ -44,7 +44,9 @@
         </div>
         <div class="containerbox" ref="containerbox" style="background:#fff">
           <el-row class="table-btns">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+            <el-button type="primary" @click="handleAdd">
+              <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+            </el-button>
             <el-dropdown @command="handleCommand">
               <el-button type="primary" plain :disabled="multiple">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>岗位状态<i class="el-icon-arrow-down el-icon--right"></i>
@@ -56,7 +58,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
-          <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" @selection-change="handleSelectionChange" @row-dblclick="dbhandleUpdate">
+          <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" border :height="tableHeight" @selection-change="handleSelectionChange" @row-dblclick="dbhandleUpdate">
 
             <template slot="empty">
               <div class="nodata-box">
@@ -116,7 +118,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        MultiWord:'',
+        MultiWord: "",
         mobilephone: "",
         username: "",
         name: "",

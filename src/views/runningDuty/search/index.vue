@@ -36,7 +36,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" :data="dataList" border :height="tableHeight" style='margin-top:20px'>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" border :height="tableHeight" style='margin-top:20px'>
 
         <template slot="empty">
           <div class="nodata-box">

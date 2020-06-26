@@ -206,7 +206,7 @@ export default {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 36px;
+      height: 34px;
       line-height: 34px;
       color: #999999;
       background: #fff;

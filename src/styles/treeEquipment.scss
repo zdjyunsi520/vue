@@ -17,16 +17,14 @@
     .el-tree-node__expand-icon {
         border: 1px solid #dcdfe4;
         width: 14px;
-        line-height: 12px;
+        line-height: 11px;
         height: 14px;
         margin-right: 5px;
-        padding: 0;
         position: relative;
         text-align: center;
         border-radius: 3px;
+        padding: 1px;
         display: block;
-        // font-size: 20px;
-        // background: #f00;
         &:before {
             content: "+";
             font-size: 14px;
@@ -44,6 +42,7 @@
         &.expanded {
             //background: #ff0;
             transform: rotate(0);
+            padding: 6px;
             &:before {
                 content: "";
                 background: #dcdfe4;
@@ -193,9 +192,9 @@
         margin-left: -10px;
         padding-right: 20px;
         height: 100%;
-        background: #f0f2f6;
+        background: #dfe6f3;
         &:hover {
-            background: #dfe6f3 !important;
+            background: #ced4e1 !important;
         }
     }
     .dragright {

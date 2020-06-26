@@ -22,7 +22,9 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
         <el-button type="primary" plain icon="el-icon-document-copy" @click="handleCopy">复制</el-button>
         <el-button icon="el-icon-delete" @click="handleDelete">删除</el-button>
         <div class="timetips">
@@ -33,7 +35,7 @@
         </div>
       </el-row>
       <div class="scheduletitle">- {{dutyName}} {{year}}年{{month}}月排班表 -</div>
-      <el-table @row-click="handleRowClick" v-loading="listLoading" :data="tableList" border :height="tableHeight" ref="table">
+      <el-table @row-click="handleRowClick" v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="tableList" border :height="tableHeight" ref="table">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -78,7 +80,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handlecheck" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
           <el-button @click="dialogAddVisible = false" :loading="loading">取 消</el-button>
         </span>
@@ -101,7 +103,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleCopyCheck">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
           <el-button @click="dialogRotationVisible = false">取 消</el-button>
         </span>
@@ -113,7 +115,7 @@
         </el-scrollbar>
         <div class="dialog-footer">
           <el-button type="primary" @click="handleMemberscheck">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
           <el-button @click="dialogMemberVisible = false">取 消</el-button>
         </div>

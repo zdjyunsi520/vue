@@ -33,9 +33,11 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增临时任务单</el-button>
+        <el-button type="primary"  @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增临时任务单
+        </el-button>
       </el-row>
-      <el-table v-loading="listLoading" element-loading-text="Loading" :data="dataList" :height="tableHeight" border  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" :height="tableHeight" border  @row-dblclick="dbhandleUpdate">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -45,7 +47,7 @@
         </template>
         <el-table-column label="任务单编号" min-width="220" sortable prop="No"></el-table-column>
         <el-table-column label="巡视单位" min-width="250" sortable prop="TenantName"></el-table-column>
-        <el-table-column label="巡视性质" width="120" sortable prop="PtrolNatureText">
+        <el-table-column label="巡视性质" width="120" sortable prop="PatrolNatureText">
           <!-- <template slot-scope="scope">
             <span>{{ scope.row.PtrolNature==1?"定期巡视":"临时巡视"}}</span>
           </template> -->

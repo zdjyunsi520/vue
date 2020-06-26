@@ -35,7 +35,7 @@
                     </el-button>
                 </el-popover>
             </div>
-            <el-table v-loading="listLoading" :data="dataList" :height="tableHeight" border style='margin-top:20px'>
+            <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" :height="tableHeight" border style='margin-top:20px'>
                 <template slot="empty">
                     <div class="nodata-box">
                         <img src="../../../assets/image/nodata.png" />
@@ -62,7 +62,7 @@
                 <el-tree :data="assetsTree" :props="defaultProps" :check-strictly='true' node-key="id" ref="tree" show-checkbox :highlight-current="true" :default-expand-all="false" @check-change='checkchange' :expand-on-click-node="false"></el-tree>
                 <span slot="footer" class="dialog-footer">
                     <el-button type="primary" @click="handlecheck">
-                        <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+                        <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
                     </el-button>
                     <el-button @click="dialogAssetsVisible = false">取 消</el-button>
                 </span>

@@ -19,9 +19,11 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'" @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" border class="commtable" :height="dataList?tableHeight:'0'" @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -58,7 +60,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        multiword:'',
+        multiword: "",
         name: ""
       },
       rules: {},

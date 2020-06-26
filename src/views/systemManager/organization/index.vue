@@ -26,7 +26,9 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
 
         <el-button type="primary" plain size="mini" @click="handleDisabled(null,false)" :disabled="multiple">
           <svg-icon icon-class='ic_enable' class="tablesvgicon"></svg-icon>启用
@@ -39,7 +41,7 @@
         <el-button type="info" plain icon="ic_disable" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button> -->
       </el-row>
 
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @row-dblclick="dbhandleUpdate">
 
         <template slot="empty">
           <div class="nodata-box">

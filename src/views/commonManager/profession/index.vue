@@ -5,10 +5,11 @@
         <el-form-item>
           <!-- <el-button type="primary" icon="el-icon-search" @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
           <el-dropdown @command="handleCommand" placement="bottom-start">
-            <el-button type="primary" icon=" el-icon-circle-plus-outline">
-              新增
-              <i class="el-icon-arrow-down el-icon--right"></i>
+            <el-button type="primary">
+              <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+              <i class="el-icon-arrow-down"></i>
             </el-button>
+
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="a">新增类别</el-dropdown-item>
               <el-dropdown-item command="b">新增分类</el-dropdown-item>
@@ -32,7 +33,7 @@
       </el-col>
       <el-col class="dragresize">
         <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
           <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
         </span>
       </el-col>

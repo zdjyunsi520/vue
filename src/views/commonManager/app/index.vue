@@ -16,15 +16,17 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
-        </el-form>
+      </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除
         </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -50,7 +52,7 @@
         <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
         <el-table-column label="状态" width="100" prop="IsLock">
           <template slot-scope="{row}">
-            <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
+            <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#dddfe5" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="200">
@@ -96,7 +98,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        multiword:"",
+        multiword: "",
         versioncode: "",
         versionname: ""
       }

@@ -5,10 +5,9 @@
         <el-form-item>
           <!-- <el-button type="primary" icon="el-icon-search"  @click="handleQuery" v-hasPermi="['system:menu:query']">搜索</el-button> -->
           <el-dropdown @command="handleCommand">
-            <el-button type="primary" icon=" el-icon-circle-plus-outline">
-              新增
-              <i class="el-icon-arrow-down el-icon--right"></i>
-
+            <el-button type="primary">
+              <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+              <i class="el-icon-arrow-down"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="a">新增分类</el-dropdown-item>
@@ -85,7 +84,7 @@ export default {
       currentNode: {},
       needToScroll: 1,
       updateTitle: "",
-      smtype:'',
+      smtype: ""
     };
   },
   created() {
@@ -133,14 +132,14 @@ export default {
               : this.smform.Type == 2
               ? "应用"
               : "权限";
-            this.smtype=this.smform.Type;
-            this.smform.Type =
+          this.smtype = this.smform.Type;
+          this.smform.Type =
             this.smform.Type == 1
               ? "分类"
               : this.smform.Type == 2
               ? "应用"
               : "权限";
-              this.type=this.smform;
+          this.type = this.smform;
         });
     },
 

@@ -3,7 +3,7 @@
         <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
                 <div style="background:#fff;height:100%;padding:0 10px;">
-                    <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+                    <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading"  element-loading-spinner="el-icon-loading">
                         <el-tree ref="tree" node-key="id" :data="treeData"   :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
                             <span class="el-tree-node__label" slot-scope="{ node, data }">
                                 <svg-icon icon-class="gongsi" class="tablesvgicon"></svg-icon>
@@ -15,13 +15,13 @@
             </el-col>
             <el-col class="dragresize">
                 <span class="iconslider">
-                    <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-8px;" />
+                    <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
                     <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
                 </span>
             </el-col>
             <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
                 <div style="height:100%">
-                    <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+                    <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
                         <div>
                             <el-row :gutter="20">
                                 <el-col :span="8" :xs="24">

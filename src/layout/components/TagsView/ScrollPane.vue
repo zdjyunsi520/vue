@@ -1,7 +1,7 @@
 <template>
   <div class="xl-scroll">
     <ul>
-      <li @click="handleClickLeft" style="width:38px">
+      <li @click="handleClickLeft" style="width:38px;border-left:1px solid #f6f7fa;border-right:1px solid #f6f7fa;">
         <div class="smbox">
           <i class="el-icon-d-arrow-left" style="font-size: 13px;font-weight: bold;"></i>
         </div>

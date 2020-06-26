@@ -17,7 +17,7 @@
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存</el-button>
+            <el-button type="primary" @click="handleSubmit" :loading="loading"><svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存</el-button>
             <el-button @click="handleOpen(null)">取 消</el-button>
         </span>
     </el-dialog>

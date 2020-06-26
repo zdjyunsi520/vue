@@ -45,13 +45,15 @@
     </div>
     <div class="bg-white containerbox " ref="containerbox" style="padding:0;">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
         <el-button type="primary" plain @click="handleUpdate" :disabled="single">
           <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
         </el-button>
         <el-button type="info" plain icon="el-icon-delete" @click="handleDelete" :disabled="multiple">删除</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange">
 
         <template slot="empty">
           <div class="nodata-box">
@@ -119,7 +121,7 @@ export default {
         situation: "",
         teamId: "",
         shiftId: "",
-        keyword:'',
+        keyword: "",
         recordcontent: "",
         starttime: "",
         endtime: ""

@@ -11,7 +11,7 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-         <el-form-item label="巡视人员：" prop="patrolusername">
+        <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
         <!--<el-form-item label="巡视周期(天)：" prop="cycleday" label-width="110px">
@@ -25,9 +25,11 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
+        <el-button type="primary"  @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
       </el-row>
-      <el-table v-loading="listLoading" :height="tableHeight" border :data="dataList" element-loading-text="Loading"  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :height="tableHeight" border :data="dataList"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -93,7 +95,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        MultiWord:'',
+        MultiWord: "",
         tenantId: "",
         patrolusername: "",
         cycleday: ""

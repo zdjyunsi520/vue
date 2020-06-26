@@ -33,9 +33,11 @@
       <el-col :span="24" :xs='24' class="absolute-bottom">
         <div class="form-footer">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button icon="el-icon-arrow-left" @click="handleOpen(null)">返 回</el-button>
+          <el-button @click="handleOpen(null)">
+            <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
+          </el-button>
         </div>
       </el-col>
     </div>
@@ -217,9 +219,16 @@ export default {
   width: 100%;
   height: 100%;
 }
-.avatar-wrap {
+/deep/.avatar-wrap {
   width: 150px;
-  overflow: hidden;
-  white-space: nowrap;
+  white-space: nowrap;    line-height: 1;
+}
+/deep/.el-upload__tip {
+  display: inline-block;
+  vertical-align: bottom;
+  padding-left: 10px;
+}
+/deep/.el-upload-list--picture-card .el-upload-list__item {
+  margin: 0 8px 0 0 !important;
 }
 </style>

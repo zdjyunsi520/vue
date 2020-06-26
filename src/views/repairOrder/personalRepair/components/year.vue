@@ -49,7 +49,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" element-loading-text="Loading" show-summary :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" show-summary :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -172,7 +172,7 @@ export default {
       ],
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
-      totalrow:{},
+      totalrow: {},
       chartDataInit: {
         series: [
           {
@@ -223,7 +223,7 @@ export default {
         data = this.xsdataList[this.xsdataList.length - 1];
       }
       //this.propTotal统计的数据对应的属性
-      console.log(222,data)
+      console.log(222, data);
       if (data) return ["总计", ...this.propTotal.map(v => data[v])];
       else return ["总计", ...this.propTotal.map(v => 0)];
     },
@@ -274,15 +274,15 @@ export default {
             return;
           }
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
-        
+
           let row = res.data[res.data.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);
           this.chartData.title = row.Name + "-抢修年度统计图";
           this.chartData.xAxisData = this.columns;
-          this.total = res.total;  
+          this.total = res.total;
           this.$nextTick(() => {
             this.$refs.table.doLayout();
           });
@@ -302,7 +302,6 @@ export default {
       }
       return "";
     },
-   
 
     // 导出
     handleExport() {

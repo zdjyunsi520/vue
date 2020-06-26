@@ -4,10 +4,11 @@
       <el-form :inline="true">
         <el-form-item>
           <el-dropdown @command="handleCommand">
-            <el-button type="primary" icon=" el-icon-circle-plus-outline">
-              新增
-              <i class="el-icon-arrow-down el-icon--right"></i>
+             <el-button type="primary" >
+              <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
+
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="/equipmentAccount/maintain/clock/components/update">电力表计</el-dropdown-item>
               <el-dropdown-item command="/equipmentAccount/maintain/temperature/components/update">温控</el-dropdown-item>

@@ -49,7 +49,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading="listLoading" show-summary :summary-method="getSummaries" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" show-summary :summary-method="getSummaries" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" />
@@ -170,7 +170,7 @@ export default {
       ],
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
-      totalrow:{},
+      totalrow: {},
       chartDataInit: {
         series: [
           {
@@ -201,7 +201,7 @@ export default {
     this.getTenants();
     this.getList();
   },
-  
+
   mounted() {
     let self = this;
     let table = document.querySelector(".el-table__footer-wrapper>table");
@@ -221,7 +221,7 @@ export default {
         //获取统计的data数据
         data = this.xsdataList[this.xsdataList.length - 1];
       }
-      console.log(333,data)
+      console.log(333, data);
       //this.propTotal统计的数据对应的属性
       if (data) return ["总计", ...this.propTotal.map(v => data[v])];
       else return ["总计", ...this.propTotal.map(v => 0)];
@@ -252,7 +252,7 @@ export default {
             return;
           }
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
 
           let row = res.data[res.data.length - 1];

@@ -58,7 +58,7 @@
         </el-popover>
       </div>
 
-      <el-table v-loading="listLoading" element-loading-text="Loading" class="middletable" :data="dataList" ref='table'  show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' border :row-class-name='totalstyle'>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class='smimg' />
@@ -99,7 +99,7 @@ export default {
       downloadLoading: false,
       dataList: null,
       xsdataList: null,
-      totalrow:{},
+      totalrow: {},
       total: 0,
       rules: {},
       TenantIds: [],
@@ -165,7 +165,7 @@ export default {
         "Eliminated",
         "RateEliminated"
       ],
-       propTotal:[],
+      propTotal: [],
       propTotal1: [
         "Jan",
         "Feb",
@@ -208,7 +208,6 @@ export default {
   },
 
   methods: {
-    
     getSummaries() {
       let data;
       if (this.xsdataList && this.xsdataList.length) {
@@ -344,7 +343,7 @@ export default {
                 return;
               }
               this.xsdataList = res.data;
-              this.totalrow = this.xsdataList[this.xsdataList.length-1];
+              this.totalrow = this.xsdataList[this.xsdataList.length - 1];
               this.dataList = res.data.slice(0, res.data.length - 1);
               break;
             case "1":
@@ -353,9 +352,12 @@ export default {
                 return;
               } else {
                 // this.dataList = res.data.TenantList;
-              this.xsdataList = res.data.TenantList;
-              this.totalrow = this.xsdataList[this.xsdataList.length-1];
-              this.dataList = res.data.TenantList.slice(0, res.data.TenantList.length - 1);
+                this.xsdataList = res.data.TenantList;
+                this.totalrow = this.xsdataList[this.xsdataList.length - 1];
+                this.dataList = res.data.TenantList.slice(
+                  0,
+                  res.data.TenantList.length - 1
+                );
               }
               this.dataList.map(v => {
                 v.Total = v.Emergency + v.Fatal + v.Normal;
@@ -369,8 +371,11 @@ export default {
               } else {
                 // this.dataList = res.data.RankList;
                 this.xsdataList = res.data.RankList;
-                this.totalrow = this.xsdataList[this.xsdataList.length-1];
-                this.dataList = res.data.RankList.slice(0, res.data.RankList.length - 1);
+                this.totalrow = this.xsdataList[this.xsdataList.length - 1];
+                this.dataList = res.data.RankList.slice(
+                  0,
+                  res.data.RankList.length - 1
+                );
               }
               this.dataList.map(v => {
                 v.TotalEliminated = v.Eliminated + v.NotEliminated;

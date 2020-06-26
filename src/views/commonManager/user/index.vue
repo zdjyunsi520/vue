@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box">
       <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
-        <el-form-item label="关键词：" prop="multiword" >
+        <el-form-item label="关键词：" prop="multiword">
           <el-input v-model="queryParams.multiword" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
         <!-- <el-form-item label="用户名：" prop="username">
@@ -17,15 +17,18 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item></el-form>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="bg-white containerbox comheight" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">新增</el-button>
-        <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,false)" :disabled="multiple">锁定</el-button>
-        <el-button type="info" plain icon="el-icon-unlock" @click="handleLock(null,true)" :disabled="multiple">解锁</el-button>
+        <el-button type="primary" @click="handleAdd">
+          <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
+        </el-button>
+        <el-button type="primary" plain icon="el-icon-lock" @click="handleLock(null,true)" :disabled="multiple">锁定</el-button>
+        <el-button icon="el-icon-unlock" @click="handleLock(null,false)" :disabled="multiple">解锁</el-button>
       </el-row>
-      <el-table v-loading="listLoading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange"  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @sort-change="handleSortChange"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -49,13 +52,9 @@
 
         <el-table-column label="是否锁定" width="118" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
-            <!-- active-text="是"  inactive-text="否" -->
-            <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch>
-            <!-- <el-button
-              :type="row.IsLock?'warning':'primary'"
-              size="mini"
-              @click="handleLock(row,row.IsLock)"
-            >{{row.IsLock?'解锁':'锁定'}}</el-button> -->
+
+            <!-- <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch> -->
+            <div :class="row.IsLock?'switchbox on':'switchbox'" @click="handleLock(row,!row.IsLock)"><label>锁定</label><span><i class="el-icon-check" /></span></div>
           </template>
         </el-table-column>
         <el-table-column label="注销状态" width="100" prop="IsCancel" :formatter="filterCancel" />
@@ -105,7 +104,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        multiword:'',
+        multiword: "",
         username: "",
         name: "",
         mobilephone: "",
@@ -227,12 +226,17 @@ export default {
     handleLock(row, lock) {
       let ids = row
         ? (ids = [row.Id])
-        : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
+        : this.ids.filter(v => v.IsLock != lock).map(v => v.Id);
       if (ids.length) {
-        const islock = !lock;
+        const islock = lock;
         ids = ids.join(",");
+        console.log(islock);
         locklock({ ids, islock }).then(r => {
-          this.$message.success(!lock ? "已解锁" : "已锁定");
+          if (!lock) {
+            this.$message.info("已解锁");
+          } else {
+            this.$message.success("已锁定");
+          }
           this.getList();
         });
       }

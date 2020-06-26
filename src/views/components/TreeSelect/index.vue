@@ -7,7 +7,7 @@
             </el-scrollbar>
             <div class="dialog-footer">
                 <el-button type="primary" @click="handleConfirm">
-                    <svg-icon icon-class='ic_save' class='tablesvgicon'></svg-icon>保 存
+                    <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
                 </el-button>
                 <el-button @click="handleCancel">取 消</el-button>
             </div>
