@@ -192,7 +192,7 @@ export default {
     },
     created() {
         const { intervalId } = this.$route.params;
-        this.form.intervalId = intervalId;
+        if (intervalId) this.form.intervalId = intervalId;
         this.getTreeData();
     },
     computed: {
