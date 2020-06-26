@@ -10,27 +10,27 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="名称：" label-width='70px' prop="Name">
+            <el-form-item label="名称：" label-width='120px' prop="Name">
               <el-input v-model="form.Name" placeholder="请输入名称" />
             </el-form-item>
-            <el-form-item label="是否多版本：" label-width='110px' prop="IsMultiVersion">
-              <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
-            </el-form-item>
-            <el-form-item label="版本是否来自压缩包：" label-width='165px' prop="IsMultiVersionFromPackage">
-              <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
+            <el-form-item label="是否多版本：" label-width='200px' prop="IsMultiVersion">
+              <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="代码：" label-width='70px' prop="Key">
+            <el-form-item label="代码：" label-width='120px' prop="Key">
               <el-input v-model="form.Key" placeholder="请输入代码" />
             </el-form-item>
-            <el-form-item label="删除数据同时删除文件：" label-width='180px' prop="IsRemoveFile">
-              <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"></el-switch>
+            <el-form-item label="版本是否来自压缩包：" label-width='200px' prop="IsMultiVersionFromPackage">
+              <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="描述：" label-width='70px' prop="Description">
+            <el-form-item label="描述：" label-width='120px' prop="Description">
               <el-input type="textarea" :rows="5" v-model="form.Description" placeholder="请输入描述" />
+            </el-form-item>
+            <el-form-item label="删除数据同时删除文件：" label-width='200px' prop="IsRemoveFile">
+              <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"></el-switch>
             </el-form-item>
           </el-row>
           <el-row>
@@ -65,7 +65,7 @@
                 <el-option label="授权方式访问" :value="2"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="FTP设置：" label-width='85px' prop="FTPSetting">
+            <el-form-item label="FTP设置：" label-width='120px' prop="FTPSetting">
               <el-input v-model="form.FTPSetting" placeholder="未使用FTP可不填" />
             </el-form-item>
           </el-row>
@@ -89,7 +89,7 @@
           </el-row>
           <el-row>
             <el-form-item label="是否生成缩略图：" prop="IsGenerateThumbnail">
-              <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="是" inactive-text="否"> </el-switch>
+              <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
             </el-form-item>
             <el-form-item label="文件大于该值时生成缩略图(kb)：" label-width='220px' prop="ThumbnailMaxFileSize">
               <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" />
@@ -345,7 +345,7 @@ export default {
   white-space: nowrap;
 }
 /deep/.onlyform-box .el-form .el-form-item {
-  width: 350px;
+  width: 390px;
   display: inline-block;
   vertical-align: text-top;
 }

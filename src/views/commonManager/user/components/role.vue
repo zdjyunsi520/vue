@@ -18,7 +18,7 @@
                       <div>
                         <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
 
-                        <div class="downbox" @click="setDown(item)">{{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
+                        <div class="downbox" @click="setDown(item)">{{item.Isdown}} {{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
                       </div>
                     </li>
                     <li>
@@ -128,6 +128,7 @@ export default {
   },
   methods: {
     setDown(item) {
+      console.log(item.Isdown);
       item.Isdown = !item.Isdown;
       console.log(item.Isdown);
     },

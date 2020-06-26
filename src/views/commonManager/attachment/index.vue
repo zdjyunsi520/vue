@@ -25,7 +25,6 @@
       <el-row class="table-btns">
         <el-button type="primary" @click="handleAdd">
           <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
-          <i class="el-icon-arrow-down"></i>
         </el-button>
 
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除</el-button>
