@@ -8,8 +8,8 @@
             <el-form-item label="设备编号" prop="SerialCode">
               <el-input v-model="form.SerialCode" placeholder="请输入设备编号" />
             </el-form-item>
-            <el-form-item label="是否启用" prop="Status">
-              <el-switch v-model="form.Status" :active-value="1" :inactive-value="0" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+            <el-form-item label="是否启用" prop="IsEnable">
+              <el-switch v-model="form.IsEnable" :active-value="true" :inactive-value="false" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用">
               </el-switch>
             </el-form-item>
           </el-row>
@@ -32,8 +32,8 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="运行状态" prop="IsEnable">
-              <el-select v-model="form.IsEnable">
+            <el-form-item label="运行状态" prop="RunStatus">
+              <el-select v-model="form.RunStatus">
                 <el-option label="在运" :value="true" />
                 <el-option label="停运" :value="false" />
                 <!-- <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in runningStateType" /> -->
@@ -167,8 +167,8 @@ export default {
       StartTime: rule,
       Property: rule,
       DataServerId: rule,
+      RunStatus: rule,
       IsEnable: rule,
-      Status: rule,
       DataAddress: rule
     };
     return {
@@ -231,8 +231,8 @@ export default {
           SortIndex: "",
           ParentId: "",
           ExFactoryDate: "",
+          RunStatus: true,
           IsEnable: true,
-          Status: 1,
           DataAddress: ""
         },
         data

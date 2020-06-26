@@ -45,7 +45,7 @@
         <el-table-column label="描述" min-width='200' prop="Description" />
         <el-table-column label="状态" min-width='100' prop="IsLock" v-if="showSwitch">
           <template slot-scope="{row}">
-            <el-switch v-model="row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleUpdateStatus(row)"> </el-switch>
+            <el-switch v-model="row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200">

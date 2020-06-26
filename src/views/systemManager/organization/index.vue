@@ -64,7 +64,7 @@
         <el-table-column label="联系电话" width="140" prop="PhoneNo" />
         <el-table-column label="状态" sortable width="100" prop="IsEnable">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
+            <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="160">

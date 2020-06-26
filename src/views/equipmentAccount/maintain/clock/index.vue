@@ -25,7 +25,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="是否启用">
-                    <el-input :value="filterDisabled(infoData.Status)" disabled></el-input>
+                    <el-input :value="filterDisabled(infoData.IsEnable)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -63,7 +63,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item label="运行状态">
-                    <el-input :value="filterRun(infoData.IsEnable)" disabled></el-input>
+                    <el-input :value="filterRun(infoData.RunStatus)" disabled></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">

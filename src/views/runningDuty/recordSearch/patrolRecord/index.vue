@@ -50,7 +50,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
-      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
+      <el-table :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -113,7 +113,7 @@ export default {
         starttime: "",
         endtime: "",
         patrolname: "",
-        keyword:"",
+        keyword: "",
         recordname: ""
       },
       teamList: []

@@ -152,7 +152,6 @@
 
 .el-input__inner {
     padding: 0 10px;
-    font-size: 12px;
 }
 
 .el-input--medium .el-input__inner,
@@ -170,6 +169,7 @@
     .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
         width: 200px;
+        font-size: 12px;
     }
     .el-form-item__label {
         width: 78px;
@@ -283,6 +283,10 @@
 .tablesvgicon {
     font-size: 18px;
     vertical-align: -0.2em !important;
+}
+
+.el-loading-spinner .path {
+    stroke: #fff!important;
 }
 
 .cancelsvgicon {

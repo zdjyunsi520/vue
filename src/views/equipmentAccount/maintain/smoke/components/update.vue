@@ -9,7 +9,7 @@
               <el-input v-model="form.SerialCode" placeholder="请输入设备编号" />
             </el-form-item>
             <el-form-item label="是否启用" prop="IsEnable">
-              <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="停用">
+              <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="停用">
               </el-switch>
             </el-form-item>
           </el-row>

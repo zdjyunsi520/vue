@@ -30,7 +30,7 @@
       </el-form>
     </div>
 
-    <div class="bg-white containerbox  chart-wrapper marginbottom15" v-if="chartData">
+    <div class="bg-white   chart-wrapper marginbottom15" v-if="chartData">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />

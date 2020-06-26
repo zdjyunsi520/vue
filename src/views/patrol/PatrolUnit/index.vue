@@ -37,7 +37,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+    <div class="bg-white chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />
@@ -112,7 +112,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 110px)",
+      tableHeight: "calc(100% - 120px)",
       listLoading: true,
       xsdataList: [],
       ptrolnatures: [

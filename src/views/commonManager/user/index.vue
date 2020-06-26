@@ -53,7 +53,7 @@
         <el-table-column label="是否锁定" width="118" prop="IsLock" sortable="custom">
           <template slot-scope="{row}">
 
-            <!-- <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch> -->
+            <!-- <el-switch v-model="row.IsLock" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="锁定" inactive-text="解锁" @change="handleLock(row,!row.IsLock)"> </el-switch> -->
             <div :class="row.IsLock?'switchbox on':'switchbox'" @click="handleLock(row,!row.IsLock)"><label>锁定</label><span><i class="el-icon-check" /></span></div>
           </template>
         </el-table-column>

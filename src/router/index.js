@@ -71,7 +71,7 @@ export const constantRoutes = [
   {
     path: "/patrol/components/report",
     component: () => import("@/views/patrol/components/report"),
-    hidden: true
+    hidden: true,
   },
 
   // {
@@ -136,93 +136,93 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-  {
-    path: "defect",
-    component: Layout,
-    hidden: true,
-    meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/orderList",
-        component: () => import("@/views/defect/orderList/index"),
-        name: "缺陷工单",
-        meta: {
-          title: "缺陷工单",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/statistics",
-        component: () => import("@/views/defect/statistics/index"),
-        name: "缺陷统计",
-        meta: {
-          title: "缺陷统计",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
+  // {
+  //   path: "defect",
+  //   component: Layout,
+  //   hidden: true,
+  //   meta: { title: "缺陷管理", icon: "dashboard", noCache: true, affix: false },
+  //   children: [
+  //     {
+  //       path: "/orderList",
+  //       component: () => import("@/views/defect/orderList/index"),
+  //       name: "缺陷工单",
+  //       meta: {
+  //         title: "缺陷工单",
+  //         noCache: true,
+  //         affix: false,
+  //       }
+  //     },
+  //     {
+  //       path: "/statistics",
+  //       component: () => import("@/views/defect/statistics/index"),
+  //       name: "缺陷统计",
+  //       meta: {
+  //         title: "缺陷统计",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: "patrol",
-    component: Layout,
-    hidden: true,
-    meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
-    children: [
-      {
-        path: "/PatrolCycle",
-        component: () => import("@/views/patrol/PatrolCycle/index"),
-        name: "巡视周期设置",
-        meta: {
-          title: "巡视周期设置",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolJob",
-        component: () => import("@/views/patrol/PatrolJob/index"),
-        name: "巡视任务单",
-        meta: {
-          title: "巡视任务单",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolReport",
-        component: () => import("@/views/patrol/PatrolReport/index"),
-        name: "巡视报告",
-        meta: {
-          title: "巡视报告",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolPersonnel",
-        component: () => import("@/views/patrol/PatrolPersonnel/index"),
-        name: "人员巡视统计",
-        meta: {
-          title: "人员巡视统计",
-          noCache: true,
-          affix: false
-        }
-      },
-      {
-        path: "/PatrolUnit",
-        component: () => import("@/views/patrol/PatrolUnit/index"),
-        name: "单位巡视统计",
-        meta: {
-          title: "单位巡视统计",
-          noCache: true,
-          affix: false
-        }
-      }
-    ]
-  },
+  // {
+  //   path: "patrol",
+  //   component: Layout,
+  //   hidden: true,
+  //   meta: { title: "设备巡视", icon: "dashboard", noCache: true, affix: false },
+  //   children: [
+  //     {
+  //       path: "/PatrolCycle",
+  //       component: () => import("@/views/patrol/PatrolCycle/index"),
+  //       name: "巡视周期设置",
+  //       meta: {
+  //         title: "巡视周期设置",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/PatrolJob",
+  //       component: () => import("@/views/patrol/PatrolJob/index"),
+  //       name: "巡视任务单",
+  //       meta: {
+  //         title: "巡视任务单",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/PatrolReport",
+  //       component: () => import("@/views/patrol/PatrolReport/index"),
+  //       name: "巡视报告",
+  //       meta: {
+  //         title: "巡视报告",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/PatrolPersonnel",
+  //       component: () => import("@/views/patrol/PatrolPersonnel/index"),
+  //       name: "人员巡视统计",
+  //       meta: {
+  //         title: "人员巡视统计",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: "/PatrolUnit",
+  //       component: () => import("@/views/patrol/PatrolUnit/index"),
+  //       name: "单位巡视统计",
+  //       meta: {
+  //         title: "单位巡视统计",
+  //         noCache: true,
+  //         affix: false
+  //       }
+  //     }
+  //   ]
+  // },
 
   {
     path: "/systemManager/organization/components",
@@ -240,7 +240,8 @@ export const constantRoutes = [
           icon: "dashboard",
           noCache: true,
           affix: false,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Org/Tenant'
         }
       }
     ]
@@ -260,7 +261,8 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Module'
         }
       },
       {
@@ -272,7 +274,8 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Module'
         }
       },
       {
@@ -283,7 +286,8 @@ export const constantRoutes = [
           title: "模块管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Module'
         }
       },
       {
@@ -294,7 +298,8 @@ export const constantRoutes = [
           title: "角色管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Role'
         }
       },
       {
@@ -305,7 +310,8 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/commonManager/user/index'
         }
       },
       {
@@ -316,7 +322,8 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/User'
         }
       },
       {
@@ -327,7 +334,8 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/User'
         }
       },
       {
@@ -339,7 +347,8 @@ export const constantRoutes = [
           title: "用户管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/User'
         }
       },
       {
@@ -351,7 +360,8 @@ export const constantRoutes = [
           title: "设备管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Tool/Assets'
         }
       },
       {
@@ -363,7 +373,8 @@ export const constantRoutes = [
           title: "行业管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Industry'
         }
       },
       {
@@ -375,7 +386,8 @@ export const constantRoutes = [
           title: "行业管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Industry'
         }
       },
       {
@@ -387,7 +399,8 @@ export const constantRoutes = [
           title: "组织结构",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Org/Tenant'
         }
       },
       {
@@ -398,7 +411,8 @@ export const constantRoutes = [
           title: "人员信息",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Org/Employee'
         }
       },
       {
@@ -410,7 +424,8 @@ export const constantRoutes = [
           title: "人员信息",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Org/Employee'
         }
       },
       {
@@ -422,7 +437,8 @@ export const constantRoutes = [
           title: "新增/编辑配电室",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -434,7 +450,8 @@ export const constantRoutes = [
           title: "新增/编辑屏柜",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -446,7 +463,8 @@ export const constantRoutes = [
           title: "新增/编辑交流主机",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -458,7 +476,8 @@ export const constantRoutes = [
           title: "新增/编辑摄像头",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -470,7 +489,8 @@ export const constantRoutes = [
           title: "新增/编辑烟感",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -482,7 +502,8 @@ export const constantRoutes = [
           title: "新增/编辑间隔",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -494,7 +515,8 @@ export const constantRoutes = [
           title: "新增/编辑温感",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -506,7 +528,8 @@ export const constantRoutes = [
           title: "新增/编辑电计器",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Maintain'
         }
       },
       {
@@ -517,7 +540,8 @@ export const constantRoutes = [
           title: "新增地区",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Area'
         }
       },
       {
@@ -528,7 +552,8 @@ export const constantRoutes = [
           title: "编辑地区",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Area'
         }
       },
       ,
@@ -541,7 +566,8 @@ export const constantRoutes = [
           title: "值班配置",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -553,7 +579,8 @@ export const constantRoutes = [
           title: "班组配置",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -565,7 +592,8 @@ export const constantRoutes = [
           title: "+班组配置",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -577,7 +605,8 @@ export const constantRoutes = [
           title: "岗位",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -589,7 +618,8 @@ export const constantRoutes = [
           title: "岗位+",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -601,7 +631,8 @@ export const constantRoutes = [
           title: "班次",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -613,7 +644,8 @@ export const constantRoutes = [
           title: "班次+",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -625,7 +657,8 @@ export const constantRoutes = [
           title: "班次设置",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -637,7 +670,8 @@ export const constantRoutes = [
           title: "班次设置list",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
 
@@ -650,7 +684,8 @@ export const constantRoutes = [
           title: "角色",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -662,7 +697,8 @@ export const constantRoutes = [
           title: "角色类型+",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -674,7 +710,8 @@ export const constantRoutes = [
           title: "角色设置list",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -686,7 +723,8 @@ export const constantRoutes = [
           title: "角色设置",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/Duty'
         }
       },
       {
@@ -697,7 +735,8 @@ export const constantRoutes = [
           title: "新增巡视周期",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/PatrolCycle'
         }
       },
       {
@@ -708,7 +747,8 @@ export const constantRoutes = [
           title: "新增巡视任务单",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/PatrolJob'
         }
       },
       {
@@ -719,7 +759,8 @@ export const constantRoutes = [
           title: "新增缺陷工单",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/OrderList'
         }
       },
       {
@@ -730,7 +771,8 @@ export const constantRoutes = [
           title: "新增APP",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Tool/AppVersionInfo'
         }
       },
       {
@@ -742,7 +784,8 @@ export const constantRoutes = [
           title: "新增配置管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Setting'
         }
       },
       {
@@ -754,7 +797,8 @@ export const constantRoutes = [
           title: "配置子项管理列表",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Setting'
         }
       },
       {
@@ -765,7 +809,8 @@ export const constantRoutes = [
           title: "新增配置子项管理",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/Setting'
         }
       },
       {
@@ -777,7 +822,8 @@ export const constantRoutes = [
           title: "新附件分类",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Common/AttachmentType'
         }
       },
       {
@@ -788,7 +834,8 @@ export const constantRoutes = [
           title: "新抢修工单",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/RepairOrder'
         }
       },
       {
@@ -799,7 +846,8 @@ export const constantRoutes = [
           title: "新故障抢修",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/RepairOrder'
         }
       },
       {
@@ -811,7 +859,8 @@ export const constantRoutes = [
           title: "新故障归档",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/Biz/RepairOrder'
         }
       },
       {
@@ -822,7 +871,8 @@ export const constantRoutes = [
           title: "新增消缺",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/OrderList'
         }
       },
       {
@@ -833,7 +883,8 @@ export const constantRoutes = [
           title: "新增验收",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/OrderList'
         }
       },
       {
@@ -844,7 +895,8 @@ export const constantRoutes = [
           title: "确认描述",
           icon: "dashboard",
           noCache: true,
-          breadcrumb: true
+          breadcrumb: true,
+          activeMenu: '/RealtimeMonitoring'
         }
       }
     ]

@@ -61,7 +61,7 @@
         </el-popover>
       </div>
 
-      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" class="middletable" :data="dataList" ref='table'  show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' show-summary :summary-method="getSummaries" :height="tableHeight" @row-click='handleRowInfo' :row-class-name='totalstyle' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" class="smimg" />
@@ -112,7 +112,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 110px)",
+      tableHeight: "calc(100% - 120px)",
       listLoading: true,
       xsdataList: [],
       ptrolnatures: [
@@ -123,7 +123,7 @@ export default {
         { name: "已执行", type: true },
         { name: "未执行", type: false }
       ],
-      totalrow:{},
+      totalrow: {},
       columns: [],
       columns1: [
         "1月",
@@ -156,10 +156,10 @@ export default {
         "Nov",
         "Dec"
       ],
-       
+
       prop2: ["TotalCount", "TemporaryCount", "RegularCount"],
       prop3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
-      propTotal:[],
+      propTotal: [],
       propTotal1: [
         "Jan",
         "Feb",
@@ -196,7 +196,6 @@ export default {
   },
 
   methods: {
-    
     getSummaries() {
       let data;
       if (this.xsdataList && this.xsdataList.length) {
@@ -314,13 +313,13 @@ export default {
       }
       fn(data)
         .then(res => {
-          if (res.data==null||res.data.length == 0) {
+          if (res.data == null || res.data.length == 0) {
             this.dataList = [];
             this.xsdataList = [];
             return;
           }
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
 
           this.total = res.total;

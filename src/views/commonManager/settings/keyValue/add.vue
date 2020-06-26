@@ -21,7 +21,7 @@
           <el-input type="textarea" :rows="6" v-model="form.Description" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="是否启用" prop="IsEnable" v-if="form.Type==3">
-          <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+          <el-switch v-model="form.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用">
           </el-switch>
         </el-form-item>
       </el-form>

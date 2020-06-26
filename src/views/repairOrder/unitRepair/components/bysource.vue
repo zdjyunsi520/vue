@@ -27,7 +27,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+    <div class="bg-white chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />
@@ -117,7 +117,7 @@ export default {
         { name: "未完成", id: "1" },
         { name: "已完成", id: "4" }
       ],
-      totalrow:{},
+      totalrow: {},
       columns: ["紧急", "重要", "一般"],
       props: ["UserFatal", "UserEmergency", "UserNormal"],
       props1: ["AssetsFatal", "AssetsEmergency", "AssetsNormal"],
@@ -231,7 +231,7 @@ export default {
           }
 
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];

@@ -19,7 +19,7 @@
           </el-form-item>
 
           <el-form-item label="开通账号" prop="isopenaccount" v-if="!form.id">
-            <el-switch v-model="form.isopenaccount" class="switchStyle switch-mx" style="width:60px" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="开通" inactive-text="不开通">
+            <el-switch v-model="form.isopenaccount" class="switchStyle switch-mx" style="width:60px" active-color="#56a7ff" inactive-color="#dddfe5" active-text="开通" inactive-text="不开通">
             </el-switch>
           </el-form-item>
           <el-form-item label="用户名" prop="username" v-if="form.isopenaccount">

@@ -26,7 +26,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="bg-white containerbox  chart-wrapper marginbottom15">
+    <div class="bg-white chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
       <div class='smchartbox' v-if="dataList&&dataList.length>0">
         <BarChart ref="chart" :chartData='chartData' />
@@ -45,7 +45,7 @@
           </el-button>
         </el-popover>
       </div>
-      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading"  class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' show-summary :summary-method="getSummaries" @row-click='handleRowInfo' border>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" class="middletable" :data="dataList" ref='table' :height="tableHeight" :row-class-name='totalstyle' show-summary :summary-method="getSummaries" @row-click='handleRowInfo' border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="@/assets/image/nodata.png" class="smimg" />
@@ -113,7 +113,7 @@ export default {
       props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
       propTotal: ["Complete", "InComplete", "Total"],
       chartData: {},
-      totalrow:{},
+      totalrow: {},
       chartDataInit: {
         series: [
           {
@@ -134,7 +134,7 @@ export default {
           }
         ],
         xAxisData: this.columns,
-        title: "总计-抢修完成类型统计图",
+        title: "总计-抢修完成类型统计图"
       }
     };
   },
@@ -211,7 +211,7 @@ export default {
           }
 
           this.xsdataList = res.data;
-          this.totalrow = this.xsdataList[this.xsdataList.length-1];
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
           let arr = this.dataList[this.dataList.length - 1];

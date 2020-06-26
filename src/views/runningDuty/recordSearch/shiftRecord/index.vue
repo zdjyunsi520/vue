@@ -25,7 +25,7 @@
         <el-form-item label="关键词：" prop="keyword" label-width="61px">
           <el-input v-model="queryParams.keyword" placeholder="记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
-         <!--  <el-form-item label="交班人：" prop="jiaoban">
+        <!--  <el-form-item label="交班人：" prop="jiaoban">
                     <el-input v-model="queryParams.jiaoban" placeholder="请输入交班人" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="接班人：" prop="jieban">
@@ -48,7 +48,7 @@
       </el-form>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
-      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
+      <el-table :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
 
         <template slot="empty">
           <div class="nodata-box">
@@ -105,7 +105,7 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
-        keyword:"",
+        keyword: "",
         TeamId: "",
         caution: "",
         recordcontent: "",
