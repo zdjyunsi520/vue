@@ -26,7 +26,7 @@
         <el-button icon="el-icon-delete" @click="handleDelete(null)" :disabled="multiple">删除
         </el-button>
       </el-row>
-      <el-table v-loading.fullscreen.lock="listLoading"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight"  @row-dblclick="dbhandleUpdate">
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />

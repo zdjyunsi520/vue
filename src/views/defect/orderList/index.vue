@@ -54,7 +54,7 @@
         </el-popover>
 
       </el-row>
-      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading" :data="dataList" @row-dblclick="dbhandleUpdate" border fit :height="tableHeight" highlight-current-row>
+      <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @row-dblclick="dbhandleUpdate" border fit :height="tableHeight" highlight-current-row>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />

@@ -30,7 +30,7 @@
         <!-- <el-button type="primary" icon="el-icon-lock" @click="handleSync(null)" :disabled="multiple">一键同步</el-button>
               <el-button type="primary" icon="el-icon-unlock" @click="handleSync(null)" :disabled="multiple">取消同步</el-button> -->
       </el-row>
-      <el-table @cell-click="handleRowClick" v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.5)" element-loading-text="Loading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
+      <el-table @cell-click="handleRowClick" v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" :height="tableHeight" @selection-change="handleSelectionChange" border>
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
