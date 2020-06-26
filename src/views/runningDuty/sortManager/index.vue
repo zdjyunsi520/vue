@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="search-box xl-querybox" style="border-bottom:none">
+    <div class="search-box xl-querybox marginbottom15">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="按岗位展示" name="0"></el-tab-pane>
         <el-tab-pane label="按人员展示" name="1"></el-tab-pane>
@@ -27,7 +27,7 @@
         </el-button>
         <el-button type="primary" plain icon="el-icon-document-copy" @click="handleCopy">复制</el-button>
         <el-button icon="el-icon-delete" @click="handleDelete">删除</el-button>
-        <div class="timetips">
+        <div class="timetips" v-if="shifts.length>0">
           <label>值班班次</label>
           <p>
             <span :key="index" v-for="(item,index) in shifts">{{item.Name}}<b>{{item.StartTime}}-{{item.EndTime}}</b></span>
@@ -82,7 +82,9 @@
           <el-button type="primary" @click="handlecheck" :loading="loading">
             <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button @click="dialogAddVisible = false" :loading="loading">取 消</el-button>
+          <el-button @click="dialogAddVisible = false" :loading="loading">
+            <svg-icon icon-class='ic_cancel' class='cancelsvgicon '></svg-icon>取 消
+          </el-button>
         </span>
       </el-dialog>
 
@@ -105,7 +107,9 @@
           <el-button type="primary" @click="handleCopyCheck">
             <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button @click="dialogRotationVisible = false">取 消</el-button>
+          <el-button @click="dialogRotationVisible = false">
+            <svg-icon icon-class='ic_cancel' class='cancelsvgicon '></svg-icon>取 消
+          </el-button>
         </span>
       </el-dialog>
 
@@ -117,7 +121,9 @@
           <el-button type="primary" @click="handleMemberscheck">
             <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button @click="dialogMemberVisible = false">取 消</el-button>
+          <el-button @click="dialogMemberVisible = false">
+            <svg-icon icon-class='ic_cancel' class='cancelsvgicon '></svg-icon>取 消
+          </el-button>
         </div>
       </el-drawer>
 
@@ -177,7 +183,7 @@ export default {
       total: 0,
       // 用户表格数据
       dataList: [],
-      tableHeight: "calc(100% - 210px)",
+      tableHeight: "calc(100% - 182px)",
       rules: {},
       activeName: "0",
       dialogMemberVisible: false,
@@ -626,7 +632,7 @@ export default {
 .scheduletitle {
   text-align: center;
   font-size: 20px;
-  padding: 20px 0 40px;
+  padding: 5px 0 30px;
   color: #333333;
 }
 .el-table th div.cellthbox {

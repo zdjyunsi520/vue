@@ -285,6 +285,11 @@
     vertical-align: -0.2em !important;
 }
 
+.cancelsvgicon {
+    font-size: 14px;
+    margin-right: 4px;
+}
+
 .savesvgicon {
     margin-right: 2px;
 }
@@ -863,6 +868,7 @@
 
 .el-dialog__body {
     padding-bottom: 0 !important;
+    padding: 25px 20px 30px !important
 }
 
 .el-dialog__footer {

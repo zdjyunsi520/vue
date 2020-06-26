@@ -3,7 +3,7 @@
     <div class="app-container ">
         <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
             <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-                <div style="background:#fff;height:100%;padding:0 10px;">
+                <div style="background:#fff;height:100%;padding-left:10px;">
                     <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
                         <el-tree ref="tree" node-key="id" :data="treeData"   :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
                             <span class="el-tree-node__label" slot-scope="{ node, data }">

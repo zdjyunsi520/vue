@@ -64,7 +64,9 @@
           <el-button type="primary" @click="handlecheck">
             <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
           </el-button>
-          <el-button @click="dialogAssetsVisible = false">取 消</el-button>
+          <el-button @click="dialogAssetsVisible = false">
+            <svg-icon icon-class='ic_cancel' class='cancelsvgicon '></svg-icon>取 消
+          </el-button>
         </span>
       </el-dialog>
     </div>

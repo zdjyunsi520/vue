@@ -1,13 +1,13 @@
 <template>
 
-  <div class="app-container">
+  <div class="app-container comheight">
+    <el-container>
 
-    <el-row :gutter="20" class="comheight">
-      <el-col :span="6" :xs="{span: 24}" class="comheight ">
+      <el-aside width="400px" style="padding:0" class="comheight ">
         <div style="background:#fff;height:100%">
           <el-scrollbar>
             <div class="left-box">
-              <div class="bztitle">{{dutyGroup.Name}}</div>
+              <div class="bztitle">{{dutyGroup.Name?dutyGroup.Name:'暂无班组信息'}}</div>
               <div class="queryform">
                 <div>
                   <label>日期：</label>
@@ -37,9 +37,9 @@
             </div>
           </el-scrollbar>
         </div>
-      </el-col>
-      <el-col :xs="{span: 24}" :span="18" class=" containerbox ">
-        <div class="search-box onlyform-box comflexbox" style="border-bottom:none">
+      </el-aside>
+      <el-container style="margin-left: 15px;">
+        <div class="search-box onlyform-box comflexbox" style="border-bottom:none;width:100%">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="主记录" name="main"></el-tab-pane>
             <el-tab-pane label="值班记事" name="dutyRecord"></el-tab-pane>
@@ -51,8 +51,8 @@
           <shiftRecord ref="shiftRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'shiftRecord'" />
           <patrolRecord ref="patrolRecord" :shifts="shifts" :userPositions="userPositions" v-show="activeName == 'patrolRecord'" />
         </div>
-      </el-col>
-    </el-row>
+      </el-container>
+    </el-container>
   </div>
 
 </template>
@@ -158,7 +158,6 @@ export default {
         }
       });
       GetShifts({}).then(r => {
-        console.log(111, r);
         this.shifts = r.data;
         if (r.data && r.data.length) {
           this.form.shiftId = r.data[0].Id;
@@ -279,6 +278,32 @@ export default {
         }
       }
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  /deep/.comheight {
+    display: block;
+    width: 100% !important;
+  }
+  /deep/.el-container {
+    margin-left: 0 !important;
+    flex-direction: column !important;
+  }
+
+  /deep/.rowbox {
+    width: 100%;
+    margin-left: 0;
+    position: static;
+    left: 0;
+  }
+  /deep/.el-card {
+    width: 100%;
+  }
+  /deep/.rightcard {
+    margin-left: 0;
+    left: 0;
+    display: inline-block;
+    position: static;
   }
 }
 </style>

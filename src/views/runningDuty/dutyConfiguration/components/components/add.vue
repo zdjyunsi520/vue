@@ -20,7 +20,9 @@
       <el-button type="primary" @click="handleSubmit" :loading="loading">
         <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
       </el-button>
-      <el-button @click="handleOpen(null)">取 消</el-button>
+      <el-button @click="handleOpen(null)">
+        <svg-icon icon-class='ic_cancel' class='cancelsvgicon '></svg-icon>取 消
+      </el-button>
     </span>
   </el-dialog>
 
