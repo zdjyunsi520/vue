@@ -1,334 +1,342 @@
 <template>
-  <div class="app-container">
-    <div class="search-box onlyform-box" style="padding-bottom: 130px;">
-      <p class="form-smtitle">{{title}} </p>
-      <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
-        <el-scrollbar>
-          <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
-            <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
-              <li class="first-box">
-                <div>
-                  <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
-                </div>
-              </li>
-              <li style="background-color: #fff;">
-                <div v-for="(item,index) in moduleList" :key="index">
-                  <ul>
-                    <li style="width:220px">
-                      <div>
-                        <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
+    <div class="app-container">
+        <div class="search-box onlyform-box" style="padding-bottom: 130px;">
+            <p class="form-smtitle">{{title}} </p>
+            <div class="roletable-box" :style="moduleList&&moduleList.length>0?'':'border-left: 1px solid #ebeef5;'">
+                <el-scrollbar>
+                    <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="30px" style="padding:0">
+                        <ul style="padding-left: 0px;" v-if="moduleList&&moduleList.length>0">
+                            <li class="first-box">
+                                <div>
+                                    <el-checkbox @change="handleChangeFarther">角色</el-checkbox>
+                                </div>
+                            </li>
+                            <li style="background-color: #fff;">
+                                <div v-for="(item,index) in moduleList" :key="index">
+                                    <ul>
+                                        <li style="width:220px">
+                                            <div>
+                                                <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
 
-                        <div class="downbox" @click="setDown(item)">{{item.Isdown}} {{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
-                        <ul>
-                          <li style="min-width:180px">
-                            <el-checkbox @change="handleChange(childItem,item)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
-                          </li>
-                          <li class="last-box">
-                            <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
-                              <!-- <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox> -->
-                              <span @click="setCheck(checkbox,childItem,item)" :class="checkbox.IsSelect?'on':''">{{checkbox.ModuleName}}
-                                <svg-icon v-if="checkbox.IsSelect" icon-class="ic_seletecd" class="svgicon" />
-                              </span>
-                            </div>
-                          </li>
+                                                <div class="downbox" @click="setDown(item)"> {{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
+                                            </div>
+                                        </li>
+                                        <li v-show="item.Isdown">
+                                            <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
+                                                <ul>
+                                                    <li style="min-width:180px">
+                                                        <el-checkbox @change="handleChange(childItem,item)" v-model="childItem.IsSelect">{{childItem.ModuleName}}</el-checkbox>
+                                                    </li>
+                                                    <li class="last-box">
+                                                        <div v-for="checkbox in childItem.Childs" :key="checkbox.ModuleId" class="smbox">
+                                                            <!-- <el-checkbox v-model="checkbox.IsSelect">{{checkbox.ModuleName}}</el-checkbox> -->
+                                                            <span @click="setCheck(checkbox,childItem,item)" :class="checkbox.IsSelect?'on':''">{{checkbox.ModuleName}}
+                                                                <svg-icon v-if="checkbox.IsSelect" icon-class="ic_seletecd" class="svgicon" />
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
+                        <div v-else class="nodata-box" style="padding-top:20%">
+                            <img src="@/assets/image/nodata.png" />
+                            <p>暂时还没有数据</p>
+                        </div>
 
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-            <div v-else class="nodata-box" style="padding-top:20%">
-              <img src="@/assets/image/nodata.png" />
-              <p>暂时还没有数据</p>
+                    </el-form>
+                </el-scrollbar>
             </div>
+            <el-col :span="24" :xs='24' class="absolute-bottom">
 
-          </el-form>
-        </el-scrollbar>
-      </div>
-      <el-col :span="24" :xs='24' class="absolute-bottom">
+                <div class="form-footer">
+                    <el-button type="primary" @click="handleSubmit" :loading="loading">
+                        <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
+                    </el-button>
+                    <el-button @click="handleOpen(null)">
+                        <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
+                    </el-button>
+                </div>
+            </el-col>
 
-        <div class="form-footer">
-          <el-button type="primary" @click="handleSubmit" :loading="loading">
-            <svg-icon icon-class='ic_save' class='tablesvgicon savesvgicon'></svg-icon>保 存
-          </el-button>
-          <el-button @click="handleOpen(null)">
-            <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
-          </el-button>
         </div>
-      </el-col>
-
     </div>
-  </div>
 </template>
 
 <script>
 import {
-  updateRole as update,
-  getRole as getInfo
+    updateRole as update,
+    getRole as getInfo
 } from "@/api/commonManager/user";
 export default {
-  data() {
-    const rules = {
-      roleName: [
-        {
-          required: true,
-          message: "角色名称不能为空",
-          trigger: "blur"
-        }
-      ],
-      roleKey: [
-        {
-          required: true,
-          message: "权限字符不能为空",
-          trigger: "blur"
-        }
-      ],
-      roleSort: [
-        {
-          required: true,
-          message: "角色顺序不能为空",
-          trigger: "blur"
-        }
-      ]
-    };
-    return {
-      form: {
-        id: "",
-        // name: "",
-        // key: "",
-        moduleids: []
-        // sortindex: 1
-      },
-      farther: false,
-      rules,
-      dialogVisible: false,
-      loading: false,
-      title: "",
-      // 角色选项
-      roleOptions: [],
-      deptType: "",
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
-      moduleList: [],
-      list: []
-    };
-  },
-  created() {
-    let { data, title } = this.$route.params;
-    this.title = title;
-    this.getInfo(data);
-  },
-  methods: {
-    setDown(item) {
-      console.log(item.Isdown);
-      item.Isdown = !item.Isdown;
-      console.log(item.Isdown);
+    data() {
+        const rules = {
+            roleName: [
+                {
+                    required: true,
+                    message: "角色名称不能为空",
+                    trigger: "blur"
+                }
+            ],
+            roleKey: [
+                {
+                    required: true,
+                    message: "权限字符不能为空",
+                    trigger: "blur"
+                }
+            ],
+            roleSort: [
+                {
+                    required: true,
+                    message: "角色顺序不能为空",
+                    trigger: "blur"
+                }
+            ]
+        };
+        return {
+            form: {
+                id: "",
+                // name: "",
+                // key: "",
+                moduleids: []
+                // sortindex: 1
+            },
+            farther: false,
+            rules,
+            dialogVisible: false,
+            loading: false,
+            title: "",
+            // 角色选项
+            roleOptions: [],
+            deptType: "",
+            defaultProps: {
+                children: "children",
+                label: "label"
+            },
+            moduleList: [],
+            list: []
+        };
     },
-    setCheck(item, item1, item2) {
-      item.IsSelect = !item.IsSelect;
-      if (item.IsSelect) {
-        item1.IsSelect = true;
-        item2.IsSelect = true;
-      } else {
-        item1.IsSelect = !(
-          item1.Childs.filter(v => v.IsSelect == false).length ==
-          item1.Childs.length
-        );
-        item2.IsSelect = !(
-          item2.ModuleData.filter(v => v.IsSelect == false).length ==
-          item2.ModuleData.length
-        );
-      }
+    created() {
+        let { data, title } = this.$route.params;
+        this.title = title;
+        this.getInfo(data);
     },
-    handleChangeFarther(isSelect) {
-      this.moduleList.map(v => {
-        v.IsSelect = isSelect;
-        this.setChildStatus(v);
-        return v;
-      });
-    },
-    setChildStatus(data) {
-      const isSelect = data.IsSelect;
-      const childs = data.Childs || data.ModuleData;
-      if (childs)
-        childs.forEach(v => {
-          v.IsSelect = isSelect;
-          this.setChildStatus(v);
-        });
-    },
-    handleChange(data, item2) {
-      this.setChildStatus(data);
-      if (data.isSelect) {
-        item2.isSelect = true;
-      } else {
-        item2.IsSelect = !(
-          item2.ModuleData.filter(v => v.IsSelect == false).length ==
-          item2.ModuleData.length
-        );
-      }
-    },
-    handleChange1(data) {
-      this.setChildStatus(data);
-      if (data.isSelect) {
-        this.fafa = true;
-      } else {
-        this.fafa = !(
-          this.moduleList.filter(v => v.IsSelect == false).length ==
-          this.moduleList.length
-        );
-      }
-    },
-    getInfo(data) {
-      this.loading = true;
-      if (data && data.id) {
-        const id = data.id;
-        getInfo({ id })
-          .then(({ data }) => {
-            this.moduleList = data;
-            this.moduleList.forEach(v => {
-              v.Isdown = true;
-            });
-          })
-          .finally(v => (this.loading = false));
-      } else {
-        this.loading = false;
-      }
-      this.reset(data);
-    },
-    // 表单重置
-    reset(data) {
-      this.form = Object.assign(
-        {
-          id: "",
-          // name: "",
-          // key: "",
-          moduleids: []
-          // sortindex: 1
+    methods: {
+        setDown(item) {
+            item.Isdown = !item.Isdown;
         },
-        data
-      );
-    },
-    handleOpen() {
-      let name = this.form.fromUrl
-        ? this.form.fromUrl
-        : "/commonManager/user/index";
-      const data = { id: this.form.tenantId, text: this.form.text };
-      this.$router.push({
-        name: name,
-        params: { data }
-      });
-    },
-    /** 提交按钮 */
-    handleSubmit: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          //按钮转圈圈
-          this.loading = true;
-          // this.form.moduleids = [];
-          // this.moduleList.forEach((v, i) => {
-          //   if (v.IsSelect) this.form.moduleids.push(v.RoleId);
-          //   if (v.ModuleData)
-          //     v.ModuleData.forEach(v => {
-          //       if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-          //       if (v.Childs)
-          //         v.Childs.forEach(v => {
-          //           if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
-          //         });
-          //     });
-          // });
-          //       this.form.moduleids = this.form.moduleids.join(",");
-
-          let powers = [];
-          this.moduleList
-            .filter(v => v.IsSelect)
-            .forEach(v => {
-              const RoleId = v.RoleId;
-              if (v.ModuleData) {
-                v.ModuleData.filter(v => v.IsSelect).forEach(v => {
-                  powers.push({ RoleId, ModuleId: v.ModuleId });
-                  if (v.Childs) {
-                    v.Childs.filter(v => v.IsSelect).forEach(v =>
-                      powers.push({ RoleId, ModuleId: v.ModuleId })
-                    );
-                  }
-                });
-              }
+        setCheck(item, item1, item2) {
+            item.IsSelect = !item.IsSelect;
+            if (item.IsSelect) {
+                item1.IsSelect = true;
+                item2.IsSelect = true;
+            } else {
+                item1.IsSelect = !(
+                    item1.Childs.filter(v => v.IsSelect == false).length ==
+                    item1.Childs.length
+                );
+                item2.IsSelect = !(
+                    item2.ModuleData.filter(v => v.IsSelect == false).length ==
+                    item2.ModuleData.length
+                );
+            }
+        },
+        handleChangeFarther(isSelect) {
+            this.moduleList.map(v => {
+                v.IsSelect = isSelect;
+                this.setChildStatus(v);
+                return v;
             });
-
-          this.form.powers = JSON.stringify(powers);
-          //this.form.moduleids = [...new Set(this.form.moduleids)];
-
-          if (this.form.id) {
-            //保存编辑
-            update(this.form)
-              .then(response => {
-                //消息提示
-                this.$message.success("编辑成功！");
-                //刷新列表
-                this.$emit("getList");
-                //关闭窗口
-                this.handleOpen();
-              })
-              .catch(r => {
-                //取消按钮转圈圈
+        },
+        setChildStatus(data) {
+            const isSelect = data.IsSelect;
+            const childs = data.Childs || data.ModuleData;
+            if (childs)
+                childs.forEach(v => {
+                    v.IsSelect = isSelect;
+                    this.setChildStatus(v);
+                });
+        },
+        handleChange(data, item2) {
+            this.setChildStatus(data);
+            if (data.isSelect) {
+                item2.isSelect = true;
+            } else {
+                item2.IsSelect = !(
+                    item2.ModuleData.filter(v => v.IsSelect == false).length ==
+                    item2.ModuleData.length
+                );
+            }
+        },
+        handleChange1(data) {
+            this.setChildStatus(data);
+            if (data.isSelect) {
+                this.fafa = true;
+            } else {
+                this.fafa = !(
+                    this.moduleList.filter(v => v.IsSelect == false).length ==
+                    this.moduleList.length
+                );
+            }
+        },
+        getInfo(data) {
+            this.loading = true;
+            if (data && data.id) {
+                const id = data.id;
+                getInfo({ id })
+                    .then(({ data }) => {
+                        this.moduleList = data.map(v => {
+                            v.Isdown = false;
+                            return v;
+                        });
+                    })
+                    .finally(v => (this.loading = false));
+            } else {
                 this.loading = false;
-              });
-          } else {
-            //添加用户
-            add(this.form)
-              .then(response => {
-                //消息提示
-                this.$message.success("新增成功！");
-                //刷新列表
-                this.$emit("getList");
-                //关闭窗口
-                this.handleOpen();
-              })
-              .catch(r => {
-                //取消按钮转圈圈
-                this.loading = false;
-              });
-          }
+            }
+            this.reset(data);
+        },
+        // 表单重置
+        reset(data) {
+            this.form = Object.assign(
+                {
+                    id: "",
+                    // name: "",
+                    // key: "",
+                    moduleids: []
+                    // sortindex: 1
+                },
+                data
+            );
+        },
+        handleOpen() {
+            let name = this.form.fromUrl
+                ? this.form.fromUrl
+                : "/commonManager/user/index";
+            const data = { id: this.form.tenantId, text: this.form.text };
+            this.$router.push({
+                name: name,
+                params: { data }
+            });
+        },
+        /** 提交按钮 */
+        handleSubmit: function() {
+            this.$refs["form"].validate(valid => {
+                if (valid) {
+                    //按钮转圈圈
+                    this.loading = true;
+                    // this.form.moduleids = [];
+                    // this.moduleList.forEach((v, i) => {
+                    //   if (v.IsSelect) this.form.moduleids.push(v.RoleId);
+                    //   if (v.ModuleData)
+                    //     v.ModuleData.forEach(v => {
+                    //       if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+                    //       if (v.Childs)
+                    //         v.Childs.forEach(v => {
+                    //           if (v.IsSelect) this.form.moduleids.push(v.ModuleId);
+                    //         });
+                    //     });
+                    // });
+                    //       this.form.moduleids = this.form.moduleids.join(",");
+
+                    let powers = [];
+                    this.moduleList
+                        .filter(v => v.IsSelect)
+                        .forEach(v => {
+                            const RoleId = v.RoleId;
+                            if (v.ModuleData) {
+                                v.ModuleData.filter(v => v.IsSelect).forEach(
+                                    v => {
+                                        powers.push({
+                                            RoleId,
+                                            ModuleId: v.ModuleId
+                                        });
+                                        if (v.Childs) {
+                                            v.Childs.filter(
+                                                v => v.IsSelect
+                                            ).forEach(v =>
+                                                powers.push({
+                                                    RoleId,
+                                                    ModuleId: v.ModuleId
+                                                })
+                                            );
+                                        }
+                                    }
+                                );
+                            }
+                        });
+
+                    this.form.powers = JSON.stringify(powers);
+                    //this.form.moduleids = [...new Set(this.form.moduleids)];
+
+                    if (this.form.id) {
+                        //保存编辑
+                        update(this.form)
+                            .then(response => {
+                                //消息提示
+                                this.$message.success("编辑成功！");
+                                //刷新列表
+                                this.$emit("getList");
+                                //关闭窗口
+                                this.handleOpen();
+                            })
+                            .catch(r => {
+                                //取消按钮转圈圈
+                                this.loading = false;
+                            });
+                    } else {
+                        //添加用户
+                        add(this.form)
+                            .then(response => {
+                                //消息提示
+                                this.$message.success("新增成功！");
+                                //刷新列表
+                                this.$emit("getList");
+                                //关闭窗口
+                                this.handleOpen();
+                            })
+                            .catch(r => {
+                                //取消按钮转圈圈
+                                this.loading = false;
+                            });
+                    }
+                }
+            });
         }
-      });
     }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/.xl-checkbox {
-  .el-checkbox__label {
-    font-weight: bold;
-    color: #f00;
-  }
-  .el-checkbox__inner {
-    border-color: #f00;
-  }
-  .el-checkbox__input.is-checked + .el-checkbox__label {
-    color: #f00;
-  }
-  .el-checkbox__input.is-checked .el-checkbox__inner {
-    background-color: #f00;
-    border-color: #f00;
-  }
-  .el-checkbox__input.is-focus .el-checkbox__inner {
-    border-color: #f00;
-  }
+    .el-checkbox__label {
+        font-weight: bold;
+        color: #f00;
+    }
+    .el-checkbox__inner {
+        border-color: #f00;
+    }
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+        color: #f00;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner {
+        background-color: #f00;
+        border-color: #f00;
+    }
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+        border-color: #f00;
+    }
 }
 .downbox {
-  display: inline-block;
-  margin-left: 20px;
-  font-size: 12px;
-  color: #558cf7;
-  cursor: pointer;
+    display: inline-block;
+    margin-left: 20px;
+    font-size: 12px;
+    color: #558cf7;
+    cursor: pointer;
 }
 </style>
