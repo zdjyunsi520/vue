@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       // 遮罩层
-      listLoading: true,
+      listLoading: false,
       // 选中数组
       ids: [],
       // 总条数

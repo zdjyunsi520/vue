@@ -75,11 +75,11 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="有效文件后缀：" label-width='125px' prop="FilterFileExtensions">
+            <el-form-item label="有效文件后缀：" label-width='120px' prop="FilterFileExtensions">
               <el-input v-model="form.FilterFileExtensions" placeholder='"*"表示所有类型后缀；多个后缀用","隔开' />
             </el-form-item>
-            <el-form-item label="文件最大值(kb)：" label-width='150px' prop="MaxFileSize">
-              <el-input v-model="form.MaxFileSize" placeholder="未使用FTP可不填" />
+            <el-form-item label="文件最大值(kb)：" label-width='120px' prop="MaxFileSize">
+              <el-input v-model="form.MaxFileSize" placeholder="请输入最大值" />
             </el-form-item>
           </el-row>
           <el-row>
@@ -88,18 +88,18 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="是否生成缩略图：" prop="IsGenerateThumbnail">
+            <el-form-item label="生成缩略图：" prop="IsGenerateThumbnail" label-width='120px'>
               <el-switch v-model="form.IsGenerateThumbnail" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
             </el-form-item>
-            <el-form-item label="文件大于该值时生成缩略图(kb)：" label-width='220px' prop="ThumbnailMaxFileSize">
-              <el-input v-model="form.ThumbnailMaxFileSize" placeholder="" />
+            <el-form-item label="生成条件(kb)：" label-width='120px' prop="ThumbnailMaxFileSize">
+              <el-input v-model="form.ThumbnailMaxFileSize" placeholder="文件大于该值时生成缩略图" />
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="缩略图规格：" label-width='100px' prop="ThumbnailSizes">
+            <el-form-item label="缩略图规格：" label-width='120px' prop="ThumbnailSizes">
               <el-input v-model="form.ThumbnailSizes" placeholder='宽高用"_"隔开,"*"表示自适应;多种规格用","隔开' />
             </el-form-item>
-            <el-form-item label="限制大小规格：" label-width='110px' prop="LimitSize">
+            <el-form-item label="限制大小规格：" label-width='120px' prop="LimitSize">
               <el-input v-model="form.LimitSize" placeholder="0时为不限制文件大小" />
             </el-form-item>
           </el-row>
@@ -109,7 +109,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="水印方式：" label-width='85px' prop="WatermarkMethod">
+            <el-form-item label="水印方式：" label-width='120px' prop="WatermarkMethod">
               <el-select v-model="form.WatermarkMethod">
                 <el-option label="请选择" :value="0"></el-option>
                 <el-option label="无水印" :value="1"></el-option>
@@ -117,12 +117,12 @@
                 <el-option label="图片水印" :value="3"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="水印文字：" label-width='85px' prop="WatermarkText">
+            <el-form-item label="水印文字：" label-width='120px' prop="WatermarkText">
               <el-input v-model="form.WatermarkText" placeholder="请输入水印文字" />
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="水印水平对齐方式：" label-width='150px' class="largelabel1" prop="WatermarkHorizontalAlign">
+            <el-form-item label="水平对齐方式：" label-width='120px' prop="WatermarkHorizontalAlign">
               <el-select v-model="form.WatermarkHorizontalAlign">
                 <el-option label="未设置" value="NotSet"></el-option>
                 <el-option label="居左" value="Left"></el-option>
@@ -131,12 +131,12 @@
                 <el-option label="两端对齐" value="Justify"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="水印图片URL：" label-width='115px' prop="WatermarkImageUrl">
+            <el-form-item label="图片URL：" label-width='120px' prop="WatermarkImageUrl">
               <el-input v-model="form.WatermarkImageUrl" placeholder="请输入水印图片URL" />
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="水印水平垂直方式：" label-width='150px' class="largelabel2" prop="WatermarkVerticalAlign">
+            <el-form-item label="水平垂直方式：" label-width='120px' prop="WatermarkVerticalAlign">
               <el-select v-model="form.WatermarkVerticalAlign">
                 <el-option label="未设置" value="NotSet"></el-option>
                 <el-option label="顶部" value="Top"></el-option>

@@ -95,4 +95,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 390px;
+  display: inline-block;
+  vertical-align: text-top;
+}
 </style>

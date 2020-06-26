@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">班次信息</p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
             <el-col>
               <el-col :span="8" :xs="24">
@@ -198,30 +198,10 @@ export default {
   width: 100%;
 }
 
-/deep/.largelabel {
-  .el-form-item__label {
-    width: 180px !important;
-  }
-  .el-form-item__content {
-    margin-left: 180px !important;
-  }
-}
-
-/deep/.largelabel1 {
-  .el-form-item__label {
-    width: 140px !important;
-  }
-  .el-form-item__content {
-    margin-left: 140px !important;
-  }
-}
-/deep/.largelabel2 {
-  .el-form-item__label {
-    width: 140px !important;
-  }
-  .el-form-item__content {
-    margin-left: 140px !important;
-  }
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
+  display: inline-block;
+  vertical-align: text-top;
 }
 .avatar {
   width: 100%;

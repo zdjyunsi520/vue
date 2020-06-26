@@ -191,7 +191,7 @@ export default {
                 getInfo({ id })
                     .then(({ data }) => {
                         this.moduleList = data.map(v => {
-                            v.Isdown = false;
+                            v.Isdown = true;
                             return v;
                         });
                     })

@@ -143,7 +143,7 @@ export default {
       dataList: null,
       listLoading: false,
       total: 0,
-      tableHeight: "calc(100% - 120px)",
+      tableHeight: "calc(100% - 125px)",
       ranks: [
         { name: "一般缺陷", id: 1 },
         { name: "紧急缺陷", id: 2 },

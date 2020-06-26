@@ -580,10 +580,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../../styles/treeEquipment.scss";
 .dragbox .dragleft{
-  width:250px;
+  width:300px;
 }
 .dragbox .dragright.mxright{
-   width: calc(100% - 260px);
+   width: calc(100% - 310px);
 }
 .app-container {
     font-size: 14px;

@@ -5,7 +5,7 @@
     <el-row :gutter="20" class="comheight">
       <el-col :span="6" :xs="{span: 24}" class="comheight ">
         <div style="background:#fff;height:100%">
-          <el-scrollbar v-loading.fullscreen.lock="loading"  element-loading-background="rgba(0, 0, 0, 0.8)" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
+          <el-scrollbar>
             <div class="left-box">
               <div class="bztitle">{{dutyGroup.Name}}</div>
               <div class="queryform">
@@ -158,13 +158,14 @@ export default {
         }
       });
       GetShifts({}).then(r => {
+        console.log(111, r);
         this.shifts = r.data;
         if (r.data && r.data.length) {
           this.form.shiftId = r.data[0].Id;
         }
       });
 
-      this.listLoading = true;
+      // this.listLoading = true;
       // fetchList(this.form)
       //     .then(response => {
       //         this.dataList = response.data;

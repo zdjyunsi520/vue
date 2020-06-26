@@ -80,7 +80,7 @@
                             <el-input v-model="form.mobilephone" placeholder="请输入联系人手机" />
                         </el-form-item>
                         <el-form-item label="是否启用" prop="isenable">
-                            <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#f3f6fc" active-text="启用" inactive-text="禁用">
+                            <el-switch v-model="form.isenable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用">
                             </el-switch>
                         </el-form-item>
                     </el-row>
@@ -157,10 +157,10 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item label="合同容量(kVA)" prop="contractcapacity" label-width="150px">
+                        <el-form-item label="合同容量(kVA)" prop="contractcapacity" label-width="140px">
                             <el-input v-model="form.contractcapacity" placeholder="请输入合同容量" :disabled="disabled" />
                         </el-form-item>
-                        <el-form-item label="运行容量(kVA)" prop="operatingcapacity" label-width="150px">
+                        <el-form-item label="运行容量(kVA)" prop="operatingcapacity" label-width="140px">
                             <el-input v-model="form.operatingcapacity" placeholder="请输入运行容量" :disabled="disabled" />
                         </el-form-item>
                     </el-row>
@@ -664,16 +664,19 @@ export default {
 }
 
 /deep/.onlyform-box .el-form .el-form-item {
-    width: 350px;
+    width: 380px;
     display: inline-block;
     vertical-align: text-top;
 }
 .smitemwidth {
-    width: 724px !important;
+    width: 782px !important;
 }
 @media screen and (max-width: 768px) {
     .smitemwidth {
-        width: 100% !important;
+        width: 90% !important;
+    }
+    /deep/.onlyform-box .el-form .el-form-item {
+        width: 320px;
     }
 }
 </style>
