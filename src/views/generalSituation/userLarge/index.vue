@@ -59,7 +59,7 @@
             <div class="chartbox boxheight2">
               <el-row class="legendbox lx">
                 <el-col :span="12">
-                  <p>本月电费(元))<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
+                  <p>本月电费(元)<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
                 </el-col>
                 <el-col :span="12">
                   <p>上月电费(元)<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>

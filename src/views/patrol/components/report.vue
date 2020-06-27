@@ -50,7 +50,7 @@
             </el-row>
             <el-row :gutter="40">
               <el-col :span="24">
-                <h6>{{index+1}}.1、配电柜</h6>
+                <h6>{{index+1}}.2、配电柜</h6>
                 <div class="contbox">
                   <p>
                     <span class="bluebg">设备</span>
@@ -79,9 +79,35 @@
                 </div>
               </el-col>
             </el-row>
+
+            <el-row :gutter="40">
+              <el-col :span="24">
+                <h6>{{index+1}}.3、变压器</h6>
+                <div>
+                  <div v-for="transfrom in item.Transfrom">
+                    <h5>{{transfrom.Name}}</h5>
+                    <p>
+                      <span>{{transfrom.AHighTemperature}}</span>
+                      <span>{{transfrom.ALowTemperature}}</span>
+                      <span>{{transfrom.AssetsBugNo}}</span>
+                      <span>{{transfrom.Attachment}}</span>
+                      <span>{{transfrom.BHighTemperature}}</span>
+                      <span>{{transfrom.BLowTemperature}}</span>
+                      <span>{{transfrom.BodyTemperature}}</span>
+                      <span>{{transfrom.CHighTemperature}}</span>
+                      <span>{{transfrom.CLowTemperature}}</span>
+                      <span>{{transfrom.ErrorDetail}}</span>
+                      <span>{{transfrom.IsNormal}}</span>
+                      <span>{{transfrom.PowerFactor}}</span>
+                    </p>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+
             <el-row :gutter="40">
               <el-col :span="13">
-                <h6>{{index+1}}.3、环境</h6>
+                <h6>{{index+1}}.4、环境</h6>
                 <div class="contbox">
                   <p>
                     <span class="bluebg">检查项目</span>
@@ -102,7 +128,7 @@
                 </div>
               </el-col>
               <el-col :span="10" :push="1">
-                <h6>{{index+1}}.4、安全用具</h6>
+                <h6>{{index+1}}.5、安全用具</h6>
                 <div class="contbox">
                   <p>
                     <span class="bluebg">检查项目</span>
@@ -125,41 +151,22 @@
 
             </el-row>
             <div class="areabox">
-              <h6>{{index+1}}.5、存在的问题及处理情况</h6>
+              <h6>{{index+1}}.6、存在的问题及处理情况</h6>
               <p>{{item.Room.Result}}</p>
             </div>
             <div class="areabox">
-              <h6>{{index+1}}.6、小结以及建议</h6>
+              <h6>{{index+1}}.7、小结以及建议</h6>
               <p>{{item.Room.Suggest}}</p>
             </div>
           </div>
           <div>
-            <div v-for="transfrom in item.Transfrom">
-              <h5>{{transfrom.Name}}</h5>
-              <p>
-                <span>{{transfrom.AHighTemperature}}</span>
-                <span>{{transfrom.ALowTemperature}}</span>
-                <span>{{transfrom.AssetsBugNo}}</span>
-                <span>{{transfrom.Attachment}}</span>
-                <span>{{transfrom.BHighTemperature}}</span>
-                <span>{{transfrom.BLowTemperature}}</span>
-                <span>{{transfrom.BodyTemperature}}</span>
-                <span>{{transfrom.CHighTemperature}}</span>
-                <span>{{transfrom.CLowTemperature}}</span>
-                <span>{{transfrom.ErrorDetail}}</span>
-                <span>{{transfrom.IsNormal}}</span>
-                <span>{{transfrom.PowerFactor}}</span>
-              </p>
-            </div>
-          </div>
-          <div>
-            <div v-for="power in item.Power">
-              <h5>{{power.Name}}</h5>
-              <p>
-                <span>附件url地址{{power.Attachment}}</span>
-                <span>错误详情{{power.ErrorDetail}}</span>
-                <span>是否正常{{power.IsNormal}}</span>
-              </p>
+            <h6>{{index+1}}.8、附件</h6>
+            <div v-for="power in item.Power" style="display: inline;margin-right:15px">
+              <!-- <h5>{{power.Name}}</h5> -->
+              <img :src="power.Attachment" style='width:22%'>
+              <!-- <span>附件url地址{{power.Attachment}}</span> -->
+              <!-- <span>错误详情{{power.ErrorDetail}}</span>
+                <span>是否正常{{power.IsNormal}}</span> -->
             </div>
           </div>
 
@@ -209,6 +216,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.signimg {
+  height: 30px;
+  vertical-align: bottom;
+}
 .reportbox {
   padding: 20px;
   background: #fff;

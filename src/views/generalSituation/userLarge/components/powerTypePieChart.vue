@@ -65,7 +65,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.chartData.listData.length>0) {
+      if (this.chartData.listData.length > 0) {
         this.chart.hideLoading();
         this.setOptions(this.chartData);
       }
@@ -113,7 +113,7 @@ export default {
               show: true,
               // position: "center",
               formatter: function(params) {
-                return params.value + "%";
+                return params.value + "元";
               }
             },
             emphasis: {

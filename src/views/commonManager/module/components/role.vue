@@ -156,7 +156,7 @@ export default {
               var txt = this.form.id ? "编辑成功！" : "新增成功！";
               this.$message.success(txt);
 
-              this.form.id = response.data.id;
+              this.form.id = response.data.Id;
 
               //关闭窗口
               this.handleOpen();

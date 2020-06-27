@@ -233,9 +233,9 @@ export default {
         console.log(islock);
         locklock({ ids, islock }).then(r => {
           if (!lock) {
-            this.$message.info("已解锁");
+            this.$message.success("已解锁");
           } else {
-            this.$message.success("已锁定");
+            this.$message.info("已锁定");
           }
           this.getList();
         });

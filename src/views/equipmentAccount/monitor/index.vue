@@ -3,7 +3,7 @@
 
     <el-row :gutter="10">
       <el-col :xs="{span: 24}" :span="6" class="treebox">
-        <common-tree />
+        <common-tree :expandedKeys="expandedKeys" />
       </el-col>
       <el-col :xs="{span: 24}" :span="18">
         <router-view />
@@ -41,7 +41,8 @@ export default {
       },
       operateId: "",
       operateType: "",
-      infoData: {}
+      infoData: {},
+      expandedKeys: []
     };
   },
 
@@ -54,6 +55,7 @@ export default {
     handleNodeClick(obj, event) {
       console.log(obj, event);
       this.operateId = obj.id;
+      this.expandedKeys.push(this.operateId);
       if (obj.type == 4) {
         //主机
         this.getServer();

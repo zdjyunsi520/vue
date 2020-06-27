@@ -282,6 +282,7 @@ const powerTypeData = {
 };
 const lineChartData = {
     legendData: ["最高负荷", "平均负荷", "最低负荷"],
+    yAxisName:"单位(Kwh)",
     xAxisData: [],
     highData: [],
     averageData: [],
@@ -289,6 +290,7 @@ const lineChartData = {
 };
 const tracklineChartData = {
     legendData: ["巡视", "故障维修", "用户报修"],
+    yAxisName:"单位(次)",
     xAxisData: [],
     highData: [],
     averageData: [],
@@ -758,7 +760,7 @@ export default {
     }
     img.img_energy {
         width: 100%;
-        height: px2rem(120px);
+        height: px2rem(150px);
     }
     span {
         color: #62d4eb;

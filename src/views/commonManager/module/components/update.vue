@@ -69,17 +69,17 @@ export default {
       ],
       key: [
         {
-          pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
+          pattern: /^[^\u4e00-\u9fa5]{1,42}$/,
           required: true,
-          message: "请输入18位以内的数字或字母或特殊符号",
+          message: "请输入42位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
       ],
       url: [
         {
-          pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
+          pattern: /^[^\u4e00-\u9fa5]{1,42}$/,
           required: true,
-          message: "请输入18位以内的数字或字母或特殊符号",
+          message: "请输入42位以内的数字或字母或特殊符号",
           trigger: "blur"
         }
       ],
@@ -157,7 +157,7 @@ export default {
               //消息提示
               var txt = this.form.id ? "编辑成功！" : "新增成功！";
               this.$message.success(txt);
-              this.form.id = response.data.id;
+              this.form.id = response.data.Id;
               //关闭窗口
               this.handleOpen();
             })

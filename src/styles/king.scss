@@ -664,12 +664,11 @@
 .roletable-box {
     background-color: #fff;
     margin-right: 10px;
-    height: 99%;
-    border: 1px solid #ebeef5;
+    height: 102%;
     margin-left: 10px;
     & .el-form>ul {
         background-color: #f2f2f2;
-        border-left: none;
+        border: 1px solid #ebeef5;
     }
     ul {
         display: flex;

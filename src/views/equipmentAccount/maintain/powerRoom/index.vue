@@ -155,9 +155,9 @@ export default {
     },
     handleCommand(name) {
       const tenantId = this.infoData.TenantId;
-      const parentId = this.data.id;
+      const parentid = this.data.id;
       const switchingroomid = this.data.id;
-      const data = { parentId, switchingroomid, tenantId };
+      const data = { parentid, switchingroomid, tenantId };
       const title = "新增";
       this.$router.push({
         name,
@@ -179,7 +179,7 @@ export default {
       const sortindex = this.infoData.SortIndex;
       const exfactorydate = this.infoData.ExFactoryDate;
       const tenantId = this.infoData.TenantId;
-      const parentId = "";
+      const parentid = "";
       const data = {
         id,
         name,
@@ -192,7 +192,7 @@ export default {
         factory,
         sortindex,
         exfactorydate,
-        parentId,
+        parentid,
         tenantId
       };
       const title = "编辑";

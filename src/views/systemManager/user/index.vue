@@ -5,7 +5,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding-left:10px;">
           <el-scrollbar v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading">
-            <el-tree ref="tree" :data="treeData" node-key="id" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false">
+            <el-tree ref="tree" :data="treeData" node-key="id" :props="defaultProps" class="comheight" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' :expand-on-click-node="false" :default-expanded-keys="expandedKeys">
               <span class="el-tree-node__label" slot-scope="{ node, data }">
                 <svg-icon icon-class="gongsi" class="tablesvgicon"></svg-icon>
                 {{ data.text }}
@@ -125,6 +125,7 @@ export default {
         tenantId: "",
         text: ""
       },
+      expandedKeys: [],
       defaultProps: {
         children: "childs",
         label: "text"
@@ -185,6 +186,7 @@ export default {
           let checkedNode = this.checkedNode ? this.checkedNode : r.data[0];
           this.$nextTick(() => {
             this.$refs.tree.setCurrentKey(checkedNode.id);
+            this.expandedKeys.push(checkedNode.id);
           });
           this.handleNodeClick(checkedNode);
         }
@@ -284,7 +286,7 @@ export default {
       };
       const title = "编辑权限";
       this.$router.push({
-        name: "/commonManager/user/components/role",
+        name: "/systemManager/user/components/role",
         params: { data, title }
       });
     },

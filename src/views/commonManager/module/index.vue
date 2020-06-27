@@ -23,7 +23,7 @@
       </el-form>
     </div>
 
-    <commonTree :dataList="dataList" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
+    <commonTree :dataList="dataList" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll" :expandedKeys='expandedKeys'>
       <div class="form-smtitle marginBottom30">基础信息 </div>
       <el-form label-position="top" :model="smform" v-if="data&&data.Id" style="padding-right: 20px;">
         <el-form-item label="类型">
@@ -84,7 +84,8 @@ export default {
       currentNode: {},
       needToScroll: 1,
       updateTitle: "",
-      smtype: ""
+      smtype: "",
+      expandedKeys: []
     };
   },
   created() {
@@ -122,6 +123,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { id } = this.currentNode;
+      this.expandedKeys.push(this.currentNode.id);
       id &&
         getInfo({ id }).then(r => {
           this.data = Object.assign({}, r.data);

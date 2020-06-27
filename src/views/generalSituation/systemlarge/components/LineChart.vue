@@ -70,7 +70,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.showLoading();
-      if (this.linechartData.xAxisData.length>0) {
+      if (this.linechartData.xAxisData.length > 0) {
         this.hideLoading();
         this.setOptions(this.linechartData);
       }
@@ -89,7 +89,7 @@ export default {
       this.chart.hideLoading();
     },
 
-    setOptions({ xAxisData, legendData, highData, averageData, lowData } = {}) {
+    setOptions({ xAxisData, legendData,yAxisName, highData, averageData, lowData } = {}) {
       this.chart.setOption({
         grid: {
           left: 10,
@@ -128,7 +128,7 @@ export default {
           }
         },
         yAxis: {
-          name: "单位(次)",
+          name: yAxisName,
           nameGap: 20,
           axisTick: {
             show: false

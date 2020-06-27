@@ -1,6 +1,6 @@
 <template>
 
-  <common-tree @getInfo="getInfo" ref="commonTree" :currentNode="currentNode" :needToScroll="needToScroll">
+  <common-tree @getInfo="getInfo" ref="commonTree" :currentNode="currentNode" :needToScroll="needToScroll" :expandedKeys="expandedKeys">
     <div class="comheight">
       <base-prop ref="component1" />
       <power-room ref="component2" @refresh="refresh" />
@@ -46,13 +46,18 @@ export default {
       operateId: "",
       loading: true,
       currentNode: {},
-      needToScroll: 1
+      needToScroll: 1,
+      expandedKeys: []
     };
   },
 
   created() {
     const { data } = this.$route.params;
     this.currentNode = data || {};
+    if (data) {
+      this.expandedKeys.push(this.currentNode.tenantId);
+    }
+    console.log(33333, this.currentNode);
   },
   methods: {
     closeComponent() {
@@ -63,9 +68,11 @@ export default {
     },
     getInfo(data) {
       this.data = data;
+      console.log("aaa", data.type);
       this.closeComponent();
       const target = this.$refs["component" + data.type];
       if (target) {
+        console.log("bbb");
         target.visible = true;
         target.showBtn = true;
         target.infoData = {};

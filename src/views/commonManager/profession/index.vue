@@ -41,7 +41,7 @@
         <div class="bg-white infobox">
           <el-scrollbar> -->
 
-    <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
+    <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll" :expandedKeys='expandedKeys'>
       <div class="form-smtitle marginBottom30">基础信息 </div>
       <el-form label-position="top" :model="smform" v-if="data&&data.Key" style="padding-right: 20px;">
         <el-form-item label="代码">
@@ -95,7 +95,8 @@ export default {
       smform: {},
       data: {},
       currentNode: {},
-      needToScroll: 1
+      needToScroll: 1,
+      expandedKeys: []
     };
   },
   created() {
@@ -135,6 +136,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { key } = this.currentNode;
+      this.expandedKeys.push(this.currentNode.key);
       // const key = this.operateId;
       key &&
         getInfo({ key }).then(r => {

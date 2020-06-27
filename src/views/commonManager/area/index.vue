@@ -24,7 +24,7 @@
       </el-form>
     </div>
 
-    <commonTree :nodeKey="nodeKey" :expandKeys="expandKeys" :expandAll="false" :dataList="dataList" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
+    <commonTree :nodeKey="nodeKey" :expandedKeys="expandedKeys" :expandAll="false" :dataList="dataList" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll">
       <div class="form-smtitle marginBottom30">基础信息 </div>
       <el-form label-position="top" :model="smform" v-if="data&&data.Key">
         <el-form-item label="代码">
@@ -83,15 +83,15 @@ export default {
       smform: {},
       currentNode: {},
       needToScroll: 1,
-      expandKeys: [],
+      expandedKeys: [],
       nodeKey: "key"
     };
   },
   created() {
     const { data } = this.$route.params;
     this.currentNode = data || {};
-    if (this.currentNode[this.nodeKey])
-      this.expandKeys = [this.currentNode[this.nodeKey]];
+    // if (this.currentNode[this.nodeKey])
+    //   this.expandedKeys = [this.currentNode[this.nodeKey]];
     this.getList();
   },
   methods: {
@@ -120,6 +120,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { key } = this.currentNode;
+      this.expandedKeys.push(this.currentNode.key);
       getInfo({ key }).then(r => {
         this.data = Object.assign({}, r.data);
         this.smform = Object.assign({}, r.data);

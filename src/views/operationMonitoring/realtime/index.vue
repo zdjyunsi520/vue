@@ -4,7 +4,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding-left:10px;">
           <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading">
-            <el-tree :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' node-key="id" :expand-on-click-node="false">
+            <el-tree :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' node-key="id" :expand-on-click-node="false" :default-expanded-keys="expandedKeys">
               <span class="el-tree-node__label" slot-scope="{ node, data }">
                 <svg-icon :icon-class="
                     
@@ -172,6 +172,7 @@ export default {
         children: "childs",
         label: "text"
       },
+      expandedKeys: [],
       baseData: [],
       id: null,
       weight: 0,
@@ -277,9 +278,13 @@ export default {
         this.loading = false;
         this.treeData = response.data;
 
-        if (this.form.intervalId)
-          this.$refs.tree.setCurrentKey(this.form.intervalId);
-        else this.findFistInterval(response.data);
+        if (this.form.intervalId) {
+          this.expandedKeys = [];
+            this.$nextTick(() => {
+              this.$refs.tree.setCurrentKey(this.form.intervalId);
+              this.expandedKeys.push(this.form.intervalId);
+            });
+        } else this.findFistInterval(response.data);
         // this.$emit("getInfo", this.treeData[0]);
       });
     },
@@ -291,7 +296,9 @@ export default {
           if (v.type == 11) {
             this.form.intervalId = v.id;
             this.$nextTick(() => {
+              this.expandedKeys = [];
               this.$refs.tree.setCurrentKey(v.id);
+              this.expandedKeys.push(v.id);
             });
           }
         });

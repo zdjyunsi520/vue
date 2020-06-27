@@ -114,6 +114,7 @@ export default {
     getInfo(data) {
       const id = data.id;
       this.id = data.id;
+      console.log(99999999, this.id);
       getInfo({ id }).then(r => {
         this.infoData = r.data;
         this.infoData.IsEnable = r.data.IsEnable ? "在运" : "停运";

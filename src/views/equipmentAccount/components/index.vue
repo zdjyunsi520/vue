@@ -6,7 +6,7 @@
           <el-scrollbar ref="elScrollbar" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
             <div style="padding-right:10px">
 
-              <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all="false" :expand-on-click-node="false">
+              <el-tree ref="tree" :current-node-key="currentNode[nodeKey]" :node-key="nodeKey" :data="treeData" :props="defaultProps" class="comheight" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all="false" :expand-on-click-node="false" :default-expanded-keys="expandedKeys">
                 <span class="el-tree-node__label" slot-scope="{ node, data }">
                   <svg-icon :icon-class="
                       data.type == 1
@@ -59,6 +59,12 @@
 import { getTrees } from "@/api/org";
 export default {
   props: {
+    expandedKeys: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
     nodeKey: {
       type: String,
       default: "id"
@@ -174,6 +180,7 @@ export default {
         });
         const id = node.id;
         const type = node.type;
+        console.log(id);
         this.$emit("getInfo", { id, type });
       }
     }

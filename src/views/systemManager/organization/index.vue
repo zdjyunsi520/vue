@@ -52,17 +52,18 @@
         <el-table-column type="selection" width="50" fixed="left" />
         <el-table-column label="名称" min-width="250" prop="Name" />
         <!-- <el-table-column label="设备检验码"   prop="nickName" /> -->
-        <el-table-column label="附加属性" sortable width="120" prop="Attribute">
-          <template slot-scope="scope">
-            {{scope.row.Attribute=="0"?'':scope.row.Attribute=="1"?'用电':scope.row.Attribute}}
-          </template>
-        </el-table-column>
         <el-table-column label="行业类别" sortable min-width="120" prop="IndustryName" />
         <el-table-column label="行业分类" sortable min-width="120" prop="PrincipleActivityName" />
         <el-table-column label="联系人" width="140" prop="ContactPerson" />
         <el-table-column label="联系人手机" width="140" prop="MobilePhone" />
         <el-table-column label="联系电话" width="140" prop="PhoneNo" />
-        <el-table-column label="状态" sortable width="100" prop="IsEnable">
+        <el-table-column label="附加属性" sortable width="120" prop="Attribute">
+          <template slot-scope="scope">
+            {{scope.row.Attribute=="0"?'':scope.row.Attribute=="1"?'用电':scope.row.Attribute}}
+          </template>
+        </el-table-column>
+        <el-table-column label="用户类型" width="100" prop="UserType" />
+        <el-table-column label="状态" sortable width="80" prop="IsEnable">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>

@@ -4,7 +4,7 @@
     <el-col :xs="{span: 24}" class="treebox comheight dragleft">
       <div style="background:#fff;height:100%;">
         <el-scrollbar ref="elScrollbar" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
-          <el-tree :default-expanded-keys="expandKeys" :current-node-key="currentNode[nodeKey]" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="expandAll" :node-key="nodeKey" :expand-on-click-node="false"></el-tree>
+          <el-tree :default-expanded-keys="expandedKeys" :current-node-key="currentNode[nodeKey]" :data="dataList" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="expandAll" :node-key="nodeKey" :expand-on-click-node="false"></el-tree>
         </el-scrollbar>
       </div>
     </el-col>
@@ -32,7 +32,7 @@ import { fetchList, getInfo, deleted } from "@/api/commonManager/module";
 export default {
   // components: { update, add },
   props: {
-    expandKeys: {
+    expandedKeys: {
       type: Array,
       default() {
         return [];
@@ -144,4 +144,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/tree.scss";
+/deep/.el-tree .el-tree-node .el-tree-node__content > .el-tree-node__label {
+  padding-left: 5px;
+}
 </style>

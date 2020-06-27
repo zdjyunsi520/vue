@@ -311,7 +311,7 @@ export const constantRoutes = [
           icon: "dashboard",
           noCache: true,
           breadcrumb: true,
-          activeMenu: '/commonManager/user/index'
+          activeMenu: '/Common/User'
         }
       },
       {
@@ -420,6 +420,18 @@ export const constantRoutes = [
         path: "/systemManager/user/components/password",
         component: () =>
           import("@/views/systemManager/user/components/password"),
+        meta: {
+          title: "人员信息",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true,
+          activeMenu: '/Org/Employee'
+        }
+      },
+      {
+        name: "/systemManager/user/components/role",
+        path: "/systemManager/user/components/role",
+        component: () => import("@/views/systemManager/user/components/role"),
         meta: {
           title: "人员信息",
           icon: "dashboard",
@@ -896,7 +908,7 @@ export const constantRoutes = [
           icon: "dashboard",
           noCache: true,
           breadcrumb: true,
-          activeMenu: '/RealtimeMonitoring'
+          activeMenu: '/RealtimeAlarm'
         }
       }
     ]
