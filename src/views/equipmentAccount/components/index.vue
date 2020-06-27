@@ -180,7 +180,7 @@ export default {
         });
         const id = node.id;
         const type = node.type;
-        console.log(id);
+        console.log(node, id);
         this.$emit("getInfo", { id, type });
       }
     }

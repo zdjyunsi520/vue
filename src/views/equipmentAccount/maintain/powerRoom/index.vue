@@ -155,9 +155,9 @@ export default {
     },
     handleCommand(name) {
       const tenantId = this.infoData.TenantId;
-      const parentid = this.data.id;
+      const parentId = this.data.id;
       const switchingroomid = this.data.id;
-      const data = { parentid, switchingroomid, tenantId };
+      const data = { parentId, switchingroomid, tenantId };
       const title = "新增";
       this.$router.push({
         name,

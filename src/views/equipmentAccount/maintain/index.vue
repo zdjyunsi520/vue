@@ -72,10 +72,12 @@ export default {
       this.closeComponent();
       const target = this.$refs["component" + data.type];
       if (target) {
-        console.log("bbb");
+        console.log("bbb", data);
         target.visible = true;
         target.showBtn = true;
         target.infoData = {};
+        this.expandedKeys = [];
+        this.expandedKeys.push(data.id);
         target.getInfo(data);
       }
     },
