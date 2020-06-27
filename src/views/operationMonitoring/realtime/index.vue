@@ -67,21 +67,21 @@
                   </el-col>
 
                   <el-col :span='4' :xs='12'>
-                    <h5>总视在功率(kVA)</h5>
+                    <h5>视在功率(kVA)</h5>
                     <p @click="handleClick('S','总视在功率')"><label>总</label><span>{{info.S}}</span></p>
                     <p @click="handleClick('SA','A相视在功率')"><label>A相</label><span>{{info.SA}}</span></p>
                     <p @click="handleClick('SB','B相视在功率')"><label>B相</label><span>{{info.SB}}</span></p>
                     <p @click="handleClick('SC','C相视在功率')"><label>C相</label><span>{{info.SC}}</span></p>
                   </el-col>
                   <el-col :span='5' :xs='12'>
-                    <h5>总有功功率(kW)</h5>
+                    <h5>有功功率(kW)</h5>
                     <p @click="handleClick('P','总有功功率')"><label>总</label><span>{{info.P}}</span></p>
                     <p @click="handleClick('PA','A相有功功率')"><label>A相</label><span>{{info.PA}}</span></p>
                     <p @click="handleClick('PB','B相有功功率')"><label>B相</label><span>{{info.PB}}</span></p>
                     <p @click="handleClick('PC','C相有功功率')"><label>C相</label><span>{{info.PC}}</span></p>
                   </el-col>
                   <el-col :span='5' :xs='12'>
-                    <h5>总功率因素</h5>
+                    <h5>功率因素</h5>
                     <p @click="handleClick('PF','总功率因素')"><label>总</label><span>{{info.PF}}</span></p>
                     <p @click="handleClick('PFA','A相功率因素')"><label>A相</label><span>{{info.PFA}}</span></p>
                     <p @click="handleClick('PFB','B相功率因素')"><label>B相</label><span>{{info.PFB}}</span></p>
@@ -280,10 +280,10 @@ export default {
 
         if (this.form.intervalId) {
           this.expandedKeys = [];
-            this.$nextTick(() => {
-              this.$refs.tree.setCurrentKey(this.form.intervalId);
-              this.expandedKeys.push(this.form.intervalId);
-            });
+          this.$nextTick(() => {
+            this.$refs.tree.setCurrentKey(this.form.intervalId);
+            this.expandedKeys.push(this.form.intervalId);
+          });
         } else this.findFistInterval(response.data);
         // this.$emit("getInfo", this.treeData[0]);
       });

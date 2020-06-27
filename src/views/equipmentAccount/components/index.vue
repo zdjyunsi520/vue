@@ -59,12 +59,12 @@
 import { getTrees } from "@/api/org";
 export default {
   props: {
-    expandedKeys: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
+    // expandedKeys: {
+    //   type: Array,
+    //   default() {
+    //     return [];
+    //   }
+    // },
     nodeKey: {
       type: String,
       default: "id"
@@ -89,7 +89,8 @@ export default {
       },
       dataArray: [],
       count: 0,
-      loading: false
+      loading: false,
+      expandedKeys: []
     };
   },
   mounted() {
@@ -176,11 +177,13 @@ export default {
     handleNodeClick(node, event) {
       if (node[this.nodeKey]) {
         this.$nextTick(() => {
-          this.$refs.tree.setCurrentKey(node[this.nodeKey]);
+          let id = node[this.nodeKey] || node.Id;
+          this.$refs.tree.setCurrentKey(id);
+          this.expandedKeys.push(id);
         });
         const id = node.id;
         const type = node.type;
-        console.log(node, id);
+        console.log(id);
         this.$emit("getInfo", { id, type });
       }
     }

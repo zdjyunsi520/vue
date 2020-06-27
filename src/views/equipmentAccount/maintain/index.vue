@@ -54,10 +54,11 @@ export default {
   created() {
     const { data } = this.$route.params;
     this.currentNode = data || {};
+    let id = this.currentNode.id || this.currentNode.Id;
+    this.currentNode.id = id;
     if (data) {
       this.expandedKeys.push(this.currentNode.tenantId);
     }
-    console.log(33333, this.currentNode);
   },
   methods: {
     closeComponent() {
@@ -68,16 +69,12 @@ export default {
     },
     getInfo(data) {
       this.data = data;
-      console.log("aaa", data.type);
       this.closeComponent();
       const target = this.$refs["component" + data.type];
       if (target) {
-        console.log("bbb", data);
         target.visible = true;
         target.showBtn = true;
         target.infoData = {};
-        this.expandedKeys = [];
-        this.expandedKeys.push(data.id);
         target.getInfo(data);
       }
     },

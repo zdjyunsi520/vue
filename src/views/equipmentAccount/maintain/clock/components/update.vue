@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}电力表计</p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="100px">
+        <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="80px">
           <el-row>
             <el-form-item label="设备编号" prop="SerialCode">
               <el-input v-model="form.SerialCode" placeholder="请输入设备编号" />
@@ -73,7 +73,7 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="数据源地址" prop="DataAddress">
+            <el-form-item label="数据源地址" prop="DataAddress" label-width="100px">
               <el-select v-model="form.DataAddress" :disabled="!!form.Id">
                 <el-option :key="item" :label="item" :value="item" v-for="item in 254" />
               </el-select>
@@ -289,7 +289,7 @@ export default {
   height: 300px;
 }
 /deep/.onlyform-box .el-form .el-form-item {
-  width: 370px;
+  width: 350px;
   display: inline-block;
   vertical-align: text-top;
 }
