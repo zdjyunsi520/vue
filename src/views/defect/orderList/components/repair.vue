@@ -68,7 +68,6 @@ import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
 import TreeSelect from "@/views/components/TreeSelect";
 export default {
-<<<<<<< HEAD
     components: { TreeSelect },
     data() {
         const rules = {
@@ -141,85 +140,6 @@ export default {
             processTreeId: [],
             Id: ""
         };
-=======
-  components: { TreeSelect },
-  data() {
-    const rules = {
-      IsProcessed: [
-        {
-          required: true,
-          message: "请选择消缺结果"
-        }
-      ],
-      AssetsId: [
-        {
-          required: true,
-          message: "请选择消缺设备",
-          trigger: "change"
-        }
-      ],
-      ReceiverId: [
-        {
-          required: true,
-          message: "请选择提交验收人"
-        }
-      ],
-      Reason: [
-        {
-          pattern: /^[\s\S]{1,300}$/,
-          required: true,
-          message: "请输入300位以内的内容"
-        }
-      ],
-      Statement: [
-        {
-          pattern: /^[\s\S]{1,300}$/,
-          required: true,
-          message: "请输入300位以内的内容"
-        }
-      ]
-    };
-    return {
-      form: {},
-      form1: { Status: 1 },
-      rules,
-      dialogVisible: false,
-      loading: false,
-      title: "",
-      deptType: "",
-      AssetsIds: [],
-      processorIds: [],
-      defaultProps: {
-        children: "childs",
-        label: "text"
-      },
-      ranks: [],
-      TenantIds: [],
-      imageUrl: [],
-      dialogImageUrl: "",
-      dialogVisible: false,
-      dialogAssetsVisible: false,
-      dialogEmployeesVisible: false,
-      allassetsTree: [],
-      processorTree: [],
-      allpatrolusers: [],
-      employeesTree: [],
-      ischange: false,
-      count: 0,
-      selectAssets: [],
-      activeName: "repair",
-      processpersonId: [],
-      ReadOnly: false,
-      assetsTreeId: [],
-      processTreeId: [],
-      Id: ""
-    };
-  },
-  computed: {
-    ...mapGetters(["name", "userId", "token"]),
-    disabled() {
-      return this.form1.Status > 2 || this.ReadOnly;
->>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
     },
     computed: {
         ...mapGetters(["name", "userId", "token"]),
@@ -245,40 +165,8 @@ export default {
         this.ReadOnly = ReadOnly;
         this.getInfo();
 
-<<<<<<< HEAD
         this.getTenantEmployees();
         this.getAssets();
-=======
-    this.getTenantEmployees();
-    this.getAssets();
-  },
-  methods: {
-    // 获取设备列表
-    getAssets() {
-      getTrees().then(res => {
-        this.allassetsTree = res.data;
-      });
-    },
-    // 巡视人员
-    getTenantEmployees() {
-      getTenantEmployees({}).then(res => {
-        this.allpatrolusers = res.data;
-      });
-    },
-    handleConfirm(data) {
-      this.assetsTreeId = data.map(v => v.id);
-      this.form.AssetsId = this.assetsTreeId.join(",");
-      this.$refs.form.clearValidate("AssetsId");
-    },
-    handleConfirm1(data) {
-      this.processTreeId = data.map(v => v.id);
-      this.form.ReceiverId = this.processTreeId.join(",");
-      this.$refs.form.clearValidate("ReceiverId");
-    },
-    changeTenant() {
-      this.ischange = true;
-      this.getProcessor();
->>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
     },
     methods: {
         // 获取设备列表
@@ -308,7 +196,6 @@ export default {
             this.getProcessor();
         },
 
-<<<<<<< HEAD
         checkchange(data, checked) {
             if (checked) {
                 const target = this.$refs.tree;
@@ -338,47 +225,6 @@ export default {
             this.processTreeId = this.form.ReceiverId.split(",").filter(v => v);
             this.$nextTick(() => {
                 this.$refs.form.clearValidate();
-=======
-    checkchange(data, checked) {
-      if (checked) {
-        const target = this.$refs.tree;
-        target.setCheckedKeys([data.id]);
-      }
-    },
-    //人员选择确定
-    handleEmpcheck() {
-      this.dialogEmployeesVisible = false;
-    },
-    // 表单重置
-    reset(data) {
-      this.form = Object.assign(
-        {
-          Id: "",
-          IsProcessed: true,
-          AssetsId: "",
-          ReceiverId: "",
-          Reason: "",
-          Statement: "",
-          ProcessorId: "",
-          ProcessTime: new Date()
-        },
-        data
-      );
-      this.assetsTreeId = this.form.AssetsId.split(",").filter(v => v);
-      this.processTreeId = this.form.ReceiverId.split(",").filter(v => v);
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate();
-      });
-    },
-    getInfo() {
-      let Id = this.Id;
-      if (Id) {
-        getInfoAdd({ Id }).then(r => {
-          this.form1 = Object.assign({}, r.data);
-          if (this.form1.Status > 2) {
-            getInfo({ Id }).then(res => {
-              this.reset(res.data);
->>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
             });
         },
         getInfo() {
