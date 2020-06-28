@@ -15,7 +15,7 @@
                 </el-form-item>
                 <el-form-item prop="mobilePhone">
                     <el-input placeholder="请输入手机号" v-model="form.mobilePhone" class="input-with-select mobilePhoneinput">
-                        <el-select v-model="select" slot="prepend" placeholder="请选择" style="color: #333;">
+                        <el-select v-model="select" slot="prepend" placeholder="请选择" style="color: #fff;margin: -10px -21px;">
                             <el-option label="中国 +86" value="中国 +86"></el-option>
                         </el-select>
                     </el-input>
@@ -315,7 +315,7 @@ export default {
             }
         }
         .sendbtn {
-            color: #558cf7;
+            color: #fff;
         }
     }
     .btnbg {
@@ -328,7 +328,12 @@ export default {
 }
 @media screen and (max-width: 768px) {
     .pwdbox .pwd-main {
-        width: 100% !important;
+        width: 92% !important;border-radius: 20px;
+    }
+    .pwdbox {
+        height: 100%;
+        background-image: url("../../../assets/image/login-mbg.png");
+        background-size: 100% 100%;
     }
 }
 </style>

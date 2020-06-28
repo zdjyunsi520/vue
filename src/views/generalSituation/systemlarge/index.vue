@@ -282,7 +282,7 @@ const powerTypeData = {
 };
 const lineChartData = {
     legendData: ["最高负荷", "平均负荷", "最低负荷"],
-    yAxisName:"单位(Kwh)",
+    yAxisName:"单位(KW)",
     xAxisData: [],
     highData: [],
     averageData: [],

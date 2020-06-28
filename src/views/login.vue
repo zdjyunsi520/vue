@@ -1,32 +1,28 @@
 <template>
-  <div class="login">
+  <div class="login mobilewrap">
     <div class="login-main">
       <div class="smloginimg">
         <img src="../assets/image/img_electric_tower.png" class="img_electric">
         <img src="../assets/image/img_slogan.png" class="textimg1">
         <img src="../assets/image/img_text_white.png" class="textimg2">
       </div>
+      <div class='m-logobox'>
+        <svg-icon icon-class="logo" />
+        <p><span>欢迎登录迅腾智慧能源云平台</span></p>
+      </div>
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="title"><img src="../assets/image/loginlogo.png"><span>欢迎登录<label>迅腾智慧能源云平台</label></span></h3>
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="new-username" placeholder="账号">
+          <el-input v-model="loginForm.username" type="text" auto-complete="new-username" placeholder="请输入账号" clearable>
             <svg-icon slot="prefix" icon-class="ic_user" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" auto-complete="new-password" placeholder="密码" @keyup.enter.native="handleLogin">
+          <el-input v-model="loginForm.password" type="password" auto-complete="new-password" placeholder="请输入密码" clearable @keyup.enter.native="handleLogin">
             <svg-icon slot="prefix" icon-class="ic_pwd" class="el-input__icon input-icon" />
           </el-input>
         </el-form-item>
-        <!-- <el-form-item prop="code">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
-        </el-input>
-        <div class="login-code" v-if="!needSms">
-          <img :src="codeUrl" @click="getCode" />
-        </div>
-        <short-message ref="sms" :type="0" @setData="setUserName" v-else></short-message>
-      </el-form-item> -->
+       
         <div class="smbottombtn">
           <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
           <span class="pwdbtn" @click="handlerFindpwd">
@@ -320,26 +316,68 @@ export default {
   line-height: 46px;
   padding: 0;
 }
+  .m-logobox{display:none;}
 
 @media screen and (max-width: 768px) {
-  .login .login-main .smloginimg {
+  .login {
+    height: 100%;
+    background-image: url("../assets/image/login-mbg.png");
+    background-size: 100% 100%;
+  }
+  .m-logobox{
+    display:block;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    svg{
+      font-size:70px;
+    }
+  }
+  .login .login-main .smloginimg,.el-login-footer {
     display: none;
+  }
+  .login .login-main .smbottombtn{
+    justify-content: flex-end;
   }
   .login .login-main .login-form {
     width: 100%;
-    padding: 0 20px;
+    padding: 40px 20px 20px;
+    border-radius: 20px;
+    .title,.el-input__icon{
+      display:none;
+    }
+    .el-input input{
+      border: none;
+      border-bottom: 1px solid #e0e0e0;
+      border-radius: 0;
+      padding-left:0px;
+    }
+    .smbottombtn>label{
+      display:none
+    }
+   
   }
   .title {
     margin: 23% auto 60px;
   }
   .login .login-main {
-    padding: 70px 15px;
+    padding: 50px 20px 20px;flex-direction: column;
+  }
+  .btnbg{
+     background-image: linear-gradient(90deg, #3280ff 0%, #3381ff 100%);
+    box-shadow: 0px 10px 30px 0px #a6c6ff;
+    border-radius: 5px;
   }
 }
  @media screen and (max-width:1366px) {
      .title{
             margin: 31% auto 60px;
      }
+
+
+
+
+
  }
 
 </style>

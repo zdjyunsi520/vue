@@ -265,7 +265,7 @@
                                         <div class="form-smtitle ">
                                             用电类型统计(户)
                                         </div>
-                                        <div v-if='!nodatabox'>
+                                        <div v-show='!nodatabox'>
                                             <el-row :gutter="20" class="legendbox">
                                                 <el-col :span="8" v-for="(item,index) in electricTypeStatistic" :key="index">
                                                     <p>{{item.Text}}<span>{{item.Count}}</span></p>
@@ -273,7 +273,7 @@
                                             </el-row>
                                             <BarChart ref="typeChart" :barchartData='typeChartData' />
                                         </div>
-                                        <div class="nodata-box" v-else style='height:350px;padding: 100px 0;'>
+                                        <div class="nodata-box"  v-show='nodatabox' style='height:350px;padding: 100px 0;'>
                                                 <img src="@/assets/image/nodata.png" class='smimg' />
                                                 <p>暂时还没有数据</p>
                                         </div>
@@ -399,33 +399,11 @@ const structureChartData = {
         }
     ]
 };
+const typeColors = ["#f4a248","#558cf7","#81c7f9"]
 const typeChartData = {
     ytext: "单位(kWh)",
     xAxisData: [],
-    legendData:["商业", "工业", "居民"],
-    listData: [
-        {
-            name: "商业",
-            value: 0,
-            itemStyle: {
-                color: "#f4a248"
-            }
-        },
-        {
-            name: "工业",
-            value: 0,
-            itemStyle: {
-                color: "#558cf7"
-            }
-        },
-        {
-            name: "居民",
-            value: 0,
-            itemStyle: {
-                color: "#81c7f9"
-            }
-        }
-    ]
+    listData: []
 };
 export default {
     name: "baseData",
@@ -495,12 +473,20 @@ export default {
             getSysBaseInfo({ tenantId }).then(r => {
                 this.dataInfo = r.data;
                 this.electricTypeStatistic = this.dataInfo.ElectricTypeStatistic;
+                
                 if(this.electricTypeStatistic.length>0){
-
+                    this.nodatabox=false;
                     this.typeChartData.xAxisData = [];
+                    this.typeChartData.listData=[];
                     this.electricTypeStatistic.map((v, i) => {
                         this.typeChartData.xAxisData.push(v.Text);
-                        this.typeChartData.listData[i].value = v.Count;
+                        this.typeChartData.listData.push({
+                            name:v.Text,
+                            value:v.Count,
+                            itemStyle: {
+                                color: typeColors[i]
+                            }
+                        });
                     });
                     this.$nextTick(() => {
                         this.$refs.typeChart.initChart();

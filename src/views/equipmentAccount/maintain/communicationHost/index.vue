@@ -70,6 +70,14 @@
                     <el-input :value="filterDate(infoData.ExFactoryDate)" disabled></el-input>
                   </el-form-item>
                 </el-col>
+                <el-col :span="24">
+                  <el-form-item label="设备二维码">
+                    <div class="ewmbox">
+                      <img :src="'http://admint.xtioe.com'+infoData.QRCode" class="ewm" />
+                      <el-button type="text"  @click="showEwm(infoData)">点击查看</el-button>
+                    </div>
+                  </el-form-item>
+                </el-col>
               </el-col>
 
             </el-row>
@@ -108,6 +116,7 @@
         </el-row>
       </el-scrollbar>
     </el-row>
+    <ewmpop  ref='ewmpop' :qrCode='qrCode'></ewmpop>
   </div>
 
 </template>
@@ -117,18 +126,28 @@ import {
   getInfo,
   deleted
 } from "@/api/equipmentAccount/maintain/communicationHost";
+import ewmpop from "@/views/equipmentAccount/components/ewmpop.vue";
 export default {
+  components: {
+    ewmpop
+  },
   data() {
     return {
       operateId: "",
       infoData: {},
       visible: false,
-      showBtn: false
+      showBtn: false,
+      qrCode:{}
     };
   },
 
   created() {},
   methods: {
+    showEwm(obj){
+      this.$refs.ewmpop.dialogVisible=true;
+      this.qrCode.title=obj.Name;
+      this.qrCode.qrCodeUrl=obj.QRCode;
+    },
     filterDate(date) {
       return date ? this.parseTime(date, "{y}-{m}-{d}") : "";
     },

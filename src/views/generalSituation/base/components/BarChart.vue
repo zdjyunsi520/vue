@@ -82,7 +82,7 @@ export default {
       });
     },
 
-    setOptions({ ytext, title, legendData, xAxisData, listData } = {}) {
+    setOptions({ ytext, title,  xAxisData, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "axis",

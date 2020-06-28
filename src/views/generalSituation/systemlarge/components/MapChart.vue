@@ -176,7 +176,12 @@ export default {
                 fontSize: 13
               },
               emphasis: {
-                show: true
+                show: true,
+                formatter: function(params) {
+                  
+                  //圆环显示文字
+                  return  params.data.name;
+                },
               }
             },
             symbol: "circle",
