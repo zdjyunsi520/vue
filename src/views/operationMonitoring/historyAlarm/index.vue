@@ -29,8 +29,8 @@
         </div>
         <div class="bg-white containerbox" ref="containerbox">
             <div>
-                <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-                    <el-button slot="reference" class="downloadbtn">
+                <el-popover placement="bottom-end" :loading="downloadLoading" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+                    <el-button slot="reference" class="downloadbtn" @click="handleExport">
                         <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
                     </el-button>
                 </el-popover>
@@ -101,6 +101,26 @@ export default {
             downloadLoading: false,
             dialogAssetsVisible: false,
             allassetsTree: [],
+            columns: [
+                "告警等级",
+                "用电单位",
+                "配电房/屏柜",
+                "设备名称",
+                "信号名",
+                "告警描述",
+                "告警时间",
+                "告警值"
+            ],
+            props: [
+                "Level",
+                "TenantName",
+                "SwitchRoomName",
+                "AssetsName",
+                "Signal",
+                "Description",
+                "CreateTime",
+                "Value"
+            ],
             activeName: "0",
             defaultProps: {
                 children: "childs",
@@ -342,19 +362,14 @@ export default {
             this.downloadLoading = true;
             import("@/vendor/Export2Excel").then(excel => {
                 const tHeader = this.columns.slice(0);
-                if (this.activeName != "2") {
-                    tHeader.unshift("用电单位");
-                } else {
-                    tHeader.unshift("缺陷等级");
-                }
+
                 const list = this.dataList.slice(0);
                 const props = this.props.slice(0);
-                props.unshift("Name");
                 const data = this.formatJson(props, list);
                 excel.export_json_to_excel({
                     header: tHeader,
                     data,
-                    filename: this.chartData.title,
+                    filename: "历史告警",
                     autoWidth: true,
                     bookType: "xlsx"
                 });
