@@ -239,7 +239,7 @@ export default {
       justify-content: center;
       align-items: flex-start;
       .el-radio {
-        margin-bottom: 10px;
+        margin-bottom: 10px;display: block;
         &:last-child {
           margin-bottom: 0;
         }
@@ -261,18 +261,18 @@ export default {
             margin-right: 10px;
             border-radius: 2px;
             height: 20px;
-            line-height: 20px;
+            line-height: 18px;
             font-size: 12px;
             background: #fff;
             border: solid 1px #528cf7;
-            color: #528cf7;
+            color: #528cf7;    vertical-align: bottom;
           }
           & > div {
             margin-bottom: 14px;
             font-size: 14px;
             span {
               margin-right: 10px;
-              color: #333;
+              color: #333;vertical-align: text-top;
             }
           }
         }
