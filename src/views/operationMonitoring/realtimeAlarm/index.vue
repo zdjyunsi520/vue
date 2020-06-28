@@ -51,13 +51,13 @@
         <el-table-column label="告警描述" prop="Description"></el-table-column>
         <el-table-column label="告警时间" width="160" prop="CreateTime"></el-table-column>
         <el-table-column label="告警值" width="70" prop="Value"></el-table-column>
-        <el-table-column label="是否确认" width="80" prop="IsConfirmed">
+        <!-- <el-table-column label="是否确认" width="80" prop="IsConfirmed">
           <template slot-scope="scope">
             {{scope.row.IsConfirmed?'是':'否'}}
           </template>
         </el-table-column>
         <el-table-column label="确认人" width="80" prop="ConfirmPersonName"></el-table-column>
-        <el-table-column label="确认描述" prop="HandleDescription"></el-table-column>
+        <el-table-column label="确认描述" prop="HandleDescription"></el-table-column> -->
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <div>

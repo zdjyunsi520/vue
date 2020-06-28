@@ -13,12 +13,10 @@
       <clock ref="component5" @refresh="refresh" />
     </div>
   </common-tree>
-
 </template>
 
 <script>
 import commonTree from "@/views/equipmentAccount/components";
-
 import baseProp from "./baseProp";
 import powerRoom from "./powerRoom";
 import panelCabinet from "./panelCabinet";
@@ -93,23 +91,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/deep/.ewmbox {
-  background-color: #f7f7f7;
-  border: 1px solid #ebeef5;
-  border-radius: 4px;
-  height: 45px;
-  line-height: 45px;
-  padding: 0 10px;
-  .ewm {
-    height: 30px;
-    margin-right:-10px;
-    vertical-align: middle;
-  }
-}
-/deep/.smInfoform-wrap {
-  .el-scrollbar__bar.is-horizontal {
-    display: none;
-  }
-}
+<style lang="scss">
 </style>

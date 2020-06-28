@@ -192,12 +192,13 @@ export default {
       table.rows[0].onclick = function() {
         self.handleRowInfo(self.totalrow);
       };
-      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      let table1 = document.querySelector(
+        ".el-table__fixed>.el-table__fixed-footer-wrapper>table"
+      );
       table1.rows[0].onclick = function() {
         self.handleRowInfo(self.totalrow);
       };
     });
-
   },
 
   methods: {
@@ -370,13 +371,18 @@ export default {
     download() {
       this.downloadLoading = true;
       import("@/vendor/Export2Excel").then(excel => {
-        const tHeader = this.columns.slice(0);
-        const list = this.dataList;
-        const data = this.formatJson(this.columns, list);
+        const tHeader = ["巡视人员", ...this.columns];
+        const list = this.xsdataList;
+        const data = this.formatJson(["Name", ...this.props], list);
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: this.chartData.title,
+          filename:
+            this.activeName == "0"
+              ? "单位巡视年度统计"
+              : this.activeName == "1"
+              ? "单位巡视性质统计"
+              : "单位巡视完成情况统计",
           autoWidth: true,
           bookType: "xlsx"
         });

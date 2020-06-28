@@ -204,7 +204,12 @@ export default {
             table.rows[0].onclick = function() {
                 self.handleRowInfo(self.totalrow);
             };
+            let table1 = document.querySelector(".el-table__fixed-footer-wrapper>table");
+            table1.rows[0].onclick = function() {
+                self.handleRowInfo(self.totalrow);
+            };
         });
+        
     },
 
     methods: {
@@ -413,7 +418,7 @@ export default {
                     this.total = res.total;
                     let arr = [];
                     if (!row) {
-                        arr = this.dataList[this.dataList.length - 1];
+                        arr = this.xsdataList[this.xsdataList.length - 1];
                     } else {
                         arr = row;
                     }
@@ -469,15 +474,15 @@ export default {
                 } else {
                     tHeader.unshift("缺陷等级");
                 }
-                const list = this.dataList.slice(0);
+                const list = this.xsdataList.slice(0);
                 const props = this.props.slice(0);
                 props.unshift("Name");
                 const data = this.formatJson(props, list);
-                console.log(this.dataList, this.props);
+                console.log(this.xsdataList, this.props);
                 excel.export_json_to_excel({
                     header: tHeader,
                     data,
-                    filename: this.chartData.title,
+                    filename:  this.activeName == "0" ? "缺陷年度统计" : this.activeName == "1" ? "缺陷等级统计" : "消缺率统计",
                     autoWidth: true,
                     bookType: "xlsx"
                 });
