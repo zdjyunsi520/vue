@@ -69,8 +69,132 @@ import { userReportByExecute as userReportByYear } from "@/api/repairOrder/perso
 import BarChart from "./sourceBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
+<<<<<<< HEAD
     components: {
         BarChart
+=======
+  components: {
+    BarChart
+  },
+  data() {
+    return {
+      downloadLoading: false,
+      // 搜索参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+        tenantid: "",
+        startdate: "",
+        enddate: "",
+        repairsource: "",
+        type: 2
+      },
+      patrolYear: "",
+      startdate: "",
+      enddate: "",
+      dataList: null,
+      xsdataList: null,
+      total: 0,
+      rules: {},
+      TenantIds: [],
+      activeName: "0",
+      nowDoc: {},
+      tableHeight: "calc(100% - 110px)",
+      listLoading: true,
+      sources: [
+        { name: "全部", id: "" },
+        { name: "用户报修", id: "1" },
+        { name: "故障报警", id: "2" }
+      ],
+      isexecutes: [
+        { name: "全部", id: "" },
+        { name: "未完成", id: "1" },
+        { name: "已完成", id: "4" }
+      ],
+      columns: ["总计", "完成", "未完成"],
+      props: ["Total", "Complete", "InComplete"],
+      props1: ["CompleteUser", "InCompleteUser", "TotalUser"],
+      props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
+      propTotal: ["Complete", "InComplete", "Total"],
+      chartData: {},
+      totalrow: {},
+      chartDataInit: {
+        series: [
+          {
+            name: "故障报警",
+            type: "bar",
+            // stack: 'vistors',
+            barWidth: "30%",
+            barMaxWidth: 50,
+            data: [0, 0, 0, 0]
+          },
+          {
+            name: "用户报修",
+            type: "bar",
+            // stack: 'vistors',
+            barWidth: "30%",
+            barMaxWidth: 50,
+            data: [0, 0, 0, 0]
+          }
+        ],
+        xAxisData: this.columns,
+        title: "总计-抢修完成类型统计图"
+      }
+    };
+  },
+
+  created() {
+    this.getList();
+    this.getTenants();
+  },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      table1.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+  methods: {
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
+
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageno = 1;
+      this.queryParams.startdate = this.getBeginTime();
+      this.queryParams.enddate = this.getEndTime();
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.patrolYear = "";
+      this.startdate = "";
+      this.enddate = "";
+      this.queryParams.startdate = "";
+      this.queryParams.enddate = "";
+      this.handleQuery();
+    },
+    // 获取开始时间
+    getBeginTime(time) {
+      let begin = "";
+      if (this.startdate != "") {
+        begin = this.startdate + " 00:00:00";
+      }
+      return begin;
+>>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
     },
     data() {
         return {
@@ -139,6 +263,33 @@ export default {
             }
         };
     },
+<<<<<<< HEAD
+=======
+    // 巡视单位列表
+    getTenants() {
+      getChildrenList().then(response => {
+        this.TenantIds = response.data;
+      });
+    },
+    getList() {
+      this.chartData = Object.assign({}, this.chartDataInit);
+      userReportByYear(this.queryParams)
+        .then(res => {
+          if (!res.data) {
+            this.dataList = [];
+            return;
+          }
+
+          this.xsdataList = res.data;
+          this.totalrow = this.xsdataList[this.xsdataList.length - 1];
+          this.dataList = res.data.slice(0, res.data.length - 1);
+          this.total = res.total;
+          let arr = this.xsdataList[this.xsdataList.length - 1];
+          this.chartData.series[0].data = this.props1.map(v => arr[v]);
+          this.chartData.series[1].data = this.props2.map(v => arr[v]);
+          this.chartData.xAxisData = this.columns;
+          this.chartData.title = arr.Name + "-抢修完成类型统计图";
+>>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
 
     created() {
         this.getList();

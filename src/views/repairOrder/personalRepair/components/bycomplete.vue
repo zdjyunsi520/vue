@@ -69,8 +69,114 @@ import { userReportByExecute as userReportByYear } from "@/api/repairOrder/perso
 import BarChart from "./sourceBarChart";
 import { getChildrenList } from "@/api/org";
 export default {
+<<<<<<< HEAD
     components: {
         BarChart
+=======
+  components: {
+    BarChart
+  },
+  data() {
+    return {
+      downloadLoading: false,
+      // 搜索参数
+      queryParams: {
+        pageno: 1,
+        pagesize: 30,
+        tenantid: "",
+        startdate: "",
+        enddate: "",
+        repairsource: "",
+        type: 1
+      },
+      patrolYear: "",
+      startdate: "",
+      enddate: "",
+      dataList: null,
+      total: 0,
+      rules: {},
+      TenantIds: [],
+      activeName: "0",
+      nowDoc: {},
+      tableHeight: "calc(100% - 110px)",
+      listLoading: true,
+      sources: [
+        { name: "全部", id: "" },
+        { name: "用户报修", id: "1" },
+        { name: "故障报警", id: "2" }
+      ],
+      isexecutes: [
+        { name: "全部", id: "" },
+        { name: "未完成", id: "1" },
+        { name: "已完成", id: "4" }
+      ],
+      columns: ["总计", "完成", "未完成"],
+      props: ["Total", "Complete", "InComplete"],
+      props1: ["CompleteUser", "InCompleteUser", "TotalUser"],
+      props2: ["CompleteAssets", "InCompleteAssets", "TotalAssets"],
+      propTotal: ["Complete", "InComplete", "Total"],
+
+      xsdataList: null,
+      chartData: {},
+      totalrow: {},
+      chartDataInit: {
+        series: [
+          {
+            name: "故障报警",
+            type: "bar",
+            // stack: 'vistors',
+            barWidth: "30%",
+            barMaxWidth: 50,
+            data: [0, 0, 0, 0]
+          },
+          {
+            name: "用户报修",
+            type: "bar",
+            // stack: 'vistors',
+            barWidth: "30%",
+            barMaxWidth: 50,
+            data: [0, 0, 0, 0]
+          }
+        ],
+        xAxisData: this.columns,
+        title: "总计-抢修完成类型统计图"
+      }
+    };
+  },
+
+  created() {
+    this.getList();
+    this.getTenants();
+  },
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      table1.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+  methods: {
+    getSummaries() {
+      let data;
+      if (this.xsdataList && this.xsdataList.length) {
+        data = this.xsdataList[this.xsdataList.length - 1];
+      }
+      if (data) return ["总计", ...this.propTotal.map(v => data[v])];
+      else return ["总计", ...this.propTotal.map(v => 0)];
+    },
+    handleClick(tab, event) {
+      this.resetQuery("queryForm");
+      this.patrolYear = "";
+      this.startdate = "";
+      this.enddate = "";
+      this.getList();
+>>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
     },
     data() {
         return {

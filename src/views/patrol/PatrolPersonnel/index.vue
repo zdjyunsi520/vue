@@ -54,8 +54,8 @@
           <span v-if="activeName=='1'">人员巡视性质统计</span>
           <span v-if="activeName=='2'">人员巡视完成情况统计</span>
         </p>
-        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end" :loading="downloadLoading" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn" @click="handleExport" >
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>
@@ -112,7 +112,7 @@ export default {
       TenantIds: [],
       activeName: "0",
       nowDoc: {},
-      tableHeight: "calc(100% - 120px)",
+      tableHeight: "calc(100% - 110px)",
       listLoading: true,
       xsdataList: [],
       ptrolnatures: [
@@ -192,7 +192,12 @@ export default {
       table.rows[0].onclick = function() {
         self.handleRowInfo(self.totalrow);
       };
+      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      table1.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
     });
+
   },
 
   methods: {
@@ -325,7 +330,7 @@ export default {
           this.total = res.total;
           let arr = [];
           if (!row) {
-            arr = this.dataList[this.dataList.length - 1];
+            arr = this.xsdataList[this.xsdataList.length - 1];
           } else {
             arr = row;
           }

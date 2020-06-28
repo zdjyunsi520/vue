@@ -126,6 +126,7 @@ export default {
                 { name: "完成", id: "4" }
             ],
 
+<<<<<<< HEAD
             columns: [],
             columns1: [
                 "1月",
@@ -187,6 +188,21 @@ export default {
                 "Eliminated",
                 "RateEliminated"
             ],
+=======
+  mounted() {
+    let self = this;
+    let table = document.querySelector(".el-table__footer-wrapper>table");
+    this.$nextTick(() => {
+      table.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      table1.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
+    });
+  },
+>>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
 
             chartData: {}
         };
@@ -207,6 +223,7 @@ export default {
         });
     },
 
+<<<<<<< HEAD
     methods: {
         getSummaries() {
             let data;
@@ -224,6 +241,15 @@ export default {
             this.queryParams.patroltimeend = "";
             this.getList(this.activeName);
         },
+=======
+          this.total = res.total;
+          let arr = [];
+          if (!row) {
+            arr = this.xsdataList[this.xsdataList.length - 1];
+          } else {
+            arr = row;
+          }
+>>>>>>> ee4cf1ddf75a1b162ea52adad796fb3f1f1c215d
 
         /** 搜索按钮操作 */
         handleQuery() {

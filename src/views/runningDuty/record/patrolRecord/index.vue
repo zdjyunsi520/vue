@@ -235,36 +235,7 @@ export default {
         })
         .catch(e => {});
     },
-    // handleLock(row, lock) {
-    //   let ids = row
-    //     ? (ids = [row.Id])
-    //     : this.ids.filter(v => v.IsLock == lock).map(v => v.Id);
-    //   if (ids.length) {
-    //     const islock = !lock;
-    //     ids = ids.join(",");
-    //     locklock({ ids, islock }).then(r => {
-    //       this.$message.success(r.msg);
-    //       this.getList();
-    //     });
-    //   }
-    // },
-
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项？", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
-    }
+   
   }
 };
 </script>

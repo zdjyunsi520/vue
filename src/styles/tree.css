@@ -3,9 +3,9 @@
     color: #418bff;
 }
 
-/deep/.el-tree .el-tree-node__content:hover {
+/* /deep/.el-tree .el-tree-node__content:hover {
     min-width: 250px;
-}
+} */
 
 /deep/.el-tree .el-tree-node__expand-icon {
     border: 1px solid #dcdfe4;
@@ -74,7 +74,7 @@
 }
 
 /deep/.el-tree .el-tree-node.is-current>.el-tree-node__content {
-    min-width: 250px;
+    /* min-width: 250px; */
     color: #558cf7;
 }
 
