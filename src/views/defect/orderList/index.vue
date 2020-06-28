@@ -47,8 +47,8 @@
         <el-button type="primary" @click="handleAdd">
           <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>新增
         </el-button>
-        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " style="margin:0;margin-top:5px" popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end" :loading="downloadLoading"  class="floatright " style="margin:0;margin-top:5px" popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn" @click="handleExport">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>
@@ -63,7 +63,7 @@
         </template>
         <el-table-column label="缺陷编号" sortable width="180" prop="No"></el-table-column>
         <el-table-column label="用电单位" sortable min-width="230" prop="TenantName"></el-table-column>
-        <el-table-column label="设备名称" min-width="150" sortable prop="AssetsNames"></el-table-column>
+        <el-table-column label="设备名称" min-width="150" sortable prop="AssetsName"></el-table-column>
         <el-table-column label="缺陷等级" sortable width="120" prop="RankName"></el-table-column>
         <el-table-column label="缺陷现象" min-width="250" prop="Description">
           <template slot-scope="scope">
@@ -280,7 +280,6 @@ export default {
 
     // 导出
     handleExport() {
-      return;
       this.$confirm("是否确认导出表格吗?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

@@ -19,11 +19,7 @@
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
 
-        </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
-                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
-      </el-form>
+        </el-form-item></el-form>
     </div>
     <div class="bg-white   chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}}-值班统计图 </p>
@@ -41,8 +37,8 @@
           <span v-if="activeName=='1'">人员统计</span>
           <span v-if="activeName=='2'">值班统计</span>
         </p>
-        <el-popover placement="bottom-end"   @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end"  class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn"  @click="handleExport">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>
@@ -195,7 +191,7 @@ export default {
           this.total = response.total;
           let arr = [];
           if (!row) {
-            arr = this.dataList[this.dataList.length - 1];
+            arr = this.xsdataList[this.xsdataList.length - 1];
           } else {
             arr = row;
           }

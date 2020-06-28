@@ -39,8 +39,8 @@
     <div class="bg-white containerbox " ref="containerbox">
       <div>
         <p class="form-smtitle tb-smtitle">抢修完成类型统计</p>
-        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end" :loading="downloadLoading" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn" @click="handleExport">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>
@@ -150,6 +150,10 @@ export default {
       table.rows[0].onclick = function() {
         self.handleRowInfo(self.totalrow);
       };
+      let table1 = document.querySelector(".el-table__fixed>.el-table__fixed-footer-wrapper>table");
+      table1.rows[0].onclick = function() {
+        self.handleRowInfo(self.totalrow);
+      };
     });
   },
   methods: {
@@ -214,7 +218,7 @@ export default {
           this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
-          let arr = this.dataList[this.dataList.length - 1];
+          let arr = this.xsdataList[this.xsdataList.length - 1];
           this.chartData.series[0].data = this.props1.map(v => arr[v]);
           this.chartData.series[1].data = this.props2.map(v => arr[v]);
           this.chartData.xAxisData = this.columns;

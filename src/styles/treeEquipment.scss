@@ -11,7 +11,7 @@
     }
     .el-tree-node__content,
     .el-tree-node__content:hover {
-        min-width: 250px;
+        // min-width: 250px;
         background: none !important;
     }
     .el-tree-node__expand-icon {
@@ -73,7 +73,7 @@
         }
         &.is-current {
             &>.el-tree-node__content {
-                min-width: 250px;
+                // min-width: 250px;
                 color: #558cf7;
                 background: none;
                 .el-tree-node__label {

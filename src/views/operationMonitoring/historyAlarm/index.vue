@@ -29,8 +29,8 @@
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <div>
-        <el-popover placement="bottom-end" :loading="downloadLoading" @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end" :loading="downloadLoading" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn" @click="handleExport">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>

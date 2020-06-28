@@ -365,7 +365,7 @@ export default {
           strokeStyle: "#d2feff",
           degreeStart: -90,
           degreeEnd: 180,
-          stepStart: 3,
+          stepStart: 2,
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-02"), {
@@ -374,7 +374,7 @@ export default {
           strokeStyle: "#07fdff",
           degreeStart: -50,
           degreeEnd: 270,
-          stepStart: 3,
+          stepStart: 2,
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-03"), {
@@ -383,8 +383,8 @@ export default {
           strokeStyle: "#2178ff",
           degreeStart: -70,
           degreeEnd: 90,
-          stepStart: 3,
-          stepEnd: 2
+          stepStart: 2,
+          stepEnd: 1
         })
       ];
     },

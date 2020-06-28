@@ -22,16 +22,13 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
          
         </el-form-item>
-        <!-- <el-button type="success" icon="el-icon-edit-outline" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">编辑</el-button>
-                      <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>-->
-      </el-form>
+        </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       
       <div>
-        <el-popover placement="bottom-end"  @click="handleExport" class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
-          <el-button slot="reference" class="downloadbtn">
+        <el-popover placement="bottom-end"  class="floatright " popper-class='downloadpop' width="50px" trigger="hover" content="导出">
+          <el-button slot="reference" class="downloadbtn" @click="handleExport">
             <svg-icon icon-class='ic_export' class="tablesvgicon"></svg-icon>
           </el-button>
         </el-popover>

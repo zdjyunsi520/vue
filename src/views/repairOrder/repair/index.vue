@@ -255,60 +255,6 @@ export default {
       });
     },
 
-    // 导出
-    handleExport() {
-      return;
-      this.$confirm("是否确认导出表格吗?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.download();
-      });
-    },
-    download() {
-      this.downloadLoading = true;
-      import("@/vendor/Export2Excel").then(excel => {
-        const tHeader = [
-          "缺陷编号",
-          "用电单位",
-          "设备名称",
-          "缺陷等级",
-          "缺陷现象",
-          "发现时间",
-          "发现人",
-          "消缺结果",
-          "状态"
-        ];
-        const list = this.dataList;
-        const data = this.formatJson(this.columns, list);
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: "缺陷工单",
-          autoWidth: true,
-          bookType: "xlsx"
-        });
-        this.downloadLoading = false;
-      });
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v =>
-        filterVal.map(j => {
-          return jsonData.map(v =>
-            filterVal.map(j => {
-              if (j === "PatrolMemberNames") {
-                return v[j].substring(0, 10);
-              } else if (j === "Status") {
-                return this.formatterStatus(v[j]);
-              } else {
-                return v[j];
-              }
-            })
-          );
-        })
-      );
-    }
   }
 };
 </script>

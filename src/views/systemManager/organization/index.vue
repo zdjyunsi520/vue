@@ -19,9 +19,7 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <!-- <el-button type="success" icon="el-icon-edit-outline"  :disabled="single" @click="handleUpdate"">编辑</el-button>
-                        <el-button type="warning" icon="el-icon-download"  @click="handleExport"">导出</el-button> -->
-        </el-form-item>
+          </el-form-item>
       </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
@@ -357,22 +355,6 @@ export default {
         .then(() => {
           this.getList();
         });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
-          return exportUser(queryParams);
-        })
-        .then(response => {
-          this.download(response.msg);
-        })
-        .catch(function() {});
     }
   }
 };
