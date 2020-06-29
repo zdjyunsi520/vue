@@ -113,7 +113,7 @@
                                 <el-col :span="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            用电负荷(KW)
+                                            用电负荷(kW)
                                         </div>
                                         <div class="chart-wrapper">
                                             <el-row class="legendbox lx" v-if="radioType==0">
