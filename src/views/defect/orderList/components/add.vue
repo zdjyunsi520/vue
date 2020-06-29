@@ -49,7 +49,7 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item label="缺陷内容" prop="Description">
+                        <el-form-item label="缺陷内容" prop="Description" class='xswidth'>
                             <el-input :disabled="disabled" v-model="form.Description" type="textarea" :rows="5" placeholder="请输入缺陷内容" />
                         </el-form-item>
                     </el-row>
@@ -549,7 +549,7 @@ export default {
     vertical-align: text-top;
 }
 .xswidth {
-    width: 800px !important;
+    width: 725px !important;
 }
 
 @media screen and (max-width: 768px) {

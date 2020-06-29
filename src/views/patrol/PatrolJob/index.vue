@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" label-width="100">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" label-width="100"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" clearable></el-input>
         </el-form-item>
@@ -30,6 +30,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
+     <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -141,7 +142,11 @@ export default {
         patroltimebegin: "",
         ptrolnature: "",
         isexecute: ""
-      }
+      },
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 46,
+      isOpenbtn:false,
     };
   },
   computed: {},
@@ -149,7 +154,31 @@ export default {
     this.getList();
     this.getTenants();
   },
-  methods: {
+    mounted() {
+            this.formHeight = this.$refs.queryForm.$el.clientHeight;
+            console.log(this.formHeight)
+            this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+            window.onresize = () => {
+                return (() => {
+                    this.formHeight = this.$refs.queryForm.$el.clientHeight;
+                    this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+                })()
+            }
+    },
+    watch:{
+        'formHeight': function(newVal){
+            this.$nextTick(()=>{
+                var newheight = this.$refs.queryForm.$el.clientHeight;
+                this.isOpen=newheight > this.baseformHeight?true:false;
+                this.isOpenbtn=newheight > this.baseformHeight?true:false
+            })
+        },
+    },
+    methods: {
+        // 高级筛选
+        handleHighSearch() {
+        this.isOpen = !this.isOpen;
+        },
     //获取关联的巡视人员下拉列表
     getPatrolusers() {
       this.allpatrolusers.forEach(v => {

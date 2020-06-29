@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :inline="true" ref="queryForm" :model="queryParams">
+      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -41,8 +41,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <!-- :style="isOpen?'height:40px;overflow: hidden;':''"
-      <el-button type="text" @click="handleHighSearch" v-if="isOpen" class="hightsearchbtn">高级筛选</el-button> -->
+      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -173,9 +172,11 @@ export default {
         { name: "消缺", id: "1" },
         { name: "验收", id: "2" },
         { name: "完成", id: "3" }
-      ]
-      // isOpen: false
-      // formHeight: ""
+      ],
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 47,
+      isOpenbtn:false,
     };
   },
 
@@ -184,18 +185,26 @@ export default {
     this.getTenants();
   },
   mounted() {
-    // this.formHeight = this.$refs.queryForm.$el.clientHeight;
+        this.formHeight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+        window.onresize = () => {
+            return (() => {
+                this.formHeight = this.$refs.queryForm.$el.clientHeight;
+                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+            })()
+        }
   },
-  computed: {
-    // isOpen() {
-    //   if (this.formHeight > 40) {
-    //     return (this.isOpen = true);
-    //   } else {
-    //     return (this.isOpen = false);
-    //   }
-    // }
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+            this.isOpenbtn=newheight > this.baseformHeight?true:false
+          })
+      },
   },
   methods: {
+     // 高级筛选
     handleHighSearch() {
       this.isOpen = !this.isOpen;
     },

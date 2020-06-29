@@ -116,7 +116,7 @@
                                 <el-col :span="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            负荷(KW)
+                                            负荷(kW)
                                         </div>
                                         <el-row :gutter="20">
                                             <el-col :span="6" :xs="24">
@@ -159,7 +159,7 @@
                                 <el-col :span="16" :xs="24">
                                     <div class="bg-white" style="position:relative">
                                         <div class="form-smtitle ">
-                                            用电情况(KW)
+                                            用电情况(kWh)
                                         </div>
                                         <el-row :gutter="20">
                                             <el-col :span="24">
@@ -185,7 +185,7 @@
                                 <el-col :span="8" :xs="24">
                                     <div class="bg-white">
                                         <div class="form-smtitle ">
-                                            电量构成(KW)
+                                            电量构成(kWh)
                                         </div>
                                         <div >
                                             <PieChart ref="pieChart" :chartData='pieChartData' />

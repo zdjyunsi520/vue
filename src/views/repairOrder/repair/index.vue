@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :inline="true" ref="queryForm" :model="queryParams">
+      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="工单编号：" prop="OrderCode">
           <el-input v-model="queryParams.OrderCode"></el-input>
         </el-form-item>
@@ -29,6 +29,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
+      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -128,7 +129,11 @@ export default {
         { name: "故障抢修", id: 2 },
         { name: "故障归档", id: 3 },
         { name: "完成", id: 4 }
-      ]
+      ],
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 46,
+      isOpenbtn:false,
     };
   },
 
@@ -146,7 +151,30 @@ export default {
       return this.status;
     }
   },
+  mounted() {
+        this.formHeight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+        window.onresize = () => {
+            return (() => {
+                this.formHeight = this.$refs.queryForm.$el.clientHeight;
+                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+            })()
+        }
+  },
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+            this.isOpenbtn=newheight > this.baseformHeight?true:false
+          })
+      },
+  },
   methods: {
+     // 高级筛选
+    handleHighSearch() {
+      this.isOpen = !this.isOpen;
+    },
     getList() {
       this.listLoading = true;
       fetchList(this.queryParams)

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box ">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option v-for="(item,index) in allassetsTree" :key="index" :label="item.text" :value="item.id"></el-option>
@@ -17,8 +17,10 @@
             <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警设备：" prop="AssetsId">
-          <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+        <el-form-item label="告警设备：" prop="AssetsId" >
+          <div style='width:200px;border-radius:4px;overflow:hidden'>
+            <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+          </div>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
@@ -26,6 +28,7 @@
 
         </el-form-item>
       </el-form>
+      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <div>
@@ -43,7 +46,15 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="50" /> -->
-        <el-table-column label="告警等级" width="130" prop="Level" :formatter="levelformatter"></el-table-column>
+        <el-table-column label="告警等级" width="130" prop="Level" >
+          <template slot-scope="scope">
+            <span v-if="scope.row.Level==1"><i class="dot color1"></i>一般事件</span>
+            <span v-else-if="scope.row.Level==2"><i class="dot color2"></i>轻微告警</span>
+            <span v-else-if="scope.row.Level==3"><i class="dot color3"></i>普通告警</span>
+            <span v-else-if="scope.row.Level==4"><i class="dot color4"></i>严重</span>
+          </template>
+
+        </el-table-column>
         <el-table-column label="用电单位" min-width="250" prop="TenantName"></el-table-column>
         <el-table-column label="配电房/屏柜" min-width="300" prop="SwitchRoomName">
           <template slot-scope="scope">
@@ -54,7 +65,11 @@
         <el-table-column label="信号名" width="120" prop="Signal"></el-table-column>
         <el-table-column label="告警描述" min-width="250" prop="Description"></el-table-column>
         <el-table-column label="告警时间" width="180" prop="CreateTime"></el-table-column>
-        <el-table-column label="告警值" width="110" prop="Value"></el-table-column>
+        <el-table-column label="告警值" width="110" prop="Value">
+          <template slot-scope="scope">
+            <span :class='scope.row.Level==1?"color1":scope.row.Level==2?"color2":scope.row.Level==3?"color3":"color4"'>{{scope.row.Value}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
@@ -234,7 +249,11 @@ export default {
           id: false,
           type: "否"
         }
-      ]
+      ],
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 46,
+      isOpenbtn:false,
     };
   },
   created() {
@@ -249,7 +268,30 @@ export default {
       return list.length ? list[0] : [];
     }
   },
+  mounted() {
+        this.formHeight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+        window.onresize = () => {
+            return (() => {
+                this.formHeight = this.$refs.queryForm.$el.clientHeight;
+                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+            })()
+        }
+  },
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+            this.isOpenbtn=newheight > this.baseformHeight?true:false
+          })
+      },
+  },
   methods: {
+     // 高级筛选
+    handleHighSearch() {
+      this.isOpen = !this.isOpen;
+    },
     // 单位列表
     getTenants() {
       getChildrenList()
@@ -290,19 +332,19 @@ export default {
       this.assetsTreeId = data.map(v => v.id);
       this.queryParams.AssetsId = this.assetsTreeId.join(",");
     },
-    levelformatter(row) {
-      var txt = "";
-      if (row.Level == 1) {
-        txt = "一般事件";
-      } else if (row.Level == 2) {
-        txt = "轻微告警";
-      } else if (row.Level == 3) {
-        txt = "普通告警";
-      } else if (row.Level == 4) {
-        txt = "严重";
-      }
-      return txt;
-    },
+    // levelformatter(row) {
+    //   var txt = "";
+    //   if (row.Level == 1) {
+    //     txt = '<span><i class=" dot" style="#666666"></i>一般事件</span> ';
+    //   } else if (row.Level == 2) {
+    //     txt = "轻微告警";
+    //   } else if (row.Level == 3) {
+    //     txt = "普通告警";
+    //   } else if (row.Level == 4) {
+    //     txt = "严重";
+    //   }
+    //   return txt;
+    // },
     checkchange(data, checked) {
       if (checked) {
         const target = this.$refs.tree;
@@ -401,7 +443,30 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// /deep/.el-checkbox:last-of-type {
-//   margin-right: 10px !important;
-// }
+  .dot{
+    &.color1{
+      background-color:#666666;
+    }
+    &.color2{
+      background-color:#FFC21C;
+    }
+    &.color3{
+      background-color:#FF7F2D;
+    }
+    &.color4{
+      background-color:#EB5223;
+    }
+  }
+  span.color1{
+    color:#666666;
+  }
+  span.color2{
+    color:#FFC21C;
+  }
+  span.color3{
+    color:#FF7F2D;
+  }
+  span.color4{
+    color:#FFC21C;
+  }
 </style>

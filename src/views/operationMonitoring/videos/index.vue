@@ -60,23 +60,21 @@
             </span>
           </div>
         </div>
-        <div class="" style="margin-top:7px;padding: 0;">
-          <el-scrollbar>
+        <div class="" style="margin-top:7px;padding: 0;height:calc(100% - 55px)">
+          <!-- <el-scrollbar> -->
             <div class="videolist">
-              <el-row :gutter="15">
-
-                <el-col v-for="(item,index) in current" :span="current==1?24:(current==4?12:8)" :key='index'>
-                  <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"' ref='videobox' :style="'height:'+boxheight+'px'" @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
+<!-- :style="'height:'+boxheight+'px'" -->
+                <div v-for="(item,index) in current" :style="current==1?'width:100%;height: 100%;':(current==4?'width:calc(50% - 7px);height: calc(50% - 7px);':'width:calc(33.333% - 7px);height: calc(33.333% - 7px);')"  ref='videobox' :key='index' class='listbox'>
+                  <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"'  @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
                     <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" :height="boxheight+'px'" id="ysOpenDevice" allowfullscreen>
                     </iframe>
                     <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete(index)">
                       <svg-icon icon-class='ic_delete_lx' class="svgicon"></svg-icon>
                     </div>
                   </div>
-                </el-col>
-              </el-row>
+                </div>
             </div>
-          </el-scrollbar>
+          <!-- </el-scrollbar> -->
         </div>
       </el-col>
     </el-row>
@@ -132,7 +130,7 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
-    this.boxheight = this.$refs.videobox[0].offsetWidth / 1.9;
+    this.boxheight = this.$refs.videobox[0].offsetHeight-4;
   },
 
   methods: {
@@ -161,7 +159,7 @@ export default {
       this.current = item.val;
       //this.playList = [];
       this.$nextTick(() => {
-        this.boxheight = this.$refs.videobox[0].offsetWidth / 1.9;
+        this.boxheight = this.$refs.videobox[0].offsetHeight-4;
       });
     },
 
@@ -265,27 +263,33 @@ export default {
 }
 .videolist {
   font-size: 0;
-  .el-col > div {
-    border: solid 2px #f6f7fa;
-    background: url(../../../assets/image/img_monitor_bj.jpg) no-repeat;
-    background-size: 100% 100%;
-    height: 280px;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 8px 0 7px;
-    display: inline-block;
-    position: relative;
-    &:hover,
-    &.on {
-      border: solid 2px #558cf7;
-    }
-    .removeicon {
-      position: absolute;
-      bottom: 0;
-      right: 48px;
-      cursor: pointer;
-      .svgicon {
-        font-size: 48px;
+  display:flex;
+  align-content:space-between;
+   justify-content:space-between;
+   flex-wrap:wrap;
+   height:100%;
+  .listbox{
+    &>div {
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+      display: inline-block;
+      position: relative;    height: 100%;
+      background: url(../../../assets/image/img_monitor_bj.jpg) no-repeat;
+      background-size: 100% 100%;
+      border: solid 2px #f6f7fa;
+      &:hover,
+      &.on {
+        border: solid 2px #558cf7;
+      }
+      .removeicon {
+        position: absolute;
+        bottom: 3px;
+        right: 48px;
+        cursor: pointer;
+        .svgicon {
+          font-size: 48px;
+        }
       }
     }
   }

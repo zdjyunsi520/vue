@@ -229,7 +229,6 @@ export default {
         data = this.xsdataList[this.xsdataList.length - 1];
       }
       //this.propTotal统计的数据对应的属性
-      console.log(222, data);
       if (data) return ["总计", ...this.propTotal.map(v => data[v])];
       else return ["总计", ...this.propTotal.map(v => 0)];
     },

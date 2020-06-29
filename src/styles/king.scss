@@ -766,7 +766,13 @@
         background-color: #67c23a;
     }
 }
-
+.sm-searchbox{
+    position: relative;
+    .hightsearchbtn{
+        top: 0px;
+        right: 0;
+    }
+}
 .marginbottom15 {
     margin-bottom: 15px;
 }
@@ -854,7 +860,7 @@
 }
 
 .tabpopover {
-    max-width: 500px;
+    max-width: 450px;background: #f7f7f7;color: #303133;
     p {
         margin: 0
     }

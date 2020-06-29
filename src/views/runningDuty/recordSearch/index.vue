@@ -61,6 +61,7 @@ export default {
   mounted() {
       const target = this.$refs[this.activeName];
       target.getList();
+     
   },
   computed: {
     ...mapGetters({

@@ -236,7 +236,7 @@
                             </div>
                             <div>
                                 <canvas class="js-rotate-03" width="100" height="100"></canvas>
-                                <span>{{dataInfo.CollectSituation.OnlineRate}}</span>
+                                <span>{{dataInfo.CollectSituation.OnlineRate}}%</span>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,8 @@
         <el-tab-pane label="按巡视性质统计" name="1"></el-tab-pane>
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
       </el-tabs>
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <div class='sm-searchbox'>
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="巡视单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -36,6 +37,8 @@
 
         </el-form-item>
       </el-form>
+      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+    </div>
     </div>
     <div class="bg-white chart-wrapper marginbottom15">
       <p class="form-smtitle tb-smtitle">{{chartData.title}} </p>
@@ -175,7 +178,11 @@ export default {
       ],
       propTotal2: ["TotalCount", "TemporaryCount", "RegularCount"],
       propTotal3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
-      chartData: {}
+      chartData: {},
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 47,
+      isOpenbtn:false,
     };
   },
 
@@ -185,6 +192,14 @@ export default {
   },
 
   mounted() {
+    this.formHeight = this.$refs.queryForm.$el.clientHeight;
+    this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+    window.onresize = () => {
+        return (() => {
+            this.formHeight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+        })()
+    }
     // 点击总计行显示图表数据
     let self = this;
     let table = document.querySelector(".el-table__footer-wrapper>table");
@@ -201,7 +216,19 @@ export default {
     });
   },
 
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+          })
+      },
+  },
   methods: {
+     // 高级筛选
+    handleHighSearch() {
+      this.isOpen = !this.isOpen;
+    },
     getSummaries() {
       let data;
       if (this.xsdataList && this.xsdataList.length) {

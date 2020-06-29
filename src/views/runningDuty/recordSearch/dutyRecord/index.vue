@@ -1,7 +1,8 @@
 <template>
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+            <div class='sm-searchbox'>
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
 
           <el-select v-model="queryParams.tenantId">
@@ -38,6 +39,8 @@
         <el-form-item>
         </el-form-item>
       </el-form>
+      <el-button type="text" @click="handleHighSearch"   class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+    </div>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
       <el-table :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
@@ -91,7 +94,10 @@ export default {
         starttime: "",
         endtime: "",
         type: ""
-      }
+      },
+      isOpen: true,
+      formHeight: "",
+      baseformHeight: 47,
     };
   },
 
@@ -109,7 +115,20 @@ export default {
       return this.ids.length == 0;
     }
   },
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+          })
+      },
+  },
   methods: {
+     // 高级筛选
+    handleHighSearch() {
+      this.isOpen = !this.isOpen;
+    },
+   
     filterType(row) {
       return this.recordKV[row.Type];
     },

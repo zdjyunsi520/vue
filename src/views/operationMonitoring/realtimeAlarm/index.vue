@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -29,6 +29,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
+      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" :height="tableHeight" border style='margin-top:20px'>
@@ -214,14 +215,41 @@ export default {
           id: true,
           type: "已确认"
         }
-      ]
+      ],
+      isOpen: false,
+      formHeight: "",
+      baseformHeight: 47,
+      isOpenbtn:false,
     };
   },
   created() {
     this.getList();
     this.getTenants();
   },
+  mounted() {
+        this.formHeight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+        window.onresize = () => {
+            return (() => {
+                this.formHeight = this.$refs.queryForm.$el.clientHeight;
+                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
+            })()
+        }
+  },
+  watch:{
+      'formHeight': function(newVal){
+          this.$nextTick(()=>{
+            var newheight = this.$refs.queryForm.$el.clientHeight;
+            this.isOpen=newheight > this.baseformHeight?true:false;
+            this.isOpenbtn=newheight > this.baseformHeight?true:false
+          })
+      },
+  },
   methods: {
+     // 高级筛选
+    handleHighSearch() {
+      this.isOpen = !this.isOpen;
+    },
     // 巡视单位列表
     getTenants() {
       getChildrenList()
