@@ -15,7 +15,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="缺陷设备" prop="AssetsId">
-                            <TreeSelect showText="text" :mutiple="false" :getCheckedNodes="false" :data="assetsTree" @change="handleConfirm1" :checkedKeys="ChargePersonId1" :disabled="disabled" />
+                            <TreeSelect showText="text" :mutiple="false" :placeholder='"请选择缺陷设备"' :getCheckedNodes="false" :data="assetsTree" @change="handleConfirm1" :checkedKeys="ChargePersonId1" :disabled="disabled" />
                             <!-- <el-input :disabled="disabled" v-model="form.assetsIdtext" placeholder="请选择设备" auto-complete="off" @focus="getAssets" /> -->
                         </el-form-item>
                     </el-row>
@@ -37,7 +37,7 @@
                             <el-date-picker :disabled="disabled" v-model="form.DetectTime" type="datetime" placeholder="请选择发现时间" @change="changeTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                         </el-form-item>
                         <el-form-item label="安排消缺人" prop="ProcessorId" label-width="100px">
-                            <TreeSelect showText="text" :mutiple="false" :data="ProcessorIds" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
+                            <TreeSelect showText="text" :mutiple="false" :placeholder='"请选择消缺人"' :data="ProcessorIds" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
                             <!-- <el-select v-model="form.ProcessorId" placeholder="请选择消缺人">
                   <el-option v-for="(item,index) in ProcessorIds" :key="index" :label="item.text" :value="item.id"></el-option>
                 </el-select> -->

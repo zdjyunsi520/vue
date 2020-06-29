@@ -1,7 +1,7 @@
 <template>
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox marginbottom15">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
         <el-form-item label="用电单位：" prop='tenantid'>
           <el-select v-model="queryParams.tenantid" clearable placeholder="请选择">
             <el-option value="" label="全部"></el-option>
@@ -9,10 +9,11 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="抢修日期：" prop='startdate'>
-          <el-date-picker v-model="startdate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="抢修日期：" prop='timeRange'>
+          <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="startdate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
-          <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
 
         <el-form-item label="业务来源：" prop='repairsource'>
@@ -86,8 +87,7 @@ export default {
         type: 1
       },
       patrolYear: "",
-      startdate: "",
-      enddate: "",
+      timeRange:[],
       dataList: null,
       total: 0,
       rules: {},
@@ -180,18 +180,15 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.startdate = this.getBeginTime();
-      this.queryParams.enddate = this.getEndTime();
+      this.queryParams.startdate = this.timeRange[0] + " 00:00:00";
+      this.queryParams.enddate = this.timeRange[1] + " 23:59:59";
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
       this.patrolYear = "";
-      this.startdate = "";
-      this.enddate = "";
-      this.queryParams.startdate = "";
-      this.queryParams.enddate = "";
+      this.timeRange = [];
       this.handleQuery();
     },
     // 获取开始时间
@@ -229,8 +226,8 @@ export default {
           this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
           this.total = res.total;
-          let arr = this.dataList[this.dataList.length - 1];
 
+          let arr = this.xsdataList[this.xsdataList.length - 1];
           this.chartData.series[0].data = this.props1.map(v => arr[v]);
           this.chartData.series[1].data = this.props2.map(v => arr[v]);
 

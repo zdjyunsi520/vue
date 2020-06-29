@@ -29,7 +29,7 @@
           </el-form-item>
 
           <el-form-item label="联系电话" prop="patroluserphone">
-            <el-input v-model="form.patroluserphone"></el-input>
+            <el-input v-model="form.patroluserphone" placeholder="请输入联系电话"></el-input>
           </el-form-item>
           <el-form-item label="巡视成员" prop="patrolmemberids">
             <el-select v-model="patrolmemberids" placeholder="请选择巡视成员" multiple>

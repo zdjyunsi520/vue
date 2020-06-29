@@ -51,7 +51,7 @@
           </el-row>
           <el-row>
             <el-form-item label="负责人" prop="ChargePersonId">
-              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="ChargePersonId" :disabled="disabled" />
+              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm"  :placeholder='"请选择负责人"' :checkedKeys="ChargePersonId" :disabled="disabled" />
             </el-form-item>
             <el-form-item label="联系电话" prop="ChargePhoneNo">
               <el-input v-model="form.ChargePhoneNo" placeholder="请输入负责人联系电话" :disabled="disabled" />
@@ -59,7 +59,7 @@
           </el-row>
           <el-row>
             <el-form-item label="受理人" prop="ReceivePersonId">
-              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="ReceivePersonId" :disabled="disabled" />
+              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1"  :placeholder='"请选择受理人"' :checkedKeys="ReceivePersonId" :disabled="disabled" />
             </el-form-item>
             <el-form-item label="联系电话" prop="ReceivePhoneNo">
               <el-input v-model="form.ReceivePhoneNo" placeholder="请输入受理人联系电话" :disabled="disabled" />

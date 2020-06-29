@@ -20,12 +20,12 @@
                     </el-row>
                     <el-row>
                         <el-form-item label="消缺设备" prop="AssetsIds">
-                            <TreeSelect :disabled="disabled" :getCheckedNodes="false" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+                            <TreeSelect :disabled="disabled" :getCheckedNodes="false" :placeholder='"请选择消缺设备"' showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
                         </el-form-item>
                     </el-row>
                     <el-row>
                         <el-form-item label="提交验收人" prop="ReceiverId">
-                            <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
+                            <TreeSelect :disabled="disabled" showText="text"  :placeholder='"请选择验收人"' :mutiple="false" :data="processTree" @change="handleConfirm1" :checkedKeys="processTreeId" />
                         </el-form-item>
                     </el-row>
                     <el-row>

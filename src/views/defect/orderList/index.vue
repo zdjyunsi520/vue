@@ -4,6 +4,7 @@
       <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
+            <el-option  label="全部" value></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
@@ -13,10 +14,11 @@
         <!-- <el-form-item label="缺陷编号：" prop="No">
           <el-input v-model="queryParams.No"></el-input>
         </el-form-item> -->
-        <el-form-item label="发现日期：" prop="reporttimestart">
-          <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="发现日期：" prop="daterange">
+          <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
-          <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
         <el-form-item label="缺陷等级：" prop="rank">
           <el-select v-model="queryParams.rank" placeholder="请选择">
@@ -97,16 +99,16 @@
               <el-button type="primary" plain size="mini" @click="handleLook(scope.row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
-              <el-button type="primary" plain v-if='scope.row.Status==2' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==2&&scope.row.ProcessorId == userId' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_solve' class="tablesvgicon"></svg-icon>消缺
               </el-button>
-              <el-button type="primary" plain v-if='scope.row.Status==3' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==3&&scope.row.ReceiverId == userId' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_check' class="tablesvgicon"></svg-icon>验收
               </el-button>
-              <el-button type="primary" plain v-if='scope.row.Status==1' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==1&&scope.row.ReporterId == userId' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="primary" plain v-if='scope.row.Status==1' size="mini" @click="handleDelete(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==1&&scope.row.ReporterId == userId' size="mini" @click="handleDelete(scope.row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>
@@ -120,6 +122,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { getAssetsBugs, deleted } from "@/api/biz";
 import { getChildrenList } from "@/api/org";
 export default {
@@ -129,6 +132,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 10,
+        tenantId:'',
         tenantname: "",
         No: "",
         reporttimestart: "",
@@ -138,6 +142,7 @@ export default {
         IsProcessed: "",
         status: ""
       },
+      timeRange:[],
       downloadLoading: false,
       TenantIds: [],
       nowDoc: {},
@@ -157,6 +162,7 @@ export default {
       total: 0,
       tableHeight: "calc(100% - 125px)",
       ranks: [
+        { name: "全部", id: "" },
         { name: "一般缺陷", id: 1 },
         { name: "紧急缺陷", id: 2 },
         { name: "严重缺陷", id: 3 }
@@ -168,10 +174,10 @@ export default {
       ],
       statuss: [
         { name: "全部", id: "" },
-        { name: "登记", id: "0" },
-        { name: "消缺", id: "1" },
-        { name: "验收", id: "2" },
-        { name: "完成", id: "3" }
+        { name: "登记", id: "1" },
+        { name: "消缺", id: "2" },
+        { name: "验收", id: "3" },
+        { name: "完成", id: "4" }
       ],
       isOpen: false,
       formHeight: "",
@@ -179,7 +185,9 @@ export default {
       isOpenbtn:false,
     };
   },
-
+  computed: {
+  ...mapGetters(["userId"])
+  },
   created() {
     this.getList();
     this.getTenants();
@@ -194,6 +202,7 @@ export default {
             })()
         }
   },
+  
   watch:{
       'formHeight': function(newVal){
           this.$nextTick(()=>{
@@ -251,12 +260,14 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.reporttimestart = this.timeRange[0] + " 00:00:00";
+      this.queryParams.reporttimeend = this.timeRange[1] + " 23:59:59";
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.reporttimeend = "";
+      this.timeRange = [];
       this.handleQuery();
     },
 

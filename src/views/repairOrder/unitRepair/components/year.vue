@@ -1,7 +1,7 @@
 <template>
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox marginbottom15">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
         <el-form-item label="用电单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option value="" label="全部"></el-option>
@@ -84,7 +84,7 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
-        startdate: "",
+        startdate: new Date(),
         repairsource: "",
         status: "",
         type: 2

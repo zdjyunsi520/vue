@@ -13,7 +13,7 @@
           <el-row>
 
             <el-form-item label="归档人" prop="FilePersonId">
-              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="processpersonId" />
+              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers"  :placeholder='"请选择归档人"'  @change="handleConfirm" :checkedKeys="processpersonId" />
             </el-form-item>
 
             <el-form-item label="归档时间" prop="FileTime">

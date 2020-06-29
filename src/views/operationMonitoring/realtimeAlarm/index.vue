@@ -1,9 +1,10 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
+            <el-option label="全部" value></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
@@ -113,6 +114,7 @@ export default {
 
       // 搜索参数
       queryParams: {
+        tenantId:'',
         pageno: 1,
         pagesize: 30,
         WarningType: "",

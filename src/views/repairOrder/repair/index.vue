@@ -3,21 +3,24 @@
     <div class="search-box xl-querybox">
       <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="工单编号：" prop="OrderCode">
-          <el-input v-model="queryParams.OrderCode"></el-input>
+          <el-input v-model="queryParams.OrderCode"  placeholder="请输入工单编号"></el-input>
         </el-form-item>
         <el-form-item label="用电单位：" prop="tenantId">
-          <el-select v-model="queryParams.tenantId" placeholder="全部">
+          <el-select v-model="queryParams.tenantId" placeholder="请选择用电单位">
+            <el-option  label="全部" value></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="业务来源：" prop="RepairSource">
-          <el-select v-model="queryParams.RepairSource" placeholder="全部">
+          <el-select v-model="queryParams.RepairSource" placeholder="请选择业务来源">
+            <el-option  label="全部" value></el-option>
             <el-option label="用户报修" :value="1"></el-option>
             <el-option label="故障告警" :value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态：" prop="status">
-          <el-select v-model="queryParams.status" placeholder="全部">
+          <el-select v-model="queryParams.status" placeholder="请选择状态">
+            <el-option  label="全部" value></el-option>
             <el-option label="受理" :value="1"></el-option>
             <el-option label="抢修" :value="2"></el-option>
             <el-option label="归档" :value="3"></el-option>
@@ -69,16 +72,16 @@
               <el-button type="primary" plain size="mini" @click="handleLook(row)">
                 <svg-icon icon-class='ic_look' class="tablesvgicon"></svg-icon>查看
               </el-button>
-              <el-button v-if="row.Status==2" type="primary" plain size="mini" @click="handleUpdate(row)">
+              <el-button v-if="row.Status==2&&row.ChargePersonId == userId" type="primary" plain size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_repair' class="tablesvgicon"></svg-icon>抢修
               </el-button>
-              <el-button v-if="row.Status==3" type="primary" plain size="mini" @click="handleUpdate(row)">
+              <el-button v-if="row.Status==3&&row.ReceivePersonId == userId" type="primary" plain size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_file' class="tablesvgicon"></svg-icon>归档
               </el-button>
-              <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
+              <el-button type="primary" plain v-if="row.Status==1&&row.ReceivePersonId == userId" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
-              <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleDelete(row)">
+              <el-button type="primary" plain v-if="row.Status==1&&row.ReceivePersonId == userId" size="mini" @click="handleDelete(row)">
                 <svg-icon icon-class='ic_delete' class="tablesvgicon"></svg-icon>删除
               </el-button>
             </div>
@@ -145,11 +148,9 @@ export default {
     ...mapGetters({
       repairOrderKV: "status/repairOrderKV",
       urgencyKV: "status/urgencyKV",
-      orderResourceKV: "status/orderResourceKV"
-    }),
-    statusKV() {
-      return this.status;
-    }
+      orderResourceKV: "status/orderResourceKV",
+      userId: "userId"
+    })
   },
   mounted() {
         this.formHeight = this.$refs.queryForm.$el.clientHeight;

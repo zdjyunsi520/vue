@@ -1,7 +1,7 @@
 <template>
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox marginbottom15">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
         <el-form-item label="用电单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
             <el-option value="" label="全部"></el-option>
@@ -91,7 +91,7 @@ export default {
         status: "",
         type: 1
       },
-      patrolYear: "",
+      patrolYear: new Date(),
       timeBegin: "",
       timeEnd: "",
       dataList: [],
@@ -242,7 +242,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = "";
+      this.patrolYear = new Date();
       this.queryParams.startdate = "";
       this.queryParams.enddate = "";
       this.handleQuery();
@@ -282,7 +282,7 @@ export default {
           this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
 
-          let row = res.data[res.data.length - 1];
+          let row = this.xsdataList[this.xsdataList.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);
           this.chartData.title = row.Name + "-抢修年度统计图";

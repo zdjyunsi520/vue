@@ -22,7 +22,7 @@
       </el-col>
       <el-col :xs="{span: 24}" class="app-container dragright mxright" style="padding-top:0;padding-bottom:0;">
         <div class="search-box xl-querybox">
-          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+          <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules">
             <el-form-item label="关键词：" prop="MultiWord" label-width="61px">
               <el-input v-model="queryParams.MultiWord" placeholder="姓名/用户名/手机号" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
@@ -334,7 +334,7 @@ export default {
 }
 </style>
 <style lang="scss">
-// .xl-query {
+// .xl-querybox {
 //   /deep/.el-form-item {
 //     margin-bottom: 0;
 //   }

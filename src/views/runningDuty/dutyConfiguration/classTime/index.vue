@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules">
         <el-form-item label="班次类型：" prop="name">
-          <el-input v-model="queryParams.name" placeholder="" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-model="queryParams.name" placeholder="请输入班次类型" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
 
         <el-form-item>

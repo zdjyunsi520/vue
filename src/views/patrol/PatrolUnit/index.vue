@@ -7,19 +7,21 @@
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
       </el-tabs>
       <div class='sm-searchbox'>
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="巡视单位：" prop='tenantId'>
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
+            <el-option  label="全部" value=""></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="年度：" v-show="activeName=='0'" prop='patrolYear' label-width="50px">
           <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
-        <el-form-item label="巡视日期：" v-show="activeName!='0'" prop='timeBegin'>
-          <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="巡视日期：" v-show="activeName!='0'" prop='timeRange'>
+           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="timeBegin" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
-          <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="timeEnd" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
         <el-form-item label="巡视性质：" v-show="activeName!='1'" prop='ptrolnature'>
           <el-select v-model="queryParams.ptrolnature" clearable placeholder="请选择">
@@ -105,9 +107,8 @@ export default {
         ptrolnature: "",
         isexecute: ""
       },
-      patrolYear: "",
-      timeBegin: "",
-      timeEnd: "",
+      patrolYear: new Date(),
+      timeRange:[],
       downloadLoading: false,
       dataList: null,
       total: 0,
@@ -119,10 +120,12 @@ export default {
       listLoading: true,
       xsdataList: [],
       ptrolnatures: [
+        { name: "全部", id: "" },
         { name: "定期巡视", id: "1" },
         { name: "临时巡视", id: "2" }
       ],
       isexecutes: [
+        { name: "全部", type: "" },
         { name: "已执行", type: true },
         { name: "未执行", type: false }
       ],
@@ -240,9 +243,8 @@ export default {
 
     handleClick(tab, event) {
       this.resetQuery();
-      this.patrolYear = "";
-      this.timeBegin = "";
-      this.timeEnd = "";
+      this.patrolYear = new Date();
+      this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";
       this.getList(this.activeName);
@@ -258,9 +260,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = "";
-      this.timeBegin = "";
-      this.timeEnd = "";
+      this.patrolYear = new Date();
+      this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";
       this.handleQuery();
@@ -273,8 +274,8 @@ export default {
           begin = this.patrolYear + "-01-01 00:00:00";
         }
       } else {
-        if (this.timeBegin != "") {
-          begin = this.timeBegin + " 00:00:00";
+        if (this.timeRange[0] != "") {
+          begin = this.timeRange[0] + " 00:00:00";
         }
       }
       return begin;
@@ -287,8 +288,8 @@ export default {
           end = this.patrolYear + "-12-31 23:59:59";
         }
       } else {
-        if (this.timeEnd != "") {
-          end = this.timeEnd + " 23:59:59";
+        if (this.timeRange[1] != "") {
+          end = this.timeRange[1] + " 23:59:59";
         }
       }
       return end;

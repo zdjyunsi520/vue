@@ -1,20 +1,21 @@
 <template>
     <div class="app-container">
         <div class="search-box xl-querybox">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+            <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
                 <el-form-item label="用电单位：" prop="tenantId">
                     <el-select v-model="queryParams.tenantId">
-                        <el-option label="请选择" value></el-option>
+                        <el-option label="全部" value></el-option>
                         <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="值班人员：" prop="employeename">
-                    <el-input v-model="queryParams.employeename" placeholder="" clearable />
+                    <el-input v-model="queryParams.employeename" placeholder="请输入值班人员" clearable />
                 </el-form-item>
-                <el-form-item label="值班日期：" prop="starttime">
-                    <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                <el-form-item label="值班日期：" prop="timeRange">
+                    <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+                    <!-- <el-date-picker v-model="queryParams.starttime" type="date" placeholder="请选择日期" clearable></el-date-picker>
                     至
-                    <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker>
+                    <el-date-picker v-model="queryParams.endtime" type="date" placeholder="请选择日期" clearable></el-date-picker> -->
                 </el-form-item>
 
                 <el-form-item>
@@ -107,6 +108,7 @@ export default {
                 employeename: "",
                 teamId: ""
             },
+            timeRange:[],
             isOpen: false,
             formHeight: "",
             baseformHeight: 47,
@@ -162,11 +164,14 @@ export default {
         /** 搜索按钮操作 */
         handleQuery() {
             this.queryParams.pageno = 1;
+            this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
+            this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
             this.getList();
         },
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
+            this.timeRange=[];
             this.handleQuery();
         },
         // 导出

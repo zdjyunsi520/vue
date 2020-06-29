@@ -55,9 +55,7 @@ import { getInfo as getInfoRepair } from "@/api/biz/solution";
 import { getInfo as getInfoAdd } from "@/api/biz";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
-import TreeSelect from "@/views/components/TreeSelect";
 export default {
-  components: { TreeSelect },
   data() {
     const rules = {
       IsProcessed: [

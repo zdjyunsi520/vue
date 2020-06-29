@@ -5,10 +5,10 @@
         <el-tab-pane label="按人员统计" name="1"></el-tab-pane>
         <el-tab-pane label="按值班统计" name="2"></el-tab-pane>
       </el-tabs>
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules">
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId">
-            <el-option label="请选择" value></el-option>
+            <el-option label="全部" value></el-option>
             <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
           </el-select>
         </el-form-item>
@@ -94,7 +94,7 @@ export default {
         starttime: "",
         endtime: ""
       },
-      patrolYear: "",
+      patrolYear: new Date(),
       activeName: "1",
       chartData: {},
       tableHeight: "calc(100% - 110px)",
@@ -178,7 +178,7 @@ export default {
     },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
-      this.patrolYear = "";
+      this.patrolYear = new Date();
       this.queryParams.starttime = "";
       this.queryParams.endtime = "";
       this.queryParams.type = parseInt(this.activeName);
@@ -240,7 +240,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = "";
+      this.patrolYear = new Date();
       this.queryParams.starttime = "";
       this.queryParams.endtime = "";
       this.handleQuery();

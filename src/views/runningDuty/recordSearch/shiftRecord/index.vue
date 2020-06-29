@@ -2,7 +2,7 @@
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox">
             <div class='sm-searchbox'>
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
 
           <el-select v-model="queryParams.tenantId">
@@ -38,9 +38,10 @@
                 <el-form-item label="注意事项：" prop="caution">
                     <el-input v-model="queryParams.caution" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item> -->
-        <el-form-item label="值班日期：" prop="starttime">
-          <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
-          至 <el-date-picker v-model="queryParams.endtime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
+        <el-form-item label="值班日期：" prop="timeRange">
+           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
+          至 <el-date-picker v-model="queryParams.endtime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker> -->
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -118,6 +119,7 @@ export default {
         // jieban:"",
         // jiaoban:""
       },
+      timeRange:[],
       teamList: [],
       isOpen: true,
       formHeight: "",
@@ -179,11 +181,14 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
+      this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.timeRange=[];
       this.handleQuery();
     },
     // 多选框选中数据

@@ -19,8 +19,8 @@
           </el-form-item>
 
           <el-form-item label="巡视人" prop="PatrolId">
-            <div style="height: 34px;">
-              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="personId" />
+            <div>
+              <TreeSelect showText="text" :mutiple="false" :data="personList" :placeholder='"请选择巡视人"'  @change="handleConfirm" :checkedKeys="personId" />
             </div>
           </el-form-item>
           <el-form-item label="巡视开始时间" prop="PatrolStartTime">
@@ -28,8 +28,8 @@
           </el-form-item>
 
           <el-form-item label="记录人" prop="RecorderId">
-            <div style="height: 34px;">
-              <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="personId1" />
+            <div>
+              <TreeSelect showText="text" :mutiple="false" :data="personList" :placeholder='"请选择记录人"'  @change="handleConfirm1" :checkedKeys="personId1" />
             </div>
           </el-form-item>
           <el-form-item label="巡视内容" prop="RecordContent">

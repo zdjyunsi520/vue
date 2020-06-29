@@ -1,16 +1,18 @@
 <template>
   <div class="app-container">
     <div class="search-box ">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
+            <el-option label="全部" value></el-option>
             <el-option v-for="(item,index) in allassetsTree" :key="index" :label="item.text" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="日期" prop="StartDate">
-          <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="告警日期：" prop="timeRange">
+           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
-          <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
         <el-form-item label="告警类型：" prop="WarningType">
           <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
@@ -18,8 +20,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="告警设备：" prop="AssetsId" >
-          <div style='width:200px;border-radius:4px;overflow:hidden'>
-            <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+          <div style='width:200px;border-radius:4px;overflow:hidden;height:36px'>
+            <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :placeholder='"请选择告警设备"' :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
           </div>
         </el-form-item>
         <el-form-item>
@@ -145,6 +147,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
+        WarningType:'',
         tenantId: "",
         alarmType: "",
         AssetsId: "",
@@ -153,6 +156,7 @@ export default {
         IsRecovery: "",
         assetsIdtext: ""
       },
+      timeRange:[],
       assetsTreeId: [],
       WarningTypes: [
         {
@@ -379,13 +383,15 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.StartDate = this.timeRange[0] + " 00:00:00";
+      this.queryParams.EndDate = this.timeRange[1] + " 23:59:59";
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
       this.queryParams.assetsIdtext = "";
-      this.queryParams.EndDate = "";
+      this.timeRange = [];
       this.handleQuery();
       this.assetsTreeId = [];
     },

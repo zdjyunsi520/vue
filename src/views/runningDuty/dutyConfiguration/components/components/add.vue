@@ -1,7 +1,7 @@
 <template>
 
   <el-dialog :title="title+'岗位'" :visible.sync="dialogVisible" center width="550px" append-to-body :close-on-click-modal="false">
-    <el-form :model="form" ref="form" class="xl-query" :rules="rules" label-width="80px">
+    <el-form :model="form" ref="form" class="xl-querybox" :rules="rules" label-width="80px">
       <el-form-item label="岗位名称" prop="name">
         <el-input type="text" v-model="form.name"></el-input>
       </el-form-item>

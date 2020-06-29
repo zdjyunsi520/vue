@@ -200,7 +200,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .onlyform-box .el-form.xl-query .el-form-item {
+/deep/ .onlyform-box .el-form.xl-querybox .el-form-item {
   margin-bottom: 10px;
 }
 

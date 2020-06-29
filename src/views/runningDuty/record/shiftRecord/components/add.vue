@@ -19,15 +19,15 @@
           </el-form-item>
 
           <el-form-item label="交班人" prop="HandoverId">
-            <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm" :checkedKeys="personId" />
+            <TreeSelect showText="text" :mutiple="false" :data="personList" :placeholder='"请选择交班人"' @change="handleConfirm" :checkedKeys="personId" />
           </el-form-item>
 
           <el-form-item label="接班人" prop="SuccessorId">
-            <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm1" :checkedKeys="personId1" />
+            <TreeSelect showText="text" :mutiple="false" :data="personList" :placeholder='"请选择接班人"' @change="handleConfirm1" :checkedKeys="personId1" />
           </el-form-item>
 
           <el-form-item label="记录人" prop="RecorderId">
-            <TreeSelect showText="text" :mutiple="false" :data="personList" @change="handleConfirm2" :checkedKeys="personId2" />
+            <TreeSelect showText="text" :mutiple="false" :data="personList" :placeholder='"请选择记录人"' @change="handleConfirm2" :checkedKeys="personId2" />
           </el-form-item>
 
           <el-form-item label="记录内容" prop="RecordContent">

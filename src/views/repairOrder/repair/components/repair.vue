@@ -23,7 +23,7 @@
               <el-date-picker :disabled="disabled" v-model="form.RecoverTime" type="datetime" placeholder="请选择时间" value-format="yyyy-MM-dd  HH:mm:ss" format="yyyy-MM-dd  HH:mm:ss"></el-date-picker>
             </el-form-item>
             <el-form-item label="处理人" prop="ProcessPersonId">
-              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers" @change="handleConfirm" :checkedKeys="processpersonId" />
+              <TreeSelect :disabled="disabled" showText="text" :mutiple="false" :data="allpatrolusers"   :placeholder='"请选择处理人"'  @change="handleConfirm" :checkedKeys="processpersonId" />
             </el-form-item>
             <el-form-item label="现场抢修记录" prop="ProcessRecord">
               <el-input :disabled="disabled" type="textarea" :rows="5" v-model="form.ProcessRecord" placeholder="" />

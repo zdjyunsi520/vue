@@ -67,18 +67,18 @@ export default {
 
       VersionCode: [
         {
-          pattern: /^[^\u4e00-\u9fa5]{1,18}$/,
+          pattern: /^\d{1,4}$/,
           required: true,
-          message: "请输入18位以内的数字或字母或特殊符号",
+          message: "请输入4位以内的整数",
           trigger: "blur"
         }
       ],
 
       UpdateDescription: [
         {
-          pattern: /^[^\u4e00-\u9fa5]{1,300}$/,
+          pattern: /^[\s\S]{1,300}$/,
           required: true,
-          message: "请输入300位以内的数字或字母或特殊符号",
+          message: "请输入300位以内的内容",
           trigger: "blur"
         }
       ],

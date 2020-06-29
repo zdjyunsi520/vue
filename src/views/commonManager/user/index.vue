@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules">
         <el-form-item label="关键词：" prop="multiword">
           <el-input v-model="queryParams.multiword" placeholder="用户名/姓名/手机号" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>

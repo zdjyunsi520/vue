@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-scrollbar>
       <div class="search-box">
-        <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query">
+        <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
           <el-form-item label="单位名称：" prop='tenantId'>
             <el-select v-model="queryParams.tenantId" clearable placeholder="请选择" @change="handleChangeTenantId">
               <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>

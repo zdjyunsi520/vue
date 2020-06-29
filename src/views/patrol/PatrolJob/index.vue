@@ -1,19 +1,21 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" label-width="100"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" label-width="100"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
         <el-form-item label="巡视人员：" prop="patrolusername">
-          <el-input v-model="queryParams.patrolusername" clearable></el-input>
+          <el-input v-model="queryParams.patrolusername"  placeholder="请输入巡视人员" clearable></el-input>
         </el-form-item>
         <el-form-item label="巡视单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
+            <el-option label="全部" value></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="巡视日期：" prop="patroltimebegin">
-          <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+        <el-form-item label="巡视日期：" prop="timeRange">
+          <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <!-- <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
-          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
+          <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
         <el-form-item label="巡视性质：" prop="ptrolnature">
           <el-select v-model="queryParams.ptrolnature" placeholder="请选择">
@@ -143,6 +145,7 @@ export default {
         ptrolnature: "",
         isexecute: ""
       },
+      timeRange:[],
       isOpen: false,
       formHeight: "",
       baseformHeight: 46,
@@ -213,12 +216,14 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.patroltimebegin = this.timeRange[0] + " 00:00:00";
+      this.queryParams.patroltimeend = this.timeRange[1] + " 23:59:59";
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.patroltimeend = "";
+      this.timeRange = [];
       this.handleQuery();
     },
     // 多选框选中数据

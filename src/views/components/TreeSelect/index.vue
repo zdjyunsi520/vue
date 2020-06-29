@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <el-button :disabled="disabled" placeholder="" @click="showTree">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(this.getCheckedNodes).map(v => v[this.showText]).join(',')}}</el-button>
+  <div style='height:36px;position:relative'>
+    
+    <el-button :disabled="disabled"  @click="showTree" :style="this.$refs.tree&&this.$refs.tree.getCheckedNodes(this.getCheckedNodes).map(v => v[this.showText]).join(',')==''?'color:#c0c4cc':''">{{this.$refs.tree&&this.$refs.tree.getCheckedNodes(this.getCheckedNodes).map(v => v[this.showText]).join(',')==''?placeholder:this.$refs.tree&&this.$refs.tree.getCheckedNodes(this.getCheckedNodes).map(v => v[this.showText]).join(',')}}</el-button>
     <el-drawer :wrapperClosable="false" :modal-append-to-body='true' :title="title" direction="rtl" :visible.sync="drawperdialogVisible" :show-close='false' center :size="size">
       <el-scrollbar style="height: 86vh;" class="marginright-fx">
         <el-tree :default-checked-keys="checkedKeys" ref="tree" :node-key="nodeKey" :default-expand-all="false" :props="props" :data="data" show-checkbox :check-strictly="!mutiple" @check-change="handleCheckChange"></el-tree>
@@ -17,6 +18,8 @@
   </div>
 </template>
 
+
+
 <script>
 export default {
   props: {
@@ -25,6 +28,10 @@ export default {
       type: Array
     },
     title: {
+      type: String,
+      default: "请选择"
+    },
+    placeholder: {
       type: String,
       default: "请选择"
     },
@@ -128,5 +135,8 @@ export default {
     width: 100%;
     text-align: left;
   }
+}
+/deep/.el-button--medium {
+    padding: 0 10px;
 }
 </style>

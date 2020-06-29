@@ -7,9 +7,10 @@
                 <el-tab-pane label="按消缺率统计" name="2"></el-tab-pane>
             </el-tabs>
             <div class='sm-searchbox'>
-                <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-query" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+                <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
                     <el-form-item label="用电单位：" prop='tenantId'>
                         <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
+                            <el-option  label="全部" value></el-option>
                             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
                         </el-select>
                     </el-form-item>
@@ -97,8 +98,8 @@ export default {
                 rank: "",
                 status: ""
             },
-            patrolYear: "",
-            patrolMonth: "",
+            patrolYear: new Date(),
+            patrolMonth: new Date(),
             downloadLoading: false,
             dataList: null,
             xsdataList: null,
@@ -110,8 +111,8 @@ export default {
             nowDoc: {},
             tableHeight: "calc(100% - 110px)",
             listLoading: true,
-
             ranks: [
+                { name: "全部", id: "" },
                 { name: "一般缺陷", id: 1 },
                 { name: "紧急缺陷", id: 2 },
                 { name: "严重缺陷", id: 3 }
@@ -252,8 +253,8 @@ export default {
         },
         handleClick(tab, event) {
             this.resetQuery("queryForm");
-            this.patrolYear = "";
-            this.patrolMonth = "";
+            this.patrolYear = new Date();
+            this.patrolMonth = new Date();
             this.queryParams.patroltimebegin = "";
             this.queryParams.patroltimeend = "";
             this.getList(this.activeName);
@@ -310,8 +311,8 @@ export default {
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
-            this.patrolYear = "";
-            this.patrolMonth = "";
+            this.patrolYear = new Date();
+            this.patrolMonth = new Date();
             this.queryParams.patroltimebegin = "";
             this.queryParams.patroltimeend = "";
             this.handleQuery();

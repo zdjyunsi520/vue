@@ -5,7 +5,7 @@
         <el-tab-pane label="按岗位展示" name="0"></el-tab-pane>
         <el-tab-pane label="按人员展示" name="1"></el-tab-pane>
       </el-tabs>
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-query" :rules="rules">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules">
         <el-form-item label="值班班组：" prop="dutyteamId">
           <el-select @change="handleChangeDutyTeam" v-model="queryParams.dutyteamId" clearable placeholder="请选择值班班组">
             <el-option v-for="(item,index) in dutyteamIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -55,7 +55,7 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
 
       <el-dialog :title="'排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
-        <el-form :model="form" ref="queryForm" class="xl-query" :rules="mrules" label-width="130px">
+        <el-form :model="form" ref="queryForm" class="xl-querybox" :rules="mrules" label-width="130px">
           <el-form-item label="值班班组" prop="dutyteamId">
             <el-select disabled v-model="form.dutyteamId" clearable placeholder="请选择值班班组" style="width:100%">
               <el-option v-for="(item,index) in dutyteamIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -89,7 +89,7 @@
       </el-dialog>
 
       <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="550px" append-to-body>
-        <el-form :model="copyform" ref="queryCopyForm" class="xl-query" :rules="mrules" label-width="130px">
+        <el-form :model="copyform" ref="queryCopyForm" class="xl-querybox" :rules="mrules" label-width="130px">
           <el-form-item label="排班日期" prop="starttime">
             <el-date-picker :picker-options="pickerOptions" v-model="copyform.starttime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           </el-form-item>

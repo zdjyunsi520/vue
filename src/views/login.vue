@@ -23,8 +23,8 @@
           </el-input>
         </el-form-item>
        
-        <div class="smbottombtn">
-          <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
+        <div class="smbottombtn" >
+          <el-checkbox v-model="loginForm.rememberMe" style='visibility: hidden;'>记住密码</el-checkbox>
           <span class="pwdbtn" @click="handlerFindpwd">
             <svg-icon icon-class="ic_find_out" style="font-size: 25px;vertical-align: middle;margin-right: 4px;" />找回密码</span>
         </div>
