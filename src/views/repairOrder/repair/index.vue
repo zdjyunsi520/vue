@@ -74,7 +74,7 @@
               <el-button v-if="row.Status==3" type="primary" plain size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_file' class="tablesvgicon"></svg-icon>归档
               </el-button>
-              <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleUpdate(row)">
+              <el-button type="primary" plain v-if="row.Status==1&&row.CreateUserId == userId" size="mini" @click="handleUpdate(row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
               <el-button type="primary" plain v-if="row.Status==1" size="mini" @click="handleDelete(row)">
@@ -140,11 +140,9 @@ export default {
     ...mapGetters({
       repairOrderKV: "status/repairOrderKV",
       urgencyKV: "status/urgencyKV",
-      orderResourceKV: "status/orderResourceKV"
-    }),
-    statusKV() {
-      return this.status;
-    }
+      orderResourceKV: "status/orderResourceKV",
+      userId: "userId"
+    })
   },
   methods: {
     getList() {

@@ -104,7 +104,7 @@
               <el-button type="primary" plain v-if='scope.row.Status==3' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_check' class="tablesvgicon"></svg-icon>验收
               </el-button>
-              <el-button type="primary" plain v-if='scope.row.Status==1' size="mini" @click="handleUpdate(scope.row)">
+              <el-button type="primary" plain v-if='scope.row.Status==1&&scope.row.CreateUserId == userId' size="mini" @click="handleUpdate(scope.row)">
                 <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
               </el-button>
               <el-button type="primary" plain v-if='scope.row.Status==1' size="mini" @click="handleDelete(scope.row)">
@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { getAssetsBugs, deleted } from "@/api/biz";
 import { getChildrenList } from "@/api/org";
 export default {
@@ -187,6 +188,7 @@ export default {
     // this.formHeight = this.$refs.queryForm.$el.clientHeight;
   },
   computed: {
+    ...mapGetters(["userId"])
     // isOpen() {
     //   if (this.formHeight > 40) {
     //     return (this.isOpen = true);
