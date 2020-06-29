@@ -94,7 +94,7 @@ export default {
         starttime: "",
         endtime: ""
       },
-      patrolYear: new Date(),
+      patrolYear: this.getNowYear(),
       activeName: "1",
       chartData: {},
       tableHeight: "calc(100% - 110px)",
@@ -154,16 +154,18 @@ export default {
   mounted() {
     let self = this;
     let table = document.querySelector(".el-table__footer-wrapper>table");
+    let table1 = document.querySelector(
+      ".el-table__fixed-footer-wrapper>table"
+    );
     this.$nextTick(() => {
       table.rows[0].onclick = function() {
         self.handleRowInfo(self.totalrow);
       };
-      let table1 = document.querySelector(
-        ".el-table__fixed-footer-wrapper>table"
-      );
-      table1.rows[0].onclick = function() {
-        self.handleRowInfo(self.totalrow);
-      };
+      if (table1) {
+        table1.rows[0].onclick = function() {
+          self.handleRowInfo(self.totalrow);
+        };
+      }
     });
   },
 
@@ -178,7 +180,7 @@ export default {
     },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = this.getNowYear();
       this.queryParams.starttime = "";
       this.queryParams.endtime = "";
       this.queryParams.type = parseInt(this.activeName);
@@ -197,7 +199,7 @@ export default {
           this.total = response.total;
           let arr = [];
           if (!row) {
-            arr = this.dataList[this.dataList.length - 1];
+            arr = this.xsdataList[this.xsdataList.length - 1];
           } else {
             arr = row;
           }
@@ -240,10 +242,15 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = this.getNowYear();
       this.queryParams.starttime = "";
       this.queryParams.endtime = "";
       this.handleQuery();
+    },
+    getNowYear() {
+      var myYear = new Date();
+      var nowYear = myYear.getFullYear();
+      return nowYear + "";
     },
     // 点击行
     handleRowInfo(row) {

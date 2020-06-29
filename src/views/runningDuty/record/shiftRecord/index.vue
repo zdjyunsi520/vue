@@ -203,8 +203,13 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
-      this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
+      if (this.timeRange.length > 0) {
+        this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
+        this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
+      } else {
+        this.queryParams.starttime = "";
+        this.queryParams.endtime = "";
+      }
       this.getList();
     },
     /** 重置按钮操作 */

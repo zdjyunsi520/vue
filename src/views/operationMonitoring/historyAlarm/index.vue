@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box ">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option label="全部" value></el-option>
@@ -9,7 +9,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="告警日期：" prop="timeRange">
-           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="queryParams.StartDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
           <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
@@ -19,7 +19,7 @@
             <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警设备：" prop="AssetsId" >
+        <el-form-item label="告警设备：" prop="AssetsId">
           <div style='width:200px;border-radius:4px;overflow:hidden;height:36px'>
             <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :placeholder='"请选择告警设备"' :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
           </div>
@@ -30,7 +30,7 @@
 
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <div>
@@ -48,7 +48,7 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="50" /> -->
-        <el-table-column label="告警等级" width="130" prop="Level" >
+        <el-table-column label="告警等级" width="130" prop="Level">
           <template slot-scope="scope">
             <span v-if="scope.row.Level==1"><i class="dot color1"></i>一般事件</span>
             <span v-else-if="scope.row.Level==2"><i class="dot color2"></i>轻微告警</span>
@@ -147,7 +147,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 30,
-        WarningType:'',
+        WarningType: "",
         tenantId: "",
         alarmType: "",
         AssetsId: "",
@@ -156,7 +156,7 @@ export default {
         IsRecovery: "",
         assetsIdtext: ""
       },
-      timeRange:[],
+      timeRange: [],
       assetsTreeId: [],
       WarningTypes: [
         {
@@ -257,7 +257,7 @@ export default {
       isOpen: false,
       formHeight: "",
       baseformHeight: 46,
-      isOpenbtn:false,
+      isOpenbtn: false
     };
   },
   created() {
@@ -273,26 +273,26 @@ export default {
     }
   },
   mounted() {
+    this.formHeight = this.$refs.queryForm.$el.clientHeight;
+    this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
+    window.onresize = () => {
+      return (() => {
         this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-        window.onresize = () => {
-            return (() => {
-                this.formHeight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-            })()
-        }
+        this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
+      })();
+    };
   },
-  watch:{
-      'formHeight': function(newVal){
-          this.$nextTick(()=>{
-            var newheight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpen=newheight > this.baseformHeight?true:false;
-            this.isOpenbtn=newheight > this.baseformHeight?true:false
-          })
-      },
+  watch: {
+    formHeight: function(newVal) {
+      this.$nextTick(() => {
+        var newheight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpen = newheight > this.baseformHeight ? true : false;
+        this.isOpenbtn = newheight > this.baseformHeight ? true : false;
+      });
+    }
   },
   methods: {
-     // 高级筛选
+    // 高级筛选
     handleHighSearch() {
       this.isOpen = !this.isOpen;
     },
@@ -383,8 +383,13 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.StartDate = this.timeRange[0] + " 00:00:00";
-      this.queryParams.EndDate = this.timeRange[1] + " 23:59:59";
+      if (this.timeRange.length > 0) {
+        this.queryParams.StartDate = this.timeRange[0] + " 00:00:00";
+        this.queryParams.EndDate = this.timeRange[1] + " 23:59:59";
+      } else {
+        this.queryParams.StartDate = "";
+        this.queryParams.EndDate = "";
+      }
       this.getList();
     },
     /** 重置按钮操作 */
@@ -449,30 +454,30 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .dot{
-    &.color1{
-      background-color:#666666;
-    }
-    &.color2{
-      background-color:#FFC21C;
-    }
-    &.color3{
-      background-color:#FF7F2D;
-    }
-    &.color4{
-      background-color:#EB5223;
-    }
+.dot {
+  &.color1 {
+    background-color: #666666;
   }
-  span.color1{
-    color:#666666;
+  &.color2 {
+    background-color: #ffc21c;
   }
-  span.color2{
-    color:#FFC21C;
+  &.color3 {
+    background-color: #ff7f2d;
   }
-  span.color3{
-    color:#FF7F2D;
+  &.color4 {
+    background-color: #eb5223;
   }
-  span.color4{
-    color:#FFC21C;
-  }
+}
+span.color1 {
+  color: #666666;
+}
+span.color2 {
+  color: #ffc21c;
+}
+span.color3 {
+  color: #ff7f2d;
+}
+span.color4 {
+  color: #ffc21c;
+}
 </style>

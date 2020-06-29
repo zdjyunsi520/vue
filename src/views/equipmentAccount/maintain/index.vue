@@ -91,5 +91,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+/deep/.ewmbox {
+  background-color: #f7f7f7;
+  border: 1px solid #ebeef5;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 4px;
+  padding: 0 10px;
+}
 </style>

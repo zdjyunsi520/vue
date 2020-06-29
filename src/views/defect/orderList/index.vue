@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
-            <el-option  label="全部" value></el-option>
+            <el-option label="全部" value></el-option>
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
@@ -15,7 +15,7 @@
           <el-input v-model="queryParams.No"></el-input>
         </el-form-item> -->
         <el-form-item label="发现日期：" prop="daterange">
-          <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
           <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
@@ -43,7 +43,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -132,7 +132,7 @@ export default {
       queryParams: {
         pageno: 1,
         pagesize: 10,
-        tenantId:'',
+        tenantId: "",
         tenantname: "",
         No: "",
         reporttimestart: "",
@@ -142,7 +142,7 @@ export default {
         IsProcessed: "",
         status: ""
       },
-      timeRange:[],
+      timeRange: [],
       downloadLoading: false,
       TenantIds: [],
       nowDoc: {},
@@ -182,39 +182,39 @@ export default {
       isOpen: false,
       formHeight: "",
       baseformHeight: 47,
-      isOpenbtn:false,
+      isOpenbtn: false
     };
   },
   computed: {
-  ...mapGetters(["userId"])
+    ...mapGetters(["userId"])
   },
   created() {
     this.getList();
     this.getTenants();
-    console.log('userId',this.userId)
+    console.log("userId", this.userId);
   },
   mounted() {
+    this.formHeight = this.$refs.queryForm.$el.clientHeight;
+    this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
+    window.onresize = () => {
+      return (() => {
         this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-        window.onresize = () => {
-            return (() => {
-                this.formHeight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-            })()
-        }
+        this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
+      })();
+    };
   },
-  
-  watch:{
-      'formHeight': function(newVal){
-          this.$nextTick(()=>{
-            var newheight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpen=newheight > this.baseformHeight?true:false;
-            this.isOpenbtn=newheight > this.baseformHeight?true:false
-          })
-      },
+
+  watch: {
+    formHeight: function(newVal) {
+      this.$nextTick(() => {
+        var newheight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpen = newheight > this.baseformHeight ? true : false;
+        this.isOpenbtn = newheight > this.baseformHeight ? true : false;
+      });
+    }
   },
   methods: {
-     // 高级筛选
+    // 高级筛选
     handleHighSearch() {
       this.isOpen = !this.isOpen;
     },
@@ -261,8 +261,13 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.reporttimestart = this.timeRange[0] + " 00:00:00";
-      this.queryParams.reporttimeend = this.timeRange[1] + " 23:59:59";
+      if (this.timeRange.length > 0) {
+        this.queryParams.reporttimestart = this.timeRange[0] + " 00:00:00";
+        this.queryParams.reporttimeend = this.timeRange[1] + " 23:59:59";
+      } else {
+        this.queryParams.reporttimestart = "";
+        this.queryParams.reporttimeend = "";
+      }
       this.getList();
     },
     /** 重置按钮操作 */

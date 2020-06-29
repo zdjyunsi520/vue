@@ -1,32 +1,32 @@
 <template>
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox">
-            <div class='sm-searchbox'>
-      <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
-        <el-form-item label="用电单位：" prop="tenantId">
+      <div class='sm-searchbox'>
+        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
+          <el-form-item label="用电单位：" prop="tenantId">
 
-          <el-select v-model="queryParams.tenantId">
-            <el-option label="全部" value></el-option>
-            <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
-          </el-select>
+            <el-select v-model="queryParams.tenantId">
+              <el-option label="全部" value></el-option>
+              <el-option :key="item.key" :label="item.value" :value="item.key" v-for="item in companyType" />
+            </el-select>
 
-        </el-form-item>
-        <el-form-item label="值班班组：" prop="TeamId">
-          <el-select v-model="queryParams.TeamId" @change='getDutyTeam'>
-            <el-option label="全部" value></el-option>
-            <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="岗位：" prop="dutyTeam">
-          <el-select v-model="queryParams.dutyTeam">
-            <el-option label="全部" value=""></el-option>
-            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in dutyTeams" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="关键词：" prop="keyword" label-width="61px">
-          <el-input v-model="queryParams.keyword" placeholder="记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <!--  <el-form-item label="交班人：" prop="jiaoban">
+          </el-form-item>
+          <el-form-item label="值班班组：" prop="TeamId">
+            <el-select v-model="queryParams.TeamId" @change='getDutyTeam'>
+              <el-option label="全部" value></el-option>
+              <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="岗位：" prop="dutyTeam">
+            <el-select v-model="queryParams.dutyTeam">
+              <el-option label="全部" value=""></el-option>
+              <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in dutyTeams" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="关键词：" prop="keyword" label-width="61px">
+            <el-input v-model="queryParams.keyword" placeholder="记事内容/注意事项" clearable @keyup.enter.native="handleQuery" />
+          </el-form-item>
+          <!--  <el-form-item label="交班人：" prop="jiaoban">
                     <el-input v-model="queryParams.jiaoban" placeholder="请输入交班人" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item label="接班人：" prop="jieban">
@@ -38,18 +38,18 @@
                 <el-form-item label="注意事项：" prop="caution">
                     <el-input v-model="queryParams.caution" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item> -->
-        <el-form-item label="值班日期：" prop="timeRange">
-           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
-          <!-- <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
+          <el-form-item label="值班日期：" prop="timeRange">
+            <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+            <!-- <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
           至 <el-date-picker v-model="queryParams.endtime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker> -->
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item>
-      </el-form>
-      <el-button type="text" @click="handleHighSearch"   class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
-    </div>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-form>
+        <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      </div>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
       <el-table :data="dataList" @selection-change="handleSelectionChange" border :height="height" @sort-change="handleSortChange" style='margin-top:15px;'>
@@ -80,7 +80,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/runningDuty/record/shiftRecord";
-import { fetchTeam ,getListsByDutyTeam} from "@/api/runningDuty/dutyConfiguration";
+import {
+  fetchTeam,
+  getListsByDutyTeam
+} from "@/api/runningDuty/dutyConfiguration";
 
 export default {
   props: {
@@ -119,12 +122,12 @@ export default {
         // jieban:"",
         // jiaoban:""
       },
-      timeRange:[],
+      timeRange: [],
       teamList: [],
-      dutyTeams:[],
+      dutyTeams: [],
       isOpen: true,
       formHeight: "",
-      baseformHeight: 47,
+      baseformHeight: 47
     };
   },
 
@@ -142,16 +145,16 @@ export default {
       return this.ids.length == 0;
     }
   },
-  watch:{
-      'formHeight': function(newVal){
-          this.$nextTick(()=>{
-            var newheight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpen=newheight > this.baseformHeight?true:false;
-          })
-      },
+  watch: {
+    formHeight: function(newVal) {
+      this.$nextTick(() => {
+        var newheight = this.$refs.queryForm.$el.clientHeight;
+        this.isOpen = newheight > this.baseformHeight ? true : false;
+      });
+    }
   },
   methods: {
-     // 高级筛选
+    // 高级筛选
     handleHighSearch() {
       this.isOpen = !this.isOpen;
     },
@@ -161,7 +164,7 @@ export default {
       });
     },
     getDutyTeam() {
-      getListsByDutyTeam({ dutyteamId:this.queryParams.TeamId }).then(r => {
+      getListsByDutyTeam({ dutyteamId: this.queryParams.TeamId }).then(r => {
         this.dutyTeams = r.data;
       });
     },
@@ -187,21 +190,25 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
-      this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
+      if (this.timeRange.length > 0) {
+        this.queryParams.starttime = this.timeRange[0] + " 00:00:00";
+        this.queryParams.endtime = this.timeRange[1] + " 23:59:59";
+      } else {
+        this.queryParams.starttime = "";
+        this.queryParams.endtime = "";
+      }
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.timeRange=[];
+      this.timeRange = [];
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection;
-    },
-
+    }
   }
 };
 </script>

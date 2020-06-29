@@ -10,7 +10,7 @@
         </el-form-item>
 
         <el-form-item label="抢修日期：" prop='timeRange'>
-          <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
+          <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="startdate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
           <el-date-picker v-model="enddate" type="date" placeholder="请选择日期" clearable style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
@@ -86,8 +86,7 @@ export default {
         repairsource: "",
         type: 1
       },
-      patrolYear: "",
-      timeRange:[],
+      timeRange: [],
       dataList: null,
       total: 0,
       rules: {},
@@ -171,7 +170,6 @@ export default {
     },
     handleClick(tab, event) {
       this.resetQuery("queryForm");
-      this.patrolYear = "";
       this.startdate = "";
       this.enddate = "";
       this.getList();
@@ -180,14 +178,18 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
-      this.queryParams.startdate = this.timeRange[0] + " 00:00:00";
-      this.queryParams.enddate = this.timeRange[1] + " 23:59:59";
+      if (this.timeRange.length > 0) {
+        this.queryParams.startdate = this.timeRange[0] + " 00:00:00";
+        this.queryParams.enddate = this.timeRange[1] + " 23:59:59";
+      } else {
+        this.queryParams.startdate = "";
+        this.queryParams.enddate = "";
+      }
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = "";
       this.timeRange = [];
       this.handleQuery();
     },

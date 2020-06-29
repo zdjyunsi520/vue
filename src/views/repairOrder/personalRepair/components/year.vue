@@ -91,7 +91,7 @@ export default {
         status: "",
         type: 1
       },
-      patrolYear: new Date(),
+      patrolYear: this.getNowYear(),
       timeBegin: "",
       timeEnd: "",
       dataList: [],
@@ -201,6 +201,8 @@ export default {
 
   created() {
     this.getTenants();
+    this.queryParams.startdate = this.getBeginTime();
+    this.queryParams.enddate = this.getEndTime();
     this.getList();
   },
   mounted() {
@@ -242,13 +244,14 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = this.getNowYear();
       this.queryParams.startdate = "";
       this.queryParams.enddate = "";
       this.handleQuery();
     },
     // 获取开始时间
     getBeginTime(time) {
+      console.log(this.patrolYear);
       let begin = "";
       if (this.patrolYear != "") {
         begin = this.patrolYear + "-01-01 00:00:00";
@@ -262,6 +265,11 @@ export default {
         end = this.patrolYear + "-12-31 23:59:59";
       }
       return end;
+    },
+    getNowYear() {
+      var myYear = new Date();
+      var nowYear = myYear.getFullYear();
+      return nowYear + "";
     },
 
     // 巡视单位列表

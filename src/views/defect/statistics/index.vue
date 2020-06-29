@@ -82,13 +82,7 @@
 import { bugReportByYear, bugReportByRank, bugReportByRate } from "@/api/biz";
 import BarChart from "./components/BarChart";
 import { getChildrenList } from "@/api/org";
-const myYear = new Date();
-const nowYear = myYear.getFullYear();
-var mth = myYear.getMonth()+1;
-if (mth.toString().length == 1)
-  mth= "0" +mth;
-const nowMonth = nowYear+'-'+mth;
-console.log(nowMonth)
+
 export default {
     components: {
         BarChart
@@ -100,8 +94,8 @@ export default {
                 pageno: 1,
                 pagesize: 30,
                 tenantId: "",
-                patroltimeend: "",
-                patroltimebegin: "",
+                reportTimeend: "",
+                reporttimestart: "",
                 rank: "",
                 status: ""
             },
@@ -208,10 +202,12 @@ export default {
     },
 
     created() {
+        this.patrolYear = this.getNowYear();
+        this.patrolMonth = this.getNowMonth();
+        console.log(this.patrolYear)
+        console.log(this.patrolMonth)
         this.getList(this.activeName);
         this.getTenants();
-      this.patrolYear = nowYear+'';
-      this.patrolMonth = nowMonth+'';
     },
 
     mounted() {
@@ -261,18 +257,18 @@ export default {
         },
         handleClick(tab, event) {
             this.resetQuery("queryForm");
-            this.patrolYear = nowYear+'';
-            this.patrolMonth = nowMonth+'';
-            this.queryParams.patroltimebegin = "";
-            this.queryParams.patroltimeend = "";
+            this.patrolYear = this.getNowYear();
+            this.patrolMonth = this.getNowMonth();
+            this.queryParams.reporttimestart = "";
+            this.queryParams.reportTimeend = "";
             this.getList(this.activeName);
         },
 
         /** 搜索按钮操作 */
         handleQuery() {
             this.queryParams.pageno = 1;
-            this.queryParams.patroltimebegin = this.getBeginTime();
-            this.queryParams.patroltimeend = this.getEndTime();
+            this.queryParams.reporttimestart = this.getBeginTime();
+            this.queryParams.reportTimeend = this.getEndTime();
             this.getList(this.activeName);
         },
         // 获取开始时间
@@ -319,10 +315,10 @@ export default {
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
-            this.patrolYear = nowYear+'';
-            this.patrolMonth = nowMonth+'';
-            this.queryParams.patroltimebegin = "";
-            this.queryParams.patroltimeend = "";
+            this.patrolYear = this.getNowYear();
+            this.patrolMonth = this.getNowMonth();
+            this.queryParams.reporttimestart = "";
+            this.queryParams.reportTimeend = "";
             this.handleQuery();
         },
         // 巡视单位列表
@@ -341,8 +337,8 @@ export default {
                 pageno: 1,
                 pagesize: 30,
                 tenantId: this.queryParams.tenantId,
-                patroltimebegin: this.getBeginTime(),
-                patroltimeend: this.getEndTime()
+                reporttimestart: this.getBeginTime(),
+                reportTimeend: this.getEndTime()
             };
             let smtitle = "";
             let fn = "";
@@ -383,16 +379,17 @@ export default {
                         case "0":
                             if (!res.data || res.data.length == 0) {
                                 this.dataList = [];
-                                return;
+                                this.xsdataList = [];
+                            }else{
+                                this.xsdataList = res.data;
+                                this.totalrow = this.xsdataList[
+                                    this.xsdataList.length - 1
+                                ];
+                                this.dataList = res.data.slice(
+                                    0,
+                                    res.data.length - 1
+                                );
                             }
-                            this.xsdataList = res.data;
-                            this.totalrow = this.xsdataList[
-                                this.xsdataList.length - 1
-                            ];
-                            this.dataList = res.data.slice(
-                                0,
-                                res.data.length - 1
-                            );
                             break;
                         case "1":
                             if (
@@ -400,6 +397,7 @@ export default {
                                 res.data.TenantList.length == 0
                             ) {
                                 this.dataList = [];
+                                this.xsdataList = [];
                                 return;
                             } else {
                                 // this.dataList = res.data.TenantList;
@@ -411,11 +409,12 @@ export default {
                                     0,
                                     res.data.TenantList.length - 1
                                 );
+
+                                this.dataList.map(v => {
+                                    v.Total = v.Emergency + v.Fatal + v.Normal;
+                                    return v;
+                                });
                             }
-                            this.dataList.map(v => {
-                                v.Total = v.Emergency + v.Fatal + v.Normal;
-                                return v;
-                            });
                             break;
                         case "2":
                             if (
@@ -434,50 +433,52 @@ export default {
                                     0,
                                     res.data.RankList.length - 1
                                 );
+                                this.dataList.map(v => {
+                                    v.TotalEliminated =
+                                        v.Eliminated + v.NotEliminated;
+                                    v.RateEliminated =
+                                        v.TotalEliminated == 0
+                                            ? "0.000%"
+                                            : (
+                                                (v.Eliminated /
+                                                    v.TotalEliminated) *
+                                                100
+                                            ).toFixed(3, "0") + "%";
+                                    return v;
+                                });
                             }
-                            this.dataList.map(v => {
-                                v.TotalEliminated =
-                                    v.Eliminated + v.NotEliminated;
-                                v.RateEliminated =
-                                    v.TotalEliminated == 0
-                                        ? "0.000%"
-                                        : (
-                                              (v.Eliminated /
-                                                  v.TotalEliminated) *
-                                              100
-                                          ).toFixed(3, "0") + "%";
-                                return v;
-                            });
                             break;
                         default:
                             break;
                     }
+                    if (this.xsdataList.length>0) {
+        
+                        this.total = res.total;
+                        let arr = [];
+                        if (!row) {
+                            arr = this.xsdataList[this.xsdataList.length - 1];
+                        } else {
+                            arr = row;
+                        }
 
-                    this.total = res.total;
-                    let arr = [];
-                    if (!row) {
-                        arr = this.xsdataList[this.xsdataList.length - 1];
-                    } else {
-                        arr = row;
+                        if (this.activeName != "0") {
+                            var arrprops = this.props.concat();
+                            arrprops.pop();
+                            this.chartData.listData = arrprops.map(v => arr[v]);
+                            var arrcolumns = this.columns.concat();
+                            arrcolumns.pop();
+                            this.chartData.xAxisData = arrcolumns;
+                        } else {
+                            this.chartData.listData = this.props.map(v => arr[v]);
+                            this.chartData.xAxisData = this.columns;
+                        }
+                        this.chartData.title = arr.Name + smtitle;
+
+                        this.$nextTick(() => {
+                            this.$refs.chart.initChart();
+                            this.$refs.table.doLayout();
+                        });
                     }
-
-                    if (this.activeName != "0") {
-                        var arrprops = this.props.concat();
-                        arrprops.pop();
-                        this.chartData.listData = arrprops.map(v => arr[v]);
-                        var arrcolumns = this.columns.concat();
-                        arrcolumns.pop();
-                        this.chartData.xAxisData = arrcolumns;
-                    } else {
-                        this.chartData.listData = this.props.map(v => arr[v]);
-                        this.chartData.xAxisData = this.columns;
-                    }
-                    this.chartData.title = arr.Name + smtitle;
-
-                    this.$nextTick(() => {
-                        this.$refs.chart.initChart();
-                        this.$refs.table.doLayout();
-                    });
                 })
                 .finally(r => {
                     this.listLoading = false;
@@ -492,6 +493,20 @@ export default {
                 return "total-font";
             }
             return "";
+        },
+        getNowYear(){
+            var myYear = new Date();
+            var nowYear = myYear.getFullYear();
+            return nowYear+"";
+        },
+        getNowMonth(){
+            var myYear = new Date();
+            var nowYear = myYear.getFullYear();
+            var mth = myYear.getMonth()+1;
+            if (mth.toString().length == 1)
+                mth = "0" + mth;
+            var nowMonth = nowYear+'-'+mth;
+            return nowMonth;
         },
         // 导出
         handleExport() {

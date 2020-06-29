@@ -8,8 +8,8 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年度：" prop='startdate' label-width="50px">
-          <el-date-picker v-model="queryParams.startdate" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
+        <el-form-item label="年度：" prop='patrolYear' label-width="50px">
+          <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
         </el-form-item>
 
         <el-form-item label="业务来源：" prop='repairsource'>
@@ -84,12 +84,13 @@ export default {
         pageno: 1,
         pagesize: 30,
         tenantId: "",
-        startdate: new Date(),
+        startdate: "",
+        enddate: "",
         repairsource: "",
         status: "",
         type: 2
       },
-      patrolYear: "",
+      patrolYear: this.getNowYear(),
       timeBegin: "",
       timeEnd: "",
       dataList: [],
@@ -199,6 +200,8 @@ export default {
 
   created() {
     this.getTenants();
+    this.queryParams.startdate = this.getBeginTime();
+    this.queryParams.enddate = this.getEndTime();
     this.getList();
   },
 
@@ -235,12 +238,39 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageno = 1;
+      this.queryParams.startdate = this.getBeginTime();
+      this.queryParams.enddate = this.getEndTime();
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.patrolYear = this.getNowYear();
+      this.queryParams.startdate = "";
+      this.queryParams.enddate = "";
       this.handleQuery();
+    },
+    // 获取开始时间
+    getBeginTime(time) {
+      console.log(this.patrolYear);
+      let begin = "";
+      if (this.patrolYear != "") {
+        begin = this.patrolYear + "-01-01 00:00:00";
+      }
+      return begin;
+    },
+    // 获取结束时间
+    getEndTime() {
+      let end = "";
+      if (this.patrolYear != "") {
+        end = this.patrolYear + "-12-31 23:59:59";
+      }
+      return end;
+    },
+    getNowYear() {
+      var myYear = new Date();
+      var nowYear = myYear.getFullYear();
+      return nowYear + "";
     },
 
     // 巡视单位列表
@@ -261,7 +291,7 @@ export default {
           this.totalrow = this.xsdataList[this.xsdataList.length - 1];
           this.dataList = res.data.slice(0, res.data.length - 1);
 
-          let row = res.data[res.data.length - 1];
+          let row = this.xsdataList[this.xsdataList.length - 1];
           this.chartData.series[0].data = this.prop1.map(v => row[v]);
           this.chartData.series[1].data = this.prop2.map(v => row[v]);
           this.chartData.title = row.Name + "-抢修年度统计图";

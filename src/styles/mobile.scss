@@ -1,11 +1,10 @@
  @media screen and (max-width:1366px) {
      .el-table {
-         &.middletable {
-             height: auto!important;
-         }
+         //  &.middletable {
+         //      height: auto!important;
+         //  }
          min-height: 180px;
      }
-    
  }
  
  @media screen and (max-width:768px) {
@@ -67,8 +66,8 @@
              top: 20%!important;
          }
          .img_title {
-            width: 51%!important;
-            height: auto!important;
+             width: 51%!important;
+             height: auto!important;
          }
          .tophead {
              padding: 20px 0px 20px!important;
@@ -79,8 +78,7 @@
          height: auto!important;
          min-height: 400px;
      }
-     
-    .icon-body {
-        width: 100%;
-    }
+     .icon-body {
+         width: 100%;
+     }
  }
