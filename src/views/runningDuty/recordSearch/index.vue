@@ -8,17 +8,14 @@
       </el-tabs>
     </div>
       <dutyRecord ref="dutyRecord" v-show="activeName == 'dutyRecord'" />
-      <shiftRecord ref="shiftRecord" :shifts="shifts" v-show="activeName == 'shiftRecord'" />
-      <patrolRecord ref="patrolRecord" :shifts="shifts" v-show="activeName == 'patrolRecord'" />
+      <shiftRecord ref="shiftRecord"  v-show="activeName == 'shiftRecord'" />
+      <patrolRecord ref="patrolRecord"  v-show="activeName == 'patrolRecord'" />
   </div>
 
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import {
-    GetShifts
-} from "@/api/runningDuty/record";
 import dutyRecord from "./dutyRecord";
 import shiftRecord from "./shiftRecord";
 import patrolRecord from "./patrolRecord";
@@ -56,7 +53,6 @@ export default {
   },
 
     created() {
-        this.getShiftsList();
     },
   mounted() {
       const target = this.$refs[this.activeName];
@@ -74,11 +70,7 @@ export default {
         const target = this.$refs[this.activeName];
         target.getList();
     },
-     getShiftsList() {
-        GetShifts({}).then(r => {
-            this.shifts = r.data;
-        });
-     }
+   
     
   }
 };

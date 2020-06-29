@@ -12,15 +12,15 @@
 
         </el-form-item>
         <el-form-item label="值班班组：" prop="teamId">
-          <el-select v-model="queryParams.teamId">
+          <el-select v-model="queryParams.teamId"  @change='getDutyTeam'>
             <el-option label="全部" value=""></el-option>
             <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="岗位：" prop="shiftId">
-          <el-select v-model="queryParams.shiftId">
+        <el-form-item label="岗位：" prop="dutyTeam">
+          <el-select v-model="queryParams.dutyTeam">
             <el-option label="全部" value=""></el-option>
-            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
+            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in dutyTeams" />
           </el-select>
         </el-form-item>
         <el-form-item label="关键词：" prop="keyword" label-width="61px">
@@ -81,7 +81,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/runningDuty/record/patrolRecord";
-import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
+import { fetchTeam ,getListsByDutyTeam } from "@/api/runningDuty/dutyConfiguration";
 
 export default {
   props: {
@@ -112,7 +112,7 @@ export default {
         tenantId: "",
         situation: "",
         teamId: "",
-        shiftId: "",
+        dutyTeam: "",
         recordcontent: "",
         starttime: "",
         endtime: "",
@@ -122,6 +122,7 @@ export default {
       },
       timeRange:[],
       teamList: [],
+      dutyTeams:[],
       isOpen: true,
       formHeight: "",
       baseformHeight: 46,
@@ -161,6 +162,13 @@ export default {
       });
     },
 
+    getDutyTeam() {
+      console.log(this.queryParams)
+      getListsByDutyTeam({ dutyteamId:this.queryParams.teamId }).then(r => {
+        console.log(2)
+        this.dutyTeams = r.data;
+      });
+    },
     handleSortChange(row) {
       this.queryParams.orderby = `${row.prop} ${
         row.order == "ascending" ? "asc" : "desc"

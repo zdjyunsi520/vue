@@ -154,7 +154,7 @@ export default {
         "Description",
         "DetectTime",
         "Detecter",
-        "IsProcessed",
+        "IsProcessedtxt",
         "BugStatusName"
       ],
       dataList: null,
@@ -191,6 +191,7 @@ export default {
   created() {
     this.getList();
     this.getTenants();
+    console.log('userId',this.userId)
   },
   mounted() {
         this.formHeight = this.$refs.queryForm.$el.clientHeight;
@@ -359,7 +360,7 @@ export default {
           } else {
             txt = "未消缺";
           }
-          v.IsProcessed = txt;
+          v.IsProcessedtxt = txt;
           return v;
         });
         const data = this.formatJson(this.columns, list);

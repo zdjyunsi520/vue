@@ -90,6 +90,8 @@ import {
 } from "@/api/patrol";
 import BarChart from "../components/BarChart";
 import { getChildrenList } from "@/api/org";
+const myYear = new Date();
+const nowYear = myYear.getFullYear();
 export default {
   components: {
     BarChart
@@ -107,7 +109,7 @@ export default {
         ptrolnature: "",
         isexecute: ""
       },
-      patrolYear: new Date(),
+      patrolYear: nowYear+'',
       timeRange:[],
       downloadLoading: false,
       dataList: null,
@@ -243,7 +245,7 @@ export default {
 
     handleClick(tab, event) {
       this.resetQuery();
-      this.patrolYear = new Date();
+      this.patrolYear = nowYear+'';
       this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";
@@ -260,7 +262,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = nowYear+'';
       this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";

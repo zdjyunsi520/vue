@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年度：" v-show="activeName=='0'" prop='patrolYear' label-width="50px">
-          <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy"> </el-date-picker>
+          <el-date-picker v-model="patrolYear" clearable type="year" placeholder="请选择年" value-format="yyyy" > </el-date-picker>
         </el-form-item>
         <el-form-item label="巡视日期：" v-show="activeName!='0'" prop='timeRange'>
            <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
@@ -90,6 +90,8 @@ import {
 } from "@/api/patrol";
 import BarChart from "../components/BarChart";
 import { getChildrenList } from "@/api/org";
+const myYear = new Date();
+const nowYear = myYear.getFullYear();
 export default {
   components: {
     BarChart
@@ -108,7 +110,7 @@ export default {
         ptrolnature: "",
         isexecute: ""
       },
-      patrolYear: new Date(),
+      patrolYear: nowYear+'',
       timeRange:[],
       dataList: null,
       total: 0,
@@ -193,6 +195,7 @@ export default {
   created() {
     this.getList(this.activeName);
     this.getTenants();
+   
   },
 
   mounted() {
@@ -244,7 +247,7 @@ export default {
 
     handleClick(tab, event) {
       this.resetQuery("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = nowYear+'';
       this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";
@@ -261,7 +264,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
-      this.patrolYear = new Date();
+      this.patrolYear = nowYear+'';
       this.timeRange = "";
       this.queryParams.patroltimebegin = "";
       this.queryParams.patroltimeend = "";

@@ -367,6 +367,7 @@ export default {
                     AttachmentUrl: "",
                     ReporterId: this.userId,
                     ReportTime: nowTime,
+                    Reporter:this.name,
                     Status: 1
                 },
                 data
@@ -426,7 +427,7 @@ export default {
 
                     fn(form)
                         .then(res => {
-                            Id = Id ? Id : res.data.Id;
+                            Id = Id ? Id : res.data;
                             senderOrder({ Id })
                                 .then(r => {
                                     this.$message.success("发送成功");

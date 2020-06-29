@@ -19,7 +19,7 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item label="消缺设备" prop="AssetsIds">
+                        <el-form-item label="消缺设备" prop="AssetsId">
                             <TreeSelect :disabled="disabled" :getCheckedNodes="false" :placeholder='"请选择消缺设备"' showText="text" :mutiple="false" :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
                         </el-form-item>
                     </el-row>
@@ -63,7 +63,7 @@
 
 <script>
 import { getInfo as getInfoAdd } from "@/api/biz";
-import { getInfo, add, senderOrder, backOrder } from "@/api/biz/solution";
+import { getInfo, add,update, senderOrder, backOrder } from "@/api/biz/solution";
 import { getTrees, getTenantEmployees } from "@/api/org";
 import { mapGetters } from "vuex";
 import TreeSelect from "@/views/components/TreeSelect";
@@ -77,7 +77,7 @@ export default {
                     message: "请选择消缺结果"
                 }
             ],
-            AssetsIds: [
+            AssetsId: [
                 {
                     required: true,
                     message: "请选择消缺设备",
@@ -183,8 +183,8 @@ export default {
         },
         handleConfirm(data) {
             this.assetsTreeId = data.map(v => v.id);
-            this.form.AssetsIds = this.assetsTreeId.join(",");
-            this.$refs.form.clearValidate("AssetsIds");
+            this.form.AssetsId = this.assetsTreeId.join(",");
+            this.$refs.form.clearValidate("AssetsId");
         },
         handleConfirm1(data) {
             this.processTreeId = data.map(v => v.id);
@@ -212,7 +212,7 @@ export default {
                 {
                     Id: "",
                     IsProcessed: true,
-                    AssetsIds: "",
+                    AssetsId: "",
                     ReceiverId: "",
                     Reason: "",
                     Statement: "",
@@ -221,7 +221,7 @@ export default {
                 },
                 data
             );
-            this.assetsTreeId = this.form.AssetsIds.split(",").filter(v => v);
+            this.assetsTreeId = this.form.AssetsId.split(",").filter(v => v);
             this.processTreeId = this.form.ReceiverId.split(",").filter(v => v);
             this.$nextTick(() => {
                 this.$refs.form.clearValidate();
@@ -274,7 +274,12 @@ export default {
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     this.loading = true;
-                    let fn = add;
+                    let fn;
+                    if (this.form.Id) {
+                        fn = update;
+                    } else {
+                        fn = add;
+                    }
                     fn(this.form)
                         .then(res => {
                             let Id = this.Id;

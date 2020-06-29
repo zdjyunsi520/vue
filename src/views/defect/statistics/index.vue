@@ -82,6 +82,13 @@
 import { bugReportByYear, bugReportByRank, bugReportByRate } from "@/api/biz";
 import BarChart from "./components/BarChart";
 import { getChildrenList } from "@/api/org";
+const myYear = new Date();
+const nowYear = myYear.getFullYear();
+var mth = myYear.getMonth()+1;
+if (mth.toString().length == 1)
+  mth= "0" +mth;
+const nowMonth = nowYear+'-'+mth;
+console.log(nowMonth)
 export default {
     components: {
         BarChart
@@ -98,8 +105,8 @@ export default {
                 rank: "",
                 status: ""
             },
-            patrolYear: new Date(),
-            patrolMonth: new Date(),
+            patrolYear: '',
+            patrolMonth: '',
             downloadLoading: false,
             dataList: null,
             xsdataList: null,
@@ -203,7 +210,8 @@ export default {
     created() {
         this.getList(this.activeName);
         this.getTenants();
-       
+      this.patrolYear = nowYear+'';
+      this.patrolMonth = nowMonth+'';
     },
 
     mounted() {
@@ -253,8 +261,8 @@ export default {
         },
         handleClick(tab, event) {
             this.resetQuery("queryForm");
-            this.patrolYear = new Date();
-            this.patrolMonth = new Date();
+            this.patrolYear = nowYear+'';
+            this.patrolMonth = nowMonth+'';
             this.queryParams.patroltimebegin = "";
             this.queryParams.patroltimeend = "";
             this.getList(this.activeName);
@@ -311,8 +319,8 @@ export default {
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
-            this.patrolYear = new Date();
-            this.patrolMonth = new Date();
+            this.patrolYear = nowYear+'';
+            this.patrolMonth = nowMonth+'';
             this.queryParams.patroltimebegin = "";
             this.queryParams.patroltimeend = "";
             this.handleQuery();

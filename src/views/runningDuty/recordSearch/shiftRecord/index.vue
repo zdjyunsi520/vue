@@ -12,15 +12,15 @@
 
         </el-form-item>
         <el-form-item label="值班班组：" prop="TeamId">
-          <el-select v-model="queryParams.TeamId">
+          <el-select v-model="queryParams.TeamId" @change='getDutyTeam'>
             <el-option label="全部" value></el-option>
             <el-option :key="index" :label="item.Name" :value="item.Id" v-for="(item,index) in teamList" />
           </el-select>
         </el-form-item>
-        <el-form-item label="岗位：" prop="ShiftId">
-          <el-select v-model="queryParams.ShiftId">
+        <el-form-item label="岗位：" prop="dutyTeam">
+          <el-select v-model="queryParams.dutyTeam">
             <el-option label="全部" value=""></el-option>
-            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in shifts" />
+            <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in dutyTeams" />
           </el-select>
         </el-form-item>
         <el-form-item label="关键词：" prop="keyword" label-width="61px">
@@ -61,14 +61,14 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="50" /> -->
-        <el-table-column label="用电单位" min-width='230' prop="TenantName" />
-        <el-table-column label="值班日期" width='180' prop="StartTime" />
+        <el-table-column label="用电单位" min-width='220' prop="TenantName" />
+        <el-table-column label="值班日期" width='160' prop="StartTime" />
         <el-table-column label="值班班组" width='140' prop="TeamName" />
         <el-table-column label="岗位" width='100' prop="ShiftName" />
         <el-table-column label="交班人" width='120' prop="HandoverName" />
-        <el-table-column label="交班时间" width='180' prop="HandoverTime" />
+        <el-table-column label="交班时间" width='160' prop="HandoverTime" />
         <el-table-column label="接班人" width='110' prop="SuccessorName" />
-        <el-table-column label="接班时间" width='180' prop="SuccessTime" />
+        <el-table-column label="接班时间" width='160' prop="SuccessTime" />
         <el-table-column label="记录内容" min-width='200' prop="RecordContent" />
         <el-table-column label="注意事项" min-width='200' prop="Caution" />
       </el-table>
@@ -80,7 +80,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/runningDuty/record/shiftRecord";
-import { fetchTeam } from "@/api/runningDuty/dutyConfiguration";
+import { fetchTeam ,getListsByDutyTeam} from "@/api/runningDuty/dutyConfiguration";
 
 export default {
   props: {
@@ -115,12 +115,13 @@ export default {
         recordcontent: "",
         starttime: "",
         endtime: "",
-        ShiftId: ""
+        dutyTeam: ""
         // jieban:"",
         // jiaoban:""
       },
       timeRange:[],
       teamList: [],
+      dutyTeams:[],
       isOpen: true,
       formHeight: "",
       baseformHeight: 47,
@@ -157,6 +158,11 @@ export default {
     getTeam() {
       fetchTeam({ ifused: true }).then(r => {
         this.teamList = r.data;
+      });
+    },
+    getDutyTeam() {
+      getListsByDutyTeam({ dutyteamId:this.queryParams.TeamId }).then(r => {
+        this.dutyTeams = r.data;
       });
     },
 
