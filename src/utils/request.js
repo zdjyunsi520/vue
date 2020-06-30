@@ -77,7 +77,7 @@ service.interceptors.response.use(res => {
         }, 1000);
     } else if (code == 50000) {
         Message.error({
-            message: res.data.msg + res.config.url,
+            message: res.data.msg,
             duration: 5000
         });
         // Notification.info({ title: res.data.msg });
@@ -95,7 +95,7 @@ service.interceptors.response.use(res => {
         return Promise.reject(res.data);
     } else if (code !== 0) {
         Message.error({
-            message: res.data.msg + res.config.url,
+            message: res.data.msg,
             duration: 5000
         });
         return Promise.reject(res.data);
