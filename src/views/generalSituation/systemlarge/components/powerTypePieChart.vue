@@ -107,7 +107,9 @@ export default {
             name: "用电类型",
             type: "pie",
             radius: ["50%", "70%"],
-            center: ["50%", "45%"],
+            center: ["50%", "50%"],
+            hoverOffset: 5,
+            selectedOffset: 5,
             labelLine: {
               show: true
             },

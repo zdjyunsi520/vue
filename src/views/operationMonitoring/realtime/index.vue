@@ -183,7 +183,7 @@ export default {
       info: {},
       otherData: [],
       historyData: [],
-      labelunit:'A',
+      labelunit: "A"
     };
   },
   created() {
@@ -200,7 +200,7 @@ export default {
         .map(v => {
           const data = v.CreateTime.split(" ");
           let value;
-          if (this.form.cycleType == 1) {
+          if (this.form.cycleType != 3) {
             value = data[1];
           } else {
             value = data[0];
@@ -212,7 +212,7 @@ export default {
           actualData.push(v.value1);
         });
 
-      return { xAxisData, actualData,labelunit };
+      return { xAxisData, actualData, labelunit };
     }
   },
   mounted() {
@@ -243,7 +243,7 @@ export default {
     this.interval = false;
   },
   methods: {
-    handleClick(type, labelName,labelunit) {
+    handleClick(type, labelName, labelunit) {
       this.form.type = type;
       this.labelName = labelName;
       this.labelunit = labelunit;
@@ -575,15 +575,12 @@ export default {
   }
 }
 
-
 @media (max-width: 1366px) {
-    .dragbox .dragleft{
-        width:230px;
-    }
-    .dragbox .dragright.mxright{
-        width: calc(100% - 240px);
-    }
-   
+  .dragbox .dragleft {
+    width: 230px;
+  }
+  .dragbox .dragright.mxright {
+    width: calc(100% - 240px);
+  }
 }
-
 </style>

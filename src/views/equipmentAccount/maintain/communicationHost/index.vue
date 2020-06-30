@@ -73,8 +73,8 @@
                 <el-col :span="24">
                   <el-form-item label="设备二维码">
                     <div class="ewmbox">
-                      <img :src="'http://admint.xtioe.com'+infoData.QRCode" class="ewm" />
-                      <el-button type="text"  @click="showEwm(infoData)">点击查看</el-button>
+                      <img :src="'http://apidev.xtioe.com'+infoData.QRCode" class="ewm" />
+                      <el-button type="text" @click="showEwm(infoData)">点击查看</el-button>
                     </div>
                   </el-form-item>
                 </el-col>
@@ -116,7 +116,7 @@
         </el-row>
       </el-scrollbar>
     </el-row>
-    <ewmpop  ref='ewmpop' :qrCode='qrCode'></ewmpop>
+    <ewmpop ref='ewmpop' :qrCode='qrCode'></ewmpop>
   </div>
 
 </template>
@@ -137,16 +137,16 @@ export default {
       infoData: {},
       visible: false,
       showBtn: false,
-      qrCode:{}
+      qrCode: {}
     };
   },
 
   created() {},
   methods: {
-    showEwm(obj){
-      this.$refs.ewmpop.dialogVisible=true;
-      this.qrCode.title=obj.Name;
-      this.qrCode.qrCodeUrl=obj.QRCode;
+    showEwm(obj) {
+      this.$refs.ewmpop.dialogVisible = true;
+      this.qrCode.title = obj.Name;
+      this.qrCode.qrCodeUrl = obj.QRCode;
     },
     filterDate(date) {
       return date ? this.parseTime(date, "{y}-{m}-{d}") : "";

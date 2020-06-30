@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="上传更新包" prop="FileUrl">
 
-          <el-upload class="avatar-wrap" action="http://apicommont.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token,filekey:'appversion'}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess">
+          <el-upload class="avatar-wrap" action="http://apicommon.xtioe.com/File/Upload" :on-remove="handleRemove" :data="{Token:token,filekey:'appversion'}" accept=".apk" :headers="{methods:'post'}" list-type="picture-card" ref="upload" :on-success="handleAvatarSuccess">
             <i v-if="showPlus" class="el-icon-plus avatar-uploader-icon"></i>
             <div slot="tip" class="el-upload__tip">只能上传apk文件</div>
           </el-upload>

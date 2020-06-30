@@ -93,13 +93,14 @@ export default {
           data: legendData
         },
         color: ["#f5cf71", "#f1a248", "#548bf7", "#77c3f8"],
-       
+
         series: [
           {
             name: "用电结构",
             type: "pie",
             radius: "55%",
             center: ["50%", "40%"],
+
             emphasis: {
               itemStyle: {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
@@ -107,14 +108,13 @@ export default {
               }
             },
             label: {
-                show: true,
-                position: 'center'
+              show: true,
+              position: "center"
             },
             data: listData,
             labelLine: {
               show: false
-            },
-         
+            }
           }
         ]
       });

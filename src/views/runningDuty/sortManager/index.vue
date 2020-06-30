@@ -52,7 +52,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
+      <!-- <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" /> -->
 
       <el-dialog :title="'排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
         <el-form :model="form" ref="queryForm" class="xl-querybox" :rules="mrules" label-width="130px">
@@ -193,8 +193,8 @@ export default {
       mrules,
       // 搜索参数
       queryParams: {
-        pageno: 1,
-        pagesize: 30,
+        // pageno: 1,
+        // pagesize: 30,
         tenantId: "",
         dutyteamId: "",
         time: ""
@@ -368,7 +368,7 @@ export default {
       fetchList(this.queryParams)
         .then(response => {
           this.dataList = response.data || [];
-          this.total = response.total;
+          // this.total = response.total;
           return;
           var afterData = [];
           response.data.forEach(item => {

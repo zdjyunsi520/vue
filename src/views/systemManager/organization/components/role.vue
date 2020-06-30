@@ -19,9 +19,10 @@
                     <li style="width:180px">
                       <div>
                         <el-checkbox @change="handleChange1(item)" v-model="item.IsSelect">{{item.RoleName}}</el-checkbox>
+                        <div class="downbox" @click="setDown(item)"> {{item.Isdown?'收起':'展开'}}<i :class="item.Isdown?'el-icon-arrow-up':'el-icon-arrow-down'"></i></div>
                       </div>
                     </li>
-                    <li>
+                    <li v-show="item.Isdown">
                       <div v-for="childItem in item.ModuleData" :key="childItem.ModuleId">
                         <ul>
                           <li style="min-width:180px">
@@ -122,6 +123,9 @@ export default {
     this.getInfo(data);
   },
   methods: {
+    setDown(item) {
+      item.Isdown = !item.Isdown;
+    },
     setCheck(item, item1, item2) {
       item.IsSelect = !item.IsSelect;
       if (item.IsSelect) {
@@ -180,7 +184,10 @@ export default {
       this.loading = true;
       getInfo(data)
         .then(({ data }) => {
-          this.moduleList = data;
+          this.moduleList = data.map(v => {
+            v.Isdown = true;
+            return v;
+          });
         })
         .finally(v => (this.loading = false));
 
@@ -317,5 +324,13 @@ export default {
   .el-checkbox__input.is-focus .el-checkbox__inner {
     border-color: #f00;
   }
+}
+
+.downbox {
+  display: inline-block;
+  margin-left: 20px;
+  font-size: 12px;
+  color: #558cf7;
+  cursor: pointer;
 }
 </style>

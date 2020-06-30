@@ -255,9 +255,9 @@ export default {
             ],
             creditcode: [
                 {
-                    pattern: /^(?=.*[A-Z])(?=.*\d)[A-Z\d]{18}$/,
+                    pattern: /^[0-9A-Z]{18}$/,
                     required: true,
-                    message: "请输入18位的数字及大写字母",
+                    message: "请输入18位的数字或大写字母",
                     trigger: "blur"
                 }
             ],

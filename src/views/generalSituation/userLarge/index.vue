@@ -365,16 +365,16 @@ export default {
           strokeStyle: "#d2feff",
           degreeStart: -90,
           degreeEnd: 180,
-          stepStart: 2,
+          stepStart: 1.8,
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-02"), {
           radius: 74 * this.scale,
           lineWidth: 9 * this.scale,
           strokeStyle: "#07fdff",
-          degreeStart: -50,
-          degreeEnd: 270,
-          stepStart: 2,
+          degreeStart: -30,
+          degreeEnd: 100,
+          stepStart: 1.8,
           stepEnd: 1
         }),
         new RotatingCircle(document.querySelector(".js-rotate-03"), {
@@ -382,8 +382,8 @@ export default {
           lineWidth: 9 * this.scale,
           strokeStyle: "#2178ff",
           degreeStart: -70,
-          degreeEnd: 90,
-          stepStart: 2,
+          degreeEnd: 120,
+          stepStart: 1.8,
           stepEnd: 1
         })
       ];

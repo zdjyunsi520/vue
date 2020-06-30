@@ -39,7 +39,61 @@
           </template>
 
           <template v-for="item1 in item.IntervalData">
-            <el-col :span="8" :xs='24' class="smbsdatabox blue-box" v-if="item1.Type==2">
+            <el-col :span="8" :xs='24' class="smbsdatabox orange-box" v-if="item1.Type==3">
+              <div>
+                <div class="tophead">
+                  <i>
+                    <svg-icon icon-class='ic_temperature_control' /></i>{{item1.Name}}
+                </div>
+                <div class="cntbox">
+                  <el-row :gutter="40">
+                    <el-col :span="24">
+                      <p>
+                        <span>温度</span>
+                        <label>{{item1.Humidity?item1.Humidity:'-'}}</label>
+                        <b>℃</b>
+                      </p>
+                      <p>
+                        <span>湿度</span>
+                        <label>{{item1.Temperature?item1.Temperature:'-'}}</label>
+                        <b>%</b>
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" :xs='24' class="smbsdatabox lightblue-box" v-else-if="item1.Type==4">
+              <div>
+                <div class="tophead">
+                  <i>
+                    <svg-icon icon-class='ic_smoke_sensation' /></i>{{item1.Name}}
+                </div>
+                <div class="cntbox">
+                  <el-row :gutter="40">
+                    <el-col :span="24">
+                      <p>
+                        <span>火灾</span>
+                        <label>{{item1.IsFire?'是':'否'}}</label>
+                      </p>
+                      <p>
+                        <span>传感器</span>
+                        <label>{{item1.IsSensorNormal?'正常':'异常'}}</label>
+                      </p>
+                      <p>
+                        <span>测试状态</span>
+                        <label>{{item1.IsTest?'是':'否'}}</label>
+                      </p>
+                      <p>
+                        <span>信号轻强度</span>
+                        <label>{{item1.SignalStrength?item1.SignalStrength:'-'}}</label>
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" :xs='24' class="smbsdatabox blue-box" v-else>
               <div>
                 <div class="tophead">
                   <i>
@@ -64,35 +118,40 @@
                         <b>V</b>
                       </p>
                       <p>
-                        <span>p</span>
-                        <label>{{item1.p?item1.p:'-'}}</label>
+                        <span>Pt</span>
+                        <label>{{item1.Pt?item1.Pt:'-'}}</label>
                         <b>kW</b>
                       </p>
                       <p>
-                        <span>S</span>
-                        <label>{{item1.S?item1.S:'-'}}</label>
+                        <span>St</span>
+                        <label>{{item1.St?item1.St:'-'}}</label>
                         <b>kVA</b>
                       </p>
                     </el-col>
                     <el-col :span="12">
                       <p>
-                        <span>la</span>
-                        <label>{{item1.la?item1.la:'-'}}</label>
+                        <span>Ia</span>
+                        <label>{{item1.Ia?item1.Ia:'-'}}</label>
                         <b>A</b>
                       </p>
                       <p>
-                        <span>lb</span>
-                        <label>{{item1.lb?item1.lb:'-'}}</label>
+                        <span>Ib</span>
+                        <label>{{item1.Ib?item1.Ib:'-'}}</label>
                         <b>A</b>
                       </p>
                       <p>
-                        <span>lc</span>
-                        <label>{{item1.lc?item1.lc:'-'}}</label>
+                        <span>Ic</span>
+                        <label>{{item1.Ic?item1.Ic:'-'}}</label>
                         <b>A</b>
                       </p>
                       <p>
-                        <span>PF</span>
-                        <label>{{item1.PF?item1.PF:'-'}}</label>
+                        <span>Pft</span>
+                        <label>{{item1.Pft?item1.Pft:'-'}}</label>
+                        <b></b>
+                      </p>
+                      <p>
+                        <span>E</span>
+                        <label>{{item1.E?item1.E:'-'}}</label>
                         <b></b>
                       </p>
                     </el-col>
@@ -100,64 +159,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col :span="8" :xs='24' class="smbsdatabox lightblue-box" v-else-if="item1.Type==1">
-              <div>
-                <div class="tophead">
-                  <i>
-                    <svg-icon icon-class='ic_smoke_sensation' /></i>{{item1.Name}}
-                </div>
-                <div class="cntbox">
-                  <el-row :gutter="40">
-                    <el-col :span="24">
-                      <p>
-                        <span>电池低电压</span>
-                        <label>{{item1.R1_STATE?item1.R1_STATE:'-'}}</label>
-                      </p>
-                      <p>
-                        <span>故障</span>
-                        <label>{{item1.R22_STATE?item1.R22_STATE:'-'}}</label>
-                      </p>
-                      <p>
-                        <span>火警</span>
-                        <label>{{item1.R3_STATE?item1.R3_STATE:'-'}}</label>
-                      </p>
-                      <p>
-                        <span>测试</span>
-                        <label>{{item1.R5_STATE?item1.R5_STATE:'-'}}</label>
-                      </p>
-                      <p>
-                        <span>AC PowerDown</span>
-                        <label>{{item1.R2_STATE?item1.R2_STATE:'-'}}</label>
-                      </p>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="8" :xs='24' class="smbsdatabox orange-box" v-else>
-              <div>
-                <div class="tophead">
-                  <i>
-                    <svg-icon icon-class='ic_temperature_control' /></i>{{item1.Name}}
-                </div>
-                <div class="cntbox">
-                  <el-row :gutter="40">
-                    <el-col :span="24">
-                      <p>
-                        <span>温度</span>
-                        <label>{{item1.Humidity?item1.Humidity:'-'}}</label>
-                        <b>℃</b>
-                      </p>
-                      <p>
-                        <span>湿度</span>
-                        <label>{{item1.Temperature?item1.Temperature:'-'}}</label>
-                        <b>%</b>
-                      </p>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-            </el-col>
+
           </template>
         </el-row>
       </div>

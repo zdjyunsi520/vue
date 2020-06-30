@@ -176,8 +176,9 @@
 }
 
 .xl-querybox {
-    .sm-searchbox{
-        padding-right: 62px!important;position: relative;
+    .sm-searchbox {
+        padding-right: 62px!important;
+        position: relative;
     }
     .el-input--medium .el-input__inner,
     .el-date-editor.el-input,
@@ -741,7 +742,8 @@
                 flex: 1;
                 &>div:last-child {
                     ul {
-                        border-bottom: none;
+                        // border-bottom: none;
+                        margin-bottom: -1px;
                     }
                 }
             }
@@ -782,6 +784,7 @@
         right: -10px;
     }
 }
+
 .ewmbox {
     background-color: #f7f7f7;
     border: 1px solid #ebeef5;
@@ -789,12 +792,13 @@
     line-height: 45px;
     border-radius: 4px;
     padding: 0 10px;
-    img{
+    img {
         height: 25px;
         margin: 10px -10px 0 0;
         vertical-align: top;
     }
-  }
+}
+
 .marginbottom15 {
     margin-bottom: 15px;
 }
@@ -1213,7 +1217,6 @@
     text-align: center;
 }
 
-
 // 高级筛选 控制个数
 // .formcontent-kz {
 //     .el-form-item:nth-child(n+3){
@@ -1222,4 +1225,4 @@
 //     .el-form-item:nth-last-child(1){
 //         display: inline-block!important;
 //     } 
-// } 
+// }
