@@ -100,7 +100,7 @@ export default {
       ],
       Period: [
         {
-          pattern: /^(([1-9]\d)|[1-9])$/,
+          pattern: /^(([0-9]\d)|[0-9])$/,
           required: true,
           message: "请输入2位以内的整数"
         }
