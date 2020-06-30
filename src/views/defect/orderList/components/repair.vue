@@ -164,10 +164,8 @@ export default {
     created() {
         let { Id, ReadOnly } = this.$route.params;
         this.Id = Id;
-        console.log(this.Id)
         this.ReadOnly = ReadOnly;
         this.getInfo();
-
         this.getTenantEmployees();
         this.getAssets();
     },
@@ -235,24 +233,14 @@ export default {
             if (Id) {
                 getInfoAdd({ Id }).then(r => {
                     this.form1 = Object.assign({}, r.data);
-                    console.log(12,r)
                     if (this.form1.Status > 2) {
-                        this.hasRepair = true;
                         getInfo({ Id }).then(res => {
-                            // console.log(11,res)
-                            // if(!res.data){
-                            //     this.hasRepair = false;
-                            //     console.log(this.form)
-                            // }else{
-                                this.reset(res.data);
-                            // }
+                            this.reset(res.data);
                         });
                     } else {
                         let data = { Id };
-                        console.log(122,data)
                         data.ProcessorId = this.form1.ProcessorId;
                         this.reset(data);
-                        this.hasRepair = false;
                     }
                 });
             }
@@ -288,12 +276,12 @@ export default {
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     this.loading = true;
-                    let fn;
-                    if (this.hasRepair) {
-                        fn = update;
-                    } else {
-                        fn = add;
-                    }
+                    let fn = add;
+                    // if (this.hasRepair) {
+                    //     fn = update;
+                    // } else {
+                    //     fn = add;
+                    // }
                     fn(this.form)
                         .then(res => {
                             let Id = this.Id;

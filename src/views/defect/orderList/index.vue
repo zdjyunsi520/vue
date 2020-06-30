@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
+      <el-form :inline="true" ref="queryForm" :model="queryParams" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
             <el-option label="全部" value></el-option>
@@ -14,13 +14,13 @@
         <!-- <el-form-item label="缺陷编号：" prop="No">
           <el-input v-model="queryParams.No"></el-input>
         </el-form-item> -->
-        <el-form-item label="发现日期：" prop="daterange">
+        <el-form-item label="发现日期：" prop="daterange" v-show="isShow">
           <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="queryParams.reporttimestart" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
           <el-date-picker v-model="queryParams.reporttimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
-        <el-form-item label="缺陷等级：" prop="rank">
+        <el-form-item label="缺陷等级：" prop="rank" v-show="isShow">
           <el-select v-model="queryParams.rank" placeholder="请选择">
             <el-option v-for="(item,index) in ranks" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -28,12 +28,12 @@
         <!-- <el-form-item label="设备名称：" prop="assetsname">
           <el-input v-model="queryParams.assetsname"></el-input>
         </el-form-item> -->
-        <el-form-item label="消缺结果：" prop="IsProcessed">
+        <el-form-item label="消缺结果：" prop="IsProcessed" v-show="isShow">
           <el-select v-model="queryParams.IsProcessed" placeholder="请选择">
             <el-option v-for="(item,index) in IsProcesseds" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop="status">
+        <el-form-item label="状态：" prop="status" v-show="isShow">
           <el-select v-model="queryParams.status" placeholder="请选择">
             <el-option v-for="(item,index) in statuss" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -43,7 +43,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -179,10 +179,7 @@ export default {
         { name: "验收", id: "3" },
         { name: "完成", id: "4" }
       ],
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 47,
-      isOpenbtn: false
+      isShow: false,
     };
   },
   computed: {
@@ -191,32 +188,12 @@ export default {
   created() {
     this.getList();
     this.getTenants();
-    console.log("userId", this.userId);
   },
-  mounted() {
-    this.formHeight = this.$refs.queryForm.$el.clientHeight;
-    this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-    window.onresize = () => {
-      return (() => {
-        this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-      })();
-    };
-  },
-
-  watch: {
-    formHeight: function(newVal) {
-      this.$nextTick(() => {
-        var newheight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpen = newheight > this.baseformHeight ? true : false;
-        this.isOpenbtn = newheight > this.baseformHeight ? true : false;
-      });
-    }
-  },
+ 
   methods: {
     // 高级筛选
     handleHighSearch() {
-      this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     },
     getList() {
       this.listLoading = true;

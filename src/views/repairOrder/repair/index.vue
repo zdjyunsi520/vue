@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :inline="true" ref="queryForm" :model="queryParams" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :inline="true" ref="queryForm" :model="queryParams" >
         <el-form-item label="工单编号：" prop="OrderCode">
           <el-input v-model="queryParams.OrderCode"  placeholder="请输入工单编号"></el-input>
         </el-form-item>
@@ -11,14 +11,14 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="业务来源：" prop="RepairSource">
+        <el-form-item label="业务来源：" prop="RepairSource" v-show="isShow">
           <el-select v-model="queryParams.RepairSource" placeholder="请选择业务来源">
             <el-option  label="全部" value></el-option>
             <el-option label="用户报修" :value="1"></el-option>
             <el-option label="故障告警" :value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop="status">
+        <el-form-item label="状态：" prop="status" v-show="isShow">
           <el-select v-model="queryParams.status" placeholder="请选择状态">
             <el-option  label="全部" value></el-option>
             <el-option label="受理" :value="1"></el-option>
@@ -32,7 +32,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -133,10 +133,7 @@ export default {
         { name: "故障归档", id: 3 },
         { name: "完成", id: 4 }
       ],
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 46,
-      isOpenbtn:false,
+      isShow: false,
     };
   },
 
@@ -152,29 +149,11 @@ export default {
       userId: "userId"
     })
   },
-  mounted() {
-        this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-        window.onresize = () => {
-            return (() => {
-                this.formHeight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-            })()
-        }
-  },
-  watch:{
-      'formHeight': function(newVal){
-          this.$nextTick(()=>{
-            var newheight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpen=newheight > this.baseformHeight?true:false;
-            this.isOpenbtn=newheight > this.baseformHeight?true:false
-          })
-      },
-  },
+  
   methods: {
      // 高级筛选
     handleHighSearch() {
-      this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     },
     getList() {
       this.listLoading = true;

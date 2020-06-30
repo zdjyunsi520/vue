@@ -7,7 +7,7 @@
                 <el-tab-pane label="按消缺率统计" name="2"></el-tab-pane>
             </el-tabs>
             <div class='sm-searchbox'>
-                <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+                <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
                     <el-form-item label="用电单位：" prop='tenantId'>
                         <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
                             <el-option  label="全部" value></el-option>
@@ -35,7 +35,6 @@
                         <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
                     </el-form-item>
                 </el-form>
-                <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
             </div>
         </div>
         <div class="bg-white chart-wrapper marginbottom15">
@@ -194,31 +193,19 @@ export default {
             ],
 
             chartData: {},
-            isOpen: false,
-            baseformHeight: 47,
-            formHeight: "",
-            isOpenbtn:false,
+           
         };
     },
 
     created() {
         this.patrolYear = this.getNowYear();
         this.patrolMonth = this.getNowMonth();
-        console.log(this.patrolYear)
-        console.log(this.patrolMonth)
         this.getList(this.activeName);
         this.getTenants();
     },
 
     mounted() {
-        this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-        window.onresize = () => {
-            return (() => {
-                this.formHeight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-            })()
-        }
+      
         let self = this;
         let table = document.querySelector(".el-table__footer-wrapper>table");
         this.$nextTick(() => {
@@ -233,20 +220,8 @@ export default {
         
     },
 
-    watch:{
-        'formHeight': function(newVal){
-            this.$nextTick(()=>{
-                var newheight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpen=newheight > this.baseformHeight?true:false;
-                this.isOpenbtn=newheight > this.baseformHeight?true:false
-            })
-        },
-    },
     methods: {
-        // 高级筛选
-        handleHighSearch() {
-            this.isOpen = !this.isOpen;
-        },
+       
         getSummaries() {
             let data;
             if (this.xsdataList && this.xsdataList.length) {

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox"   :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox"  >
         <el-form-item label="巡视单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择巡视单位">
             <el-option  label="全部" value=""></el-option>
@@ -11,7 +11,7 @@
         <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername" placeholder="请输入巡视人员" clearable></el-input>
         </el-form-item>
-        <el-form-item label="巡视日期：" prop="timeRange">
+        <el-form-item label="巡视日期：" prop="timeRange" v-show='isShow'>
           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
@@ -22,7 +22,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" :height="tableHeight" border style='margin-top:20px'  @row-dblclick="dbhandleUpdate">
@@ -93,38 +93,18 @@ export default {
         patroltimebegin: ""
       },
       timeRange:[],
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 47,
-      isOpenbtn:false,
+      isShow: false,
     };
   },
   created() {
     this.getList();
     this.getTenants();
   },
-  mounted() {
-    this.formHeight = this.$refs.queryForm.$el.clientHeight;
-    this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-    window.onresize = () => {
-        return (() => {
-            this.formHeight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-        })()
-    }
-  },
-  watch:{
-      'formHeight': function(newVal){
-          this.$nextTick(()=>{
-            var newheight = this.$refs.queryForm.$el.clientHeight;
-            this.isOpen=newheight > this.baseformHeight?true:false;
-          })
-      },
-  },
+ 
   methods: {
      // 高级筛选
     handleHighSearch() {
-      this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     },
     // 巡视单位列表
     getTenants() {

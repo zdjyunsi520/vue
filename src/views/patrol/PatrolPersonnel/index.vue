@@ -7,7 +7,7 @@
         <el-tab-pane label="按完成情况统计" name="2"></el-tab-pane>
       </el-tabs>
       <div class='sm-searchbox'>
-        <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
+        <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox">
           <el-form-item label="巡视单位：" prop='tenantId'>
             <el-select v-model="queryParams.tenantId" clearable placeholder="请选择">
               <el-option label="全部" value=""></el-option>
@@ -36,10 +36,8 @@
           <el-form-item>
             <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-
           </el-form-item>
         </el-form>
-        <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
       </div>
     </div>
     <div class="bg-white chart-wrapper marginbottom15">
@@ -185,10 +183,7 @@ export default {
       propTotal2: ["TotalCount", "TemporaryCount", "RegularCount"],
       propTotal3: ["TotalCount", "ExecuteCount", "UnexecuteCount"],
       chartData: {},
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 47,
-      isOpenbtn: false
+     
     };
   },
 
@@ -198,14 +193,7 @@ export default {
   },
 
   mounted() {
-    this.formHeight = this.$refs.queryForm.$el.clientHeight;
-    this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-    window.onresize = () => {
-      return (() => {
-        this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-      })();
-    };
+  
 
     let self = this;
     let table = document.querySelector(".el-table__footer-wrapper>table");
@@ -222,19 +210,9 @@ export default {
     });
   },
 
-  watch: {
-    formHeight: function(newVal) {
-      this.$nextTick(() => {
-        var newheight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpen = newheight > this.baseformHeight ? true : false;
-      });
-    }
-  },
+ 
   methods: {
-    // 高级筛选
-    handleHighSearch() {
-      this.isOpen = !this.isOpen;
-    },
+  
     getSummaries() {
       let data;
       if (this.xsdataList && this.xsdataList.length) {

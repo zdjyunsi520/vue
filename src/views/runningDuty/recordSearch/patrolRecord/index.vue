@@ -2,7 +2,7 @@
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox ">
       <div class='sm-searchbox'>
-        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox" :rules="rules" >
           <el-form-item label="用电单位：" prop="tenantId">
 
             <el-select v-model="queryParams.tenantId">
@@ -17,13 +17,13 @@
               <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in teamList" />
             </el-select>
           </el-form-item>
-          <el-form-item label="岗位：" prop="dutyTeam">
+          <el-form-item label="岗位：" prop="dutyTeam" v-show='isShow'>
             <el-select v-model="queryParams.dutyTeam">
               <el-option label="全部" value=""></el-option>
               <el-option :key="item.Id" :label="item.Name" :value="item.Id" v-for="item in dutyTeams" />
             </el-select>
           </el-form-item>
-          <el-form-item label="关键词：" prop="keyword" label-width="61px">
+          <el-form-item label="关键词：" prop="keyword" label-width="61px" v-show='isShow'>
             <el-input v-model="queryParams.keyword" placeholder="巡视人/记录人/巡视内容/巡视情况" clearable @keyup.enter.native="handleQuery" />
           </el-form-item>
 
@@ -39,7 +39,7 @@
                 <el-form-item label="巡视情况：" prop="situation">
                     <el-input v-model="queryParams.situation" placeholder="" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item> -->
-          <el-form-item label="巡视日期：" prop="timeRange">
+          <el-form-item label="巡视日期：" prop="timeRange" v-show='isShow'>
             <el-date-picker v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
             <!-- <el-date-picker v-model="queryParams.starttime" style='width: 47%;' type="date" placeholder="请选择日期" clearable></el-date-picker>
           至
@@ -50,7 +50,7 @@
             <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
-        <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+        <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
       </div>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
@@ -126,9 +126,7 @@ export default {
       timeRange: [],
       teamList: [],
       dutyTeams: [],
-      isOpen: true,
-      formHeight: "",
-      baseformHeight: 46
+      isShow: false,
     };
   },
 
@@ -146,18 +144,11 @@ export default {
       return this.ids.length == 0;
     }
   },
-  watch: {
-    formHeight: function(newVal) {
-      this.$nextTick(() => {
-        var newheight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpen = newheight > this.baseformHeight ? true : false;
-      });
-    }
-  },
+ 
   methods: {
     // 高级筛选
     handleHighSearch() {
-      this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     },
     getTeam() {
       fetchTeam({ ifused: true }).then(r => {

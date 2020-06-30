@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box ">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'">
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" clearable placeholder="请选择用电单位">
             <el-option label="全部" value></el-option>
@@ -14,12 +14,12 @@
           &nbsp;至&nbsp;
           <el-date-picker v-model="queryParams.EndDate" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
-        <el-form-item label="告警类型：" prop="WarningType">
+        <el-form-item label="告警类型：" prop="WarningType" v-show='isShow'>
           <el-select v-model="queryParams.WarningType" clearable placeholder="请选择告警类型">
             <el-option v-for="(item,index) in WarningTypes" :key="index" :label="item.type" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="告警设备：" prop="AssetsId">
+        <el-form-item label="告警设备：" prop="AssetsId" v-show='isShow'>
           <div style='width:200px;border-radius:4px;overflow:hidden;height:36px'>
             <TreeSelect :getCheckedNodes="true" showText="text" :mutiple="false" :placeholder='"请选择告警设备"' :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
           </div>
@@ -27,10 +27,9 @@
         <el-form-item>
           <el-button icon="el-icon-search" type="primary" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch" v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+      <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <div>
@@ -255,10 +254,7 @@ export default {
         }
       ],
       assetsTree:[],
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 46,
-      isOpenbtn: false
+      isShow: false,
     };
   },
   created() {
@@ -274,29 +270,10 @@ export default {
     //   return list.length ? list[0] : [];
     // }
   },
-  mounted() {
-    this.formHeight = this.$refs.queryForm.$el.clientHeight;
-    this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-    window.onresize = () => {
-      return (() => {
-        this.formHeight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpenbtn = this.formHeight > this.baseformHeight ? true : false;
-      })();
-    };
-  },
-  watch: {
-    formHeight: function(newVal) {
-      this.$nextTick(() => {
-        var newheight = this.$refs.queryForm.$el.clientHeight;
-        this.isOpen = newheight > this.baseformHeight ? true : false;
-        this.isOpenbtn = newheight > this.baseformHeight ? true : false;
-      });
-    }
-  },
   methods: {
     // 高级筛选
     handleHighSearch() {
-      this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     },
     // 单位列表
     getTenants() {

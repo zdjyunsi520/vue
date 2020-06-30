@@ -176,6 +176,9 @@
 }
 
 .xl-querybox {
+    .sm-searchbox{
+        padding-right: 62px!important;position: relative;
+    }
     .el-input--medium .el-input__inner,
     .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
@@ -776,7 +779,7 @@
     position: relative;
     .hightsearchbtn {
         top: 0px;
-        right: 0;
+        right: -10px;
     }
 }
 
@@ -1197,3 +1200,14 @@
 .el-table-column--selection .cell {
     text-align: center;
 }
+
+
+// 高级筛选 控制个数
+// .formcontent-kz {
+//     .el-form-item:nth-child(n+3){
+//         display: none;
+//     } 
+//     .el-form-item:nth-last-child(1){
+//         display: inline-block!important;
+//     } 
+// } 
