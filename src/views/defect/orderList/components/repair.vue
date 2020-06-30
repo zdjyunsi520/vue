@@ -50,7 +50,7 @@
             <el-col :span="24" :xs="24" class="absolute-bottom">
                 <div class="form-footer">
                     <el-button type="primary" icon="el-icon-s-promotion" @click="handleSubmit" :disabled="!form.IsProcessed" :loading="loading" v-if="form1.Status == 2&&!ReadOnly">发 送</el-button>
-                    <el-button type="primary" icon="el-icon-s-release"  @click="handleBack" :loading="loading" v-if="form1.Status == 2&&!ReadOnly">回 退</el-button>
+                    <el-button type="primary" icon="el-icon-s-release"  @click="handleBack" :loading="loading1" v-if="form1.Status == 2&&!ReadOnly">回 退</el-button>
                     <el-button @click="handleOpen(null)">
                         <svg-icon icon-class='ic_goback' class='tablesvgicon'></svg-icon>返 回
                     </el-button>
@@ -111,6 +111,7 @@ export default {
             rules,
             dialogVisible: false,
             loading: false,
+            loading1: false,
             title: "",
             deptType: "",
             AssetsIdss: [],
@@ -138,7 +139,8 @@ export default {
             ReadOnly: false,
             assetsTreeId: [],
             processTreeId: [],
-            Id: ""
+            Id: "",
+            hasRepair:false,
         };
     },
     computed: {
@@ -162,6 +164,7 @@ export default {
     created() {
         let { Id, ReadOnly } = this.$route.params;
         this.Id = Id;
+        console.log(this.Id)
         this.ReadOnly = ReadOnly;
         this.getInfo();
 
@@ -210,13 +213,13 @@ export default {
         reset(data) {
             this.form = Object.assign(
                 {
-                    Id: "",
+                    Id: '',
                     IsProcessed: true,
                     AssetsId: "",
                     ReceiverId: "",
                     Reason: "",
                     Statement: "",
-                    ProcessorId: "",
+                    ProcessorId: '',
                     ProcessTime: new Date()
                 },
                 data
@@ -232,14 +235,24 @@ export default {
             if (Id) {
                 getInfoAdd({ Id }).then(r => {
                     this.form1 = Object.assign({}, r.data);
+                    console.log(12,r)
                     if (this.form1.Status > 2) {
+                        this.hasRepair = true;
                         getInfo({ Id }).then(res => {
-                            this.reset(res.data);
+                            // console.log(11,res)
+                            // if(!res.data){
+                            //     this.hasRepair = false;
+                            //     console.log(this.form)
+                            // }else{
+                                this.reset(res.data);
+                            // }
                         });
                     } else {
                         let data = { Id };
+                        console.log(122,data)
                         data.ProcessorId = this.form1.ProcessorId;
                         this.reset(data);
+                        this.hasRepair = false;
                     }
                 });
             }
@@ -260,13 +273,14 @@ export default {
         },
         handleBack() {
             const Id = this.form.Id;
+            this.loading1 = true;
             backOrder({ Id })
                 .then(r => {
                     this.$message.success("回退成功！");
                     this.handleOpen();
                 })
                 .catch(r => {
-                    this.loading = false;
+                    this.loading1 = false;
                 });
         },
         /** 提交按钮 */
@@ -275,7 +289,7 @@ export default {
                 if (valid) {
                     this.loading = true;
                     let fn;
-                    if (this.form.Id) {
+                    if (this.hasRepair) {
                         fn = update;
                     } else {
                         fn = add;

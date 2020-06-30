@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item label="告警设备：" prop="AssetsId">
           <div style='width:200px;border-radius:4px;overflow:hidden;height:36px'>
-            <TreeSelect :getCheckedNodes="false" showText="text" :mutiple="false" :placeholder='"请选择告警设备"' :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
+            <TreeSelect :getCheckedNodes="true" showText="text" :mutiple="false" :placeholder='"请选择告警设备"' :data="assetsTree" @change="handleConfirm" :checkedKeys="assetsTreeId" />
           </div>
         </el-form-item>
         <el-form-item>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { fetHistorychList } from "@/api/operationMonitoring/realtimeAlarm";
+import { fetHistorychList ,getTreesFlat} from "@/api/operationMonitoring/realtimeAlarm";
 import { getTrees, getChildrenList } from "@/api/org";
 import TreeSelect from "@/views/components/TreeSelect";
 export default {
@@ -254,6 +254,7 @@ export default {
           type: "否"
         }
       ],
+      assetsTree:[],
       isOpen: false,
       formHeight: "",
       baseformHeight: 46,
@@ -263,14 +264,15 @@ export default {
   created() {
     this.getList();
     this.getAssets();
+    this.getTreesFlat();
   },
   computed: {
-    assetsTree() {
-      const list = this.allassetsTree
-        .filter(v => v.id == this.queryParams.tenantId)
-        .map(v => v.childs);
-      return list.length ? list[0] : [];
-    }
+    // assetsTree() {
+    //   const list = this.allassetsTree
+    //     .filter(v => v.id == this.queryParams.tenantId)
+    //     .map(v => v.childs);
+    //   return list.length ? list[0] : [];
+    // }
   },
   mounted() {
     this.formHeight = this.$refs.queryForm.$el.clientHeight;
@@ -307,26 +309,13 @@ export default {
         });
     },
     // 获取设备列表
-    // getAssets() {
-    //   this.dialogAssetsVisible = true;
-    //   getTrees()
-    //     .then(res => {
-    //       this.allassetsTree = res.data;
-    //       this.allassetsTree.forEach(v => {
-    //         if (v.id == this.queryParams.tenantId) {
-    //           this.assetsTree = v.childs;
-    //           if (this.queryParams.AssetsId) {
-    //             this.$refs.tree.setCheckedKeys([this.queryParams.AssetsId]);
-    //           }
-    //           return;
-    //         }
-    //       });
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
-    // 获取设备列表
+    getTreesFlat() {
+      getTreesFlat()
+        .then(res => {
+         this.assetsTree = res.data;
+        })
+    },
+    // 获取单位列表
     getAssets() {
       getTrees().then(res => {
         this.allassetsTree = res.data;

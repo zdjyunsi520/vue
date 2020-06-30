@@ -61,7 +61,7 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
       this.setOptions(this.chartData);
     },
-    setOptions({ xAxisData, actualData } = {}) {
+    setOptions({ xAxisData, actualData,labelunit } = {}) {
       this.chart.setOption({
         xAxis: {
           type: "category",
@@ -99,7 +99,7 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
-          name: "单位（A）",
+          name: labelunit?"单位（"+labelunit+"）":'',
           axisTick: {
             show: false
           },

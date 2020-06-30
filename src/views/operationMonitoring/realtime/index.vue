@@ -54,38 +54,38 @@
                   <el-col :span='5' :xs='12'>
                     <h5>电压(V)</h5>
                     <p>-</p>
-                    <p @click="handleClick('UA','A相电压')"><label>A相</label><span>{{info.UA}}</span></p>
-                    <p @click="handleClick('UB','B相电压')"><label>B相</label><span>{{info.UB}}</span></p>
-                    <p @click="handleClick('UC','C相电压')"><label>C相</label><span>{{info.UC}}</span></p>
+                    <p @click="handleClick('UA','A相电压','V')"><label>A相</label><span>{{info.UA}}</span></p>
+                    <p @click="handleClick('UB','B相电压','V')"><label>B相</label><span>{{info.UB}}</span></p>
+                    <p @click="handleClick('UC','C相电压','V')"><label>C相</label><span>{{info.UC}}</span></p>
                   </el-col>
                   <el-col :span='5' :xs='12'>
                     <h5>电流(A)</h5>
                     <p>-</p>
-                    <p @click="handleClick('IA','A相电流')"><label>A相</label><span>{{info.IA}}</span></p>
-                    <p @click="handleClick('IB','B相电流')"><label>B相</label><span>{{info.IB}}</span></p>
-                    <p @click="handleClick('IC','C相电流')"><label>C相</label><span>{{info.IC}}</span></p>
+                    <p @click="handleClick('IA','A相电流','A')"><label>A相</label><span>{{info.IA}}</span></p>
+                    <p @click="handleClick('IB','B相电流','A')"><label>B相</label><span>{{info.IB}}</span></p>
+                    <p @click="handleClick('IC','C相电流','A')"><label>C相</label><span>{{info.IC}}</span></p>
                   </el-col>
 
                   <el-col :span='4' :xs='12'>
                     <h5>视在功率(kVA)</h5>
-                    <p @click="handleClick('S','总视在功率')"><label>总</label><span>{{info.S}}</span></p>
-                    <p @click="handleClick('SA','A相视在功率')"><label>A相</label><span>{{info.SA}}</span></p>
-                    <p @click="handleClick('SB','B相视在功率')"><label>B相</label><span>{{info.SB}}</span></p>
-                    <p @click="handleClick('SC','C相视在功率')"><label>C相</label><span>{{info.SC}}</span></p>
+                    <p @click="handleClick('S','总视在功率','kVA')"><label>总</label><span>{{info.S}}</span></p>
+                    <p @click="handleClick('SA','A相视在功率','kVA')"><label>A相</label><span>{{info.SA}}</span></p>
+                    <p @click="handleClick('SB','B相视在功率','kVA')"><label>B相</label><span>{{info.SB}}</span></p>
+                    <p @click="handleClick('SC','C相视在功率','kVA')"><label>C相</label><span>{{info.SC}}</span></p>
                   </el-col>
                   <el-col :span='5' :xs='12'>
                     <h5>有功功率(kW)</h5>
-                    <p @click="handleClick('P','总有功功率')"><label>总</label><span>{{info.P}}</span></p>
-                    <p @click="handleClick('PA','A相有功功率')"><label>A相</label><span>{{info.PA}}</span></p>
-                    <p @click="handleClick('PB','B相有功功率')"><label>B相</label><span>{{info.PB}}</span></p>
-                    <p @click="handleClick('PC','C相有功功率')"><label>C相</label><span>{{info.PC}}</span></p>
+                    <p @click="handleClick('P','总有功功率','kW')"><label>总</label><span>{{info.P}}</span></p>
+                    <p @click="handleClick('PA','A相有功功率','kW')"><label>A相</label><span>{{info.PA}}</span></p>
+                    <p @click="handleClick('PB','B相有功功率','kW')"><label>B相</label><span>{{info.PB}}</span></p>
+                    <p @click="handleClick('PC','C相有功功率','kW')"><label>C相</label><span>{{info.PC}}</span></p>
                   </el-col>
                   <el-col :span='5' :xs='12'>
                     <h5>功率因素</h5>
-                    <p @click="handleClick('PF','总功率因素')"><label>总</label><span>{{info.PF}}</span></p>
-                    <p @click="handleClick('PFA','A相功率因素')"><label>A相</label><span>{{info.PFA}}</span></p>
-                    <p @click="handleClick('PFB','B相功率因素')"><label>B相</label><span>{{info.PFB}}</span></p>
-                    <p @click="handleClick('PFC','C相功率因素')"><label>C相</label><span>{{info.PFC}}</span></p>
+                    <p @click="handleClick('PF','总功率因素','')"><label>总</label><span>{{info.PF}}</span></p>
+                    <p @click="handleClick('PFA','A相功率因素','')"><label>A相</label><span>{{info.PFA}}</span></p>
+                    <p @click="handleClick('PFB','B相功率因素','')"><label>B相</label><span>{{info.PFB}}</span></p>
+                    <p @click="handleClick('PFC','C相功率因素','')"><label>C相</label><span>{{info.PFC}}</span></p>
                   </el-col>
                 </el-row>
               </div>
@@ -94,7 +94,7 @@
                 <p class="tips" v-if="!otherData||otherData.length==0">暂无其他参数</p>
                 <el-row class="cellinfo noborder databox-lx" v-else>
                   <el-col :span='6' :xs='24' v-for="(item,index) in otherData" :key='index'>
-                    <p @click="handleClick(item.Type,item.Name)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
+                    <p @click="handleClick(item.Type,item.Name,item.Unit)"><label>{{item.Name}}({{item.Unit}})</label><span>{{item.Value}}</span></p>
                   </el-col>
 
                 </el-row>
@@ -114,18 +114,6 @@
                   </el-radio-group>
                 </div>
               </div>
-              <!-- <el-row>
-                <el-col :span="3"> {{labelName}}</el-col>
-                <el-col :span="3">周期 
-                    <el-select v-model="form.cycleType">
-                    <el-option label="月" :value="3" />
-                    <el-option label="日" :value="2" />
-                    <el-option label="15分钟" :value="1" />
-                    </el-select>
-                </el-col>
-                <el-col :span="3"> 日期<el-date-picker v-model="form.beginTime" type="date" placeholder="选择日期"></el-date-picker>
-                </el-col>
-                </el-row> -->
               <div class="chart-wrapper" style="height: auto;">
                 <LineChart ref="chart" :chartData='lineChartData' />
                 <!-- <p class="tips" style="padding-top:13%">暂无数据</p> -->
@@ -194,7 +182,8 @@ export default {
       //  lineChartData: {xAxisData:[],actualData:[]},
       info: {},
       otherData: [],
-      historyData: []
+      historyData: [],
+      labelunit:'',
     };
   },
   created() {
@@ -206,6 +195,7 @@ export default {
     lineChartData() {
       const xAxisData = [];
       const actualData = [];
+      const labelunit = this.labelunit;
       this.historyData
         .map(v => {
           const data = v.CreateTime.split(" ");
@@ -222,7 +212,7 @@ export default {
           actualData.push(v.value1);
         });
 
-      return { xAxisData, actualData };
+      return { xAxisData, actualData,labelunit };
     }
   },
   mounted() {
@@ -253,9 +243,10 @@ export default {
     this.interval = false;
   },
   methods: {
-    handleClick(type, labelName) {
+    handleClick(type, labelName,labelunit) {
       this.form.type = type;
       this.labelName = labelName;
+      this.labelunit = labelunit;
     },
     renderContent(h, { node, data, store }) {
       return (
