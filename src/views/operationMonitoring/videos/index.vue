@@ -62,18 +62,18 @@
         </div>
         <div class="" style="margin-top:7px;padding: 0;height:calc(100% - 55px)">
           <!-- <el-scrollbar> -->
-            <div class="videolist">
-<!-- :style="'height:'+boxheight+'px'" -->
-                <div v-for="(item,index) in current" :style="current==1?'width:100%;height: 100%;':(current==4?'width:calc(50% - 7px);height: calc(50% - 7px);':'width:calc(33.333% - 7px);height: calc(33.333% - 7px);')"  ref='videobox' :key='index' class='listbox'>
-                  <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"'  @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
-                    <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" :height="boxheight+'px'" id="ysOpenDevice" allowfullscreen>
-                    </iframe>
-                    <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete(index)">
-                      <svg-icon icon-class='ic_delete_lx' class="svgicon"></svg-icon>
-                    </div>
-                  </div>
+          <div class="videolist">
+            <!-- :style="'height:'+boxheight+'px'" -->
+            <div v-for="(item,index) in current" :style="current==1?'width:100%;height: 100%;':(current==4?'width:calc(50% - 7px);height: calc(50% - 7px);':'width:calc(33.333% - 7px);height: calc(33.333% - 7px);')" ref='videobox' :key='index' class='listbox'>
+              <div :class='isDrop&&dragCurr==index?"videobox on":"videobox"' @dragover="handleAllowDrag(index,$event)" @dragleave="handleDragdragleave(index)" @drop="handleDrop(index)">
+                <iframe v-if='playList[index]&&playList[index].hasVideo' :src="'https://open.ys7.com/ezopen/h5/iframe?url='+playList[index].videoUrl+'&autoplay=1&accessToken='+playList[index].accessToken" width="100%" :height="boxheight+'px'" id="ysOpenDevice" allowfullscreen>
+                </iframe>
+                <div class="removeicon" v-if='playList[index]&&playList[index].hasVideo' @click="handleDelete(index)">
+                  <svg-icon icon-class='ic_delete_lx' class="svgicon"></svg-icon>
                 </div>
+              </div>
             </div>
+          </div>
           <!-- </el-scrollbar> -->
         </div>
       </el-col>
@@ -130,7 +130,7 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
-    this.boxheight = this.$refs.videobox[0].offsetHeight-4;
+    this.boxheight = this.$refs.videobox[0].offsetHeight - 4;
   },
 
   methods: {
@@ -157,9 +157,14 @@ export default {
     changetTab(item) {
       item.isSelect = !item.isSelect;
       this.current = item.val;
-      //this.playList = [];
+
+      let playList = this.playList;
+      this.playList = [];
+      playList.forEach((v, i) => {
+        this.getPlayUrl(v.id, i);
+      });
       this.$nextTick(() => {
-        this.boxheight = this.$refs.videobox[0].offsetHeight-4;
+        this.boxheight = this.$refs.videobox[0].offsetHeight - 4;
       });
     },
 
@@ -174,11 +179,6 @@ export default {
     },
 
     getPlayUrl(id, index) {
-      // this.playList[index] = {
-      //   hasVideo: false,
-      //   accessToken: "",
-      //   videoUrl: ""
-      // };
       getPlayUrl({ id }).then(res => {
         if (res.data) {
           const hasVideo = true;
@@ -263,18 +263,19 @@ export default {
 }
 .videolist {
   font-size: 0;
-  display:flex;
-  align-content:space-between;
-   justify-content:space-between;
-   flex-wrap:wrap;
-   height:100%;
-  .listbox{
-    &>div {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 100%;
+  .listbox {
+    & > div {
       width: 100%;
       padding: 0;
       box-sizing: border-box;
       display: inline-block;
-      position: relative;    height: 100%;
+      position: relative;
+      height: 100%;
       background: url(../../../assets/image/img_monitor_bj.jpg) no-repeat;
       background-size: 100% 100%;
       border: solid 2px #f6f7fa;
