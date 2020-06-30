@@ -78,10 +78,10 @@
                                             电费(元)
                                         </div>
                                         <el-row :gutter="40" class="legendbox" style="padding:0 30px">
-                                            <el-col :span="8" :push="4">
+                                            <el-col :span="10" :push="2">
                                                 <p>本月电费<span>{{dataInfo.FeeThisMonth.TotalFee}}</span></p>
                                             </el-col>
-                                            <el-col :span="8" :push="4">
+                                            <el-col :span="10" :push="2">
                                                 <p>上月电费<span>{{dataInfo.FeeLastMonth.TotalFee}}</span></p>
                                             </el-col>
                                         </el-row>
@@ -492,4 +492,20 @@ export default {
 .svgcolor3 {
     color: #f3a248;
 }
+
+
+@media (max-width: 1366px) {
+    .dragbox .dragleft{
+        width:250px;
+    }
+    .dragbox .dragright.mxright{
+        width: calc(100% - 260px);
+    }
+    .smdatabox i{
+        width:60px;
+        height:60px;
+        line-height:60px;
+    }
+}
+
 </style>

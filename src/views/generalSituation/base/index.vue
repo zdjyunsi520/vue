@@ -627,6 +627,22 @@ h6 {
     }
 }
 
+@media (max-width: 1366px) {
+    .dragbox .dragleft{
+        width:250px;
+    }
+    .dragbox .dragright.mxright{
+        width: calc(100% - 260px);
+    }
+    .smdatabox .el-col p span b{
+            font-size: 20px;
+    }
+    .legendbox[data-v-201821ba] {
+        padding: 10px 0px 10px;
+    }
+}
+
+
 /deep/.dragright .el-scrollbar__bar.is-horizontal {
     display: none;
 }

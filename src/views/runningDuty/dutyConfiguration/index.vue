@@ -56,14 +56,14 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="50"  /> -->
-        <el-table-column label="值班班组" min-width='130' prop="TeamName" />
+        <el-table-column label="值班班组" min-width='100' prop="TeamName" />
         <el-table-column label="值班人员" min-width='220' prop="EmployeeNames" />
-        <el-table-column label="班次类型" width='130' prop="ShiftTypeName" />
+        <el-table-column label="班次类型" min-width='100' prop="ShiftTypeName" />
         <el-table-column label="班次" min-width='220' prop="ShiftNames" />
-        <el-table-column label="角色类型" width='130' prop="CharaTypeName" />
-        <el-table-column label="角色" min-width='150' prop="Characters" />
+        <el-table-column label="角色类型" min-width='90' prop="CharaTypeName" />
+        <el-table-column label="角色" min-width='90' prop="Characters" />
         <!-- <el-table-column label="岗位" min-width='150' prop="Positions" /> -->
-        <el-table-column label="操作" width='270' fixed="right">
+        <el-table-column label="操作" width='250' fixed="right">
           <template slot-scope="scope">
             <el-button type="primary" plain size="mini" @click="handlePosition(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>岗位设置

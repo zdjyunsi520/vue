@@ -47,7 +47,7 @@
           </div>
         </template>
         <!-- <el-table-column type="selection" fixed="left" width="50" /> -->
-        <el-table-column label="告警等级" width="130" prop="Level">
+        <el-table-column label="告警等级" width="100" prop="Level">
           <template slot-scope="scope">
             <span v-if="scope.row.Level==1"><i class="dot color1"></i>一般事件</span>
             <span v-else-if="scope.row.Level==2"><i class="dot color2"></i>轻微告警</span>
@@ -56,17 +56,17 @@
           </template>
 
         </el-table-column>
-        <el-table-column label="用电单位" min-width="250" prop="TenantName"></el-table-column>
-        <el-table-column label="配电房/屏柜" min-width="300" prop="SwitchRoomName">
+        <el-table-column label="用电单位"  prop="TenantName"></el-table-column>
+        <el-table-column label="配电房/屏柜"  prop="SwitchRoomName">
           <template slot-scope="scope">
             {{scope.row.SwitchRoomName}}/{{scope.row.CabinetName}}
           </template>
         </el-table-column>
-        <el-table-column label="设备名称" width="150" prop="AssetsName"></el-table-column>
-        <el-table-column label="信号名" width="120" prop="Signal"></el-table-column>
-        <el-table-column label="告警描述" min-width="250" prop="Description"></el-table-column>
-        <el-table-column label="告警时间" width="180" prop="CreateTime"></el-table-column>
-        <el-table-column label="告警值" width="110" prop="Value">
+        <el-table-column label="设备名称"  prop="AssetsName"></el-table-column>
+        <el-table-column label="信号名" width="100"  prop="Signal"></el-table-column>
+        <el-table-column label="告警描述"   prop="Description"></el-table-column>
+        <el-table-column label="告警时间" width="160" prop="CreateTime"></el-table-column>
+        <el-table-column label="告警值" width="80" prop="Value">
           <template slot-scope="scope">
             <span :class='scope.row.Level==1?"color1":scope.row.Level==2?"color2":scope.row.Level==3?"color3":"color4"'>{{scope.row.Value}}</span>
           </template>

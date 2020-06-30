@@ -63,15 +63,15 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="50" />
-        <el-table-column label="起始时间" width='180' prop="StartTime" />
-        <el-table-column label="完成时间" width='180' prop="EndTime" />
-        <el-table-column label="用电单位" min-width='230' prop="TenantName" />
-        <el-table-column label="联系人" width='120' prop="ContactPerson" />
-        <el-table-column label="联系电话" width='140' prop="PhoneNo" />
-        <el-table-column label="记事类型" width='130' prop="Type" :formatter="filterType" />
-        <el-table-column label="记事内容" min-width='140' prop="RecordContent" />
-        <el-table-column label="记事时间" width='180' prop="UpdateTime" />
-        <el-table-column label="导入下一班" width='120' prop="IsSucceed" :formatter="filterIsSucceed" />
+        <el-table-column label="起始时间" width='160' prop="StartTime" />
+        <el-table-column label="完成时间" width='160' prop="EndTime" />
+        <el-table-column label="用电单位" min-width='180' prop="TenantName" />
+        <el-table-column label="联系人" width='80' prop="ContactPerson" />
+        <el-table-column label="联系电话" min-width='110' prop="PhoneNo" />
+        <el-table-column label="记事类型" min-width='110' prop="Type" :formatter="filterType" />
+        <el-table-column label="记事内容" min-width='100' prop="RecordContent" />
+        <el-table-column label="记事时间" width='160' prop="UpdateTime" />
+        <el-table-column label="导入下一班" width='100' prop="IsSucceed" :formatter="filterIsSucceed" />
       </el-table>
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>

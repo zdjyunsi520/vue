@@ -143,8 +143,7 @@ export default {
             },
            
             radius: "50%",
-            // radius: ["25%", "70%"],
-            center: ["55%", "50%"],
+            center: ["65%", "50%"],
             data: listData
           }
         ]

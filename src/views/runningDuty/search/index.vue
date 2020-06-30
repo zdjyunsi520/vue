@@ -43,13 +43,13 @@
             <p>暂时还没有数据</p>
           </div>
         </template>
-        <el-table-column label="上级单位" min-width='200' sortable prop="TenantName" />
-        <el-table-column label="用电单位" min-width='200' sortable prop="ParentName" />
-        <el-table-column label="值班人员" min-width='150' prop="EmployeeName" />
+        <el-table-column label="上级单位" min-width='180' sortable prop="TenantName" />
+        <el-table-column label="用电单位" min-width='180' sortable prop="ParentName" />
+        <el-table-column label="值班人员" min-width='120' prop="EmployeeName" />
         <el-table-column label="值班班组" min-width='150' prop="DutyTeamName" />
-        <el-table-column label="岗位" width='120' prop="PositionName" />
-        <el-table-column label="值班开始时间" width='180' sortable prop="StartTime" />
-        <el-table-column label="值班结束时间" width='180' sortable prop="EndTime" />
+        <el-table-column label="岗位" min-width='100' prop="PositionName" />
+        <el-table-column label="值班开始时间" width='160' sortable prop="StartTime" />
+        <el-table-column label="值班结束时间" width='160' sortable prop="EndTime" />
       </el-table>
 
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />

@@ -280,6 +280,11 @@ export default {
     }
   }
 }
+@media screen and (max-width: 1366px) {
+  .el-aside{
+    width: 300px!important;
+  }
+}
 @media screen and (max-width: 768px) {
   /deep/.comheight {
     display: block;

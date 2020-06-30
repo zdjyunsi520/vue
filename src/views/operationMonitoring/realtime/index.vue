@@ -574,4 +574,16 @@ export default {
     }
   }
 }
+
+
+@media (max-width: 1366px) {
+    .dragbox .dragleft{
+        width:230px;
+    }
+    .dragbox .dragright.mxright{
+        width: calc(100% - 240px);
+    }
+   
+}
+
 </style>
