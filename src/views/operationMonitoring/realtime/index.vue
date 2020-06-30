@@ -183,7 +183,7 @@ export default {
       info: {},
       otherData: [],
       historyData: [],
-      labelunit:'',
+      labelunit:'A',
     };
   },
   created() {

@@ -241,24 +241,23 @@ export default {
       if (Id) {
         getInfoAdd({ Id }).then(r => {
           this.form1 = Object.assign({}, r.data);
-          console.log(12, r);
           if (this.form1.Status > 2) {
             this.hasRepair = true;
             getInfo({ Id }).then(res => {
-              // console.log(11,res)
-              // if(!res.data){
-              //     this.hasRepair = false;
-              //     console.log(this.form)
-              // }else{
               this.reset(res.data);
-              // }
             });
           } else {
-            let data = { Id };
-            console.log(122, data);
-            data.ProcessorId = this.form1.ProcessorId;
-            this.reset(data);
-            this.hasRepair = false;
+            getInfo({ Id }).then(res => {
+              if (res.data) {
+                this.reset(res.data);
+                this.hasRepair = true;
+              } else {
+                let data = { Id };
+                data.ProcessorId = this.form1.ProcessorId;
+                this.reset(data);
+                this.hasRepair = false;
+              }
+            });
           }
         });
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
-      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" label-width="100"  :style="isOpen?'height:'+baseformHeight+'px;overflow: hidden;padding-right: 62px;':'padding-right: 62px;'" >
+      <el-form :model="queryParams" :rules="rules" ref="queryForm" :inline="true" class="xl-querybox" label-width="100" >
         <el-form-item label="巡视人员：" prop="patrolusername">
           <el-input v-model="queryParams.patrolusername"  placeholder="请输入巡视人员" clearable></el-input>
         </el-form-item>
@@ -11,18 +11,18 @@
             <el-option v-for="(item,index) in TenantIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="巡视日期：" prop="timeRange">
+        <el-form-item label="巡视日期：" prop="timeRange" v-show='isShow'>
           <el-date-picker  v-model="timeRange" type="daterange" unlink-panels range-separator="至" start-placeholder="开始日期"   end-placeholder="结束日期"  value-format="yyyy-MM-dd" style='width:230px'></el-date-picker>
           <!-- <el-date-picker v-model="queryParams.patroltimebegin" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           &nbsp;至&nbsp;
           <el-date-picker v-model="queryParams.patroltimeend" type="date" placeholder="请选择日期" style='width:46%' value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker> -->
         </el-form-item>
-        <el-form-item label="巡视性质：" prop="ptrolnature">
+        <el-form-item label="巡视性质：" prop="ptrolnature" v-show='isShow'>
           <el-select v-model="queryParams.ptrolnature" placeholder="请选择">
             <el-option v-for="(item,index) in ptrolnatures" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：" prop="isexecute">
+        <el-form-item label="状态：" prop="isexecute" v-show='isShow'>
           <el-select v-model="queryParams.isexecute" placeholder="请选择">
             <el-option v-for="(item,index) in isexecutes" :key="index" :label="item.name" :value="item.type"></el-option>
           </el-select>
@@ -32,7 +32,7 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-     <el-button type="text" @click="handleHighSearch"  v-show='isOpenbtn' class="hightsearchbtn">高级筛选<i :class="isOpen?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
+     <el-button type="text" @click="handleHighSearch"   class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">
@@ -146,10 +146,7 @@ export default {
         isexecute: ""
       },
       timeRange:[],
-      isOpen: false,
-      formHeight: "",
-      baseformHeight: 46,
-      isOpenbtn:false,
+      isShow: false,
     };
   },
   computed: {},
@@ -157,31 +154,12 @@ export default {
     this.getList();
     this.getTenants();
   },
-    mounted() {
-            this.formHeight = this.$refs.queryForm.$el.clientHeight;
-            console.log(this.formHeight)
-            this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-            window.onresize = () => {
-                return (() => {
-                    this.formHeight = this.$refs.queryForm.$el.clientHeight;
-                    this.isOpenbtn=this.formHeight > this.baseformHeight?true:false;
-                })()
-            }
-    },
-    watch:{
-        'formHeight': function(newVal){
-            this.$nextTick(()=>{
-                var newheight = this.$refs.queryForm.$el.clientHeight;
-                this.isOpen=newheight > this.baseformHeight?true:false;
-                this.isOpenbtn=newheight > this.baseformHeight?true:false
-            })
-        },
-    },
+   
     methods: {
         // 高级筛选
-        handleHighSearch() {
-        this.isOpen = !this.isOpen;
-        },
+     handleHighSearch() {
+        this.isShow = !this.isShow;
+     },
     //获取关联的巡视人员下拉列表
     getPatrolusers() {
       this.allpatrolusers.forEach(v => {
