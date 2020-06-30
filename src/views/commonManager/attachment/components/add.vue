@@ -40,7 +40,7 @@
           </el-row>
           <el-row>
             <el-form-item label="目录组织方式：" label-width='120px' prop="DirectoryMode">
-              <el-select v-model="form.DirectoryMode" placeholder="">
+              <el-select v-model="form.DirectoryMode" placeholder="请选择目录组织方式">
                 <el-option label="不分目录" :value="11"></el-option>
                 <el-option label="不分目录保留文件名" :value="12"></el-option>
                 <el-option label="日期组织" :value="21"></el-option>
@@ -50,7 +50,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="数据存储方式：" label-width='120px' prop="StorageMode">
-              <el-select v-model="form.StorageMode" placeholder="">
+              <el-select v-model="form.StorageMode" placeholder="请选择数据存储方式">
                 <el-option label="目录存储" :value="1"></el-option>
                 <el-option label="数据库存储" :value="2"></el-option>
                 <el-option label="FTP存储" :value="3"></el-option>
@@ -60,7 +60,7 @@
           </el-row>
           <el-row>
             <el-form-item label="附件访问方式：" label-width='120px' prop="AccessMode">
-              <el-select v-model="form.AccessMode" placeholder="">
+              <el-select v-model="form.AccessMode" placeholder="请选择附件访问方式">
                 <el-option label="普通方式访问" :value="1"></el-option>
                 <el-option label="授权方式访问" :value="2"></el-option>
               </el-select>
@@ -110,8 +110,7 @@
           </el-row>
           <el-row>
             <el-form-item label="水印方式：" label-width='120px' prop="WatermarkMethod">
-              <el-select v-model="form.WatermarkMethod">
-                <el-option label="请选择" :value="0"></el-option>
+              <el-select v-model="form.WatermarkMethod" placeholder="请选择水印方式" >
                 <el-option label="无水印" :value="1"></el-option>
                 <el-option label="文字水印" :value="2"></el-option>
                 <el-option label="图片水印" :value="3"></el-option>
@@ -123,7 +122,7 @@
           </el-row>
           <el-row>
             <el-form-item label="水平对齐方式：" label-width='120px' prop="WatermarkHorizontalAlign">
-              <el-select v-model="form.WatermarkHorizontalAlign">
+              <el-select v-model="form.WatermarkHorizontalAlign" placeholder="请选择水平对齐方式" >
                 <el-option label="未设置" value="NotSet"></el-option>
                 <el-option label="居左" value="Left"></el-option>
                 <el-option label="居中" value="Center"></el-option>
@@ -137,7 +136,7 @@
           </el-row>
           <el-row>
             <el-form-item label="水平垂直方式：" label-width='120px' prop="WatermarkVerticalAlign">
-              <el-select v-model="form.WatermarkVerticalAlign">
+              <el-select v-model="form.WatermarkVerticalAlign" placeholder="请选择水平垂直方式" >
                 <el-option label="未设置" value="NotSet"></el-option>
                 <el-option label="顶部" value="Top"></el-option>
                 <el-option label="居中" value="Middle"></el-option>

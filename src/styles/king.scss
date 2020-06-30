@@ -782,7 +782,19 @@
         right: -10px;
     }
 }
-
+.ewmbox {
+    background-color: #f7f7f7;
+    border: 1px solid #ebeef5;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 4px;
+    padding: 0 10px;
+    img{
+        height: 25px;
+        margin: 10px -10px 0 0;
+        vertical-align: top;
+    }
+  }
 .marginbottom15 {
     margin-bottom: 15px;
 }

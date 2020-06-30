@@ -10,8 +10,8 @@
     </div>
     <div class="bg-white containerbox " style="position:relative">
       <el-scrollbar v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" element-loading-spinner="el-icon-loading" style="height:calc(100% - 80px)" class="marginright-fx">
-        <el-col :span="18" :xs="24">
-          <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;width:1000px">
+        <el-col :span="20" :xs="24">
+          <el-form ref="form" :model="form" :rules="rules" style="padding-right: 0px;">
             <el-form-item v-if="show">
               <editor class="xl-height" @input="handleContent" ref="editors" :value="getValue"></editor>
             </el-form-item>
@@ -173,7 +173,7 @@ export default {
 .xl-height {
   display: inline-block;
   width: 100%;
-  height: 400px;
+  height: 600px;
 }
 /deep/.editor {
   height: 100%;

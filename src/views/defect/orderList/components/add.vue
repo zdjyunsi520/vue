@@ -66,7 +66,7 @@
 
                         </el-form-item>
                     </el-row>
-                    <el-row v-if="form.Id">
+                    <el-row v-if="disabled||(disabled&&form.Id)">
                         <el-form-item label="缺陷编号" prop="No">
                             <el-input v-model="form.No" disabled placeholder="自动生成" />
                         </el-form-item>
@@ -75,7 +75,7 @@
                         </el-form-item>
 
                     </el-row>
-                    <el-row>
+                    <el-row v-if="disabled">
                         <el-form-item label="填报人" prop="Reporter">
                             <el-input v-model="form.Reporter" disabled />
                         </el-form-item>
