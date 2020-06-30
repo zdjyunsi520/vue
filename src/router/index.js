@@ -826,6 +826,18 @@ export const constantRoutes = [
         }
       },
       {
+        name: "/commonManager/settings/keyValue/addMj",
+        path: "/commonManager/settings/keyValue/addMj",
+        component: () => import("@/views/commonManager/settings/keyValue/addMj"),
+        meta: {
+          title: "新增配置子项管理",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true,
+          activeMenu: '/Common/Setting'
+        }
+      },
+      {
         name: "/commonManager/attachment/components/add",
         path: "/commonManager/attachment/components/add",
         component: () =>

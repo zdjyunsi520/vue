@@ -162,10 +162,18 @@ export default {
       const Type = this.queryParams.Type == 1 ? 1 : 3; //	1-字符串2-文件项3-枚举
       const data = { SettingId, Type };
 
-      this.$router.push({
-        name: "/commonManager/settings/keyValue/add",
-        params: { data: data, title }
-      });
+      if(Type==3){
+          this.$router.push({
+            name: "/commonManager/settings/keyValue/addMj",
+            params: { data: data, title }
+          });
+      }else{
+        this.$router.push({
+          name: "/commonManager/settings/keyValue/add",
+          params: { data: data, title }
+        });
+      }
+
     },
     dbhandleUpdate(row) {
       this.handleUpdate(row);
@@ -174,10 +182,20 @@ export default {
     /** 编辑按钮操作 */
     handleUpdate(data) {
       const title = "编辑";
-      this.$router.push({
-        name: "/commonManager/settings/keyValue/add",
-        params: { data, title }
-      });
+      
+      if(data.Type!=3){
+        this.$router.push({
+          name: "/commonManager/settings/keyValue/add",
+          params: { data, title }
+          
+        });
+      }else{
+        this.$router.push({
+          name: "/commonManager/settings/keyValue/addMj",
+          params: { data: data, title }
+        });
+      }
+
     },
     handleBack() {
       this.$router.push({

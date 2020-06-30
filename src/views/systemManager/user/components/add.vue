@@ -69,7 +69,7 @@ export default {
       username: [
         {
           required: true,
-          pattern: /^[A-Za-z0-9]{4,8}$/,
+          pattern: /^[A-Za-z0-9]{4,18}$/,
           message: "请输入4-18位数字或字母",
           trigger: "blur"
         }

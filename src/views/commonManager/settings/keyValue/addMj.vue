@@ -12,7 +12,7 @@
           <el-input v-model="form.Key" placeholder="请输入代码" :disabled='form.Id?true:false' />
         </el-form-item>
         <el-form-item label="值" prop="Value">
-          <el-input type="textarea" :rows="6"  v-model="form.Value"  placeholder="请输入值" />
+          <el-input-number v-model="form.Value"   placeholder="请输入值"  controls-position="right" :min="1" />
         </el-form-item>
         <el-form-item label="排序号" prop="SortIndex" v-if="form.Type==3">
           <el-input-number v-model="form.SortIndex" controls-position="right" :min="1" />
@@ -63,10 +63,9 @@ export default {
       ],
       Value: [
         {
-          pattern: /^[\s\S]{1,300}$/,
+          pattern: /^\d{1,4}$/,
           required: true,
-          message: "请输入300位以内的内容",
-          trigger: "blur"
+          message: "请输入4位以内的数字"
         }
       ],
       SortIndex: [
