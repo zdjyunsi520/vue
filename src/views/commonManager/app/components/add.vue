@@ -221,7 +221,8 @@ export default {
 }
 /deep/.avatar-wrap {
   width: 150px;
-  white-space: nowrap;    line-height: 1;
+  white-space: nowrap;
+  line-height: 1;
 }
 /deep/.el-upload__tip {
   display: inline-block;

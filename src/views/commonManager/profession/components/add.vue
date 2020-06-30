@@ -53,9 +53,9 @@ export default {
       ],
       name: [
         {
-          pattern: /^[A-Za-z0-9\u4e00-\u9fa5]{1,12}$/,
+          pattern: /^[\s\S]{1,50}$/,
           required: true,
-          message: "请输入12位以内的汉字或数字或字母",
+          message: "请输入50位以内的内容",
           trigger: "blur"
         }
       ],
