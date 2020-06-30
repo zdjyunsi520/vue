@@ -11,14 +11,14 @@
                             <p class="form-smtitle"> 基础信息 </p>
                         </el-col>
                         <el-form-item label="上级单位" prop="parentId">
-                            <el-select v-model="form.parentId">
-                                <el-option label="请选择上级单位" value=""></el-option>
+                            <el-input v-model="form.parentName" placeholder="无" v-if='form.id'disabled/>
+
+                            <el-select v-model="form.parentId" placeholder='请选择上级单位' v-else >
                                 <el-option :key="item.id" :label="item.text" :value="item.id" v-for="item in treeData" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="行业类别" prop="industry">
-                            <el-select v-model="form.industry" @change="handleChange">
-                                <el-option label="请选择行业类别" value=""></el-option>
+                            <el-select v-model="form.industry" @change="handleChange" placeholder='请选择行业类别'>
                                 <el-option :key="index" :label="item.text" :value="item.id" v-for="(item,index) in professionList" />
                             </el-select>
                         </el-form-item>
@@ -28,8 +28,7 @@
                             <el-input v-model="form.name" placeholder="请输入名称" />
                         </el-form-item>
                         <el-form-item label="行业分类" prop="principleactivity">
-                            <el-select v-model="form.principleactivity">
-                                <el-option label="请选择行业分类" value=""></el-option>
+                            <el-select v-model="form.principleactivity"  placeholder='请选择行业分类'>
                                 <el-option :key="item.key" :label="item.text" :value="item.id" v-for="item in professionChildList" />
                             </el-select>
                         </el-form-item>
@@ -39,8 +38,7 @@
                             <el-input v-model="form.artificialperson" placeholder="请输入法人代表" />
                         </el-form-item>
                         <el-form-item label="省份" prop="province">
-                            <el-select v-model="form.province" @change="handleChange1">
-                                <el-option label="请选择省份" value=""></el-option>
+                            <el-select v-model="form.province" @change="handleChange1"  placeholder='请选择省份'>
                                 <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in areaList" />
                             </el-select>
                         </el-form-item>
@@ -50,8 +48,7 @@
                             <el-input v-model="form.creditcode" placeholder="请输入统一信用代码" />
                         </el-form-item>
                         <el-form-item label="城市" prop="city">
-                            <el-select v-model="form.city" @change="handleChange2">
-                                <el-option label="请选择城市" value=""></el-option>
+                            <el-select v-model="form.city" @change="handleChange2"  placeholder='请选择城市'>
                                 <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in cityList" />
                             </el-select>
                         </el-form-item>
@@ -61,8 +58,7 @@
                             <el-input v-model="form.phoneno" placeholder="请输入联系电话" />
                         </el-form-item>
                         <el-form-item label="区域/县" prop="area">
-                            <el-select v-model="form.area">
-                                <el-option label="请选择区域/县" value=""></el-option>
+                            <el-select v-model="form.area"  placeholder='请选择区域/县'>
                                 <el-option :key="item.key" :label="item.text" :value="item.key" v-for="item in distractList" />
                             </el-select>
                         </el-form-item>
@@ -434,6 +430,7 @@ export default {
                 let contactperson = row.ContactPerson;
                 let mobilephone = row.MobilePhone;
                 let parentId = row.ParentId;
+                let parentName = row.ParentName;
                 let phoneno = row.PhoneNo;
                 let creditcode = row.CreditCode;
                 let artificialperson = row.ArtificialPerson;
@@ -474,6 +471,7 @@ export default {
                     isenable,
                     province,
                     city,
+                    parentName,
                     area,
                     address,
                     contactperson,

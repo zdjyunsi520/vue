@@ -6,7 +6,7 @@ import qs from "qs";
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 const emptyReg = /[\r\n\t\ ]+/g;
 
-function transformRequest(data) {
+function transformRequest (data) {
   if (data) {
     const keys = Object.keys(data);
     keys.forEach(v => {
@@ -29,7 +29,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // 超时
   timeout: 60000,
-  paramsSerializer(params) {
+  paramsSerializer (params) {
     params = transformRequest(params);
     return qs.stringify(params, { arrayFormat: "brackets" });
   }
@@ -76,15 +76,15 @@ service.interceptors.response.use(res => {
       });
     }, 1000);
   } else if (code == 50000) {
-    Message.error({
-      message: res.data.msg + res.config.url,
-      duration: 5000
-    });
-    //Notification.info({ title: res.data.msg, message: res.config.url });
+    // Message.error({
+    //   message: res.data.msg + res.config.url,
+    //   duration: 5000
+    // });
+    Notification.info({ title: res.data.msg });
     return Promise.reject(res.data);
   } else if (code == 40001) {
     Message.warning({
-      message: res.data.msg + res.config.url,
+      message: res.data.msg,
       duration: 5000
     });
     // Notification.warning({
@@ -104,11 +104,11 @@ service.interceptors.response.use(res => {
   }
 });
 
-export function get(url, params) {
+export function get (url, params) {
   return service({ url, method: "get", params });
 }
 
-export function post(url, data, baseUrl) {
+export function post (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
   let headers = { version: "1.0", fromurl: "system" };
@@ -117,7 +117,7 @@ export function post(url, data, baseUrl) {
   }
   return service({ url, method: "post", data, headers });
 }
-export function postFile(url, data, baseUrl) {
+export function postFile (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
   let headers = {
@@ -131,7 +131,7 @@ export function postFile(url, data, baseUrl) {
   return service({ url, method: "post", data, headers });
 }
 
-export function post2(url, data, baseUrl) {
+export function post2 (url, data, baseUrl) {
   if (baseUrl) url = `http://api${baseUrl}t.xtioe.com${url}`;
   const token = getToken();
   let headers = { version: "1.0", fromurl: "system" };
@@ -141,14 +141,14 @@ export function post2(url, data, baseUrl) {
   }
   return service({ url, method: "post", data, headers });
 }
-export function put(url, params) {
+export function put (url, params) {
   return service({ url, method: "put", params });
 }
-export function putJSON(url, data) {
+export function putJSON (url, data) {
   return service({ url, method: "put", data });
 }
 
-export function deleted(url, params) {
+export function deleted (url, params) {
   return service({ url, method: "delete", params });
 }
 
