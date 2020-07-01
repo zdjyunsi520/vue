@@ -322,7 +322,7 @@ export default {
         this.info = res.data.CommonData;
         this.otherData = res.data.OtherData;
       });
-      // this.getMeasureDataHistory();我把这里注释了
+      this.getMeasureDataHistory();//曲线
       if (this.interval) {
         this.timeout = setTimeout(this.getMeasureDataInterval, 15000);
       }
