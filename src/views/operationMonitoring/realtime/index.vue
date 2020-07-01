@@ -308,19 +308,28 @@ export default {
       this.lineChartData = lineChartData[type];
     },
     getMeasureData() {
+      this.interval = true;
+      clearTimeout(this.timeout);
       this.info = {};
       this.otherData = [];
       this.labelName = "A相电流";
       this.type = "UA";
+      this.getMeasureDataInterval();
+    },
+    getMeasureDataInterval() {
       getMeasureData(this.form).then(res => {
         let list = res.data;
         this.info = res.data.CommonData;
         this.otherData = res.data.OtherData;
       });
+      // this.getMeasureDataHistory();我把这里注释了
+      if (this.interval) {
+        this.timeout = setTimeout(this.getMeasureDataInterval, 15000);
+      }
     },
     getMeasureData1() {
-      this.interval = true;
-      clearTimeout(this.timeout);
+      // this.interval = true;
+      // clearTimeout(this.timeout);
       this.getMeasureDataHistory();
     },
     getMeasureDataHistory() {
@@ -349,9 +358,9 @@ export default {
       getMeasureDataHistory(this.form).then(r => {
         this.historyData = r.data;
       });
-      if (this.interval) {
-        this.timeout = setTimeout(this.getMeasureDataHistory, 15000);
-      }
+      // if (this.interval) {
+      //   this.timeout = setTimeout(this.getMeasureDataHistory, 15000);
+      // }
     },
 
     handleNodeClick(obj, event) {
