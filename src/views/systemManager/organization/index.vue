@@ -82,7 +82,6 @@
       <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" />
     </div>
 
-    <create ref="create" @getList="getList"></create>
   </div>
 </template>
 
@@ -93,10 +92,8 @@ import {
   disabled as locklock
 } from "@/api/systemManager/organization";
 
-import create from "./components/create";
 export default {
   name: "",
-  components: { create },
   data() {
     return {
       deptType: null,
@@ -203,11 +200,7 @@ export default {
       // target.handleOpen();
       // target.title = "添加";
     },
-    handleCreateUser() {
-      const target = this.$refs.create;
-      target.handleOpen();
-      target.title = "创建账号";
-    },
+    
     handleUpdateRole(row) {
       const tenantId = row.Id;
       const data = { tenantId };

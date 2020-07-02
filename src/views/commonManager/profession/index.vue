@@ -23,23 +23,6 @@
       </el-form>
     </div>
 
-    <!-- <el-row :gutter="20" class="containerbox dragbox" ref="dragbox">
-      <el-col :xs="{span: 24}" class="treebox comheight dragleft">
-        <div style="background:#fff;height:100%;padding:0 10px;">
-          <el-scrollbar style="height:100%" v-loading="loading" element-loading-text="Loading" element-loading-spinner="el-icon-loading">
-            <el-tree :data="dataList" :props="defaultProps" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
-          </el-scrollbar>
-        </div>
-      </el-col>
-      <el-col class="dragresize">
-        <span class="iconslider">
-          <svg-icon icon-class="ic_drag" style="font-size:26px;margin-left:-9px;" />
-          <i class="el-icon-arrow-left" style="font-size:12px;margin-left:-2px;" />
-        </span>
-      </el-col>
-      <el-col :xs="{span: 24}" class="comheight dragright">
-        <div class="bg-white infobox">
-          <el-scrollbar> -->
 
     <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll" :expandedKeys='expandedKeys'>
       <div class="form-smtitle marginBottom30">基础信息 </div>
