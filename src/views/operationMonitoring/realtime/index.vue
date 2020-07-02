@@ -559,23 +559,24 @@ export default {
 .rightradiobox .el-radio-group {
   vertical-align: top;
 }
+ 
 @media screen and (max-width: 768px) {
   .rightradiobox {
     position: relative;
-    text-align: right;
+    text-align: left;
     right: 0;
     & > b {
       display: block;
       margin-bottom: 15px;
     }
-    & > span {
-      display: block;
-      text-align: right;
-      padding: 10px 0;
+    &> label{
+        display: block;
+        padding:10px 0 
     }
+    
     .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
-      width: 60%;
+      width: 45%;
     }
     .el-radio-group {
       display: block;

@@ -4,7 +4,7 @@
       <p class="form-smtitle">{{title}} </p>
 
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" style="width:370px;">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px">
 
           <el-form-item label="所属单位" prop="text" v-if="!form.id">
             <el-input v-model="form.text" placeholder="" :disabled="true" />
@@ -206,5 +206,8 @@ export default {
 /deep/.switch-mx .el-switch__label--right {
   z-index: 9;
   left: -20px;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
 }
 </style>

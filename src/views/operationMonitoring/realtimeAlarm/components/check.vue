@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">确认描述</p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="8" :xs="24">
               <el-form-item label="确认描述：" prop="description">
@@ -96,7 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 /deep/.onlyform-box .el-form .el-form-item {
-  width: 390px;
+  width: 350px;
   display: inline-block;
   vertical-align: text-top;
 }

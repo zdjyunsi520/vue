@@ -298,4 +298,11 @@ export default {
 /deep/.dragright .el-scrollbar__bar.is-horizontal {
   display: none;
 }
+.mobile{
+  .tabcount{display:none;}
+  .videolist>div{
+    width:100%!important;
+    height:200px!important;
+  }
+}
 </style>

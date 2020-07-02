@@ -7,8 +7,7 @@
         <div class="search-box onlyform-box" style="border-bottom:none">
           <p class="form-smtitle">值班配置</p>
 
-          <el-col :span="8">
-            <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="88px" style="padding-right: 0px;">
+            <el-form ref="form" :model="form" label-position="right" :rules="rules" label-width="80px" style="padding-right: 0px;">
               <el-row>
                 <el-col :span="24">
                   <el-form-item label="值班班组" prop="TeamId">
@@ -38,7 +37,6 @@
                 </el-col>
               </el-row>
             </el-form>
-          </el-col>
         </div>
 
       </el-col>
@@ -218,5 +216,10 @@ export default {
 
 .comheight .containerbox {
   height: 100%;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
+  display: inline-block;
+  vertical-align: text-top;
 }
 </style>

@@ -54,8 +54,8 @@
       </el-table>
       <!-- <pagination :total="total" :page.sync="queryParams.pageno" :limit.sync="queryParams.pagesize" @pagination="getList" /> -->
 
-      <el-dialog :title="'排班维护'" :visible.sync="dialogAddVisible" center width="550px" append-to-body>
-        <el-form :model="form" ref="queryForm" class="xl-querybox" :rules="mrules" label-width="130px">
+      <el-dialog :title="'排班维护'" :visible.sync="dialogAddVisible" center width="370px" append-to-body>
+        <el-form :model="form" ref="queryForm" :rules="mrules" label-width="80px">
           <el-form-item label="值班班组" prop="dutyteamId">
             <el-select disabled v-model="form.dutyteamId" clearable placeholder="请选择值班班组" style="width:100%">
               <el-option v-for="(item,index) in dutyteamIds" :key="index" :label="item.Name" :value="item.Id"></el-option>
@@ -647,6 +647,12 @@ export default {
     line-height: 2;
     display: block;
     margin: 0;
+  }
+}
+
+ @media screen and (max-width:768px) {
+  .el-dialog{
+        width: 100%!important;
   }
 }
 </style>

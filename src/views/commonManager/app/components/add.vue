@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}}APP</p>
-      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true" style="width:390px;">
+      <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="100px" :inline-message="true">
         <el-form-item label="应用名称" prop="Type">
           <el-select v-model="form.Type" placeholder="">
             <el-option v-for="(item,index) in appNameList" :key="index" :label="item.value" :value="item.key"></el-option>
@@ -231,5 +231,8 @@ export default {
 }
 /deep/.el-upload-list--picture-card .el-upload-list__item {
   margin: 0 8px 0 0 !important;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 370px;
 }
 </style>

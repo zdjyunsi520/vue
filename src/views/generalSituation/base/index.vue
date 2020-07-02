@@ -620,6 +620,13 @@ h6 {
     font-size: 14px;
     font-weight: normal;
 }
+ .mobile{
+    .chart-wrapper .rightradiobox {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    } 
+ }
 
 @media (max-width: 1024px) {
     .chart-wrapper {

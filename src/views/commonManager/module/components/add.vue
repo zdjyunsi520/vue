@@ -3,7 +3,7 @@
     <div class="search-box  onlyform-box">
       <p class="form-smtitle">{{smtitle}}{{title}} </p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style='width:370px'>
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true">
           <el-form-item :label='title+"名称"' prop="name">
             <el-input v-model="form.name" :placeholder='"请输入"+title+"名称"' />
           </el-form-item>
@@ -202,4 +202,8 @@ export default {
   margin-top: -10px;
   width: 100%;
 }
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
+}
+
 </style>

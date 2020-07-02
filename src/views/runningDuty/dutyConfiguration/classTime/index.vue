@@ -30,9 +30,9 @@
           </div>
         </template>
         <el-table-column type="selection" fixed="left" width="50" />
-        <el-table-column label="班次类型" min-width="150" prop="Name" />
+        <el-table-column label="班次类型" prop="Name" />
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" min-width="230">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleSet(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>设置班次

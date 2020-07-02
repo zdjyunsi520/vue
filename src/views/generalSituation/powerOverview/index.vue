@@ -492,7 +492,16 @@ export default {
 .svgcolor3 {
     color: #f3a248;
 }
-
+ .mobile{
+    .chart-wrapper .rightradiobox {
+        position: absolute;
+        top: -20px;
+        right: 20px;
+    } 
+    .legendbox.lx{
+        width:100%
+    }
+ }
 
 @media (max-width: 1366px) {
     .dragbox .dragleft{

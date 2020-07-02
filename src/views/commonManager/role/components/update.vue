@@ -13,8 +13,8 @@
           <el-form-item label="排序号" prop="sortindex">
             <el-input-number v-model="form.sortindex" controls-position="right" :min="0" :max="9999" />
           </el-form-item>
-          <el-form-item label="模块权限" prop="moduleids">
-            <el-row v-for="item in moduleList" :key="item.ModuleId" style="width:600px">
+          <el-form-item label="模块权限" prop="moduleids" >
+            <el-row v-for="item in moduleList" :key="item.ModuleId" class='rowbox'>
               <el-col :span="24" class="medium-box">
                 <el-checkbox @change="handleChange(item)" v-model="item.IsSelect">{{item.ModuleName}}</el-checkbox>
               </el-col>
@@ -310,6 +310,9 @@ export default {
   }
 }
 
+  .rowbox{
+    width:600px;
+  }
 .sm-box {
   border-radius: 2px;
   position: relative;
@@ -333,6 +336,9 @@ export default {
 @media screen and (max-width: 768px) {
   .sm-box::before {
     display: none;
+  }
+  .rowbox{
+    width:100%!important;
   }
 }
 </style>

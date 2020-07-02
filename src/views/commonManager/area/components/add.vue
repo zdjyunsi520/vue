@@ -3,7 +3,7 @@
     <div class="search-box onlyform-box">
       <p class="form-smtitle">{{title}} </p>
       <el-scrollbar class="marginright-fx">
-        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" style="max-width:370px;">
+        <el-form ref="form" label-position="right" :model="form" :rules="rules" label-width="80px" :inline-message="true" >
           <el-row>
             <el-col :span="24" v-if="hasprovince">
               <el-form-item label="省份" prop="p_parentKey">
@@ -229,5 +229,8 @@ export default {
   top: 50%;
   margin-top: -10px;
   width: 100%;
+}
+/deep/.onlyform-box .el-form .el-form-item {
+  width: 350px;
 }
 </style>

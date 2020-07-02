@@ -92,5 +92,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@media screen and (max-width: 768px){
+  /deep/.dragright {
+      width: calc(100% - 0px) !important;
+  }
+}
 </style>

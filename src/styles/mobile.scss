@@ -3,11 +3,14 @@
          //  &.middletable {
          //      height: auto!important;
          //  }
-         min-height: 180px;
+         min-height: 200px;
      }
  }
  
  @media screen and (max-width:768px) {
+     .app-container{
+        display: block;
+     }
      .comheight {
          height: auto!important;
          margin-bottom: 10px;
@@ -15,16 +18,27 @@
      .treebox .el-tree {
          padding-bottom: 30px;
      }
+     .dragbox .dragresize{
+         display: none;
+     }
      .el-col-push-1 {
          left: 0;
      }
      .el-pagination {
          white-space: initial;
      }
-     .dragleft,
+     .dragleft{
+        width:100%!important;
+    }
      .dragright {
-         width: 100%!important;
+         width:calc(100% - 10px)!important;
      }
+     .chart-wrapper .rightradiobox[data-v-201821ba] {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
      .mobilewrapper {
          &.screenbg {
              padding: 20px 0;
@@ -75,10 +89,29 @@
          }
      }
      .el-table {
-         height: auto!important;
-         min-height: 400px;
+         height: inherit!important;
+         min-height:200px;
      }
      .icon-body {
          width: 100%;
      }
+ }
+
+ .mobile{
+    .chart-wrapper .rightradiobox {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    } 
+    .onlyform-box .el-form .el-form-item{
+        width:92%!important;
+    }
+    
+    .icon-body {
+        width:100%!important;
+        .icon-list div{
+            margin: 0px 7px 7px 0px;
+        }
+    }
+
  }

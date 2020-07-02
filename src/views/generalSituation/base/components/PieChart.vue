@@ -93,7 +93,7 @@ export default {
             name: title,
             type: "pie",
             radius: ["60%", "85%"],
-            center: ["55%", "48%"],
+            center: ["50%", "48%"],
             hoverOffset: 3,
             emphasis: {
               itemStyle: {

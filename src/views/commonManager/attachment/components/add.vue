@@ -9,29 +9,29 @@
               <p class="form-smtitle">基础设置</p>
             </el-col>
           </el-row>
-          <el-row>
-            <el-form-item label="名称：" label-width='120px' prop="Name">
-              <el-input v-model="form.Name" placeholder="请输入名称" />
-            </el-form-item>
+          <el-row class='rowbox'>
+            <el-col :span="12" :xs='24'>
+              <el-form-item label="名称：" label-width='70px' prop="Name">
+                <el-input v-model="form.Name" placeholder="请输入名称" />
+              </el-form-item>
+              <el-form-item label="代码：" label-width='70px' prop="Key">
+                <el-input v-model="form.Key" placeholder="请输入代码" />
+              </el-form-item>
+              <el-form-item label="描述：" label-width='70px' prop="Description">
+                <el-input type="textarea" :rows="5" v-model="form.Description" placeholder="请输入描述" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="11" :push='1' :xs='24'>
             <el-form-item label="是否多版本：" label-width='200px' prop="IsMultiVersion">
               <el-switch v-model="form.IsMultiVersion" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item label="代码：" label-width='120px' prop="Key">
-              <el-input v-model="form.Key" placeholder="请输入代码" />
             </el-form-item>
             <el-form-item label="版本是否来自压缩包：" label-width='200px' prop="IsMultiVersionFromPackage">
               <el-switch v-model="form.IsMultiVersionFromPackage" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"> </el-switch>
             </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item label="描述：" label-width='120px' prop="Description">
-              <el-input type="textarea" :rows="5" v-model="form.Description" placeholder="请输入描述" />
-            </el-form-item>
             <el-form-item label="删除数据同时删除文件：" label-width='200px' prop="IsRemoveFile">
               <el-switch v-model="form.IsRemoveFile" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="是" inactive-text="否"></el-switch>
             </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="24" :xs='24'>
@@ -333,6 +333,10 @@ export default {
   .el-form-item__content {
     margin-left: 140px !important;
   }
+}
+.rowbox{width:800px}
+.mobile{
+  .rowbox{width:100%}
 }
 .avatar {
   width: 100%;
