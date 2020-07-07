@@ -5,7 +5,7 @@
       <el-col :xs="{span: 24}" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding-left:10px;">
           <el-scrollbar>
-            <el-tree v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='false' node-key="id" :expand-on-click-node="false">
+            <el-tree v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="treeData" :props="defaultProps" ref="tree" :highlight-current="true" @node-click="handleNodeClick" :default-expand-all='true' node-key="id" :expand-on-click-node="false">
               <span class="el-tree-node__label" slot-scope="{ node, data }">
                 <svg-icon :icon-class="
                     
@@ -298,11 +298,13 @@ export default {
 /deep/.dragright .el-scrollbar__bar.is-horizontal {
   display: none;
 }
-.mobile{
-  .tabcount{display:none;}
-  .videolist>div{
-    width:100%!important;
-    height:200px!important;
+.mobile {
+  .tabcount {
+    display: none;
+  }
+  .videolist > div {
+    width: 100% !important;
+    height: 200px !important;
   }
 }
 </style>
