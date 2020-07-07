@@ -55,7 +55,7 @@
           </el-row>
           <el-row>
             <el-form-item label="附件" prop="AttachmentKey" class='xswidth'>
-              <el-upload :disabled="disabled" :file-list="imageUrl" action="http://apicommon.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+              <el-upload :disabled="disabled" :file-list="imageUrl" action="http://apicommont.xtioe.com/File/Upload" :data="{Token:token,filekey:'patroljob'}" :headers="{methods:'post'}" list-type="picture-card" ref="upload" accept=".jpg,.jpeg,.png" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
               </el-upload>
@@ -379,7 +379,7 @@ export default {
         this.imageUrl = this.form.AttachmentUrl.split(",").map(v => {
           return {
             name: v,
-            url: "http://apibiz.xtioe.com" + v,
+            url: "http://apibizt.xtioe.com" + v,
             uid: v
           };
         });

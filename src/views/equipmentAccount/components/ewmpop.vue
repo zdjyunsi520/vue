@@ -2,7 +2,7 @@
   <el-dialog title='' :visible.sync="dialogVisible" width="310px" center :show-close='false'>
     <div class='qrcode-main'>
       <h6>{{qrCode.title}}</h6>
-      <img v-if='qrCode.qrCodeUrl' :src="'http://apidev.xtioe.com'+qrCode.qrCodeUrl" class="ewm" />
+      <img v-if='qrCode.qrCodeUrl' :src="'http://apidevt.xtioe.com'+qrCode.qrCodeUrl" class="ewm" />
     </div>
   </el-dialog>
 </template>

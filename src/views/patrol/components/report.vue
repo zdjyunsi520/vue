@@ -9,7 +9,7 @@
           <span>巡视人员：{{dataInfo.PatrolUserName}}</span>
           <span>巡视成员：{{dataInfo.PatrolMemberNames}}</span>
           <!-- <span>确认人签名：{{dataInfo.ConfirmUserName}}<img :src="dataInfo.ElectricSign" class='signimg' /></span> -->
-          <span>确认人签名：<img v-if="dataInfo.ElectricSign" :src="'http://apibiz.xtioe.com'+dataInfo.ElectricSign" class='signimg' /></span>
+          <span>确认人签名：<img v-if="dataInfo.ElectricSign" :src="'http://apibizt.xtioe.com'+dataInfo.ElectricSign" class='signimg' /></span>
         </p>
         <el-button type="primary" icon="el-icon-printer" class="printbtn no-print" @click="handlePrint">打印</el-button>
       </div>
@@ -163,7 +163,7 @@
             <h6>{{index+1}}.8、附件</h6>
             <div v-for="power in item.Power" style="display: inline;margin-right:15px">
               <!-- <h5>{{power.Name}}</h5> -->
-              <img :src="'http://apibiz.xtioe.com'+power.Attachment" style='width:22%'>
+              <img :src="'http://apibizt.xtioe.com'+power.Attachment" style='width:22%'>
               <!-- <span>附件url地址{{power.Attachment}}</span> -->
               <!-- <span>错误详情{{power.ErrorDetail}}</span>
                 <span>是否正常{{power.IsNormal}}</span> -->

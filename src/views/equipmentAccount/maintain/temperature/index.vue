@@ -55,7 +55,7 @@
                 <el-col :span="24">
                   <el-form-item label="设备二维码">
                     <div class="ewmbox">
-                      <img :src="'http://apidev.xtioe.com'+infoData.QRCode" class="ewm" />
+                      <img :src="'http://apidevt.xtioe.com'+infoData.QRCode" class="ewm" />
                       <el-button type="text" @click="showEwm(infoData)">点击查看</el-button>
                     </div>
                   </el-form-item>

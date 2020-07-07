@@ -45,8 +45,8 @@
         <el-table-column label="是否强制更新" width="130" prop="ForcedUpdate" :formatter="filterCancel" />
         <el-table-column label="APK文件" min-width="200" prop="FileUrl">
           <template slot-scope="{row}">
-            <el-link type="primary" :href="'http://apitool.xtioe.com'+row.FileUrl">{{row.VersionName}}</el-link>
-            <!-- <el-link type="primary" :href="'http://apitool.xtioe.com'+row.FileUrl.substring(0, row.FileUrl.indexOf('?'))">{{row.VersionName}}</el-link> -->
+            <el-link type="primary" :href="'http://apitoolt.xtioe.com'+row.FileUrl">{{row.VersionName}}</el-link>
+            <!-- <el-link type="primary" :href="'http://apitoolt.xtioe.com'+row.FileUrl.substring(0, row.FileUrl.indexOf('?'))">{{row.VersionName}}</el-link> -->
           </template>
         </el-table-column>
         <el-table-column label="更新说明" min-width="200" prop="UpdateDescription" />
