@@ -390,19 +390,19 @@ export const constantRoutes = [
       //     activeMenu: '/Common/Industry'
       //   }
       // },
-      // {
-      //   name: "/systemManager/organization/components/role",
-      //   path: "/systemManager/organization/components/role",
-      //   component: () =>
-      //     import("@/views/systemManager/organization/components/role"),
-      //   meta: {
-      //     title: "组织结构",
-      //     icon: "dashboard",
-      //     noCache: true,
-      //     breadcrumb: true,
-      //     activeMenu: '/Org/Tenant'
-      //   }
-      // },
+      {
+        name: "/systemManager/organization/components/role",
+        path: "/systemManager/organization/components/role",
+        component: () =>
+          import("@/views/systemManager/organization/components/role"),
+        meta: {
+          title: "组织结构",
+          icon: "dashboard",
+          noCache: true,
+          breadcrumb: true,
+          activeMenu: '/Org/Tenant'
+        }
+      },
       {
         name: "/systemManager/user/components/add",
         path: "/systemManager/user/components/add",
