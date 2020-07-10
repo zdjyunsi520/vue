@@ -1,117 +1,117 @@
- @media screen and (max-width:1366px) {
-     .el-table {
-         //  &.middletable {
-         //      height: auto!important;
-         //  }
-         min-height: 200px;
-     }
- }
- 
- @media screen and (max-width:768px) {
-     .app-container{
-        display: block;
-     }
-     .comheight {
-         height: auto!important;
-         margin-bottom: 10px;
-     }
-     .treebox .el-tree {
-         padding-bottom: 30px;
-     }
-     .dragbox .dragresize{
-         display: none;
-     }
-     .el-col-push-1 {
-         left: 0;
-     }
-     .el-pagination {
-         white-space: initial;
-     }
-     .dragleft{
-        width:100%!important;
+@media screen and (max-width:1366px) {
+    .el-table {
+        //  &.middletable {
+        //      height: auto!important;
+        //  }
+        min-height: 200px;
     }
-     .dragright {
-         width:calc(100% - 10px)!important;
-     }
-     .chart-wrapper .rightradiobox[data-v-201821ba] {
+}
+
+@media screen and (max-width:768px) {
+    .el-message-box {
+        width: 90%!important;
+    }
+    .app-container {
+        display: block;
+    }
+    .comheight {
+        height: auto!important;
+        margin-bottom: 10px;
+    }
+    .treebox .el-tree {
+        padding-bottom: 30px;
+    }
+    .dragbox .dragresize {
+        display: none;
+    }
+    .el-col-push-1 {
+        left: 0;
+    }
+    .el-pagination {
+        white-space: initial;
+    }
+    .dragleft {
+        width: 100%!important;
+    }
+    .dragright {
+        width: calc(100% - 10px)!important;
+    }
+    .chart-wrapper .rightradiobox[data-v-201821ba] {
         position: absolute;
         top: 10px;
         right: 10px;
     }
+    .mobilewrapper {
+        &.screenbg {
+            padding: 20px 0;
+            overflow: auto;
+        }
+        &.userwarp {
+            background-size: cover!important;
+        }
+        .topdata {
+            width: 100%;
+        }
+        .count-box {
+            font-size: 12px!important;
+        }
+        .boxheight1 {
+            height: 25vh!important;
+            .ledgebox {
+                right: 5%;
+                top: 29%;
+            }
+            .circlebox-lx {
+                top: 10%;
+                left: 16%;
+            }
+        }
+        .smboxheight3 {
+            height: 19vh!important;
+        }
+        .ledgeright1 {
+            margin-left: -3%!important;
+        }
+        .circlebox {
+            padding: 3% 0% 2%!important;
+        }
+        .commonchart {
+            display: none!important;
+        }
+        .smbarbox span {
+            top: 20%!important;
+        }
+        .img_title {
+            width: 51%!important;
+            height: auto!important;
+        }
+        .tophead {
+            padding: 20px 0px 20px!important;
+            ;
+        }
+    }
+    .el-table {
+        height: inherit!important;
+        min-height: 200px;
+    }
+    .icon-body {
+        width: 100%;
+    }
+}
 
-     .mobilewrapper {
-         &.screenbg {
-             padding: 20px 0;
-             overflow: auto;
-         }
-         &.userwarp {
-             background-size: cover!important;
-         }
-         .topdata {
-             width: 100%;
-         }
-         .count-box {
-             font-size: 12px!important;
-         }
-         .boxheight1 {
-             height: 25vh!important;
-             .ledgebox {
-                 right: 5%;
-                 top: 29%;
-             }
-             .circlebox-lx {
-                 top: 10%;
-                 left: 16%;
-             }
-         }
-         .smboxheight3 {
-             height: 19vh!important;
-         }
-         .ledgeright1 {
-             margin-left: -3%!important;
-         }
-         .circlebox {
-             padding: 3% 0% 2%!important;
-         }
-         .commonchart {
-             display: none!important;
-         }
-         .smbarbox span {
-             top: 20%!important;
-         }
-         .img_title {
-             width: 51%!important;
-             height: auto!important;
-         }
-         .tophead {
-             padding: 20px 0px 20px!important;
-             ;
-         }
-     }
-     .el-table {
-         height: inherit!important;
-         min-height:200px;
-     }
-     .icon-body {
-         width: 100%;
-     }
- }
-
- .mobile{
+.mobile {
     .chart-wrapper .rightradiobox {
         position: absolute;
         top: 10px;
         right: 10px;
-    } 
-    .onlyform-box .el-form .el-form-item{
-        width:92%!important;
     }
-    
+    .onlyform-box .el-form .el-form-item {
+        width: 92%!important;
+    }
     .icon-body {
-        width:100%!important;
-        .icon-list div{
+        width: 100%!important;
+        .icon-list div {
             margin: 0px 7px 7px 0px;
         }
     }
-
- }
+}

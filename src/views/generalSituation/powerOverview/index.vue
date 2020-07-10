@@ -127,16 +127,16 @@
                                             <el-col :span="18" :xs="24">
                                                 <div class="chart-wrapper">
                                                     <el-row class="legendbox lx">
-                                                        <el-col :span="6">
+                                                        <el-col :span="6" :xs="12">
                                                             <p>今日最高<span>{{electricLoad.TodayHighest}}</span></p>
                                                         </el-col>
-                                                        <el-col :span="6">
+                                                        <el-col :span="6" :xs="12">
                                                             <p>昨日最高<span>{{electricLoad.YesterdayHighest}}</span></p>
                                                         </el-col>
-                                                        <el-col :span="6">
+                                                        <el-col :span="6" :xs="12">
                                                             <p>本月最高<span>{{electricLoad.ThisMonthHighest}}</span></p>
                                                         </el-col>
-                                                        <el-col :span="6">
+                                                        <el-col :span="6" :xs="12">
                                                             <p>上月最高<span>{{electricLoad.LastMonthHighest}}</span></p>
                                                         </el-col>
                                                     </el-row>
@@ -499,7 +499,8 @@ export default {
         right: 20px;
     } 
     .legendbox.lx{
-        width:100%
+        width:100%;
+        padding: 10px 0px 10px!important;
     }
  }
 
