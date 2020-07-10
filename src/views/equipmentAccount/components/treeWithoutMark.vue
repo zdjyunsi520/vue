@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">123213
+  <div class="app-container">
     <el-row :gutter="20" class="comheight dragbox" ref="dragbox">
       <el-col :xs="{ span: 24 }" class="treebox comheight dragleft">
         <div style="background:#fff;height:100%;padding-left:10px;">
