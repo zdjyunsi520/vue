@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import commonTree from "@/views/equipmentAccount/components";
+import commonTree from "@/views/equipmentAccount/components/treeWithoutMark";
 
 import baseProp from "../maintain/baseProp";
 import powerRoom from "../maintain/powerRoom";
