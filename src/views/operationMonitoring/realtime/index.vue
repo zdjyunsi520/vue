@@ -106,7 +106,8 @@
                   <label>日期：</label>
                   <el-date-picker v-model="time" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker> <span v-if="form.cycleType==1">至</span>
                   <el-date-picker v-model="time1" v-if="form.cycleType==1" type="datetime" size="small" placeholder="选择时间"></el-date-picker>
-                  <el-date-picker v-model="day" v-show="form.cycleType!=1" :type="form.cycleType==2?'date':'month'" size="small" placeholder="选择时间"></el-date-picker>
+                  <el-date-picker v-model="day" v-show="form.cycleType==2" type="date" size="small" placeholder="选择时间"></el-date-picker>
+                  <el-date-picker v-model="month" v-show="form.cycleType==3" type="month" size="small" placeholder="选择时间"></el-date-picker>
                   <el-radio-group v-model="form.cycleType" size="mini">
                     <el-radio-button :label="1">15分钟</el-radio-button>
                     <el-radio-button :label="2">日</el-radio-button>
@@ -221,7 +222,7 @@ export default {
   watch: {
     "form.intervalId"() {
       this.getMeasureData();
-      this.getMeasureData1();
+      // this.getMeasureData1();
     },
     "form.type"() {
       this.getMeasureData1();
@@ -233,6 +234,9 @@ export default {
       this.getMeasureData1();
     },
     time1() {
+      this.getMeasureData1();
+    },
+    month() {
       this.getMeasureData1();
     },
     day() {
@@ -303,12 +307,7 @@ export default {
       //   }
       // });
     },
-    // 15分钟/日/月切换
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type];
-      this.time = "";
-      this.time1 = "";
-    },
+    
     getMeasureData() {
       this.interval = true;
       clearTimeout(this.timeout);
@@ -333,10 +332,8 @@ export default {
       }
     },
     getMeasureData1() {
-      // this.interval = true;
-      // clearTimeout(this.timeout);
-      this.time = "";
-      this.time1 = "";
+      // this.time = "";
+      // this.time1 = "";
       this.getMeasureDataHistory();
     },
     getMeasureDataHistory() {
@@ -359,11 +356,11 @@ export default {
         this.form.endTime = day + " 23:59:59";
         this.day = day;
       } else {
-        let day = this.day || now;
-        day = this.parseTime(day, "{y}-{m}-");
-        this.form.beginTime = day + "01 00:00:00";
-        this.form.endTime = day + "31 23:59:59";
-        this.day = day;
+        let month = this.month || now;
+        month = this.parseTime(month, "{y}-{m}");
+        this.form.beginTime = month + "-01 00:00:00";
+        this.form.endTime = month + "-31 23:59:59";
+        this.month = month;
       }
 
       getMeasureDataHistory(this.form).then(r => {
@@ -384,52 +381,6 @@ export default {
       // this.$emit("getInfo", { id, type });
     }
 
-    /** 搜索菜单列表 */
-    // getList() {
-    //   this.loading = true;
-    //   fetchList(this.queryParams)
-    //     .then(response => {
-    //       this.dataList = response.data.map(v => {
-    //         // v.children = v.childs;
-    //         v.lvl = true;
-    //         return v;
-    //       });
-    //       this.dataList = response.data;
-
-    //       this.$refs.tree.setCurrentKey(this.dataList[0].id);
-    //       this.handleNodeClick(this.dataList[0]);
-    //       this.loading = false;
-    //       this.dataList.length && this.handleNodeClick(this.dataList[0]);
-    //     })
-    //     .finally(v => (this.loading = false));
-    // },
-    // getInfo() {
-    //   const id = this.operateId;
-    //   id &&
-    //     getInfo({ id }).then(r => {
-    //       this.data = Object.assign({}, r.data);
-    //       this.smform = Object.assign({}, r.data);
-    //       this.smform.Type =
-    //         this.smform.Type == 1
-    //           ? "分类"
-    //           : this.smform.Type == 2
-    //           ? "应用"
-    //           : "权限";
-    //     });
-    // },
-    // getList123() {
-    //   this.getList();
-    //   this.getInfo();
-    // },
-    // handleNodeClick({ id, lvl }) {
-    //   if (lvl) {
-    //     this.addId = id;
-    //   } else {
-    //     this.addId = "";
-    //   }
-    //   this.operateId = id;
-    //   this.getInfo();
-    // },
   }
 };
 </script>
