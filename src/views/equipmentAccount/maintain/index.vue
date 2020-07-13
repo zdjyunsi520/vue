@@ -55,6 +55,7 @@ export default {
     let id = this.currentNode.id || this.currentNode.Id;
     this.currentNode.id = id;
     if (data) {
+      this.expandedKeys = [];
       this.expandedKeys.push(this.currentNode.tenantId);
     }
   },
@@ -92,9 +93,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   /deep/.dragright {
-      width: calc(100% - 0px) !important;
+    width: calc(100% - 0px) !important;
   }
 }
 </style>

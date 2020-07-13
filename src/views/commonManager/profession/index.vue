@@ -23,7 +23,6 @@
       </el-form>
     </div>
 
-
     <commonTree :dataList="dataList" nodeKey="key" :loading="loading" @getInfo="getInfo" :currentNode="currentNode" :needToScroll="needToScroll" :expandedKeys='expandedKeys'>
       <div class="form-smtitle marginBottom30">基础信息 </div>
       <el-form label-position="top" :model="smform" v-if="data&&data.Key" style="padding-right: 20px;">
@@ -119,6 +118,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { key } = this.currentNode;
+      this.expandedKeys = [];
       this.expandedKeys.push(this.currentNode.key);
       // const key = this.operateId;
       key &&

@@ -123,6 +123,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { id } = this.currentNode;
+      this.expandedKeys = [];
       this.expandedKeys.push(this.currentNode.id);
       id &&
         getInfo({ id }).then(r => {

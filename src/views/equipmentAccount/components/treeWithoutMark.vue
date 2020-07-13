@@ -181,6 +181,7 @@ export default {
         this.$nextTick(() => {
           let id = node[this.nodeKey] || node.Id;
           this.$refs.tree.setCurrentKey(id);
+          this.expandedKeys = [];
           this.expandedKeys.push(id);
         });
         const id = node.id;

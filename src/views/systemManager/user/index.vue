@@ -186,6 +186,7 @@ export default {
           let checkedNode = this.checkedNode ? this.checkedNode : r.data[0];
           this.$nextTick(() => {
             this.$refs.tree.setCurrentKey(checkedNode.id);
+            this.expandedKeys = [];
             this.expandedKeys.push(checkedNode.id);
           });
           this.handleNodeClick(checkedNode);

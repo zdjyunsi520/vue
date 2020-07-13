@@ -120,6 +120,7 @@ export default {
     getInfo(node) {
       this.currentNode = node;
       const { key } = this.currentNode;
+      this.expandedKeys = [];
       this.expandedKeys.push(this.currentNode.key);
       getInfo({ key }).then(r => {
         this.data = Object.assign({}, r.data);

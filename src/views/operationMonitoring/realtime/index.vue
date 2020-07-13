@@ -277,6 +277,7 @@ export default {
           this.expandedKeys = [];
           this.$nextTick(() => {
             this.$refs.tree.setCurrentKey(this.form.intervalId);
+            this.expandedKeys = [];
             this.expandedKeys.push(this.form.intervalId);
           });
         } else this.findFistInterval(response.data);
@@ -293,6 +294,7 @@ export default {
             this.$nextTick(() => {
               this.expandedKeys = [];
               this.$refs.tree.setCurrentKey(v.id);
+              this.expandedKeys = [];
               this.expandedKeys.push(v.id);
             });
           }
@@ -307,7 +309,7 @@ export default {
       //   }
       // });
     },
-    
+
     getMeasureData() {
       this.interval = true;
       clearTimeout(this.timeout);
@@ -380,7 +382,6 @@ export default {
       }
       // this.$emit("getInfo", { id, type });
     }
-
   }
 };
 </script>
@@ -490,7 +491,7 @@ export default {
   p {
     padding: 0 3%;
     display: flex;
-    label{
+    label {
       min-width: 150px;
       text-align: left;
     }
