@@ -654,8 +654,10 @@ h6 {
     .smdatabox .el-col p span b{
             font-size: 20px;
     }
-    .legendbox[data-v-201821ba] {
+    .legendbox.lx {
         padding: 10px 0px 10px;
+        width: auto!important;
+        margin: 0 -10px!important;
     }
 }
 
