@@ -37,8 +37,8 @@
         </el-button>
 
         <el-dropdown @command="handleCommand">
-          <el-button type="primary" icon=" el-icon-circle-plus-outline">
-            设置<i class="el-icon-arrow-down el-icon--right"></i>
+          <el-button type="primary" >
+            <svg-icon icon-class='ic_add' class="tablesvgicon"></svg-icon>设置<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="/runningDuty/dutyConfiguration/group/index">设置班组</el-dropdown-item>

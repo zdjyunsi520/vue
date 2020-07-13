@@ -352,4 +352,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mobile .search-box.xl-querybox .el-form{
+  padding-right:60px
+}
 </style>

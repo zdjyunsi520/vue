@@ -66,7 +66,7 @@
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="160">
+        <el-table-column label="操作" fixed="right" width="150">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑

@@ -42,7 +42,7 @@
         <el-table-column label="巡视人员" width="120" sortable prop="PatrolUserName"></el-table-column>
         <el-table-column label="确认人" width="130" sortable prop="ConfirmUserName"></el-table-column>
         <el-table-column label="报告时间" width="180" sortable prop="ReportedTime"></el-table-column>
-        <el-table-column label="操作" width="130" fixed="right">
+        <el-table-column label="操作" width="110" fixed="right">
           <template slot-scope="scope">
             <div>
 

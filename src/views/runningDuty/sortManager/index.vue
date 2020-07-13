@@ -88,8 +88,8 @@
         </span>
       </el-dialog>
 
-      <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="550px" append-to-body>
-        <el-form :model="copyform" ref="queryCopyForm" class="xl-querybox" :rules="mrules" label-width="130px">
+      <el-dialog title="轮值表复制" :visible.sync="dialogRotationVisible" center width="350px" append-to-body>
+        <el-form :model="copyform" ref="queryCopyForm" class="xl-querybox" :rules="mrules" label-width="100px" style="margin-right:10px;">
           <el-form-item label="排班日期" prop="starttime">
             <el-date-picker :picker-options="pickerOptions" v-model="copyform.starttime" type="date" style="width:100%" placeholder="请选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"> </el-date-picker>
           </el-form-item>
@@ -591,7 +591,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped >
 .timetips {
   position: absolute;
   right: 15px;
@@ -650,6 +650,9 @@ export default {
   }
 }
 
+/deep/.el-dialog__body {
+    padding: 25px 20px 10px !important;
+}
  @media screen and (max-width:768px) {
   .el-dialog{
         width: 100%!important;

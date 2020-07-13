@@ -44,4 +44,7 @@ export default {
 /deep/.smchartbox {
   margin-bottom: 15px;
 }
+
+
+
 </style>

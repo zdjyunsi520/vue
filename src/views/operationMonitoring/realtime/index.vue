@@ -314,7 +314,7 @@ export default {
       this.info = {};
       this.otherData = [];
       this.labelName = "A相电压";
-      this.type = "UA";
+      this.form.type = "UA";
       this.labelunit = "V";
       this.time = "";
       this.time1 = "";
@@ -490,7 +490,10 @@ export default {
   p {
     padding: 0 3%;
     display: flex;
-    justify-content: space-between;
+    label{
+      min-width: 150px;
+      text-align: left;
+    }
   }
 }
 .tips {

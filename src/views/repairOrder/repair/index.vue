@@ -66,7 +66,7 @@
             <div v-else>{{scope.row.Situation }}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="230">
+        <el-table-column label="操作" fixed="right">
           <template slot-scope="{row}">
             <div>
               <el-button type="primary" plain size="mini" @click="handleLook(row)">

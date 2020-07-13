@@ -493,11 +493,16 @@ export default {
     color: #f3a248;
 }
  .mobile{
-    .chart-wrapper .rightradiobox {
-        position: absolute;
-        top: -20px;
-        right: 20px;
-    } 
+     .chart-wrapper {
+        height:auto;
+
+        .rightradiobox {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+        } 
+    }
+
     .legendbox.lx{
         width:100%;
         padding: 10px 0px 10px!important;

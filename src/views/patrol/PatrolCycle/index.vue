@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column label="巡视人员" sortable width="130" prop="PatrolUserName" />
         <el-table-column label="巡视成员" sortable min-width="200" prop="PatrolMemberNames" />
-        <el-table-column label="操作" width="170" fixed="right">
+        <el-table-column label="操作" width="150" fixed="right">
           <template slot-scope="scope">
             <el-button type="primary" plain size="mini" @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑

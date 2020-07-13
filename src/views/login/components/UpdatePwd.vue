@@ -1,7 +1,7 @@
 <template>
   <div class="pwdbox">
     <div class="topbox">
-      <img src="../../../assets/logo/logo.png" class="logo">
+        <svg-icon icon-class="logo1" style="height:38px;width:110px;margin-bottom:18px"/>
       <div class="line"></div>
     </div>
     <div class="pwd-main">
@@ -337,6 +337,7 @@ export default {
     height: 100%;
     background-image: url("../../../assets/image/login-mbg.png");
     background-size: 100% 100%;
+  .topbox{display:none}
   }
 }
 </style>

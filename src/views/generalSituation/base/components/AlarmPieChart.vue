@@ -83,7 +83,7 @@ export default {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c}次"
+          formatter: "{a} <br/>{b} : {c}"
         },
         legend: {
           show: true,

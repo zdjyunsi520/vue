@@ -69,7 +69,7 @@
             <span v-else><i class="red dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="170" fixed="right">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
 

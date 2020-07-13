@@ -90,7 +90,7 @@ export default {
       this.chart.setOption({
         grid: {
           left: 0,
-          right: 40,
+          right: 10,
           bottom: 30,
           top: 50,
           containLabel: true
@@ -126,7 +126,7 @@ export default {
         },
         yAxis: {
           name: "单位(kW)",
-          nameGap: 20,
+          nameGap: 30,
           axisTick: {
             show: false
           },
@@ -141,7 +141,7 @@ export default {
           axisLabel: {
             fontSize: 12,
             color: "#909399",
-            margin: 30
+            margin: 20
           },
           splitLine: {
             lineStyle: {

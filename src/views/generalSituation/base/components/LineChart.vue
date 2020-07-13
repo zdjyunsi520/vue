@@ -88,8 +88,8 @@ export default {
     setOptions({ expectedData, xAxisData, actualData, legendData } = {}) {
       this.chart.setOption({
         grid: {
-          left: 30,
-          right: 10,
+          left: 10,
+          right: 15,
           bottom: 20,
           top: 50,
           containLabel: true
@@ -140,7 +140,7 @@ export default {
           axisLabel: {
             fontSize: 12,
             color: "#909399",
-            margin: 30
+            margin: 20
           },
           splitLine: {
             lineStyle: {

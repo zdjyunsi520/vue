@@ -38,7 +38,7 @@
     </div>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>2019-2020 xuntengdl.com 版权所有 闽ICP备19017481号</span>
+      <span>xtioe.com 版权所有 闽ICP备19017481号-3</span>
     </div>
   </div>
 </template>

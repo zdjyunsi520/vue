@@ -316,4 +316,7 @@ export default {
 /deep/.el-table th {
   height: 35px !important;
 }
+.mobile .search-box.xl-querybox .el-form{
+  padding-right:60px
+}
 </style>

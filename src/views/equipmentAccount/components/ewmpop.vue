@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title='' :visible.sync="dialogVisible" width="310px" center :show-close='false'>
+  <el-dialog title='' :visible.sync="dialogVisible" width="310px" center :show-close='false' top='30vh'>
     <div class='qrcode-main'>
       <h6>{{qrCode.title}}</h6>
       <img v-if='qrCode.qrCodeUrl' :src="'http://apidevt.xtioe.com'+qrCode.qrCodeUrl" class="ewm" />
@@ -33,6 +33,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.el-dialog__body {
+    padding: 25px 20px 45px !important;
+}
+
 /deep/.el-dialog__header {
   background: none;
   border: none;
