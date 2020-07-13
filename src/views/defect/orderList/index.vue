@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
+      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
       <el-form :inline="true" ref="queryForm" :model="queryParams" >
         <el-form-item label="用电单位：" prop="tenantId">
           <el-select v-model="queryParams.tenantId" placeholder="请选择">
@@ -43,7 +44,6 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">

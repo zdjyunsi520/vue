@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search-box xl-querybox">
+      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
       <el-form :inline="true" ref="queryForm" :model="queryParams" >
         <el-form-item label="工单编号：" prop="OrderCode">
           <el-input v-model="queryParams.OrderCode"  placeholder="请输入工单编号"></el-input>
@@ -32,7 +33,6 @@
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="text" @click="handleHighSearch"  class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
     </div>
     <div class="bg-white containerbox" ref="containerbox">
       <el-row class="table-btns">

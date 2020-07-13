@@ -2,6 +2,7 @@
   <div class="comheight comflexbox">
     <div class="search-box xl-querybox">
       <div class='sm-searchbox'>
+        <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
         <el-form :model="queryParams" ref="queryForm" :inline="true" class="xl-querybox formcontent-kz" :rules="rules" >
           <el-form-item label="用电单位：" prop="tenantId">
             <el-select v-model="queryParams.tenantId">
@@ -37,7 +38,6 @@
           <el-form-item>
           </el-form-item>
         </el-form>
-        <el-button type="text" @click="handleHighSearch" class="hightsearchbtn">高级筛选<i :class="isShow?'el-icon-arrow-down':'el-icon-arrow-up'" /></el-button>
       </div>
     </div>
     <div class="bg-white containerbox " ref="containerbox">
