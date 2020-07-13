@@ -91,13 +91,12 @@ export default {
           },
           formatter: function(parms) {
             return (
-              "用电类型 <br/>" +
+              title+" <br/>" +
               parms[0].marker +
               " " +
               parms[0].name +
               "：" +
-              parms[0].value +
-              " 户"
+              parms[0].value 
             );
           }
         },

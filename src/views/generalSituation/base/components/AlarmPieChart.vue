@@ -83,7 +83,7 @@ export default {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c}次"
         },
         legend: {
           show: true,
@@ -127,21 +127,21 @@ export default {
             label: {
               show: false
               // position: "center"
-            }, 
+            },
             labelLine: {
               show: false
             },
             emphasis: {
               label: {
-                show: true,
+                show: false,
                 fontSize: "14",
-                formatter: "{d}次\n{b}"
+                formatter: "{c}次\n{b}"
               },
               labelLine: {
-              show: true
+                show: false
+              }
             },
-            },
-           
+
             radius: "50%",
             center: ["65%", "50%"],
             data: listData

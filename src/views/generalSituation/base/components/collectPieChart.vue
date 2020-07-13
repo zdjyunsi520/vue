@@ -80,11 +80,11 @@ export default {
       });
     },
 
-    setOptions({ title, text, colors, listData ,rate} = {}) {
+    setOptions({ title, text, colors, listData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c}次"
+          formatter: "{a} <br/>{b} : {d}%"
         },
 
         color: colors,
@@ -113,7 +113,7 @@ export default {
                     formatter: params => {
                       return (
                         "{value| " +
-                        rate.toFixed(1) +
+                        params.value.toFixed(1) +
                         "%} \n{name|" +
                         text +
                         "}"
@@ -137,7 +137,7 @@ export default {
                 }
               },
               {
-                value:listData[1].value,
+                value: 100 - parseInt(listData[0].value),
                 name: listData[1].name,
                 label: {
                   normal: {

@@ -211,7 +211,7 @@
                                                 </el-col>
                                             </el-col>
                                             <el-col :span="14" :xs="24">
-                                                <PieChart :chartData='collectionPieChartData' />
+                                                <collectPieChart :chartData='collectionPieChartData' />
                                             </el-col>
                                         </el-row>
                                     </div>
@@ -297,6 +297,7 @@ import {
 } from "@/api/report";
 
 import PieChart from "./components/PieChart";
+import collectPieChart from "./components/collectPieChart";
 import LineChart from "./components/LineChart";
 
 import AlarmPieChart from "./components/AlarmPieChart";
@@ -305,6 +306,7 @@ const repairPieChartData = {
     title: "抢修情况",
     text: "抢修完成率",
     colors: ["#558cf7", "#e3ebff"],
+    rate:0,
     listData: [
         {
             value: 0,
@@ -320,6 +322,7 @@ const patrolPieChartData = {
     title: "巡视情况",
     text: "巡视完成率",
     colors: ["#81c7f9", "#daf0ff"],
+    rate:0,
     listData: [
         {
             value: 0,
@@ -365,6 +368,7 @@ const alarmchartData = {
     listData: []
 };
 const structureChartData = {
+    title: "用电情况",
     ytext: "单位(kWh)",
     xAxisData: [],
     legendData:["尖峰", "高峰", "平时", "低谷"],
@@ -402,6 +406,7 @@ const structureChartData = {
 const typeColors = ["#f4a248","#558cf7","#81c7f9"]
 const typeChartData = {
     ytext: "单位(kWh)",
+    title: "用电类型",
     xAxisData: [],
     listData: []
 };
@@ -409,6 +414,7 @@ export default {
     name: "baseData",
     components: {
         PieChart,
+        collectPieChart,
         LineChart,
         AlarmPieChart,
         BarChart
@@ -510,8 +516,12 @@ export default {
                 });
 
                 this.collectionPieChartData.listData[0].value = this.dataInfo.CollectSituation.OnlineRate;
-                this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionRate;
-                this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.CompletionRate;
+                this.repairPieChartData.rate = this.dataInfo.RepairThisMonth.CompletionRate;
+                this.repairPieChartData.listData[0].value = this.dataInfo.RepairThisMonth.CompletionCount;
+                this.repairPieChartData.listData[1].value = this.dataInfo.RepairThisMonth.InCompletionCount;
+                this.patrolPieChartData.rate = this.dataInfo.PatrolThisMonth.CompletionRate;
+                this.patrolPieChartData.listData[0].value = this.dataInfo.PatrolThisMonth.PlanCount;
+                this.patrolPieChartData.listData[1].value = this.dataInfo.PatrolThisMonth.ExecutedCount;
 
             });
         },

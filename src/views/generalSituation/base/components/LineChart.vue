@@ -125,7 +125,7 @@ export default {
         },
         yAxis: {
           name: "单位(kW)",
-          nameGap: 20,
+          nameGap: 30,
           axisTick: {
             show: false
           },
