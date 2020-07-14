@@ -55,7 +55,7 @@
             <el-switch v-model="row.Status" class="switchStyle" :active-value="1" :inactive-value="0" active-color="#56a7ff" inactive-color="#dddfe5" active-text="上架" inactive-text="下架" @change="handleUpdateStatus(row)"> </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="200">
+        <el-table-column label="操作" :fixed="device!='mobile'?'right':false" width="200">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, deleted, updateStatus } from "@/api/commonManager/app";
 
 export default {
@@ -105,6 +106,9 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(["device"])
+  },
   created() {
     this.getList();
   },

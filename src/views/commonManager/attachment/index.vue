@@ -42,7 +42,7 @@
         <el-table-column label="目录组织方式" width="140" prop="StorageMode" />
         <el-table-column label="允许文件最大值" width="150" prop="MaxFileSize" />
         <el-table-column label="文件后缀" min-width="150" prop="FilterFileExtensions" />
-        <el-table-column label="操作" fixed="right" width="180">
+        <el-table-column label="操作" :fixed="device!='mobile'?'right':false" width="180">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, deleted } from "@/api/commonManager/attachment";
 
 export default {
@@ -92,6 +93,9 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(["device"])
+  },
   created() {
     this.getList();
   },

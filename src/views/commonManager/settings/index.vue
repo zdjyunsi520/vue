@@ -22,7 +22,8 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-        </el-form-item> </el-form>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="bg-white containerbox" ref="containerbox" style="margin-bottom: 0;">
       <el-row class="table-btns">
@@ -43,7 +44,7 @@
         <el-table-column label="代码" min-width="150" prop="Key" />
         <el-table-column label="类型" width="100" prop="Type" :formatter="filterCancel" />
         <el-table-column label="描述" min-width="250" prop="Description" />
-        <el-table-column label="操作" fixed="right" width="250">
+        <el-table-column label="操作" :fixed="device!='mobile'?'right':false" width="250">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -66,6 +67,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, deleted, updateStatus } from "@/api/commonManager/settings";
 
 import { fetchList as keyfetchList } from "@/api/commonManager/settings/keyValue";
@@ -98,7 +100,9 @@ export default {
       }
     };
   },
-
+  computed: {
+    ...mapGetters(["device"])
+  },
   created() {
     this.getList();
   },

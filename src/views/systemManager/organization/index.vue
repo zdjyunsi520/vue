@@ -38,9 +38,7 @@
         <!-- <el-button type="primary" plain icon="ic_enable" @click="handleDisabled(null,false)" :disabled="multiple">启用</el-button>
         <el-button type="info" plain icon="ic_disable" @click="handleDisabled(null,true)" :disabled="multiple">禁用</el-button> -->
       </el-row>
-
       <el-table v-loading.fullscreen.lock="listLoading" element-loading-background="rgba(0, 0, 0, 0.4)" element-loading-text="Loading" :data="dataList" @selection-change="handleSelectionChange" border :height="tableHeight" @row-dblclick="dbhandleUpdate">
-
         <template slot="empty">
           <div class="nodata-box">
             <img src="../../../assets/image/nodata.png" />
@@ -66,7 +64,7 @@
             <el-switch v-model="scope.row.IsEnable" class="switchStyle" active-color="#56a7ff" inactive-color="#dddfe5" active-text="启用" inactive-text="禁用" @change="handleDisabled(scope.row,!scope.row.IsEnable)" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="150">
+        <el-table-column label="操作" :fixed="device!='mobile'?'right':false" width="150">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -126,9 +124,13 @@ export default {
     // 根据名称筛选分站树
     ...mapGetters({
       equipmentKV: "status/equipmentKV",
-      equipmentType: "status/equipmentType"
+      equipmentType: "status/equipmentType",
+      device:"device"
+      
     })
+    // ...mapGetters(["device"])
   },
+ 
   watch: {},
   created() {
     this.getList();

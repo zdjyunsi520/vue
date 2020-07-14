@@ -54,6 +54,7 @@ export default {
       focus: true,
       toolbars: [
         [
+          "source",
           "bold",
           "italic",
           "underline",

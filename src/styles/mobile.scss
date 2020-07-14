@@ -29,7 +29,8 @@
     }
     .el-pagination {
         white-space: initial;
-    }
+        padding: 10px 5px !important;
+}
     .dragleft {
         width: 100%!important;
     }
@@ -109,7 +110,7 @@
         width: 92%!important;
     }
     .icon-body {
-        width: 100%!important;
+        width: 100%!important;    padding-bottom: 30px;
         .icon-list div {
             margin: 0px 7px 7px 0px;
         }

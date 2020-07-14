@@ -69,7 +69,7 @@
             <span v-else><i class="red dot"></i>未执行</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="170" fixed="right">
+        <el-table-column label="操作" width="170"  :fixed="device!='mobile'?'right':false">
           <template slot-scope="scope">
             <div v-if="scope.row.IsExecute">
 
@@ -100,6 +100,7 @@
 <script>
 import { fetchListJob, deletedJob, fallbackJob } from "@/api/patrol";
 import { getChildrenList } from "@/api/org";
+import { mapGetters } from "vuex";
 
 const ptrolnatures = [
   { name: "全部", id: "" },
@@ -149,7 +150,9 @@ export default {
       isShow: false,
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["device"])
+  },
   created() {
     this.getList();
     this.getTenants();

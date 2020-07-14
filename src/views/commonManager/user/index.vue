@@ -58,7 +58,7 @@
           </template>
         </el-table-column>
         <el-table-column label="注销状态" width="100" prop="IsCancel" :formatter="filterCancel" />
-        <el-table-column label="操作" fixed="right" width="210">
+        <el-table-column label="操作" :fixed="device!='mobile'?'right':false" width="210">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" plain @click="handleUpdate(scope.row)">
               <svg-icon icon-class='ic_edit' class="tablesvgicon"></svg-icon>编辑
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, locklock } from "@/api/commonManager/user";
 
 export default {
@@ -113,6 +114,9 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(["device"])
+  },
   created() {
     this.getList();
   },
@@ -240,8 +244,7 @@ export default {
           this.getList();
         });
       }
-    },
-
+    }
   }
 };
 </script>
