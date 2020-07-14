@@ -128,7 +128,6 @@ export default {
       device:"device"
       
     })
-    // ...mapGetters(["device"])
   },
  
   watch: {},
